@@ -1,0 +1,9 @@
+{
+  "name": "@packages/babel-config",
+  "version": "1.0.0",
+  "private": "true",
+  "description": "shared babel configuration",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "main": "babel.config.json"
+}

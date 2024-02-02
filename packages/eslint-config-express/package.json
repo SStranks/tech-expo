@@ -1,0 +1,20 @@
+{
+  "name": "@packages/eslint-config-express",
+  "version": "1.0.0",
+  "private": "true",
+  "description": "shared eslint express configuration",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "type": "module",
+  "main": "eslint.config.js",
+  "peerDependencies": {
+    "eslint": "^8"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-security": "^2.1.0",
+    "globals": "^13.24.0"
+  }
+}
