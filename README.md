@@ -1,6 +1,13 @@
-[![Super-Linter](https://github.com/SStranks/tech-expo/actions/workflows/lint.yaml/badge.svg)](https://github.com/marketplace/actions/super-linter)
-
 # tech-expo
+
+<p align="left">
+  <a href="https://github.com/SStranks/tech-expo/actions/workflows/lint.yaml">
+		<img alt="Github Action Lint" src="https://github.com/SStranks/tech-expo/actions/workflows/lint.yaml/badge.svg">
+	</a>
+  <a href="https://github.com/SStranks/tech-expo/actions/workflows/test.yaml">
+		<img alt="Github Action Test" src="https://github.com/SStranks/tech-expo/actions/workflows/test.yaml/badge.svg">
+	</a>
+</p>
 
 Fictional technology expo; mono-repo multi-app
 

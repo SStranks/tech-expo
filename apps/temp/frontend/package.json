@@ -7,13 +7,13 @@
   "main": "./src/index.tsx",
   "scripts": {
     "start": "INIT_CWD=$PWD pnpm --filter @packages/webpack-config exec webpack-dev-server --config webpack.dev.js",
-    "test": "jest --config ../../../jest.config.js --selectProjects TEST-APP-FRONTEND",
-    "test:coverage": "jest --coverage --config ../../../jest.config.js --selectProjects TEST-APP-FRONTEND",
-    "test:watch": "jest --watch --config ../../../jest.config.js --selectProjects TEST-APP-FRONTEND",
-    "cypress:run": "cypress run",
+    "jest:test": "jest --config ../../../jest.config.js --selectProjects TEST-APP-FRONTEND",
+    "jest:coverage": "jest --coverage --config ../../../jest.config.js --selectProjects jest-APP-FRONTEND",
+    "jest:watch": "jest --watch --config ../../../jest.config.js --selectProjects TEST-APP-FRONTEND",
     "cypress:open": "cypress open",
-    "lint": "pnpm eslint ./**/*.{js,jsx,ts,tsx}",
-    "stylelint": "pnpm stylelint ./**/*.{css,scss}"
+    "cypress:test": "cypress run",
+    "eslint:lint": "pnpm eslint ./**/*.{js,jsx,ts,tsx}",
+    "stylelint:lint": "pnpm stylelint ./**/*.{css,scss}"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -24,6 +24,7 @@
     "@packages/cypress-config": "workspace:^",
     "@packages/jest-config-react": "workspace:^",
     "@packages/prettier-config": "workspace:^",
+    "@packages/secretlint-config": "workspace:^",
     "@packages/typescript-config": "workspace:^",
     "@packages/webpack-config": "workspace:^",
     "@testing-library/jest-dom": "^6.4.1",
