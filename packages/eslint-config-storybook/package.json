@@ -1,0 +1,13 @@
+{
+  "name": "@packages/eslint-config-storybook",
+  "version": "1.0.0",
+  "private": "true",
+  "description": "shared eslint storybook configuration",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "type": "module",
+  "main": "eslint.config.js",
+  "devDependencies": {
+    "eslint-plugin-storybook": "^0.6.15"
+  }
+}

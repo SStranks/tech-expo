@@ -1,0 +1,110 @@
+/* -------------------------------- */
+/*          ~ Animations ~          */
+/* -------------------------------- */
+/*      [Audiophile eCommerce]      */
+/* -------------------------------- */
+/*   Frontend Mentor Challenge      */
+/*   Difficulty: Guru               */
+/*   [www.frontendmentor.io]        */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      26/05/2023          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+////
+/// --- SASSDOC
+/// @group Animations
+////
+
+/*   Imports                        */
+@use 'variables' as *;
+
+/* -------------------------------- */
+/*   Theme Transitions              */
+/* -------------------------------- */
+
+/// Provides the transition durations for background, color, and fill properties.
+/// @example
+///   .class {
+///     transition: $theme-transition
+///   }
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
+
+$theme-transition: background 1s color 1s fill 1s;
+
+/* -------------------------------- */
+/*   Element Transitions            */
+/* -------------------------------- */
+
+/// Provides the transition durations for background, color, and fill properties.
+/// @example
+///   .class {
+///     transition: $nav-sticky-transition
+///   }
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
+
+$nav-sticky-transition: background-color 1s;
+
+/* -------------------------------- */
+/*   Modal Transitions              */
+/* -------------------------------- */
+
+// Utilizing 'CSSTransition'
+.modal-appear {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-enter-done {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-exit {
+  opacity: 1;
+}
+
+.modal-exit-active {
+  opacity: 0;
+  transition: opacity 800ms;
+}
+
+/* -------------------------------- */
+/*   Suspense/Fallback Transitions  */
+/* -------------------------------- */
+
+.fallback-fade-in {
+  visibility: hidden;
+  animation: fadein 1.5s;
+  animation-fill-mode: forwards;
+  animation-delay: 0.5s; /* no spinner flickering for fast load times */
+}
+
+.fallback-fade-out {
+  animation: fadeout 1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadein {
+  from {
+    visibility: visible;
+    opacity: 0;
+  }
+
+  to {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

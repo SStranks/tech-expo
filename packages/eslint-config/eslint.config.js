@@ -3,7 +3,6 @@ import PluginTypescriptEslint from '@typescript-eslint/eslint-plugin';
 import PluginUnicorn from 'eslint-plugin-unicorn';
 import PluginPrettier from 'eslint-plugin-prettier';
 import PluginImport from 'eslint-plugin-import';
-import PluginJest from 'eslint-plugin-jest';
 
 import RecommendedEslint from '@eslint/js';
 import globals from 'globals';
@@ -27,14 +26,12 @@ export const EslintConfig = {
     '@typescript-eslint': PluginTypescriptEslint,
     unicorn: PluginUnicorn,
     import: PluginImport,
-    jest: PluginJest,
     prettier: PluginPrettier,
   },
   rules: {
     ...RecommendedEslint.configs.recommended.rules,
     ...PluginUnicorn.configs.recommended.rules,
     ...PluginTypescriptEslint.configs.recommended.rules,
-    ...PluginJest.configs.recommended.rules,
     'arrow-body-style': 'off',
     'no-unused-vars': 'off',
     'no-undef': 'off',

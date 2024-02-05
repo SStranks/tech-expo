@@ -1,0 +1,10 @@
+{
+  "name": "@packages/cypress-config",
+  "version": "1.0.0",
+  "private": "true",
+  "description": "shared cypress configuration",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "type": "module",
+  "main": "cypress.config.js"
+}

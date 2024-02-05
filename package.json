@@ -22,10 +22,13 @@
   "dependencies": {
     "@packages/babel-config": "workspace:*",
     "@packages/commitlint-config": "workspace:*",
+    "@packages/cypress-config": "workspace:*",
     "@packages/eslint-config": "workspace:*",
+    "@packages/eslint-config-cypress": "workspace:*",
     "@packages/eslint-config-express": "workspace:*",
     "@packages/eslint-config-react": "workspace:*",
     "@packages/eslint-config-react-test": "workspace:*",
+    "@packages/eslint-config-storybook": "workspace:*",
     "@packages/jest-config": "workspace:*",
     "@packages/jest-config-node": "workspace:*",
     "@packages/jest-config-react": "workspace:*",

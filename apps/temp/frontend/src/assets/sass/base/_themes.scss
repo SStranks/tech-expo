@@ -1,0 +1,66 @@
+/* -------------------------------- */
+/*            ~ Themes ~            */
+/* -------------------------------- */
+/*      [Audiophile eCommerce]      */
+/* -------------------------------- */
+/*   Frontend Mentor Challenge      */
+/*   Difficulty: Guru               */
+/*   [www.frontendmentor.io]        */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      26/05/2023          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+////
+/// --- SASSDOC
+/// @group Themes
+////
+
+/*   Imports                        */
+@use '../abstracts/colors' as *;
+
+/* -------------------------------- */
+/*   Light Theme                    */
+/* -------------------------------- */
+/*  Referenced in _root.scss        */
+/* -------------------------------- */
+
+/// Light Theme Map
+/// @type Map
+$light-theme: (
+  // background: #{$Light_Grey},
+  // elements: #{$White},
+  // text-p: #{$Dark_Grey},
+  // text-h: #{$Very_Dark_Blue},
+  // placeholder: hsl(216deg 5% 57%),
+  // input-text: #{$Dark_Grey},
+);
+
+/* -------------------------------- */
+/*   Dark Theme                     */
+/* -------------------------------- */
+
+/// Dark Theme Map
+/// @type Map
+$dark-theme: (
+  background: #000,
+  // elements: #{$Very_Dark_Blue},
+  // text-p: #{$Dark_Grey},
+  // text-h: #{$White},
+  // placeholder: hsl(216deg 5% 57%),
+  // input-text: #{$White},
+);
+
+/// Class applied to body tag to overwrite default variables
+/// @require {Map} $dark-theme dark theme map
+.dark-theme {
+  @each $theme-item, $value in $dark-theme {
+    --thm-#{$theme-item}: #{$value};
+  }
+}
+
+/* -------------------------------- */
+/*   Alt Theme                      */
+/* -------------------------------- */

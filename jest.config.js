@@ -5,55 +5,15 @@ export default {
   testPathIgnorePatterns: ['/node_modules/'],
   coverageDirectory: '<rootDir>/coverage',
   projects: [
-    // {
-    //   displayName: 'AUDIOPHILE-ECOMMERCE-API',
-    //   rootDir: '<rootDir>/apps/audiophile-ecommerce/backend',
-    //   ...JestConfigNode,
-    // },
     {
-      displayName: 'AUDIOPHILE-ECOMMERCE-CLIENT',
-      rootDir: '<rootDir>/apps/audiophile-ecommerce/frontend',
-      ...JestConfigReact,
-    },
-    // {
-    //   displayName: 'DESIGNO-AGENCY-API',
-    //   rootDir: '<rootDir>/apps/designo-agency/backend',
-    //   ...JestConfigNode,
-    // },
-    {
-      displayName: 'DESIGNO-AGENCY-CLIENT',
-      rootDir: '<rootDir>/apps/designo-agency/frontend',
+      displayName: 'TEST-APP-FRONTEND',
+      rootDir: '<rootDir>/apps/temp/frontend',
       ...JestConfigReact,
     },
     {
-      displayName: 'INVOICE-APP-API',
-      rootDir: '<rootDir>/apps/invoice-app/backend',
+      displayName: 'TEST-APP-BACKEND',
+      rootDir: '<rootDir>/apps/temp/backend',
       ...JestConfigNode,
-    },
-    {
-      displayName: 'INVOICE-APP-CLIENT',
-      rootDir: '<rootDir>/apps/invoice-app/frontend',
-      ...JestConfigReact,
-    },
-    {
-      displayName: 'KANBAN-TASK-APP-API',
-      rootDir: '<rootDir>/apps/kanban-task-app/backend',
-      ...JestConfigNode,
-    },
-    {
-      displayName: 'KANBAN-TASK-APP-CLIENT',
-      rootDir: '<rootDir>/apps/kanban-task-app/frontend',
-      ...JestConfigReact,
-    },
-    {
-      displayName: 'PROJECT-FEEDBACK-APP-API',
-      rootDir: '<rootDir>/apps/project-feedback-app/backend',
-      ...JestConfigNode,
-    },
-    {
-      displayName: 'PROJECT-FEEDBACK-APP-CLIENT',
-      rootDir: '<rootDir>/apps/project-feedback-app/frontend',
-      ...JestConfigReact,
     },
   ],
 };

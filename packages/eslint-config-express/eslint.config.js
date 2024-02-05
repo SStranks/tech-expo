@@ -32,6 +32,12 @@ export const EslintConfigExpress = {
     'no-console': 'off',
     'arrow-body-style': 'off',
     'n/no-missing-import': 'off',
+    'n/no-unpublished-import': [
+      'error',
+      {
+        allowModules: ['supertest'],
+      },
+    ],
   },
 };
 
