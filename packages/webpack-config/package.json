@@ -1,7 +1,7 @@
 {
   "name": "@packages/webpack-config",
   "version": "1.0.0",
-  "private": "true",
+  "private": true,
   "description": "shared webpack configuration",
   "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
   "license": "ISC",

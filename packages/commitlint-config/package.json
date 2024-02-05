@@ -1,7 +1,7 @@
 {
   "name": "@packages/commitlint-config",
   "version": "1.0.0",
-  "private": "true",
+  "private": true,
   "description": "shared commitlint configuration",
   "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
   "license": "ISC",

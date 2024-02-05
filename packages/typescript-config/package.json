@@ -1,7 +1,7 @@
 {
   "name": "@packages/typescript-config",
   "version": "1.0.0",
-  "private": "true",
+  "private": true,
   "description": "shared typescript configuration",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

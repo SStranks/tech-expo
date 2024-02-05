@@ -1,7 +1,7 @@
 {
   "name": "@packages/eslint-config-cypress",
   "version": "1.0.0",
-  "private": "true",
+  "private": true,
   "description": "shared eslint cypress configuration",
   "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
   "license": "ISC",

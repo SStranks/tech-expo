@@ -1,7 +1,7 @@
 {
   "name": "@packages/eslint-config-react-test",
   "version": "1.0.0",
-  "private": "true",
+  "private": true,
   "description": "shared eslint react testing configuration",
   "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
   "license": "ISC",

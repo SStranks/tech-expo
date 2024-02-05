@@ -1,7 +1,7 @@
 {
   "name": "@packages/prettier-config",
   "version": "1.0.0",
-  "private": "true",
+  "private": true,
   "description": "shared prettier configuration",
   "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
   "license": "ISC",
