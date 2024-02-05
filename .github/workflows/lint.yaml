@@ -29,12 +29,19 @@ jobs:
       #   with:
       #     version: 8
 
-      - name: Super-linter
-        uses: super-linter/super-linter@v6.0.0
+      # - name: Super-linter
+      #   uses: super-linter/super-linter@v6.0.0
+      #   env:
+      #     DEFAULT_BRANCH: main
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     FILTER_REGEX_EXCLUDE: pnpm-lock.yaml
+      #     LINTER_RULES_PATH: /
+      #     CSS_FILE_NAME: stylelint.config.cjs
+      #     JAVASCRIPT_ES_CONFIG_FILE: eslint.config.js
+
+      # MegaLinter
+      - name: MegaLinter
+        uses: oxsecurity/megalinter@v7
         env:
-          DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FILTER_REGEX_EXCLUDE: pnpm-lock.yaml
           LINTER_RULES_PATH: /
-          CSS_FILE_NAME: stylelint.config.cjs
-          JAVASCRIPT_ES_CONFIG_FILE: eslint.config.js

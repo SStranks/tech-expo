@@ -6,6 +6,6 @@ describe('Test Jest', () => {
     render(<App />);
 
     const title = screen.getByText('This is a test app');
-    expect(title).toBeInTheDocument;
+    expect(title).toBeInTheDocument();
   });
 });

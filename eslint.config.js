@@ -12,7 +12,7 @@ export default [
   },
   {
     // Client; src folder. React framework.
-    files: ['apps/*/+(frontend|client)/src/*.[jt]s?(x)'],
+    files: ['apps/*/+(frontend|client)/src/**/*.[jt]s?(x)'],
     languageOptions: { ...EslintConfig.languageOptions, ...EslintConfigReact.languageOptions },
     plugins: { ...EslintConfig.plugins, ...EslintConfigReact.plugins },
     rules: { ...EslintConfig.rules, ...EslintConfigReact.rules },
@@ -20,7 +20,7 @@ export default [
   },
   {
     // Server; src folder. NodeJS Express + Testing (Node)
-    files: ['apps/*/+(backend|server)/src/*.[jt]s'],
+    files: ['apps/*/+(backend|server)/server/**/*.[jt]s'],
     languageOptions: { ...EslintConfig.languageOptions, ...EslintConfigExpress.languageOptions },
     plugins: { ...EslintConfig.plugins, ...EslintConfigExpress.plugins },
     rules: { ...EslintConfig.rules, ...EslintConfigExpress.rules },
@@ -28,7 +28,7 @@ export default [
   },
   {
     // Client; Testing (Jest + RTL)
-    files: ['apps/*/+(frontend|client)/src/?(*.)+(spec|test).[jt]s?(x)'],
+    files: ['apps/*/+(frontend|client)/src/**/?(*.)+(spec|test).[jt]s?(x)'],
     languageOptions: { ...EslintConfig.languageOptions, ...EslintConfigReact.languageOptions },
     plugins: { ...EslintConfig.plugins, ...EslintConfigReact.plugins, ...EslintConfigReactTest.plugins },
     rules: { ...EslintConfig.rules, ...EslintConfigReact.rules, ...EslintConfigReactTest.rules },

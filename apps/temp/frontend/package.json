@@ -11,7 +11,9 @@
     "test:coverage": "jest --coverage --config ../../../jest.config.js --selectProjects TEST-APP-FRONTEND",
     "test:watch": "jest --watch --config ../../../jest.config.js --selectProjects TEST-APP-FRONTEND",
     "cypress:run": "cypress run",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "lint": "pnpm eslint ./**/*.{js,jsx,ts,tsx}",
+    "stylelint": "pnpm stylelint ./**/*.{css,scss}"
   },
   "dependencies": {
     "react": "^18.2.0",
