@@ -35,8 +35,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Lint Check
+      - name: ESLint Check
         run: pnpm --filter "@apps/*" eslint:lint
+
+      - name: Stylelint Check
         run: pnpm --filter "@apps/*" stylelint:lint
 
       # // NOTE:  Megalinter; various linters don't support eslint.config.js yet.
@@ -48,4 +50,3 @@ jobs:
           ENABLE: ENV,GRAPHQL,HTML,MARKDOWN,YAML,ACTION
           ENABLE_LINTERS: JSON_PRETTIER,REPOSITORY_DUSTILOCK,REPOSITORY_GIT_DIFF,REPOSITORY_GITLEAKS,REPOSITORY_SECRETLINT,REPOSITORY_TRUFFLEHOG
           JSON_PRETTIER_CONFIG_FILE: /packages/prettier-config/prettier.config.js
-

@@ -35,6 +35,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Lint Check
+      - name: Jest
         run: pnpm --filter "@apps/*" jest:test
+
+      - name: Cypress
         run: pnpm --filter "@apps/*" cypress:test
