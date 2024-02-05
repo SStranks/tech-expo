@@ -29,11 +29,21 @@ jobs:
         with:
           version: 8
 
+      - name: Use Node.js v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
       - name: MegaLinter
         uses: oxsecurity/megalinter@v7
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FILTER_REGEX_EXCLUDE: (pnpm-lock.yaml|node_modules/*)
           LINTER_RULES_PATH: /
-          # ENABLE_LINTERS: CSS_STYLELINT,
+          DISABLE_LINTERS: CSS_SCSS_LINT
           CSS_STYLELINT_CONFIG_FILE: .stylelint.config.cjs
+          TYPESCRIPT_ES_CONFIG_FILE: eslint.config.js
