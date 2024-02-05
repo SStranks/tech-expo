@@ -31,5 +31,4 @@ jobs:
           DEFAULT_BRANCH: main
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LINTER_RULES_PATH: .github/eslint.config.js
           FILTER_REGEX_EXCLUDE: pnpm-lock.yaml
