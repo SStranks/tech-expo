@@ -1,0 +1,11 @@
+{
+  "name": "@packages/secretlint-config",
+  "version": "1.0.0",
+  "private": true,
+  "description": "shared secretlint configuration",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "devDependencies": {
+    "@secretlint/secretlint-rule-preset-recommend": "^8.1.1"
+  }
+}
