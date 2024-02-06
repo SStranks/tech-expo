@@ -1,0 +1,19 @@
+{
+  "name": "@apps/crm-client",
+  "version": "1.0.0",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "type": "module",
+  "main": "./src/index.tsx",
+  "scripts": {
+    "start": "INIT_CWD=$PWD pnpm --filter @packages/webpack-config exec webpack-dev-server --config webpack.dev.js",
+    "jest:test": "jest --config ../../../jest.config.js --selectProjects TEST-APP-FRONTEND",
+    "jest:coverage": "jest --coverage --config ../../../jest.config.js --selectProjects jest-APP-FRONTEND",
+    "jest:watch": "jest --watch --config ../../../jest.config.js --selectProjects TEST-APP-FRONTEND",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:test": "start-server-and-test start http://localhost:3000 cypress:run",
+    "eslint:lint": "pnpm eslint ./**/*.{js,jsx,ts,tsx}",
+    "stylelint:lint": "pnpm stylelint ./**/*.{css,scss}"
+  }
+}
