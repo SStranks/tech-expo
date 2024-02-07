@@ -37,6 +37,7 @@
     "@packages/secretlint-config": "workspace:*",
     "@packages/storybook-config": "workspace:*",
     "@packages/stylelint-config": "workspace:*",
+    "@packages/types": "workspace:^",
     "@packages/typescript-config": "workspace:*",
     "@packages/webpack-config": "workspace:*"
   },

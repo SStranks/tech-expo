@@ -7,12 +7,12 @@ export default {
   projects: [
     {
       displayName: 'TEST-APP-FRONTEND',
-      rootDir: '<rootDir>/apps/temp/frontend',
+      rootDir: '<rootDir>/apps/**/+(frontend|client)',
       ...JestConfigReact,
     },
     {
       displayName: 'TEST-APP-BACKEND',
-      rootDir: '<rootDir>/apps/temp/backend',
+      rootDir: '<rootDir>/apps/**/+(backend|server)',
       ...JestConfigNode,
     },
   ],

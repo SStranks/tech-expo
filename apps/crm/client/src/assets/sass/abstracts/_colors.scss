@@ -1,0 +1,102 @@
+/* -------------------------------- */
+/*           ~ Colors ~             */
+/* -------------------------------- */
+/*      [Audiophile eCommerce]      */
+/* -------------------------------- */
+/*   Frontend Mentor Challenge      */
+/*   Difficulty: Guru               */
+/*   [www.frontendmentor.io]        */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      26/05/2023          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+////
+/// --- SASSDOC
+/// @group Colors
+////
+
+/*   Imports                        */
+@use 'variables' as *;
+
+/* -------------------------------- */
+/*   Primary Colors                 */
+/* -------------------------------- */
+
+/// Primary - Orange
+/// @type Color
+$col-1a: hsl(22deg 65% 57%);
+
+/// Primary - Off Black
+/// @type Color
+$col-1b: hsl(0deg 0% 9.7%);
+
+/// Primary - Grey
+/// @type Color
+$col-1c: hsl(0deg 0% 95%);
+
+/// Primary - Light Grey
+/// @type Color
+$col-1d: hsl(0deg 0% 98%);
+
+/// Primary - Light Grey
+/// @type Color
+$col-1e: hsl(0deg 0% 80%);
+
+/* -------------------------------- */
+/*   Secondary Colors               */
+/* -------------------------------- */
+
+/// Secondary - Orange
+/// @type Color
+$col-2a: hsl(21deg 94% 75%);
+
+/// Secondary - White
+/// @type Color
+$col-2b: hsl(0deg 0% 100%);
+
+/// Secondary - Black
+/// @type Color
+$col-2c: hsl(0deg 0% 0%);
+
+/// Secondary - Blood
+/// @type Color
+$col-2d: hsl(0deg 65% 49%);
+
+/// Secondary - Grey
+/// @type Color
+$col-2e: hsl(0deg 0% 30%);
+
+/* -------------------------------- */
+/*   Tertiary Colors                */
+/* -------------------------------- */
+
+/// Tertiary - Black
+/// @type Color
+$col-3a: hsl(0deg 0% 0% / 50%);
+
+/// Tertiary - White
+/// @type Color
+$col-3b: hsl(0deg 0% 100% / 50%);
+
+/// Tertiary - White
+/// @type Color
+$col-3c: hsl(0deg 0% 100% / 20%);
+
+/// Tertiary - White
+/// @type Color
+$col-3d: hsl(0deg 0% 100% / 75%);
+
+/// Tertiary - Grey
+/// @type Color
+$col-3e: hsl(0deg 0% 59% / 8%);
+
+/// Tertiary - Black
+/// @type Color
+$col-3f: hsl(0deg 0% 0% / 40%);
+
+/// Tertiary - Black
+/// @type Color
+$col-3g: hsl(0deg 0% 0% / 75%);

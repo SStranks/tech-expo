@@ -1,4 +1,4 @@
-// import '@testing-library/jest-dom';
+import '@testing-library/jest-dom';
 
 // https://stackoverflow.com/questions/44249985/testing-code-that-uses-an-intersectionobserver
 // function setupIntersectionObserverMock({
@@ -54,13 +54,13 @@
 //   })),
 // });
 
-const mockIntersectionObserver = jest.fn();
-mockIntersectionObserver.mockReturnValue({
-  observe: () => null,
-  unobserve: () => null,
-  disconnect: () => null,
-});
-window.IntersectionObserver = mockIntersectionObserver;
+// const mockIntersectionObserver = jest.fn();
+// mockIntersectionObserver.mockReturnValue({
+//   observe: () => null,
+//   unobserve: () => null,
+//   disconnect: () => null,
+// });
+// window.IntersectionObserver = mockIntersectionObserver;
 
 // Implicit ARIA Roles for getByRole:
 // https://www.w3.org/TR/html-aria/#docconformance

@@ -1,0 +1,49 @@
+/* -------------------------------- */
+/*        ~ Radio Buttons ~         */
+/* -------------------------------- */
+/*      [Audiophile eCommerce]      */
+/* -------------------------------- */
+/*   Frontend Mentor Challenge      */
+/*   Difficulty: Guru               */
+/*   [www.frontendmentor.io]        */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      26/05/2023          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+/*   Imports                        */
+@use '../abstracts/functions' as f;
+@use '../abstracts/colors' as c;
+@use '../abstracts/mixins' as mx;
+@use '../abstracts/variables' as v;
+@use '../base/themes' as t;
+
+/* -------------------------------- */
+/*   Default                        */
+/* -------------------------------- */
+
+@mixin radio-default {
+  appearance: none;
+  display: grid;
+  place-content: center;
+  margin: 0;
+  width: 20px;
+  height: 20px;
+  border: 1px solid c.$col-1e;
+  border-radius: 50%;
+  background-color: transparent;
+  color: c.$col-1c;
+
+  &::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  &:checked::before {
+    box-shadow: inset 1em 1em c.$col-1a;
+  }
+}

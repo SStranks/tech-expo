@@ -1,0 +1,53 @@
+/* -------------------------------- */
+/*          ~ Typography ~          */
+/* -------------------------------- */
+/*      [Audiophile eCommerce]      */
+/* -------------------------------- */
+/*   Frontend Mentor Challenge      */
+/*   Difficulty: Guru               */
+/*   [www.frontendmentor.io]        */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      26/05/2023          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+////
+/// --- SASSDOC
+/// @group Typography
+////
+
+/*   Imports                        */
+@use '../abstracts/variables' as *;
+@use 'font-face' as *;
+
+/* -------------------------------- */
+/*   Font                           */
+/* -------------------------------- */
+
+/// Sets the default font-family for the webpage.
+html,
+body {
+  font-family: Manrope, sans-serif;
+}
+
+/// Sets the default font-family for all headers, parapgraphs, and spans, acrossthe webpage.
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+  font-family: inherit;
+}
+
+/// Removes the default text-decoration styling for links; not visited, visited, active, and hover.
+a,
+a:visited,
+a:active,
+a:hover {
+  text-decoration: 0;
+}

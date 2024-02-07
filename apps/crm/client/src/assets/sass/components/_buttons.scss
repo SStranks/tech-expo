@@ -1,0 +1,78 @@
+/* -------------------------------- */
+/*           ~ Buttons ~            */
+/* -------------------------------- */
+/*      [Audiophile eCommerce]      */
+/* -------------------------------- */
+/*   Frontend Mentor Challenge      */
+/*   Difficulty: Guru               */
+/*   [www.frontendmentor.io]        */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      26/05/2023          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+/*   Imports                        */
+@use '../abstracts/animations' as a;
+@use '../abstracts/functions' as f;
+@use '../abstracts/colors' as c;
+@use '../abstracts/mixins' as mx;
+@use '../abstracts/variables' as v;
+@use '../base/themes' as t;
+
+/* -------------------------------- */
+/*   Default                        */
+/* -------------------------------- */
+
+@mixin btn-root {
+  @include mx.header-subtitle using ($rem) {
+    padding: f.px2em-parent(15, $rem) f.px2em-parent(30, $rem);
+  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+}
+
+@mixin btn-default-1 {
+  @include btn-root;
+  background-color: c.$col-1a;
+  color: c.$col-2b;
+
+  &:hover {
+    background-color: c.$col-2a;
+  }
+}
+
+@mixin btn-default-2 {
+  @include btn-root;
+  background-color: transparent;
+  border: 1px solid c.$col-2c;
+  color: c.$col-2c;
+
+  &:hover {
+    background-color: c.$col-2c;
+    color: c.$col-2b;
+  }
+}
+
+@mixin btn-default-3 {
+  @include btn-root;
+  background-color: transparent;
+  color: c.$col-3a;
+
+  &:hover {
+    color: c.$col-1a;
+  }
+}
+
+@mixin btn-default-4 {
+  @include btn-root;
+  background-color: c.$col-2c;
+  color: c.$col-2b;
+
+  &:hover {
+    background-color: c.$col-2e;
+  }
+}

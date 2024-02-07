@@ -1,0 +1,20 @@
+{
+  "name": "@packages/types",
+  "version": "1.0.0",
+  "private": true,
+  "description": "@types packages",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/inquirer": "^9.0.3",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.16",
+    "@types/react": "^18.2.51",
+    "@types/react-dom": "^18.2.18",
+    "@types/react-test-renderer": "^18.0.7",
+    "@types/react-transition-group": "^4.4.10",
+    "@types/validator": "^13.7.17"
+  }
+}
