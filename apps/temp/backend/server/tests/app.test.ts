@@ -1,6 +1,6 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert';
-import app from './app';
+import app from '../app';
 import request from 'supertest';
 
 function Multiply(a: number, b: number) {
@@ -16,6 +16,6 @@ describe('Test Node App', () => {
     const res = await request(app).get('/test');
 
     assert.equal(res.status, 200);
-    assert.deepEqual(res.body, { message: 'test complete' });
+    return assert.deepEqual(res.body, { message: 'test complete' });
   });
 });

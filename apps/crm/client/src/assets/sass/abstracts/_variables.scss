@@ -1,14 +1,13 @@
 /* -------------------------------- */
 /*          ~ Variables ~           */
 /* -------------------------------- */
-/*      [Audiophile eCommerce]      */
+/*           [CRM System]           */
 /* -------------------------------- */
-/*   Frontend Mentor Challenge      */
-/*   Difficulty: Guru               */
-/*   [www.frontendmentor.io]        */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
 /* -------------------------------- */
 /*   version:   1.0                 */
-/*   date:      26/05/2023          */
+/*   date:      07/02/2024          */
 /*   author:    Simon Stranks       */
 /*   website:   github.com/SStranks */
 /* -------------------------------- */
@@ -28,41 +27,6 @@
 /// Horizontal padding for desktop sized screens
 /// @type Number (em)
 $padding-desktop-horizontal: f.px2em(165);
-
-/// Horizontal padding for small desktop sized screens
-/// @type Number (em)
-$padding-desktop-small-horizontal: f.px2em(100);
-
-/// Horizontal padding for mini desktop sized screens
-/// @type Number (em)
-$padding-desktop-mini-horizontal: f.px2em(80);
-
-/// Horizontal padding for tablet sized screens
-/// @type Number (em)
-$padding-tablet-horizontal: f.px2em(60);
-
-/// Horizontal padding for small tablet sized screens
-/// @type Number (em)
-$padding-tablet-small-horizontal: f.px2em(40);
-
-/// Horizontal padding for mini tablet sized screens
-/// @type Number (em)
-$padding-tablet-mini-horizontal: f.px2em(32);
-
-/// Horizontal padding for mobile sized screens
-/// @type Number (em)
-$padding-mobile-horizontal: f.px2em(24);
-
-/// Vertical padding for desktop sized screens
-/// @type Number (em)
-$padding-desktop-vertical: f.px2em(120);
-
-/// Vertical padding for mobile sized screens
-/// @type Number (em)
-$padding-mobile-vertical: f.px2em(60);
-
-// $padding-transition: padding 2500ms ease-out;
-// $grid-gap-transition: gap 1500ms ease-out;
 
 /* -------------------------------- */
 /*   Borders                        */
@@ -87,7 +51,3 @@ $box-shadow-1: 0 10px 10px -10px rgb(72 84 159 / 10%);
 /// Navigation bar vertical dimension
 /// @type Number (pixel)
 $navbar-dim-vertical: f.px2em(95);
-
-// $sidebar-dim-desktop: 103px;
-// $sidebar-dim-tablet: 80px;
-// $sidebar-dim-mobile: 72px;

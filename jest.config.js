@@ -6,13 +6,23 @@ export default {
   coverageDirectory: '<rootDir>/coverage',
   projects: [
     {
+      displayName: 'CRM-Client',
+      rootDir: '<rootDir>/apps/crm/client',
+      ...JestConfigReact,
+    },
+    // {
+    //   displayName: 'CRM-Server',
+    //   rootDir: '<rootDir>/apps/crm/server',
+    //   ...JestConfigReact,
+    // },
+    {
       displayName: 'TEST-APP-FRONTEND',
-      rootDir: '<rootDir>/apps/**/+(frontend|client)',
+      rootDir: '<rootDir>/apps/temp/frontend',
       ...JestConfigReact,
     },
     {
       displayName: 'TEST-APP-BACKEND',
-      rootDir: '<rootDir>/apps/**/+(backend|server)',
+      rootDir: '<rootDir>/apps/temp/backend',
       ...JestConfigNode,
     },
   ],

@@ -24,8 +24,8 @@
     "watch": "tsc -w",
     "compile": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
     "start": "nodemon .",
-    "test": "node --import tsx --test server/",
-    "test:watch": "node --import tsx --test --watch **/*.test.ts"
+    "node:test": "node --import tsx --test server/tests/*.ts",
+    "node:test:watch": "node --import tsx --test --watch server/tests/*.ts"
   },
   "imports": {
     "#Shared/*": "../shared/*",

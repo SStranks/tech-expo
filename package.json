@@ -18,7 +18,9 @@
     "commitlint": "commitlint",
     "lint": "eslint",
     "prepare": "husky install",
-    "secretlint": "secretlint --maskSecrets \"**/*\""
+    "secretlint": "secretlint --maskSecrets \"**/*\"",
+    "test:client": "pnpm --filter './apps/**/+(client|frontend)' jest:test",
+    "test:server": "pnpm --filter './apps/**/+(server|backend)' node:test"
   },
   "dependencies": {
     "@packages/babel-config": "workspace:*",

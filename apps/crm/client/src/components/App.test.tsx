@@ -1,11 +1,18 @@
 import App from './App';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
-describe('Test Jest', () => {
-  test('App loads', () => {
+console.error = jest.fn();
+console.warn = jest.fn();
+
+describe('Initialization', () => {
+  afterEach(() => {
+    jest.resetAllMocks;
+  });
+
+  test('App initializes without error or warnings', () => {
     render(<App />);
 
-    const title = screen.getByText('This is a test app');
-    expect(title).toBeInTheDocument();
+    expect(console.error).toHaveBeenCalledTimes(0);
+    expect(console.warn).toHaveBeenCalledTimes(0);
   });
 });
