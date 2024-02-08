@@ -80,7 +80,7 @@ const DevConfig = {
   plugins: [
     new HTMLWebpackPlugin({
       template: path.resolve(CWD, './src/index-template.html.ejs'),
-      favicon: path.resolve(CWD, './src/favicon-32x32.png'),
+      favicon: path.resolve(CWD, './src/favicon.ico'),
       templateParameters: {
         PUBLIC_URL: process.env.PUBLIC_URL,
       },

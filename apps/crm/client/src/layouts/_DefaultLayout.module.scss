@@ -1,0 +1,16 @@
+@use '#Sass/abstracts/variables' as v;
+
+.layout {
+  width: 100%;
+  height: 100%;
+
+  &__header {
+    height: v.$navbar-dim-vertical;
+  }
+
+  &__contents {
+    display: grid;
+    grid-template-columns: minmax(0, 250px) 1fr;
+    height: calc(100vh - v.$navbar-dim-vertical);
+  }
+}
