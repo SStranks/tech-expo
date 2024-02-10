@@ -19,9 +19,8 @@
       "#Types/*": ["src/types/*"],
       "#Utils/*": ["src/utils/*"],
     },
-    "types": ["jest", "jest-dom"],
-    "typeRoots": ["node_modules/@packages/types/node_modules/@types", "node_modules/@testing-library"],
+    "typeRoots": ["node_modules/@types", "node_modules/@testing-library"],
   },
-  "include": ["src/**/*", "../shared/*", "global.d.ts", "jest.config.ts"],
-  "exclude": ["node_modules", "public", "dist", "cypress", "cypress.config.ts"],
+  "include": ["src/**/*", "../shared/*", "global.d.ts", "jest.config.ts", "cypress"],
+  "exclude": ["node_modules", "public", "dist"],
 }

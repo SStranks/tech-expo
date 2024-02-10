@@ -1,0 +1,23 @@
+.menuLink {
+  display: flex;
+  column-gap: 8px;
+  list-style: none;
+
+  & > img {
+    height: 20px;
+  }
+}
+
+.menuText {
+  font-size: 16px;
+  color: red;
+
+  &--hidden {
+    visibility: hidden;
+
+    // opacity: 0;
+    // width: 0;
+    // height: 0;
+    // overflow: hidden;
+  }
+}

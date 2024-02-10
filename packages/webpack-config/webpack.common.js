@@ -7,14 +7,12 @@ const CWD = process.env.INIT_CWD;
 const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 
 // Find entry file for both JS and TS based projects.
-const entryFile = fs
-  .readdirSync(path.resolve(process.env.INIT_CWD, './src'))
-  .filter((file) => file.match(/index\.(js|jsx|tsx)/));
+const entryFile = fs.readdirSync(path.resolve(CWD, './src')).filter((file) => file.match(/index\.(js|jsx|tsx)/));
 
 const CommonConfig = {
   // context: CUR,
-  entry: path.resolve(process.env.INIT_CWD, `./src/${entryFile}`),
-  // entry: path.resolve(process.env.INIT_CWD, './src/index.tsx'),
+  entry: path.resolve(CWD, `./src/${entryFile}`),
+  // entry: path.resolve(CWD, './src/index.tsx'),
   target: 'web',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],

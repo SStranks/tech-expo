@@ -1,4 +1,4 @@
-import { Aside } from '#Components/ui/Aside';
+import { Aside } from '#Features/sidebar/Aside';
 import Header from '#Components/ui/Header';
 import Main from '#Components/ui/Main';
 import styles from './_DefaultLayout.module.scss';

@@ -107,6 +107,14 @@ label {
   cursor: pointer;
 }
 
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
 .flex-row {
   display: flex;
   justify-content: space-between;
