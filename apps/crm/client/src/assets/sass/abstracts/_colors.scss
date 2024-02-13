@@ -21,25 +21,17 @@
 @use 'variables' as *;
 
 /* -------------------------------- */
-/*   Primary Colors                 */
+/*   Sidebar                        */
 /* -------------------------------- */
 
-/// Primary - Orange
+/// Primary - Dark Grey - Sidebar Menu Text
 /// @type Color
-$col-1a: hsl(22deg 65% 57%);
+$col-1a-text: hsl(0deg 0% 15%);
 
-/* -------------------------------- */
-/*   Secondary Colors               */
-/* -------------------------------- */
-
-/// Secondary - Orange
+/// Primary - Light Grey - Sidebar Menu Items Background
 /// @type Color
-$col-2a: hsl(21deg 94% 75%);
+$col-2a-button: hsl(0deg 0% 96%);
 
-/* -------------------------------- */
-/*   Tertiary Colors                */
-/* -------------------------------- */
-
-/// Tertiary - Black
+/// Primary - Light Grey - Sidebar Menu Items Background
 /// @type Color
-$col-3a: hsl(0deg 0% 0% / 50%);
+$col-3a-button-hover: hsl(0deg 0% 85%);

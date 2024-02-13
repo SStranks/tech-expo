@@ -19,5 +19,6 @@
 
 .toolTip:hover .toolTip__text {
   display: block;
+  bottom: -100%;
   opacity: 1;
 }

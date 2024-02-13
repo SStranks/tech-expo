@@ -1,27 +1,50 @@
 .aside {
+  position: relative;
   width: 250px;
   height: 100%;
-  background-color: green;
+  background-color: white;
+  padding: 12px;
+  transition: width 1500ms ease-in-out;
+
+  &--minimize {
+    position: relative;
+    width: 50px;
+    transition: width 900ms ease-in-out;
+  }
+
+  & > ul {
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+    height: 100%;
+    padding-left: unset;
+  }
+
+  &__menuButton {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
 }
 
-.button {
-  position: relative;
-  background-color: red;
+// .button {
+//   position: relative;
+//   background-color: red;
 
-  // &::before {
-  //   content: 'Minimize Menu';
-  //   position: absolute;
-  //   right: -50px;
-  //   height: 20px;
-  //   width: 40px;
-  //   opacity: 0;
-  //   transition: 0.2s opacity;
-  //   transition-delay: 0.5s;
-  // }
+//   // &::before {
+//   //   content: 'Minimize Menu';
+//   //   position: absolute;
+//   //   right: -50px;
+//   //   height: 20px;
+//   //   width: 40px;
+//   //   opacity: 0;
+//   //   transition: 0.2s opacity;
+//   //   transition-delay: 0.5s;
+//   // }
 
-  // &:hover {
-  //   &::before {
-  //     opacity: 1;
-  //   }
-  // }
-}
+//   // &:hover {
+//   //   &::before {
+//   //     opacity: 1;
+//   //   }
+//   // }
+// }

@@ -1,23 +1,36 @@
+@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/colors' as c;
+
 .menuLink {
   display: flex;
+  align-items: center;
   column-gap: 8px;
+  padding: 10px;
+  background-color: c.$col-2a-button;
+  color: c.$col-1a-text;
+  border-radius: 7px;
   list-style: none;
+  transition: a.$sidebar-menu-button;
 
   & > img {
     height: 20px;
+    transition: a.$sidebar-menu-button-icon;
+  }
+
+  &:hover {
+    background-color: c.$col-3a-button-hover;
+
+    & > img {
+      transform: translateY(-10%);
+    }
   }
 }
 
 .menuText {
   font-size: 16px;
-  color: red;
+  font-weight: 500;
 
   &--hidden {
     visibility: hidden;
-
-    // opacity: 0;
-    // width: 0;
-    // height: 0;
-    // overflow: hidden;
   }
 }

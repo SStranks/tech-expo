@@ -1,41 +1,39 @@
 import { useState } from 'react';
 import MenuLink from './components/MenuLink';
 import styles from './_Aside.module.scss';
-import ToolTip from './components/Tooltip';
+// import ToolTip from './components/Tooltip';
+import { IconAudit, IconBillQuote, IconCalendar, IconCompanies, IconContacts, IconScrum } from '#Svg/icons';
+import { IconDashboard, IconKanban, IconPipe, IconSettings, IconAdmininstration } from '#Svg/icons';
+import MenuToggle from './components/MenuToggle';
 
 export const MENU_CATEGORIES = [
-  ['Dashboard', '/'],
-  // ['Calendar', '/calendar'],
-  // ['Scrumboard', '/scrumboard'],
-  // ['Kanban', '/kanban'],
-  // ['Pipeline', '/pipeline'],
-  // ['Companies', '/companies'],
-  // ['Contacts', '/contacts'],
-  // ['Quotes', '/quotes'],
-  // ['Administration', '/adminstration'],
-  // ['Settings', '/settings'],
-  // ['Audit Log', '/auditlog'],
+  ['Dashboard', '/', IconDashboard],
+  ['Calendar', '/calendar', IconCalendar],
+  ['Scrumboard', '/scrumboard', IconScrum],
+  ['Kanban', '/kanban', IconKanban],
+  ['Pipeline', '/pipeline', IconPipe],
+  ['Companies', '/companies', IconCompanies],
+  ['Contacts', '/contacts', IconContacts],
+  ['Quotes', '/quotes', IconBillQuote],
+  ['Administration', '/adminstration', IconAdmininstration],
+  ['Settings', '/settings', IconSettings],
+  ['Audit Log', '/auditlog', IconAudit],
 ];
 
 export function Aside(): JSX.Element {
-  const [menuMaximized, setMenuMaximized] = useState<boolean>(true);
+  const [sidebarMaximize, setSidebarMaximize] = useState<boolean>(true);
 
-  const menuToggleBtn = () => {
-    setMenuMaximized((p) => !p);
-  };
-
-  const menuLinks = MENU_CATEGORIES.map(([name, href]) => {
-    return <MenuLink key={name} name={name} href={href} hideText={!menuMaximized} />;
+  const menuLinks = MENU_CATEGORIES.map(([name, href, iconSrc]) => {
+    return <MenuLink key={name} name={name} href={href} icon={iconSrc} hideText={!sidebarMaximize} />;
   });
 
   return (
-    <aside className={styles.aside}>
+    <aside className={sidebarMaximize ? styles.aside : styles['aside--minimize']}>
       <ul>{menuLinks}</ul>
-      <ToolTip text="Minimize Menu">
-        <button type="button" aria-label="menu collapse toggle" onClick={menuToggleBtn} className={styles.button}>
-          This is a button
-        </button>
-      </ToolTip>
+      <div className={styles.aside__menuButton}>
+        <MenuToggle sidebarMaximize={sidebarMaximize} setSidebarMaximize={setSidebarMaximize} />
+      </div>
+      {/* <ToolTip text="Minimize Menu"></ToolTip> */}
     </aside>
   );
 }

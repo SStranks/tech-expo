@@ -44,7 +44,8 @@ $theme-transition: background 1s color 1s fill 1s;
 ///   }
 /// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
 
-$nav-sticky-transition: background-color 1s;
+$sidebar-menu-button: background-color 650ms;
+$sidebar-menu-button-icon: transform 150ms;
 
 /* -------------------------------- */
 /*   Modal Transitions              */

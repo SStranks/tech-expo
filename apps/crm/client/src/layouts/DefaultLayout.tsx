@@ -1,17 +1,28 @@
-import { Aside } from '#Features/sidebar/Aside';
-import Header from '#Components/ui/Header';
-import Main from '#Components/ui/Main';
+// import { Aside } from '#Features/sidebar/Aside';
+// import Header from '#Components/ui/Header';
+// import Main from '#Components/ui/Main';
 import styles from './_DefaultLayout.module.scss';
 
-function DefaultLayout(): JSX.Element {
+interface IProps {
+  header: JSX.Element;
+  aside: JSX.Element;
+  main: JSX.Element;
+}
+
+function DefaultLayout(props: IProps): JSX.Element {
+  const { header, aside, main } = props;
+
   return (
     <div className={styles.layout}>
       <div className={styles.layout__header}>
-        <Header />
+        {/* <Header /> */}
+        {header}
       </div>
       <div className={styles.layout__contents}>
-        <Aside />
-        <Main />
+        {/* <Aside /> */}
+        {/* <Main /> */}
+        {aside}
+        {main}
       </div>
     </div>
   );

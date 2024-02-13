@@ -1,0 +1,13 @@
+export { default as IconKanban } from './Align Top.svg';
+export { default as IconAudit } from './Bill List.svg';
+export { default as IconCompanies } from './Buildings.svg';
+export { default as IconCalendar } from './Calendar Search.svg';
+export { default as IconBillQuote } from './Card Transfer.svg';
+export { default as IconContacts } from './Cardholder.svg';
+export { default as IconDashboard } from './Clipboard List.svg';
+export { default as IconSquares } from './MenuNavigation.svg';
+export { default as IconPipe } from './Routing.svg';
+export { default as IconSettings } from './Settings.svg';
+export { default as IconSidebarToggle } from './Square Double Alt Arrow Left.svg';
+export { default as IconAdmininstration } from './Share Circle.svg';
+export { default as IconScrum } from './Widget Add.svg';

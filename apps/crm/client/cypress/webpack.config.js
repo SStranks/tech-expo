@@ -9,7 +9,7 @@ const config = {
   target: 'web',
   devtool: 'inline-source-map',
   devServer: {
-    port: 3000,
+    port: 3005,
     static: [
       {
         directory: '../public',

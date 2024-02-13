@@ -1,0 +1,24 @@
+@use '#Sass/abstracts/mixins' as mx;
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+
+  // &:hover {
+  //   .svgPath1,
+  //   .svgPath2 {
+  //   }
+  // }
+
+  &__button {
+    @include mx.extend-clickarea($x: 125%, $y: 125%, $visible: false);
+
+    &--reverse {
+      transition: transform 500ms ease-in 500ms;
+      transform: scaleX(-1);
+    }
+  }
+}

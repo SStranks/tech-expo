@@ -10,7 +10,7 @@
 
   &__contents {
     display: grid;
-    grid-template-columns: minmax(0, 250px) 1fr;
+    grid-template-columns: min-content 1fr;
     height: calc(100vh - v.$navbar-dim-vertical);
   }
 }
