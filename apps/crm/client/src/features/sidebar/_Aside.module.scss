@@ -1,18 +1,14 @@
+@use '#Sass/abstracts/variables' as v;
+
 .aside {
   position: relative;
-  width: 250px;
+  width: v.$aside-dim-width-maximized;
   height: 100%;
+  padding: v.$aside-padding-maximized;
   background-color: white;
-  padding: 12px;
-  transition: width 1500ms ease-in-out;
+  transition: width 600ms ease-in-out;
 
-  &--minimize {
-    position: relative;
-    width: 50px;
-    transition: width 900ms ease-in-out;
-  }
-
-  & > ul {
+  &__list {
     display: flex;
     flex-direction: column;
     row-gap: 6px;
@@ -22,29 +18,32 @@
 
   &__menuButton {
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 20px;
+    right: -22.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    width: 45px;
+    background-color: white;
+    border-radius: 8px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -45px;
+      left: 22.5px;
+      width: 45px;
+      height: 45px;
+      border-bottom-left-radius: 16px;
+      box-shadow: -15px 0 0 0 white;
+    }
+  }
+
+  &--minimize {
+    position: relative;
+    width: v.$aside-dim-width-minimized;
+    padding: v.$aside-padding-minimized;
+    transition: width 300ms ease-in-out;
   }
 }
-
-// .button {
-//   position: relative;
-//   background-color: red;
-
-//   // &::before {
-//   //   content: 'Minimize Menu';
-//   //   position: absolute;
-//   //   right: -50px;
-//   //   height: 20px;
-//   //   width: 40px;
-//   //   opacity: 0;
-//   //   transition: 0.2s opacity;
-//   //   transition-delay: 0.5s;
-//   // }
-
-//   // &:hover {
-//   //   &::before {
-//   //     opacity: 1;
-//   //   }
-//   // }
-// }

@@ -1,36 +1,106 @@
 @use '#Sass/abstracts/animations' as a;
 @use '#Sass/abstracts/colors' as c;
+@use '#Sass/abstracts/variables' as v;
+
+$icon-dim: 20px;
+$menulink-padding: 10px;
+$list-item-dim-x: calc(v.$aside-dim-width-minimized - (v.$aside-padding-minimized * 2));
+$list-item-centre-x: calc($list-item-dim-x / 2);
+$icon-centre-offset-from-list-item-edge: calc(($icon-dim / 2) + $menulink-padding);
+$translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item-edge);
 
 .menuLink {
+  position: relative;
   display: flex;
   align-items: center;
   column-gap: 8px;
-  padding: 10px;
+  padding: $menulink-padding;
   background-color: c.$col-2a-button;
   color: c.$col-1a-text;
   border-radius: 7px;
   list-style: none;
-  transition: a.$sidebar-menu-button;
+  transition: a.$sidebar-menu-button; // does this do anything now?
 
-  & > img {
-    height: 20px;
+  &__iconContainer {
     transition: a.$sidebar-menu-button-icon;
+  }
+
+  &__img {
+    min-width: $icon-dim;
+    height: $icon-dim;
+    transition: transform 250ms;
   }
 
   &:hover {
     background-color: c.$col-3a-button-hover;
 
-    & > img {
+    & .menuLink__iconContainer {
       transform: translateY(-10%);
+    }
+  }
+
+  &__text {
+    display: inline-block;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    overflow: hidden;
+    text-wrap: nowrap;
+    opacity: 1;
+    transition:
+      width 500ms,
+      opacity 750ms; // Fade In
+
+    // Link click area
+    &::before {
+      content: '';
+      position: absolute;
+      background-color: transparent;
+      inset: 0;
+    }
+  }
+
+  &--minimize {
+    column-gap: 0;
+    transition: column-gap 0ms 500ms;
+
+    & .menuLink__img {
+      animation: translate-icon-minimize 500ms cubic-bezier(0.54, 0.46, 0.18, 3) forwards
+        calc((var(--index) * (50ms - (var(--index) * 1.5ms))) + 150ms);
+    }
+
+    & .menuLink__text {
+      width: 0;
+      opacity: 0;
+      transition:
+        width 500ms,
+        opacity 500ms; // Fade Out
+    }
+  }
+
+  &--maximize {
+    & .menuLink__img {
+      animation: translate-icon-maximize 500ms ease-out forwards;
     }
   }
 }
 
-.menuText {
-  font-size: 16px;
-  font-weight: 500;
+@keyframes translate-icon-minimize {
+  0% {
+    transform: translateX(0);
+  }
 
-  &--hidden {
-    visibility: hidden;
+  100% {
+    transform: translateX($translate-icon-x);
+  }
+}
+
+@keyframes translate-icon-maximize {
+  0% {
+    transform: translateX($translate-icon-x);
+  }
+
+  100% {
+    transform: translateX(0);
   }
 }

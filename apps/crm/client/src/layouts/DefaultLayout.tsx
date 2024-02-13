@@ -1,6 +1,3 @@
-// import { Aside } from '#Features/sidebar/Aside';
-// import Header from '#Components/ui/Header';
-// import Main from '#Components/ui/Main';
 import styles from './_DefaultLayout.module.scss';
 
 interface IProps {
@@ -14,13 +11,8 @@ function DefaultLayout(props: IProps): JSX.Element {
 
   return (
     <div className={styles.layout}>
-      <div className={styles.layout__header}>
-        {/* <Header /> */}
-        {header}
-      </div>
+      <div className={styles.layout__header}>{header}</div>
       <div className={styles.layout__contents}>
-        {/* <Aside /> */}
-        {/* <Main /> */}
         {aside}
         {main}
       </div>

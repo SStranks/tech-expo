@@ -45,9 +45,29 @@ $border-radius-1: 8px;
 $box-shadow-1: 0 10px 10px -10px rgb(72 84 159 / 10%);
 
 /* -------------------------------- */
-/*   Web Element                    */
+/*   Web Element - Header           */
 /* -------------------------------- */
 
 /// Navigation bar vertical dimension
 /// @type Number (pixel)
-$navbar-dim-vertical: 70px;
+$header-dim-vertical: 70px;
+
+/* -------------------------------- */
+/*   Web Element - Aside            */
+/* -------------------------------- */
+
+/// Aside width - maximum
+/// @type Number (pixel)
+$aside-dim-width-maximized: 250px;
+
+/// Aside width - minimum
+/// /// @type Number (pixel)
+$aside-dim-width-minimized: 80px;
+
+/// Aside padding - maximized
+/// @type Number (pixel)
+$aside-padding-maximized: 12px;
+
+/// Aside padding - minimized
+/// @type Number (pixel)
+$aside-padding-minimized: 12px;

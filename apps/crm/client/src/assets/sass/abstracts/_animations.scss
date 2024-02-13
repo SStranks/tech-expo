@@ -48,6 +48,20 @@ $sidebar-menu-button: background-color 650ms;
 $sidebar-menu-button-icon: transform 150ms;
 
 /* -------------------------------- */
+/*   Hover Transitions              */
+/* -------------------------------- */
+
+/// Provides the transition for hover properties.
+/// @example
+///   .class {
+///     transition: $nav-sticky-transition
+///   }
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
+
+$icon-hover-vertical-transition: transform 150ms;
+$icon-hover-vertical-transform: translateY(-10%);
+
+/* -------------------------------- */
 /*   Modal Transitions              */
 /* -------------------------------- */
 

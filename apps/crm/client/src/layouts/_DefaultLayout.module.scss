@@ -5,12 +5,12 @@
   height: 100%;
 
   &__header {
-    height: v.$navbar-dim-vertical;
+    height: v.$header-dim-vertical;
   }
 
   &__contents {
     display: grid;
     grid-template-columns: min-content 1fr;
-    height: calc(100vh - v.$navbar-dim-vertical);
+    height: calc(100vh - v.$header-dim-vertical);
   }
 }

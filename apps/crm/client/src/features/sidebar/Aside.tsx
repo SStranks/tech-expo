@@ -21,15 +21,15 @@ export const MENU_CATEGORIES = [
 ];
 
 export function Aside(): JSX.Element {
-  const [sidebarMaximize, setSidebarMaximize] = useState<boolean>(true);
+  const [sidebarMaximize, setSidebarMaximize] = useState<boolean | undefined>();
 
-  const menuLinks = MENU_CATEGORIES.map(([name, href, iconSrc]) => {
-    return <MenuLink key={name} name={name} href={href} icon={iconSrc} hideText={!sidebarMaximize} />;
+  const menuLinks = MENU_CATEGORIES.map(([name, href, iconSrc], i) => {
+    return <MenuLink key={name} name={name} href={href} icon={iconSrc} minimize={sidebarMaximize} index={i} />;
   });
 
   return (
-    <aside className={sidebarMaximize ? styles.aside : styles['aside--minimize']}>
-      <ul>{menuLinks}</ul>
+    <aside className={`${styles.aside} ${sidebarMaximize ? styles['aside--minimize'] : ''}`}>
+      <ul className={styles.aside__list}>{menuLinks}</ul>
       <div className={styles.aside__menuButton}>
         <MenuToggle sidebarMaximize={sidebarMaximize} setSidebarMaximize={setSidebarMaximize} />
       </div>
