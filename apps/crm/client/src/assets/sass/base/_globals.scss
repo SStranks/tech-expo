@@ -38,7 +38,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  overflow-y: overlay;
+  // overflow-y: overlay;
 
   &::-webkit-scrollbar-track {
     background-color: hsl(0deg 0% 0% / 20%);

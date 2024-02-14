@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import MenuLink from './components/MenuLink';
-import styles from './_Aside.module.scss';
-// import ToolTip from './components/Tooltip';
+import { ToolTip, MenuLink, MenuToggle } from './components';
 import { IconAudit, IconBillQuote, IconCalendar, IconCompanies, IconContacts, IconScrum } from '#Svg/icons';
 import { IconDashboard, IconKanban, IconPipe, IconSettings, IconAdmininstration } from '#Svg/icons';
-import MenuToggle from './components/MenuToggle';
+import styles from './_Aside.module.scss';
 
 export const MENU_CATEGORIES = [
   ['Dashboard', '/', IconDashboard],
@@ -31,9 +29,10 @@ export function Aside(): JSX.Element {
     <aside className={`${styles.aside} ${sidebarMaximize ? styles['aside--minimize'] : ''}`}>
       <ul className={styles.aside__list}>{menuLinks}</ul>
       <div className={styles.aside__menuButton}>
-        <MenuToggle sidebarMaximize={sidebarMaximize} setSidebarMaximize={setSidebarMaximize} />
+        <ToolTip text={sidebarMaximize ? 'Maximize Menu' : 'Minimize Menu'} position="right" offset={16}>
+          <MenuToggle sidebarMaximize={sidebarMaximize} setSidebarMaximize={setSidebarMaximize} />
+        </ToolTip>
       </div>
-      {/* <ToolTip text="Minimize Menu"></ToolTip> */}
     </aside>
   );
 }

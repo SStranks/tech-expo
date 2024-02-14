@@ -62,28 +62,8 @@ $icon-hover-vertical-transition: transform 150ms;
 $icon-hover-vertical-transform: translateY(-10%);
 
 /* -------------------------------- */
-/*   Modal Transitions              */
+/*   React-Transition-Group         */
 /* -------------------------------- */
-
-// Utilizing 'CSSTransition'
-.modal-appear {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.modal-enter-done {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.modal-exit {
-  opacity: 1;
-}
-
-.modal-exit-active {
-  opacity: 0;
-  transition: opacity 800ms;
-}
 
 /* -------------------------------- */
 /*   Suspense/Fallback Transitions  */
