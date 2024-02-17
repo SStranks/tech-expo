@@ -31,7 +31,10 @@
 ///   }
 /// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
 
-$theme-transition: background 1s color 1s fill 1s;
+$theme-transition-background: background 1s;
+$theme-transition-color: color 1s;
+$theme-transition-fill: fill 1s;
+$theme-transition-boxshadow: box-shadow 1s;
 
 /* -------------------------------- */
 /*   Element Transitions            */
@@ -44,7 +47,6 @@ $theme-transition: background 1s color 1s fill 1s;
 ///   }
 /// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
 
-$sidebar-menu-button: background-color 650ms;
 $sidebar-menu-button-icon: transform 150ms;
 
 /* -------------------------------- */
@@ -58,6 +60,7 @@ $sidebar-menu-button-icon: transform 150ms;
 ///   }
 /// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
 
+$button-hover-sidebar: background-color 650ms;
 $icon-hover-vertical-transition: transform 150ms;
 $icon-hover-vertical-transform: translateY(-10%);
 

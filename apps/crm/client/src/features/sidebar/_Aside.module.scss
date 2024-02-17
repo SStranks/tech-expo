@@ -1,3 +1,4 @@
+@use '#Sass/abstracts/animations' as a;
 @use '#Sass/abstracts/variables' as v;
 
 .aside {
@@ -5,8 +6,10 @@
   width: v.$aside-dim-width-maximized;
   height: 100%;
   padding: v.$aside-padding-maximized;
-  background-color: white;
-  transition: width 600ms ease-in-out;
+  background: var(--thm-background-sidebar);
+  transition:
+    a.$theme-transition-background,
+    width 600ms ease-in-out;
 
   &__list {
     display: flex;
@@ -25,8 +28,9 @@
     justify-content: center;
     height: 45px;
     width: 45px;
-    background-color: white;
+    background-color: var(--thm-background-sidebar);
     border-radius: 8px;
+    transition: a.$theme-transition-background;
 
     &::before {
       content: '';
@@ -36,7 +40,8 @@
       width: 45px;
       height: 45px;
       border-bottom-left-radius: 16px;
-      box-shadow: -15px 0 0 0 white;
+      box-shadow: -15px 0 0 0 var(--thm-background-sidebar);
+      transition: a.$theme-transition-boxshadow;
     }
   }
 

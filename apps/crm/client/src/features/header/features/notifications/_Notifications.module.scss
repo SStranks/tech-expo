@@ -1,0 +1,72 @@
+.notificationIcon {
+  position: relative;
+  background: #00000048;
+}
+
+.notificationContent {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  padding: 10px;
+  background-color: white;
+}
+
+.indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px black;
+
+  &--noMessages {
+    background-color: transparent;
+  }
+
+  &--unreadMessages {
+    background-color: red;
+  }
+
+  &--readMessages {
+    background-color: green;
+  }
+}
+
+/* -------------------------------- */
+/*   CSS-Transition-Group           */
+/* -------------------------------- */
+
+.appear,
+.appeaDone {
+  opacity: 0;
+}
+
+.enter {
+  opacity: 0;
+}
+
+.enterActive {
+  opacity: 1;
+  transition: opacity 550ms;
+}
+
+.enterDone {
+  opacity: 1;
+}
+
+.exit {
+  opacity: 1;
+}
+
+.exitActive {
+  opacity: 0;
+  transition: opacity 800ms;
+}

@@ -7,7 +7,8 @@
   align-items: center;
   justify-content: center;
   padding: 8px;
-  transition: a.$icon-hover-vertical-transition;
+  background-color: var(--thm-background-sidebar);
+  transition: a.$theme-transition-background, a.$icon-hover-vertical-transition;
 
   &:hover {
     transform: a.$icon-hover-vertical-transform;
@@ -15,6 +16,7 @@
 
   &__button {
     @include mx.extend-clickarea($x: 125%, $y: 125%, $visible: false);
+    border-radius: 8px;
   }
 
   &__svg {

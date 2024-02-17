@@ -1,7 +1,7 @@
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
+import { ReactPortal } from '#Components/index';
 import styles from './_ToolTip.module.scss';
-import ReactPortal from '#Components/modal/ReactPortal';
 
 /**
  * Determine the positional coordinates for the tooltip, utilizing the DOMRect coordinates of the associated element. Tooltip utilizes a portal, with absolute positioning.
@@ -97,7 +97,11 @@ function ToolTip({ text, children = undefined, position, offset }: PropsWithChil
 
   return (
     <>
-      <div onMouseMove={onMouseMoveHandler} onMouseLeave={onMouseLeaveHandler} onClickCapture={onClickCaptureHandler}>
+      <div
+        onMouseMove={onMouseMoveHandler}
+        onMouseLeave={onMouseLeaveHandler}
+        onClickCapture={onClickCaptureHandler}
+        data-testid="tooltip-component">
         {children}
       </div>
       <ReactPortal wrapperId="portal-tooltip">

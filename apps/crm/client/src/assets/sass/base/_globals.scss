@@ -90,7 +90,7 @@ input {
   font-size: inherit;
   font-family: inherit;
   font-weight: inherit;
-  transition: a.$theme-transition;
+  transition: a.$theme-transition-background;
 
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
@@ -99,7 +99,7 @@ input {
   }
 
   &::placeholder {
-    transition: a.$theme-transition;
+    transition: a.$theme-transition-background;
   }
 }
 

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { ToolTip, MenuLink, MenuToggle } from './components';
+import { ToolTip } from '#Components/index';
 import { IconAudit, IconBillQuote, IconCalendar, IconCompanies, IconContacts, IconScrum } from '#Svg/icons';
 import { IconDashboard, IconKanban, IconPipe, IconSettings, IconAdmininstration } from '#Svg/icons';
+import { MenuLink, MenuToggle } from './components';
 import styles from './_Aside.module.scss';
 
 export const MENU_CATEGORIES = [

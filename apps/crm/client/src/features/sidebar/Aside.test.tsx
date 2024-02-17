@@ -30,18 +30,18 @@ describe('Initialization', () => {
 });
 
 describe('Functionality', () => {
-  test('Menu toggle button collapses the sidebar; only icons remain visible', async () => {
+  test('Menu toggle button collapses the sidebar; icons remain visible, text invisible', async () => {
     render(<Aside />, { wrapper: BrowserRouter });
     const user = userEvent.setup();
 
     const menuToggleButton = screen.getByRole('button', { name: /side-menu collapse toggle/i });
-    const links = screen.getAllByRole('link');
+    const links = screen.getAllByRole('listitem');
 
     await user.click(menuToggleButton);
 
     await waitFor(() => {
       links.forEach((link) => {
-        expect(screen.queryByText(link.textContent!)).not.toBeVisible();
+        expect(link).toHaveClass(/menuLink--minimize/);
       });
     });
   });

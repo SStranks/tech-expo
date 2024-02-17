@@ -36,7 +36,7 @@ function MenuLink(props: IProps): JSX.Element {
   return (
     <li className={`${styles.menuLink} ${animatedStyles}`} ref={menuLinkRef}>
       <div className={styles.menuLink__iconContainer}>
-        <img src={icon} alt="" className={styles.menuLink__img} />
+        <img src={icon} alt={name} className={styles.menuLink__img} />
       </div>
       <Link to={href} key={name}>
         <span className={styles.menuLink__text}>{name}</span>

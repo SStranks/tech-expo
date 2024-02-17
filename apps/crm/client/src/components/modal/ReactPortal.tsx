@@ -14,7 +14,6 @@ type WrapperState = Element | null;
 function createWrapperAndAppendToBody(wrapperId: string) {
   const wrapperElement = document.createElement('div');
   wrapperElement.setAttribute('id', wrapperId);
-  wrapperElement.setAttribute('aria-hidden', 'true');
   wrapperElement.dataset.testid = 'react-portal-wrapper';
   document.body.append(wrapperElement);
   return wrapperElement;

@@ -1,6 +1,6 @@
-import { Aside } from '#Features/sidebar/Aside';
 import DefaultLayout from '#Layouts/DefaultLayout';
-import Header from './ui/Header';
+import { Aside } from '#Features/sidebar/Aside';
+import Header from '#Features/header/Header';
 import Main from './ui/Main';
 
 function App(): JSX.Element {

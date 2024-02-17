@@ -15,11 +15,11 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
   align-items: center;
   column-gap: 8px;
   padding: $menulink-padding;
-  background-color: c.$col-2a-button;
+  background-color: var(--thm-background-sidebar-buttons);
   color: c.$col-1a-text;
   border-radius: 7px;
   list-style: none;
-  transition: a.$sidebar-menu-button; // does this do anything now?
+  transition: a.$theme-transition-background, a.$button-hover-sidebar;
 
   &__iconContainer {
     transition: a.$sidebar-menu-button-icon;
@@ -32,7 +32,7 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
   }
 
   &:hover {
-    background-color: c.$col-3a-button-hover;
+    background-color: var(--thm-background-sidebar-buttons-hover);
 
     & .menuLink__iconContainer {
       transform: translateY(-10%);
