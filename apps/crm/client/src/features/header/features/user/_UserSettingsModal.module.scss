@@ -1,0 +1,59 @@
+.userSettings {
+  position: absolute;
+  top: 15%;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  align-items: center;
+  justify-content: center;
+  width: 500px;
+  height: fit-content;
+  padding: 10px;
+  background-color: white;
+}
+
+.titleBar {
+  display: flex;
+  column-gap: 20px;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 20px;
+}
+
+/* -------------------------------- */
+/*   CSS-Transition-Group           */
+/* -------------------------------- */
+
+.appear,
+.appeaDone {
+  opacity: 0;
+}
+
+.enter {
+  opacity: 0;
+}
+
+.enterActive {
+  opacity: 1;
+  transition: opacity 550ms;
+}
+
+.enterDone {
+  opacity: 1;
+}
+
+.exit {
+  opacity: 1;
+}
+
+.exitActive {
+  opacity: 0;
+  transition: opacity 800ms;
+}

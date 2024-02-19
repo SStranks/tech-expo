@@ -1,0 +1,67 @@
+.userIcon {
+  background: #fff;
+}
+
+@mixin button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 5px;
+  background-color: antiquewhite;
+}
+
+.userMenu {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: fit-content;
+  padding: 10px;
+  background-color: white;
+
+  &__userSettingsBtn {
+    @include button;
+  }
+
+  &__logoutBtn {
+    @include button;
+  }
+}
+
+/* -------------------------------- */
+/*   CSS-Transition-Group           */
+/* -------------------------------- */
+
+.appear,
+.appeaDone {
+  opacity: 0;
+}
+
+.enter {
+  opacity: 0;
+}
+
+.enterActive {
+  opacity: 1;
+  transition: opacity 550ms;
+}
+
+.enterDone {
+  opacity: 1;
+}
+
+.exit {
+  opacity: 1;
+}
+
+.exitActive {
+  opacity: 0;
+  transition: opacity 800ms;
+}

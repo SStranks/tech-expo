@@ -12,22 +12,30 @@ describe('Initialization', () => {
     const notificationSvg = screen.getByRole('img');
     const notificationsContent = screen.queryByTestId('notifications');
     const notificationsIndicator = screen.getByTestId('notifications-indicator');
+    const clearAllNotificationsButton = screen.queryByRole('button', { name: /clear all/i });
 
     expect(notificationsButton).toBeInTheDocument();
     expect(notificationsButton).toBeVisible();
     expect(notificationsButton).toContainElement(notificationSvg);
     expect(notificationsButton).toContainElement(notificationsIndicator);
     expect(notificationsContent).not.toBeInTheDocument();
+    expect(clearAllNotificationsButton).not.toBeInTheDocument();
   });
 
-  test('Component should render notifications list-items; data passed as prop', async () => {
+  test('Component should render correctly; in portal after click event', async () => {
     render(<Notifications notifications={notificationsArr} />);
     const user = userEvent.setup();
 
     const notificationsButton = screen.getByRole('button', { name: 'notifications' });
     await user.click(notificationsButton);
+    const notificationsList = screen.getByRole('list');
+    const clearAllNotificationsButton = screen.getByRole('button', { name: /clear all/i });
     const notificationsListItems = screen.getAllByRole('listitem');
 
+    expect(notificationsList).toBeInTheDocument();
+    expect(notificationsList).toBeVisible();
+    expect(clearAllNotificationsButton).toBeInTheDocument();
+    expect(clearAllNotificationsButton).toBeVisible();
     expect(notificationsListItems).toHaveLength(notificationsArr.length);
   });
 
@@ -107,6 +115,23 @@ describe('Functionality', () => {
     const notificationsIndicator = screen.getByTestId('notifications-indicator');
 
     expect(notificationsIndicator).toHaveClass(/indicator--unreadMessages/);
+  });
+
+  test('Clicking "Clear All" button should remove all notifications from the list', async () => {
+    render(<Notifications notifications={notificationsArr} />);
+    const user = userEvent.setup();
+
+    // Activate portal content
+    const notificationsButton = screen.getByRole('button', { name: 'notifications' });
+    await user.click(notificationsButton);
+    let notificationsListItems = screen.getAllByRole('listitem');
+    expect(notificationsListItems).toHaveLength(notificationsArr.length);
+
+    // Clear notifications
+    const clearAllNotificationsButton = screen.getByRole('button', { name: /clear all/i });
+    await user.click(clearAllNotificationsButton);
+    notificationsListItems = screen.queryAllByRole('listitem');
+    expect(notificationsListItems).toHaveLength(0);
   });
 
   // eslint-disable-next-line jest/no-commented-out-tests
