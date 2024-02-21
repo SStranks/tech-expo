@@ -3,7 +3,7 @@ import { Aside } from '#Features/sidebar/Aside';
 import Header from '#Features/header/Header';
 import DefaultLayout from '#Layouts/DefaultLayout';
 import { Authenticate } from '#Modules/index';
-import LoginPage from '#Pages/LoginPage';
+import { LoginPage, RegisterPage, ForgotPasswordPage, UpdatePasswordPage } from '#Pages/index';
 import DashboardRoute from '#Routes/DashboardRoute';
 
 function App(): JSX.Element {
@@ -30,6 +30,9 @@ function App(): JSX.Element {
           <Route index element={<DashboardRoute />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/update-password" element={<UpdatePasswordPage />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </>
