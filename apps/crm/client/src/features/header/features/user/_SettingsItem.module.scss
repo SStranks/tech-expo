@@ -24,4 +24,9 @@
   &__edit {
     grid-area: edit;
   }
+
+  &__inputGroup {
+    // NOTE:  Conditionally rendered; replaces description element text
+    grid-area: description;
+  }
 }

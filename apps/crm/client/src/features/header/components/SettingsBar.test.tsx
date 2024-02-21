@@ -1,9 +1,10 @@
+import { BrowserRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import SettingsBar from './SettingsBar';
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
-    render(<SettingsBar />);
+    render(<SettingsBar />, { wrapper: BrowserRouter });
 
     const themeSwitchButton = screen.getByRole('button', { name: /theme switch toggle/ });
     const notificationsButton = screen.getByRole('button', { name: /notifications/ });

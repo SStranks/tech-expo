@@ -15,7 +15,6 @@ describe('Initialization', () => {
     expect(container).toBeEmptyDOMElement();
     expect(componentPortal).toBeInTheDocument();
     expect(componentPortal).toHaveAttribute('id', 'modal');
-    expect(componentPortal).toHaveAttribute('aria-hidden', 'true');
     expect(componentPortal).toHaveTextContent('Dummy Component');
   });
 

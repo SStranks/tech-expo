@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import UserSettingsMenu from './UserSettingsMenu';
 import userEvent from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('Initialization', () => {
   test('Component should render correctly; user settings window should not be present before click event', () => {
-    render(<UserSettingsMenu userName="Smith" />);
+    render(<UserSettingsMenu userName="Smith" />, { wrapper: BrowserRouter });
 
     const userSettingsButton = screen.getByRole('button', { name: /user settings/ });
     const userSettingsIcon = screen.getByLabelText(/user settings/);
@@ -19,7 +20,7 @@ describe('Initialization', () => {
   });
 
   test('Component should render correctly; in portal after click event', async () => {
-    render(<UserSettingsMenu userName="Smith" />);
+    render(<UserSettingsMenu userName="Smith" />, { wrapper: BrowserRouter });
     const user = userEvent.setup();
 
     // Open portal content

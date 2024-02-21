@@ -17,6 +17,10 @@ function usePortalClose(
       if (portalContentRef === null || portalContentRef.current === null) return;
       if (openPortalContentBtnRef === null || openPortalContentBtnRef.current === null) return;
 
+      // Abort if an input element or textarea is in focus elsewhere in the document; used in conjunction with 'mousedown' to allow input to be unfocused without triggering eventhandler.
+      if (document.activeElement instanceof HTMLInputElement || document.activeElement instanceof HTMLTextAreaElement)
+        return;
+
       // Close portal on Escape keydown
       if (portalActive && e instanceof KeyboardEvent && (e.key === 'Esc' || e.key === 'Escape')) {
         setPortalActive(false);
@@ -33,10 +37,10 @@ function usePortalClose(
     };
 
     document.addEventListener('keydown', closePortal);
-    document.addEventListener('click', closePortal);
+    document.addEventListener('mousedown', closePortal);
     return () => {
       document.removeEventListener('keydown', closePortal);
-      document.removeEventListener('click', closePortal);
+      document.removeEventListener('mousedown', closePortal);
     };
   });
 }

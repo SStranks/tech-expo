@@ -6,6 +6,7 @@ import { IconLogout, IconSettings } from '#Svg/icons';
 import UserIcon from '#Svg/icons/User Circle.svg';
 import styles from './_UserSettingsMenu.module.scss';
 import UserSettingsModal from './UserSettingsModal';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
   userName: string;
@@ -17,16 +18,23 @@ function UserSettingsMenu(props: IProps): JSX.Element {
   const [settingsPortalActive, setSettingsPortalActive] = useState<boolean>(false);
   const menuPortalContentRef = useRef<HTMLDivElement>(null);
   const menuPortalButtonRef = useRef<HTMLButtonElement>(null);
+  const navigate = useNavigate();
   usePortalClose(menuPortalActive, setMenuPortalActive, menuPortalContentRef, menuPortalButtonRef);
 
   const menuIconClickHandler = () => {
     setMenuPortalActive((p) => !p);
   };
 
-  const settingsIconClickHandler = (e: React.MouseEvent) => {
+  const settingsBtnClickHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
     setMenuPortalActive(false);
     setSettingsPortalActive(true);
+  };
+
+  const logoutBtnClickHandler = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    window.localStorage.removeItem('CRM Login Token');
+    navigate('/login');
   };
 
   return (
@@ -54,11 +62,11 @@ function UserSettingsMenu(props: IProps): JSX.Element {
           nodeRef={menuPortalContentRef}>
           <div className={styles.userMenu} data-testid="user-settings" ref={menuPortalContentRef}>
             <span>UserID: {userName}</span>
-            <button type="button" onClick={settingsIconClickHandler} className={styles.userMenu__userSettingsBtn}>
+            <button type="button" onClick={settingsBtnClickHandler} className={styles.userMenu__userSettingsBtn}>
               <img src={IconSettings} alt="" />
               User Settings
             </button>
-            <button type="button" className={styles.userMenu__logoutBtn}>
+            <button type="button" onClick={logoutBtnClickHandler} className={styles.userMenu__logoutBtn}>
               <img src={IconLogout} alt="" />
               Logout
             </button>
