@@ -34,7 +34,7 @@ export default {
     '^#Features/(.*)$': '<rootDir>/src/features/$1',
     '^#Hooks/(.*)$': '<rootDir>/src/hooks/$1',
     '^#Layouts/(.*)$': '<rootDir>/src/layouts/$1',
-    '^#Libs/(.*)$': '<rootDir>/src/libs/$1',
+    '^#Lib/(.*)$': '<rootDir>/src/lib/$1',
     '^#Modules/(.*)$': '<rootDir>/src/modules/$1',
     '^#Pages/(.*)$': '<rootDir>/src/pages/$1',
     '^#Routes/(.*)$': '<rootDir>/src/routes/$1',

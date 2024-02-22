@@ -1,8 +1,16 @@
+import { lazy, Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import type { TInputPasswordStrength } from '#Components/react-hook-form/input-password/InputPasswordStrength';
+import InputPasswordSkeleton from '#Components/react-hook-form/input-password/InputPasswordSkeleton';
 import styles from './_RegisterPage.module.scss';
 
-interface IInputs {
+// Contains 'zxcvbn' package; heavy weight
+const InputPasswordStrength = lazy(
+  () => import('#Components/react-hook-form/input-password/InputPasswordStrength')
+) as TInputPasswordStrength;
+
+export interface IInputs {
   email: string;
   password: string;
 }
@@ -46,22 +54,15 @@ function RegisterPage(): JSX.Element {
           })}
         />
         {errors.password && <span role="alert">{errors.password.message}</span>}
-        <input
-          type="password"
-          autoComplete="new-password"
-          aria-label="password"
-          aria-invalid={errors.password ? true : false}
-          {...register('password', {
-            required: {
-              value: true,
-              message: 'Please enter a valid password',
-            },
-            minLength: {
-              value: 5,
-              message: 'Minimum length; 5 characters',
-            },
-          })}
-        />
+        <Suspense fallback={<InputPasswordSkeleton />}>
+          <InputPasswordStrength
+            register={register}
+            inputName="password"
+            placeholder="Enter a strong password"
+            error={errors.password}
+            reveal={false}
+          />
+        </Suspense>
         <button type="submit">Register Account</button>
         <p>
           Already have an account?

@@ -1,13 +1,21 @@
-import { useForm } from 'react-hook-form';
+import { lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import InputPasswordSkeleton from '#Components/react-hook-form/input-password/InputPasswordSkeleton';
+import type { TInputPasswordStrength } from '#Components/react-hook-form/input-password/InputPasswordStrength';
 import styles from './_UpdatePasswordPage.module.scss';
+
+// Contains 'zxcvbn' package; heavy weight
+const InputPasswordStrength = lazy(
+  () => import('#Components/react-hook-form/input-password/InputPasswordStrength')
+) as TInputPasswordStrength;
 
 interface IInputs {
   newPassword: string;
   confirmPassword: string;
 }
 
-function ForgotPasswordPage(): JSX.Element {
+function UpdatePasswordPage(): JSX.Element {
   const {
     register,
     getValues,
@@ -31,22 +39,15 @@ function ForgotPasswordPage(): JSX.Element {
         noValidate>
         <h1 id="heading">Set New Password</h1>
         {errors.newPassword && <span role="alert">{errors.newPassword.message}</span>}
-        <input
-          type="password"
-          autoComplete="new-password"
-          aria-label="new password"
-          aria-invalid={errors.newPassword ? true : false}
-          {...register('newPassword', {
-            required: {
-              value: true,
-              message: 'Please enter a valid password',
-            },
-            minLength: {
-              value: 5,
-              message: 'Minimum length; 5 characters',
-            },
-          })}
-        />
+        <Suspense fallback={<InputPasswordSkeleton />}>
+          <InputPasswordStrength
+            register={register}
+            inputName="newPassword"
+            placeholder="Enter a strong password"
+            error={errors.newPassword}
+            reveal={false}
+          />
+        </Suspense>
         {errors.confirmPassword && <span role="alert">{errors.confirmPassword.message}</span>}
         <input
           type="password"
@@ -71,4 +72,4 @@ function ForgotPasswordPage(): JSX.Element {
   );
 }
 
-export default ForgotPasswordPage;
+export default UpdatePasswordPage;
