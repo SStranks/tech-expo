@@ -1,0 +1,22 @@
+@use '#Sass/abstracts/animations' as a;
+@use '#Sass/components/form' as form;
+
+.label {
+  @include form.input-container;
+  @include form.input-focus-within;
+  height: form.$input-height;
+  background-color: form.$input-background-color;
+  border: form.$input-border;
+  border-radius: form.$input-border-radius;
+  transition: a.$input-focus;
+  overflow: hidden;
+
+  &__input {
+    @include form.input-base;
+    padding: 0 16px;
+  }
+}
+
+.success {
+  @include form.input-validated;
+}

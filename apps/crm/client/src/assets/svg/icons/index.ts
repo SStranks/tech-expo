@@ -18,3 +18,6 @@ export { default as IconSmartPhone } from './Smartphone.svg';
 export { default as IconPhone } from './End Call.svg';
 export { default as IconEmail } from './Letter Opened.svg';
 export { default as IconTimezone } from './Global.svg';
+export { default as IconInfoCircle } from './Info Circle.svg';
+export { default as IconPassword } from './Password.svg';
+export { default as IconEye } from './Eye.svg';

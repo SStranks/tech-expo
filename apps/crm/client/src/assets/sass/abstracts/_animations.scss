@@ -50,6 +50,21 @@ $theme-transition-boxshadow: box-shadow 1s;
 $sidebar-menu-button-icon: transform 150ms;
 
 /* -------------------------------- */
+/*   Input Transitions              */
+/* -------------------------------- */
+
+/// Provides the transition settings for form input fields
+/// @example
+///   .class {
+///     transition: $nav-sticky-transition
+///   }
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
+
+$input-focus:
+  box-shadow 200ms ease-in-out,
+  border-color 200ms ease-in-out;
+
+/* -------------------------------- */
 /*   Hover Transitions              */
 /* -------------------------------- */
 

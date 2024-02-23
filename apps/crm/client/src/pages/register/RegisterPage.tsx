@@ -4,11 +4,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { TInputPasswordStrength } from '#Components/react-hook-form/input-password/InputPasswordStrength';
 import InputPasswordSkeleton from '#Components/react-hook-form/input-password/InputPasswordSkeleton';
 import styles from './_RegisterPage.module.scss';
+import Input from '#Components/react-hook-form/input/Input';
 
 // Contains 'zxcvbn' package; heavy weight
 const InputPasswordStrength = lazy(
   () => import('#Components/react-hook-form/input-password/InputPasswordStrength')
 ) as TInputPasswordStrength;
+
+const EMAILRULES = {
+  required: {
+    value: true,
+    message: 'Please enter a valid email',
+  },
+  pattern: {
+    value: /\S+@\S+\.\S+/,
+    message: 'Entered value does not match email format',
+  },
+};
 
 export interface IInputs {
   email: string;
@@ -18,10 +30,14 @@ export interface IInputs {
 function RegisterPage(): JSX.Element {
   const {
     register,
-    formState: { errors },
+    trigger,
+    setFocus,
+    getFieldState,
+    formState: { isValid, errors },
     handleSubmit,
-  } = useForm<IInputs>();
+  } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '', password: '' } });
   const navigate = useNavigate();
+  const emailFieldState = getFieldState('email');
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
@@ -38,32 +54,29 @@ function RegisterPage(): JSX.Element {
         noValidate>
         <h1 id="heading">Register Account</h1>
         {errors.email && <span role="alert">{errors.email.message}</span>}
-        <input
+        <Input
           type="email"
-          aria-label="email"
-          aria-invalid={errors.email ? true : false}
-          {...register('email', {
-            required: {
-              value: true,
-              message: 'Please enter a valid email',
-            },
-            pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: 'Entered value does not match email format',
-            },
-          })}
+          register={{ ...register('email', EMAILRULES) }}
+          invalid={emailFieldState.invalid}
+          error={emailFieldState.error}
+          isDirty={emailFieldState.isDirty}
+          ariaLabel="email"
         />
         {errors.password && <span role="alert">{errors.password.message}</span>}
         <Suspense fallback={<InputPasswordSkeleton />}>
           <InputPasswordStrength
             register={register}
+            trigger={trigger}
+            setFocus={setFocus}
             inputName="password"
             placeholder="Enter a strong password"
             error={errors.password}
             reveal={false}
           />
         </Suspense>
-        <button type="submit">Register Account</button>
+        <button type="submit" className={styles.registerForm__submitBtn} disabled={!isValid}>
+          Register Account
+        </button>
         <p>
           Already have an account?
           <Link to={'/login'}>

@@ -18,6 +18,8 @@ interface IInputs {
 function UpdatePasswordPage(): JSX.Element {
   const {
     register,
+    trigger,
+    setFocus,
     getValues,
     formState: { errors },
     handleSubmit,
@@ -42,6 +44,8 @@ function UpdatePasswordPage(): JSX.Element {
         <Suspense fallback={<InputPasswordSkeleton />}>
           <InputPasswordStrength
             register={register}
+            trigger={trigger}
+            setFocus={setFocus}
             inputName="newPassword"
             placeholder="Enter a strong password"
             error={errors.newPassword}
