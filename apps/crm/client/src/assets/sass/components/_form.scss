@@ -63,8 +63,11 @@ $border-radius: 8px;
 
 $input-height: 50px;
 $input-background-color: hsl(0deg 0% 100%);
+$input-color-inactive: rgb(230 230 230);
+$input-color-active: purple;
+$input-color-success: rgb(0 255 106);
+$input-border: 1px solid $input-color-inactive;
 $input-border-radius: 8px;
-$input-border: 1px solid rgb(230 230 230);
 
 @mixin input-base {
   width: 100%;
@@ -79,8 +82,18 @@ $input-border: 1px solid rgb(230 230 230);
 
 @mixin input-focus-within {
   &:focus-within {
-    border-color: purple;
-    box-shadow: 0 0 0 1px purple;
+    border-color: $input-color-active;
+    box-shadow: 0 0 0 1px $input-color-active;
+  }
+}
+
+@mixin input-valid {
+  box-shadow: 0 0 0 1px $input-color-success;
+  border-color: $input-color-success;
+
+  &:focus-within {
+    border-color: $input-color-success;
+    box-shadow: 0 0 0 1px $input-color-success;
   }
 }
 
@@ -91,34 +104,6 @@ $input-border: 1px solid rgb(230 230 230);
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgb(0 255 106);
+    box-shadow: 0 0 0 0 $input-color-success;
   }
 }
-
-// @mixin form-textfield-root {
-//   @include mx.input-text;
-//   padding: f.px2em(18) f.px2em(24);
-//   border-radius: 8px;
-// }
-
-// @mixin form-textfield-default {
-//   @include form-textfield-root;
-//   border: 1px solid c.$col-1e;
-
-//   &::placeholder {
-//     color: c.$col-3a;
-//   }
-// }
-
-// @mixin form-textfield-active {
-//   @include form-textfield-root;
-//   outline: none;
-//   border: 1px solid c.$col-1a;
-//   color: c.$col-2c;
-//   caret-color: c.$col-1a;
-// }
-
-// @mixin form-textfield-error {
-//   @include form-textfield-root;
-//   border: 2px solid c.$col-2d;
-// }

@@ -31,13 +31,14 @@ function RegisterPage(): JSX.Element {
   const {
     register,
     trigger,
-    setFocus,
+    setValue,
     getFieldState,
     formState: { isValid, errors },
     handleSubmit,
   } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '', password: '' } });
   const navigate = useNavigate();
   const emailFieldState = getFieldState('email');
+  const passwordFieldState = getFieldState('password');
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
@@ -53,25 +54,27 @@ function RegisterPage(): JSX.Element {
         className={styles.registerForm}
         noValidate>
         <h1 id="heading">Register Account</h1>
-        {errors.email && <span role="alert">{errors.email.message}</span>}
+        {/* {errors.email && <span role="alert">{errors.email.message}</span>} */}
         <Input
           type="email"
           register={{ ...register('email', EMAILRULES) }}
           invalid={emailFieldState.invalid}
           error={emailFieldState.error}
           isDirty={emailFieldState.isDirty}
-          ariaLabel="email"
+          label="Email address"
         />
         {errors.password && <span role="alert">{errors.password.message}</span>}
         <Suspense fallback={<InputPasswordSkeleton />}>
           <InputPasswordStrength
             register={register}
             trigger={trigger}
-            setFocus={setFocus}
+            setValue={setValue}
+            invalid={passwordFieldState.invalid}
+            error={passwordFieldState.error}
+            isDirty={passwordFieldState.isDirty}
             inputName="password"
-            placeholder="Enter a strong password"
-            error={errors.password}
             reveal={false}
+            label="Password"
           />
         </Suspense>
         <button type="submit" className={styles.registerForm__submitBtn} disabled={!isValid}>

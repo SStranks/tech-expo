@@ -19,12 +19,14 @@ function UpdatePasswordPage(): JSX.Element {
   const {
     register,
     trigger,
-    setFocus,
+    getFieldState,
     getValues,
+    setValue,
     formState: { errors },
     handleSubmit,
   } = useForm<IInputs>();
   const navigate = useNavigate();
+  const passwordFieldState = getFieldState('newPassword');
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
@@ -45,11 +47,13 @@ function UpdatePasswordPage(): JSX.Element {
           <InputPasswordStrength
             register={register}
             trigger={trigger}
-            setFocus={setFocus}
+            setValue={setValue}
+            invalid={passwordFieldState.invalid}
+            error={passwordFieldState.error}
+            isDirty={passwordFieldState.isDirty}
             inputName="newPassword"
-            placeholder="Enter a strong password"
-            error={errors.newPassword}
             reveal={false}
+            label="Password"
           />
         </Suspense>
         {errors.confirmPassword && <span role="alert">{errors.confirmPassword.message}</span>}
