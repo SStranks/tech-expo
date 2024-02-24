@@ -30,15 +30,12 @@ export interface IInputs {
 function RegisterPage(): JSX.Element {
   const {
     register,
+    control,
     trigger,
-    setValue,
-    getFieldState,
-    formState: { isValid, errors },
     handleSubmit,
+    formState: { isValid, errors, dirtyFields },
   } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '', password: '' } });
   const navigate = useNavigate();
-  const emailFieldState = getFieldState('email');
-  const passwordFieldState = getFieldState('password');
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
@@ -58,21 +55,19 @@ function RegisterPage(): JSX.Element {
         <Input
           type="email"
           register={{ ...register('email', EMAILRULES) }}
-          invalid={emailFieldState.invalid}
-          error={emailFieldState.error}
-          isDirty={emailFieldState.isDirty}
+          error={errors.email}
+          isDirty={dirtyFields.email}
           label="Email address"
         />
         {errors.password && <span role="alert">{errors.password.message}</span>}
         <Suspense fallback={<InputPasswordSkeleton />}>
           <InputPasswordStrength
             register={register}
+            control={control}
             trigger={trigger}
-            setValue={setValue}
-            invalid={passwordFieldState.invalid}
-            error={passwordFieldState.error}
-            isDirty={passwordFieldState.isDirty}
             inputName="password"
+            error={errors.password}
+            isDirty={dirtyFields.password}
             reveal={false}
             label="Password"
           />

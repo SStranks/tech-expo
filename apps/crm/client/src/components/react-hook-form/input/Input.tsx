@@ -4,18 +4,17 @@ import styles from './_Input.module.scss';
 
 interface IProps {
   register: UseFormRegisterReturn;
-  invalid: boolean;
-  isDirty: boolean;
+  isDirty: boolean | undefined;
   error: FieldError | undefined;
   type: HTMLInputTypeAttribute;
   label: string;
 }
 
 function Input(props: IProps): JSX.Element {
-  const { register, type, invalid, error, isDirty, label } = props;
+  const { register, type, error, isDirty, label } = props;
   const id = useId();
 
-  const inputValidated = isDirty && !invalid;
+  const inputValidated = isDirty && !error;
 
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown
   return (
