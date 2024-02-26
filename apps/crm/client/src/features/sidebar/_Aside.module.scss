@@ -1,7 +1,9 @@
 @use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/mixins' as mx;
 @use '#Sass/abstracts/variables' as v;
 
 .aside {
+  @include mx.ui-border(border-right);
   position: relative;
   width: v.$aside-dim-width-maximized;
   height: 100%;
@@ -9,6 +11,7 @@
   background: var(--thm-background-sidebar);
   transition:
     a.$theme-transition-background,
+    a.$theme-transition-border-color,
     width 600ms ease-in-out;
 
   &__list {
@@ -20,6 +23,7 @@
   }
 
   &__menuButton {
+    @include mx.ui-border(border-right);
     position: absolute;
     bottom: 20px;
     right: -22.5px;
@@ -30,7 +34,7 @@
     width: 45px;
     background-color: var(--thm-background-sidebar);
     border-radius: 8px;
-    transition: a.$theme-transition-background;
+    transition: a.$theme-transition-background, a.$theme-transition-border-color;
 
     &::before {
       content: '';
@@ -51,6 +55,7 @@
     padding: v.$aside-padding-minimized;
     transition:
       a.$theme-transition-background,
+      a.$theme-transition-border-color,
       width 300ms ease-in-out;
   }
 }

@@ -12,7 +12,7 @@ function DefaultLayout({ header, aside, children = undefined }: PropsWithChildre
       <div className={styles.layout__header}>{header}</div>
       <div className={styles.layout__contents}>
         {aside}
-        <main>{children}</main>
+        <main className={styles.layout__main}>{children}</main>
       </div>
     </div>
   );

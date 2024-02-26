@@ -39,6 +39,16 @@
 }
 
 /* -------------------------------- */
+/*   UI                             */
+/* -------------------------------- */
+
+/// UI Border styling including transition
+@mixin ui-border($border-property) {
+  #{$border-property}: v.$border-ui;
+  border-color: var(--thm-border-ui);
+}
+
+/* -------------------------------- */
 /*   Text: Header                   */
 /* -------------------------------- */
 

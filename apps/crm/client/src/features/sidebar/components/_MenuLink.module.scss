@@ -25,10 +25,14 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
     transition: a.$sidebar-menu-button-icon;
   }
 
+  // SVG Icons
   &__img {
     min-width: $icon-dim;
     height: $icon-dim;
-    transition: transform 250ms;
+    filter: var(--thm-svg-fill);
+    transition:
+      a.$theme-transition-filter,
+      transform 250ms;
   }
 
   &:hover {

@@ -20,7 +20,10 @@
   }
 
   &__svg {
-    transition: transform 500ms ease-in 200ms;
+    fill: var(--thm-button-menutoggle);
+    transition:
+      a.$theme-transition-fill,
+      transform 500ms ease-in 200ms;
     transform-origin: center;
 
     &--reverse {

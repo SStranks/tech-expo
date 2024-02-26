@@ -21,6 +21,21 @@
 @use 'variables' as *;
 
 /* -------------------------------- */
+/*   UI                             */
+/* -------------------------------- */
+
+$col-ui-background-light: hsl(0deg 0% 100%);
+$col-ui-background-dark: hsl(218deg 16% 10%);
+$col-ui-menutoggle-dark: hsl(0deg 0% 100%);
+$col-ui-menutoggle-light: hsl(218deg 16% 10%);
+$col-ui-divider-light: hsl(0deg 0% 89%);
+$col-ui-divider-dark: hsl(218deg 10% 16%);
+$col-ui-text-light: hsl(228deg 7% 15%);
+$col-ui-text-dark: hsl(0deg 0% 89%);
+$col-main-background-light: hsl(220deg 27% 98%);
+$col-main-background-dark: hsl(218deg 25% 6%);
+
+/* -------------------------------- */
 /*   Sidebar                        */
 /* -------------------------------- */
 

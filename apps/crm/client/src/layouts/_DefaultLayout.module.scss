@@ -1,3 +1,4 @@
+@use '#Sass/abstracts/animations' as a;
 @use '#Sass/abstracts/variables' as v;
 
 .layout {
@@ -12,5 +13,10 @@
     display: grid;
     grid-template-columns: min-content 1fr;
     height: calc(100vh - v.$header-dim-vertical);
+  }
+
+  &__main {
+    background-color: var(--thm-background-main);
+    transition: a.$theme-transition-background;
   }
 }

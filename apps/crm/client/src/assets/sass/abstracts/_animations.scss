@@ -31,10 +31,13 @@
 ///   }
 /// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
 
-$theme-transition-background: background 1s;
-$theme-transition-color: color 1s;
-$theme-transition-fill: fill 1s;
-$theme-transition-boxshadow: box-shadow 1s;
+$theme-transition-duration: 1s;
+$theme-transition-background: background $theme-transition-duration;
+$theme-transition-color: color $theme-transition-duration;
+$theme-transition-fill: fill $theme-transition-duration;
+$theme-transition-boxshadow: box-shadow $theme-transition-duration;
+$theme-transition-border-color: border-color $theme-transition-duration;
+$theme-transition-filter: filter $theme-transition-duration;
 
 /* -------------------------------- */
 /*   Element Transitions            */

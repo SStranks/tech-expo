@@ -50,7 +50,9 @@ function Search(): JSX.Element {
           onChange={(e) => setSearchInput(e.target.value)}
           ref={searchInputRef}
         />
-        <div className={styles.search__focusIcon}>/</div>
+        <div className={styles.search__focusIcon}>
+          <kbd>/</kbd>
+        </div>
       </form>
     </search>
   );

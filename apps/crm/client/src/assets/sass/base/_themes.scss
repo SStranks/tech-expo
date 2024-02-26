@@ -29,15 +29,20 @@
 /// Light Theme Map
 /// @type Map
 $light-theme: (
-  background-sidebar: rgb(221 221 221),
+  background-header: c.$col-ui-background-light,
+  background-main: c.$col-main-background-light,
+  background-sidebar: c.$col-ui-background-light,
   background-sidebar-buttons: c.$col-2a-button,
   background-sidebar-buttons-hover: c.$col-3a-button-hover,
+  border-ui: c.$col-ui-divider-light,
+  button-menutoggle: c.$col-ui-menutoggle-light,
+  svg-fill: invert(0),
   // elements: #{$White},
   // elements: #{$White},
   // text-p: #{$Dark_Grey},
   // text-h: #{$Very_Dark_Blue},
   // placeholder: hsl(216deg 5% 57%),
-  // input-text: #{$Dark_Grey},,,,,
+  // input-text: #{$Dark_Grey},,,,,,
 );
 
 /* -------------------------------- */
@@ -47,9 +52,14 @@ $light-theme: (
 /// Dark Theme Map
 /// @type Map
 $dark-theme: (
-  background-sidebar: rgb(51 51 51),
+  background-header: c.$col-ui-background-dark,
+  background-main: c.$col-main-background-dark,
+  background-sidebar: c.$col-ui-background-dark,
   background-sidebar-buttons: rgb(44 44 44),
   background-sidebar-buttons-hover: rgb(88 88 88),
+  border-ui: c.$col-ui-divider-dark,
+  button-menutoggle: c.$col-ui-menutoggle-dark,
+  svg-fill: invert(1),
   // elements: #{$Very_Dark_Blue},
   // text-p: #{$Dark_Grey},
   // text-h: #{$White},

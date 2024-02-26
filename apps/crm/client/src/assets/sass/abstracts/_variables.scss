@@ -36,6 +36,11 @@ $padding-desktop-horizontal: f.px2em(165);
 /// @type Number (pixel)
 $border-radius-1: 8px;
 
+/// UI Border dimension and style
+/// @type Number (pixel)
+/// @type Type (style)
+$border-ui: 1px solid;
+
 /* -------------------------------- */
 /*   Shadows                        */
 /* -------------------------------- */

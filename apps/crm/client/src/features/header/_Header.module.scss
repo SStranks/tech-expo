@@ -1,13 +1,19 @@
+@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/mixins' as mx;
 @use '#Sass/abstracts/variables' as v;
 
 .header {
   // display: grid;
   // grid-template-columns: calc(v.$aside-dim-width-maximized) 1fr;
+  @include mx.ui-border(border-bottom);
   display: flex;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  background: linear-gradient(-0.01turn, #14022c, #030450);
+  padding-inline: 20px;
+  background: var(--thm-background-header);
+  transition: a.$theme-transition-background, a.$theme-transition-border-color;
 }
 
 .companyDetails {
@@ -15,5 +21,4 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: -40px;
 }
