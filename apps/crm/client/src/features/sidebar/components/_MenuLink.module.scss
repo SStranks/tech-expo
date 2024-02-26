@@ -62,7 +62,9 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
 
   &--minimize {
     column-gap: 0;
-    transition: column-gap 0ms 500ms;
+    transition:
+      a.$theme-transition-background,
+      column-gap 0ms 500ms;
 
     & .menuLink__img {
       animation: translate-icon-minimize 500ms cubic-bezier(0.54, 0.46, 0.18, 3) forwards

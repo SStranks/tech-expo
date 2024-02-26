@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import InputPasswordSkeleton from '#Components/react-hook-form/input-password/InputPasswordSkeleton';
 import type { TInputPasswordStrength } from '#Components/react-hook-form/input-password/InputPasswordStrength';
 import styles from './_UpdatePasswordPage.module.scss';
+import { Input } from '#Components/react-hook-form';
 
 // Contains 'zxcvbn' package; heavy weight
 const InputPasswordStrength = lazy(
@@ -21,9 +22,9 @@ function UpdatePasswordPage(): JSX.Element {
     trigger,
     control,
     getValues,
-    formState: { errors, dirtyFields },
+    formState: { errors, isValid, dirtyFields },
     handleSubmit,
-  } = useForm<IInputs>();
+  } = useForm<IInputs>({ mode: 'onChange', defaultValues: { newPassword: '', confirmPassword: '' } });
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit(async (data) => {
@@ -37,11 +38,10 @@ function UpdatePasswordPage(): JSX.Element {
         name="password update form"
         onSubmit={onSubmit}
         aria-labelledby="heading"
-        className={styles.resetPasswordForm}
+        className={styles.updatePasswordForm}
         noValidate>
         <h1 id="heading">Set New Password</h1>
-        {errors.newPassword && <span role="alert">{errors.newPassword.message}</span>}
-        <Suspense fallback={<InputPasswordSkeleton />}>
+        <Suspense fallback={<InputPasswordSkeleton label="Password" />}>
           <InputPasswordStrength
             register={register}
             control={control}
@@ -53,25 +53,28 @@ function UpdatePasswordPage(): JSX.Element {
             label="Password"
           />
         </Suspense>
-        {errors.confirmPassword && <span role="alert">{errors.confirmPassword.message}</span>}
-        <input
+        <Input
           type="password"
-          autoComplete="new-password"
-          aria-label="confirm new password"
-          aria-invalid={errors.confirmPassword ? true : false}
-          {...register('confirmPassword', {
-            required: {
-              value: true,
-              message: 'Please enter your new password again',
-            },
-            validate: {
-              matchNewPassword: (v: string) => {
-                return v === getValues('newPassword') || 'Passwords must be identical';
+          register={{
+            ...register('confirmPassword', {
+              required: {
+                value: true,
+                message: 'Please enter your new password again',
               },
-            },
-          })}
+              validate: {
+                matchNewPassword: (v: string) => {
+                  return v === getValues('newPassword') || 'Passwords must be identical';
+                },
+              },
+            }),
+          }}
+          error={errors.confirmPassword}
+          isDirty={dirtyFields.confirmPassword}
+          label="Confirm Password"
         />
-        <button type="submit">Update Password</button>
+        <button type="submit" className={styles.updatePasswordForm__submitBtn} disabled={!isValid}>
+          Update Password
+        </button>
       </form>
     </div>
   );

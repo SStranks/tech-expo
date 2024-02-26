@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './_ForgotPasswordPage.module.scss';
+import { Input, RulesEmail } from '#Components/react-hook-form';
 
 interface IInputs {
   email: string;
@@ -9,9 +10,9 @@ interface IInputs {
 function ForgotPasswordPage(): JSX.Element {
   const {
     register,
-    formState: { errors },
     handleSubmit,
-  } = useForm<IInputs>();
+    formState: { errors, isValid, dirtyFields },
+  } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '' } });
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit(async (data) => {
@@ -28,26 +29,19 @@ function ForgotPasswordPage(): JSX.Element {
         className={styles.resetPasswordForm}
         noValidate>
         <h1 id="heading">Password Reset</h1>
-        {errors.email && <span role="alert">{errors.email.message}</span>}
-        <input
+        <Input
           type="email"
-          aria-label="email"
-          aria-invalid={errors.email ? true : false}
-          {...register('email', {
-            required: {
-              value: true,
-              message: 'Please enter a valid email',
-            },
-            pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: 'Entered value does not match email format',
-            },
-          })}
+          register={{ ...register('email', RulesEmail) }}
+          error={errors.email}
+          isDirty={dirtyFields.email}
+          label="Email address"
         />
-        <button type="submit">Email Reset Instructions</button>
+        <button type="submit" className={styles.resetPasswordForm__submitBtn} disabled={!isValid}>
+          Email Reset Instructions
+        </button>
         <p>
           Already have an account?
-          <Link to={'/login'}>
+          <Link to={'/login'} className={styles.resetPasswordForm__link}>
             <span>Login</span>
           </Link>
         </p>

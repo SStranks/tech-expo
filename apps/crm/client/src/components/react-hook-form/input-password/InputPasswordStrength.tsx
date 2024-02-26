@@ -1,5 +1,6 @@
 import type { ZxcvbnResult } from '@zxcvbn-ts/core';
 import { useEffect, useId, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Control, FieldError, FieldValues, Path, UseFormRegister, UseFormTrigger, useWatch } from 'react-hook-form';
 import { usePasswordStrength } from '#Lib/zxcvbn';
 import { IconInfoCircle, IconPassword, IconEye } from '#Svg/icons';
@@ -31,9 +32,11 @@ interface IProps<T extends FieldValues> {
   label: string;
 }
 
+// TODO:  Style and reformat password information text
 function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Element {
   const { register, control, trigger, inputName, isDirty, error, reveal, label } = props;
   const [passwordReveal, setPasswordReveal] = useState<boolean>(reveal);
+  const [informationPanel, setInformationPanel] = useState<boolean>(false);
   const passwordValue = useWatch({ control, name: inputName });
   const result = usePasswordStrength(passwordValue);
   const id = useId();
@@ -45,6 +48,10 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Ele
 
   const revealPasswordClickHandler = () => {
     setPasswordReveal((p) => !p);
+  };
+
+  const revealInfoPanelClickHandler = () => {
+    setInformationPanel((p) => !p);
   };
 
   const inputValidated = isDirty && !error;
@@ -66,16 +73,34 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Ele
           {label}
         </label>
         <div className={styles.wrapper__icons}>
-          <button type="button" onClick={revealPasswordClickHandler} className={styles.input__icons__btn}>
+          <button type="button" onClick={revealPasswordClickHandler} className={styles.wrapper__icons__btn}>
             <img src={passwordReveal ? IconPassword : IconEye} alt="Reveal password toggle" />
           </button>
-          <button className={styles.input__icons__btn}>
+          <button className={styles.wrapper__icons__btn} onClick={revealInfoPanelClickHandler}>
             <img src={IconInfoCircle} alt="Password criteria information" />
           </button>
         </div>
       </div>
       <div className={styles.result}>
         <span className={`${styles.result__meter} ${styles[`result__meter--${result?.score}`]}`} />
+      </div>
+      <div className={`${styles.infoPanel} ${informationPanel ? styles.infoPanel__active : ''}`}>
+        <div className={styles.infoPanel__inner}>
+          <div className={styles.infoPanel__content}>
+            <span className={styles.infoPanel__content__title}>Password Strength Criteria</span>
+            <p className={styles.infoPanel__content__body}>
+              No strict requirement for required character types, only that the password have sufficient entropy -
+              varied character types do increase the entropy faster however.
+            </p>
+            <p className={styles.infoPanel__content__body}>
+              Password entropy is calculated via the{' '}
+              <Link to={'https://zxcvbn-ts.github.io/zxcvbn/guide/'} target="_blank">
+                <span className={styles.infoPanel__content__link}>zxcvbn</span>
+              </Link>{' '}
+              library. This ensures provided passwords are more secure than following typical password guidelines.
+            </p>
+          </div>
+        </div>
       </div>
       <output htmlFor={`passwordInput-${inputName}-${id}`} aria-live="polite" className="invisibleAccessible">
         {screenReaderText(result)}

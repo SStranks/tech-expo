@@ -2,25 +2,13 @@ import { lazy, Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import type { TInputPasswordStrength } from '#Components/react-hook-form/input-password/InputPasswordStrength';
-import InputPasswordSkeleton from '#Components/react-hook-form/input-password/InputPasswordSkeleton';
+import { RulesEmail, Input, InputPasswordSkeleton } from '#Components/react-hook-form';
 import styles from './_RegisterPage.module.scss';
-import Input from '#Components/react-hook-form/input/Input';
 
 // Contains 'zxcvbn' package; heavy weight
 const InputPasswordStrength = lazy(
   () => import('#Components/react-hook-form/input-password/InputPasswordStrength')
 ) as TInputPasswordStrength;
-
-const EMAILRULES = {
-  required: {
-    value: true,
-    message: 'Please enter a valid email',
-  },
-  pattern: {
-    value: /\S+@\S+\.\S+/,
-    message: 'Entered value does not match email format',
-  },
-};
 
 export interface IInputs {
   email: string;
@@ -51,16 +39,14 @@ function RegisterPage(): JSX.Element {
         className={styles.registerForm}
         noValidate>
         <h1 id="heading">Register Account</h1>
-        {/* {errors.email && <span role="alert">{errors.email.message}</span>} */}
         <Input
           type="email"
-          register={{ ...register('email', EMAILRULES) }}
+          register={{ ...register('email', RulesEmail) }}
           error={errors.email}
           isDirty={dirtyFields.email}
           label="Email address"
         />
-        {errors.password && <span role="alert">{errors.password.message}</span>}
-        <Suspense fallback={<InputPasswordSkeleton />}>
+        <Suspense fallback={<InputPasswordSkeleton label="Password" />}>
           <InputPasswordStrength
             register={register}
             control={control}
@@ -78,7 +64,7 @@ function RegisterPage(): JSX.Element {
         <p>
           Already have an account?
           <Link to={'/login'}>
-            <span>Login</span>
+            <span className={styles.registerForm__loginLink}>Login</span>
           </Link>
         </p>
       </form>

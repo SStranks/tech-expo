@@ -1,5 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { Input, RulesEmail } from '#Components/react-hook-form';
+import { PASSWORD_RULES } from '#Components/react-hook-form/validationRules';
 import styles from './_LoginPage.module.scss';
 
 interface IInputs {
@@ -11,9 +13,9 @@ interface IInputs {
 function LoginPage(): JSX.Element {
   const {
     register,
-    formState: { errors },
     handleSubmit,
-  } = useForm<IInputs>();
+    formState: { errors, isValid, dirtyFields },
+  } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '', password: '' } });
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit(async (data) => {
@@ -28,37 +30,19 @@ function LoginPage(): JSX.Element {
     <div className={styles.formContainer}>
       <form name="sign-in form" onSubmit={onSubmit} aria-labelledby="heading" className={styles.loginForm} noValidate>
         <h1 id="heading">Sign In</h1>
-        {errors.email && <span role="alert">{errors.email.message}</span>}
-        <input
+        <Input
           type="email"
-          aria-label="email"
-          aria-invalid={errors.email ? true : false}
-          {...register('email', {
-            required: {
-              value: true,
-              message: 'Please enter a valid email',
-            },
-            pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: 'Entered value does not match email format',
-            },
-          })}
+          register={{ ...register('email', RulesEmail) }}
+          error={errors.email}
+          isDirty={dirtyFields.email}
+          label="Email address"
         />
-        {errors.password && <span role="alert">{errors.password.message}</span>}
-        <input
+        <Input
           type="password"
-          aria-label="password"
-          aria-invalid={errors.password ? true : false}
-          {...register('password', {
-            required: {
-              value: true,
-              message: 'Please enter a valid password',
-            },
-            minLength: {
-              value: 5,
-              message: 'Minimum length; 5 characters',
-            },
-          })}
+          register={{ ...register('password', PASSWORD_RULES) }}
+          error={errors.password}
+          isDirty={dirtyFields.password}
+          label="Password"
         />
         <div className={styles.options}>
           <label>
@@ -66,14 +50,16 @@ function LoginPage(): JSX.Element {
             Remember Credentials?
           </label>
           <Link to={'/forgot-password'}>
-            <span>Forgot Password</span>
+            <span className={styles.loginForm__link}>Forgot Password</span>
           </Link>
         </div>
-        <button type="submit">Sign In</button>
+        <button type="submit" className={styles.loginForm__submitBtn} disabled={!isValid}>
+          Sign In
+        </button>
         <p>
           Don&#39;t have an account?
           <Link to={'/register'}>
-            <span>Sign up here</span>
+            <span className={styles.loginForm__link}>Sign up here</span>
           </Link>
         </p>
       </form>

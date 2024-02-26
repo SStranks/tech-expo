@@ -49,6 +49,8 @@
     position: relative;
     width: v.$aside-dim-width-minimized;
     padding: v.$aside-padding-minimized;
-    transition: width 300ms ease-in-out;
+    transition:
+      a.$theme-transition-background,
+      width 300ms ease-in-out;
   }
 }
