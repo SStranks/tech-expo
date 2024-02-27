@@ -1,8 +1,11 @@
+@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/mixins' as mx;
+@use '#Sass/abstracts/variables' as v;
+
 .themeToggle {
-  background: transparent;
+  @include mx.header-button;
 
   &__svg {
-    fill: rgb(13 61 219);
-    filter: drop-shadow(1px 1px 1px rgba(86 214 247 / 50%));
+    @include mx.header-button-svg;
   }
 }

@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styles from './_MenuLink.module.scss';
 
 interface IProps {
@@ -12,7 +12,12 @@ interface IProps {
 
 function MenuLink(props: IProps): JSX.Element {
   const { name, href, icon, minimize, index } = props;
+  const location = useLocation();
   const menuLinkRef = useRef<HTMLLIElement>(null);
+
+  // Active route
+  let activeRoute;
+  if (location.pathname === href) activeRoute = true;
 
   // Set animation (icon-translate) delay variable
   menuLinkRef.current?.style.setProperty('--index', `${index}`);
@@ -34,9 +39,15 @@ function MenuLink(props: IProps): JSX.Element {
   }
 
   return (
-    <li className={`${styles.menuLink} ${animatedStyles}`} ref={menuLinkRef}>
+    <li
+      className={`${styles.menuLink} ${activeRoute ? styles.menuLink__activeRoute : ''} ${animatedStyles}`}
+      ref={menuLinkRef}>
       <div className={styles.menuLink__iconContainer}>
-        <img src={icon} alt={name} className={styles.menuLink__img} />
+        <img
+          src={icon}
+          alt={name}
+          className={`${styles.menuLink__img} ${activeRoute ? styles.menuLink__activeRoute__img : ''}`}
+        />
       </div>
       <Link to={href} key={name}>
         <span className={styles.menuLink__text}>{name}</span>

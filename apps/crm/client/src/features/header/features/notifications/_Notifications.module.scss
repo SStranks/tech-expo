@@ -1,6 +1,14 @@
+@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/mixins' as mx;
+@use '#Sass/abstracts/variables' as v;
+
 .notificationIcon {
+  @include mx.header-button;
   position: relative;
-  background: #00000048;
+
+  &__svg {
+    @include mx.header-button-svg;
+  }
 }
 
 .notificationContent {
@@ -15,28 +23,27 @@
   width: 100px;
   height: 100px;
   padding: 10px;
-  background-color: white;
 }
 
 .indicator {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: 8px;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px black;
+  box-shadow: 0 0 0 1px black;
 
   &--noMessages {
     background-color: transparent;
   }
 
   &--unreadMessages {
-    background-color: red;
+    background-color: var(--thm-notification-indicator-unread);
   }
 
   &--readMessages {
-    background-color: green;
+    background-color: var(--thm-notification-indicator-read);
   }
 }
 

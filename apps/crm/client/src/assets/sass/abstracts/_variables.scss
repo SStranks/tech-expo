@@ -50,6 +50,15 @@ $border-ui: 1px solid;
 $box-shadow-1: 0 10px 10px -10px rgb(72 84 159 / 10%);
 
 /* -------------------------------- */
+/*   Web Element - SVG Icons        */
+/* -------------------------------- */
+
+/// UI SVG Icon Dimensions
+/// @type Number (pixel)
+$svg-dim-width: 20px;
+$svg-dim-height: 20px;
+
+/* -------------------------------- */
 /*   Web Element - Header           */
 /* -------------------------------- */
 
@@ -71,8 +80,8 @@ $aside-dim-width-minimized: 80px;
 
 /// Aside padding - maximized
 /// @type Number (pixel)
-$aside-padding-maximized: 12px;
+$aside-padding-maximized: 8px;
 
 /// Aside padding - minimized
 /// @type Number (pixel)
-$aside-padding-minimized: 12px;
+$aside-padding-minimized: 8px;

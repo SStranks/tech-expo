@@ -1,5 +1,13 @@
+@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/mixins' as mx;
+@use '#Sass/abstracts/variables' as v;
+
 .userIcon {
-  background: #fff;
+  @include mx.header-button;
+
+  &__svg {
+    @include mx.header-button-svg;
+  }
 }
 
 @mixin button {

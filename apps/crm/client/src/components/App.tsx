@@ -4,7 +4,7 @@ import Header from '#Features/header/Header';
 import DefaultLayout from '#Layouts/DefaultLayout';
 import { Authenticate } from '#Modules/index';
 import { ForgotPasswordPage, LoginPage, RegisterPage, UpdatePasswordPage } from '#Pages/index';
-import DashboardRoute from '#Routes/DashboardRoute';
+import { DashboardRoute, CalendarRoute } from '#Routes/index';
 
 function App(): JSX.Element {
   return (
@@ -19,6 +19,7 @@ function App(): JSX.Element {
             </Authenticate>
           }>
           <Route index element={<DashboardRoute />} />
+          <Route path="calendar" element={<CalendarRoute />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
         <Route

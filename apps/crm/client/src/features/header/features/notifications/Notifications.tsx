@@ -51,7 +51,7 @@ function Notifications(props: IProps): JSX.Element {
         onClick={iconClickHandler}
         ref={portalButtonRef}
         aria-label="notifications">
-        <img src={BellIcon} alt="user icon" />
+        <img src={BellIcon} alt="user icon" className={styles.notificationIcon__svg} />
         <div
           className={`${styles.indicator} ${styles[`indicator--${status}`]}`}
           data-testid="notifications-indicator"

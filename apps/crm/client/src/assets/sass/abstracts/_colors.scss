@@ -24,6 +24,14 @@
 /*   UI                             */
 /* -------------------------------- */
 
+$col-ui-button-hover-light: hsl(240deg 9% 94%);
+$col-ui-button-hover-dark: hsl(195deg 9% 17%);
+$col-ui-button-active-light: hsl(210deg 100% 96%);
+$col-ui-button-active-dark: hsl(213deg 58% 15%);
+$col-ui-button-text-inactive-dark: hsl(210deg 6% 93%);
+$col-ui-button-text-inactive-light: hsl(202deg 24% 9%);
+$col-ui-button-text-active-light: hsl(211deg 100% 43%);
+$col-ui-button-text-active-dark: hsl(210deg 100% 66%);
 $col-ui-background-light: hsl(0deg 0% 100%);
 $col-ui-background-dark: hsl(218deg 16% 10%);
 $col-ui-menutoggle-dark: hsl(0deg 0% 100%);
@@ -34,6 +42,16 @@ $col-ui-text-light: hsl(228deg 7% 15%);
 $col-ui-text-dark: hsl(0deg 0% 89%);
 $col-main-background-light: hsl(220deg 27% 98%);
 $col-main-background-dark: hsl(218deg 25% 6%);
+$col-ui-notification-indicator-unread: hsl(0deg 70% 49%);
+$col-ui-notification-indicator-read: hsl(120deg 100% 25%);
+$col-button-secondary-text-light: hsl(207deg 6% 63%);
+$col-button-secondary-border-light: hsl(210deg 11% 86%);
+$col-button-secondary-background-light: hsl(0deg 0% 100%);
+$col-button-secondary-hover-light: hsl(210deg 17% 95%);
+$col-button-secondary-text-dark: hsl(207deg 6% 63%);
+$col-button-secondary-border-dark: hsl(203deg 6% 24%);
+$col-button-secondary-background-dark: hsl(200deg 6% 10%);
+$col-button-secondary-hover-dark: hsl(204deg 6% 16%);
 
 /* -------------------------------- */
 /*   Sidebar                        */

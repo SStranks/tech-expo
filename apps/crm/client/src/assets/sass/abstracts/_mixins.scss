@@ -48,6 +48,28 @@
   border-color: var(--thm-border-ui);
 }
 
+@mixin header-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  transition: a.$button-hover-header;
+
+  &:hover {
+    background-color: var(--thm-sidebar-button-hover);
+  }
+}
+
+@mixin header-button-svg {
+  opacity: 0.75;
+  min-width: v.$svg-dim-width;
+  height: v.$svg-dim-height;
+  filter: var(--thm-svg-fill);
+  transition: a.$theme-transition-filter;
+}
+
 /* -------------------------------- */
 /*   Text: Header                   */
 /* -------------------------------- */

@@ -21,3 +21,4 @@ export { default as IconTimezone } from './Global.svg';
 export { default as IconInfoCircle } from './Info Circle.svg';
 export { default as IconPassword } from './Password.svg';
 export { default as IconEye } from './Eye.svg';
+export { default as IconSearch } from './Magnifer.svg';

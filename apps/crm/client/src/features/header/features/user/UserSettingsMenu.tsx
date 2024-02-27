@@ -45,7 +45,7 @@ function UserSettingsMenu(props: IProps): JSX.Element {
         className={styles.userIcon}
         ref={menuPortalButtonRef}
         aria-label="user settings menu">
-        <img src={UserIcon} alt="user icon" />
+        <img src={UserIcon} alt="user icon" className={styles.userIcon__svg} />
       </button>
       <ReactPortal wrapperId="portal-usersettings">
         <CSSTransition

@@ -78,6 +78,7 @@ $input-focus:
 ///   }
 /// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
 
+$button-hover-header: background-color 650ms;
 $button-hover-sidebar: background-color 650ms;
 $icon-hover-vertical-transition: transform 150ms;
 $icon-hover-vertical-transform: translateY(-10%);
