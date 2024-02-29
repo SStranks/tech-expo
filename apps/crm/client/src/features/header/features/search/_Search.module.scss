@@ -1,34 +1,116 @@
-.search {
+@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/mixins' as mx;
+@use '#Sass/abstracts/variables' as v;
+
+.searchModal {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--thm-background-default);
+  border: 1px solid var(--thm-border-secondary);
+  height: 500px;
+  border-radius: 6px;
+}
+
+.searchForm {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  column-gap: 8px;
-  background-color: white;
+  margin: 16px 16px 12px;
+  background-color: transparent;
+  border: 1px solid var(--thm-button-secondary-border);
+  border-radius: 6px;
+
+  &:has(.searchForm__input:focus) {
+    border: 1px solid var(--thm-border-info);
+    box-shadow: 0 0 5px 1px var(--thm-border-info);
+  }
 
   &__img {
-    width: 45px;
-    height: 45px;
-    padding: 8px;
+    width: v.$svg-dim-width;
+    height: v.$svg-dim-height;
+    margin: 12px;
+    filter: var(--thm-icon-svg-filter-default);
   }
 
-  &__focusIcon {
+  &__input {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+
+    // Remove the 'X' cancel button within the input
+    &::-webkit-search-cancel-button {
+      display: none;
+    }
+  }
+
+  &__closeBtn {
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+    border-radius: 4px;
+    margin-right: 6px;
+
+    &:hover {
+      background-color: var(--thm-background-element);
+    }
+  }
+}
+
+.searchResults {
+  height: 100%;
+  padding: 0 16px;
+  border-top: 1px solid var(--thm-button-secondary-border);
+  border-bottom: 1px solid var(--thm-button-secondary-border);
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+
+  &__title {
     display: inline-block;
-    padding: 2px 6px;
-    font-size: 0.85em;
-    font-weight: 700;
-    line-height: 1;
-    white-space: nowrap;
-    color: hsl(0deg 0% 20%);
-    background-color: hsl(0deg 0% 93%);
-    border: 1px solid hsl(0deg 0% 71%);
-    border-radius: 3px;
-    box-shadow:
-      0 1px 1px hsla(0deg 0% 0% / 20%),
-      0 2px 0 0 hsla(0deg 0% 100% / 70%) inset;
+    font-size: 12px;
+    margin-top: 10px;
+    color: var(--thm-text-secondary);
+  }
+}
+
+.searchControls {
+  display: flex;
+  column-gap: 16px;
+  height: 50px;
+  padding: 0 16px;
+}
+
+.searchControl {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+
+  &:nth-child(4) {
+    margin-left: auto;
   }
 
-  // Remove the 'X' cancel button within the input
-  & > input[type='search']::-webkit-search-cancel-button {
-    display: none;
+  &__searchSpan {
+    font-size: 12px;
+    color: var(--thm-text-tertiary);
+  }
+
+  &__searchKey {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    height: 22px;
+    padding: 7px;
+    margin-left: auto;
+    color: var(--thm-text-secondary);
+    background-color: var(--thm-background-subtle);
+    border: 1px solid var(--thm-border-default);
+    border-radius: 6px;
+    transition: a.$theme-transition-background, a.$theme-transition-border-color;
+  }
+
+  &__logoSvg {
+    width: 77px;
+    height: 100%;
+    filter: grayscale(1) opacity(0.5);
   }
 }

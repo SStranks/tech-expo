@@ -3,9 +3,6 @@
 @use '#Sass/abstracts/variables' as v;
 
 .header {
-  // display: grid;
-  // grid-template-columns: calc(v.$aside-dim-width-maximized) 1fr;
-  @include mx.ui-border(border-bottom);
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -13,7 +10,8 @@
   width: 100%;
   height: 100%;
   padding-inline: 20px;
-  background: var(--thm-background-header);
+  background: var(--thm-background-default);
+  border-bottom: 1px solid var(--thm-border-secondary);
   transition: a.$theme-transition-background, a.$theme-transition-border-color;
 }
 

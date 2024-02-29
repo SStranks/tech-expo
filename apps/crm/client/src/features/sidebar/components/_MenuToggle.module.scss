@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   padding: 8px;
-  background-color: var(--thm-background-sidebar);
+  background-color: var(--thm-background-default);
   transition: a.$theme-transition-background, a.$icon-hover-vertical-transition;
 
   &:hover {
@@ -20,9 +20,9 @@
   }
 
   &__svg {
-    fill: var(--thm-button-menutoggle);
+    filter: var(--thm-icon-svg-filter-default);
     transition:
-      a.$theme-transition-fill,
+      a.$theme-transition-filter,
       transform 500ms ease-in 200ms;
     transform-origin: center;
 

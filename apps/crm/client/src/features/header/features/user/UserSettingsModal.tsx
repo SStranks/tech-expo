@@ -4,10 +4,11 @@ import { ReactPortal } from '#Components/index';
 import UserRole from '#Components/ui/UserRole';
 import usePortalClose from '#Hooks/usePortalClose';
 import CompanyLogo from '#Img/CompanyLogo.png';
-import styles from './_UserSettingsModal.module.scss';
-import SettingsItem from './SettingsItem';
 import { UserData } from '#Data/MockData';
 import { IconEmail, IconPhone, IconSmartPhone, IconTimezone, IconUserTitle } from '#Svg/icons';
+import SettingsItem from './SettingsItem';
+import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
+import styles from './_UserSettingsModal.module.scss';
 
 interface IProps {
   userName: string;
@@ -29,7 +30,7 @@ function UserSettingsModal(props: IProps): JSX.Element {
     <ReactPortal wrapperId="portal-usersettings">
       <CSSTransition
         in={settingsPortalActive}
-        timeout={{ enter: 1500, exit: 1000 }}
+        timeout={{ enter: CTG_ENTER_MODAL, exit: CTG_EXIT_MODAL }}
         unmountOnExit
         classNames={{
           enter: `${styles['enter']}`,

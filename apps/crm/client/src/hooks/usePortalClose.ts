@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 type TParam1 = boolean;
 type TParam2 = React.Dispatch<React.SetStateAction<boolean>>;
 type TParam3 = React.RefObject<HTMLDivElement>;
-type TParam4 = React.RefObject<HTMLButtonElement>;
+type TParam4 = React.RefObject<HTMLButtonElement> | null;
 
 // Closes portal/modal content; when ESC key or click outside of modal content
 function usePortalClose(
@@ -15,7 +15,7 @@ function usePortalClose(
   return useEffect(() => {
     const closePortal = (e: KeyboardEvent | MouseEvent) => {
       if (portalContentRef === null || portalContentRef.current === null) return;
-      if (openPortalContentBtnRef === null || openPortalContentBtnRef.current === null) return;
+      // if (openPortalContentBtnRef === null || openPortalContentBtnRef.current === null) return;
 
       // Abort if an input element or textarea is in focus elsewhere in the document; used in conjunction with 'mousedown' to allow input to be unfocused without triggering eventhandler.
       if (document.activeElement instanceof HTMLInputElement || document.activeElement instanceof HTMLTextAreaElement)
@@ -27,13 +27,25 @@ function usePortalClose(
       }
 
       // Close portal on click outside of portal content - ignore button that openned portal.
-      if (
-        portalActive &&
-        e instanceof MouseEvent &&
-        !openPortalContentBtnRef.current.contains(e.target as HTMLButtonElement) &&
-        !portalContentRef.current.contains(e.target as HTMLElement)
-      )
-        setPortalActive(false);
+      if (portalActive && e instanceof MouseEvent) {
+        if (openPortalContentBtnRef && openPortalContentBtnRef.current) {
+          if (
+            !openPortalContentBtnRef.current.contains(e.target as HTMLButtonElement) &&
+            !portalContentRef.current.contains(e.target as HTMLElement)
+          )
+            setPortalActive(false);
+        } else {
+          if (!portalContentRef.current.contains(e.target as HTMLElement)) setPortalActive(false);
+        }
+      }
+
+      // if (
+      //   portalActive &&
+      //   e instanceof MouseEvent &&
+      //   !openPortalContentBtnRef.current.contains(e.target as HTMLButtonElement) &&
+      //   !portalContentRef.current.contains(e.target as HTMLElement)
+      // )
+      //   setPortalActive(false);
     };
 
     document.addEventListener('keydown', closePortal);
@@ -46,15 +58,3 @@ function usePortalClose(
 }
 
 export default usePortalClose;
-
-// Close notifications window on Escape keydown or click outside modal content
-//  useEffect(() => {
-//   const closePortal = (e: KeyboardEvent | MouseEvent) => {
-//     if (portalActive && e instanceof KeyboardEvent && (e.key === 'Esc' || e.key === 'Escape')) {
-//       setPortalActive(false);
-//     }
-//     if (!portalContentRef.current) return;
-//     console.log(e.target);
-//     if (portalActive && e instanceof MouseEvent && !portalContentRef.current.contains(e.target as HTMLElement))
-//       setPortalActive(false);
-//   };

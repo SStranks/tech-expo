@@ -1,0 +1,47 @@
+.notificationsList {
+  &__ul {
+    padding: 12px 8px;
+    list-style: none;
+  }
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+  width: 100%;
+  padding: 6px 12px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--thm-background-overlay);
+  }
+
+  &__img {
+    width: 48px;
+    height: 48px;
+    background-color: lightblue;
+    border-radius: 4px;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2px;
+  }
+
+  &__identity {
+    font-size: 14px;
+    color: var(--thm-text-default);
+  }
+
+  &__description {
+    font-size: 13px;
+    color: var(--thm-text-quaternary);
+  }
+
+  &__timeframe {
+    font-size: 12px;
+    color: var(--thm-text-secondary);
+  }
+}

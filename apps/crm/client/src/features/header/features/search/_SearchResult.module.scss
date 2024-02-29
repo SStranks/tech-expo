@@ -1,0 +1,48 @@
+@use '#Sass/abstracts/variables' as v;
+
+.searchResult {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  padding: 4px 12px;
+  border-radius: 4px;
+
+  &:hover,
+  &[aria-selected='true'] {
+    background-color: var(--thm-modal-element-hover);
+  }
+
+  & > img {
+    width: v.$svg-dim-width;
+    height: v.$svg-dim-height;
+    filter: var(--thm-icon-svg-filter-default);
+  }
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &__title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--thm-text-default);
+  }
+
+  &__category {
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--thm-text-quaternary);
+  }
+
+  &__description {
+    max-width: 90%;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--thm-text-secondary);
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+  }
+}

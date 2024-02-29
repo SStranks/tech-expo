@@ -1,3 +1,5 @@
+@use '#Sass/abstracts/animations' as a;
+
 .userSettings {
   position: absolute;
   top: 15%;
@@ -31,29 +33,4 @@
 /*   CSS-Transition-Group           */
 /* -------------------------------- */
 
-.appear,
-.appeaDone {
-  opacity: 0;
-}
-
-.enter {
-  opacity: 0;
-}
-
-.enterActive {
-  opacity: 1;
-  transition: opacity 550ms;
-}
-
-.enterDone {
-  opacity: 1;
-}
-
-.exit {
-  opacity: 1;
-}
-
-.exitActive {
-  opacity: 0;
-  transition: opacity 800ms;
-}
+@include a.ctg-modal-default;

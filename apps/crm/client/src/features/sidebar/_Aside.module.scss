@@ -8,7 +8,8 @@
   width: v.$aside-dim-width-maximized;
   height: 100%;
   padding: v.$aside-padding-maximized;
-  background: var(--thm-background-sidebar);
+  background: var(--thm-background-default);
+  border-right: 1px solid var(--thm-border-secondary);
   transition:
     a.$theme-transition-background,
     a.$theme-transition-border-color,
@@ -23,7 +24,6 @@
   }
 
   &__menuButton {
-    @include mx.ui-border(border-right);
     position: absolute;
     bottom: 20px;
     right: -22.5px;
@@ -32,7 +32,8 @@
     justify-content: center;
     height: 45px;
     width: 45px;
-    background-color: var(--thm-background-sidebar);
+    background-color: var(--thm-background-default);
+    border-right: 1px solid var(--thm-border-secondary);
     border-radius: 8px;
     transition: a.$theme-transition-background, a.$theme-transition-border-color;
 
@@ -44,7 +45,7 @@
       width: 45px;
       height: 45px;
       border-bottom-left-radius: 16px;
-      box-shadow: -15px 0 0 0 var(--thm-background-sidebar);
+      box-shadow: -15px 0 0 0 var(--thm-background-default);
       transition: a.$theme-transition-boxshadow;
     }
   }

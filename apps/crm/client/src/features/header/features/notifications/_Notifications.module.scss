@@ -9,41 +9,78 @@
   &__svg {
     @include mx.header-button-svg;
   }
+
+  &__indicator {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px black;
+
+    &--noMessages {
+      background-color: var(--thm-neutral-primary);
+    }
+
+    &--unreadMessages {
+      transition: a.$theme-transition-background;
+      background-color: var(--thm-danger-primary);
+    }
+
+    &--readMessages {
+      transition: a.$theme-transition-background;
+      background-color: var(--thm-success-primary);
+    }
+  }
 }
 
-.notificationContent {
+.portalContent {
   position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
+  top: calc(v.$header-dim-vertical + v.$header-modals-offset-y);
   margin-inline: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
-  height: 100px;
-  padding: 10px;
+  width: 380px;
+  height: fit-content;
+  background-color: var(--thm-background-default);
+  border: 1px solid var(--thm-border-secondary);
+  border-radius: 6px;
+  transform: translateX(-100%);
 }
 
-.indicator {
-  position: absolute;
-  top: 5px;
-  right: 8px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px black;
+.notifications {
+  width: 100%;
 
-  &--noMessages {
-    background-color: transparent;
+  &__header {
+    padding: 12px 16px;
+    color: var(--thm-text-default);
+    border-bottom: 1px solid var(--thm-border-secondary);
   }
 
-  &--unreadMessages {
-    background-color: var(--thm-notification-indicator-unread);
+  &__list {
+    height: 200px;
+    background-color: var(--thm-background-subtle);
+    overflow-y: scroll;
   }
 
-  &--readMessages {
-    background-color: var(--thm-notification-indicator-read);
+  &__clear {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid var(--thm-border-secondary);
+
+    &__clearBtn {
+      width: 100%;
+      color: var(--thm-text-default);
+      padding: 12px 0;
+      transition: a.$theme-transition-background;
+
+      &:hover {
+        background-color: var(--thm-button-secondary-hover);
+      }
+    }
   }
 }
 
@@ -51,29 +88,4 @@
 /*   CSS-Transition-Group           */
 /* -------------------------------- */
 
-.appear,
-.appeaDone {
-  opacity: 0;
-}
-
-.enter {
-  opacity: 0;
-}
-
-.enterActive {
-  opacity: 1;
-  transition: opacity 550ms;
-}
-
-.enterDone {
-  opacity: 1;
-}
-
-.exit {
-  opacity: 1;
-}
-
-.exitActive {
-  opacity: 0;
-  transition: opacity 800ms;
-}
+@include a.ctg-modal-default;

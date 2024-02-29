@@ -1,4 +1,3 @@
-import { notificationsArr } from '#Data/MockData';
 import Notifications from '../features/notifications/Notifications';
 import ThemeToggle from '../features/theme/ThemeToggle';
 import UserSettings from '../features/user/UserSettingsMenu';
@@ -8,7 +7,7 @@ function SettingsBar(): JSX.Element {
   return (
     <div className={styles.settingsBar}>
       <ThemeToggle />
-      <Notifications notifications={notificationsArr} />
+      <Notifications />
       <UserSettings userName="Smith" />
     </div>
   );

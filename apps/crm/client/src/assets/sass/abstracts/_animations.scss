@@ -21,6 +21,13 @@
 @use 'variables' as *;
 
 /* -------------------------------- */
+/*   CSS Transition Group           */
+/* -------------------------------- */
+
+$ctg-enter-modal: 1500ms;
+$ctg-exit-modal: 200ms;
+
+/* -------------------------------- */
 /*   Theme Transitions              */
 /* -------------------------------- */
 
@@ -82,6 +89,39 @@ $button-hover-header: background-color 650ms;
 $button-hover-sidebar: background-color 650ms;
 $icon-hover-vertical-transition: transform 150ms;
 $icon-hover-vertical-transform: translateY(-10%);
+
+/* -------------------------------- */
+/*   CSS-Transition-Group           */
+/* -------------------------------- */
+
+@mixin ctg-modal-default {
+  .appear,
+  .appeaDone {
+    opacity: 0;
+  }
+
+  .enter {
+    opacity: 0;
+  }
+
+  .enterActive {
+    opacity: 1;
+    transition: opacity 550ms;
+  }
+
+  .enterDone {
+    opacity: 1;
+  }
+
+  .exit {
+    opacity: 1;
+  }
+
+  .exitActive {
+    opacity: 0;
+    transition: opacity 250ms ease-out;
+  }
+}
 
 /* -------------------------------- */
 /*   React-Transition-Group         */

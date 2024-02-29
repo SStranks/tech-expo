@@ -58,7 +58,7 @@
   transition: a.$button-hover-header;
 
   &:hover {
-    background-color: var(--thm-sidebar-button-hover);
+    background-color: var(--thm-background-subtle);
   }
 }
 
@@ -66,7 +66,7 @@
   opacity: 0.75;
   min-width: v.$svg-dim-width;
   height: v.$svg-dim-height;
-  filter: var(--thm-svg-fill);
+  filter: var(--thm-icon-svg-filter-default);
   transition: a.$theme-transition-filter;
 }
 

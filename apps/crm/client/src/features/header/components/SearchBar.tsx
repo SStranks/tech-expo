@@ -1,21 +1,70 @@
-// import Search from '../features/search/Search';
+import { useEffect, useRef, useState } from 'react';
+import { CSSTransition } from 'react-transition-group';
+import { ReactPortal } from '#Components/index';
 import { IconSearch } from '#Svg/icons';
+import Search from '../features/search/Search';
 import styles from './_SearchBar.module.scss';
+import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
 
 function SearchBar(): JSX.Element {
-  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const [portalActive, setPortalActive] = useState<boolean>(false);
+  const portalContentRef = useRef<HTMLDivElement>(null);
+  const portalButtonRef = useRef<HTMLButtonElement>(null);
+
   const buttonClickHandler = () => {
-    console.log('click');
+    setPortalActive(true);
   };
 
+  // Detect '/' keypress and open portal content, if there are no inputs focused in the document
+  useEffect(() => {
+    const forwardSlashKey = (e: KeyboardEvent) => {
+      if (
+        e.key === '/' &&
+        !(document.activeElement instanceof HTMLInputElement) &&
+        !(document.activeElement instanceof HTMLTextAreaElement)
+      ) {
+        e.preventDefault();
+        buttonClickHandler();
+      }
+    };
+
+    document.addEventListener('keypress', forwardSlashKey);
+    return () => document.removeEventListener('keypress', forwardSlashKey);
+  });
+
   return (
-    <button type="button" onClick={buttonClickHandler} className={styles.searchBar}>
-      <img src={IconSearch} alt="" className={styles.searchBar__svg} />
-      Search
-      <div className={styles.searchBar__shortcutKey}>
-        <kbd>/</kbd>
-      </div>
-    </button>
+    <>
+      <button type="button" onClick={buttonClickHandler} className={styles.searchBar} ref={portalButtonRef}>
+        <img src={IconSearch} alt="" className={styles.searchBar__svg} />
+        Search
+        <div className={styles.searchBar__shortcutKey}>
+          <kbd>/</kbd>
+        </div>
+      </button>
+      <ReactPortal wrapperId="portal-search">
+        <CSSTransition
+          in={portalActive}
+          timeout={{ enter: CTG_ENTER_MODAL, exit: CTG_EXIT_MODAL }}
+          unmountOnExit
+          classNames={{
+            enter: `${styles['enter']}`,
+            enterActive: `${styles['enterActive']}`,
+            enterDone: `${styles['enterDone']}`,
+            exit: `${styles['exit']}`,
+            exitActive: `${styles['exitActive']}`,
+          }}
+          nodeRef={portalContentRef}>
+          <div className={styles.portalContent} data-testid="portal-search" ref={portalContentRef}>
+            <Search
+              portalActive={portalActive}
+              setPortalActive={setPortalActive}
+              portalContentRef={portalContentRef}
+              openPortalContentBtnRef={portalButtonRef}
+            />
+          </div>
+        </CSSTransition>
+      </ReactPortal>
+    </>
   );
 }
 

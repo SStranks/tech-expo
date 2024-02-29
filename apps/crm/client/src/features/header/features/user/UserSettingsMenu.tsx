@@ -7,6 +7,7 @@ import UserIcon from '#Svg/icons/User Circle.svg';
 import styles from './_UserSettingsMenu.module.scss';
 import UserSettingsModal from './UserSettingsModal';
 import { useNavigate } from 'react-router-dom';
+import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
 
 interface IProps {
   userName: string;
@@ -50,7 +51,7 @@ function UserSettingsMenu(props: IProps): JSX.Element {
       <ReactPortal wrapperId="portal-usersettings">
         <CSSTransition
           in={menuPortalActive}
-          timeout={{ enter: 1500, exit: 1000 }}
+          timeout={{ enter: CTG_ENTER_MODAL, exit: CTG_EXIT_MODAL }}
           unmountOnExit
           classNames={{
             enter: `${styles['enter']}`,
@@ -60,16 +61,24 @@ function UserSettingsMenu(props: IProps): JSX.Element {
             exitActive: `${styles['exitActive']}`,
           }}
           nodeRef={menuPortalContentRef}>
-          <div className={styles.userMenu} data-testid="user-settings" ref={menuPortalContentRef}>
-            <span>UserID: {userName}</span>
-            <button type="button" onClick={settingsBtnClickHandler} className={styles.userMenu__userSettingsBtn}>
-              <img src={IconSettings} alt="" />
-              User Settings
-            </button>
-            <button type="button" onClick={logoutBtnClickHandler} className={styles.userMenu__logoutBtn}>
-              <img src={IconLogout} alt="" />
-              Logout
-            </button>
+          <div
+            style={{ left: menuPortalButtonRef.current?.getBoundingClientRect().right }}
+            className={styles.portalContent}
+            data-testid="user-settings"
+            ref={menuPortalContentRef}>
+            <div className={styles.portalContent__header}>
+              <h5>UserID: {userName}</h5>
+            </div>
+            <div className={styles.portalContent__buttons}>
+              <button type="button" onClick={settingsBtnClickHandler} className={styles.userSettingsBtn}>
+                <img src={IconSettings} alt="" className={styles.userSettingsBtn__svg} />
+                User Settings
+              </button>
+              <button type="button" onClick={logoutBtnClickHandler} className={styles.logoutBtn}>
+                <img src={IconLogout} alt="" className={styles.logoutBtn__svg} />
+                Logout
+              </button>
+            </div>
           </div>
         </CSSTransition>
       </ReactPortal>

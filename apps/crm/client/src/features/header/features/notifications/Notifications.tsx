@@ -1,20 +1,17 @@
 import { useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ReactPortal } from '#Components/index';
-import { INotification } from '#Data/MockData';
-import BellIcon from '#Svg/icons/Bell.svg';
-import styles from './_Notifications.module.scss';
+import { INotification, notificationsArr } from '#Data/MockData';
 import usePortalClose from '#Hooks/usePortalClose';
-
-interface IProps {
-  notifications: INotification[];
-}
+import BellIcon from '#Svg/icons/Bell.svg';
+import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
+import NotificationsList from './NotificationsList';
+import styles from './_Notifications.module.scss';
 
 // TODO:  1. Clear notifications. 2. Mark all as read. 3. Click on single notifcation; mark as read.
-function Notifications(props: IProps): JSX.Element {
-  const { notifications } = props;
+function Notifications(): JSX.Element {
   const [portalActive, setPortalActive] = useState<boolean>(false);
-  const [notificationsList, setNotificationsList] = useState<INotification[]>(notifications);
+  const [notificationsList, setNotificationsList] = useState<INotification[]>(notificationsArr);
   const portalButtonRef = useRef<HTMLButtonElement>(null);
   const portalContentRef = useRef<HTMLDivElement>(null);
   usePortalClose(portalActive, setPortalActive, portalContentRef, portalButtonRef);
@@ -26,17 +23,6 @@ function Notifications(props: IProps): JSX.Element {
   const clearAllNotificationsBtn = () => {
     setNotificationsList([]);
   };
-
-  const notificationsListElements = notificationsList.map((el, i) => {
-    return (
-      <li key={`${el.identity}-${i}`} className="">
-        <span>{el.logoURL}</span>
-        <span>{el.identity}</span>
-        <span>{el.description}</span>
-        <span>{el.timeframe}</span>
-      </li>
-    );
-  });
 
   let status;
   if (notificationsList.length === 0) status = 'noMessages';
@@ -53,14 +39,14 @@ function Notifications(props: IProps): JSX.Element {
         aria-label="notifications">
         <img src={BellIcon} alt="user icon" className={styles.notificationIcon__svg} />
         <div
-          className={`${styles.indicator} ${styles[`indicator--${status}`]}`}
+          className={`${styles.notificationIcon__indicator} ${styles[`notificationIcon__indicator--${status}`]}`}
           data-testid="notifications-indicator"
         />
       </button>
       <ReactPortal wrapperId="portal-notifications">
         <CSSTransition
           in={portalActive}
-          timeout={{ enter: 1500, exit: 1000 }}
+          timeout={{ enter: CTG_ENTER_MODAL, exit: CTG_EXIT_MODAL }}
           unmountOnExit
           classNames={{
             enter: `${styles['enter']}`,
@@ -70,14 +56,27 @@ function Notifications(props: IProps): JSX.Element {
             exitActive: `${styles['exitActive']}`,
           }}
           nodeRef={portalContentRef}>
-          <div className={styles.notificationContent} data-testid="notifications" ref={portalContentRef}>
-            {notifications.length > 0 ? <ul>{notificationsListElements}</ul> : 'No New Notifications'}
-            <button
-              type="button"
-              onClick={clearAllNotificationsBtn}
-              className={styles.notificationContent__clearAllBtn}>
-              Clear All
-            </button>
+          <div
+            style={{ left: portalButtonRef.current?.getBoundingClientRect().right }}
+            className={styles.portalContent}
+            data-testid="notifications"
+            ref={portalContentRef}>
+            <div className={styles.notifications}>
+              <div className={styles.notifications__header}>
+                <h4>Notifications</h4>
+              </div>
+              <div className={styles.notifications__list}>
+                <NotificationsList notifications={notificationsList} />
+              </div>
+              <div className={styles.notifications__clear}>
+                <button
+                  type="button"
+                  onClick={clearAllNotificationsBtn}
+                  className={styles.notifications__clear__clearBtn}>
+                  Clear All
+                </button>
+              </div>
+            </div>
           </div>
         </CSSTransition>
       </ReactPortal>
