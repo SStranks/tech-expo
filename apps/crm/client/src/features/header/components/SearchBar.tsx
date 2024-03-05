@@ -55,12 +55,7 @@ function SearchBar(): JSX.Element {
           }}
           nodeRef={portalContentRef}>
           <div className={styles.portalContent} data-testid="portal-search" ref={portalContentRef}>
-            <Search
-              portalActive={portalActive}
-              setPortalActive={setPortalActive}
-              portalContentRef={portalContentRef}
-              openPortalContentBtnRef={portalButtonRef}
-            />
+            <Search portalActive={portalActive} setPortalActive={setPortalActive} />
           </div>
         </CSSTransition>
       </ReactPortal>

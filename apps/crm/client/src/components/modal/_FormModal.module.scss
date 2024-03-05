@@ -1,0 +1,50 @@
+@use '#Sass/abstracts/animations' as a;
+
+.portalContent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: hsla(0deg 0% 0% / 25%);
+}
+
+.formModal {
+  width: 100%;
+  max-width: 560px;
+  background-color: var(--thm-background-default);
+  border: 1px solid var(--thm-border-secondary);
+  border-radius: 6px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    color: var(--thm-text-default);
+    border-bottom: 1px solid var(--thm-border-secondary);
+  }
+
+  &__content {
+    padding: 20px 24px;
+    background-color: var(--thm-background-subtle);
+  }
+
+  &__form {
+    background-color: inherit;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 10px;
+    padding: 20px 24px;
+    border-top: 1px solid var(--thm-border-secondary);
+  }
+}
+
+/* -------------------------------- */
+/*   CSS-Transition-Group           */
+/* -------------------------------- */
+
+@include a.ctg-modal-default;

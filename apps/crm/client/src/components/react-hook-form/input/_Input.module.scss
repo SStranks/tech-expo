@@ -10,7 +10,7 @@ $padding: 16px;
   display: flex;
   align-items: center;
   height: form.$input-height;
-  background-color: form.$input-background-color;
+  background-color: inherit;
   border: form.$input-border;
   border-radius: form.$input-border-radius;
   transition: a.$input-focus;
@@ -19,7 +19,7 @@ $padding: 16px;
     position: absolute;
     left: $padding;
     font-size: 16px;
-    background-color: white;
+    background-color: inherit;
     color: form.$input-color-inactive;
     transition: all 0.2s ease-in-out;
   }
@@ -27,6 +27,7 @@ $padding: 16px;
   &__input {
     @include form.input-base;
     padding: 0 $padding;
+    background-color: inherit;
     border-radius: inherit;
 
     &:is(:focus, :not(:placeholder-shown)) + .wrapper__label {

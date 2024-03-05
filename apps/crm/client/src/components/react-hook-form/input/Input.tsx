@@ -1,11 +1,12 @@
 import { HTMLInputTypeAttribute, useId } from 'react';
-import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
+import { FieldError, FieldErrorsImpl, Merge, UseFormRegisterReturn } from 'react-hook-form';
 import styles from './_Input.module.scss';
 
 interface IProps {
   register: UseFormRegisterReturn;
   isDirty: boolean | undefined;
-  error: FieldError | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
   type: HTMLInputTypeAttribute;
   label: string;
 }
@@ -27,7 +28,7 @@ function Input(props: IProps): JSX.Element {
         placeholder=""
         aria-invalid={error ? true : false}
       />
-      <label htmlFor={`input-${type}-${id}`} className={styles.wrapper__label}>
+      <label htmlFor={`input-${type}-${id}`} id="test" className={styles.wrapper__label}>
         {label}
       </label>
     </div>

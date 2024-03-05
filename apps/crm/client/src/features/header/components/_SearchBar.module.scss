@@ -29,7 +29,7 @@
   &__svg {
     min-width: 17px;
     height: 17px;
-    filter: var(--thm-svg-fill);
+    filter: var(--thm-icon-svg-filter-default);
     transition: a.$theme-transition-filter;
   }
 

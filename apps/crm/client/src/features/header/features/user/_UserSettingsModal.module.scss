@@ -1,31 +1,65 @@
 @use '#Sass/abstracts/animations' as a;
 
-.userSettings {
+.portalContent {
   position: absolute;
-  top: 15%;
-  left: 0;
-  right: 0;
-  margin-inline: auto;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: hsla(0deg 0% 0% / 25%);
+}
+
+.userSettingsModal {
   display: flex;
   flex-direction: column;
-  row-gap: 12px;
   align-items: center;
   justify-content: center;
   width: 500px;
   height: fit-content;
-  padding: 10px;
-  background-color: white;
+  background-color: var(--thm-background-default);
+  border: 1px solid var(--thm-border-secondary);
+  border-radius: 6px;
 }
 
 .titleBar {
   display: flex;
+  align-items: center;
   column-gap: 20px;
+  width: 100%;
+  padding: 10px 16px;
+  color: var(--thm-text-default);
+
+  &__closeBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+    border-radius: 4px;
+    margin-left: auto;
+
+    &:hover {
+      background-color: var(--thm-background-element);
+    }
+
+    &__svg {
+      filter: var(--thm-icon-svg-filter-default);
+    }
+  }
+}
+
+.userProfile {
+  width: 100%;
+  padding-inline: 16px;
+  background-color: var(--thm-background-subtle);
 }
 
 .details {
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 10px 16px;
   row-gap: 20px;
 }
 

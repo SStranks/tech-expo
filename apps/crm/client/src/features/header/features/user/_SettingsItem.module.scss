@@ -1,32 +1,92 @@
+@use '#Sass/abstracts/mixins' as mx;
+
 .item {
   display: grid;
+  row-gap: 4px;
   grid-template:
-    'img title edit' 1fr
+    'img title edit' min-content
     '. description edit' 1fr
     / min-content 1fr 32px;
   width: 100%;
 
   &__icon {
+    align-self: center;
     grid-area: img;
     min-width: 15px;
     height: 15px;
     margin-right: 10px;
+    filter: var(--thm-icon-svg-filter-default);
   }
 
   &__title {
     grid-area: title;
+    color: var(--thm-text-default);
   }
 
   &__description {
     grid-area: description;
+    font-size: 14px;
+    color: var(--thm-text-secondary);
   }
 
   &__edit {
     grid-area: edit;
+    @include mx.header-button;
+
+    &__svg {
+      @include mx.header-button-svg;
+      filter: var(--thm-icon-svg-filter-default);
+    }
+  }
+}
+
+.inputGroup {
+  // NOTE:  Conditionally rendered; replaces description element text
+  grid-area: description;
+  grid-column: 2 / span 3;
+  display: flex;
+  column-gap: 8px;
+  margin-top: 4px;
+
+  &__input {
+    font-size: 14px;
+    width: 100%;
+    padding: 4px 8px;
+    color: var(--thm-text-default);
+    background-color: var(--thm-button-secondary-background);
+    border: 1px solid var(--thm-button-secondary-border);
+    border-radius: 4px;
+    outline: none;
+
+    &:focus {
+      border: 1px solid var(--thm-border-info);
+      box-shadow: 0 0 5px 1px var(--thm-border-info);
+    }
   }
 
-  &__inputGroup {
-    // NOTE:  Conditionally rendered; replaces description element text
-    grid-area: description;
+  &__cancelBtn {
+    padding: 2px 12px;
+    font-size: 14px;
+    color: var(--thm-button-secondary-text);
+    background-color: var(--thm-button-secondary-background);
+    border: 1px solid var(--thm-button-secondary-border);
+    border-radius: 4px;
+
+    &:hover {
+      background-color: var(--thm-button-secondary-hover);
+    }
+  }
+
+  &__saveBtn {
+    padding: 2px 12px;
+    font-size: 14px;
+    color: var(--thm-button-primary-text);
+    background-color: var(--thm-button-primary-background);
+    border: 1px solid var(--thm-button-primary-border);
+    border-radius: 4px;
+
+    &:hover {
+      background-color: var(--thm-button-primary-hover);
+    }
   }
 }

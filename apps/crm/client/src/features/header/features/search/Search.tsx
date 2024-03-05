@@ -9,8 +9,6 @@ import SearchResults from './SearchResults';
 interface IProps {
   portalActive: boolean;
   setPortalActive: React.Dispatch<React.SetStateAction<boolean>>;
-  portalContentRef: React.RefObject<HTMLDivElement>;
-  openPortalContentBtnRef: React.RefObject<HTMLButtonElement>;
 }
 
 // TODO:  Add in DEBOUNCE when the API is functional.
@@ -59,7 +57,7 @@ function Search(props: IProps): JSX.Element {
           ref={searchInputRef}
         />
         <button type="button" onClick={closeModal} className={styles.searchForm__closeBtn}>
-          <img src={IconClose} alt="Close Search Modal" />
+          <img src={IconClose} alt="Close Search Modal" className={styles.searchForm__closeBtn__svg} />
         </button>
       </form>
       <div className={styles.searchResults} role="group">

@@ -5,7 +5,7 @@ import UserRole from '#Components/ui/UserRole';
 import usePortalClose from '#Hooks/usePortalClose';
 import CompanyLogo from '#Img/CompanyLogo.png';
 import { UserData } from '#Data/MockData';
-import { IconEmail, IconPhone, IconSmartPhone, IconTimezone, IconUserTitle } from '#Svg/icons';
+import { IconClose, IconEmail, IconPhone, IconSmartPhone, IconTimezone, IconUserTitle } from '#Svg/icons';
 import SettingsItem from './SettingsItem';
 import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
 import styles from './_UserSettingsModal.module.scss';
@@ -18,9 +18,10 @@ interface IProps {
 
 function UserSettingsModal(props: IProps): JSX.Element {
   const { userName, settingsPortalActive, setSettingsPortalActive } = props;
-  const settingsPortalContentRef = useRef<HTMLDivElement>(null);
-  const settingsPortalButtonRef = useRef<HTMLButtonElement>(null);
-  usePortalClose(settingsPortalActive, setSettingsPortalActive, settingsPortalContentRef, settingsPortalButtonRef);
+  const portalRef = useRef<HTMLDivElement>(null);
+  const portalContentRef = useRef<HTMLDivElement>(null);
+  const portalCloseButtonRef = useRef<HTMLButtonElement>(null);
+  usePortalClose(settingsPortalActive, setSettingsPortalActive, portalContentRef, portalCloseButtonRef);
 
   const closeModalBtnClickHandler = () => {
     setSettingsPortalActive(false);
@@ -39,29 +40,35 @@ function UserSettingsModal(props: IProps): JSX.Element {
           exit: `${styles['exit']}`,
           exitActive: `${styles['exitActive']}`,
         }}
-        nodeRef={settingsPortalContentRef}>
-        <div className={styles.userSettings} ref={settingsPortalContentRef}>
-          <div className={styles.titleBar}>
-            <span>Account Settings: {userName}</span>
-            <UserRole />
-            <button type="button" onClick={closeModalBtnClickHandler} ref={settingsPortalButtonRef}>
-              X
-            </button>
-          </div>
-          <div className={styles.userBar}>
-            <img src={CompanyLogo} alt="user profile" />
-            <span>{userName}</span>
-          </div>
-          <div className={styles.details}>
-            <div className="">
-              <img src="" alt="" />
-              <span>{userName} Profile</span>
+        nodeRef={portalRef}>
+        <div className={styles.portalContent} ref={portalRef}>
+          <div className={styles.userSettingsModal} ref={portalContentRef}>
+            <div className={styles.titleBar}>
+              <span>Account Settings: {userName}</span>
+              <UserRole />
+              <button
+                type="button"
+                onClick={closeModalBtnClickHandler}
+                ref={portalCloseButtonRef}
+                className={styles.titleBar__closeBtn}>
+                <img src={IconClose} alt="Close Search Modal" className={styles.titleBar__closeBtn__svg} />
+              </button>
             </div>
-            <SettingsItem icon={IconUserTitle} title="Organisation Role" description={UserData.role} />
-            <SettingsItem icon={IconPhone} title="Office Phone" description={UserData.phone} />
-            <SettingsItem icon={IconSmartPhone} title="Mobile Phone" description={UserData.mobile} />
-            <SettingsItem icon={IconEmail} title="Email" description={UserData.email} />
-            <SettingsItem icon={IconTimezone} title="Time Zone" description={UserData.timezone} />
+            <div className={styles.userProfile}>
+              <img src={CompanyLogo} alt="user profile" />
+              <span>{userName}</span>
+            </div>
+            <div className={styles.details}>
+              <div>
+                <img src="" alt="" />
+                <span>{userName} Profile</span>
+              </div>
+              <SettingsItem icon={IconUserTitle} title="Organisation Role" description={UserData.role} />
+              <SettingsItem icon={IconPhone} title="Office Phone" description={UserData.phone} />
+              <SettingsItem icon={IconSmartPhone} title="Mobile Phone" description={UserData.mobile} />
+              <SettingsItem icon={IconEmail} title="Email" description={UserData.email} />
+              <SettingsItem icon={IconTimezone} title="Time Zone" description={UserData.timezone} />
+            </div>
           </div>
         </div>
       </CSSTransition>
