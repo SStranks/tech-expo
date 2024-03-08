@@ -5,6 +5,8 @@ import InputPasswordSkeleton from '#Components/react-hook-form/input-password/In
 import type { TInputPasswordStrength } from '#Components/react-hook-form/input-password/InputPasswordStrength';
 import styles from './_UpdatePasswordPage.module.scss';
 import { Input } from '#Components/react-hook-form';
+import { PASSWORD_RULES } from '#Components/react-hook-form/validationRules';
+import InputUx from '#Components/react-hook-form/InputUx';
 
 // Contains 'zxcvbn' package; heavy weight
 const InputPasswordStrength = lazy(
@@ -53,25 +55,29 @@ function UpdatePasswordPage(): JSX.Element {
             label="Password"
           />
         </Suspense>
-        <Input
-          type="password"
-          register={{
-            ...register('confirmPassword', {
-              required: {
-                value: true,
-                message: 'Please enter your new password again',
-              },
-              validate: {
-                matchNewPassword: (v: string) => {
-                  return v === getValues('newPassword') || 'Passwords must be identical';
+        <InputUx
+          errorMessage={errors['confirmPassword']?.message}
+          isDirty={dirtyFields['confirmPassword']}
+          isRequired={PASSWORD_RULES?.required}>
+          <Input
+            type="password"
+            register={{
+              ...register('confirmPassword', {
+                required: {
+                  value: true,
+                  message: 'Please enter your new password again',
                 },
-              },
-            }),
-          }}
-          error={errors.confirmPassword}
-          isDirty={dirtyFields.confirmPassword}
-          label="Confirm Password"
-        />
+                validate: {
+                  matchNewPassword: (v: string) => {
+                    return v === getValues('newPassword') || 'Passwords must be identical';
+                  },
+                },
+              }),
+            }}
+            error={errors.confirmPassword}
+            label="Confirm Password"
+          />
+        </InputUx>
         <button type="submit" className={styles.updatePasswordForm__submitBtn} disabled={!isValid}>
           Update Password
         </button>

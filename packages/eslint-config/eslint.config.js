@@ -47,6 +47,7 @@ export const EslintConfig = {
     'unicorn/prevent-abbreviations': 'off',
     'unicorn/no-array-for-each': 'off',
     'unicorn/no-array-reduce': 'off',
+    'unicorn/no-null': 'off',
     'unicorn/filename-case': [
       'error',
       {

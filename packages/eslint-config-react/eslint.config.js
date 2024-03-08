@@ -44,12 +44,7 @@ export const EslintConfigReact = {
     'react/jsx-uses-react': 0,
     'react/prop-types': 0,
     'react/react-in-jsx-scope': 0,
-    'react/require-default-props': [
-      1,
-      {
-        functions: 'defaultArguments',
-      },
-    ],
+    'react/require-default-props': 0,
     '@tanstack/eslint-plugin-query/exhaustive-deps': 'error',
     '@tanstack/eslint-plugin-query/no-rest-destructuring': 'warn',
     '@tanstack/eslint-plugin-query/stable-query-client': 'error',

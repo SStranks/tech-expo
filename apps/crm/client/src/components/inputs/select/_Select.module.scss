@@ -1,0 +1,184 @@
+@use '#Sass/abstracts/animations' as a;
+@use '#Sass/components/form' as form;
+
+$padding: 16px;
+
+.wrapper {
+  @include form.input-container;
+  position: relative;
+  display: flex;
+  height: 100%;
+  min-height: form.$input-height;
+  background-color: inherit;
+  border: 1px solid var(--thm-button-secondary-border);
+  border-radius: form.$input-border-radius;
+  transition: a.$input-focus;
+
+  &:has(.select[data-required]) {
+    border-color: var(--thm-border-danger);
+    box-shadow: 0 0 0 1px var(--thm-border-danger);
+  }
+
+  &:has(.select:is([data-open], [data-focused], [data-focus-visible])) {
+    border-color: var(--thm-border-info);
+    box-shadow: 0 0 0 1px var(--thm-border-info);
+
+    &::before {
+      padding-inline: 0;
+      width: 0;
+    }
+  }
+
+  &__required {
+    &::before {
+      content: 'Required';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      max-width: fit-content;
+      width: 100px;
+      padding-inline: 4px;
+      font-size: 14px;
+      color: var(--thm-border-danger);
+      background-color: inherit;
+      transform: translate(-50%, calc(-50% - 2px));
+      transition:
+        width 0.4s,
+        padding-inline 0.4s;
+      overflow: hidden;
+    }
+  }
+}
+
+.label {
+  position: absolute;
+  top: calc(-2px + $padding);
+  left: $padding;
+  font-size: 16px;
+  background-color: inherit;
+  color: var(--thm-icon-secondary);
+  transition: all 0.2s ease-in-out;
+  z-index: 1;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  outline: none;
+
+  &__icon {
+    fill: var(--thm-icon-secondary);
+    transform-origin: center;
+    transition: transform 0.4s;
+  }
+}
+
+.select {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 $padding;
+  color: var(--thm-text-default);
+  background-color: inherit;
+  border-radius: inherit;
+
+  &:is([data-open], [data-focused], [data-focus-visible]) .label {
+    padding-inline: 4px;
+    font-size: 12px;
+    color: var(--thm-border-info);
+    transform: translate(calc($padding / -2), calc(-1 * $padding) - 7px);
+  }
+
+  &[data-open] {
+    & .button__icon {
+      transform: scaleY(-1);
+    }
+  }
+}
+
+// Displayed selected value, or placeholder value
+.selectValue {
+  color: var(--thm-text-default);
+
+  &[data-placeholder] {
+    opacity: 0;
+  }
+}
+
+.popover {
+  width: calc(var(--trigger-width) + ($padding * 2));
+  background-color: var(--thm-background-default);
+  border: 1px solid var(--thm-button-secondary-border);
+  border-radius: form.$input-border-radius;
+  transform: translate(-$padding, $padding);
+  outline: none;
+  overflow: hidden;
+
+  &[data-entering] {
+    border: 1px solid var(--thm-button-secondary-border);
+    overflow: hidden;
+    animation: slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+.listBox {
+  outline: none;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  color: var(--thm-text-default);
+  padding: 0 $padding;
+  outline: none;
+
+  &[data-focused] {
+    background-color: var(--thm-background-element);
+  }
+}
+
+.success {
+  position: relative;
+  @include form.input-valid;
+
+  &::before {
+    display: none;
+  }
+
+  &::after {
+    @include form.input-validated;
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  &:has(.select:is([data-open], [data-focused], [data-focus-visible], [data-required])) {
+    @include form.input-valid;
+  }
+
+  & .select {
+    &:is(:focus, :not(:placeholder-shown)) .label {
+      padding-inline: 4px;
+      font-size: 12px;
+      color: form.$input-color-success;
+      transform: translate(calc($padding / -2), calc(-1 * $padding) - 7px);
+    }
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translate(-$padding, calc($padding - 8px));
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-$padding, $padding);
+  }
+}

@@ -8,8 +8,9 @@ $padding: 16px;
   @include form.input-focus-within;
   position: relative;
   display: flex;
-  align-items: center;
-  height: form.$input-height;
+  align-items: flex-end;
+  height: 100%;
+  min-height: form.$input-height;
   background-color: inherit;
   border: 1px solid var(--thm-button-secondary-border);
   border-radius: form.$input-border-radius;
@@ -17,6 +18,7 @@ $padding: 16px;
 
   &__label {
     position: absolute;
+    top: calc(0px + $padding);
     left: $padding;
     font-size: 16px;
     background-color: inherit;
@@ -24,13 +26,18 @@ $padding: 16px;
     transition: all 0.2s ease-in-out;
   }
 
-  &__input {
+  &__textarea {
     @include form.input-base;
+    resize: vertical;
     height: 100%;
-    padding: 0 $padding;
+    min-height: calc(form.$input-height - $padding);
+    padding: 0 $padding $padding $padding;
+    scroll-padding-bottom: $padding; // Ensures text is inset from edge
+    margin-top: $padding;
     color: var(--thm-text-default);
     background-color: inherit;
     border-radius: inherit;
+    overflow-y: hidden;
 
     &:is(:focus, :not(:placeholder-shown)) + .wrapper__label {
       padding-inline: 4px;
@@ -54,7 +61,7 @@ $padding: 16px;
     pointer-events: none;
   }
 
-  & .wrapper__input {
+  & .wrapper__textarea {
     &:is(:focus, :not(:placeholder-shown)) + .wrapper__label {
       color: form.$input-color-success;
     }

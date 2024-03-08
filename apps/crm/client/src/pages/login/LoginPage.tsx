@@ -1,8 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { Input, RulesEmail } from '#Components/react-hook-form';
-import { PASSWORD_RULES } from '#Components/react-hook-form/validationRules';
+import { Input } from '#Components/react-hook-form';
+import { PASSWORD_RULES, EMAIL_RULES } from '#Components/react-hook-form/validationRules';
 import styles from './_LoginPage.module.scss';
+import InputUx from '#Components/react-hook-form/InputUx';
 
 interface IInputs {
   email: string;
@@ -30,20 +31,28 @@ function LoginPage(): JSX.Element {
     <div className={styles.formContainer}>
       <form name="sign-in form" onSubmit={onSubmit} aria-labelledby="heading" className={styles.loginForm} noValidate>
         <h1 id="heading">Sign In</h1>
-        <Input
-          type="email"
-          register={{ ...register('email', RulesEmail) }}
-          error={errors.email}
-          isDirty={dirtyFields.email}
-          label="Email address"
-        />
-        <Input
-          type="password"
-          register={{ ...register('password', PASSWORD_RULES) }}
-          error={errors.password}
-          isDirty={dirtyFields.password}
-          label="Password"
-        />
+        <InputUx
+          errorMessage={errors['email']?.message}
+          isDirty={dirtyFields['email']}
+          isRequired={EMAIL_RULES?.required}>
+          <Input
+            type="email"
+            register={{ ...register('email', EMAIL_RULES) }}
+            error={errors.email}
+            label="Email address"
+          />
+        </InputUx>
+        <InputUx
+          errorMessage={errors['password']?.message}
+          isDirty={dirtyFields['password']}
+          isRequired={PASSWORD_RULES?.required}>
+          <Input
+            type="password"
+            register={{ ...register('password', PASSWORD_RULES) }}
+            error={errors.password}
+            label="Password"
+          />
+        </InputUx>
         <div className={styles.options}>
           <label>
             <input type="checkbox" />

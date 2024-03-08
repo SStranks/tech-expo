@@ -1,8 +1,10 @@
+import type { TInputPasswordStrength } from '#Components/react-hook-form/input-password/InputPasswordStrength';
 import { lazy, Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import type { TInputPasswordStrength } from '#Components/react-hook-form/input-password/InputPasswordStrength';
-import { RulesEmail, Input, InputPasswordSkeleton } from '#Components/react-hook-form';
+import { Input, InputPasswordSkeleton } from '#Components/react-hook-form';
+import InputUx from '#Components/react-hook-form/InputUx';
+import { EMAIL_RULES } from '#Components/react-hook-form/validationRules';
 import styles from './_RegisterPage.module.scss';
 
 // Contains 'zxcvbn' package; heavy weight
@@ -39,13 +41,17 @@ function RegisterPage(): JSX.Element {
         className={styles.registerForm}
         noValidate>
         <h1 id="heading">Register Account</h1>
-        <Input
-          type="email"
-          register={{ ...register('email', RulesEmail) }}
-          error={errors.email}
-          isDirty={dirtyFields.email}
-          label="Email address"
-        />
+        <InputUx
+          errorMessage={errors['email']?.message}
+          isDirty={dirtyFields['email']}
+          isRequired={EMAIL_RULES?.required}>
+          <Input
+            type="email"
+            register={{ ...register('email', EMAIL_RULES) }}
+            error={errors.email}
+            label="Email address"
+          />
+        </InputUx>
         <Suspense fallback={<InputPasswordSkeleton label="Password" />}>
           <InputPasswordStrength
             register={register}
