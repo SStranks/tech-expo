@@ -1,4 +1,4 @@
-import { ChangeEvent, useId } from 'react';
+import { ChangeEvent } from 'react';
 import {
   DeepRequired,
   FieldError,
@@ -18,6 +18,7 @@ const autoHeightResize = (e: ChangeEvent<HTMLTextAreaElement>) => {
 
 interface IProps<T extends FieldValues = FieldValues> {
   register: UseFormRegister<FieldValues>;
+  id: string;
   name: string;
   rules: RegisterOptions;
   error: FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<T>>> | undefined;
@@ -25,27 +26,17 @@ interface IProps<T extends FieldValues = FieldValues> {
 }
 
 function TextArea(props: IProps): JSX.Element {
-  const { register, name, rules, error, label } = props;
-  const id = useId();
-
-  // const inputValidated = isDirty && !error;
+  const { register, id, name, rules, error } = props;
 
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown
   return (
-    // <div className={`${styles.wrapper} ${inputValidated ? styles.success : ''}`}>
-    <>
-      <textarea
-        {...register(name, { ...rules, onChange: (e) => autoHeightResize(e) })}
-        id={`textarea-${id}`}
-        className={styles.wrapper__textarea}
-        placeholder=""
-        aria-invalid={error ? true : false}
-      />
-      <label htmlFor={`textarea-${id}`} className={styles.wrapper__label}>
-        {label}
-      </label>
-    </>
-    // </div>
+    <textarea
+      {...register(name, { ...rules, onChange: (e) => autoHeightResize(e) })}
+      id={id}
+      className={styles.wrapper__textarea}
+      placeholder=""
+      aria-invalid={error ? true : false}
+    />
   );
 }
 

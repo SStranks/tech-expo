@@ -29,10 +29,10 @@ function TempButton(): JSX.Element {
   const defaultValues = {
     input: '',
     textarea: '',
-    Cunt: '',
-    // Cunt2: 'Mechanical4', // InputCombo
-    // Cunt3: undefined, // InputNumber
-    // Cunt4: null, // DatePicker
+    inputSelect: '',
+    inputCombo: '',
+    inputNumber: undefined,
+    datePicker: '',
   };
 
   return (
@@ -46,17 +46,16 @@ function TempButton(): JSX.Element {
         modalTitle={'Form Modal'}
         portalActive={portalActive}
         setPortalActive={setPortalActive}>
-        <FormModal.Input name="input" type="text" label="Piss Stop" />
+        <FormModal.Input name="input" type="text" label="Piss Stop" rules={{ required: true }} />
         <FormModal.TextArea name="textarea" label="Piss Stop" rules={{ required: true }} />
-        <FormModal.Select name="Cunt" label="Piss Stop" items={listItems} rules={{ required: true }} />
-        {/* <FormModal.Combo name="Cunt2" label="Piss Stop" items={listItems} rules={{ required: true }} /> */}
-        {/* <FormModal.Number
-          name="Cunt3"
+        <FormModal.Select name="inputSelect" label="Piss Stop" items={listItems} rules={{ required: true }} />
+        {/* <FormModal.Combo name="inputCombo" label="Piss Stop" items={listItems} rules={{ required: true }} /> */}
+        <FormModal.Number
+          name="inputNumber"
           label="Piss Stop"
           rules={{ required: 'Required', validate: (val) => !Number.isNaN(val) || 'NaN' }}
-        /> */}
-        {/* <FormModal.DatePicker name="Cunt4" label="pee pee" rules={{ required: 'Required' }} /> */}
-        {/* <InputDatePicker name="Cunt4" label="pee pee" rules={{ required: 'Required' }} /> */}
+        />
+        <FormModal.DatePicker name="datePicker" label="pee pee" rules={{ required: 'Required' }} />
       </FormModal>
     </>
   );

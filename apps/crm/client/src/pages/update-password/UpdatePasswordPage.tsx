@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useId } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import InputPasswordSkeleton from '#Components/react-hook-form/input-password/InputPasswordSkeleton';
@@ -28,6 +28,7 @@ function UpdatePasswordPage(): JSX.Element {
     handleSubmit,
   } = useForm<IInputs>({ mode: 'onChange', defaultValues: { newPassword: '', confirmPassword: '' } });
   const navigate = useNavigate();
+  const confirmPasswordId = useId();
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
@@ -56,10 +57,13 @@ function UpdatePasswordPage(): JSX.Element {
           />
         </Suspense>
         <InputUx
+          id={confirmPasswordId}
+          label="Confirm Password"
           errorMessage={errors['confirmPassword']?.message}
           isDirty={dirtyFields['confirmPassword']}
           isRequired={PASSWORD_RULES?.required}>
           <Input
+            id={confirmPasswordId}
             type="password"
             register={{
               ...register('confirmPassword', {
@@ -75,7 +79,6 @@ function UpdatePasswordPage(): JSX.Element {
               }),
             }}
             error={errors.confirmPassword}
-            label="Confirm Password"
           />
         </InputUx>
         <button type="submit" className={styles.updatePasswordForm__submitBtn} disabled={!isValid}>

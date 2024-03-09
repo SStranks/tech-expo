@@ -32,6 +32,11 @@
 
   &__form {
     background-color: inherit;
+
+    // TEMP DEV: .
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
   }
 
   &__footer {

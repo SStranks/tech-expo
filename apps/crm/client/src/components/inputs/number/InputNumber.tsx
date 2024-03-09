@@ -1,5 +1,5 @@
 import { DeepRequired, FieldErrorsImpl, FieldValues, Merge, FieldError as TFieldError } from 'react-hook-form';
-import { NumberField, Label, Group, Input, Button, FieldError } from 'react-aria-components';
+import { NumberField, Group, Input, Button, FieldError } from 'react-aria-components';
 import IconOperatorMinus from '#Components/svg/IconOperatorMinus';
 import IconOperatorPlus from '#Components/svg/IconOperatorPlus';
 import styles from './_InputNumber.module.scss';
@@ -9,18 +9,19 @@ interface MyNumberFieldProps<T extends FieldValues = FieldValues> {
   description?: string;
   error: TFieldError | Merge<TFieldError, FieldErrorsImpl<DeepRequired<T>>> | undefined;
   label?: string;
+  defaultValue: number;
+  onChange: (...event: unknown[]) => void;
 }
 
 function InputNumber({ appendClass, error, ...props }: MyNumberFieldProps) {
   return (
-    <NumberField {...props} className={`${styles.numberField} ${appendClass}`}>
-      <Label className={styles.label}>{props.label}</Label>
+    <NumberField className={`${styles.numberField} ${appendClass}`} {...props}>
       <Group className={styles.group}>
-        <Button slot="decrement" className={styles.buttonIncrement}>
+        <Button slot="decrement" className={styles.buttonDecrement}>
           <IconOperatorMinus className={styles.buttonIncrement__svg} />
         </Button>
         <Input className={styles.input} />
-        <Button slot="increment" className={styles.buttonDecrement}>
+        <Button slot="increment" className={styles.buttonIncrement}>
           <IconOperatorPlus className={styles.buttonIncrement__svg} />
         </Button>
       </Group>

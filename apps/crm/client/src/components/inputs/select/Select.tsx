@@ -1,4 +1,4 @@
-import { Button, Label, ListBox, ListBoxItem, Popover, Select, SelectValue } from 'react-aria-components';
+import { Button, ListBox, ListBoxItem, Popover, Select, SelectValue } from 'react-aria-components';
 import IconArrowDownAlt from '#Components/svg/IconArrowDownAlt';
 import styles from './_Select.module.scss';
 
@@ -19,7 +19,6 @@ function InputSelect({ ...props }: IProps): JSX.Element {
       validationBehavior="aria"
       className={styles.select}
       {...props}>
-      <Label className={styles.label}>{props.label}</Label>
       <Button className={styles.button}>
         <SelectValue className={styles.selectValue} />
         <span aria-hidden="true">

@@ -1,11 +1,52 @@
 @use '#Sass/components/form' as form;
 
 $padding: 16px;
-
-.buttonIncrement__svg,
-.buttonDecrement__svg {
+@mixin button-svg {
   width: 24px;
   height: 24px;
+}
+
+.numberField {
+  width: 100%;
+  padding-left: $padding;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.group {
+  display: grid;
+  grid-template:
+    'input increment'
+    'input decrement' / 1fr auto;
+  width: 100%;
+}
+
+.input {
+  grid-area: input;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.buttonIncrement {
+  grid-area: increment;
+  background-color: var(--thm-background-default);
+  width: fit-content;
+
+  &__svg {
+    @include button-svg;
+  }
+}
+
+.buttonDecrement {
+  grid-area: decrement;
+  background-color: var(--thm-background-default);
+  width: fit-content;
+
+  &__svg {
+    @include button-svg;
+  }
 }
 
 .success {

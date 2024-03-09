@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Input } from '#Components/react-hook-form';
@@ -16,6 +17,7 @@ function ForgotPasswordPage(): JSX.Element {
     formState: { errors, isValid, dirtyFields },
   } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '' } });
   const navigate = useNavigate();
+  const id = useId();
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
@@ -32,15 +34,12 @@ function ForgotPasswordPage(): JSX.Element {
         noValidate>
         <h1 id="heading">Password Reset</h1>
         <InputUx
+          id={id}
+          label="Email address"
           errorMessage={errors['email']?.message}
           isDirty={dirtyFields['email']}
           isRequired={EMAIL_RULES?.required}>
-          <Input
-            type="email"
-            register={{ ...register('email', EMAIL_RULES) }}
-            error={errors.email}
-            label="Email address"
-          />
+          <Input id={id} type="email" register={{ ...register('email', EMAIL_RULES) }} error={errors.email} />
         </InputUx>
         <button type="submit" className={styles.resetPasswordForm__submitBtn} disabled={!isValid}>
           Email Reset Instructions

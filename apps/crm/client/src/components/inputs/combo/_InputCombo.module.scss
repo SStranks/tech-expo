@@ -50,17 +50,6 @@ $padding: 16px;
   }
 }
 
-.label {
-  position: absolute;
-  top: calc(-2px + $padding);
-  left: $padding;
-  font-size: 16px;
-  background-color: inherit;
-  color: var(--thm-icon-secondary);
-  transition: all 0.2s ease-in-out;
-  z-index: 1;
-}
-
 .inputContainer {
   display: flex;
   align-items: center;
@@ -94,13 +83,6 @@ $padding: 16px;
   color: var(--thm-text-default);
   background-color: inherit;
   border-radius: inherit;
-
-  &:is([data-open], [data-focused], [data-focus-visible]) .label {
-    padding-inline: 4px;
-    font-size: 12px;
-    color: var(--thm-border-info);
-    transform: translate(calc($padding / -2), calc(-1 * $padding) - 7px);
-  }
 
   &[data-open] {
     & .inputContainer__button__icon {
@@ -170,15 +152,6 @@ $padding: 16px;
 
   &:has(.combo:is([data-open], [data-focused], [data-focus-visible], [data-required])) {
     @include form.input-valid;
-  }
-
-  & .combo {
-    &:is(:focus, :not(:placeholder-shown)) .label {
-      padding-inline: 4px;
-      font-size: 12px;
-      color: form.$input-color-success;
-      transform: translate(calc($padding / -2), calc(-1 * $padding) - 7px);
-    }
   }
 }
 

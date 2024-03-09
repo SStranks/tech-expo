@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, ComboBox, Input, Label, ListBox, ListBoxItem, Popover } from 'react-aria-components';
+import { Button, ComboBox, Input, ListBox, ListBoxItem, Popover } from 'react-aria-components';
 import IconArrowDownAlt from '#Components/svg/IconArrowDownAlt';
 import styles from './_InputCombo.module.scss';
 
@@ -22,7 +22,6 @@ function InputCombo({ ...props }: IProps): JSX.Element {
       validationBehavior="aria"
       className={styles.combo}
       {...props}>
-      <Label className={styles.label}>{props.label}</Label>
       <div className={styles.inputContainer}>
         <Input value={inputValue} className={styles.inputContainer__input} />
         <Button className={styles.inputContainer__button}>

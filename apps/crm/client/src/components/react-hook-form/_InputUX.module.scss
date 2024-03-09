@@ -1,6 +1,74 @@
+@use '#Sass/abstracts/animations' as a;
 @use '#Sass/components/form' as form;
 
 $padding: 16px;
+
+.inputUX {
+  @include form.input-container;
+  @include form.input-focus-within;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  min-height: form.$input-height;
+  background-color: inherit;
+  border: 1px solid var(--thm-button-secondary-border);
+  border-radius: form.$input-border-radius;
+  transition: a.$input-focus;
+
+  &__label {
+    position: absolute;
+    top: calc(-2px + $padding);
+    left: $padding;
+    font-size: 16px;
+    background-color: inherit;
+    color: var(--thm-icon-secondary);
+    transition: all 0.2s ease-in-out;
+
+    display: flex;
+    align-items: center;
+  }
+
+  &__required {
+    border-color: var(--thm-border-danger);
+
+    &::before {
+      content: 'Required';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      max-width: fit-content;
+      width: 100px;
+      padding-inline: 4px;
+      font-size: 14px;
+      color: var(--thm-border-danger);
+      background-color: inherit;
+      transform: translate(-50%, calc(-50% - 2px));
+      transition:
+        width 0.4s,
+        padding-inline 0.4s;
+      overflow: hidden;
+    }
+  }
+
+  &:has(:focus, [data-open], [data-focused], [data-focus-visible]) {
+    border-color: var(--thm-border-info);
+    box-shadow: 0 0 0 1px var(--thm-border-info);
+
+    &::before {
+      padding-inline: 0;
+      width: 0;
+    }
+
+    & .inputUX__label {
+      padding-inline: 4px;
+      color: var(--thm-border-info);
+      font-size: 12px;
+      transform: translate(calc($padding / -2), calc(-1 * $padding) - 7px);
+      z-index: 1; // Clip out success pulse effect
+    }
+  }
+}
 
 .success {
   position: relative;
@@ -19,16 +87,14 @@ $padding: 16px;
     pointer-events: none;
   }
 
-  &:has(.select:is([data-open], [data-focused], [data-focus-visible], [data-required])) {
+  &:has([data-open], [data-focused], [data-focus-visible], [data-required]) {
     @include form.input-valid;
   }
 
-  & .select {
-    &:is(:focus, :not(:placeholder-shown)) .label {
-      padding-inline: 4px;
-      font-size: 12px;
-      color: form.$input-color-success;
-      transform: translate(calc($padding / -2), calc(-1 * $padding) - 7px);
-    }
+  &:is(:focus, :not(:placeholder-shown)) .inputUX__label {
+    padding-inline: 4px;
+    font-size: 12px;
+    color: form.$input-color-success;
+    transform: translate(calc($padding / -2), calc(-1 * $padding) - 7px);
   }
 }

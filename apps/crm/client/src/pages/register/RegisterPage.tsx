@@ -1,5 +1,5 @@
 import type { TInputPasswordStrength } from '#Components/react-hook-form/input-password/InputPasswordStrength';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useId } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Input, InputPasswordSkeleton } from '#Components/react-hook-form';
@@ -26,6 +26,7 @@ function RegisterPage(): JSX.Element {
     formState: { isValid, errors, dirtyFields },
   } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '', password: '' } });
   const navigate = useNavigate();
+  const emailId = useId();
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
@@ -42,15 +43,12 @@ function RegisterPage(): JSX.Element {
         noValidate>
         <h1 id="heading">Register Account</h1>
         <InputUx
+          id={emailId}
+          label="Email address"
           errorMessage={errors['email']?.message}
           isDirty={dirtyFields['email']}
           isRequired={EMAIL_RULES?.required}>
-          <Input
-            type="email"
-            register={{ ...register('email', EMAIL_RULES) }}
-            error={errors.email}
-            label="Email address"
-          />
+          <Input id={emailId} type="email" register={{ ...register('email', EMAIL_RULES) }} error={errors.email} />
         </InputUx>
         <Suspense fallback={<InputPasswordSkeleton label="Password" />}>
           <InputPasswordStrength
