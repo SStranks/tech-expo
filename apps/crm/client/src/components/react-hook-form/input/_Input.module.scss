@@ -1,62 +1,9 @@
-@use '#Sass/abstracts/animations' as a;
 @use '#Sass/components/form' as form;
 
-$padding: 16px;
-
-.wrapper {
-  @include form.input-container;
-  @include form.input-focus-within;
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: form.$input-height;
+.input {
+  @include form.input-base;
+  padding: 0 form.$input-padding;
+  color: form.$input-text;
   background-color: inherit;
-  border: 1px solid var(--thm-button-secondary-border);
-  border-radius: form.$input-border-radius;
-  transition: a.$input-focus;
-
-  &__label {
-    position: absolute;
-    left: $padding;
-    font-size: 16px;
-    background-color: inherit;
-    color: var(--thm-icon-secondary);
-    transition: all 0.2s ease-in-out;
-  }
-
-  &__input {
-    @include form.input-base;
-    height: 100%;
-    padding: 0 $padding;
-    color: var(--thm-text-default);
-    background-color: inherit;
-    border-radius: inherit;
-
-    &:is(:focus, :not(:placeholder-shown)) + .wrapper__label {
-      padding-inline: 4px;
-      font-size: 12px;
-      color: form.$input-color-active;
-      transform: translate(calc($padding / -2), calc(-1 * $padding) - 9px);
-    }
-  }
-}
-
-.success {
-  position: relative;
-  @include form.input-valid;
-
-  &::before {
-    @include form.input-validated;
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-  }
-
-  & .wrapper__input {
-    &:is(:focus, :not(:placeholder-shown)) + .wrapper__label {
-      color: form.$input-color-success;
-    }
-  }
+  border-radius: inherit;
 }

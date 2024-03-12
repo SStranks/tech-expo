@@ -9,6 +9,7 @@ interface IProps {
   items: { name: string }[];
   label: string;
   defaultValue: string;
+  id: string;
 }
 
 function InputCombo({ ...props }: IProps): JSX.Element {

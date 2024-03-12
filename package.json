@@ -11,7 +11,7 @@
   "type": "module",
   "packageManager": "pnpm@8.10.3",
   "engines": {
-    "node": ">= 18"
+    "node": ">= 18.12"
   },
   "prettier": "@packages/prettier-config",
   "scripts": {

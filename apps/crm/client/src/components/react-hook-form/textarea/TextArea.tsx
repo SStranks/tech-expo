@@ -33,7 +33,7 @@ function TextArea(props: IProps): JSX.Element {
     <textarea
       {...register(name, { ...rules, onChange: (e) => autoHeightResize(e) })}
       id={id}
-      className={styles.wrapper__textarea}
+      className={styles.textarea}
       placeholder=""
       aria-invalid={error ? true : false}
     />

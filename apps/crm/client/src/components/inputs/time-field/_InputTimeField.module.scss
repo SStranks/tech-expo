@@ -1,3 +1,20 @@
-.container {
-  background-color: #fff;
+$padding: 16px;
+
+.timeField {
+  padding-inline: $padding;
 }
+
+// .label {}
+
+.dateInput {
+  display: flex;
+  color: var(--thm-text-default);
+}
+
+.dateSegment {
+  outline: none;
+}
+
+// .text {}
+
+// .fieldError {}

@@ -5,6 +5,9 @@ import {
   Calendar,
   CalendarCell,
   CalendarGrid,
+  CalendarGridBody,
+  CalendarGridHeader,
+  CalendarHeaderCell,
   CalendarStateContext,
   DateInput,
   DatePicker,
@@ -22,18 +25,19 @@ import { getLocalTimeZone, today } from '@internationalized/date';
 import { IconArrowDownAlt, IconArrowLeftAlt, IconArrowLeftDoubleAlt } from '#Components/svg';
 import styles from './_InputDatePicker.module.scss';
 
+const DATE_TODAY = today(getLocalTimeZone());
+
 // Focus calendar on the date today
 function ButtonToday(): JSX.Element {
   let state = useContext(DatePickerStateContext);
-  const todayDate = today(getLocalTimeZone());
 
   return (
     <Button
       slot={null} // Don't inherit default Button behavior from DatePicker.
-      className="clear-button"
+      className={styles.calendar__buttonToday}
       aria-label="Todays date"
       onPress={() => {
-        state.setValue(todayDate);
+        state.setValue(DATE_TODAY);
         state.close();
       }}>
       Today
@@ -41,19 +45,24 @@ function ButtonToday(): JSX.Element {
   );
 }
 
+interface IButtonYearProps {
+  operation: 'add' | 'subtract';
+  className?: string;
+}
+
 // Advance/Recess calendar view by one year
-function ButtonYear({ operation }: { operation: 'add' | 'subtract' }): JSX.Element {
+function ButtonYear({ operation, className = undefined }: IButtonYearProps): JSX.Element {
   let state = useContext(CalendarStateContext);
 
   return (
     <Button
       slot={null}
-      className="clear-button"
-      aria-label="Previous Year"
+      className={`${styles.calendar__buttonYear} ${className}`}
+      aria-label={`${operation === 'add' ? 'Next Year' : 'Previous Year'}`}
       onPress={() => {
         state.setFocusedDate(state.focusedDate[`${operation}`]({ years: 1 }));
       }}>
-      <IconArrowLeftDoubleAlt mirror={operation === 'add'} />
+      <IconArrowLeftDoubleAlt mirror={operation === 'add'} className={styles.icon} />
     </Button>
   );
 }
@@ -67,13 +76,17 @@ interface MyDatePickerProps<T extends DateValue> extends DatePickerProps<T> {
 function InputDatePicker<T extends DateValue>({ label, description, errorMessage, ...props }: MyDatePickerProps<T>) {
   return (
     <DatePicker {...props} className={styles.datePicker}>
-      <Label className={styles.label}>{label}</Label>
+      <Label className={styles.label}>
+        {label && <span>{label}</span>}
+        {/* // NOTE:  Hidden input linked to external Label by Id */}
+        <input id={props.id} hidden />
+      </Label>
       <Group className={styles.group}>
         <DateInput className={styles.dateInput}>
           {(segment) => <DateSegment segment={segment} className={styles.dateSegment} />}
         </DateInput>
         <Button className={styles.button}>
-          <IconArrowDownAlt />
+          <IconArrowDownAlt className={styles.button__icon} />
         </Button>
       </Group>
       {description && (
@@ -88,16 +101,26 @@ function InputDatePicker<T extends DateValue>({ label, description, errorMessage
             <header className={styles.calendar__header}>
               <ButtonYear operation="subtract" />
               <Button slot="previous" className={styles.calendar__buttonPrev}>
-                <IconArrowLeftAlt />
+                <IconArrowLeftAlt className={styles.icon} />
               </Button>
               <Heading className={styles.calendar__heading} />
               <Button slot="next" className={styles.calendar__buttonNext}>
-                <IconArrowLeftAlt mirror />
+                <IconArrowLeftAlt mirror className={styles.icon} />
               </Button>
               <ButtonYear operation="add" />
             </header>
-            <CalendarGrid className={styles.caldendarGrid}>
-              {(date) => <CalendarCell date={date} className={styles.caldendarGrid__cell} />}
+            <CalendarGrid weekdayStyle={'narrow'} className={styles.calendarGrid}>
+              <CalendarGridHeader className={styles.calendarGrid__header}>
+                {(day) => <CalendarHeaderCell className={styles.calendarGrid__header__cell}>{day}</CalendarHeaderCell>}
+              </CalendarGridHeader>
+              <CalendarGridBody className={styles.calendarGrid__body}>
+                {(date) => (
+                  <CalendarCell
+                    date={date}
+                    className={`${styles.calendarGrid__cell} ${date.compare(DATE_TODAY) === 0 ? `${styles.calendarGrid__cell__today}` : ''}`}
+                  />
+                )}
+              </CalendarGridBody>
             </CalendarGrid>
             <ButtonToday />
           </Calendar>

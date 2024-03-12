@@ -6,15 +6,15 @@ interface IProps {
   label: string;
   id: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  errorMessage: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
+  error: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
   isDirty?: boolean;
   isRequired?: string | ValidationRule<boolean> | undefined;
 }
 
 // Wrapper: UX presentation for state of input; valid, invalid, focused, etc
 function InputUx(props: PropsWithChildren<IProps>): JSX.Element {
-  const { label, id, errorMessage, isDirty, isRequired, children } = props;
-  const inputValidated = isDirty && !errorMessage;
+  const { label, id, error, isDirty, isRequired, children } = props;
+  const inputValidated = isDirty && !error;
 
   return (
     <div

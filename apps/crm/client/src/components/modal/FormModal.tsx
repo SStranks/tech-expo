@@ -7,14 +7,10 @@ import { Input as RHFInput, TextArea as RHFTextArea } from '#Components/react-ho
 import usePortalClose from '#Hooks/usePortalClose';
 import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
 import ReactPortal from './ReactPortal';
-import styles from './_FormModal.module.scss';
-import InputNumber from '#Components/inputs/number/InputNumber';
 import InputUx from '#Components/react-hook-form/InputUx';
 import InputParser from '#Components/react-hook-form/InputParser';
-import InputDatePicker from '#Components/inputs/date-picker/InputDatePicker';
-import { getLocalTimeZone, today } from '@internationalized/date';
-import InputCombo from '#Components/inputs/combo/InputCombo';
-import InputSelect from '#Components/inputs/select/Select';
+import { InputSelect, InputCombo, InputDatePicker, InputNumber, InputTimeField } from '#Components/inputs';
+import styles from './_FormModal.module.scss';
 
 interface IProps {
   modalTitle: string;
@@ -106,7 +102,7 @@ FormModal.Input = function Input({ name, type, label, rules = {} }: IInput) {
     <InputUx
       id={id}
       label={label}
-      errorMessage={errors[name as string]?.message}
+      error={errors[name as string]}
       isDirty={dirtyFields[name]}
       isRequired={rules?.required}>
       <RHFInput register={{ ...register(name, rules) }} id={id} type={type} error={errors[name as string]} />
@@ -131,7 +127,7 @@ FormModal.TextArea = function TextArea({ name, label, rules = {} }: ITextArea) {
     <InputUx
       id={id}
       label={label}
-      errorMessage={errors[name as string]?.message}
+      error={errors[name as string]}
       isDirty={dirtyFields[name]}
       isRequired={rules?.required}>
       <RHFTextArea register={register} id={id} name={name} rules={rules} error={errors[name as string]} label={label} />
@@ -156,7 +152,7 @@ FormModal.Select = function Select({ name, label, items, rules = {} }: ISelect) 
       name={name}
       rules={rules}
       render={({ field: { name, value, onChange, onBlur }, fieldState: { isDirty, invalid: isInvalid, error } }) => (
-        <InputUx id={id} label={label} errorMessage={error?.message} isDirty={isDirty} isRequired={rules?.required}>
+        <InputUx id={id} label={label} error={error} isDirty={isDirty} isRequired={rules?.required}>
           <InputParser
             ReactAriaComponent={InputSelect}
             value={value}
@@ -191,7 +187,7 @@ FormModal.Combo = function Combo({ name, label, items, rules = {} }: ICombo) {
       name={name}
       rules={rules}
       render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, isDirty, error } }) => (
-        <InputUx id={id} label={label} errorMessage={error?.message} isDirty={isDirty} isRequired={rules?.required}>
+        <InputUx id={id} label={label} error={error} isDirty={isDirty} isRequired={rules?.required}>
           <InputParser
             ReactAriaComponent={InputCombo}
             value={value}
@@ -220,7 +216,7 @@ FormModal.Number = function Number({ name, label, rules = {} }: INumber) {
       name={name}
       rules={rules}
       render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error, isDirty } }) => (
-        <InputUx id={id} label={label} errorMessage={error?.message} isDirty={isDirty} isRequired={rules?.required}>
+        <InputUx id={id} label={label} error={error} isDirty={isDirty} isRequired={rules?.required}>
           <InputParser
             ReactAriaComponent={InputNumber}
             {...{ name, id, value, onChange, 'aria-label': label, onBlur, isInvalid }}
@@ -240,7 +236,7 @@ interface IDatePicker {
 FormModal.DatePicker = function DatePicker({ name, label, rules = {} }: IDatePicker) {
   const { control } = useFormContext();
   const id = useId();
-  const placeholder = today(getLocalTimeZone());
+  // const placeholder = today(getLocalTimeZone());
 
   return (
     <Controller
@@ -248,12 +244,41 @@ FormModal.DatePicker = function DatePicker({ name, label, rules = {} }: IDatePic
       name={name}
       rules={rules}
       render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error, isDirty } }) => (
-        <InputUx id={id} label={label} errorMessage={error?.message} isDirty={isDirty} isRequired={rules?.required}>
+        <InputUx id={id} label={label} error={error} isDirty={isDirty} isRequired={rules?.required}>
           <InputParser
             ReactAriaComponent={InputDatePicker}
             value={value}
             onChange={onChange}
-            {...{ name, id, label, onBlur, isInvalid, placeholder }}
+            {...{ name, id, 'aria-label': id, onBlur, isInvalid }}
+          />
+        </InputUx>
+      )}
+    />
+  );
+};
+
+interface ITimeField {
+  name: string;
+  label: string;
+  rules?: RegisterOptions;
+}
+
+FormModal.TimeField = function TimeField({ name, label, rules = {} }: ITimeField) {
+  const { control } = useFormContext();
+  const id = useId();
+
+  return (
+    <Controller
+      control={control}
+      name={name}
+      rules={rules}
+      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error, isDirty } }) => (
+        <InputUx id={id} label={label} error={error} isDirty={isDirty} isRequired={rules?.required}>
+          <InputParser
+            ReactAriaComponent={InputTimeField}
+            value={value}
+            onChange={onChange}
+            {...{ name, id, 'aria-label': id, onBlur, isInvalid }}
           />
         </InputUx>
       )}

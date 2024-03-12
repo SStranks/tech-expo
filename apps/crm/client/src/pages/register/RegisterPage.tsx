@@ -45,7 +45,7 @@ function RegisterPage(): JSX.Element {
         <InputUx
           id={emailId}
           label="Email address"
-          errorMessage={errors['email']?.message}
+          error={errors['email']}
           isDirty={dirtyFields['email']}
           isRequired={EMAIL_RULES?.required}>
           <Input id={emailId} type="email" register={{ ...register('email', EMAIL_RULES) }} error={errors.email} />

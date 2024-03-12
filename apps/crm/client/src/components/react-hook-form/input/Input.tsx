@@ -19,7 +19,7 @@ function Input(props: IProps): JSX.Element {
       {...register}
       type={type}
       id={id}
-      className={styles.wrapper__input}
+      className={styles.input}
       placeholder=""
       aria-invalid={error ? true : false}
     />

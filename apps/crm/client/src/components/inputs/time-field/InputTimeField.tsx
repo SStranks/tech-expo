@@ -25,7 +25,11 @@ function InputTimeField<T extends TimeValue>({
 }: MyTimeFieldProps<T>): JSX.Element {
   return (
     <TimeField {...props} className={styles.timeField}>
-      <Label className={styles.label}>{label}</Label>
+      <Label className={styles.label}>
+        {label && <span>{label}</span>}
+        {/* // NOTE:  Hidden input linked to external Label by Id */}
+        <input id={props.id} hidden />
+      </Label>
       <DateInput className={styles.dateInput}>
         {(segment) => <DateSegment segment={segment} className={styles.dateSegment} />}
       </DateInput>

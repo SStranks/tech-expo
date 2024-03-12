@@ -24,6 +24,7 @@ $padding: 16px;
 .input {
   grid-area: input;
   width: 100%;
+  color: var(--thm-text-default);
   background-color: transparent;
   border: none;
   outline: none;

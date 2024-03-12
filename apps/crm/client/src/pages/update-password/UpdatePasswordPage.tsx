@@ -59,7 +59,7 @@ function UpdatePasswordPage(): JSX.Element {
         <InputUx
           id={confirmPasswordId}
           label="Confirm Password"
-          errorMessage={errors['confirmPassword']?.message}
+          error={errors['confirmPassword']}
           isDirty={dirtyFields['confirmPassword']}
           isRequired={PASSWORD_RULES?.required}>
           <Input

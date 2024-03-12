@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import { parseDate } from '@internationalized/date';
+import { parseDate, parseTime } from '@internationalized/date';
 
 const onChangeFunctions = {
   InputCombo: (e: unknown[]) => e[0] ?? '', // Clearing input returns NULL key; React-Hook-Form 'required' needs empty string to trigger validation error.
@@ -9,6 +9,7 @@ const onChangeFunctions = {
     return isNaN(e[0] as number) ? undefined : e[0];
   },
   InputSelect: (e: unknown[]) => e[0],
+  InputTimeField: (e: unknown[]) => e.toString(),
 };
 
 const valueFunctions = {
@@ -16,6 +17,7 @@ const valueFunctions = {
   InputDatePicker: (v: unknown) => (typeof v === 'string' && (v as string).length > 0 ? parseDate(v as string) : null),
   InputNumber: (v: unknown) => v ?? Number.NaN,
   InputSelect: (v: unknown) => v,
+  InputTimeField: (v: unknown) => (typeof v === 'string' && (v as string).length > 0 ? parseTime(v as string) : null),
 };
 
 interface IProps<T> {
@@ -33,13 +35,11 @@ function InputParser<T>({ ReactAriaComponent, ...props }: IProps<T>): JSX.Elemen
   // RETURN to React-Hook-Form; convert from CalendarDate to string
   const onChange = (...e: unknown[]): void => {
     const convertedValue = onChangeFunctions[ReactAriaComponent.name as keyof typeof onChangeFunctions](e);
-    // console.log(e, convertedValue);
     return props.onChange(convertedValue);
   };
 
   // SEND to React-Aria-Component; convert from string to CalendarDate
   const value = valueFunctions[ReactAriaComponent.name as keyof typeof valueFunctions](props.value);
-  // console.log(value, props.value);
 
   return <ReactAriaComponent {...(props as T)} {...{ onChange, value }} />;
 }

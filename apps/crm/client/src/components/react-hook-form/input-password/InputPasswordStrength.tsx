@@ -5,6 +5,7 @@ import { Control, FieldError, FieldValues, Path, UseFormRegister, UseFormTrigger
 import { usePasswordStrength } from '#Lib/zxcvbn';
 import { IconInfoCircle, IconPassword, IconEye } from '#Svg/icons';
 import styles from './_InputPasswordStrength.module.scss';
+import InputUx from '../InputUx';
 
 const ARIA_LIVE = [
   'Password strength 0 out of 4: Too guessable',
@@ -39,7 +40,7 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Ele
   const [informationPanel, setInformationPanel] = useState<boolean>(false);
   const passwordValue = useWatch({ control, name: inputName });
   const result = usePasswordStrength(passwordValue);
-  const id = useId();
+  const passwordId = useId();
 
   // Trigger re-validation; 'result' is a deferred value
   useEffect(() => {
@@ -54,33 +55,30 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Ele
     setInformationPanel((p) => !p);
   };
 
-  const inputValidated = isDirty && !error;
-
   // Placeholder intentionally empty; style using :placeholder-shown
   return (
     <div className={styles.container}>
-      <div className={`${styles.wrapper} ${inputValidated ? styles.success : ''}`}>
+      {/* <div className={`${styles.wrapper} ${inputValidated ? styles.success : ''}`}> */}
+      <InputUx label={label} id={passwordId} isDirty={isDirty} error={error}>
         <input
           {...register(inputName, { required: true, validate: () => result?.score === 4 })}
           type={passwordReveal ? 'text' : 'password'}
-          id={`passwordInput-${inputName}-${id}`}
-          className={styles.wrapper__input}
+          id={passwordId}
+          className={styles.inputPassword}
           placeholder=""
           aria-invalid={error ? true : false}
           autoComplete="new-password"
         />
-        <label htmlFor={`passwordInput-${inputName}-${id}`} className={styles.wrapper__label}>
-          {label}
-        </label>
-        <div className={styles.wrapper__icons}>
-          <button type="button" onClick={revealPasswordClickHandler} className={styles.wrapper__icons__btn}>
+        <div className={styles.icons}>
+          <button type="button" onClick={revealPasswordClickHandler} className={styles.icons__btn}>
             <img src={passwordReveal ? IconPassword : IconEye} alt="Reveal password toggle" />
           </button>
-          <button className={styles.wrapper__icons__btn} onClick={revealInfoPanelClickHandler}>
+          <button className={styles.icons__btn} onClick={revealInfoPanelClickHandler}>
             <img src={IconInfoCircle} alt="Password criteria information" />
           </button>
         </div>
-      </div>
+      </InputUx>
+      {/* </div> */}
       <div className={styles.result}>
         <span className={`${styles.result__meter} ${styles[`result__meter--${result?.score}`]}`} />
       </div>
@@ -102,7 +100,7 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Ele
           </div>
         </div>
       </div>
-      <output htmlFor={`passwordInput-${inputName}-${id}`} aria-live="polite" className="invisibleAccessible">
+      <output htmlFor={passwordId} aria-live="polite" className="invisibleAccessible">
         {screenReaderText(result)}
       </output>
     </div>
