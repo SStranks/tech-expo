@@ -53,7 +53,7 @@ $border-radius: 8px;
   @include btn.btn-root;
 
   &:hover {
-    background-color: hsl(0deg 0% 97%);
+    background-color: var(--thm-button-primary-hover);
   }
 }
 

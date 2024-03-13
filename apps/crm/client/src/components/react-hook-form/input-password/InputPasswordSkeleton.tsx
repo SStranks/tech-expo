@@ -1,5 +1,6 @@
 import { useId } from 'react';
-import { IconInfoCircle, IconEye } from '#Svg/icons';
+import { IconEye, IconInfoCircle } from '#Components/svg';
+import InputUx from '../InputUx';
 import skeleton from './_InputPasswordSkeleton.module.scss';
 import styles from './_InputPasswordStrength.module.scss';
 
@@ -9,31 +10,29 @@ interface IProps {
 
 function InputPasswordSkeleton(props: IProps): JSX.Element {
   const { label } = props;
-  const id = useId();
+  const passwordId = useId();
 
   return (
     <div className={`${styles.container} ${skeleton.container}`}>
-      <div className={`${styles.wrapper} ${skeleton.wrapper}`}>
-        <input
-          type="password"
-          id={`passwordInput-skeleton-${id}`}
-          className={`${styles.wrapper__input} ${skeleton.wrapper__input}`}
-          placeholder=""
-          autoComplete="new-password"
-        />
-        <label
-          htmlFor={`passwordInput-skeleton-${id}`}
-          className={`${styles.wrapper__label} ${skeleton.wrapper__label}`}>
-          {label}
-        </label>
-        <div className={`${styles.wrapper__icons} ${skeleton.wrapper__icons}`}>
-          <button type="button" className={styles.wrapper__icons__btn}>
-            <img src={IconEye} alt="Reveal password toggle" />
-          </button>
-          <button className={styles.wrapper__icons__btn}>
-            <img src={IconInfoCircle} alt="Password criteria information" />
-          </button>
-        </div>
+      <div className={skeleton.wrapper}>
+        <InputUx label={label} id={passwordId} isDirty={undefined} error={undefined}>
+          <input
+            type={'password'}
+            id={passwordId}
+            className={styles.inputPassword}
+            placeholder=""
+            aria-invalid={false}
+            autoComplete="new-password"
+          />
+          <div className={styles.icons}>
+            <button type="button" className={styles.icons__btn}>
+              <IconEye className={styles.icons__btn__svg} />
+            </button>
+            <button className={styles.icons__btn}>
+              <IconInfoCircle className={styles.icons__btn__svg} />
+            </button>
+          </div>
+        </InputUx>
       </div>
       <div className={`${styles.result} ${skeleton.result}`} />
     </div>

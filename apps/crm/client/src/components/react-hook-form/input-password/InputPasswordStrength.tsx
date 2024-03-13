@@ -3,7 +3,7 @@ import { useEffect, useId, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Control, FieldError, FieldValues, Path, UseFormRegister, UseFormTrigger, useWatch } from 'react-hook-form';
 import { usePasswordStrength } from '#Lib/zxcvbn';
-import { IconInfoCircle, IconPassword, IconEye } from '#Svg/icons';
+import { IconPassword, IconEye, IconInfoCircle } from '#Components/svg';
 import styles from './_InputPasswordStrength.module.scss';
 import InputUx from '../InputUx';
 
@@ -58,7 +58,6 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Ele
   // Placeholder intentionally empty; style using :placeholder-shown
   return (
     <div className={styles.container}>
-      {/* <div className={`${styles.wrapper} ${inputValidated ? styles.success : ''}`}> */}
       <InputUx label={label} id={passwordId} isDirty={isDirty} error={error}>
         <input
           {...register(inputName, { required: true, validate: () => result?.score === 4 })}
@@ -71,14 +70,17 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Ele
         />
         <div className={styles.icons}>
           <button type="button" onClick={revealPasswordClickHandler} className={styles.icons__btn}>
-            <img src={passwordReveal ? IconPassword : IconEye} alt="Reveal password toggle" />
+            {passwordReveal ? (
+              <IconPassword className={styles.icons__btn__svg} />
+            ) : (
+              <IconEye className={styles.icons__btn__svg} />
+            )}
           </button>
           <button className={styles.icons__btn} onClick={revealInfoPanelClickHandler}>
-            <img src={IconInfoCircle} alt="Password criteria information" />
+            <IconInfoCircle className={styles.icons__btn__svg} />
           </button>
         </div>
       </InputUx>
-      {/* </div> */}
       <div className={styles.result}>
         <span className={`${styles.result__meter} ${styles[`result__meter--${result?.score}`]}`} />
       </div>
