@@ -119,6 +119,8 @@ $light-theme: (
 /// Dark Theme Map
 /// @type Map
 $dark-theme: (
+  // Global; target user style sheets i.e. webkit-autofill; targets input, textarea, select; see globals.scss
+  color-scheme: dark,
   // Backgrounds
   background-default: c.$col-slate1-dark,
   background-screen: hsl(210deg 8% 5%),
