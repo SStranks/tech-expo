@@ -84,10 +84,8 @@ $input-border-radius: 8px;
 }
 
 @mixin input-focus-within {
-  &:focus-within {
-    border-color: $input-color-active;
-    box-shadow: 0 0 0 1px $input-color-active;
-  }
+  border-color: $input-color-active;
+  box-shadow: 0 0 0 1px $input-color-active;
 }
 
 @mixin input-valid {
