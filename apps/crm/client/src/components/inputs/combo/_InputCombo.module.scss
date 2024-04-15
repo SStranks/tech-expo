@@ -131,6 +131,11 @@ $padding: 16px;
   &[data-focused] {
     background-color: var(--thm-background-element);
   }
+
+  // TODO:  Style background color
+  &[data-selected] {
+    background-color: red;
+  }
 }
 
 .success {

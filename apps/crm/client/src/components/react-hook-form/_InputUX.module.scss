@@ -5,7 +5,6 @@ $padding: 16px;
 
 .inputUX {
   @include form.input-container;
-  @include form.input-focus-within;
   position: relative;
   display: flex;
   min-height: form.$input-height;
@@ -49,7 +48,7 @@ $padding: 16px;
     }
   }
 
-  &:has(:focus, [data-open], [data-focused], [data-focus-visible]) {
+  &:has(:focus, :focus-within, [data-open], [data-focused], [data-focus-visible]) {
     @include form.input-focus-within;
 
     &::before {

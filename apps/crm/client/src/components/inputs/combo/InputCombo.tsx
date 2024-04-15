@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Button, ComboBox, Input, ListBox, ListBoxItem, Popover } from 'react-aria-components';
 import IconArrowDownAlt from '#Components/svg/IconArrowDownAlt';
 import styles from './_InputCombo.module.scss';
@@ -12,26 +12,27 @@ interface IProps {
   id: string;
 }
 
-function InputCombo({ ...props }: IProps): JSX.Element {
-  const [inputValue, setInputValue] = useState<string>(props.defaultValue);
+function InputCombo(props: IProps): JSX.Element {
+  const { items, value, onChange, id, ...rest } = props;
 
   return (
     <ComboBox
-      selectedKey={props.value}
-      onInputChange={(val) => setInputValue(val)}
-      onSelectionChange={props.onChange}
+      defaultItems={items}
+      selectedKey={value}
+      onSelectionChange={onChange}
       validationBehavior="aria"
+      aria-labelledby={id}
       className={styles.combo}
-      {...props}>
+      {...rest}>
       <div className={styles.inputContainer}>
-        <Input value={inputValue} className={styles.inputContainer__input} />
+        <Input className={styles.inputContainer__input} />
         <Button className={styles.inputContainer__button}>
           <IconArrowDownAlt className={styles.inputContainer__button__icon} />
         </Button>
       </div>
       <Popover className={styles.popover}>
-        <ListBox items={props.items} className={styles.listBox}>
-          {(item) => (
+        <ListBox className={styles.listBox}>
+          {(item: { name: string }) => (
             <ListBoxItem id={item.name} className={styles.listItem}>
               {item.name}
             </ListBoxItem>
