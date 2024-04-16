@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { ToolTip } from '#Components/index';
-import { IconAudit, IconBillQuote, IconCalendar, IconCompanies, IconContacts, IconScrum } from '#Svg/icons';
-import { IconDashboard, IconKanban, IconPipe, IconSettings, IconAdmininstration } from '#Svg/icons';
+import { IIcon, IconAudit, IconBillQuote, IconCalendar, IconCompanies, IconContacts, IconScrum } from '#Components/svg';
+import { IconDashboard, IconKanban, IconPipe, IconSettings, IconAdministration } from '#Components/svg';
 import { MenuLink, MenuToggle } from './components';
 import styles from './_Aside.module.scss';
 
-export const MENU_CATEGORIES = [
+type TMenuCategories = [string, string, IIcon][];
+
+export const MENU_CATEGORIES: TMenuCategories = [
   ['Dashboard', '/', IconDashboard],
   ['Calendar', '/calendar', IconCalendar],
   ['Scrumboard', '/scrumboard', IconScrum],
@@ -14,7 +16,7 @@ export const MENU_CATEGORIES = [
   ['Companies', '/companies', IconCompanies],
   ['Contacts', '/contacts', IconContacts],
   ['Quotes', '/quotes', IconBillQuote],
-  ['Administration', '/adminstration', IconAdmininstration],
+  ['Administration', '/adminstration', IconAdministration],
   ['Settings', '/settings', IconSettings],
   ['Audit Log', '/auditlog', IconAudit],
 ];
@@ -22,8 +24,8 @@ export const MENU_CATEGORIES = [
 export function Aside(): JSX.Element {
   const [sidebarMaximize, setSidebarMaximize] = useState<boolean | undefined>();
 
-  const menuLinks = MENU_CATEGORIES.map(([name, href, iconSrc], i) => {
-    return <MenuLink key={name} name={name} href={href} icon={iconSrc} minimize={sidebarMaximize} index={i} />;
+  const menuLinks = MENU_CATEGORIES.map(([name, href, icon], i) => {
+    return <MenuLink key={name} name={name} href={href} Icon={icon} minimize={sidebarMaximize} index={i} />;
   });
 
   return (

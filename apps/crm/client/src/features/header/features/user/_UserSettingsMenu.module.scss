@@ -61,7 +61,7 @@
   }
 
   &__svg {
-    filter: var(--thm-icon-svg-filter-default);
+    color: var(--thm-icon-default);
   }
 }
 
@@ -75,7 +75,7 @@
   }
 
   &__svg {
-    filter: var(--thm-icon-svg-filter-danger);
+    color: var(--thm-icon-danger);
   }
 }
 

@@ -1,13 +1,13 @@
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { ReactPortal } from '#Components/index';
 import usePortalClose from '#Hooks/usePortalClose';
-import { IconLogout, IconSettings } from '#Svg/icons';
+import { IconLogout, IconSettings } from '#Components/svg';
 import UserIcon from '#Svg/icons/User Circle.svg';
-import styles from './_UserSettingsMenu.module.scss';
-import UserSettingsModal from './UserSettingsModal';
-import { useNavigate } from 'react-router-dom';
 import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
+import UserSettingsModal from './UserSettingsModal';
+import styles from './_UserSettingsMenu.module.scss';
 
 interface IProps {
   userName: string;
@@ -71,11 +71,11 @@ function UserSettingsMenu(props: IProps): JSX.Element {
             </div>
             <div className={styles.portalContent__buttons}>
               <button type="button" onClick={settingsBtnClickHandler} className={styles.userSettingsBtn}>
-                <img src={IconSettings} alt="" className={styles.userSettingsBtn__svg} />
+                <IconSettings className={styles.userSettingsBtn__svg} />
                 User Settings
               </button>
               <button type="button" onClick={logoutBtnClickHandler} className={styles.logoutBtn}>
-                <img src={IconLogout} alt="" className={styles.logoutBtn__svg} />
+                <IconLogout className={styles.logoutBtn__svg} />
                 Logout
               </button>
             </div>

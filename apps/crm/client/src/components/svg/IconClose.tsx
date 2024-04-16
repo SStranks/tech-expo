@@ -1,6 +1,4 @@
-interface IProps {
-  className?: string;
-}
+import type { IProps } from './';
 
 function IconClose({ className = undefined }: IProps): JSX.Element {
   return (
