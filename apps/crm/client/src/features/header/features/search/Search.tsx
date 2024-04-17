@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
+import { IconClose, IconSearch } from '#Components/svg';
 import usePortalClose from '#Hooks/usePortalClose';
-import { IconClose, IconSearch } from '#Svg/icons';
-import { LogoAlgolia } from '#Svg/logos';
-import styles from './_Search.module.scss';
 import usePortalFocusTrap from '#Hooks/usePortalFocusTrap';
+import { LogoAlgolia } from '#Svg/logos';
 import SearchResults from './SearchResults';
+import styles from './_Search.module.scss';
 
 interface IProps {
   portalActive: boolean;
@@ -44,7 +44,7 @@ function Search(props: IProps): JSX.Element {
         name="search crm interface"
         aria-label="search crm interface"
         className={styles.searchForm}>
-        <img src={IconSearch} alt="" className={styles.searchForm__img} />
+        <IconSearch svgClass={styles.searchForm__svg} />
         <input
           type="search"
           name="search query"
@@ -57,7 +57,7 @@ function Search(props: IProps): JSX.Element {
           ref={searchInputRef}
         />
         <button type="button" onClick={closeModal} className={styles.searchForm__closeBtn}>
-          <img src={IconClose} alt="Close Search Modal" className={styles.searchForm__closeBtn__svg} />
+          <IconClose svgClass={styles.searchForm__closeBtn__svg} />
         </button>
       </form>
       <div className={styles.searchResults} role="group">

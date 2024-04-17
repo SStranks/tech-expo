@@ -63,11 +63,13 @@
 }
 
 @mixin header-button-svg {
-  opacity: 0.75;
   min-width: v.$svg-dim-width;
   height: v.$svg-dim-height;
-  filter: var(--thm-icon-svg-filter-default);
-  transition: a.$theme-transition-filter;
+  transition: a.$theme-transition-color;
+
+  & > path {
+    color: var(--thm-icon-default);
+  }
 }
 
 /* -------------------------------- */

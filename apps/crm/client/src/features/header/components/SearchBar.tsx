@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ReactPortal } from '#Components/index';
-import { IconSearch } from '#Svg/icons';
+import { IconSearch } from '#Components/svg';
+import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
 import Search from '../features/search/Search';
 import styles from './_SearchBar.module.scss';
-import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
 
 function SearchBar(): JSX.Element {
   const [portalActive, setPortalActive] = useState<boolean>(false);
@@ -35,7 +35,7 @@ function SearchBar(): JSX.Element {
   return (
     <>
       <button type="button" onClick={buttonClickHandler} className={styles.searchBar} ref={portalButtonRef}>
-        <img src={IconSearch} alt="" className={styles.searchBar__svg} />
+        <IconSearch svgClass={styles.searchBar__svg} />
         Search
         <div className={styles.searchBar__shortcutKey}>
           <kbd>/</kbd>

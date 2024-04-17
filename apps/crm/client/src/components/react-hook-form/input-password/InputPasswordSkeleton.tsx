@@ -26,10 +26,10 @@ function InputPasswordSkeleton(props: IProps): JSX.Element {
           />
           <div className={styles.icons}>
             <button type="button" className={styles.icons__btn}>
-              <IconEye className={styles.icons__btn__svg} />
+              <IconEye svgClass={styles.icons__btn__svg} />
             </button>
             <button className={styles.icons__btn}>
-              <IconInfoCircle className={styles.icons__btn__svg} />
+              <IconInfoCircle svgClass={styles.icons__btn__svg} />
             </button>
           </div>
         </InputUx>

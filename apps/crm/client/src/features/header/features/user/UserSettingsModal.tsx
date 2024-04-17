@@ -1,13 +1,13 @@
 import { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ReactPortal } from '#Components/index';
+import { IconClose, IconEmail, IconPhone, IconSmartphone, IconTimezone, IconUserTitle } from '#Components/svg';
 import UserRole from '#Components/ui/UserRole';
+import { UserData } from '#Data/MockData';
 import usePortalClose from '#Hooks/usePortalClose';
 import CompanyLogo from '#Img/CompanyLogo.png';
-import { UserData } from '#Data/MockData';
-import { IconClose, IconEmail, IconPhone, IconSmartPhone, IconTimezone, IconUserTitle } from '#Svg/icons';
-import SettingsItem from './SettingsItem';
 import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
+import SettingsItem from './SettingsItem';
 import styles from './_UserSettingsModal.module.scss';
 
 interface IProps {
@@ -51,7 +51,7 @@ function UserSettingsModal(props: IProps): JSX.Element {
                 onClick={closeModalBtnClickHandler}
                 ref={portalCloseButtonRef}
                 className={styles.titleBar__closeBtn}>
-                <img src={IconClose} alt="Close Search Modal" className={styles.titleBar__closeBtn__svg} />
+                <IconClose svgClass={styles.titleBar__closeBtn__svg} />
               </button>
             </div>
             <div className={styles.userProfile}>
@@ -63,11 +63,11 @@ function UserSettingsModal(props: IProps): JSX.Element {
                 <img src="" alt="" />
                 <span>{userName} Profile</span>
               </div>
-              <SettingsItem icon={IconUserTitle} title="Organisation Role" description={UserData.role} />
-              <SettingsItem icon={IconPhone} title="Office Phone" description={UserData.phone} />
-              <SettingsItem icon={IconSmartPhone} title="Mobile Phone" description={UserData.mobile} />
-              <SettingsItem icon={IconEmail} title="Email" description={UserData.email} />
-              <SettingsItem icon={IconTimezone} title="Time Zone" description={UserData.timezone} />
+              <SettingsItem IconSvg={IconUserTitle} title="Organisation Role" description={UserData.role} />
+              <SettingsItem IconSvg={IconPhone} title="Office Phone" description={UserData.phone} />
+              <SettingsItem IconSvg={IconSmartphone} title="Mobile Phone" description={UserData.mobile} />
+              <SettingsItem IconSvg={IconEmail} title="Email" description={UserData.email} />
+              <SettingsItem IconSvg={IconTimezone} title="Time Zone" description={UserData.timezone} />
             </div>
           </div>
         </div>

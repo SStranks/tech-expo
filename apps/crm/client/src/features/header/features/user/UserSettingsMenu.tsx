@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { ReactPortal } from '#Components/index';
 import usePortalClose from '#Hooks/usePortalClose';
-import { IconLogout, IconSettings } from '#Components/svg';
-import UserIcon from '#Svg/icons/User Circle.svg';
+import { IconLogout, IconSettings, IconUser } from '#Components/svg';
 import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
 import UserSettingsModal from './UserSettingsModal';
 import styles from './_UserSettingsMenu.module.scss';
@@ -46,7 +45,7 @@ function UserSettingsMenu(props: IProps): JSX.Element {
         className={styles.userIcon}
         ref={menuPortalButtonRef}
         aria-label="user settings menu">
-        <img src={UserIcon} alt="user icon" className={styles.userIcon__svg} />
+        <IconUser svgClass={styles.userIcon__svg} />
       </button>
       <ReactPortal wrapperId="portal-usersettings">
         <CSSTransition
@@ -71,11 +70,11 @@ function UserSettingsMenu(props: IProps): JSX.Element {
             </div>
             <div className={styles.portalContent__buttons}>
               <button type="button" onClick={settingsBtnClickHandler} className={styles.userSettingsBtn}>
-                <IconSettings className={styles.userSettingsBtn__svg} />
+                <IconSettings svgClass={styles.userSettingsBtn__svg} />
                 User Settings
               </button>
               <button type="button" onClick={logoutBtnClickHandler} className={styles.logoutBtn}>
-                <IconLogout className={styles.logoutBtn__svg} />
+                <IconLogout svgClass={styles.logoutBtn__svg} />
                 Logout
               </button>
             </div>

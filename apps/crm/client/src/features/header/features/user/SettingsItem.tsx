@@ -1,15 +1,15 @@
-import { IconEdit } from '#Svg/icons';
 import { useState } from 'react';
+import { IIcon, IconEdit } from '#Components/svg';
 import styles from './_SettingsItem.module.scss';
 
 interface IProps {
-  icon: string;
+  IconSvg: IIcon;
   title: string;
   description: string;
 }
 
 function SettingsItem(props: IProps): JSX.Element {
-  const { icon, title, description } = props;
+  const { IconSvg, title, description } = props;
   const [editSettingActive, setEditSettingActive] = useState<boolean>(false);
   const [editInputValue, setEditInputValue] = useState<string>(description);
 
@@ -31,7 +31,7 @@ function SettingsItem(props: IProps): JSX.Element {
 
   return (
     <div className={styles.item}>
-      <img src={icon} alt="icon" className={styles.item__icon} />
+      <IconSvg svgClass={styles.item__svg} />
       <span className={styles.item__title}>{title}</span>
       {!editSettingActive && <span className={styles.item__description}>{description}</span>}
       {!editSettingActive && (
@@ -40,7 +40,7 @@ function SettingsItem(props: IProps): JSX.Element {
           onClick={editBtnClickHandler}
           className={styles.item__edit}
           aria-label={`show edit ${title} input`}>
-          <img src={IconEdit} alt="" className={styles.item__edit__svg} />
+          <IconEdit svgClass={styles.item__edit__svg} />
         </button>
       )}
       {editSettingActive && (

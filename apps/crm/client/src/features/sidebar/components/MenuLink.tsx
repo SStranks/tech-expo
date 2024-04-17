@@ -44,7 +44,7 @@ function MenuLink(props: IProps): JSX.Element {
       className={`${styles.menuLink} ${activeRoute ? styles.menuLink__activeRoute : ''} ${animatedStyles}`}
       ref={menuLinkRef}>
       <div className={styles.menuLink__iconContainer}>
-        <Icon className={`${styles.menuLink__svg} ${activeRoute ? styles.menuLink__activeRoute__svg : ''}`} />
+        <Icon svgClass={`${styles.menuLink__svg} ${activeRoute ? styles.menuLink__activeRoute__svg : ''}`} />
       </div>
       <Link to={href} key={name}>
         <span className={styles.menuLink__text}>{name}</span>

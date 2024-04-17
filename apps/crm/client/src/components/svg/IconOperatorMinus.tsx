@@ -1,9 +1,9 @@
 import type { IProps } from './';
 
-function IconOperatorMinus({ className = undefined }: IProps): JSX.Element {
+function IconOperatorMinus({ svgClass = undefined }: IProps): JSX.Element {
   return (
     <svg
-      className={className}
+      className={svgClass}
       width="800px"
       height="800px"
       viewBox="0 0 24 24"

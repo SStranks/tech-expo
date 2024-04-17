@@ -1,4 +1,4 @@
-import { IconNotebook, IconArrowRightUp } from '#Svg/icons';
+import { IconNotebook, IconArrowRightUp } from '#Components/svg';
 import styles from './_SearchResult.module.scss';
 
 interface IProps {
@@ -12,13 +12,13 @@ function SearchResult(props: IProps): JSX.Element {
 
   return (
     <div className={styles.searchResult} role="option" aria-selected={true}>
-      <img src={IconNotebook} alt="" />
+      <IconNotebook svgClass={styles.searchResult__svg} />
       <div className={styles.details}>
         <span className={styles.details__title}>{title}</span>
         <span className={styles.details__category}>{category}</span>
         <span className={styles.details__description}>{description}</span>
       </div>
-      <img src={IconArrowRightUp} alt="" />
+      <IconArrowRightUp svgClass={styles.searchResult__svg} />
     </div>
   );
 }

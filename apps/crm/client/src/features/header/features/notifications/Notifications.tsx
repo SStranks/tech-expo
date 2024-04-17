@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ReactPortal } from '#Components/index';
+import { IconNotificationBell } from '#Components/svg';
 import { INotification, notificationsArr } from '#Data/MockData';
 import usePortalClose from '#Hooks/usePortalClose';
-import BellIcon from '#Svg/icons/Bell.svg';
 import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
 import NotificationsList from './NotificationsList';
 import styles from './_Notifications.module.scss';
@@ -37,7 +37,7 @@ function Notifications(): JSX.Element {
         onClick={iconClickHandler}
         ref={portalButtonRef}
         aria-label="notifications">
-        <img src={BellIcon} alt="user icon" className={styles.notificationIcon__svg} />
+        <IconNotificationBell svgClass={styles.notificationIcon__svg} />
         <div
           className={`${styles.notificationIcon__indicator} ${styles[`notificationIcon__indicator--${status}`]}`}
           data-testid="notifications-indicator"

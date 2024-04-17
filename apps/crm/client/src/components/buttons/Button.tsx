@@ -5,7 +5,7 @@ import styles from './_Button.module.scss';
 function IconSelect(iconName: TIcon, buttonType: TType): string | JSX.Element {
   switch (iconName) {
     case 'close': {
-      return <IconClose className={styles[`icon--${buttonType}`]} />;
+      return <IconClose svgClass={styles[`icon--${buttonType}`]} />;
     }
     case 'delete': {
       return <IconDelete />;

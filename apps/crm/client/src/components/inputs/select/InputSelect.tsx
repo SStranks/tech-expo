@@ -22,7 +22,7 @@ function InputSelect({ ...props }: IProps): JSX.Element {
       <Button className={styles.button}>
         <SelectValue className={styles.selectValue} />
         <span aria-hidden="true">
-          <IconArrowDownAlt className={styles.button__icon} />
+          <IconArrowDownAlt svgClass={styles.button__icon} />
         </span>
       </Button>
       <Popover className={styles.popover}>

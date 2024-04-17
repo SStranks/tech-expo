@@ -62,7 +62,7 @@ function ButtonYear({ operation, className = undefined }: IButtonYearProps): JSX
       onPress={() => {
         state.setFocusedDate(state.focusedDate[`${operation}`]({ years: 1 }));
       }}>
-      <IconArrowLeftDoubleAlt mirror={operation === 'add'} className={styles.icon} />
+      <IconArrowLeftDoubleAlt mirror={operation === 'add'} svgClass={styles.icon} />
     </Button>
   );
 }
@@ -86,7 +86,7 @@ function InputDatePicker<T extends DateValue>({ label, description, errorMessage
           {(segment) => <DateSegment segment={segment} className={styles.dateSegment} />}
         </DateInput>
         <Button className={styles.button}>
-          <IconArrowDownAlt className={styles.button__icon} />
+          <IconArrowDownAlt svgClass={styles.button__icon} />
         </Button>
       </Group>
       {description && (
@@ -101,11 +101,11 @@ function InputDatePicker<T extends DateValue>({ label, description, errorMessage
             <header className={styles.calendar__header}>
               <ButtonYear operation="subtract" />
               <Button slot="previous" className={styles.calendar__buttonPrev}>
-                <IconArrowLeftAlt className={styles.icon} />
+                <IconArrowLeftAlt svgClass={styles.icon} />
               </Button>
               <Heading className={styles.calendar__heading} />
               <Button slot="next" className={styles.calendar__buttonNext}>
-                <IconArrowLeftAlt mirror className={styles.icon} />
+                <IconArrowLeftAlt mirror svgClass={styles.icon} />
               </Button>
               <ButtonYear operation="add" />
             </header>

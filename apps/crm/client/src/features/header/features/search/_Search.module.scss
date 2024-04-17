@@ -24,11 +24,14 @@
     box-shadow: 0 0 5px 1px var(--thm-border-info);
   }
 
-  &__img {
+  &__svg {
     width: v.$svg-dim-width;
     height: v.$svg-dim-height;
     margin: 12px;
-    filter: var(--thm-icon-svg-filter-default);
+
+    & > path {
+      color: var(--thm-icon-default);
+    }
   }
 
   &__input {
@@ -55,7 +58,9 @@
     }
 
     &__svg {
-      filter: var(--thm-icon-svg-filter-default);
+      & path {
+        color: var(--thm-icon-default);
+      }
     }
   }
 }

@@ -18,11 +18,11 @@ function InputNumber({ appendClass, error, ...props }: MyNumberFieldProps) {
     <NumberField className={`${styles.numberField} ${appendClass}`} {...props}>
       <Group className={styles.group}>
         <Button slot="decrement" className={styles.buttonDecrement}>
-          <IconOperatorMinus className={styles.buttonIncrement__svg} />
+          <IconOperatorMinus svgClass={styles.buttonIncrement__svg} />
         </Button>
         <Input className={styles.input} />
         <Button slot="increment" className={styles.buttonIncrement}>
-          <IconOperatorPlus className={styles.buttonIncrement__svg} />
+          <IconOperatorPlus svgClass={styles.buttonIncrement__svg} />
         </Button>
       </Group>
       {props.description && (

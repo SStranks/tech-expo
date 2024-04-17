@@ -44,7 +44,9 @@
     }
 
     &__svg {
-      filter: var(--thm-icon-svg-filter-default);
+      & path {
+        color: var(--thm-icon-default);
+      }
     }
   }
 }

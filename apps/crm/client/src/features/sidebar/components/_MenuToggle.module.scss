@@ -20,9 +20,9 @@
   }
 
   &__svg {
-    filter: var(--thm-icon-svg-filter-default);
+    color: var(--thm-icon-default);
     transition:
-      a.$theme-transition-filter,
+      a.$theme-transition-color,
       transform 500ms ease-in 200ms;
     transform-origin: center;
 

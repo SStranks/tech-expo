@@ -12,10 +12,10 @@
     background-color: var(--thm-modal-element-hover);
   }
 
-  & > img {
+  &__svg {
     width: v.$svg-dim-width;
     height: v.$svg-dim-height;
-    filter: var(--thm-icon-svg-filter-default);
+    color: var(--thm-icon-default);
   }
 }
 

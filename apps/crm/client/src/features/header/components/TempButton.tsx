@@ -52,7 +52,7 @@ function TempButton(): JSX.Element {
         <FormModal.Input name="input" type="text" label="Piss Stop1" rules={{ required: true }} />
         {/* <FormModal.TextArea name="textarea" label="Piss Stop2" rules={{ required: true }} /> */}
         <FormModal.Select name="inputSelect" label="Piss Stop3" items={listItems} rules={{ required: true }} />
-        <FormModal.Combo name="inputCombo" label="Piss Stop4" items={listItems} rules={{ required: true }} />
+        {/* <FormModal.Combo name="inputCombo" label="Piss Stop4" items={listItems} rules={{ required: true }} /> */}
         {/* <FormModal.Number
           name="inputNumber"
           label="Piss Stop"

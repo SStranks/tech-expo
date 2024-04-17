@@ -74,9 +74,8 @@ $padding: 16px;
     background-color: var(--thm-background-element);
   }
 
-  // TODO:  Style background color
   &[data-selected] {
-    background-color: red;
+    background-color: var(--thm-success-primary);
   }
 }
 

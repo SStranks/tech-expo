@@ -26,7 +26,7 @@ function InputCombo(props: IProps): JSX.Element {
       <div className={styles.inputContainer}>
         <Input className={styles.inputContainer__input} />
         <Button className={styles.inputContainer__button}>
-          <IconArrowDownAlt className={styles.inputContainer__button__icon} />
+          <IconArrowDownAlt svgClass={styles.inputContainer__button__icon} />
         </Button>
       </div>
       <Popover className={styles.popover}>

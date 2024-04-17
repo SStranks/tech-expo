@@ -71,13 +71,13 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Ele
         <div className={styles.icons}>
           <button type="button" onClick={revealPasswordClickHandler} className={styles.icons__btn}>
             {passwordReveal ? (
-              <IconPassword className={styles.icons__btn__svg} />
+              <IconPassword svgClass={styles.icons__btn__svg} />
             ) : (
-              <IconEye className={styles.icons__btn__svg} />
+              <IconEye svgClass={styles.icons__btn__svg} />
             )}
           </button>
           <button className={styles.icons__btn} onClick={revealInfoPanelClickHandler}>
-            <IconInfoCircle className={styles.icons__btn__svg} />
+            <IconInfoCircle svgClass={styles.icons__btn__svg} />
           </button>
         </div>
       </InputUx>
