@@ -22,24 +22,17 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
   transition: a.$theme-transition-color, a.$theme-transition-background, a.$button-hover-sidebar;
 
   &__iconContainer {
+    transition:
+      a.$sidebar-menu-button-icon,
+      transform 250ms;
     min-width: $icon-dim;
+    max-width: $icon-dim;
     height: $icon-dim;
-    transition: a.$sidebar-menu-button-icon;
   }
 
   &__svg {
     color: var(--thm-icon-default);
-    transition:
-      a.$theme-transition-color,
-      transform 250ms;
-  }
-
-  &:hover {
-    background-color: var(--thm-background-subtle);
-
-    & .menuLink__iconContainer {
-      transform: translateY(-10%);
-    }
+    transition: a.$theme-transition-color;
   }
 
   &__text {
@@ -62,6 +55,33 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
     }
   }
 
+  &--minimize {
+    position: relative;
+    column-gap: 0;
+    transition:
+      a.$theme-transition-background,
+      column-gap 0ms 500ms;
+
+    & .menuLink__iconContainer {
+      animation: translate-icon-minimize 500ms cubic-bezier(0.54, 0.46, 0.18, 3) forwards
+        calc((var(--index) * (50ms - (var(--index) * 1.5ms))) + 150ms);
+    }
+
+    & .menuLink__text {
+      width: 0;
+      opacity: 0;
+      transition:
+        width 500ms,
+        opacity 200ms ease-out; // Fade Out
+    }
+  }
+
+  &--maximize {
+    & .menuLink__iconContainer {
+      animation: translate-icon-maximize 500ms ease-out forwards;
+    }
+  }
+
   &__activeRoute {
     color: var(--thm-text-link);
     background-color: var(--thm-background-info);
@@ -79,30 +99,11 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
     }
   }
 
-  &--minimize {
-    position: relative;
-    column-gap: 0;
-    transition:
-      a.$theme-transition-background,
-      column-gap 0ms 500ms;
+  &:hover {
+    background-color: var(--thm-background-subtle);
 
-    & .menuLink__img {
-      animation: translate-icon-minimize 500ms cubic-bezier(0.54, 0.46, 0.18, 3) forwards
-        calc((var(--index) * (50ms - (var(--index) * 1.5ms))) + 150ms);
-    }
-
-    & .menuLink__text {
-      width: 0;
-      opacity: 0;
-      transition:
-        width 500ms,
-        opacity 200ms ease-out; // Fade Out
-    }
-  }
-
-  &--maximize {
-    & .menuLink__img {
-      animation: translate-icon-maximize 500ms ease-out forwards;
+    & .menuLink__iconContainer {
+      transform: translateY(-10%);
     }
   }
 }
