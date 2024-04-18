@@ -86,7 +86,7 @@ function InputDatePicker<T extends DateValue>({ label, description, errorMessage
           {(segment) => <DateSegment segment={segment} className={styles.dateSegment} />}
         </DateInput>
         <Button className={styles.button}>
-          <IconArrowDownAlt svgClass={styles.button__icon} />
+          <IconArrowDownAlt svgClass={styles.button__svg} />
         </Button>
       </Group>
       {description && (

@@ -1,6 +1,8 @@
 $padding: 16px;
 
 .timeField {
+  display: flex;
+  align-items: center;
   padding-inline: $padding;
 }
 
@@ -13,6 +15,10 @@ $padding: 16px;
 
 .dateSegment {
   outline: none;
+
+  &:focus {
+    background-color: var(--thm-icon-info);
+  }
 }
 
 // .text {}

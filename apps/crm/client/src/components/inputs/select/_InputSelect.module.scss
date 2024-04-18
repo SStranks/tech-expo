@@ -10,8 +10,8 @@ $padding: 16px;
   width: 100%;
   outline: none;
 
-  &__icon {
-    fill: var(--thm-icon-secondary);
+  &__svg {
+    color: var(--thm-icon-default);
     transform-origin: center;
     transition: transform 0.4s;
   }
@@ -27,7 +27,7 @@ $padding: 16px;
   border-radius: inherit;
 
   &[data-open] {
-    & .button__icon {
+    & .button__svg {
       transform: scaleY(-1);
     }
   }

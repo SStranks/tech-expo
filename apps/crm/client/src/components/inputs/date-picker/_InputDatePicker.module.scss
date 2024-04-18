@@ -4,7 +4,17 @@ $padding: 16px;
 $calendar-background-color: var(--thm-background-subtle);
 
 .icon {
-  fill: var(--thm-icon-secondary);
+  color: var(--thm-icon-default);
+}
+
+.button {
+  outline: none;
+
+  &__svg {
+    color: var(--thm-icon-default);
+    transform-origin: center;
+    transition: transform 0.4s;
+  }
 }
 
 .dateInput {
@@ -16,11 +26,14 @@ $calendar-background-color: var(--thm-background-subtle);
 }
 
 .datePicker {
+  display: flex;
   padding-inline: $padding;
   width: 100%;
 
-  &:not([data-focus-within]) .dateInput {
-    color: transparent;
+  &:is([data-open]) {
+    & .button__svg {
+      transform: scaleY(-1);
+    }
   }
 }
 
@@ -35,15 +48,9 @@ $calendar-background-color: var(--thm-background-subtle);
 
 .dateSegment {
   outline: none;
-}
 
-.button {
-  outline: none;
-
-  &__icon {
-    fill: var(--thm-icon-secondary);
-    transform-origin: center;
-    transition: transform 0.4s;
+  &:focus {
+    background-color: var(--thm-icon-info);
   }
 }
 
@@ -70,7 +77,7 @@ $calendar-background-color: var(--thm-background-subtle);
   }
 
   &__heading {
-    margin-inline: 10px;
+    margin-inline: 20px;
   }
 
   // &__buttonPrev {}

@@ -15,10 +15,9 @@ $padding: 16px;
 
 .group {
   display: grid;
-  grid-template:
-    'input increment'
-    'input decrement' / 1fr auto;
+  grid-template: 'input decrement increment' / 1fr auto;
   width: 100%;
+  height: 100%;
 }
 
 .input {
@@ -32,21 +31,32 @@ $padding: 16px;
 
 .buttonIncrement {
   grid-area: increment;
-  background-color: var(--thm-background-default);
+  background-color: var(--thm-background-overlay);
   width: fit-content;
+  padding-inline: 6px;
 
   &__svg {
     @include button-svg;
+    color: var(--thm-icon-default);
+  }
+
+  &:active {
+    background-color: var(--thm-background-default);
   }
 }
 
 .buttonDecrement {
   grid-area: decrement;
-  background-color: var(--thm-background-default);
+  background-color: var(--thm-background-overlay);
   width: fit-content;
+  padding-inline: 6px;
 
   &__svg {
     @include button-svg;
+  }
+
+  &:active {
+    background-color: var(--thm-background-default);
   }
 }
 
