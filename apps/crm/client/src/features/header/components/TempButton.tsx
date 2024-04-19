@@ -41,6 +41,7 @@ function TempButton(): JSX.Element {
     inputDatePicker: '',
     inputTimeField: '',
     inputTagGroup: listItems,
+    inputComboTag: listItems,
   };
 
   return (
@@ -55,7 +56,8 @@ function TempButton(): JSX.Element {
         portalActive={portalActive}
         setPortalActive={setPortalActive}>
         <FormModal.Input name="input" type="text" label="Text Input" rules={{ required: true }} />
-        <FormModal.TagGroup name="inputTagGroup" label="Input TagGroup" rules={{ required: true }} />
+        <FormModal.TagGroup name="inputTagGroup" label="TagGroup Input" rules={{ required: true }} />
+        <FormModal.ComboTag name="inputComboTag" label="ComboTag Input" items={listItems} rules={{ required: true }} />
         {/* <FormModal.TextArea name="textarea" label="Textarea Input" rules={{ required: true }} /> */}
         {/* <FormModal.Select name="inputSelect" label="Select Input" items={listItems} rules={{ required: true }} /> */}
         {/* <FormModal.Combo name="inputCombo" label="Combo Input" items={listItems} rules={{ required: true }} /> */}

@@ -13,15 +13,13 @@ interface IProps {
 }
 
 function InputTagGroup(props: IProps): JSX.Element {
-  const { name, trigger, onChange, value, id, isInvalid, ...rest } = props;
+  const { name, trigger, onChange, value, id, ...rest } = props;
 
   const onRemove = (ids: Set<Key>) => {
     const newList = value.filter((p) => !ids.has(p.id));
     onChange(newList);
     trigger(name);
   };
-
-  console.log(value, isInvalid);
 
   return (
     <TagGroup onRemove={onRemove} aria-labelledby={id} className={styles.tagGroup} {...rest}>

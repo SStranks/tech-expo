@@ -45,7 +45,7 @@ function InputParser<T>({ ReactAriaComponent, ...props }: IProps<T>): JSX.Elemen
   // SEND to React-Aria-Component; convert from string to CalendarDate
   const value = valueFunctions[ReactAriaComponent.name as keyof typeof valueFunctions](props.value);
 
-  console.log('VALUE', value);
+  // console.log('VALUE', value);
   // console.log('CHANGE', onChange);
 
   return <ReactAriaComponent {...(props as T)} {...{ onChange, value }} />;

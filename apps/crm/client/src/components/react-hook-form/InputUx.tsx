@@ -16,7 +16,6 @@ interface IProps {
 function InputUx(props: PropsWithChildren<IProps>): JSX.Element {
   const { label, id, error, isDirty, isRequired, isInvalid, children } = props;
   const inputValidated = (isDirty && !error) || isInvalid === false;
-  // console.log('LABEL:', label, isDirty, error, isInvalid);
 
   return (
     <div

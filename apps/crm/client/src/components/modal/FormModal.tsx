@@ -16,6 +16,7 @@ import {
   InputNumber,
   InputTimeField,
   InputTagGroup,
+  InputComboTag,
 } from '#Components/inputs';
 import styles from './_FormModal.module.scss';
 
@@ -330,6 +331,42 @@ FormModal.TagGroup = function TagGroup({ name, label, rules = {} }: ITagGroup) {
             value={value}
             onChange={onChange}
             {...{ name, id, label, onBlur, isInvalid, defaultValue, trigger }}
+          />
+        </InputUx>
+      )}
+    />
+  );
+};
+
+interface IComboTag {
+  name: string;
+  label: string;
+  items: { name: string }[];
+  rules?: RegisterOptions;
+}
+
+FormModal.ComboTag = function ComboTag({ name, label, items, rules = {} }: IComboTag) {
+  const {
+    control,
+    trigger,
+    formState: { defaultValues },
+  } = useFormContext();
+  const id = useId();
+
+  const defaultValue = defaultValues?.[name];
+
+  return (
+    <Controller
+      control={control}
+      name={name}
+      rules={rules}
+      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, isDirty, error } }) => (
+        <InputUx id={id} label={label} error={error} isDirty={isDirty} isRequired={rules?.required}>
+          <InputParser
+            ReactAriaComponent={InputComboTag}
+            value={value}
+            onChange={onChange}
+            {...{ name, id, label, items, onBlur, defaultValue, isInvalid, trigger }}
           />
         </InputUx>
       )}
