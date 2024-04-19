@@ -10,6 +10,8 @@ const onChangeFunctions = {
   },
   InputSelect: (e: unknown[]) => e[0],
   InputTimeField: (e: unknown[]) => e.toString(),
+  InputTagGroup: (e: unknown[]) => e[0],
+  InputComboTag: (e: unknown[]) => e[0],
 };
 
 const valueFunctions = {
@@ -18,6 +20,8 @@ const valueFunctions = {
   InputNumber: (v: unknown) => v ?? Number.NaN,
   InputSelect: (v: unknown) => v,
   InputTimeField: (v: unknown) => (typeof v === 'string' && (v as string).length > 0 ? parseTime(v as string) : null),
+  InputTagGroup: (v: unknown) => v,
+  InputComboTag: (v: unknown) => v,
 };
 
 interface IProps<T> {
@@ -40,6 +44,9 @@ function InputParser<T>({ ReactAriaComponent, ...props }: IProps<T>): JSX.Elemen
 
   // SEND to React-Aria-Component; convert from string to CalendarDate
   const value = valueFunctions[ReactAriaComponent.name as keyof typeof valueFunctions](props.value);
+
+  console.log('VALUE', value);
+  // console.log('CHANGE', onChange);
 
   return <ReactAriaComponent {...(props as T)} {...{ onChange, value }} />;
 }

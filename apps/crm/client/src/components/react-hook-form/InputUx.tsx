@@ -9,12 +9,14 @@ interface IProps {
   error: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
   isDirty?: boolean;
   isRequired?: string | ValidationRule<boolean> | undefined;
+  isInvalid?: boolean;
 }
 
 // Wrapper: UX presentation for state of input; valid, invalid, focused, etc
 function InputUx(props: PropsWithChildren<IProps>): JSX.Element {
-  const { label, id, error, isDirty, isRequired, children } = props;
-  const inputValidated = isDirty && !error;
+  const { label, id, error, isDirty, isRequired, isInvalid, children } = props;
+  const inputValidated = (isDirty && !error) || isInvalid === false;
+  // console.log('LABEL:', label, isDirty, error, isInvalid);
 
   return (
     <div

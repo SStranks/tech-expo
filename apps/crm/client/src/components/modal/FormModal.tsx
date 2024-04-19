@@ -9,7 +9,14 @@ import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
 import ReactPortal from './ReactPortal';
 import InputUx from '#Components/react-hook-form/InputUx';
 import InputParser from '#Components/react-hook-form/InputParser';
-import { InputSelect, InputCombo, InputDatePicker, InputNumber, InputTimeField } from '#Components/inputs';
+import {
+  InputSelect,
+  InputCombo,
+  InputDatePicker,
+  InputNumber,
+  InputTimeField,
+  InputTagGroup,
+} from '#Components/inputs';
 import styles from './_FormModal.module.scss';
 
 interface IProps {
@@ -279,6 +286,50 @@ FormModal.TimeField = function TimeField({ name, label, rules = {} }: ITimeField
             value={value}
             onChange={onChange}
             {...{ name, id, 'aria-label': id, onBlur, isInvalid }}
+          />
+        </InputUx>
+      )}
+    />
+  );
+};
+
+interface ITagGroup {
+  name: string;
+  label: string;
+  rules?: RegisterOptions;
+}
+
+FormModal.TagGroup = function TagGroup({ name, label, rules = {} }: ITagGroup) {
+  const {
+    control,
+    trigger,
+    formState: { defaultValues },
+  } = useFormContext();
+  const id = useId();
+
+  const defaultValue = defaultValues?.[name];
+  console.log('FORMMODAL, defaultValue', defaultValue);
+  if (rules.required) rules.validate = (v) => v.length > 0;
+
+  return (
+    <Controller
+      control={control}
+      defaultValue={defaultValue}
+      name={name}
+      rules={rules}
+      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, isDirty, error } }) => (
+        <InputUx
+          id={id}
+          label={label}
+          error={error}
+          isDirty={isDirty}
+          isInvalid={isInvalid}
+          isRequired={rules?.required}>
+          <InputParser
+            ReactAriaComponent={InputTagGroup}
+            value={value}
+            onChange={onChange}
+            {...{ name, id, label, onBlur, isInvalid, defaultValue, trigger }}
           />
         </InputUx>
       )}

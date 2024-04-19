@@ -35,6 +35,12 @@ $calendar-background-color: var(--thm-background-subtle);
       transform: scaleY(-1);
     }
   }
+
+  &:is(:not([data-focus-within])) {
+    & .dateInput {
+      opacity: 0;
+    }
+  }
 }
 
 // .label {}
