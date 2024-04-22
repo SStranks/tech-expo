@@ -1,8 +1,8 @@
+import { BrowserRouter } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { render, screen } from '@testing-library/react';
-import InputPasswordStrength from './InputPasswordStrength';
 import userEvent from '@testing-library/user-event';
-
-const register = jest.fn();
+import InputPasswordStrength from './InputPasswordStrength';
 
 beforeEach(() => {
   jest.resetAllMocks();
@@ -10,9 +10,24 @@ beforeEach(() => {
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
-    render(
-      <InputPasswordStrength register={register} inputName={''} placeholder={''} error={undefined} reveal={false} />
-    );
+    const Component = () => {
+      const methods = useForm<{ password: string }>({ defaultValues: { password: '' } });
+
+      return (
+        <InputPasswordStrength
+          register={methods.register}
+          control={methods.control}
+          trigger={methods.trigger}
+          inputName="password"
+          error={undefined}
+          isDirty={undefined}
+          reveal={false}
+          label="password"
+        />
+      );
+    };
+
+    render(<Component />, { wrapper: BrowserRouter });
 
     const passwordInput = screen.getByLabelText(/password/i);
     const ariaOutputElement = screen.getByRole('status');
@@ -26,9 +41,24 @@ describe('Initialization', () => {
 
 describe('Functionality', () => {
   test('Empty input should return password strength score of 0', async () => {
-    render(
-      <InputPasswordStrength register={register} inputName={''} placeholder={''} error={undefined} reveal={false} />
-    );
+    const Component = () => {
+      const methods = useForm<{ password: string }>({ defaultValues: { password: '' } });
+
+      return (
+        <InputPasswordStrength
+          register={methods.register}
+          control={methods.control}
+          trigger={methods.trigger}
+          inputName="password"
+          error={undefined}
+          isDirty={undefined}
+          reveal={false}
+          label="password"
+        />
+      );
+    };
+
+    render(<Component />, { wrapper: BrowserRouter });
     const user = userEvent.setup();
 
     const passwordInput = screen.getByLabelText(/password/i);
@@ -40,9 +70,24 @@ describe('Functionality', () => {
   });
 
   test('Maximum strength password should have strength score of 4', async () => {
-    render(
-      <InputPasswordStrength register={register} inputName={''} placeholder={''} error={undefined} reveal={false} />
-    );
+    const Component = () => {
+      const methods = useForm<{ password: string }>({ defaultValues: { password: '' } });
+
+      return (
+        <InputPasswordStrength
+          register={methods.register}
+          control={methods.control}
+          trigger={methods.trigger}
+          inputName="password"
+          error={undefined}
+          isDirty={undefined}
+          reveal={false}
+          label="password"
+        />
+      );
+    };
+
+    render(<Component />, { wrapper: BrowserRouter });
     const user = userEvent.setup();
 
     const passwordInput = screen.getByLabelText(/password/i);
