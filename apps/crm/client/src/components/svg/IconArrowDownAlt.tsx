@@ -3,6 +3,7 @@ import type { IProps } from './';
 function IconArrowDownAlt({ svgClass = undefined, mirror = undefined }: IProps): JSX.Element {
   return (
     <svg className={svgClass} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <title>Icon Arrow Down</title>
       <path
         style={mirror ? { transformOrigin: 'center', transform: 'scaleY(-1)' } : {}}
         fillRule="evenodd"

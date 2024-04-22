@@ -3,6 +3,7 @@ import type { IProps } from './';
 function IconInfoCircle({ svgClass = undefined }: IProps): JSX.Element {
   return (
     <svg className={svgClass} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <title>Icon Info Circle</title>
       <path
         d="M12 17.75C12.4142 17.75 12.75 17.4142 12.75 17V11C12.75 10.5858 12.4142 10.25 12 10.25C11.5858 10.25 11.25 10.5858 11.25 11V17C11.25 17.4142 11.5858 17.75 12 17.75Z"
         fill="currentColor"
