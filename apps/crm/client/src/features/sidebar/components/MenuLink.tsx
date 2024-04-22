@@ -1,5 +1,5 @@
 import type { IIcon } from '#Components/svg';
-import { useRef } from 'react';
+import { useId, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './_MenuLink.module.scss';
 
@@ -15,6 +15,7 @@ function MenuLink(props: IProps): JSX.Element {
   const { name, href, Icon, minimize, index } = props;
   const location = useLocation();
   const menuLinkRef = useRef<HTMLLIElement>(null);
+  const id = useId();
 
   // Active route
   let activeRoute;
@@ -43,11 +44,13 @@ function MenuLink(props: IProps): JSX.Element {
     <li
       className={`${styles.menuLink} ${activeRoute ? styles.menuLink__activeRoute : ''} ${animatedStyles}`}
       ref={menuLinkRef}>
-      <div className={styles.menuLink__iconContainer}>
+      <div className={styles.menuLink__iconContainer} aria-labelledby={id}>
         <Icon svgClass={`${styles.menuLink__svg} ${activeRoute ? styles.menuLink__activeRoute__svg : ''}`} />
       </div>
       <Link to={href} key={name}>
-        <span className={styles.menuLink__text}>{name}</span>
+        <span id={id} className={styles.menuLink__text}>
+          {name}
+        </span>
       </Link>
     </li>
   );

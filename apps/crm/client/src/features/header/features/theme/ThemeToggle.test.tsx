@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import ThemeToggle from './ThemeToggle';
 import userEvent from '@testing-library/user-event';
+import ThemeToggle, { LOCALSTORAGE_TOKEN } from './ThemeToggle';
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
@@ -16,8 +16,17 @@ describe('Initialization', () => {
 });
 
 describe('Functionality', () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
+  afterEach(() => {
+    document.body.className = '';
+  });
+
   test('Theme toggle should add/remove class "dark-theme" to the body element upon click', async () => {
     const { baseElement } = render(<ThemeToggle />);
+    window.dispatchEvent(new Event('load'));
     const user = userEvent.setup();
 
     const themeToggleButton = screen.getByRole('button');
@@ -26,5 +35,27 @@ describe('Functionality', () => {
     expect(bodyElement).not.toHaveClass('dark-theme');
     await user.click(themeToggleButton);
     expect(bodyElement).toHaveClass('dark-theme');
+  });
+
+  test('If local storage token for theme preference is set; set theme to dark', () => {
+    // Set localStorage token for theme
+    window.localStorage.setItem(LOCALSTORAGE_TOKEN, 'true');
+    const { baseElement } = render(<ThemeToggle />);
+    // Component requires page load to trigger useEffect
+    window.dispatchEvent(new Event('load'));
+
+    const bodyElement = baseElement;
+    expect(bodyElement).toHaveClass('dark-theme');
+  });
+
+  test('If local storage token for theme preference is set; set theme to light', () => {
+    // Set localStorage token for theme
+    window.localStorage.setItem(LOCALSTORAGE_TOKEN, 'false');
+    const { baseElement } = render(<ThemeToggle />);
+    // Component requires page load to trigger useEffect
+    window.dispatchEvent(new Event('load'));
+
+    const bodyElement = baseElement;
+    expect(bodyElement).not.toHaveClass('dark-theme');
   });
 });

@@ -2,16 +2,21 @@ import { useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ReactPortal } from '#Components/index';
 import { IconNotificationBell } from '#Components/svg';
-import { INotification, notificationsArr } from '#Data/MockData';
+import { INotification } from '#Data/MockData';
 import usePortalClose from '#Hooks/usePortalClose';
 import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
 import NotificationsList from './NotificationsList';
 import styles from './_Notifications.module.scss';
 
+interface IProps {
+  notifications: INotification[];
+}
+
 // TODO:  1. Clear notifications. 2. Mark all as read. 3. Click on single notifcation; mark as read.
-function Notifications(): JSX.Element {
+function Notifications(props: IProps): JSX.Element {
+  const { notifications } = props;
   const [portalActive, setPortalActive] = useState<boolean>(false);
-  const [notificationsList, setNotificationsList] = useState<INotification[]>(notificationsArr);
+  const [notificationsList, setNotificationsList] = useState<INotification[]>(notifications);
   const portalButtonRef = useRef<HTMLButtonElement>(null);
   const portalContentRef = useRef<HTMLDivElement>(null);
   usePortalClose(portalActive, setPortalActive, portalContentRef, portalButtonRef);

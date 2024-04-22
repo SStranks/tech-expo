@@ -1,3 +1,4 @@
+import { notificationsArr } from '#Data/MockData';
 import Notifications from '../features/notifications/Notifications';
 import ThemeToggle from '../features/theme/ThemeToggle';
 import UserSettings from '../features/user/UserSettingsMenu';
@@ -10,7 +11,7 @@ function SettingsBar(): JSX.Element {
       {/* // TEMP DEV:  */}
       {/* <TempButton /> */}
       <ThemeToggle />
-      <Notifications />
+      <Notifications notifications={notificationsArr} />
       <UserSettings userName="Smith" />
     </div>
   );

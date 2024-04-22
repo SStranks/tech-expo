@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react';
-import RegisterPage from './RegisterPage';
 import { BrowserRouter } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import RegisterPage from './RegisterPage';
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {

@@ -35,7 +35,7 @@ function SearchBar(): JSX.Element {
   return (
     <>
       <button type="button" onClick={buttonClickHandler} className={styles.searchBar} ref={portalButtonRef}>
-        <IconSearch svgClass={styles.searchBar__svg} />
+        <IconSearch svgClass={styles.searchBar__svg} data-testid="search-icon" />
         Search
         <div className={styles.searchBar__shortcutKey}>
           <kbd>/</kbd>

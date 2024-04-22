@@ -23,7 +23,8 @@ function RegisterPage(): JSX.Element {
     control,
     trigger,
     handleSubmit,
-    formState: { isValid, errors, dirtyFields },
+    formState: { errors, dirtyFields },
+    // formState: { isValid, errors, dirtyFields },
   } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '', password: '' } });
   const navigate = useNavigate();
   const emailId = useId();
@@ -62,7 +63,8 @@ function RegisterPage(): JSX.Element {
             label="Password"
           />
         </Suspense>
-        <button type="submit" className={styles.registerForm__submitBtn} disabled={!isValid}>
+        {/* <button type="submit" className={styles.registerForm__submitBtn} disabled={!isValid}> */}
+        <button type="submit" className={styles.registerForm__submitBtn}>
           Register Account
         </button>
         <p>

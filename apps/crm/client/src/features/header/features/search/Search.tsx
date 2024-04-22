@@ -54,6 +54,9 @@ function Search(props: IProps): JSX.Element {
           onKeyDown={searchInputKeyDown}
           className={styles.searchForm__input}
           autoComplete="off"
+          autoCorrect="off"
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus
           ref={searchInputRef}
         />
         <button type="button" onClick={closeModal} className={styles.searchForm__closeBtn}>

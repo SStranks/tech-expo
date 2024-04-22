@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { IconTheme } from '#Components/svg';
 import styles from './_ThemeToggle.module.scss';
 
-const LOCALSTORAGE_TOKEN = 'dark-mode';
+export const LOCALSTORAGE_TOKEN = 'dark-mode';
 
 const themePreferenceLocalStorage = (body: HTMLElement | null) => {
   if (body?.classList.contains('dark-theme')) {
@@ -23,8 +23,9 @@ function ThemeToggle(): JSX.Element {
   useEffect(() => {
     const onPageLoad = () => {
       const localStorageToken = window.localStorage.getItem(LOCALSTORAGE_TOKEN);
-      if (localStorageToken === 'true') {
-        return themeToggle();
+      if (localStorageToken !== null) {
+        if (localStorageToken === 'true') return themeToggle();
+        return;
       }
       const query = window.matchMedia('(prefers-color-scheme: dark)');
       if (query.matches) {
