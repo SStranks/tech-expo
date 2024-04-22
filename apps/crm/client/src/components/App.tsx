@@ -6,10 +6,6 @@ import { Authenticate } from '#Modules/index';
 import { ForgotPasswordPage, LoginPage, RegisterPage, UpdatePasswordPage } from '#Pages/index';
 import { DashboardRoute, CalendarRoute } from '#Routes/index';
 
-// TEMP DEV: . Force darkmode
-const body = document.querySelector('body');
-body?.classList.add('dark-theme');
-
 function App(): JSX.Element {
   return (
     <>
