@@ -24,7 +24,7 @@ function UpdatePasswordPage(): JSX.Element {
     trigger,
     control,
     getValues,
-    formState: { errors, isValid, dirtyFields },
+    formState: { errors, dirtyFields, isSubmitted },
     handleSubmit,
   } = useForm<IInputs>({ mode: 'onChange', defaultValues: { newPassword: '', confirmPassword: '' } });
   const navigate = useNavigate();
@@ -51,7 +51,9 @@ function UpdatePasswordPage(): JSX.Element {
             trigger={trigger}
             inputName="newPassword"
             error={errors.newPassword}
+            isRequired
             isDirty={dirtyFields.newPassword}
+            isSubmitted={isSubmitted}
             reveal={false}
             label="Password"
           />
@@ -61,7 +63,8 @@ function UpdatePasswordPage(): JSX.Element {
           label="Confirm Password"
           error={errors['confirmPassword']}
           isDirty={dirtyFields['confirmPassword']}
-          isRequired={PASSWORD_RULES?.required}>
+          isRequired={PASSWORD_RULES?.required}
+          isSubmitted={isSubmitted}>
           <Input
             id={confirmPasswordId}
             type="password"
@@ -78,10 +81,11 @@ function UpdatePasswordPage(): JSX.Element {
                 },
               }),
             }}
+            isRequired
             error={errors.confirmPassword}
           />
         </InputUx>
-        <button type="submit" className={styles.updatePasswordForm__submitBtn} disabled={!isValid}>
+        <button type="submit" className={styles.updatePasswordForm__submitBtn}>
           Update Password
         </button>
       </form>

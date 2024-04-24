@@ -1,7 +1,16 @@
 import type { ZxcvbnResult } from '@zxcvbn-ts/core';
 import { useEffect, useId, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Control, FieldError, FieldValues, Path, UseFormRegister, UseFormTrigger, useWatch } from 'react-hook-form';
+import {
+  Control,
+  FieldError,
+  FieldValues,
+  Path,
+  UseFormRegister,
+  UseFormTrigger,
+  ValidationRule,
+  useWatch,
+} from 'react-hook-form';
 import { usePasswordStrength } from '#Lib/zxcvbn';
 import { IconPassword, IconEye, IconInfoCircle } from '#Components/svg';
 import styles from './_InputPasswordStrength.module.scss';
@@ -28,6 +37,8 @@ interface IProps<T extends FieldValues> {
   trigger: UseFormTrigger<T>;
   inputName: Path<T>;
   isDirty: boolean | undefined;
+  isRequired: string | ValidationRule<boolean> | undefined;
+  isSubmitted: boolean;
   error: FieldError | undefined;
   reveal: boolean;
   label: string;
@@ -35,7 +46,7 @@ interface IProps<T extends FieldValues> {
 
 // TODO:  Style and reformat password information text
 function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Element {
-  const { register, control, trigger, inputName, isDirty, error, reveal, label } = props;
+  const { register, control, trigger, inputName, isDirty, isRequired, isSubmitted, error, reveal, label } = props;
   const [passwordReveal, setPasswordReveal] = useState<boolean>(reveal);
   const [informationPanel, setInformationPanel] = useState<boolean>(false);
   const passwordValue = useWatch({ control, name: inputName });
@@ -55,17 +66,28 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Ele
     setInformationPanel((p) => !p);
   };
 
-  // Placeholder intentionally empty; style using :placeholder-shown
+  const VALIDATION_RULES = {
+    required: { value: true, message: 'Please enter strong password' },
+    validate: () => result?.score === 4 || 'Password is insufficiently strong',
+  };
+
   return (
     <div className={styles.container}>
-      <InputUx label={label} id={passwordId} isDirty={isDirty} error={error}>
+      <InputUx
+        label={label}
+        id={passwordId}
+        isDirty={isDirty}
+        isRequired={VALIDATION_RULES.required}
+        error={error}
+        isSubmitted={isSubmitted}>
         <input
-          {...register(inputName, { required: true, validate: () => result?.score === 4 })}
+          {...register(inputName, VALIDATION_RULES)}
           type={passwordReveal ? 'text' : 'password'}
           id={passwordId}
           className={styles.inputPassword}
-          placeholder=""
+          placeholder="" // Placeholder intentionally empty; style using :placeholder-shown
           aria-invalid={error ? true : false}
+          aria-required={isRequired ? true : false}
           autoComplete="new-password"
         />
         <div className={styles.icons}>

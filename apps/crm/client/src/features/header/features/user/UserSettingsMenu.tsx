@@ -69,7 +69,11 @@ function UserSettingsMenu(props: IProps): JSX.Element {
               <h5>UserID: {userName}</h5>
             </div>
             <div className={styles.portalContent__buttons}>
-              <button type="button" onClick={settingsBtnClickHandler} className={styles.userSettingsBtn}>
+              <button
+                type="button"
+                onClick={settingsBtnClickHandler}
+                className={styles.userSettingsBtn}
+                aria-label="User Settings">
                 <IconSettings svgClass={styles.userSettingsBtn__svg} />
                 User Settings
               </button>

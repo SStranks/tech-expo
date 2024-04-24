@@ -22,8 +22,28 @@ $padding: 16px;
     color: form.$input-placeholder;
     transition: all 0.2s ease-in-out;
 
-    display: flex;
-    align-items: center;
+    &[data-is-dirty] {
+      padding-inline: 4px;
+      color: form.$input-color-active;
+      font-size: 12px;
+      transform: translate(calc($padding / -2), calc(-1 * $padding) - 7px);
+      z-index: 1; // Clip out success pulse effect
+    }
+  }
+
+  &__errorMessage {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    max-width: fit-content;
+    padding-inline: 4px;
+    font-size: 14px;
+    color: form.$input-color-danger;
+    border-color: form.$input-color-danger;
+    background-color: inherit;
+    transform: translate(-50%, calc(+50% - 2px));
+    overflow: hidden;
+    text-wrap: nowrap;
   }
 
   &__required {
@@ -93,4 +113,8 @@ $padding: 16px;
     color: form.$input-color-success;
     transform: translate(calc($padding / -2), calc(-1 * $padding) - 7px);
   }
+}
+
+.error {
+  border-color: form.$input-color-danger;
 }

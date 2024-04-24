@@ -9,7 +9,7 @@ beforeEach(() => {
 });
 
 describe('Initialization', () => {
-  test('Component should render correctly', () => {
+  test('Component should render correctly', async () => {
     const Component = () => {
       const methods = useForm<{ password: string }>({ defaultValues: { password: '' } });
 
@@ -21,6 +21,8 @@ describe('Initialization', () => {
           inputName="password"
           error={undefined}
           isDirty={undefined}
+          isRequired={true}
+          isSubmitted={methods.formState.isSubmitted}
           reveal={false}
           label="password"
         />
@@ -29,7 +31,7 @@ describe('Initialization', () => {
 
     render(<Component />, { wrapper: BrowserRouter });
 
-    const passwordInput = screen.getByLabelText(/password/i);
+    const passwordInput = await screen.findByLabelText(/password/i);
     const ariaOutputElement = screen.getByRole('status');
 
     expect(passwordInput).toBeInTheDocument();
@@ -52,6 +54,8 @@ describe('Functionality', () => {
           inputName="password"
           error={undefined}
           isDirty={undefined}
+          isRequired={true}
+          isSubmitted={methods.formState.isSubmitted}
           reveal={false}
           label="password"
         />
@@ -81,6 +85,8 @@ describe('Functionality', () => {
           inputName="password"
           error={undefined}
           isDirty={undefined}
+          isRequired={true}
+          isSubmitted={methods.formState.isSubmitted}
           reveal={false}
           label="password"
         />

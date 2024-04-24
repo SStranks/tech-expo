@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import LoginPage from './LoginPage';
 import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
+import { EMAIL_RULES } from '#Components/react-hook-form/validationRules';
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
@@ -71,26 +72,7 @@ describe('Functionality', () => {
     await user.keyboard('validpassword');
     await user.click(signInButton);
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('Entered value does not match email format');
-
-    // Submission
-    expect(console.log).not.toHaveBeenCalled();
-  });
-  test('Form; Input validation; error message on invalid password', async () => {
-    render(<LoginPage />, { wrapper: BrowserRouter });
-    const user = userEvent.setup();
-
-    const emailInput = screen.getByRole('textbox', { name: /email/i });
-    const passwordInput = screen.getByLabelText(/password/i);
-    const signInButton = screen.getByRole('button', { name: /sign in/i });
-
-    passwordInput.focus();
-    await user.keyboard('abc');
-    emailInput.focus();
-    await user.keyboard('valid@address.com');
-    await user.click(signInButton);
-
-    expect(await screen.findByRole('alert')).toHaveTextContent('Minimum length; 5 characters');
+    expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern.message);
 
     // Submission
     expect(console.log).not.toHaveBeenCalled();

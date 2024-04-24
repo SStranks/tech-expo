@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react';
-import SettingsItem from './SettingsItem';
 import userEvent from '@testing-library/user-event';
+import { IconAdministration } from '#Components/svg';
+import SettingsItem from './SettingsItem';
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
-    render(<SettingsItem icon={'url'} title={'title'} description={'description'} />);
+    render(<SettingsItem IconSvg={IconAdministration} title={'title'} description={'description'} />);
 
-    const displayIcon = screen.getByAltText(/icon/i);
+    const displayIcon = screen.getByTitle(/icon administration/i);
     const settingTitle = screen.getByText('title');
     const settingDescription = screen.getByText('description');
     const editButton = screen.getByRole('button', { name: /^show edit title input$/i });
@@ -25,7 +26,7 @@ describe('Initialization', () => {
   });
 
   test('Component should render correctly; edit button click reveals conditional components', async () => {
-    render(<SettingsItem icon={'url'} title={'title'} description={'description'} />);
+    render(<SettingsItem IconSvg={IconAdministration} title={'title'} description={'description'} />);
     const user = userEvent.setup();
 
     const editButton = screen.getByRole('button', { name: /^show edit title input$/i });
@@ -42,7 +43,7 @@ describe('Initialization', () => {
 
 describe('Functionality', () => {
   test('Revealed cancel button; should revert component to original state', async () => {
-    render(<SettingsItem icon={'url'} title={'title'} description={'description'} />);
+    render(<SettingsItem IconSvg={IconAdministration} title={'title'} description={'description'} />);
     const user = userEvent.setup();
 
     let editButton = screen.getByRole('button', { name: /^show edit title input$/i });
@@ -58,7 +59,7 @@ describe('Functionality', () => {
   });
 
   test('Revealed save button; should submit input value and revert component to original state', async () => {
-    render(<SettingsItem icon={'url'} title={'title'} description={'description'} />);
+    render(<SettingsItem IconSvg={IconAdministration} title={'title'} description={'description'} />);
     const user = userEvent.setup();
     const submitSpy = jest.spyOn(console, 'log');
 

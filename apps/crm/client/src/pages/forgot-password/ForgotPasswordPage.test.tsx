@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import ForgotPasswordPage from './ForgotPasswordPage';
 import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
+import { EMAIL_RULES } from '#Components/react-hook-form/validationRules';
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
@@ -61,7 +62,7 @@ describe('Functionality', () => {
     await user.keyboard('invalidAddress');
     await user.click(resetPasswordButton);
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('Entered value does not match email format');
+    expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern.message);
 
     // Submission
     expect(console.log).not.toHaveBeenCalled();

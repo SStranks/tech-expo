@@ -12,13 +12,13 @@ export const EMAIL_RULES = {
 export const PASSWORD_RULES = {
   required: {
     value: true,
-    message: '',
+    message: 'Please enter a valid password',
   },
 };
 
 export const PASSWORDCONFIRM_RULES = {
   required: {
     value: true,
-    message: '',
+    message: 'Please enter a valid password',
   },
 };

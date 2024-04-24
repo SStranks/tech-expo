@@ -7,7 +7,7 @@ describe('Initialization', () => {
   test('Component should render correctly; user settings window should not be present before click event', () => {
     render(<UserSettingsMenu userName="Smith" />, { wrapper: BrowserRouter });
 
-    const userSettingsButton = screen.getByRole('button', { name: /user settings/ });
+    const userSettingsButton = screen.getByRole('button', { name: /user settings menu/ });
     const userSettingsIcon = screen.getByLabelText(/user settings/);
     const userSettingsContentTitle = screen.queryByText(/user settings/i);
     const userSettingsContentUserName = screen.queryByText(/smith/i);
@@ -24,7 +24,7 @@ describe('Initialization', () => {
     const user = userEvent.setup();
 
     // Open portal content
-    const userSettingsButton = screen.getByLabelText(/user settings menu/i, { selector: 'button' });
+    const userSettingsButton = screen.getByRole('button', { name: /user settings menu/ });
     await user.click(userSettingsButton);
 
     const userSettingsContentUserNameText = screen.getByText(/smith/i);

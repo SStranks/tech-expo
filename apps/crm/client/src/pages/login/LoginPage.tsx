@@ -16,7 +16,7 @@ function LoginPage(): JSX.Element {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, dirtyFields },
+    formState: { errors, dirtyFields, isSubmitted },
   } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '', password: '' } });
   const navigate = useNavigate();
   const emailId = useId();
@@ -39,20 +39,29 @@ function LoginPage(): JSX.Element {
           label="Email address"
           error={errors['email']}
           isDirty={dirtyFields['email']}
-          isRequired={EMAIL_RULES?.required}>
-          <Input id={emailId} type="email" register={{ ...register('email', EMAIL_RULES) }} error={errors.email} />
+          isRequired={EMAIL_RULES?.required}
+          isSubmitted={isSubmitted}>
+          <Input
+            id={emailId}
+            type="email"
+            register={{ ...register('email', EMAIL_RULES) }}
+            error={errors.email}
+            isRequired={EMAIL_RULES.required}
+          />
         </InputUx>
         <InputUx
           id={passwordId}
           label="Password"
           error={errors['password']}
           isDirty={dirtyFields['password']}
-          isRequired={PASSWORD_RULES?.required}>
+          isRequired={PASSWORD_RULES?.required}
+          isSubmitted={isSubmitted}>
           <Input
             id={passwordId}
             type="password"
             register={{ ...register('password', PASSWORD_RULES) }}
             error={errors.password}
+            isRequired={PASSWORD_RULES.required}
           />
         </InputUx>
         <div className={styles.options}>
@@ -64,7 +73,8 @@ function LoginPage(): JSX.Element {
             <span className={styles.loginForm__link}>Forgot Password</span>
           </Link>
         </div>
-        <button type="submit" className={styles.loginForm__submitBtn} disabled={!isValid}>
+        {/* <button type="submit" className={styles.loginForm__submitBtn} disabled={!isValid}> */}
+        <button type="submit" className={styles.loginForm__submitBtn}>
           Sign In
         </button>
         <p>

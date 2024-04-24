@@ -23,7 +23,7 @@ function RegisterPage(): JSX.Element {
     control,
     trigger,
     handleSubmit,
-    formState: { errors, dirtyFields },
+    formState: { errors, dirtyFields, isSubmitted },
     // formState: { isValid, errors, dirtyFields },
   } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '', password: '' } });
   const navigate = useNavigate();
@@ -48,8 +48,15 @@ function RegisterPage(): JSX.Element {
           label="Email address"
           error={errors['email']}
           isDirty={dirtyFields['email']}
-          isRequired={EMAIL_RULES?.required}>
-          <Input id={emailId} type="email" register={{ ...register('email', EMAIL_RULES) }} error={errors.email} />
+          isRequired={EMAIL_RULES?.required}
+          isSubmitted={isSubmitted}>
+          <Input
+            id={emailId}
+            type="email"
+            register={{ ...register('email', EMAIL_RULES) }}
+            error={errors.email}
+            isRequired={EMAIL_RULES?.required}
+          />
         </InputUx>
         <Suspense fallback={<InputPasswordSkeleton label="Password" />}>
           <InputPasswordStrength
@@ -58,7 +65,9 @@ function RegisterPage(): JSX.Element {
             trigger={trigger}
             inputName="password"
             error={errors.password}
+            isRequired
             isDirty={dirtyFields.password}
+            isSubmitted={isSubmitted}
             reveal={false}
             label="Password"
           />

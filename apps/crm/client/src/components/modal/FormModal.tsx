@@ -106,6 +106,8 @@ FormModal.Input = function Input({ name, type, label, rules = {} }: IInput) {
   } = useFormContext();
   const id = useId();
 
+  // console.log(errors);
+
   return (
     <InputUx
       id={id}
@@ -113,7 +115,13 @@ FormModal.Input = function Input({ name, type, label, rules = {} }: IInput) {
       error={errors[name as string]}
       isDirty={dirtyFields[name]}
       isRequired={rules?.required}>
-      <RHFInput register={{ ...register(name, rules) }} id={id} type={type} error={errors[name as string]} />
+      <RHFInput
+        register={{ ...register(name, rules) }}
+        id={id}
+        type={type}
+        error={errors[name as string]}
+        isRequired={rules?.required}
+      />
     </InputUx>
   );
 };
@@ -341,11 +349,11 @@ FormModal.TagGroup = function TagGroup({ name, label, rules = {} }: ITagGroup) {
 interface IComboTag {
   name: string;
   label: string;
-  items: { name: string }[];
+  listItems: { id: string; name: string }[];
   rules?: RegisterOptions;
 }
 
-FormModal.ComboTag = function ComboTag({ name, label, items, rules = {} }: IComboTag) {
+FormModal.ComboTag = function ComboTag({ name, label, listItems, rules = {} }: IComboTag) {
   const {
     control,
     trigger,
@@ -366,7 +374,7 @@ FormModal.ComboTag = function ComboTag({ name, label, items, rules = {} }: IComb
             ReactAriaComponent={InputComboTag}
             value={value}
             onChange={onChange}
-            {...{ name, id, label, items, onBlur, defaultValue, isInvalid, trigger }}
+            {...{ name, id, label, listItems, onBlur, defaultValue, isInvalid, trigger }}
           />
         </InputUx>
       )}

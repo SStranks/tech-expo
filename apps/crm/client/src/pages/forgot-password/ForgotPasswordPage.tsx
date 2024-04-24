@@ -14,7 +14,7 @@ function ForgotPasswordPage(): JSX.Element {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, dirtyFields },
+    formState: { errors, dirtyFields, isSubmitted },
   } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '' } });
   const navigate = useNavigate();
   const id = useId();
@@ -38,10 +38,17 @@ function ForgotPasswordPage(): JSX.Element {
           label="Email address"
           error={errors['email']}
           isDirty={dirtyFields['email']}
-          isRequired={EMAIL_RULES?.required}>
-          <Input id={id} type="email" register={{ ...register('email', EMAIL_RULES) }} error={errors.email} />
+          isRequired={EMAIL_RULES?.required}
+          isSubmitted={isSubmitted}>
+          <Input
+            id={id}
+            type="email"
+            register={{ ...register('email', EMAIL_RULES) }}
+            error={errors.email}
+            isRequired={EMAIL_RULES.required}
+          />
         </InputUx>
-        <button type="submit" className={styles.resetPasswordForm__submitBtn} disabled={!isValid}>
+        <button type="submit" className={styles.resetPasswordForm__submitBtn}>
           Email Reset Instructions
         </button>
         <p>
