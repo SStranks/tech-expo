@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@internationalized/date": "^3.5.2",
+    "@tanstack/react-table": "^8.16.0",
     "@zxcvbn-ts/core": "^3.0.4",
     "@zxcvbn-ts/language-common": "^3.0.4",
     "@zxcvbn-ts/language-en": "^3.0.2",
