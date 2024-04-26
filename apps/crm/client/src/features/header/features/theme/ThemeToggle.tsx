@@ -14,7 +14,12 @@ const themePreferenceLocalStorage = (body: HTMLElement | null) => {
 
 const themeToggle = () => {
   const body = document.querySelector('body');
+  body?.classList.add('theme-transition-duration');
   body?.classList.toggle('dark-theme');
+  requestAnimationFrame(() => {
+    // Theme transition duration is added and immediately removed; prevents clash with :hover transitions
+    body?.classList.remove('theme-transition-duration');
+  });
   themePreferenceLocalStorage(body);
 };
 
