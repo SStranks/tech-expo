@@ -46,6 +46,22 @@ $theme-transition-boxshadow: box-shadow $theme-transition-duration;
 $theme-transition-border-color: border-color $theme-transition-duration;
 $theme-transition-filter: filter $theme-transition-duration;
 
+@mixin transitions {
+  transition-property:
+    color,
+    background-color,
+    border-color,
+    text-decoration-color,
+    fill,
+    stroke,
+    opacity,
+    box-shadow,
+    transform,
+    filter,
+    backdrop-filter,
+    -webkit-backdrop-filter;
+}
+
 /* -------------------------------- */
 /*   Element Transitions            */
 /* -------------------------------- */
@@ -85,6 +101,7 @@ $input-focus:
 ///   }
 /// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
 
+$button-hover-viewport: background-color 200ms;
 $button-hover-header: background-color 650ms;
 $button-hover-sidebar: background-color 650ms;
 $icon-hover-vertical-transition: transform 150ms;

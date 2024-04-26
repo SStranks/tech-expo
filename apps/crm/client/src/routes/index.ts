@@ -1,2 +1,11 @@
-export { default as DashboardRoute } from './DashboardRoute';
+export { default as AdministrationRoute } from './AdministrationRoute';
+export { default as AuditlogRoute } from './AuditlogRoute';
 export { default as CalendarRoute } from './CalendarRoute';
+export { default as CompaniesRoute } from './CompaniesRoute';
+export { default as ContactsRoute } from './Contacts/ContactsRoute';
+export { default as DashboardRoute } from './DashboardRoute';
+export { default as KanbanRoute } from './KanbanRoute';
+export { default as PipelineRoute } from './PipelineRoute';
+export { default as QuotesRoute } from './QuotesRoute';
+export { default as ScrumboardRoute } from './ScrumboardRoute';
+export { default as SettingsRoute } from './SettingsRoute';

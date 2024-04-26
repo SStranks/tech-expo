@@ -1,0 +1,42 @@
+.rowActions {
+  display: flex;
+  column-gap: 5px;
+}
+
+@mixin button-base {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--thm-border-default);
+  border-radius: 4px;
+}
+
+.svg {
+  min-width: 14px;
+  height: 14px;
+  color: var(--thm-icon-default);
+}
+
+.button {
+  @include button-base;
+
+  &:hover {
+    border-color: var(--thm-icon-info);
+
+    & .svg {
+      color: var(--thm-icon-info);
+    }
+  }
+}
+
+.buttonDelete {
+  @include button-base;
+  border: 1px solid var(--thm-border-danger);
+
+  &:hover {
+    background-color: hsl(from var(--thm-icon-danger) h s l / 20%);
+
+    & .svg {
+      color: var(--thm-icon-danger);
+    }
+  }
+}

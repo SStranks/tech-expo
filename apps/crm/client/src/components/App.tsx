@@ -4,7 +4,19 @@ import Header from '#Features/header/Header';
 import DefaultLayout from '#Layouts/DefaultLayout';
 import { Authenticate } from '#Modules/index';
 import { ForgotPasswordPage, LoginPage, RegisterPage, UpdatePasswordPage } from '#Pages/index';
-import { DashboardRoute, CalendarRoute } from '#Routes/index';
+import {
+  DashboardRoute,
+  CalendarRoute,
+  ContactsRoute,
+  ScrumboardRoute,
+  KanbanRoute,
+  PipelineRoute,
+  CompaniesRoute,
+  QuotesRoute,
+  AdministrationRoute,
+  SettingsRoute,
+  AuditlogRoute,
+} from '#Routes/index';
 
 function App(): JSX.Element {
   return (
@@ -20,6 +32,15 @@ function App(): JSX.Element {
           }>
           <Route index element={<DashboardRoute />} />
           <Route path="calendar" element={<CalendarRoute />} />
+          <Route path="scrumboard" element={<ScrumboardRoute />} />
+          <Route path="kanban" element={<KanbanRoute />} />
+          <Route path="pipeline" element={<PipelineRoute />} />
+          <Route path="companies" element={<CompaniesRoute />} />
+          <Route path="contacts" element={<ContactsRoute />} />
+          <Route path="quotes" element={<QuotesRoute />} />
+          <Route path="administration" element={<AdministrationRoute />} />
+          <Route path="settings" element={<SettingsRoute />} />
+          <Route path="auditlog" element={<AuditlogRoute />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
         <Route

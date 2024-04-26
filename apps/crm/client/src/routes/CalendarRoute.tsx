@@ -1,5 +1,7 @@
+import ViewportLayout from '#Layouts/ViewportLayout';
+
 function CalendarRoute(): JSX.Element {
-  return <div>Calendar Route</div>;
+  return <ViewportLayout>Calendar Route</ViewportLayout>;
 }
 
 export default CalendarRoute;

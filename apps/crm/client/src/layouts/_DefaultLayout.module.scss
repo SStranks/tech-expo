@@ -1,9 +1,12 @@
 @use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/mixins' as mx;
 @use '#Sass/abstracts/variables' as v;
 
 .layout {
+  @include mx.scrollbar-base;
   width: 100%;
-  height: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 
   &__header {
     height: v.$header-dim-vertical;

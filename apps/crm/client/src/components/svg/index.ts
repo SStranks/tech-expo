@@ -4,6 +4,7 @@ export interface IProps {
 }
 export type IIcon = ({ svgClass }: IProps) => JSX.Element;
 
+export { default as IconAddCircle } from './IconAddCircle';
 export { default as IconAdministration } from './IconAdministration';
 export { default as IconAudit } from './IconAudit';
 export { default as IconArrowDownAlt } from './IconArrowDownAlt';
@@ -22,8 +23,11 @@ export { default as IconDelete } from './IconDelete';
 export { default as IconEdit } from './IconEdit';
 export { default as IconEmail } from './IconEmail';
 export { default as IconEye } from './IconEye';
+export { default as IconFilter } from './IconFilter';
+export { default as IconGrid } from './IconGrid';
 export { default as IconInfoCircle } from './IconInfoCircle';
 export { default as IconKanban } from './IconKanban';
+export { default as IconList } from './IconList';
 export { default as IconLogout } from './IconLogout';
 export { default as IconNotificationBell } from './IconNotificationBell';
 export { default as IconNotebook } from './IconNotebook';
@@ -36,6 +40,7 @@ export { default as IconPipe } from './IconPipe';
 export { default as IconScrum } from './IconScrum';
 export { default as IconSearch } from './IconSearch';
 export { default as IconSettings } from './IconSettings';
+export { default as IconSortVertical } from './IconSortVertical';
 export { default as IconSmartphone } from './IconSmartphone';
 export { default as IconTheme } from './IconTheme';
 export { default as IconTimezone } from './IconTimezone';

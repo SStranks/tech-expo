@@ -204,6 +204,14 @@ $dark-theme: (
   }
 }
 
+.theme-transition-duration {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 1s !important;
+  }
+}
+
 /* -------------------------------- */
 /*   Alt Theme                      */
 /* -------------------------------- */

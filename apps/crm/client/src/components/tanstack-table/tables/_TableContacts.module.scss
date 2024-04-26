@@ -1,0 +1,99 @@
+@use '#Sass/abstracts/colors' as c;
+@use '#Sass/abstracts/mixins' as mx;
+@use '#Sass/abstracts/variables' as v;
+
+@mixin column-sticky {
+  position: sticky;
+  right: 0;
+  background-color: var(--thm-background-screen);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 100%;
+    background: linear-gradient(to left, var(--thm-background-screen), transparent);
+    transform: translateX(-10px);
+  }
+}
+
+.tableContainer {
+  @include mx.scrollbar-table-base;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  width: 100%;
+  height: 450px;
+  overflow: auto;
+}
+
+.table {
+  border-collapse: collapse;
+}
+
+.thead {
+  display: table-header-group;
+  height: 40px;
+  color: var(--thm-text-secondary);
+  font-size: 14px;
+  font-weight: 800;
+  border-bottom: 1px solid var(--thm-border-default);
+  transition-property: color, border;
+}
+
+.th {
+  padding-inline: 16px;
+  text-align: left;
+
+  // &:last-of-type {
+  //   @include column-sticky;
+  // }
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__controls {
+      display: flex;
+      align-items: center;
+      column-gap: 5px;
+      margin-left: 20px;
+    }
+  }
+
+  &__svg {
+    min-width: 14px;
+    height: 14px;
+  }
+
+  &__svgFilter {
+    min-width: 18px;
+    height: 18px;
+  }
+}
+
+.tbody {
+  color: var(--thm-text-default);
+  font-size: 14px;
+  transition-property: color;
+
+  &__tr {
+    height: 40px;
+    transition-property: background-color;
+
+    &:nth-child(even) {
+      background-color: var(--thm-background-subtle);
+    }
+
+    // & > td:last-of-type {
+    //   @include column-sticky;
+    // }
+  }
+}
+
+.td {
+  padding-inline: 16px;
+  text-wrap: nowrap;
+}

@@ -1,0 +1,33 @@
+.radioGroup {
+  position: relative;
+  display: flex;
+  height: 100%;
+  background-color: transparent;
+  border-radius: 6px;
+}
+
+.radio {
+  padding-inline: 15px;
+  border: 1px solid var(--thm-border-default);
+  color: var(--thm-icon-default);
+  transition-property: border-color, color;
+
+  &:first-of-type {
+    border-radius: 6px 0 0 6px;
+  }
+
+  &:last-of-type {
+    border-radius: 0 6px 6px 0;
+    margin-left: -1px;
+  }
+
+  &[data-selected] {
+    color: var(--thm-icon-info);
+    border-color: var(--thm-border-info);
+    z-index: 1; // Due to negative margin, ensure active is always on top
+  }
+
+  &[data-hovered] {
+    color: var(--thm-icon-info);
+  }
+}

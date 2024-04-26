@@ -1,0 +1,26 @@
+$padding: 16px;
+
+.timeField {
+  display: flex;
+  align-items: center;
+  padding-inline: $padding;
+}
+
+// .label {}
+
+.dateInput {
+  display: flex;
+  color: var(--thm-text-default);
+}
+
+.dateSegment {
+  outline: none;
+
+  &:focus {
+    background-color: var(--thm-icon-info);
+  }
+}
+
+// .text {}
+
+// .fieldError {}

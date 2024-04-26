@@ -1,0 +1,60 @@
+@use '#Sass/abstracts/animations' as a;
+
+.searchField {
+  display: flex;
+  align-items: center;
+  padding: 5px 5px 5px 10px;
+  background-color: transparent;
+  border: 1px solid var(--thm-button-secondary-border);
+  border-radius: 6px;
+  font-size: 14px;
+  transition: a.$theme-transition-border-color;
+
+  &:hover {
+    transition-duration: 0.1ms;
+    border-color: var(--thm-border-info);
+  }
+
+  &:has(.input:focus) {
+    border: 1px solid var(--thm-border-info);
+    box-shadow: 0 0 5px 1px var(--thm-border-info);
+  }
+}
+
+.iconSearch {
+  width: 18px;
+  height: 18px;
+
+  & > path {
+    color: var(--thm-icon-default);
+  }
+}
+
+.input {
+  margin-left: 8px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    appearance: none;
+  }
+}
+
+.button {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--thm-background-element);
+  }
+
+  &__svg {
+    & path {
+      color: var(--thm-icon-default);
+    }
+  }
+}

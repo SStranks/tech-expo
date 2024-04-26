@@ -20,6 +20,7 @@
 /*   Imports                        */
 @use '../abstracts/variables' as *;
 @use '../abstracts/animations' as a;
+@use '../abstracts/mixins' as mx;
 
 /* -------------------------------- */
 /*   Globals                        */
@@ -37,25 +38,9 @@ body {
   text-rendering: optimizespeed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  @include mx.scrollbar-base;
 
   // overflow-y: overlay;
-
-  &::-webkit-scrollbar-track {
-    background-color: hsl(0deg 0% 0% / 20%);
-  }
-
-  &::-webkit-scrollbar {
-    background-color: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: hsl(0deg 0% 0% / 50%);
-    border-radius: 5px;
-
-    &:vertical:hover {
-      background-color: hsl(0deg 0% 100% / 75%);
-    }
-  }
 }
 
 img,

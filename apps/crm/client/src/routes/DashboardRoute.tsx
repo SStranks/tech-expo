@@ -1,5 +1,7 @@
+import ViewportLayout from '#Layouts/ViewportLayout';
+
 function DashboardRoute(): JSX.Element {
-  return <div>Dashboard Route</div>;
+  return <ViewportLayout>Dashboard Route</ViewportLayout>;
 }
 
 export default DashboardRoute;

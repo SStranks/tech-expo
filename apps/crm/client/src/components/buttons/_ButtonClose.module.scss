@@ -1,0 +1,17 @@
+.closeBtn {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  border-radius: 4px;
+  margin-right: 6px;
+
+  &:hover {
+    background-color: var(--thm-background-element);
+  }
+
+  &__svg {
+    & path {
+      color: var(--thm-icon-default);
+    }
+  }
+}

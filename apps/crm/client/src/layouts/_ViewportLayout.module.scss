@@ -1,0 +1,11 @@
+@use '#Sass/abstracts/variables' as v;
+
+.viewportLayout {
+  max-height: calc(100vh - v.$header-dim-vertical);
+  padding: 24px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

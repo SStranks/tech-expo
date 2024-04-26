@@ -1,25 +1,12 @@
-import IconClose from '#Components/svg/IconClose';
-import IconDelete from '#Components/svg/IconDelete';
+import { IIcon } from '#Components/svg';
 import styles from './_Button.module.scss';
 
-function IconSelect(iconName: TIcon, buttonType: TType): string | JSX.Element {
-  switch (iconName) {
-    case 'close': {
-      return <IconClose svgClass={styles[`icon--${buttonType}`]} />;
-    }
-    case 'delete': {
-      return <IconDelete />;
-    }
-  }
-}
-
-type TIcon = 'close' | 'delete';
 type TType = 'primary' | 'secondary' | 'quaternary';
 
 interface IProps {
   buttonClickFn?: (data?: unknown) => void;
   buttonDisabled?: boolean;
-  buttonIcon?: TIcon;
+  ButtonIcon?: IIcon;
   buttonShape?: 'default' | 'circle' | 'pill';
   buttonSize?: 'small' | 'default' | 'large';
   buttonStyle?: TType;
@@ -31,7 +18,7 @@ interface IProps {
 function Button({
   buttonClickFn = undefined,
   buttonDisabled = undefined,
-  buttonIcon = undefined,
+  ButtonIcon = undefined,
   buttonShape = 'default',
   buttonSize = 'default',
   buttonStyle = 'primary',
@@ -44,8 +31,8 @@ function Button({
   };
 
   const text = buttonText ? <span className={styles.button__text}>{buttonText}</span> : false;
-  const icon = buttonIcon ? IconSelect(buttonIcon, buttonStyle) : false;
-  const iconOnly = !!(!buttonText && buttonIcon);
+  const icon = ButtonIcon ? <ButtonIcon /> : false;
+  const iconOnly = !!(!buttonText && ButtonIcon);
   const classes = `${styles.button} ${styles[`type--${buttonStyle}`]} ${styles[`size--${buttonSize}`]} ${styles[`shape--${buttonShape}`]} ${iconOnly ? styles.iconOnly : ''}`;
 
   return (
