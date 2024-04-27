@@ -1,0 +1,35 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  color: var(--thm-icon-default);
+  font-size: 14px;
+
+  &:hover {
+    background-color: var(--thm-background-subtle);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+  }
+
+  &__active {
+    border: 1px solid var(--thm-icon-info);
+    color: var(--thm-icon-info);
+  }
+}
+
+.svg {
+  min-width: 20px;
+  height: 20px;
+  color: var(--thm-icon-default);
+  pointer-events: none;
+
+  &__active {
+    pointer-events: none;
+    color: var(--thm-icon-info);
+  }
+}

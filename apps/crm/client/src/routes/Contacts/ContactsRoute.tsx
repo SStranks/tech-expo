@@ -24,7 +24,7 @@ function ContactsRoute(): JSX.Element {
             <IconAddCircle svgClass={styles.header__createContactBtn__svg} />
           </button>
           <div className={styles.header__controls}>
-            <InputSearchField />
+            <InputSearchField label="Search Contacts" />
             <ListGridToggle />
           </div>
         </div>

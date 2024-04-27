@@ -14,7 +14,7 @@ function TableControls(props: IProps): JSX.Element {
         <span>{entriesTotal}</span>
         {` ${entriesName} in total`}
       </p>
-      <TablePaginatorControl />
+      <TablePaginatorControl numberOfPages={10} />
     </div>
   );
 }

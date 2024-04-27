@@ -1,12 +1,19 @@
-import { SearchField, Input, Button } from 'react-aria-components';
+import { SearchField, Input, Button, Label } from 'react-aria-components';
 import styles from './_InputSearchField.module.scss';
 import { IconClose, IconSearch } from '#Components/svg';
 
-function InputSearchField(): JSX.Element {
+interface IProps {
+  label: string;
+}
+
+function InputSearchField(props: IProps): JSX.Element {
+  const { label } = props;
+
   return (
     <SearchField className={styles.searchField}>
+      <Label className="invisibleAccessible">{label}</Label>
       <IconSearch svgClass={styles.iconSearch} />
-      <Input className={styles.input} placeholder="Contact name" aria-label="Search Contacts" />
+      <Input className={styles.input} placeholder="Contact name" />
       <Button className={styles.button}>
         <IconClose svgClass={styles.button__svg} />
       </Button>
