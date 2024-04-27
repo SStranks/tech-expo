@@ -1,3 +1,21 @@
 .tableControls {
   display: flex;
+  justify-content: flex-end;
+  width: fit-content;
+}
+
+.information {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+  color: var(--thm-text-secondary);
+  font-size: 14px;
+
+  &__total {
+    color: var(--thm-text-default);
+  }
+}
+
+.paginator {
+  margin-right: 40px;
 }

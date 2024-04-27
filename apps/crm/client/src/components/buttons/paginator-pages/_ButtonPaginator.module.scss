@@ -20,6 +20,10 @@
     border: 1px solid var(--thm-icon-info);
     color: var(--thm-icon-info);
   }
+
+  &__number {
+    line-height: 1.6;
+  }
 }
 
 .svg {

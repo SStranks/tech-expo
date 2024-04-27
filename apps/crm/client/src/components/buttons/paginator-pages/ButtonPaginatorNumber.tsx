@@ -1,4 +1,4 @@
-import styles from './_ButtonPaginatorPages.module.scss';
+import styles from './_ButtonPaginator.module.scss';
 
 interface IProps {
   number: number;
@@ -14,7 +14,7 @@ function ButtonPaginatorNumber(props: IProps): JSX.Element {
       onClick={onClick}
       title={number.toString()}
       className={`${styles.button} ${active ? styles.button__active : ''}`}>
-      <span>{number}</span>
+      <span className={styles.button__number}>{number}</span>
     </button>
   );
 }
