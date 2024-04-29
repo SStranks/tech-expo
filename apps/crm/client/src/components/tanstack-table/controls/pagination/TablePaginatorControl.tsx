@@ -1,48 +1,45 @@
-import { useState } from 'react';
+import type { Updater } from '@tanstack/react-table';
 import ButtonPaginatorNumber from '#Components/buttons/paginator-pages/ButtonPaginatorNumber';
 import ButtonPaginatorPages from '#Components/buttons/paginator-pages/ButtonPaginatorPages';
 import ButtonPaginatorSinglePage from '#Components/buttons/paginator-pages/ButtonPaginatorSinglePage';
 import styles from './_TablePaginatorControl.module.scss';
 
 interface IProps {
-  numberOfPages: number;
+  pageCount: number;
+  pageIndex: number;
+  setPageIndex: (updater: Updater<number>) => void;
 }
 
 function TablePaginatorControl(props: IProps): JSX.Element {
-  const { numberOfPages } = props;
-  const [activePageNumber, setActivePageNumber] = useState<number>(1);
+  const { pageCount, pageIndex: pageIndexProp, setPageIndex: setPageIndexProp } = props;
+  // Tanstack-Table; pagination is zero-based
+  const pageIndex = pageIndexProp + 1;
+  const setPageIndex = (i: number) => setPageIndexProp(i - 1);
 
   const singlePagePreviousDisabled = () => {
-    if (activePageNumber > 1 && numberOfPages > 1) return false;
+    if (pageIndex > 1 && pageCount > 1) return false;
     return true;
   };
 
   const singlePageNextDisabled = () => {
-    if (activePageNumber < numberOfPages && numberOfPages > 1) return false;
+    if (pageIndex < pageCount && pageCount > 1) return false;
     return true;
   };
 
   const shiftPages = (direction: 'previous' | 'next', amount: 1 | 5) => {
     let pageNumber;
     if (direction === 'previous') {
-      pageNumber = activePageNumber - amount;
+      pageNumber = pageIndex - amount;
       pageNumber < 1 ? (pageNumber = 1) : null;
     } else {
-      pageNumber = activePageNumber + amount;
-      pageNumber > numberOfPages ? (pageNumber = numberOfPages) : null;
+      pageNumber = pageIndex + amount;
+      pageNumber > pageCount ? (pageNumber = pageCount) : null;
     }
-    return setActivePageNumber(pageNumber);
+    return setPageIndex(pageNumber);
   };
 
   const createButtonPaginatorNumber = (i: number) => {
-    return (
-      <ButtonPaginatorNumber
-        key={i}
-        number={i}
-        active={i === activePageNumber}
-        onClick={() => setActivePageNumber(i)}
-      />
-    );
+    return <ButtonPaginatorNumber key={i} number={i} active={i === pageIndex} onClick={() => setPageIndex(i)} />;
   };
 
   // Construct numbers buttons elements and multi-page-shift button elements
@@ -50,15 +47,10 @@ function TablePaginatorControl(props: IProps): JSX.Element {
     // Start/End numbers always included;
     // Number range should be +-2 from active number, not including end numbers;
     const jsxElements = [
-      <ButtonPaginatorNumber
-        key={0}
-        number={1}
-        active={1 === activePageNumber}
-        onClick={() => setActivePageNumber(1)}
-      />,
+      <ButtonPaginatorNumber key={0} number={1} active={1 === pageIndex} onClick={() => setPageIndex(1)} />,
     ];
 
-    if (activePageNumber > 4)
+    if (pageIndex > 4)
       jsxElements.push(
         <ButtonPaginatorPages
           key={'prev'}
@@ -69,27 +61,24 @@ function TablePaginatorControl(props: IProps): JSX.Element {
       );
 
     const initialPos =
-      activePageNumber -
-      2 +
-      Math.abs(Math.min(activePageNumber - 3, 0)) -
-      Math.abs(Math.min(numberOfPages - (activePageNumber + 2), 0));
+      pageIndex - 2 + Math.abs(Math.min(pageIndex - 3, 0)) - Math.abs(Math.min(pageCount - (pageIndex + 2), 0));
 
     for (let i = 0, j = initialPos; i < 5; i++, j++) {
-      if (j < activePageNumber && j > 1) {
+      if (j < pageIndex && j > 1) {
         jsxElements.push(createButtonPaginatorNumber(j));
         continue;
       }
-      if (j === activePageNumber && j > 1 && j < numberOfPages) {
+      if (j === pageIndex && j > 1 && j < pageCount) {
         jsxElements.push(createButtonPaginatorNumber(j));
         continue;
       }
-      if (j > activePageNumber && j < numberOfPages) {
+      if (j > pageIndex && j < pageCount) {
         jsxElements.push(createButtonPaginatorNumber(j));
         continue;
       }
     }
 
-    if (activePageNumber < numberOfPages - 3)
+    if (pageIndex < pageCount - 3)
       jsxElements.push(
         <ButtonPaginatorPages
           key={'next'}
@@ -99,7 +88,7 @@ function TablePaginatorControl(props: IProps): JSX.Element {
         />
       );
 
-    if (numberOfPages > 1) jsxElements.push(createButtonPaginatorNumber(numberOfPages));
+    if (pageCount > 1) jsxElements.push(createButtonPaginatorNumber(pageCount));
 
     return jsxElements;
   };

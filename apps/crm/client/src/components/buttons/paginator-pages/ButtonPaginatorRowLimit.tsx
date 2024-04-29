@@ -1,10 +1,23 @@
+import type { Updater } from '@tanstack/react-table';
+import { Button, Key, Label, ListBox, ListBoxItem, Popover, Select, SelectValue } from 'react-aria-components';
 import { IconList } from '#Components/svg';
-import { Button, Label, ListBox, ListBoxItem, Popover, Select, SelectValue } from 'react-aria-components';
 import styles from './_ButtonPaginatorRowLimit.module.scss';
 
-function ButtonPaginatorRowLimit(): JSX.Element {
+const PAGE_SIZES = [10, 20, 50, 100];
+
+interface IProps {
+  setPageSize: (updater: Updater<number>) => void;
+}
+
+function ButtonPaginatorRowLimit(props: IProps): JSX.Element {
+  const { setPageSize } = props;
+
+  const onSelectionChange = (key: Key) => {
+    setPageSize(key as number);
+  };
+
   return (
-    <Select defaultSelectedKey={0} className={styles.select}>
+    <Select onSelectionChange={onSelectionChange} defaultSelectedKey={PAGE_SIZES[0]} className={styles.select}>
       <Label className="invisibleAccessible">Select number of rows visible</Label>
       <Button className={styles.button}>
         <IconList svgClass={styles.button__svg} />
@@ -12,12 +25,11 @@ function ButtonPaginatorRowLimit(): JSX.Element {
       <SelectValue className={styles.selectValue} />
       <Popover className={styles.popover}>
         <ListBox>
-          <ListBoxItem id={0} className={styles.listItem}>
-            10
-          </ListBoxItem>
-          <ListBoxItem className={styles.listItem}>20</ListBoxItem>
-          <ListBoxItem className={styles.listItem}>50</ListBoxItem>
-          <ListBoxItem className={styles.listItem}>100</ListBoxItem>
+          {PAGE_SIZES.map((number: number) => (
+            <ListBoxItem key={number} id={number} className={styles.listItem} textValue={number.toString()}>
+              {number}
+            </ListBoxItem>
+          ))}
         </ListBox>
       </Popover>
     </Select>
