@@ -3,16 +3,23 @@ import {
   SortingState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { IconFilter } from '#Components/svg';
+import ListGridToggle from '#Components/buttons/list-grid-toggle/ListGridToggle';
+import { IconAddCircle, IconFilter } from '#Components/svg';
 import { ITableDataContacts } from '#Data/MockData';
 import columns from '../columns/ColumnContacts';
-import SortRowControl from '../controls/sort-row/SortRowControl';
+import GlobalFilterControl from '../controls/global-filter/GlobalFilterControl';
 import TableControls from '../controls/pagination/TableControls';
+import SortRowControl from '../controls/sort-row/SortRowControl';
 import styles from './_TableContacts.module.scss';
+
+const createContactClickHandler = () => {
+  console.log('Click');
+};
 
 interface IProps {
   tableData: ITableDataContacts[];
@@ -24,6 +31,7 @@ function TableContacts(props: IProps): JSX.Element {
   const [data] = useState<ITableDataContacts[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  const [globalFilter, setGlobalFitler] = useState<string>('');
 
   const table = useReactTable({
     data,
@@ -31,16 +39,33 @@ function TableContacts(props: IProps): JSX.Element {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
       pagination,
+      globalFilter,
     },
     onSortingChange: setSorting,
     onPaginationChange: setPagination,
+    onGlobalFilterChange: setGlobalFitler,
   });
 
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+        <button type="button" className={styles.header__createContactBtn} onClick={createContactClickHandler}>
+          <span>Create Contact</span>
+          <IconAddCircle svgClass={styles.header__createContactBtn__svg} />
+        </button>
+        <div className={styles.header__controls}>
+          <GlobalFilterControl
+            globalFilter={globalFilter}
+            setGlobalFilter={setGlobalFitler}
+            label="Search contacts by name, email, company, or title"
+          />
+          <ListGridToggle />
+        </div>
+      </div>
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead className={styles.thead}>
@@ -73,8 +98,9 @@ function TableContacts(props: IProps): JSX.Element {
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
-              </tr>
+              </tr> // Empty <tr>; prevents rows from expanding to fill table when total rows height is less than the table height
             ))}
+            <tr className={styles.tbody__emptyTr} />
           </tbody>
         </table>
       </div>

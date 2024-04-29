@@ -1,6 +1,7 @@
 @use '#Sass/abstracts/colors' as c;
 @use '#Sass/abstracts/mixins' as mx;
 @use '#Sass/abstracts/variables' as v;
+@use '#Sass/components/buttons' as btn;
 
 @mixin column-sticky {
   position: sticky;
@@ -26,6 +27,41 @@
   display: grid;
   grid-template-columns: auto;
   gap: 25px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 16px;
+  color: white;
+  border: 1px solid var(--thm-border-default);
+  border-radius: 6px;
+  transition-property: border-color;
+
+  & :first-child {
+    margin-right: auto;
+  }
+
+  &__createContactBtn {
+    @include btn.btn-primary;
+    height: 36px;
+    column-gap: 8px;
+    font-size: 14px;
+
+    &__svg {
+      min-width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    height: 40px;
+  }
 }
 
 .tableContainer {
@@ -88,6 +124,7 @@
 
   &__tr {
     height: 40px;
+    max-height: 40px;
     transition-property: background-color;
 
     &:nth-child(even) {
