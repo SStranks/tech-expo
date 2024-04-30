@@ -1,0 +1,59 @@
+@use '#Sass/components/buttons' as btn;
+
+.triggerBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+
+  &__active {
+    border: 1px solid var(--thm-icon-info);
+  }
+
+  &:hover {
+    background-color: var(--thm-background-subtle);
+  }
+}
+
+.svg {
+  min-width: 14px;
+  height: 14px;
+  color: var(--thm-icon-default);
+
+  &__active {
+    color: var(--thm-icon-info);
+  }
+}
+
+.popover {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 15px;
+  padding: 10px;
+  background-color: var(--thm-background-default);
+  border: 1px solid var(--thm-border-default);
+  border-radius: 6px;
+
+  &__controls {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 8px;
+  }
+}
+
+.filterBtn {
+  @include btn.btn-primary;
+  column-gap: 4px;
+  min-height: 24px;
+  font-size: 14px;
+}
+
+.clearBtn {
+  min-height: 24px;
+  padding-inline: 8px;
+  background-color: var(--thm-background-danger);
+  border-radius: 6px;
+  font-size: 14px;
+}

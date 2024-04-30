@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  ColumnFiltersState,
   SortingState,
   flexRender,
   getCoreRowModel,
@@ -9,13 +10,14 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import ListGridToggle from '#Components/buttons/list-grid-toggle/ListGridToggle';
-import { IconAddCircle, IconFilter } from '#Components/svg';
+import { IconAddCircle } from '#Components/svg';
 import { ITableDataContacts } from '#Data/MockData';
 import columns from '../columns/ColumnContacts';
 import GlobalFilterControl from '../controls/global-filter/GlobalFilterControl';
 import TableControls from '../controls/pagination/TableControls';
 import SortRowControl from '../controls/sort-row/SortRowControl';
 import styles from './_TableContacts.module.scss';
+import FilterRowControl from '../controls/filter-row/FilterRowControl';
 
 const createContactClickHandler = () => {
   console.log('Click');
@@ -32,6 +34,7 @@ function TableContacts(props: IProps): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [globalFilter, setGlobalFitler] = useState<string>('');
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
     data,
@@ -44,10 +47,12 @@ function TableContacts(props: IProps): JSX.Element {
       sorting,
       pagination,
       globalFilter,
+      columnFilters,
     },
     onSortingChange: setSorting,
     onPaginationChange: setPagination,
     onGlobalFilterChange: setGlobalFitler,
+    onColumnFiltersChange: setColumnFilters,
   });
 
   return (
@@ -61,6 +66,7 @@ function TableContacts(props: IProps): JSX.Element {
           <GlobalFilterControl
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFitler}
+            debounceDelay={250}
             label="Search contacts by name, email, company, or title"
           />
           <ListGridToggle />
@@ -77,7 +83,7 @@ function TableContacts(props: IProps): JSX.Element {
                       {flexRender(header.column.columnDef.header, header.getContext())}
                       {header.id !== 'actions' && (
                         <div className={styles.th__container__controls}>
-                          <IconFilter svgClass={styles.th__svg} />
+                          <FilterRowControl column={header.column} fieldName={header.getContext().header.id} />
                           <SortRowControl
                             sortDirection={header.column.getIsSorted()}
                             sortOnClick={header.column.getToggleSortingHandler()}
