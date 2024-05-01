@@ -1,10 +1,37 @@
-import { IconGrid, IconList } from '#Components/svg';
+import type { ColumnFiltersState, Updater } from '@tanstack/react-table';
+import { useState } from 'react';
 import { Label, Radio, RadioGroup } from 'react-aria-components';
+import { IconGrid, IconList } from '#Components/svg';
 import styles from './_ListGridToggle.module.scss';
 
-function ListGridToggle(): JSX.Element {
+interface IProps {
+  tableView: 'list' | 'grid';
+  setTableView: React.Dispatch<React.SetStateAction<'list' | 'grid'>>;
+  columnFilters: ColumnFiltersState;
+  setColumnFilters: (updater: Updater<ColumnFiltersState>) => void;
+  resetColumnFilters: (defaultState?: boolean | undefined) => void;
+}
+
+function ListGridToggle(props: IProps): JSX.Element {
+  const { tableView, setTableView, columnFilters, setColumnFilters, resetColumnFilters } = props;
+  const [columnFiltersInternal, setColumnFiltersInternal] = useState<ColumnFiltersState>(columnFilters);
+
+  const onChangeHandler = (val: string) => {
+    // if (val !== 'list' && val !== 'grid') return;
+    // setTableView(val);
+    if (val === 'list') {
+      setColumnFilters(columnFiltersInternal);
+      setTableView('list');
+    }
+    if (val === 'grid') {
+      setColumnFiltersInternal(columnFilters);
+      resetColumnFilters();
+      setTableView('grid');
+    }
+  };
+
   return (
-    <RadioGroup defaultValue="list" className={styles.radioGroup}>
+    <RadioGroup onChange={onChangeHandler} defaultValue={tableView} className={styles.radioGroup}>
       <Label></Label>
       <Radio value="list" className={styles.radio}>
         <IconList svgClass={styles.radio__svg} />
