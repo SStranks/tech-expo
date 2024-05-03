@@ -39,6 +39,7 @@
   "dependencies": {
     "@internationalized/date": "^3.5.2",
     "@tanstack/react-table": "^8.16.0",
+    "@uiw/react-md-editor": "^4.0.4",
     "@zxcvbn-ts/core": "^3.0.4",
     "@zxcvbn-ts/language-common": "^3.0.4",
     "@zxcvbn-ts/language-en": "^3.0.2",
@@ -49,7 +50,8 @@
     "react-hook-form": "^7.50.1",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.22.0",
-    "react-transition-group": "^4.4.5"
+    "react-transition-group": "^4.4.5",
+    "rehype-sanitize": "^6.0.0"
   },
   "devDependencies": {
     "@packages/babel-config": "workspace:*",

@@ -20,6 +20,7 @@ function MenuLink(props: IProps): JSX.Element {
   // Active route
   let activeRoute;
   if (location.pathname === href) activeRoute = true;
+  if (location.pathname.startsWith(`${href}/`)) activeRoute = true;
 
   // Set animation (icon-translate) delay variable
   menuLinkRef.current?.style.setProperty('--index', `${index}`);

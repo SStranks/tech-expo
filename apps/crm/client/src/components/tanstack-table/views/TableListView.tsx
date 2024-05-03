@@ -56,13 +56,17 @@ function TableListView<T>(props: IProps<T>): JSX.Element {
                 <th key={header.id} className={styles.th}>
                   <div className={styles.th__container}>
                     {flexRender(header.column.columnDef.header, header.getContext())}
-                    {header.id !== 'actions' && (
+                    {header.id !== 'Actions' && (
                       <div className={styles.th__container__controls}>
-                        <FilterRowControl column={header.column} fieldName={header.getContext().header.id} />
-                        <SortRowControl
-                          sortDirection={header.column.getIsSorted()}
-                          sortOnClick={header.column.getToggleSortingHandler()}
-                        />
+                        {header.column.getCanFilter() && (
+                          <FilterRowControl column={header.column} fieldName={header.getContext().header.id} />
+                        )}
+                        {header.column.getCanSort() && (
+                          <SortRowControl
+                            sortDirection={header.column.getIsSorted()}
+                            sortOnClick={header.column.getToggleSortingHandler()}
+                          />
+                        )}
                       </div>
                     )}
                   </div>

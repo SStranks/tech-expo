@@ -2,6 +2,10 @@
   display: flex;
   justify-content: flex-end;
   width: fit-content;
+  padding: 3px 40px;
+  border: 1px solid var(--thm-border-default);
+  border-radius: 6px;
+  transition-property: border-color;
 }
 
 .information {

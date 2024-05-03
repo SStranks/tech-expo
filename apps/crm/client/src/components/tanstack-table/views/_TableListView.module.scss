@@ -68,6 +68,7 @@
 .th {
   padding-inline: 16px;
   text-align: left;
+  text-wrap: nowrap;
 
   &:last-of-type {
     position: sticky;

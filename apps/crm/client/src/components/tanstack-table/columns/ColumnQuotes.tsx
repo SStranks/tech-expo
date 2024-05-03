@@ -2,14 +2,6 @@ import { ITableDataQuotes } from '#Data/MockData';
 import { Row, createColumnHelper } from '@tanstack/react-table';
 import { RowActionsControl } from '../controls';
 
-const viewControlClickFn = (row: Row<ITableDataQuotes>) => {
-  return () => alert(`${row.original.title}: view control`);
-};
-
-const editControlClickFn = (row: Row<ITableDataQuotes>) => {
-  return () => alert(`${row.original.title}: edit control`);
-};
-
 const deleteControlClickFn = (row: Row<ITableDataQuotes>) => {
   return () => alert(`${row.original.title}: delete control`);
 };
@@ -49,11 +41,11 @@ const columnQuotesDef = [
     enableColumnFilter: false,
   }),
   columnHelper.display({
-    id: 'actions',
+    id: 'Actions',
     cell: ({ row }) => (
       <RowActionsControl>
-        <RowActionsControl.ViewControl onClick={viewControlClickFn(row)} />
-        <RowActionsControl.EditControl onClick={editControlClickFn(row)} />
+        <RowActionsControl.ViewControl entryId={row.id} />
+        <RowActionsControl.UpdateControl entryId={row.id} />
         <RowActionsControl.DeleteControl onClick={deleteControlClickFn(row)} />
       </RowActionsControl>
     ),

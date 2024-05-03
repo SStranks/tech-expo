@@ -7,11 +7,11 @@ interface IProps {
   label: string;
   globalFilter: string;
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>;
-  debounceDelay: number;
+  debounceDelay?: number;
 }
 
 function GlobalFilterControl(props: IProps): JSX.Element {
-  const { label, globalFilter, setGlobalFilter, debounceDelay } = props;
+  const { label, globalFilter, setGlobalFilter, debounceDelay = 250 } = props;
   const [debouncedValue, setDebouncedValue] = useState(globalFilter);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ function GlobalFilterControl(props: IProps): JSX.Element {
     <SearchField value={debouncedValue} onChange={(e) => setDebouncedValue(e)} className={styles.searchField}>
       <Label className="invisibleAccessible">{label}</Label>
       <IconSearch svgClass={styles.iconSearch} />
-      <Input className={styles.input} placeholder="Search contacts" />
+      <Input className={styles.input} placeholder={label} />
       <Button className={styles.button}>
         <IconClose svgClass={styles.button__svg} />
       </Button>

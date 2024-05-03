@@ -22,6 +22,10 @@ declare module '@tanstack/react-table' {
   }
 }
 
+const createEntry = () => {
+  console.log('Create Entry');
+};
+
 interface IProps {
   tableData: ITableDataQuotes[];
 }
@@ -31,7 +35,7 @@ function TableQuotes(props: IProps): JSX.Element {
   const [data] = useState<ITableDataQuotes[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
-  const [globalFilter, setGlobalFitler] = useState<string>('');
+  const [globalFilter, setGlobalFilter] = useState<string>('');
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
@@ -50,22 +54,28 @@ function TableQuotes(props: IProps): JSX.Element {
     },
     onSortingChange: setSorting,
     onPaginationChange: setPagination,
-    onGlobalFilterChange: setGlobalFitler,
+    onGlobalFilterChange: setGlobalFilter,
     onColumnFiltersChange: setColumnFilters,
   });
 
+  const { getPageCount, getRowCount, setPageIndex, setPageSize, options } = table;
+  const tableName = options.meta?.tableName;
+
   return (
     <div className={styles.container}>
-      <TableControlsHeader globalFilter={globalFilter} setGlobalFilter={setGlobalFitler} />
+      <TableControlsHeader
+        createEntryBtn={{ displayText: 'Create Quote', onClick: createEntry }}
+        globalFilter={{ globalFilter, setGlobalFilter, tableName }}
+      />
       <TableListView table={table} />
       <div className={styles.tableControlsFooter}>
         <TableControlsFooter
-          entriesName="contacts"
-          entriesTotal={table.getRowCount()}
+          entriesName="quotes"
+          entriesTotal={getRowCount()}
           pageIndex={pagination.pageIndex}
-          getPageCount={table.getPageCount}
-          setPageIndex={table.setPageIndex}
-          setPageSize={table.setPageSize}
+          getPageCount={getPageCount}
+          setPageIndex={setPageIndex}
+          setPageSize={setPageSize}
         />
       </div>
     </div>

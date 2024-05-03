@@ -1,21 +1,28 @@
 import { Outlet, Route, Routes, Navigate } from 'react-router-dom';
 import { Aside } from '#Features/sidebar/Aside';
 import Header from '#Features/header/Header';
-import DefaultLayout from '#Layouts/DefaultLayout';
+import { LayoutDefault } from '#Layouts/index';
 import { Authenticate } from '#Modules/index';
-import { ForgotPasswordPage, LoginPage, RegisterPage, UpdatePasswordPage } from '#Pages/index';
 import {
-  DashboardRoute,
-  CalendarRoute,
-  ContactsRoute,
-  ScrumboardRoute,
-  KanbanRoute,
-  PipelineRoute,
-  CompaniesRoute,
-  QuotesRoute,
-  AdministrationRoute,
-  SettingsRoute,
-  AuditlogRoute,
+  PageForgotPassword,
+  PageLogin,
+  PageQuoteRead,
+  PageQuotes,
+  PageRegister,
+  PageUpdatePassword,
+} from '#Pages/index';
+import {
+  RouteDashboard,
+  RouteCalendar,
+  RouteContacts,
+  RouteScrumboard,
+  RouteKanban,
+  RoutePipeline,
+  RouteCompanies,
+  RouteQuotes,
+  RouteAdministration,
+  RouteSettings,
+  RouteAuditlog,
 } from '#Routes/index';
 
 function App(): JSX.Element {
@@ -25,22 +32,34 @@ function App(): JSX.Element {
         <Route
           element={
             <Authenticate fallback={<Navigate to={'/login'} />}>
-              <DefaultLayout aside={<Aside />} header={<Header />}>
+              <LayoutDefault aside={<Aside />} header={<Header />}>
                 <Outlet />
-              </DefaultLayout>
+              </LayoutDefault>
             </Authenticate>
           }>
-          <Route index element={<DashboardRoute />} />
-          <Route path="calendar" element={<CalendarRoute />} />
-          <Route path="scrumboard" element={<ScrumboardRoute />} />
-          <Route path="kanban" element={<KanbanRoute />} />
-          <Route path="pipeline" element={<PipelineRoute />} />
-          <Route path="companies" element={<CompaniesRoute />} />
-          <Route path="contacts" element={<ContactsRoute />} />
-          <Route path="quotes" element={<QuotesRoute />} />
-          <Route path="administration" element={<AdministrationRoute />} />
-          <Route path="settings" element={<SettingsRoute />} />
-          <Route path="auditlog" element={<AuditlogRoute />} />
+          <Route index element={<RouteDashboard />} />
+          <Route path="calendar" element={<RouteCalendar />} />
+          <Route path="scrumboard" element={<RouteScrumboard />} />
+          <Route path="kanban" element={<RouteKanban />} />
+          <Route path="pipeline" element={<RoutePipeline />} />
+          <Route path="companies" element={<RouteCompanies />} />
+          <Route path="contacts" element={<RouteContacts />} />
+          {/* <Route path="quotes" element={<RouteQuotes />} /> */}
+          <Route
+            path="quotes"
+            element={
+              <RouteQuotes>
+                <Outlet />
+              </RouteQuotes>
+            }>
+            <Route index element={<PageQuotes />} />
+            {/* <Route path="create" element={<PageQuotes />} /> */}
+            <Route path="read/:id" element={<PageQuoteRead />} />
+            {/* <Route path="update/:id" element={<PageQuotes />} /> */}
+          </Route>
+          <Route path="administration" element={<RouteAdministration />} />
+          <Route path="settings" element={<RouteSettings />} />
+          <Route path="auditlog" element={<RouteAuditlog />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
         <Route
@@ -49,11 +68,11 @@ function App(): JSX.Element {
               <Navigate to="/" />
             </Authenticate>
           }>
-          <Route index element={<DashboardRoute />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/update-password" element={<UpdatePasswordPage />} />
+          <Route index element={<RouteDashboard />} />
+          <Route path="/login" element={<PageLogin />} />
+          <Route path="/register" element={<PageRegister />} />
+          <Route path="/forgot-password" element={<PageForgotPassword />} />
+          <Route path="/update-password" element={<PageUpdatePassword />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Route>
       </Routes>

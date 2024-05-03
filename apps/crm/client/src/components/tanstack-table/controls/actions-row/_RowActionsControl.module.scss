@@ -1,9 +1,13 @@
 .rowActions {
   display: flex;
+  justify-content: center;
   column-gap: 5px;
 }
 
-@mixin button-base {
+@mixin link-base {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 24px;
   height: 24px;
   border: 1px solid var(--thm-border-default);
@@ -16,8 +20,8 @@
   color: var(--thm-icon-default);
 }
 
-.button {
-  @include button-base;
+.link {
+  @include link-base;
 
   &:hover {
     border-color: var(--thm-icon-info);
@@ -28,8 +32,8 @@
   }
 }
 
-.buttonDelete {
-  @include button-base;
+.linkDelete {
+  @include link-base;
   border: 1px solid var(--thm-border-danger);
 
   &:hover {

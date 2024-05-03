@@ -2,14 +2,6 @@ import { ITableDataContacts } from '#Data/MockData';
 import { Row, createColumnHelper } from '@tanstack/react-table';
 import { RowActionsControl } from '../controls';
 
-const viewControlClickFn = (row: Row<ITableDataContacts>) => {
-  return () => alert(`${row.original.title}: view control`);
-};
-
-const callControlClickFn = (row: Row<ITableDataContacts>) => {
-  return () => alert(`${row.original.title}: call control`);
-};
-
 const deleteControlClickFn = (row: Row<ITableDataContacts>) => {
   return () => alert(`${row.original.title}: delete control`);
 };
@@ -31,11 +23,11 @@ const columnContactsDef = [
     enableColumnFilter: false,
   }),
   columnHelper.display({
-    id: 'actions',
+    id: 'Actions',
     cell: ({ row }) => (
       <RowActionsControl>
-        <RowActionsControl.ViewControl onClick={viewControlClickFn(row)} />
-        <RowActionsControl.CallControl onClick={callControlClickFn(row)} />
+        <RowActionsControl.ViewControl entryId={row.id} />
+        <RowActionsControl.UpdateControl entryId={row.id} />
         <RowActionsControl.DeleteControl onClick={deleteControlClickFn(row)} />
       </RowActionsControl>
     ),

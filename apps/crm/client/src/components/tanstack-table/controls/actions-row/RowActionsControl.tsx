@@ -1,49 +1,62 @@
 import { IconDelete, IconEdit, IconEye, IconPhone } from '#Components/svg';
 import { PropsWithChildren } from 'react';
 import styles from './_RowActionsControl.module.scss';
+import { Link } from 'react-router-dom';
 
 interface IChildProps {
   onClick: () => void;
+}
+
+interface IViewControl {
+  entryId: string;
+}
+
+interface IUpdateControl {
+  entryId: string;
+}
+
+interface ICallControl {
+  entryId: string;
 }
 
 function RowActionsControl({ children }: PropsWithChildren): JSX.Element {
   return <div className={styles.rowActions}>{children}</div>;
 }
 
-function ViewControl({ onClick }: IChildProps): JSX.Element {
+function ViewControl({ entryId }: IViewControl): JSX.Element {
   return (
-    <button type="button" onClick={onClick} className={styles.button}>
+    <Link to={`read/${entryId}`} className={styles.link}>
       <IconEye svgClass={styles.svg} />
-    </button>
+    </Link>
   );
 }
 
-function CallControl({ onClick }: IChildProps): JSX.Element {
+function CallControl({ entryId }: ICallControl): JSX.Element {
   return (
-    <button type="button" onClick={onClick} className={styles.button}>
+    <Link to={`read/${entryId}`} className={styles.link}>
       <IconPhone svgClass={styles.svg} />
-    </button>
+    </Link>
   );
 }
 
-function EditControl({ onClick }: IChildProps): JSX.Element {
+function UpdateControl({ entryId }: IUpdateControl): JSX.Element {
   return (
-    <button type="button" onClick={onClick} className={styles.button}>
+    <Link to={`update/${entryId}`} className={styles.link}>
       <IconEdit svgClass={styles.svg} />
-    </button>
+    </Link>
   );
 }
 
 function DeleteControl({ onClick }: IChildProps): JSX.Element {
   return (
-    <button type="button" onClick={onClick} className={styles.buttonDelete}>
+    <button type="button" onClick={onClick} className={styles.linkDelete}>
       <IconDelete svgClass={styles.svg} />
     </button>
   );
 }
 
 RowActionsControl.ViewControl = ViewControl;
-RowActionsControl.EditControl = EditControl;
+RowActionsControl.UpdateControl = UpdateControl;
 RowActionsControl.CallControl = CallControl;
 RowActionsControl.DeleteControl = DeleteControl;
 

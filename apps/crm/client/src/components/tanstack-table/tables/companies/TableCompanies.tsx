@@ -22,6 +22,10 @@ declare module '@tanstack/react-table' {
   }
 }
 
+const createEntry = () => {
+  console.log('Create Entry');
+};
+
 interface IProps {
   tableData: ITableDataCompanies[];
 }
@@ -31,7 +35,7 @@ function TableCompanies(props: IProps): JSX.Element {
   const [data] = useState<ITableDataCompanies[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
-  const [globalFilter, setGlobalFitler] = useState<string>('');
+  const [globalFilter, setGlobalFilter] = useState<string>('');
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [tableView, setTableView] = useState<'list' | 'grid'>('list');
 
@@ -51,27 +55,30 @@ function TableCompanies(props: IProps): JSX.Element {
     },
     onSortingChange: setSorting,
     onPaginationChange: setPagination,
-    onGlobalFilterChange: setGlobalFitler,
+    onGlobalFilterChange: setGlobalFilter,
     onColumnFiltersChange: setColumnFilters,
   });
+
+  const { getPageCount, getRowCount, setPageIndex, setPageSize, resetColumnFilters, options } = table;
+  const tableName = options.meta?.tableName;
 
   return (
     <div className={styles.container}>
       <TableControlsHeader
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFitler}
-        listGridToggle={{ table, tableView, setTableView, columnFilters }}
+        createEntryBtn={{ displayText: 'Create Company', onClick: createEntry }}
+        globalFilter={{ globalFilter, setGlobalFilter, tableName }}
+        listGridToggle={{ tableView, setTableView, columnFilters, setColumnFilters, resetColumnFilters }}
       />
       {tableView === 'list' && <TableListView table={table} />}
       {tableView === 'grid' && <TableGridView table={table} />}
       <div className={styles.tableControlsFooter}>
         <TableControlsFooter
-          entriesName="contacts"
-          entriesTotal={table.getRowCount()}
+          entriesName="companies"
+          entriesTotal={getRowCount()}
           pageIndex={pagination.pageIndex}
-          getPageCount={table.getPageCount}
-          setPageIndex={table.setPageIndex}
-          setPageSize={table.setPageSize}
+          getPageCount={getPageCount}
+          setPageIndex={setPageIndex}
+          setPageSize={setPageSize}
         />
       </div>
     </div>
