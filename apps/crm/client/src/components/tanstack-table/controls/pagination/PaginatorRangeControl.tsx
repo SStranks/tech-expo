@@ -1,8 +1,8 @@
 import type { Updater } from '@tanstack/react-table';
-import ButtonPaginatorNumber from '#Components/buttons/paginator-pages/ButtonPaginatorNumber';
-import ButtonPaginatorPages from '#Components/buttons/paginator-pages/ButtonPaginatorPages';
-import ButtonPaginatorSinglePage from '#Components/buttons/paginator-pages/ButtonPaginatorSinglePage';
-import styles from './_TablePaginatorControl.module.scss';
+import ButtonPaginatorNumber from './components/ButtonPaginatorNumber';
+import ButtonPaginatorPages from './components/ButtonPaginatorPages';
+import ButtonPaginatorSinglePage from './components/ButtonPaginatorSinglePage';
+import styles from './_PaginatorRangeControl.module.scss';
 
 interface IProps {
   pageCount: number;
@@ -10,7 +10,7 @@ interface IProps {
   setPageIndex: (updater: Updater<number>) => void;
 }
 
-function TablePaginatorControl(props: IProps): JSX.Element {
+function PaginatorRangeControl(props: IProps): JSX.Element {
   const { pageCount, pageIndex: pageIndexProp, setPageIndex: setPageIndexProp } = props;
   // Tanstack-Table; pagination is zero-based
   const pageIndex = pageIndexProp + 1;
@@ -94,7 +94,7 @@ function TablePaginatorControl(props: IProps): JSX.Element {
   };
 
   return (
-    <div className={styles.tablePaginatorControl}>
+    <div className={styles.paginatorRangeControl}>
       <ButtonPaginatorSinglePage
         direction="previous"
         title="Previous page"
@@ -112,4 +112,4 @@ function TablePaginatorControl(props: IProps): JSX.Element {
   );
 }
 
-export default TablePaginatorControl;
+export default PaginatorRangeControl;

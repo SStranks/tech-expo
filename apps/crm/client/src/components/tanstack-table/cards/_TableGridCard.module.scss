@@ -1,0 +1,20 @@
+.tableGridCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, auto);
+  background-color: hsl(from var(--thm-background-overlay) h s l / 35%);
+  border: 1px solid var(--thm-border-secondary);
+  border-radius: 4px;
+  color: white;
+
+  &__optionsBtn {
+    position: absolute;
+    top: calc(0px + 8px);
+    right: calc(0px + 8px);
+  }
+
+  &__upper {
+    border-bottom: 1px solid var(--thm-border-secondary);
+  }
+}

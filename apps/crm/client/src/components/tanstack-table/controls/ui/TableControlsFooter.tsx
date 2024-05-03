@@ -1,7 +1,7 @@
 import type { Updater } from '@tanstack/react-table';
-import ButtonPaginatorRowLimit from '#Components/buttons/paginator-pages/ButtonPaginatorRowLimit';
-import TablePaginatorControl from './TablePaginatorControl';
-import styles from './_TableControls.module.scss';
+import ButtonPaginatorRowLimit from '../pagination/components/ButtonPaginatorRowLimit';
+import { PaginatorRangeControl } from '../';
+import styles from './_TableControlsFooter.module.scss';
 
 interface IProps {
   entriesName: string;
@@ -12,8 +12,9 @@ interface IProps {
   setPageSize: (updater: Updater<number>) => void;
 }
 
-function TableControls(props: IProps): JSX.Element {
+function TableControlsFooter(props: IProps): JSX.Element {
   const { entriesName, entriesTotal, pageIndex, getPageCount, setPageIndex, setPageSize } = props;
+
   return (
     <div className={styles.tableControls}>
       <div className={styles.information}>
@@ -22,11 +23,11 @@ function TableControls(props: IProps): JSX.Element {
         </p>
       </div>
       <div className={styles.paginator}>
-        <TablePaginatorControl pageCount={getPageCount()} pageIndex={pageIndex} setPageIndex={setPageIndex} />
+        <PaginatorRangeControl pageCount={getPageCount()} pageIndex={pageIndex} setPageIndex={setPageIndex} />
       </div>
       <ButtonPaginatorRowLimit setPageSize={setPageSize} />
     </div>
   );
 }
 
-export default TableControls;
+export default TableControlsFooter;

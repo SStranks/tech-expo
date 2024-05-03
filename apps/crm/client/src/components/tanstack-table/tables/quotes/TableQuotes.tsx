@@ -9,11 +9,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ITableDataContacts } from '#Data/MockData';
+import { ITableDataQuotes } from '#Data/MockData';
 import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
-import { TableGridView, TableListView } from '#Components/tanstack-table/views';
-import { ColumnContacts } from '../../columns';
-import styles from './_TableContacts.module.scss';
+import { TableListView } from '#Components/tanstack-table/views';
+import { ColumnQuotes } from '../../columns';
+import styles from './_TableQuotes.module.scss';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -23,22 +23,21 @@ declare module '@tanstack/react-table' {
 }
 
 interface IProps {
-  tableData: ITableDataContacts[];
+  tableData: ITableDataQuotes[];
 }
 
-function TableContacts(props: IProps): JSX.Element {
+function TableQuotes(props: IProps): JSX.Element {
   const { tableData } = props;
-  const [data] = useState<ITableDataContacts[]>(tableData);
+  const [data] = useState<ITableDataQuotes[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [globalFilter, setGlobalFitler] = useState<string>('');
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [tableView, setTableView] = useState<'list' | 'grid'>('list');
 
   const table = useReactTable({
     data,
-    columns: ColumnContacts,
-    meta: { tableName: 'contacts' },
+    columns: ColumnQuotes,
+    meta: { tableName: 'quotes' },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -57,13 +56,8 @@ function TableContacts(props: IProps): JSX.Element {
 
   return (
     <div className={styles.container}>
-      <TableControlsHeader
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFitler}
-        listGridToggle={{ columnFilters, table, tableView, setTableView }}
-      />
-      {tableView === 'list' && <TableListView table={table} />}
-      {tableView === 'grid' && <TableGridView table={table} />}
+      <TableControlsHeader globalFilter={globalFilter} setGlobalFilter={setGlobalFitler} />
+      <TableListView table={table} />
       <div className={styles.tableControlsFooter}>
         <TableControlsFooter
           entriesName="contacts"
@@ -78,4 +72,4 @@ function TableContacts(props: IProps): JSX.Element {
   );
 }
 
-export default TableContacts;
+export default TableQuotes;

@@ -1,3 +1,6 @@
 .contactsCardUpper {
-  display: block;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  padding: 12px;
 }

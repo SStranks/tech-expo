@@ -17,8 +17,6 @@ function ListGridToggle(props: IProps): JSX.Element {
   const [columnFiltersInternal, setColumnFiltersInternal] = useState<ColumnFiltersState>(columnFilters);
 
   const onChangeHandler = (val: string) => {
-    // if (val !== 'list' && val !== 'grid') return;
-    // setTableView(val);
     if (val === 'list') {
       setColumnFilters(columnFiltersInternal);
       setTableView('list');

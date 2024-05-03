@@ -1,4 +1,4 @@
-import TableContacts from '#Components/tanstack-table/tables/contacts/TableContacts';
+import { TableContacts } from '#Components/tanstack-table/tables';
 import { tableDataContacts } from '#Data/MockData';
 import ViewportLayout from '#Layouts/ViewportLayout';
 import styles from './_ContactsRoute.module.scss';

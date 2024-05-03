@@ -9,11 +9,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ITableDataContacts } from '#Data/MockData';
+import { ITableDataCompanies } from '#Data/MockData';
 import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
 import { TableGridView, TableListView } from '#Components/tanstack-table/views';
-import { ColumnContacts } from '../../columns';
-import styles from './_TableContacts.module.scss';
+import { ColumnCompanies } from '../../columns';
+import styles from './_TableCompanies.module.scss';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -23,12 +23,12 @@ declare module '@tanstack/react-table' {
 }
 
 interface IProps {
-  tableData: ITableDataContacts[];
+  tableData: ITableDataCompanies[];
 }
 
-function TableContacts(props: IProps): JSX.Element {
+function TableCompanies(props: IProps): JSX.Element {
   const { tableData } = props;
-  const [data] = useState<ITableDataContacts[]>(tableData);
+  const [data] = useState<ITableDataCompanies[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [globalFilter, setGlobalFitler] = useState<string>('');
@@ -37,8 +37,8 @@ function TableContacts(props: IProps): JSX.Element {
 
   const table = useReactTable({
     data,
-    columns: ColumnContacts,
-    meta: { tableName: 'contacts' },
+    columns: ColumnCompanies,
+    meta: { tableName: 'companies' },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -60,7 +60,7 @@ function TableContacts(props: IProps): JSX.Element {
       <TableControlsHeader
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFitler}
-        listGridToggle={{ columnFilters, table, tableView, setTableView }}
+        listGridToggle={{ table, tableView, setTableView, columnFilters }}
       />
       {tableView === 'list' && <TableListView table={table} />}
       {tableView === 'grid' && <TableGridView table={table} />}
@@ -78,4 +78,4 @@ function TableContacts(props: IProps): JSX.Element {
   );
 }
 
-export default TableContacts;
+export default TableCompanies;
