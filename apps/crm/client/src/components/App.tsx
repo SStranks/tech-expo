@@ -7,6 +7,8 @@ import {
   PageForgotPassword,
   PageLogin,
   PageQuoteRead,
+  PageQuoteCreate,
+  PageQuoteUpdate,
   PageQuotes,
   PageRegister,
   PageUpdatePassword,
@@ -44,18 +46,12 @@ function App(): JSX.Element {
           <Route path="pipeline" element={<RoutePipeline />} />
           <Route path="companies" element={<RouteCompanies />} />
           <Route path="contacts" element={<RouteContacts />} />
-          {/* <Route path="quotes" element={<RouteQuotes />} /> */}
-          <Route
-            path="quotes"
-            element={
-              <RouteQuotes>
-                <Outlet />
-              </RouteQuotes>
-            }>
-            <Route index element={<PageQuotes />} />
-            {/* <Route path="create" element={<PageQuotes />} /> */}
+          <Route path="quotes" element={<RouteQuotes />}>
+            <Route path="" element={<PageQuotes />}>
+              <Route path="create" element={<PageQuoteCreate />} />
+              <Route path="update/:id" element={<PageQuoteUpdate />} />
+            </Route>
             <Route path="read/:id" element={<PageQuoteRead />} />
-            {/* <Route path="update/:id" element={<PageQuotes />} /> */}
           </Route>
           <Route path="administration" element={<RouteAdministration />} />
           <Route path="settings" element={<RouteSettings />} />

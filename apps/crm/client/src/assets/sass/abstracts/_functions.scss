@@ -102,4 +102,4 @@
 }
 
 /// Z-Index List. Descending order of Z-Index; 0, 1, 2..
-$z-indexes: ();
+$z-indexes: ('global-portal', 'root');

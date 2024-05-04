@@ -20,7 +20,6 @@ function createWrapperAndAppendToBody(wrapperId: string) {
 }
 
 function ReactPortal({ children, wrapperId = 'react-portal-wrapper' }: PortalChildren): React.ReactPortal | null {
-  // eslint-disable-next-line unicorn/no-null
   const [wrapperElement, setWrapperElement] = useState<WrapperState>(null);
 
   useLayoutEffect(() => {
@@ -44,7 +43,6 @@ function ReactPortal({ children, wrapperId = 'react-portal-wrapper' }: PortalChi
   }, [wrapperId]);
 
   // wrapperElement state will be null on very first render.
-  // eslint-disable-next-line unicorn/no-null
   if (wrapperElement === null) return null;
 
   return createPortal(children, wrapperElement);

@@ -14,6 +14,7 @@ import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-t
 import { TableListView } from '#Components/tanstack-table/views';
 import { ColumnQuotes } from '../../columns';
 import styles from './_TableQuotes.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,10 +22,6 @@ declare module '@tanstack/react-table' {
     tableName: 'companies' | 'contacts' | 'quotes';
   }
 }
-
-const createEntry = () => {
-  console.log('Create Entry');
-};
 
 interface IProps {
   tableData: ITableDataQuotes[];
@@ -37,6 +34,7 @@ function TableQuotes(props: IProps): JSX.Element {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const navigate = useNavigate();
 
   const table = useReactTable({
     data,
@@ -61,10 +59,14 @@ function TableQuotes(props: IProps): JSX.Element {
   const { getPageCount, getRowCount, setPageIndex, setPageSize, options } = table;
   const tableName = options.meta?.tableName;
 
+  const createQuote = () => {
+    navigate('create');
+  };
+
   return (
     <div className={styles.container}>
       <TableControlsHeader
-        createEntryBtn={{ displayText: 'Create Quote', onClick: createEntry }}
+        createEntryBtn={{ displayText: 'Create Quote', onClick: createQuote }}
         globalFilter={{ globalFilter, setGlobalFilter, tableName }}
       />
       <TableListView table={table} />

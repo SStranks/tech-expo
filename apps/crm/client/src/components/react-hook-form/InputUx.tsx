@@ -1,11 +1,12 @@
 import { PropsWithChildren } from 'react';
-import { FieldError, ValidationRule } from 'react-hook-form';
+import { FieldError, FieldErrorsImpl, Merge, ValidationRule } from 'react-hook-form';
 import styles from './_InputUX.module.scss';
 
 interface IProps {
   label: string;
   id: string;
-  error: FieldError | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
   isDirty?: boolean;
   isRequired?: string | ValidationRule<boolean> | undefined;
   isInvalid?: boolean;
@@ -27,7 +28,7 @@ function InputUx(props: PropsWithChildren<IProps>): JSX.Element {
       </label>
       {showErrorState && (
         <span id={`${id}-error`} className={styles.inputUX__errorMessage} role="alert">
-          {error?.message}
+          {error?.message as string}
         </span>
       )}
     </div>
