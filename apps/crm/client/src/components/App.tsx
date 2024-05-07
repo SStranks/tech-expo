@@ -12,6 +12,10 @@ import {
   PageQuotes,
   PageRegister,
   PageUpdatePassword,
+  PageCompanies,
+  PageCompaniesCreate,
+  PageContacts,
+  PageContactsCreate,
 } from '#Pages/index';
 import {
   RouteDashboard,
@@ -44,8 +48,16 @@ function App(): JSX.Element {
           <Route path="scrumboard" element={<RouteScrumboard />} />
           <Route path="kanban" element={<RouteKanban />} />
           <Route path="pipeline" element={<RoutePipeline />} />
-          <Route path="companies" element={<RouteCompanies />} />
-          <Route path="contacts" element={<RouteContacts />} />
+          <Route path="companies" element={<RouteCompanies />}>
+            <Route path="" element={<PageCompanies />}>
+              <Route path="create" element={<PageCompaniesCreate />} />
+            </Route>
+          </Route>
+          <Route path="contacts" element={<RouteContacts />}>
+            <Route path="" element={<PageContacts />}>
+              <Route path="create" element={<PageContactsCreate />} />
+            </Route>
+          </Route>
           <Route path="quotes" element={<RouteQuotes />}>
             <Route path="" element={<PageQuotes />}>
               <Route path="create" element={<PageQuoteCreate />} />

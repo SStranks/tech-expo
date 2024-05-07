@@ -7,17 +7,19 @@ interface IProps {
   id: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
-  isDirty?: boolean;
+  isDirty: boolean | undefined;
   isRequired?: string | ValidationRule<boolean> | undefined;
-  isInvalid?: boolean;
+  invalid: boolean;
   isSubmitted: boolean;
 }
 
 // Wrapper: UX presentation for state of input; valid, invalid, focused, etc
 function InputUx(props: PropsWithChildren<IProps>): JSX.Element {
-  const { label, id, error, isDirty, isRequired, isInvalid, isSubmitted, children } = props;
-  const inputValidated = (isDirty && !error) || isInvalid === false;
+  const { label, id, error, isDirty, isRequired, invalid, isSubmitted, children } = props;
+  const inputValidated = isDirty && !invalid;
   const showErrorState = error && isSubmitted;
+
+  // console.log(inputValidated, isDirty, invalid);
 
   return (
     <div

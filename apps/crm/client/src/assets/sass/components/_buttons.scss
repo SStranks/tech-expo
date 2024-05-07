@@ -39,7 +39,7 @@
 
 @mixin btn-primary {
   @include btn-root;
-  min-height: 36px;
+  height: 36px;
   padding-inline: 16px;
   background-color: var(--thm-button-primary-background);
   color: var(--thm-button-primary-text);
@@ -57,5 +57,22 @@
     background-color: var(--thm-button-primary-disabled-background);
     border: 1px solid var(--thm-button-primary-disabled-border);
     color: var(--thm-button-primary-disabled-text);
+  }
+}
+
+@mixin btn-secondary {
+  color: var(--thm-button-secondary-text);
+  background-color: var(--thm-button-secondary-background);
+  border: 1px solid var(--thm-button-secondary-border);
+  border-radius: 6px;
+
+  &:hover {
+    background-color: var(--thm-button-secondary-hover);
+  }
+
+  &:disabled {
+    background-color: var(--thm-button-secondary-disabled-background);
+    border: 1px solid var(--thm-button-secondary-disabled-border);
+    color: var(--thm-button-secondary-disabled-text);
   }
 }

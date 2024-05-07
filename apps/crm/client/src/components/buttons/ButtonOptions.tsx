@@ -1,5 +1,5 @@
 import { IconMenuDots } from '#Components/svg';
-import styles from './_ButtonOptions.module.scss';
+import styles from './_Buttons.module.scss';
 
 interface IProps {
   onClick?: (data?: unknown) => void;

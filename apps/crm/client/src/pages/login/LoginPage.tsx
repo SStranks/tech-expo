@@ -16,8 +16,12 @@ function LoginPage(): JSX.Element {
   const {
     register,
     handleSubmit,
+    getFieldState,
+    formState,
     formState: { errors, dirtyFields, isSubmitted },
   } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '', password: '' } });
+  const { invalid: emailInvalid } = getFieldState('email', formState);
+  const { invalid: passwordInvalid } = getFieldState('password', formState);
   const navigate = useNavigate();
   const emailId = useId();
   const passwordId = useId();
@@ -39,6 +43,7 @@ function LoginPage(): JSX.Element {
           label="Email address"
           error={errors['email']}
           isDirty={dirtyFields['email']}
+          invalid={emailInvalid}
           isRequired={EMAIL_RULES?.required}
           isSubmitted={isSubmitted}>
           <Input
@@ -54,6 +59,7 @@ function LoginPage(): JSX.Element {
           label="Password"
           error={errors['password']}
           isDirty={dirtyFields['password']}
+          invalid={passwordInvalid}
           isRequired={PASSWORD_RULES?.required}
           isSubmitted={isSubmitted}>
           <Input

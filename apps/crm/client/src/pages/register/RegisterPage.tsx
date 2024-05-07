@@ -23,9 +23,12 @@ function RegisterPage(): JSX.Element {
     control,
     trigger,
     handleSubmit,
+    getFieldState,
+    formState,
     formState: { errors, dirtyFields, isSubmitted },
-    // formState: { isValid, errors, dirtyFields },
   } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '', password: '' } });
+  const { invalid: emailInvalid } = getFieldState('email', formState);
+  const { invalid: passwordInvalid } = getFieldState('password', formState);
   const navigate = useNavigate();
   const emailId = useId();
 
@@ -48,6 +51,7 @@ function RegisterPage(): JSX.Element {
           label="Email address"
           error={errors['email']}
           isDirty={dirtyFields['email']}
+          invalid={emailInvalid}
           isRequired={EMAIL_RULES?.required}
           isSubmitted={isSubmitted}>
           <Input
@@ -67,6 +71,7 @@ function RegisterPage(): JSX.Element {
             error={errors.password}
             isRequired
             isDirty={dirtyFields.password}
+            invalid={passwordInvalid}
             isSubmitted={isSubmitted}
             reveal={false}
             label="Password"

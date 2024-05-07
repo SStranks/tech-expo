@@ -37,6 +37,7 @@ interface IProps<T extends FieldValues> {
   trigger: UseFormTrigger<T>;
   inputName: Path<T>;
   isDirty: boolean | undefined;
+  invalid: boolean;
   isRequired: string | ValidationRule<boolean> | undefined;
   isSubmitted: boolean;
   error: FieldError | undefined;
@@ -46,7 +47,8 @@ interface IProps<T extends FieldValues> {
 
 // TODO:  Style and reformat password information text
 function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Element {
-  const { register, control, trigger, inputName, isDirty, isRequired, isSubmitted, error, reveal, label } = props;
+  const { register, control, trigger, inputName, isDirty, invalid, isRequired, isSubmitted, error, reveal, label } =
+    props;
   const [passwordReveal, setPasswordReveal] = useState<boolean>(reveal);
   const [informationPanel, setInformationPanel] = useState<boolean>(false);
   const passwordValue = useWatch({ control, name: inputName });
@@ -77,6 +79,7 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Ele
         label={label}
         id={passwordId}
         isDirty={isDirty}
+        invalid={invalid}
         isRequired={VALIDATION_RULES.required}
         error={error}
         isSubmitted={isSubmitted}>

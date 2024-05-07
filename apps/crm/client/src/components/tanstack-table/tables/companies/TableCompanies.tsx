@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   ColumnFiltersState,
   RowData,
@@ -9,9 +10,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ITableDataCompanies } from '#Data/MockData';
 import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
 import { TableGridView, TableListView } from '#Components/tanstack-table/views';
+import { ITableDataCompanies } from '#Data/MockData';
 import { ColumnCompanies } from '../../columns';
 import styles from './_TableCompanies.module.scss';
 
@@ -21,10 +22,6 @@ declare module '@tanstack/react-table' {
     tableName: 'companies' | 'contacts' | 'quotes';
   }
 }
-
-const createEntry = () => {
-  console.log('Create Entry');
-};
 
 interface IProps {
   tableData: ITableDataCompanies[];
@@ -38,6 +35,7 @@ function TableCompanies(props: IProps): JSX.Element {
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [tableView, setTableView] = useState<'list' | 'grid'>('list');
+  const navigate = useNavigate();
 
   const table = useReactTable({
     data,
@@ -62,10 +60,14 @@ function TableCompanies(props: IProps): JSX.Element {
   const { getPageCount, getRowCount, setPageIndex, setPageSize, resetColumnFilters, options } = table;
   const tableName = options.meta?.tableName;
 
+  const createCompany = () => {
+    navigate('create');
+  };
+
   return (
     <div className={styles.container}>
       <TableControlsHeader
-        createEntryBtn={{ displayText: 'Create Company', onClick: createEntry }}
+        createEntryBtn={{ displayText: 'Create Company', onClick: createCompany }}
         globalFilter={{ globalFilter, setGlobalFilter, tableName }}
         listGridToggle={{ tableView, setTableView, columnFilters, setColumnFilters, resetColumnFilters }}
       />

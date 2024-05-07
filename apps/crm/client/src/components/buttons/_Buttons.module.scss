@@ -1,0 +1,44 @@
+@use '#Sass/components/form' as form;
+
+.cancelBtn {
+  @include form.cancel-button;
+}
+
+.closeBtn {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  border-radius: 4px;
+  margin-right: 6px;
+
+  &:hover {
+    background-color: var(--thm-background-element);
+  }
+
+  &__svg {
+    & path {
+      color: var(--thm-icon-default);
+    }
+  }
+}
+
+.optionsBtn {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--thm-background-element);
+  }
+
+  &__svg {
+    & path {
+      color: var(--thm-icon-default);
+    }
+  }
+}
+
+.saveBtn {
+  @include form.save-button;
+}

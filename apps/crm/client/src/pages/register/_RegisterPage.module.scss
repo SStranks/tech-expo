@@ -12,7 +12,7 @@
 }
 
 .registerForm {
-  @include form.form-base;
+  @include form.form-base-authentication-pages;
   row-gap: 20px; // TODO:  Temporary. Style individual parts later.
 
   &__submitBtn {

@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import FormModal from '#Components/modal/FormModal';
 import { FormProvider } from '#Components/react-hook-form';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // TEMP DEV: .
 const listItems = [{ name: 'Adam' }, { name: 'Bob' }, { name: 'Chuck' }, { name: 'Dave' }];
 
-function QuoteCreatePage(): JSX.Element {
+function CompaniesCreatePage(): JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ function QuoteCreatePage(): JSX.Element {
   };
 
   const onSubmit = () => {
-    alert('Quote Create Submitted');
+    alert('Companies Create Submitted');
     setPortalActiveInternal(false);
     navigate(-1);
   };
@@ -28,17 +28,15 @@ function QuoteCreatePage(): JSX.Element {
   return (
     <FormModal portalActive={portalActive} setPortalActive={setPortalActive}>
       <FormProvider onSubmit={onSubmit}>
-        <FormModal.Header title="Create Quote" />
+        <FormModal.Header title="Create Company" />
         <FormModal.Content>
           <FormProvider.Input
             type="text"
             rules={{ required: true, pattern: /test/ }}
-            name="quoteTitle"
-            label="Quote Title"
+            name="companyName"
+            label="Company Name"
           />
           <FormProvider.Combo items={listItems} name="salesOwner" label="Sales Owner" />
-          <FormProvider.Combo items={listItems} rules={{ required: true }} name="company" label="Company" />
-          <FormProvider.Combo items={listItems} rules={{ required: true }} name="quoteContact" label="Quote Contact" />
         </FormModal.Content>
         <FormModal.Footer>
           <FormModal.CancelButton />
@@ -49,12 +47,4 @@ function QuoteCreatePage(): JSX.Element {
   );
 }
 
-export default QuoteCreatePage;
-
-{
-  /* <>
-  <FormModal.Combo items={listItems} name="salesOwner" label="Sales Owner" />
-  <FormModal.Combo items={listItems} rules={{ required: true }} name="company" label="Company" />
-  <FormModal.Combo items={listItems} rules={{ required: true }} name="quoteContact" label="Quote Contact" />
-</>; */
-}
+export default CompaniesCreatePage;

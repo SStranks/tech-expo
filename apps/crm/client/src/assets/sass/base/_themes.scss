@@ -41,6 +41,7 @@ $light-theme: (
   background-warning: c.$col-yellow3-light,
   background-danger: c.$col-red3-light,
   background-info: c.$col-blue3-light,
+  background-modal: hsla(0deg 0% 0% / 35%),
   // Icons
   icon-default: c.$col-slate11-light,
   icon-secondary: c.$col-slate10-light,
@@ -129,6 +130,7 @@ $dark-theme: (
   background-warning: c.$col-yellow3-light,
   background-danger: c.$col-red3-light,
   background-info: c.$col-blue3-dark,
+  background-modal: hsla(0deg 0% 0% / 65%),
   // Icons
   icon-default: c.$col-slate11-dark,
   icon-secondary: c.$col-slate10-dark,

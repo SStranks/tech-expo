@@ -1,5 +1,5 @@
 import type { CoreRow, Row } from '@tanstack/react-table';
-import ButtonOptions from '#Components/buttons/ButtonOptios';
+import { ButtonOptions } from '#Components/buttons';
 import { ITableDataContacts } from '#Data/MockData';
 import { TableContactsCardLower, TableContactsCardUpper } from './';
 import styles from './_TableGridCard.module.scss';

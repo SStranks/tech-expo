@@ -1,5 +1,4 @@
-import { TableCompanies } from '#Components/tanstack-table/tables';
-import { tableDataCompanies } from '#Data/MockData';
+import { Outlet } from 'react-router-dom';
 import ViewportLayout from '#Layouts/ViewportLayout';
 import styles from './_CompaniesRoute.module.scss';
 
@@ -8,7 +7,7 @@ function CompaniesRoute(): JSX.Element {
     <ViewportLayout>
       <div className={styles.contactsRouteLayout}>
         <div className={styles.table}>
-          <TableCompanies tableData={tableDataCompanies} />
+          <Outlet />
         </div>
       </div>
     </ViewportLayout>

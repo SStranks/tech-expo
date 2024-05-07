@@ -22,7 +22,7 @@
 
 $border-radius: 8px;
 
-@mixin form-base {
+@mixin form-base-authentication-pages {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,6 +33,48 @@ $border-radius: 8px;
   border-radius: $border-radius;
   box-shadow: 0 0 10px 2px hsla(0deg 0% 0% / 15%);
 }
+
+@mixin form-base-modal {
+  width: 100%;
+  max-width: 560px;
+  background-color: var(--thm-background-default);
+  border: 1px solid var(--thm-border-secondary);
+  border-radius: 6px;
+}
+
+@mixin form-base-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  color: var(--thm-text-default);
+  border-bottom: 1px solid var(--thm-border-secondary);
+}
+
+@mixin form-base-modal-content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  padding: 20px 24px;
+  background-color: var(--thm-background-subtle);
+}
+
+@mixin form-base-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 10px;
+  padding: 20px 24px;
+  border-top: 1px solid var(--thm-border-secondary);
+}
+
+// &__form {
+//   background-color: inherit;
+
+//   // TEMP DEV: .
+//   display: flex;
+//   flex-direction: column;
+//   row-gap: 20px;
+// }
 
 /* -------------------------------- */
 /*   Buttons                        */
@@ -47,6 +89,20 @@ $border-radius: 8px;
   &:disabled {
     opacity: 0.5;
   }
+}
+
+@mixin save-button {
+  @include btn.btn-primary;
+  height: 32px;
+  min-width: 32px;
+  padding: 4px 15px;
+}
+
+@mixin cancel-button {
+  @include btn.btn-secondary;
+  height: 32px;
+  min-width: 32px;
+  padding: 4px 15px;
 }
 
 @mixin info-button {

@@ -24,9 +24,13 @@ function UpdatePasswordPage(): JSX.Element {
     trigger,
     control,
     getValues,
+    getFieldState,
     formState: { errors, dirtyFields, isSubmitted },
+    formState,
     handleSubmit,
   } = useForm<IInputs>({ mode: 'onChange', defaultValues: { newPassword: '', confirmPassword: '' } });
+  const { invalid: newPasswordInvalid } = getFieldState('newPassword', formState);
+  const { invalid: confirmPasswordInvalid } = getFieldState('confirmPassword', formState);
   const navigate = useNavigate();
   const confirmPasswordId = useId();
 
@@ -53,6 +57,7 @@ function UpdatePasswordPage(): JSX.Element {
             error={errors.newPassword}
             isRequired
             isDirty={dirtyFields.newPassword}
+            invalid={newPasswordInvalid}
             isSubmitted={isSubmitted}
             reveal={false}
             label="Password"
@@ -63,6 +68,7 @@ function UpdatePasswordPage(): JSX.Element {
           label="Confirm Password"
           error={errors['confirmPassword']}
           isDirty={dirtyFields['confirmPassword']}
+          invalid={confirmPasswordInvalid}
           isRequired={PASSWORD_RULES?.required}
           isSubmitted={isSubmitted}>
           <Input
