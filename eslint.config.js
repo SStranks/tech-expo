@@ -10,6 +10,20 @@ export default [
   {
     ignores: ['**/node_modules', '**/dist', '**/build', '**/__snapshots__', '**/mocks', '**/coverage', '**/.sassdoc'],
   },
+  // === INDIVIDUAL PROJECTS ===
+  // --- CRM: Client; React + TypeScript
+  {
+    files: ['apps/crm/client/src/**/*.[jt]s?(x)'],
+    languageOptions: {
+      parserOptions: { project: ['./apps/crm/client/tsconfig.json'] },
+      ...EslintConfig.languageOptions,
+      ...EslintConfigReact.languageOptions,
+    },
+    plugins: { ...EslintConfig.plugins, ...EslintConfigReact.plugins },
+    rules: { ...EslintConfig.rules, ...EslintConfigReact.rules },
+    settings: { ...EslintConfig.settings, ...EslintConfigReact.settings },
+  },
+  // === GENERALIZED CATCHALLS ===
   {
     // Client; src folder. React framework.
     files: ['apps/*/+(frontend|client)/src/**/*.[jt]s?(x)'],

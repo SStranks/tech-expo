@@ -1,0 +1,15 @@
+{
+  "name": "@packages/eslint-config-airbnb",
+  "version": "1.0.0",
+  "private": true,
+  "description": "shared eslint airbnb styleguides configuration",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "type": "module",
+  "main": "eslint.config.js",
+  "devDependencies": {
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^18.0.0"
+  }
+}

@@ -3,6 +3,8 @@ import PluginTypescriptEslint from '@typescript-eslint/eslint-plugin';
 import PluginUnicorn from 'eslint-plugin-unicorn';
 import PluginPrettier from 'eslint-plugin-prettier';
 import PluginImport from 'eslint-plugin-import';
+import PluginRegexp from 'eslint-plugin-regexp';
+import PluginPerfectionist from 'eslint-plugin-perfectionist';
 
 import RecommendedEslint from '@eslint/js';
 import globals from 'globals';
@@ -27,11 +29,15 @@ export const EslintConfig = {
     unicorn: PluginUnicorn,
     import: PluginImport,
     prettier: PluginPrettier,
+    regexp: PluginRegexp,
+    perfectionist: PluginPerfectionist,
   },
   rules: {
     ...RecommendedEslint.configs.recommended.rules,
     ...PluginUnicorn.configs.recommended.rules,
     ...PluginTypescriptEslint.configs.recommended.rules,
+    ...PluginRegexp.configs.recommended.rules,
+    // ...PluginPerfectionist.configs['recommended-line-length'].rules,
     'arrow-body-style': 'off',
     'no-unused-vars': 'off',
     'no-undef': 'off',
@@ -74,4 +80,4 @@ export const EslintConfig = {
   },
 };
 
-export default [EslintConfig];
+// export default [EslintConfig];
