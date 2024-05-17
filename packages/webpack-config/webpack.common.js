@@ -1,13 +1,13 @@
 import ESLintPlugin from 'eslint-webpack-plugin';
 import path from 'node:path';
-import url from 'node:url';
 import fs from 'node:fs';
+// import url from 'node:url';
 
 const CWD = process.env.INIT_CWD;
-const CUR = path.dirname(url.fileURLToPath(import.meta.url));
+// const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 
 // Find entry file for both JS and TS based projects.
-const entryFile = fs.readdirSync(path.resolve(CWD, './src')).filter((file) => file.match(/index\.(js|jsx|tsx)/));
+const entryFile = fs.readdirSync(path.resolve(CWD, './src')).filter((file) => file.match(/index\.(jsx?|tsx)/));
 
 const CommonConfig = {
   // context: CUR,
@@ -81,6 +81,8 @@ const CommonConfig = {
   },
   plugins: [
     new ESLintPlugin({
+      configType: 'flat',
+      eslintPath: 'eslint/use-at-your-own-risk',
       extensions: ['js', 'jsx', 'ts', 'tsx'],
     }),
   ],

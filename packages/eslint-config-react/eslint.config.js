@@ -1,14 +1,10 @@
 import PluginReact from 'eslint-plugin-react';
 import PluginReactHooks from 'eslint-plugin-react-hooks';
 import PluginJSXA11Y from 'eslint-plugin-jsx-a11y';
-import ConfigAirBnb from 'eslint-config-airbnb';
-import ConfigAirBnbTypescript from 'eslint-config-airbnb-typescript';
 // NOTE:  @tanstack/eslint-plugin-query is not flatconfig compatible yet.
 import { configs as ReactQueryConfigs, rules as ReactQueryRules } from '@tanstack/eslint-plugin-query';
 
 import globals from 'globals';
-
-const { extends: airbnbtypescriptRules, ...airbibConfig } = ConfigAirBnbTypescript;
 
 export const EslintConfigReact = {
   languageOptions: {
@@ -33,8 +29,6 @@ export const EslintConfigReact = {
     '@tanstack/eslint-plugin-query': { rules: ReactQueryRules, configs: ReactQueryConfigs },
   },
   rules: {
-    ...ConfigAirBnb.rules,
-    ...ConfigAirBnbTypescript.rules,
     ...PluginReact.configs.recommended.rules,
     ...PluginReactHooks.configs.recommended.rules,
     ...PluginJSXA11Y.configs.recommended.rules,

@@ -61,7 +61,7 @@ export const EslintConfig = {
           camelCase: true,
           pascalCase: true,
         },
-        ignore: ['index.(js|jsx|ts|tsx)', 'webpack.*', '.d.ts', 'types.ts', '.test.ts', 'use\\w*.tsx'],
+        ignore: ['index.(js|jsx|ts|tsx)', 'webpack.*', '.d.ts', 'types.ts', '.test.ts', String.raw`use\w*.tsx`],
       },
     ],
   },
@@ -79,5 +79,3 @@ export const EslintConfig = {
     },
   },
 };
-
-// export default [EslintConfig];

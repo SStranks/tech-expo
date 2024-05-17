@@ -51,7 +51,11 @@ const DevConfig = {
           {
             loader: 'css-loader',
             options: {
-              modules: { localIdentName: '[local]-[hash:base64:5]' },
+              modules: {
+                localIdentName: '[local]-[hash:base64:5]',
+                namedExport: false,
+                exportLocalsConvention: 'as-is',
+              },
             },
           },
           'sass-loader',
