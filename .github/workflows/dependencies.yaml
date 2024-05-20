@@ -1,0 +1,34 @@
+name: Dependencies
+# Checks the entire repository for outdated packages (latest) and prints output to .txt
+
+on:
+  schedule:
+    # minute (0-59) - hour (0-23) - date (1-31) - month (1-12 or JAN-DEC) - day (0-6 or SUN-SAT)
+    # - cron: ''
+    # - cron: '0 17 * * SUN' # Test;
+
+jobs:
+  build:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          run_install: false
+
+      - name: pnpm outdated dependencies
+        run: pnpm outdated -r

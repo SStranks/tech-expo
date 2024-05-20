@@ -11,7 +11,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
-import { TableGridView, TableListView } from '#Components/tanstack-table/views';
+import { TableListView } from '#Components/tanstack-table/views';
 import { ITableDataCompanies } from '#Data/MockData';
 import { ColumnCompanies } from '../../columns';
 import styles from './_TableCompanies.module.scss';
@@ -72,7 +72,7 @@ function TableCompanies(props: IProps): JSX.Element {
         listGridToggle={{ tableView, setTableView, columnFilters, setColumnFilters, resetColumnFilters }}
       />
       {tableView === 'list' && <TableListView table={table} />}
-      {tableView === 'grid' && <TableGridView table={table} />}
+      {/* {tableView === 'grid' && <TableGridView table={table} />} */}
       <div className={styles.tableControlsFooter}>
         <TableControlsFooter
           entriesName="companies"

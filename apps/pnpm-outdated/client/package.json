@@ -1,0 +1,18 @@
+{
+  "name": "@apps/pnpm-outdated",
+  "version": "1.0.0",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "description": "Github Action. Runs `PNPM outdated` and reports results to markdown",
+  "keywords": [],
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "start": "node dist/main.js",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@packages/prettier-config": "workspace:*",
+    "@types/node": "^20.12.12"
+  }
+}

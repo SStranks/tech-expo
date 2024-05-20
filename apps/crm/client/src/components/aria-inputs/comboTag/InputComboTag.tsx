@@ -38,7 +38,7 @@ function InputComboTag(props: IProps): JSX.Element {
   const [selectedKeys, setSelectedKeys] = useState<IListItem[]>([]);
   const [inputValue, setInputValue] = useState('');
 
-  const onSelect = (key: Key) => {
+  const onSelect = (key: Key | null) => {
     if (selectedKeys.some((p) => p.id === key)) {
       setSelectedKeys((prev) => prev.filter((p) => p.id !== key));
     } else {

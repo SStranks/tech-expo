@@ -15,6 +15,7 @@
   },
   "prettier": "@packages/prettier-config",
   "scripts": {
+    "outdated": "pnpm outdated -r > outdatedPackages.txt",
     "commitlint": "commitlint",
     "lint": "eslint",
     "prepare": "husky install",
@@ -36,7 +37,6 @@
     "@packages/jest-config": "workspace:*",
     "@packages/jest-config-node": "workspace:*",
     "@packages/jest-config-react": "workspace:*",
-    "@packages/prettier-config": "workspace:*",
     "@packages/secretlint-config": "workspace:*",
     "@packages/storybook-config": "workspace:*",
     "@packages/stylelint-config": "workspace:*",

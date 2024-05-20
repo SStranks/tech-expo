@@ -1,33 +1,27 @@
-import type { CoreRow, Row } from '@tanstack/react-table';
+import { PropsWithChildren } from 'react';
 import { ButtonOptions } from '#Components/buttons';
-import { ITableDataContacts } from '#Data/MockData';
-import { TableContactsCardLower, TableContactsCardUpper } from './';
 import styles from './_TableGridCard.module.scss';
 
-interface IProps<T> {
-  row: Row<T>;
-  tableName: 'companies' | 'contacts' | 'quotes' | undefined;
-}
-
-function TableGridCard<T>(props: IProps<T>): JSX.Element {
-  const { row, tableName } = props;
-  let upperSection, lowerSection;
-
-  if (tableName === 'contacts') {
-    const { name, email, status, title } = row.original as CoreRow<ITableDataContacts>['original'];
-    upperSection = <TableContactsCardUpper img={'image'} name={name} email={email} status={status} />;
-    lowerSection = <TableContactsCardLower role={title} companyImg={'image'} companyName={'test'} />;
-  }
-
+function TableGridCard({ children }: PropsWithChildren): JSX.Element {
   return (
     <div className={styles.tableGridCard}>
       <div className={styles.tableGridCard__optionsBtn}>
         <ButtonOptions />
       </div>
-      <div className={styles.tableGridCard__upper}>{upperSection}</div>
-      <div className={styles.tableGridCard__lower}>{lowerSection}</div>
+      {children}
     </div>
   );
 }
+
+function UpperSection({ children }: PropsWithChildren): JSX.Element {
+  return <div className={styles.tableGridCard__upper}>{children}</div>;
+}
+
+function LowerSection({ children }: PropsWithChildren): JSX.Element {
+  return <div className={styles.tableGridCard__upper}>{children}</div>;
+}
+
+TableGridCard.UpperSection = UpperSection;
+TableGridCard.LowerSection = LowerSection;
 
 export default TableGridCard;

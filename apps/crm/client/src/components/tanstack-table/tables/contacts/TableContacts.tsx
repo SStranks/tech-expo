@@ -15,6 +15,7 @@ import { TableGridView, TableListView } from '#Components/tanstack-table/views';
 import { ITableDataContacts } from '#Data/MockData';
 import { ColumnContacts } from '../../columns';
 import styles from './_TableContacts.module.scss';
+import { TableContactsCardLower, TableContactsCardUpper, TableGridCard } from '#Components/tanstack-table/cards';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -64,6 +65,20 @@ function TableContacts(props: IProps): JSX.Element {
     navigate('create');
   };
 
+  const tableCards = table.getRowModel().rows.map((row) => {
+    const { name, email, image, status, title, company, companyLogo } = row.original;
+    return (
+      <TableGridCard key={row.id}>
+        <TableGridCard.UpperSection>
+          <TableContactsCardUpper img={image} name={name} email={email} status={status} />
+        </TableGridCard.UpperSection>
+        <TableGridCard.LowerSection>
+          <TableContactsCardLower role={title} companyImg={companyLogo} companyName={company} />
+        </TableGridCard.LowerSection>
+      </TableGridCard>
+    );
+  });
+
   return (
     <div className={styles.container}>
       <TableControlsHeader
@@ -72,7 +87,7 @@ function TableContacts(props: IProps): JSX.Element {
         listGridToggle={{ tableView, setTableView, columnFilters, setColumnFilters, resetColumnFilters }}
       />
       {tableView === 'list' && <TableListView table={table} />}
-      {tableView === 'grid' && <TableGridView table={table} />}
+      {tableView === 'grid' && <TableGridView tableCards={tableCards} />}
       <div className={styles.tableControlsFooter}>
         <TableControlsFooter
           entriesName="contacts"

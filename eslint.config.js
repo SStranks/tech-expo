@@ -20,7 +20,7 @@ export default [
   // === INDIVIDUAL PROJECTS ===
   // --- CRM: Client; React + TypeScript
   {
-    files: ['apps/crm/client/src/**/*.[jt]s?(x)'],
+    files: ['apps/crm/client/src/**/*.[jt]s?(x)', 'apps/pnpm-outdated/client/src/*.ts'],
     languageOptions: {
       parserOptions: { project: ['./apps/crm/client/tsconfig.json'] },
       ...EslintConfigReact.languageOptions,
