@@ -72,6 +72,5 @@ jobs:
               return [name, data['current'], deprecated ?? data['latest'], dependentPackages];
             });
             core.summary
-              // .addHeading('Outdated packages :broom:')
               .addTable([header, ...rows])
               .write();
