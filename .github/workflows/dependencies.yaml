@@ -71,7 +71,7 @@ jobs:
                 .join('<br>')
                 .trim()
               rows.push({ data: name })
-              rows.push({ data: data['current' })
+              rows.push({ data: data['current'] })
               rows.push({ data: deprecated ?? data['latest'] })
               rows.push({ data: dependentPackages })
             })
