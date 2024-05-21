@@ -30,5 +30,10 @@ jobs:
           version: 9
           run_install: false
 
+      - name: build github action; pnpm outdated dependencies
+        run: |
+          "pnpm install --filter @apps/pnpm-outdated"
+          "pnpm --filter @apps/pnpm-outdated run build"
+
       - name: pnpm outdated dependencies
-        run: pnpm outdated -r
+        uses: './apps/pnpm-outdated/client/action.yaml'
