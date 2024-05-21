@@ -42,35 +42,36 @@ jobs:
           script: |
             const options = {
               ignoreReturnCode: true,
-            };
-            const { exitCode, stdout, stderr } = await exec.getExecOutput(`pnpm outdated -r --format json`, [], options);
+            }
+            const { exitCode, stdout, stderr } = await exec.getExecOutput(`pnpm outdated -r --format json`, [], options)
 
-            core.setOutput('exitCode', exitCode);
-            core.setOutput('stdout', stdout);
-            core.setOutput('stderr', stderr);
+            core.setOutput('exitCode', exitCode)
+            core.setOutput('stdout', stdout)
+            core.setOutput('stderr', stderr)
 
-            let report;
+            let report
             try {
-              report = JSON.parse(stdout);
+              report = JSON.parse(stdout)
             } catch (err) {
-              console.error(err);
+              console.error(err)
             }
             const header = [
               { data: 'Package', header: true },
               { data: 'Current', header: true },
               { data: 'Latest', header: true },
               { data: 'Dependents', header: true },
-            ];
+            ]
 
             const rows = Object.entries(report).map(([name, data]) => {
-              let deprecated;
-              if (data['isDeprecated']) deprecated = '$${\\color{red}Deprecated}$$';
+              let deprecated
+              if (data['isDeprecated']) deprecated = '$${\\color{red}Deprecated}$$'
               const dependentPackages = data['dependentPackages']
                 .map(({ name }) => name)
                 .join('<br>')
-                .trim();
-              return [name, data['current'], deprecated ?? data['latest'], dependentPackages];
-            });
+                .trim()
+              return [name, data['current'], deprecated ?? data['latest'], dependentPackages]
+            })
             core.summary
+              .addHeading('Packages')
               .addTable([header, ...rows])
-              .write();
+              .write()
