@@ -62,17 +62,21 @@ jobs:
               { data: 'Dependents', header: true },
             ]
 
-            const rows = Object.entries(report).map(([name, data]) => {
+            let rows = []
+            Object.entries(report).forEach(([name, data]) => {
               let deprecated
               if (data['isDeprecated']) deprecated = '$${\\color{red}Deprecated}$$'
               const dependentPackages = data['dependentPackages']
                 .map(({ name }) => name)
                 .join('<br>')
                 .trim()
-              return [name, data['current'], deprecated ?? data['latest'], dependentPackages]
+              rows.push({ data: name })
+              rows.push({ data: data['current' })
+              rows.push({ data: deprecated ?? data['latest'] })
+              rows.push({ data: dependentPackages })
             })
-            const rows2 = [['a', 'b', 'c', 'd']]
+
             core.summary
               .addHeading('Packages')
-              .addTable([header, ...rows2])
+              .addTable([header, ...rows])
               .write()
