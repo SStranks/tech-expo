@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    name: Outdated Dependencies
+    name: Lint
     runs-on: ubuntu-latest
 
     permissions:
@@ -34,49 +34,10 @@ jobs:
           version: 9
           run_install: false
 
-      # - name: pnpm outdated dependencies
-      #   run: pnpm outdated -r
+      - name: build github action; pnpm outdated dependencies
+        run: |
+          "pnpm install --filter @apps/pnpm-outdated"
+          "pnpm --filter @apps/pnpm-outdated run build"
 
-      - uses: actions/github-script@v7
-        with:
-          script: |
-            const options = {
-              ignoreReturnCode: true,
-            }
-            const { exitCode, stdout, stderr } = await exec.getExecOutput(`pnpm outdated -r --format json`, [], options)
-
-            core.setOutput('exitCode', exitCode)
-            core.setOutput('stdout', stdout)
-            core.setOutput('stderr', stderr)
-
-            let report
-            try {
-              report = JSON.parse(stdout)
-            } catch (err) {
-              console.error(err)
-            }
-            const header = [
-              { data: 'Package', header: true },
-              { data: 'Current', header: true },
-              { data: 'Latest', header: true },
-              { data: 'Dependents', header: true },
-            ]
-
-            let rows = []
-            Object.entries(report).forEach(([name, data]) => {
-              let deprecated
-              if (data['isDeprecated']) deprecated = '$${\\color{red}Deprecated}$$'
-              const dependentPackages = data['dependentPackages']
-                .map(({ name }) => name)
-                .join('<br>')
-                .trim()
-              rows.push({ data: name })
-              rows.push({ data: data['current'] })
-              rows.push({ data: deprecated ?? data['latest'] })
-              rows.push({ data: dependentPackages })
-            })
-
-            core.summary
-              .addHeading('Packages')
-              .addTable([header, ...rows])
-              .write()
+      - name: pnpm outdated dependencies
+        uses: './apps/pnpm-outdated/client/action.yaml'
