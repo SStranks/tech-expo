@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    name: Lint
+    name: Dependencies
     runs-on: ubuntu-latest
 
     permissions:
@@ -31,12 +31,27 @@ jobs:
 
       - uses: pnpm/action-setup@v2
         with:
-          version: 9
+          version: 8
           run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: build github action; pnpm outdated dependencies
         run: |
-          "pnpm install --filter @apps/pnpm-outdated"
           "pnpm --filter @apps/pnpm-outdated run build"
 
       - name: pnpm outdated dependencies
