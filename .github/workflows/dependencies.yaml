@@ -31,7 +31,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 9
           run_install: false
 
       # - name: pnpm outdated dependencies
@@ -71,7 +71,8 @@ jobs:
                 .trim()
               return [name, data['current'], deprecated ?? data['latest'], dependentPackages]
             })
+            const rows2 = [['a', 'b', 'c', 'd']]
             core.summary
               .addHeading('Packages')
-              .addTable([header])
+              .addTable([header, ...rows2])
               .write()
