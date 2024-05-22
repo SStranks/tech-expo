@@ -78,4 +78,4 @@ jobs:
       - name: Run action; pnpm-outdated
         uses: ./pnpm-outdated
         with:
-          cwd: ../tech-expo
+          cwd: ${{ github.workspace }}/tech-expo
