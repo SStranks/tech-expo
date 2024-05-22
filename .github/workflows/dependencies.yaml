@@ -24,8 +24,8 @@ jobs:
       # Checkout project code to runner workspace sub-directory
       - name: Checkout code
         uses: actions/checkout@v4
-        # with:
-        #   path: ./tech-expo
+        with:
+          path: ${{ github.workspace }}/tech-expo
 
       - name: Use Node.js v20
         uses: actions/setup-node@v4
@@ -60,7 +60,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: SStranks/pnpm-outdated
-          # path: ./pnpm-outdated
+          path: ${{ github.workspace }}/pnpm-outdated
 
       # Install github action dependecies and build
       # - name: pnpm-outdated install and build
