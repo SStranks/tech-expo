@@ -60,7 +60,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: SStranks/pnpm-outdated
-          ref: v1.0.0
           path: ./pnpm-outdated
 
       # Install github action dependecies and build
