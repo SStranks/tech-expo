@@ -7,6 +7,9 @@
   <a href="https://github.com/SStranks/tech-expo/actions/workflows/test.yaml">
 		<img alt="Github Action Test" src="https://github.com/SStranks/tech-expo/actions/workflows/test.yaml/badge.svg">
 	</a>
+  <a href="https://github.com/SStranks/tech-expo/actions/workflows/dependencies.yaml">
+		<img alt="Github Action Test" src="https://github.com/SStranks/tech-expo/actions/workflows/dependencies.yaml/badge.svg">
+	</a>
 </p>
 
 Fictional technology expo; mono-repo multi-app
