@@ -71,6 +71,7 @@ jobs:
 
       # TEMP: Workspace file structure
       - name: temp - list out file structure of runner
+        working-directory: ${{ github.workspace }}
         run: tree -d -I "node_modules" >> $GITHUB_STEP_SUMMARY
 
       # Run github action.yaml; pnpm-outdated
