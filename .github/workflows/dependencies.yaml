@@ -76,6 +76,6 @@ jobs:
 
       # Run github action.yaml; pnpm-outdated
       - name: Run action; pnpm-outdated
-        uses: ${{ github.workspace }}/pnpm-outdated
+        uses: ./pnpm-outdated
         with:
           cwd: ${{ github.workspace }}/tech-expo
