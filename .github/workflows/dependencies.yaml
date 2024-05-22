@@ -51,9 +51,9 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       # Install main project dependencies
-      # - name: Install 'tech-expo' dependencies
-      #   working-directory: './tech-expo'
-      #   run: pnpm install
+      - name: Install 'tech-expo' dependencies
+        working-directory: ${{ github.workspace }}/tech-expo
+        run: pnpm install
 
       # Reference github action in another public repo
       - name: Checkout code - github action - pnpm-outdated
@@ -63,19 +63,19 @@ jobs:
           path: ${{ github.workspace }}/pnpm-outdated
 
       # Install github action dependecies and build
-      # - name: pnpm-outdated install and build
-      #   working-directory: './pnpm-outdated'
-      #   run: |
-      #     pnpm install
-      #     pnpm run build
+      - name: pnpm-outdated install and build
+        working-directory: ${{ github.workspace }}/pnpm-outdated
+        run: |
+          pnpm install
+          pnpm run build
 
       # TEMP: Workspace file structure
-      - name: temp - list out file structure of runner
-        working-directory: ${{ github.workspace }}
-        run: tree -d -I "node_modules" >> $GITHUB_STEP_SUMMARY
+      # - name: temp - list out file structure of runner
+      #   working-directory: ${{ github.workspace }}
+      #   run: tree -d -I "node_modules" >> $GITHUB_STEP_SUMMARY
 
       # Run github action.yaml; pnpm-outdated
-      # - name: Run action; pnpm-outdated
-      #   uses: ./pnpm-outdated
-      #   with:
-      #     cwd: './tech-expo'
+      - name: Run action; pnpm-outdated
+        uses: ${{ github.workspace }}/pnpm-outdated
+        with:
+          cwd: ${{ github.workspace }}/tech-expo
