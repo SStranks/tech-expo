@@ -20,6 +20,7 @@
 /*   Imports                        */
 @use 'sass:math';
 @use 'sass:meta';
+@use 'sass:list';
 
 /* -------------------------------- */
 /*   Functions                      */
@@ -92,8 +93,8 @@
 ///     z-index: z('Modal')
 ///   }
 @function z($name, $z-indexes-list: $z-indexes) {
-  @if index($z-indexes-list, $name) {
-    @return (length($z-indexes-list) - index($z-indexes-list, $name)) + 1;
+  @if list.index($z-indexes-list, $name) {
+    @return (list.length($z-indexes-list) - list.index($z-indexes-list, $name)) + 1;
   } @else {
     @warn 'There is no item "#{$name}" in this list; choose one of: #{$z-indexes-list}';
 
