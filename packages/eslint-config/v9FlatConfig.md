@@ -4,22 +4,23 @@
 
 ## List of Eslint Plugins Utilized; Supports v9
 
-https://github.com/eslint/eslint/issues/18391
+[Tracking: ESLint v9 support](https://github.com/eslint/eslint/issues/18391)
+[Tracking: Flat Config support](https://github.com/eslint/eslint/issues/18093)
+
 // ✔ // ✖ // ⬡ .
 
-- @typescript-eslint // ✖ .
 - @tanstack/eslint-plugin-query // ✖ .
 - eslint-config-airbnb // ✖ .
 - eslint-config-airbnb-base // ✖ .
 - eslint-config-airbnb-typescript // ✖ .
 - eslint-import-resolver-typescript // ⬡ .
 - eslint-plugin-import // ✖ .
-- eslint-plugin-jsx-a11y // ✖ .
 - eslint-plugin-react // ✖ .
 - eslint-plugin-react-hooks // ✖ .
 - eslint-plugin-testing-library // ✖ .
 - eslint-plugin-storybook // ✖ .
-- eslint-webpack-plugin // ✖ .
+- @typescript-eslint // ✔ .
+- eslint-plugin-jsx-a11y // ✔ .
 - eslint-config-prettier // ✔ .
 - eslint-plugin-perfectionist // ✔ .
 - eslint-plugin-prettier // ✔ .
@@ -30,3 +31,4 @@ https://github.com/eslint/eslint/issues/18391
 - eslint-plugin-security // ✔ .
 - eslint-plugin-jest // ✔ .
 - eslint-plugin-jest-dom // ✔ .
+- eslint-webpack-plugin // ✔ .
