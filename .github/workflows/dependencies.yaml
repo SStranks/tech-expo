@@ -4,12 +4,11 @@ name: Dependencies
 on:
   schedule:
     # minute (0-59) - hour (0-23) - date (1-31) - month (1-12 or JAN-DEC) - day (0-6 or SUN-SAT)
-    # - cron: ''
-    # - cron: '0 17 * * SUN' # Test;
+    - cron: '0 17 * * SUN'
 
 jobs:
   build:
-    name: Lint
+    name: Dependencies
     runs-on: ubuntu-latest
 
     permissions:
@@ -17,8 +16,11 @@ jobs:
       packages: read
 
     steps:
+      # Checkout project code to runner workspace sub-directory
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          path: ${{ github.workspace }}/tech-expo
 
       - name: Use Node.js v20
         uses: actions/setup-node@v4
@@ -27,13 +29,48 @@ jobs:
 
       - uses: pnpm/action-setup@v2
         with:
-          version: 9
+          version: 8
           run_install: false
 
-      - name: build github action; pnpm outdated dependencies
+      - name: Get pnpm store directory
+        shell: bash
         run: |
-          "pnpm install --filter @apps/pnpm-outdated"
-          "pnpm --filter @apps/pnpm-outdated run build"
+          echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
 
-      - name: pnpm outdated dependencies
-        uses: './apps/pnpm-outdated/client/action.yaml'
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      # Install main project dependencies
+      - name: Install 'tech-expo' dependencies
+        working-directory: ${{ github.workspace }}/tech-expo
+        run: pnpm install
+
+      # Reference github action in another public repo
+      - name: Checkout code - github action - pnpm-outdated
+        uses: actions/checkout@v4
+        with:
+          repository: SStranks/pnpm-outdated
+          path: ${{ github.workspace }}/pnpm-outdated
+
+      # Install github action dependecies and build
+      - name: pnpm-outdated install and build
+        working-directory: ${{ github.workspace }}/pnpm-outdated
+        run: |
+          pnpm install
+          pnpm run build
+
+      # TEMP: Workspace file structure
+      # - name: temp - list out file structure of runner
+      #   working-directory: ${{ github.workspace }}
+      #   run: tree -d -I "node_modules" >> $GITHUB_STEP_SUMMARY
+
+      # Run github action.yaml; pnpm-outdated
+      - name: Run action; pnpm-outdated
+        uses: ./pnpm-outdated
+        with:
+          cwd: ${{ github.workspace }}/tech-expo
