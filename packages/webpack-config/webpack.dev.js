@@ -54,7 +54,7 @@ const DevConfig = {
               modules: {
                 localIdentName: '[local]-[hash:base64:5]',
                 namedExport: false,
-                exportLocalsConvention: 'as-is',
+                exportLocalsConvention: 'asIs',
               },
             },
           },
