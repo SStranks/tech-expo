@@ -12,9 +12,9 @@ function TableContactsCardUpper(props: IProps): JSX.Element {
 
   return (
     <div className={styles.contactsCardUpper}>
-      <img src={img} alt="" />
-      <span>{name}</span>
-      <span>{email}</span>
+      <img src={img} alt="" className={styles.contactsCardUpper__img} />
+      <span className={styles.contactsCardUpper__name}>{name}</span>
+      <span className={styles.contactsCardUpper__email}>{email}</span>
       <div className="">{status}</div>
     </div>
   );

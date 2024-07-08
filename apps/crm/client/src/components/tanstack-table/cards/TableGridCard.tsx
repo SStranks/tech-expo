@@ -18,7 +18,7 @@ function UpperSection({ children }: PropsWithChildren): JSX.Element {
 }
 
 function LowerSection({ children }: PropsWithChildren): JSX.Element {
-  return <div className={styles.tableGridCard__upper}>{children}</div>;
+  return <div className={styles.tableGridCard__lower}>{children}</div>;
 }
 
 TableGridCard.UpperSection = UpperSection;
