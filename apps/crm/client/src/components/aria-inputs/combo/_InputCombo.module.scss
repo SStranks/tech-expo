@@ -2,6 +2,7 @@
 @use '#Sass/components/form' as form;
 
 $padding: 16px;
+$popover-offset-y: 6px;
 
 .inputContainer {
   display: flex;
@@ -58,7 +59,7 @@ $padding: 16px;
   background-color: var(--thm-background-default);
   border: 1px solid var(--thm-button-secondary-border);
   border-radius: form.$input-border-radius;
-  transform: translate(-$padding, $padding);
+  transform: translate(-$padding, $popover-offset-y);
   outline: none;
   overflow: hidden;
 
@@ -115,11 +116,11 @@ $padding: 16px;
 @keyframes slide-in {
   0% {
     opacity: 0;
-    transform: translate(-$padding, calc($padding - 8px));
+    transform: translate(-$padding, 0);
   }
 
   100% {
     opacity: 1;
-    transform: translate(-$padding, $padding);
+    transform: translate(-$padding, $popover-offset-y);
   }
 }

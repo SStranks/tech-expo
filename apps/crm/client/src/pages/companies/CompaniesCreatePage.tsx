@@ -1,5 +1,6 @@
 import FormModal from '#Components/modal/FormModal';
 import { FormProvider } from '#Components/react-hook-form';
+import { GENERIC_TEXT_RULES } from '#Components/react-hook-form/validationRules';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,12 +31,7 @@ function CompaniesCreatePage(): JSX.Element {
       <FormProvider onSubmit={onSubmit}>
         <FormModal.Header title="Create Company" />
         <FormModal.Content>
-          <FormProvider.Input
-            type="text"
-            rules={{ required: true, pattern: /test/ }}
-            name="companyName"
-            label="Company Name"
-          />
+          <FormProvider.Input type="text" rules={GENERIC_TEXT_RULES} name="companyName" label="Company Name" />
           <FormProvider.Combo items={listItems} name="salesOwner" label="Sales Owner" />
         </FormModal.Content>
         <FormModal.Footer>
