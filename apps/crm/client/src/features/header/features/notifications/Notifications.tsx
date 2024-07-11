@@ -4,9 +4,29 @@ import { ReactPortal } from '#Components/index';
 import { IconNotificationBell } from '#Components/svg';
 import { INotification } from '#Data/MockData';
 import usePortalClose from '#Hooks/usePortalClose';
-import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
+import usePortalResizeEvent from '#Hooks/usePortalResizeEvent';
+import {
+  CTG_ENTER_MODAL,
+  CTG_EXIT_MODAL,
+  CTG_ON_ENTER_CSS_ROOT,
+  CTG_ON_EXITED_CSS_ROOT,
+} from '#Utils/cssTransitionGroup';
 import NotificationsList from './NotificationsList';
 import styles from './_Notifications.module.scss';
+
+// Defined at top of 'styles' scss; used to offset portal from window edge
+const CSS_ROOT_PROPERTY = '--notifications-menu-offset-x';
+
+const GET_MENU_PORTAL_BTN_RECT = (portalButtonRef: React.RefObject<HTMLButtonElement>) => {
+  return `${portalButtonRef.current?.getBoundingClientRect().right}px`;
+};
+
+const PORTAL_ONRESIZE = (portalButtonRef: React.RefObject<HTMLButtonElement>) => {
+  const CSS_ROOT = document.querySelector(':root') as HTMLElement;
+  const cssValue = GET_MENU_PORTAL_BTN_RECT(portalButtonRef);
+  console.log(cssValue);
+  CSS_ROOT?.style.setProperty(CSS_ROOT_PROPERTY, cssValue);
+};
 
 interface IProps {
   notifications: INotification[];
@@ -20,6 +40,7 @@ function Notifications(props: IProps): JSX.Element {
   const portalButtonRef = useRef<HTMLButtonElement>(null);
   const portalContentRef = useRef<HTMLDivElement>(null);
   usePortalClose(portalActive, setPortalActive, portalContentRef, portalButtonRef);
+  usePortalResizeEvent(portalActive, () => PORTAL_ONRESIZE(portalButtonRef));
 
   const iconClickHandler = () => {
     setPortalActive((p) => !p);
@@ -52,6 +73,8 @@ function Notifications(props: IProps): JSX.Element {
         <CSSTransition
           in={portalActive}
           timeout={{ enter: CTG_ENTER_MODAL, exit: CTG_EXIT_MODAL }}
+          onEnter={() => CTG_ON_ENTER_CSS_ROOT(CSS_ROOT_PROPERTY, GET_MENU_PORTAL_BTN_RECT(portalButtonRef))}
+          onExited={() => CTG_ON_EXITED_CSS_ROOT(CSS_ROOT_PROPERTY)}
           unmountOnExit
           classNames={{
             enter: `${styles['enter']}`,
@@ -61,11 +84,7 @@ function Notifications(props: IProps): JSX.Element {
             exitActive: `${styles['exitActive']}`,
           }}
           nodeRef={portalContentRef}>
-          <div
-            style={{ left: portalButtonRef.current?.getBoundingClientRect().right }}
-            className={styles.portalContent}
-            data-testid="notifications"
-            ref={portalContentRef}>
+          <div className={styles.portalContent} data-testid="notifications" ref={portalContentRef}>
             <div className={styles.notifications}>
               <div className={styles.notifications__header}>
                 <h4>Notifications</h4>

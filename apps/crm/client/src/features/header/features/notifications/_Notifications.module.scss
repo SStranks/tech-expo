@@ -2,6 +2,11 @@
 @use '#Sass/abstracts/mixins' as mx;
 @use '#Sass/abstracts/variables' as v;
 
+// Utilized in the React component as dynamic variable; for placement of portal relative to window
+:root {
+  --notifications-menu-offset-x: ;
+}
+
 .notificationIcon {
   @include mx.header-button;
   position: relative;
@@ -38,6 +43,7 @@
 .portalContent {
   position: absolute;
   top: calc(v.$header-dim-vertical + v.$header-modals-offset-y);
+  left: var(--notifications-menu-offset-x);
   margin-inline: auto;
   display: flex;
   align-items: center;

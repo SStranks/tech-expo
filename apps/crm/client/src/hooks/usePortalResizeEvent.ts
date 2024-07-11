@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+// Used in conjunction with a portal that has active/inactive boolean state
 function usePortalResizeEvent(menuPortalActive: boolean, eventListener: () => void) {
   useEffect(() => {
     addEventListener('resize', eventListener);
