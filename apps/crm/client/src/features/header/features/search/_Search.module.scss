@@ -66,6 +66,7 @@
 }
 
 .searchResults {
+  @include mx.scrollbar-portal-base;
   height: 100%;
   padding: 0 16px;
   border-top: 1px solid var(--thm-button-secondary-border);
