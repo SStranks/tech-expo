@@ -38,6 +38,7 @@
   border: 1px solid var(--thm-border-secondary);
   border-radius: 6px;
   transform: translateX(-100%);
+  z-index: 1;
 
   &__header {
     width: 100%;
