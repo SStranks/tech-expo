@@ -36,6 +36,12 @@
     &__svg {
       @include mx.header-button-svg;
     }
+
+    &:hover {
+      & .item__edit__svg > path {
+        color: var(--thm-icon-info);
+      }
+    }
   }
 }
 
