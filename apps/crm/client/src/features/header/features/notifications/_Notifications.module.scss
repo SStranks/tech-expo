@@ -67,6 +67,7 @@
   }
 
   &__list {
+    @include mx.scrollbar-portal-base;
     height: 200px;
     background-color: var(--thm-background-subtle);
     overflow-y: scroll;

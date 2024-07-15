@@ -22,10 +22,16 @@ function NotificationsList(props: IProps): JSX.Element {
     );
   });
 
+  const noNewNotifications = (
+    <div className={styles.noNewNotifications}>
+      <span>No New Notifications</span>
+    </div>
+  );
+
   return (
     <div className={styles.notificationsList}>
       <ul className={styles.notificationsList__ul}>
-        {notifications.length > 0 ? notificationsListElements : 'No New Notifications'}
+        {notifications.length > 0 ? notificationsListElements : noNewNotifications}
       </ul>
     </div>
   );

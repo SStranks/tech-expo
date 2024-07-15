@@ -45,3 +45,9 @@
     color: var(--thm-text-secondary);
   }
 }
+
+.noNewNotifications {
+  display: flex;
+  justify-content: center;
+  color: var(--thm-text-default);
+}
