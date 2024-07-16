@@ -32,7 +32,7 @@ function CompaniesCreatePage(): JSX.Element {
         <FormModal.Header title="Create Company" />
         <FormModal.Content>
           <FormProvider.Input type="text" rules={GENERIC_TEXT_RULES} name="companyName" label="Company Name" />
-          <FormProvider.Combo items={listItems} name="salesOwner" label="Sales Owner" />
+          <FormProvider.Combo items={listItems} rules={GENERIC_TEXT_RULES} name="salesOwner" label="Sales Owner" />
         </FormModal.Content>
         <FormModal.Footer>
           <FormModal.CancelButton />

@@ -32,9 +32,9 @@ function QuoteCreatePage(): JSX.Element {
         <FormModal.Header title="Create Quote" />
         <FormModal.Content>
           <FormProvider.Input type="text" rules={GENERIC_TEXT_RULES} name="quoteTitle" label="Quote Title" />
-          <FormProvider.Combo items={listItems} rules={{ required: true }} name="salesOwner" label="Sales Owner" />
-          <FormProvider.Combo items={listItems} rules={{ required: true }} name="company" label="Company" />
-          <FormProvider.Combo items={listItems} rules={{ required: true }} name="quoteContact" label="Quote Contact" />
+          <FormProvider.Combo items={listItems} rules={GENERIC_TEXT_RULES} name="salesOwner" label="Sales Owner" />
+          <FormProvider.Combo items={listItems} rules={GENERIC_TEXT_RULES} name="company" label="Company" />
+          <FormProvider.Combo items={listItems} rules={GENERIC_TEXT_RULES} name="quoteContact" label="Quote Contact" />
         </FormModal.Content>
         <FormModal.Footer>
           <FormModal.CancelButton />

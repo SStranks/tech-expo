@@ -33,7 +33,7 @@ function ContactsCreatePage(): JSX.Element {
         <FormModal.Content>
           <FormProvider.Input type="text" rules={GENERIC_TEXT_RULES} name="contactName" label="Contact Name" />
           <FormProvider.Input type="email" rules={EMAIL_RULES} name="contactEmail" label="Contact Email" />
-          <FormProvider.Combo items={listItems} name="company" label="Company" />
+          <FormProvider.Combo items={listItems} rules={GENERIC_TEXT_RULES} name="company" label="Company" />
         </FormModal.Content>
         <FormModal.Footer>
           <FormModal.CancelButton />
