@@ -29,6 +29,7 @@ export { default as IconInfoCircle } from './IconInfoCircle';
 export { default as IconKanban } from './IconKanban';
 export { default as IconList } from './IconList';
 export { default as IconLogout } from './IconLogout';
+export { default as IconMagniferZoomIn } from './IconMagniferZoomIn';
 export { default as IconMenuDots } from './IconMenuDots';
 export { default as IconNotificationBell } from './IconNotificationBell';
 export { default as IconNotebook } from './IconNotebook';

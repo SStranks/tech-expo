@@ -1,5 +1,5 @@
 export { default as RouteAdministration } from './AdministrationRoute';
-export { default as RouteAuditlog } from './AuditlogRoute';
+export { default as RouteAuditLog } from './audit-log/AuditLogRoute';
 export { default as RouteCalendar } from './CalendarRoute';
 export { default as RouteCompanies } from './companies/CompaniesRoute';
 export { default as RouteContacts } from './contacts/ContactsRoute';

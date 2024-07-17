@@ -1,13 +1,13 @@
 import { useRef } from 'react';
 import { flexRender, type Table } from '@tanstack/react-table';
 import { FilterRowControl, SortRowControl } from '../controls';
-import styles from './_TableListView.module.scss';
+import styles from './_TableDefaultView.module.scss';
 
 interface IProps<T> {
   table: Table<T>;
 }
 
-function TableListView<T>(props: IProps<T>): JSX.Element {
+function TableDefaultView<T>(props: IProps<T>): JSX.Element {
   const { table } = props;
   const tableContainerRef = useRef<HTMLDivElement>(null);
   let pos = { left: 0, x: 0 };
@@ -93,4 +93,4 @@ function TableListView<T>(props: IProps<T>): JSX.Element {
   );
 }
 
-export default TableListView;
+export default TableDefaultView;

@@ -1,3 +1,4 @@
+import type { ITableDataCompanies } from '#Data/MockData';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -12,14 +13,13 @@ import {
 } from '@tanstack/react-table';
 import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
 import { TableListView } from '#Components/tanstack-table/views';
-import { ITableDataCompanies } from '#Data/MockData';
 import { ColumnCompanies } from '../../columns';
 import styles from './_TableCompanies.module.scss';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface TableMeta<TData extends RowData> {
-    tableName: 'companies' | 'contacts' | 'quotes';
+    tableName: 'companies' | 'contacts' | 'quotes' | 'audit';
   }
 }
 

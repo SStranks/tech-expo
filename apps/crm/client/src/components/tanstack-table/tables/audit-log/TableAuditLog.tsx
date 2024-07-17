@@ -1,20 +1,19 @@
-import { useState } from 'react';
+import type { ITableAuditLog } from '#Data/MockData';
 import {
   ColumnFiltersState,
-  RowData,
-  SortingState,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  RowData,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import { ITableDataQuotes } from '#Data/MockData';
-import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
-import { TableListView } from '#Components/tanstack-table/views';
-import { ColumnQuotes } from '../../columns';
-import styles from './_TableQuotes.module.scss';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { ColumnAuditLog } from '#Components/tanstack-table/columns';
+import styles from './_TableAuditLog.module.scss';
+import { TableControlsFooter } from '#Components/tanstack-table/controls';
+import { TableDefaultView } from '#Components/tanstack-table/views';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -24,22 +23,20 @@ declare module '@tanstack/react-table' {
 }
 
 interface IProps {
-  tableData: ITableDataQuotes[];
+  tableData: ITableAuditLog[];
 }
 
-function TableQuotes(props: IProps): JSX.Element {
+function TableAuditLog(props: IProps): JSX.Element {
   const { tableData } = props;
-  const [data] = useState<ITableDataQuotes[]>(tableData);
+  const [data] = useState<ITableAuditLog[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
-  const [globalFilter, setGlobalFilter] = useState<string>('');
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const navigate = useNavigate();
 
   const table = useReactTable({
     data,
-    columns: ColumnQuotes,
-    meta: { tableName: 'quotes' },
+    columns: ColumnAuditLog,
+    meta: { tableName: 'audit' },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -47,32 +44,22 @@ function TableQuotes(props: IProps): JSX.Element {
     state: {
       sorting,
       pagination,
-      globalFilter,
       columnFilters,
     },
     onSortingChange: setSorting,
     onPaginationChange: setPagination,
-    onGlobalFilterChange: setGlobalFilter,
     onColumnFiltersChange: setColumnFilters,
   });
 
-  const { getPageCount, getRowCount, setPageIndex, setPageSize, options } = table;
-  const tableName = options.meta?.tableName;
-
-  const createQuote = () => {
-    navigate('create');
-  };
+  const { getPageCount, getRowCount, setPageIndex, setPageSize } = table;
+  // const tableName = options.meta?.tableName;
 
   return (
     <div className={styles.container}>
-      <TableControlsHeader
-        createEntryBtn={{ displayText: 'Create Quote', onClick: createQuote }}
-        globalFilter={{ globalFilter, setGlobalFilter, tableName }}
-      />
-      <TableListView table={table} />
+      <TableDefaultView table={table} />
       <div className={styles.tableControlsFooter}>
         <TableControlsFooter
-          entriesName="quotes"
+          entriesName="audit logs"
           entriesTotal={getRowCount()}
           pageIndex={pagination.pageIndex}
           getPageCount={getPageCount}
@@ -84,4 +71,4 @@ function TableQuotes(props: IProps): JSX.Element {
   );
 }
 
-export default TableQuotes;
+export default TableAuditLog;

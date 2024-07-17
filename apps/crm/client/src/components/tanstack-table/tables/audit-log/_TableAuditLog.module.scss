@@ -1,0 +1,12 @@
+@use '#Sass/abstracts/variables' as v;
+@use '#Sass/components/buttons' as btn;
+
+.container {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 25px;
+
+  & > :last-child {
+    justify-self: end;
+  }
+}

@@ -16,6 +16,7 @@ import {
   PageCompaniesCreate,
   PageContacts,
   PageContactsCreate,
+  PageAuditLog,
 } from '#Pages/index';
 import {
   RouteDashboard,
@@ -28,7 +29,7 @@ import {
   RouteQuotes,
   RouteAdministration,
   RouteSettings,
-  RouteAuditlog,
+  RouteAuditLog,
 } from '#Routes/index';
 
 function App(): JSX.Element {
@@ -67,7 +68,9 @@ function App(): JSX.Element {
           </Route>
           <Route path="administration" element={<RouteAdministration />} />
           <Route path="settings" element={<RouteSettings />} />
-          <Route path="auditlog" element={<RouteAuditlog />} />
+          <Route path="auditlog" element={<RouteAuditLog />}>
+            <Route path="" element={<PageAuditLog />} />
+          </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
         <Route
