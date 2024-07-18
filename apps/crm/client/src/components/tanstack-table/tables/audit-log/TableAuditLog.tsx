@@ -11,9 +11,9 @@ import {
 } from '@tanstack/react-table';
 import { useState } from 'react';
 import { ColumnAuditLog } from '#Components/tanstack-table/columns';
-import styles from './_TableAuditLog.module.scss';
 import { TableControlsFooter } from '#Components/tanstack-table/controls';
 import { TableDefaultView } from '#Components/tanstack-table/views';
+import styles from './_TableAuditLog.module.scss';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

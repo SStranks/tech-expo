@@ -1,4 +1,5 @@
 export { default as PageAuditLog } from './audit-log/AuditLogPage';
+export { default as PageAuditLogDetails } from './audit-log/AuditLogDetailsPage';
 export { default as PageLogin } from './login/LoginPage';
 export { default as PageRegister } from './register/RegisterPage';
 export { default as PageForgotPassword } from './forgot-password/ForgotPasswordPage';

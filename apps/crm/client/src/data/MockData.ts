@@ -3595,3 +3595,37 @@ export const tableDataAuditLog: ITableAuditLog[] = [
     date: '7/9/2024',
   },
 ];
+
+// NOTE: // TODO:  Fields need to be determined dynamically from DB fields.
+export interface ITableAuditLogDetails {
+  id: number;
+  field: string;
+  newValue: string;
+  oldValue: string;
+}
+export const tableDataAuditLogDetails: ITableAuditLogDetails[] = [
+  {
+    id: 1,
+    field: 'comment',
+    newValue: 'Where is everything',
+    oldValue: '',
+  },
+  {
+    id: 2,
+    field: 'taskId',
+    newValue: '7',
+    oldValue: '',
+  },
+  {
+    id: 3,
+    field: 'createdBy',
+    newValue: '2',
+    oldValue: '',
+  },
+  {
+    id: 4,
+    field: 'id',
+    newValue: '33',
+    oldValue: '',
+  },
+];

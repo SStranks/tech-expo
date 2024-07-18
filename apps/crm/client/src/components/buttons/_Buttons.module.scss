@@ -42,3 +42,7 @@
 .saveBtn {
   @include form.save-button;
 }
+
+.okayBtn {
+  @include form.okay-button;
+}

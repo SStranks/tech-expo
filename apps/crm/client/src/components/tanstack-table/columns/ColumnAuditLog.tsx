@@ -1,5 +1,5 @@
+import type { ITableAuditLog } from '#Data/MockData';
 import { createColumnHelper } from '@tanstack/react-table';
-import { ITableAuditLog } from '#Data/MockData';
 import AuditAction from '../elements/AuditAction';
 import AuditDetails from '../elements/AuditDetails';
 
