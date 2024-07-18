@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ColumnFiltersState,
-  RowData,
   SortingState,
   getCoreRowModel,
   getFilteredRowModel,
@@ -16,13 +15,6 @@ import { ITableDataContacts } from '#Data/MockData';
 import { ColumnContacts } from '../../columns';
 import styles from './_TableContacts.module.scss';
 import { TableContactsCardLower, TableContactsCardUpper, TableGridCard } from '#Components/tanstack-table/cards';
-
-declare module '@tanstack/react-table' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface TableMeta<TData extends RowData> {
-    tableName: 'companies' | 'contacts' | 'quotes' | 'audit';
-  }
-}
 
 interface IProps {
   tableData: ITableDataContacts[];

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import {
   ColumnFiltersState,
-  RowData,
   SortingState,
   getCoreRowModel,
   getFilteredRowModel,
@@ -15,13 +14,6 @@ import { TableListView } from '#Components/tanstack-table/views';
 import { ColumnQuotes } from '../../columns';
 import styles from './_TableQuotes.module.scss';
 import { useNavigate } from 'react-router-dom';
-
-declare module '@tanstack/react-table' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface TableMeta<TData extends RowData> {
-    tableName: 'companies' | 'contacts' | 'quotes' | 'audit';
-  }
-}
 
 interface IProps {
   tableData: ITableDataQuotes[];

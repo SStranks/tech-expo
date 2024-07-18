@@ -5,7 +5,6 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  RowData,
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
@@ -14,13 +13,6 @@ import { ColumnAuditLog } from '#Components/tanstack-table/columns';
 import { TableControlsFooter } from '#Components/tanstack-table/controls';
 import { TableDefaultView } from '#Components/tanstack-table/views';
 import styles from './_TableAuditLog.module.scss';
-
-declare module '@tanstack/react-table' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface TableMeta<TData extends RowData> {
-    tableName: 'companies' | 'contacts' | 'quotes' | 'audit';
-  }
-}
 
 interface IProps {
   tableData: ITableAuditLog[];
