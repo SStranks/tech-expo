@@ -1,4 +1,5 @@
 @use '#Sass/abstracts/colors' as c;
+@use '#Sass/components/table' as tbl;
 
 .auditAction {
   width: fit-content;
@@ -8,20 +9,14 @@
   text-transform: capitalize;
 
   &--create {
-    color: c.$col-lime11-dark;
-    background-color: c.$col-lime8-dark;
-    border-color: c.$col-lime11-dark;
+    @include tbl.table-row-icon-green;
   }
 
   &--update {
-    color: c.$col-cyan11-dark;
-    background-color: c.$col-sky8-dark;
-    border-color: c.$col-cyan11-dark;
+    @include tbl.table-row-icon-cyan;
   }
 
   &--delete {
-    color: c.$col-red11-dark;
-    background-color: c.$col-ruby7-dark;
-    border-color: c.$col-red11-dark;
+    @include tbl.table-row-icon-red;
   }
 }

@@ -7,6 +7,7 @@ interface IProps {
 
 function AuditAction(props: IProps): JSX.Element {
   const { action } = props;
+
   return (
     <div className={`${styles.auditAction} ${styles[`auditAction--${action}`]}`}>
       <span>{action}</span>

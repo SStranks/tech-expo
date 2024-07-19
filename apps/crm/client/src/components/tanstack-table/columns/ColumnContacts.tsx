@@ -1,6 +1,7 @@
 import { ITableDataContacts } from '#Data/MockData';
 import { Row, createColumnHelper } from '@tanstack/react-table';
 import { RowActionsControl } from '../controls';
+import { ContactStatus } from '../elements';
 
 const deleteControlClickFn = (row: Row<ITableDataContacts>) => {
   return () => alert(`${row.original.title}: delete control`);
@@ -17,7 +18,7 @@ const columnContactsDef = [
   columnHelper.accessor('company', { cell: (info) => info.getValue(), header: () => <span>Company</span> }),
   columnHelper.accessor('title', { cell: (info) => info.getValue(), header: () => <span>Title</span> }),
   columnHelper.accessor('status', {
-    cell: (info) => info.getValue(),
+    cell: (info) => <ContactStatus status={info.getValue()} />,
     header: () => <span>Status</span>,
     enableGlobalFilter: false,
     enableColumnFilter: false,

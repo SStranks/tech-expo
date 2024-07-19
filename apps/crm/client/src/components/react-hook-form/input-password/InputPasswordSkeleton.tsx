@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { IconEye, IconInfoCircle } from '#Components/svg';
+import { IconEye, IconCircleInfo } from '#Components/svg';
 import InputUx from '../InputUx';
 import skeleton from './_InputPasswordSkeleton.module.scss';
 import styles from './_InputPasswordStrength.module.scss';
@@ -29,7 +29,7 @@ function InputPasswordSkeleton(props: IProps): JSX.Element {
               <IconEye svgClass={styles.icons__btn__svg} />
             </button>
             <button className={styles.icons__btn}>
-              <IconInfoCircle svgClass={styles.icons__btn__svg} />
+              <IconCircleInfo svgClass={styles.icons__btn__svg} />
             </button>
           </div>
         </InputUx>

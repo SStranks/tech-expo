@@ -56,7 +56,7 @@ export interface ITableDataContacts {
   company: string;
   companyLogo: string;
   title: string;
-  status: 'accepted' | 'rejected' | 'pending' | 'in progress' | 'counteroffer';
+  status: 'new' | 'contacted' | 'interested' | 'qualified' | 'unqualified' | 'negotiation' | 'lost' | 'won' | 'churned';
 }
 export const tableDataContacts: ITableDataContacts[] = [
   {
@@ -67,7 +67,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Tagpad',
     companyLogo: CompanyLogo,
     title: 'Graphic Designer',
-    status: 'rejected',
+    status: 'new',
   },
   {
     id: 2,
@@ -77,7 +77,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Tazzy',
     companyLogo: CompanyLogo,
     title: 'Research Associate',
-    status: 'accepted',
+    status: 'contacted',
   },
   {
     id: 3,
@@ -87,7 +87,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Linkbridge',
     companyLogo: CompanyLogo,
     title: 'Data Coordinator',
-    status: 'rejected',
+    status: 'interested',
   },
   {
     id: 4,
@@ -97,7 +97,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Realfire',
     companyLogo: CompanyLogo,
     title: 'Human Resources Assistant II',
-    status: 'pending',
+    status: 'unqualified',
   },
   {
     id: 5,
@@ -107,7 +107,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Oyope',
     companyLogo: CompanyLogo,
     title: 'Pharmacist',
-    status: 'rejected',
+    status: 'qualified',
   },
   {
     id: 6,
@@ -117,7 +117,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Camido',
     companyLogo: CompanyLogo,
     title: 'Media Manager IV',
-    status: 'in progress',
+    status: 'negotiation',
   },
   {
     id: 7,
@@ -127,7 +127,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Wikizz',
     companyLogo: CompanyLogo,
     title: 'Junior Executive',
-    status: 'counteroffer',
+    status: 'lost',
   },
   {
     id: 8,
@@ -137,7 +137,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Vinder',
     companyLogo: CompanyLogo,
     title: 'Computer Systems Analyst II',
-    status: 'counteroffer',
+    status: 'won',
   },
   {
     id: 9,
@@ -147,7 +147,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Skalith',
     companyLogo: CompanyLogo,
     title: 'Office Assistant IV',
-    status: 'pending',
+    status: 'churned',
   },
   {
     id: 10,
@@ -157,7 +157,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Topiczoom',
     companyLogo: CompanyLogo,
     title: 'Quality Control Specialist',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 11,
@@ -167,7 +167,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'LiveZ',
     companyLogo: CompanyLogo,
     title: 'Financial Advisor',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 12,
@@ -177,7 +177,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Skaboo',
     companyLogo: CompanyLogo,
     title: 'Tax Accountant',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 13,
@@ -187,7 +187,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Feedfish',
     companyLogo: CompanyLogo,
     title: 'Recruiter',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 14,
@@ -197,7 +197,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Zoonder',
     companyLogo: CompanyLogo,
     title: 'Account Executive',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 15,
@@ -207,7 +207,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Photospace',
     companyLogo: CompanyLogo,
     title: 'Physical Therapy Assistant',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 16,
@@ -217,7 +217,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Viva',
     companyLogo: CompanyLogo,
     title: 'Pharmacist',
-    status: 'rejected',
+    status: 'new',
   },
   {
     id: 17,
@@ -227,7 +227,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Jabberstorm',
     companyLogo: CompanyLogo,
     title: 'Actuary',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 18,
@@ -237,7 +237,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Shuffledrive',
     companyLogo: CompanyLogo,
     title: 'Marketing Assistant',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 19,
@@ -247,7 +247,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Zazio',
     companyLogo: CompanyLogo,
     title: 'Assistant Media Planner',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 20,
@@ -257,7 +257,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Tanoodle',
     companyLogo: CompanyLogo,
     title: 'Desktop Support Technician',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 21,
@@ -267,7 +267,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Mycat',
     companyLogo: CompanyLogo,
     title: 'Senior Financial Analyst',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 22,
@@ -277,7 +277,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Geba',
     companyLogo: CompanyLogo,
     title: 'Analyst Programmer',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 23,
@@ -287,7 +287,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Edgeblab',
     companyLogo: CompanyLogo,
     title: 'Teacher',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 24,
@@ -297,7 +297,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Skimia',
     companyLogo: CompanyLogo,
     title: 'Safety Technician II',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 25,
@@ -307,7 +307,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Voomm',
     companyLogo: CompanyLogo,
     title: 'Environmental Tech',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 26,
@@ -317,7 +317,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Brightdog',
     companyLogo: CompanyLogo,
     title: 'VP Quality Control',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 27,
@@ -327,7 +327,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Youbridge',
     companyLogo: CompanyLogo,
     title: 'Executive Secretary',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 28,
@@ -337,7 +337,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Zoomlounge',
     companyLogo: CompanyLogo,
     title: 'Assistant Professor',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 29,
@@ -347,7 +347,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Edgeclub',
     companyLogo: CompanyLogo,
     title: 'Tax Accountant',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 30,
@@ -357,7 +357,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Voonix',
     companyLogo: CompanyLogo,
     title: 'VP Marketing',
-    status: 'rejected',
+    status: 'new',
   },
   {
     id: 31,
@@ -367,7 +367,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Brainlounge',
     companyLogo: CompanyLogo,
     title: 'Financial Advisor',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 32,
@@ -377,7 +377,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Centidel',
     companyLogo: CompanyLogo,
     title: 'Senior Developer',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 33,
@@ -387,7 +387,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Skibox',
     companyLogo: CompanyLogo,
     title: 'Accountant II',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 34,
@@ -397,7 +397,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Abatz',
     companyLogo: CompanyLogo,
     title: 'Health Coach IV',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 35,
@@ -407,7 +407,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Fivechat',
     companyLogo: CompanyLogo,
     title: 'Clinical Specialist',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 36,
@@ -417,7 +417,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Zoomlounge',
     companyLogo: CompanyLogo,
     title: 'Marketing Manager',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 37,
@@ -427,7 +427,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Jamia',
     companyLogo: CompanyLogo,
     title: 'Librarian',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 38,
@@ -437,7 +437,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Kare',
     companyLogo: CompanyLogo,
     title: 'Social Worker',
-    status: 'rejected',
+    status: 'new',
   },
   {
     id: 39,
@@ -447,7 +447,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Jabberstorm',
     companyLogo: CompanyLogo,
     title: 'Community Outreach Specialist',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 40,
@@ -457,7 +457,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Jazzy',
     companyLogo: CompanyLogo,
     title: 'VP Accounting',
-    status: 'rejected',
+    status: 'new',
   },
   {
     id: 41,
@@ -467,7 +467,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Oyoba',
     companyLogo: CompanyLogo,
     title: 'Database Administrator II',
-    status: 'rejected',
+    status: 'new',
   },
   {
     id: 42,
@@ -477,7 +477,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Fliptune',
     companyLogo: CompanyLogo,
     title: 'Data Coordinator',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 43,
@@ -487,7 +487,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Tazz',
     companyLogo: CompanyLogo,
     title: 'Research Associate',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 44,
@@ -497,7 +497,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Aimbo',
     companyLogo: CompanyLogo,
     title: 'Senior Financial Analyst',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 45,
@@ -507,7 +507,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Leenti',
     companyLogo: CompanyLogo,
     title: 'General Manager',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 46,
@@ -517,7 +517,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Tavu',
     companyLogo: CompanyLogo,
     title: 'Information Systems Manager',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 47,
@@ -527,7 +527,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Devpulse',
     companyLogo: CompanyLogo,
     title: 'Programmer I',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 48,
@@ -537,7 +537,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Feedbug',
     companyLogo: CompanyLogo,
     title: 'Actuary',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 49,
@@ -547,7 +547,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Rhybox',
     companyLogo: CompanyLogo,
     title: 'Teacher',
-    status: 'accepted',
+    status: 'new',
   },
 
   {
@@ -558,7 +558,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Rooxo',
     companyLogo: CompanyLogo,
     title: 'General Manager',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 51,
@@ -568,7 +568,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Livetube',
     companyLogo: CompanyLogo,
     title: 'Physical Therapy Assistant',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 52,
@@ -578,7 +578,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Plajo',
     companyLogo: CompanyLogo,
     title: 'Geologist IV',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 53,
@@ -588,7 +588,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Yodoo',
     companyLogo: CompanyLogo,
     title: 'Human Resources Manager',
-    status: 'rejected',
+    status: 'new',
   },
   {
     id: 54,
@@ -598,7 +598,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Buzzdog',
     companyLogo: CompanyLogo,
     title: 'Statistician I',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 55,
@@ -608,7 +608,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Thoughtstorm',
     companyLogo: CompanyLogo,
     title: 'Recruiter',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 56,
@@ -618,7 +618,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Flashspan',
     companyLogo: CompanyLogo,
     title: 'Data Coordinator',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 57,
@@ -628,7 +628,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Ozu',
     companyLogo: CompanyLogo,
     title: 'Health Coach III',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 58,
@@ -638,7 +638,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Yakidoo',
     companyLogo: CompanyLogo,
     title: 'Accountant III',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 59,
@@ -648,7 +648,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'JumpXS',
     companyLogo: CompanyLogo,
     title: 'Human Resources Assistant I',
-    status: 'rejected',
+    status: 'new',
   },
   {
     id: 60,
@@ -658,7 +658,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Leexo',
     companyLogo: CompanyLogo,
     title: 'Administrative Assistant IV',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 61,
@@ -668,7 +668,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Fiveclub',
     companyLogo: CompanyLogo,
     title: 'Clinical Specialist',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 62,
@@ -678,7 +678,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Teklist',
     companyLogo: CompanyLogo,
     title: 'Operator',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 63,
@@ -688,7 +688,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Wordware',
     companyLogo: CompanyLogo,
     title: 'VP Product Management',
-    status: 'rejected',
+    status: 'new',
   },
   {
     id: 64,
@@ -698,7 +698,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Jabbersphere',
     companyLogo: CompanyLogo,
     title: 'General Manager',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 65,
@@ -708,7 +708,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Eare',
     companyLogo: CompanyLogo,
     title: 'Professor',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 66,
@@ -718,7 +718,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Edgeify',
     companyLogo: CompanyLogo,
     title: 'Engineer I',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 67,
@@ -728,7 +728,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Voonix',
     companyLogo: CompanyLogo,
     title: 'Marketing Assistant',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 68,
@@ -738,7 +738,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Twitterbridge',
     companyLogo: CompanyLogo,
     title: 'Research Assistant II',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 69,
@@ -748,7 +748,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Twimbo',
     companyLogo: CompanyLogo,
     title: 'Financial Advisor',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 70,
@@ -758,7 +758,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Voonder',
     companyLogo: CompanyLogo,
     title: 'Programmer Analyst I',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 71,
@@ -768,7 +768,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Katz',
     companyLogo: CompanyLogo,
     title: 'Accountant IV',
-    status: 'rejected',
+    status: 'new',
   },
   {
     id: 72,
@@ -778,7 +778,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Babbleopia',
     companyLogo: CompanyLogo,
     title: 'Recruiter',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 73,
@@ -788,7 +788,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Feedfish',
     companyLogo: CompanyLogo,
     title: 'Librarian',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 74,
@@ -798,7 +798,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Zoombeat',
     companyLogo: CompanyLogo,
     title: 'Safety Technician I',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 75,
@@ -808,7 +808,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Flashdog',
     companyLogo: CompanyLogo,
     title: 'Desktop Support Technician',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 76,
@@ -818,7 +818,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Yotz',
     companyLogo: CompanyLogo,
     title: 'Product Engineer',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 77,
@@ -828,7 +828,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Dabjam',
     companyLogo: CompanyLogo,
     title: 'Account Coordinator',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 78,
@@ -838,7 +838,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Shuffletag',
     companyLogo: CompanyLogo,
     title: 'VP Quality Control',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 79,
@@ -848,7 +848,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Yambee',
     companyLogo: CompanyLogo,
     title: 'Senior Cost Accountant',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 80,
@@ -858,7 +858,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Tagtune',
     companyLogo: CompanyLogo,
     title: 'Nurse',
-    status: 'pending',
+    status: 'new',
   },
   {
     id: 81,
@@ -868,7 +868,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Eadel',
     companyLogo: CompanyLogo,
     title: 'Marketing Assistant',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 82,
@@ -878,7 +878,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Lazzy',
     companyLogo: CompanyLogo,
     title: 'Analog Circuit Design manager',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 83,
@@ -888,7 +888,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Fivespan',
     companyLogo: CompanyLogo,
     title: 'Web Designer III',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 84,
@@ -898,7 +898,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Babbleset',
     companyLogo: CompanyLogo,
     title: 'Financial Analyst',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 85,
@@ -908,7 +908,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Skimia',
     companyLogo: CompanyLogo,
     title: 'Environmental Tech',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 86,
@@ -918,7 +918,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Trunyx',
     companyLogo: CompanyLogo,
     title: 'Human Resources Manager',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 87,
@@ -928,7 +928,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Shuffledrive',
     companyLogo: CompanyLogo,
     title: 'Marketing Manager',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 88,
@@ -938,7 +938,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Realcube',
     companyLogo: CompanyLogo,
     title: 'Payment Adjustment Coordinator',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 89,
@@ -948,7 +948,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Buzzdog',
     companyLogo: CompanyLogo,
     title: 'Occupational Therapist',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 90,
@@ -958,7 +958,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Jaxbean',
     companyLogo: CompanyLogo,
     title: 'Structural Engineer',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 91,
@@ -968,7 +968,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Brightdog',
     companyLogo: CompanyLogo,
     title: 'Research Assistant I',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 92,
@@ -978,7 +978,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Twitterlist',
     companyLogo: CompanyLogo,
     title: 'Senior Sales Associate',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 93,
@@ -988,7 +988,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Realcube',
     companyLogo: CompanyLogo,
     title: 'GIS Technical Architect',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 94,
@@ -998,7 +998,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Leenti',
     companyLogo: CompanyLogo,
     title: 'Associate Professor',
-    status: 'in progress',
+    status: 'new',
   },
   {
     id: 95,
@@ -1008,7 +1008,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Kare',
     companyLogo: CompanyLogo,
     title: 'Chief Design Engineer',
-    status: 'rejected',
+    status: 'new',
   },
   {
     id: 96,
@@ -1018,7 +1018,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Photospace',
     companyLogo: CompanyLogo,
     title: 'Food Chemist',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 97,
@@ -1028,7 +1028,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Chatterbridge',
     companyLogo: CompanyLogo,
     title: 'Analyst Programmer',
-    status: 'counteroffer',
+    status: 'new',
   },
   {
     id: 98,
@@ -1038,7 +1038,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Mybuzz',
     companyLogo: CompanyLogo,
     title: 'Programmer III',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 99,
@@ -1048,7 +1048,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Feedspan',
     companyLogo: CompanyLogo,
     title: 'Operator',
-    status: 'accepted',
+    status: 'new',
   },
   {
     id: 100,
@@ -1058,7 +1058,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     company: 'Ntag',
     companyLogo: CompanyLogo,
     title: 'Project Manager',
-    status: 'accepted',
+    status: 'new',
   },
 ];
 

@@ -44,7 +44,6 @@ function TableAuditLog(props: IProps): JSX.Element {
   });
 
   const { getPageCount, getRowCount, setPageIndex, setPageSize } = table;
-  // const tableName = options.meta?.tableName;
 
   return (
     <div className={styles.container}>

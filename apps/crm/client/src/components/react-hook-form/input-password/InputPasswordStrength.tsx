@@ -12,7 +12,7 @@ import {
   useWatch,
 } from 'react-hook-form';
 import { usePasswordStrength } from '#Lib/zxcvbn';
-import { IconPassword, IconEye, IconInfoCircle } from '#Components/svg';
+import { IconPassword, IconEye, IconCircleInfo } from '#Components/svg';
 import styles from './_InputPasswordStrength.module.scss';
 import InputUx from '../InputUx';
 
@@ -102,7 +102,7 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Ele
             )}
           </button>
           <button className={styles.icons__btn} onClick={revealInfoPanelClickHandler}>
-            <IconInfoCircle svgClass={styles.icons__btn__svg} />
+            <IconCircleInfo svgClass={styles.icons__btn__svg} />
           </button>
         </div>
       </InputUx>

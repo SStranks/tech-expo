@@ -1,6 +1,7 @@
 import { ITableDataQuotes } from '#Data/MockData';
 import { Row, createColumnHelper } from '@tanstack/react-table';
 import { RowActionsControl } from '../controls';
+import { QuoteStage } from '../elements';
 
 const deleteControlClickFn = (row: Row<ITableDataQuotes>) => {
   return () => alert(`${row.original.title}: delete control`);
@@ -21,7 +22,7 @@ const columnQuotesDef = [
     enableColumnFilter: false,
   }),
   columnHelper.accessor('stage', {
-    cell: (info) => info.getValue(),
+    cell: (info) => <QuoteStage stage={info.getValue()} />,
     header: () => <span>Stage</span>,
     enableGlobalFilter: false,
   }),
