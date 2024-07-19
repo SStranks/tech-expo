@@ -5,9 +5,10 @@
   gap: 0 5px;
   width: fit-content;
   padding: 4px 8px;
-  background-color: grey;
+  color: var(--thm-text-default);
+  background-color: var(--thm-button-secondary-background);
   border-radius: 6px;
-  border: 1px solid grey;
+  border: 1px solid var(--thm-button-secondary-border);
 
   &__svg {
     width: 16px;

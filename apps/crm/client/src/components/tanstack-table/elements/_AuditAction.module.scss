@@ -1,8 +1,27 @@
+@use '#Sass/abstracts/colors' as c;
+
 .auditAction {
   width: fit-content;
   padding: 2px 6px;
-  background-color: lightcoral;
   border-radius: 6px;
-  border: 1px solid red;
+  border: 1px solid;
   text-transform: capitalize;
+
+  &--create {
+    color: c.$col-lime11-dark;
+    background-color: c.$col-lime8-dark;
+    border-color: c.$col-lime11-dark;
+  }
+
+  &--update {
+    color: c.$col-cyan11-dark;
+    background-color: c.$col-sky8-dark;
+    border-color: c.$col-cyan11-dark;
+  }
+
+  &--delete {
+    color: c.$col-red11-dark;
+    background-color: c.$col-ruby7-dark;
+    border-color: c.$col-red11-dark;
+  }
 }
