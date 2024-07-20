@@ -2,7 +2,7 @@ import type { ITableAuditLogDetails } from '#Data/MockData';
 import { useState } from 'react';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { ColumnAuditLogDetails } from '#Components/tanstack-table/columns';
-import { TableDefaultView } from '#Components/tanstack-table/views';
+import { TableModalView } from '#Components/tanstack-table/views';
 import styles from './_TableAuditLog.module.scss';
 
 interface IProps {
@@ -24,7 +24,7 @@ function TableAuditLogDetails(props: IProps): JSX.Element {
 
   return (
     <div className={styles.container}>
-      <TableDefaultView table={table} />
+      <TableModalView table={table} />
     </div>
   );
 }
