@@ -16,7 +16,7 @@ function TableAuditLogDetails(props: IProps): JSX.Element {
   const table = useReactTable({
     data,
     columns: ColumnAuditLogDetails,
-    meta: { tableName: 'audit' },
+    meta: { tableName: 'audit-details' },
     getCoreRowModel: getCoreRowModel(),
     enableSorting: false,
     enableFilters: false,

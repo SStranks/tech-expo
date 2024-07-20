@@ -18,6 +18,7 @@ import {
   PageContactsCreate,
   PageAuditLog,
   PageAuditLogDetails,
+  PageSettings,
 } from '#Pages/index';
 import {
   RouteDashboard,
@@ -68,7 +69,9 @@ function App(): JSX.Element {
             <Route path="read/:id" element={<PageQuoteRead />} />
           </Route>
           <Route path="administration" element={<RouteAdministration />} />
-          <Route path="settings" element={<RouteSettings />} />
+          <Route path="settings" element={<RouteSettings />}>
+            <Route path="" element={<PageSettings />} />
+          </Route>
           <Route path="auditlog" element={<RouteAuditLog />}>
             <Route path="" element={<PageAuditLog />}>
               <Route path="details" element={<PageAuditLogDetails />} />

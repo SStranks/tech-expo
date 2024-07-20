@@ -5,6 +5,7 @@ export { default as TableAuditLogDetails } from './audit-log/TableAuditLogDetail
 export { default as TableCompanies } from './companies/TableCompanies';
 export { default as TableContacts } from './contacts/TableContacts';
 export { default as TableQuotes } from './quotes/TableQuotes';
+export { default as TableSettingsContacts } from './settings/TableSettingsContacts';
 
 export type TTables = 'companies' | 'contacts' | 'quotes';
 export type TTablesGrid = Extract<TTables, 'companies' | 'contacts'>;
@@ -12,6 +13,6 @@ export type TTablesGrid = Extract<TTables, 'companies' | 'contacts'>;
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface TableMeta<TData extends RowData> {
-    tableName: 'companies' | 'contacts' | 'quotes' | 'audit';
+    tableName: 'companies' | 'contacts' | 'quotes' | 'audit' | 'audit-details' | 'settings-contacts';
   }
 }

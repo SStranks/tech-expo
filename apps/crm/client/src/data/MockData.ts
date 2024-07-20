@@ -3629,3 +3629,191 @@ export const tableDataAuditLogDetails: ITableAuditLogDetails[] = [
     oldValue: '',
   },
 ];
+
+export interface ITableSettingsContacts {
+  id: number;
+  name: string;
+  title: string;
+  role: 'Admin' | 'Sales Manager' | 'Sales Person' | 'Sales Intern';
+}
+export const tableDataSettingsContacts: ITableSettingsContacts[] = [
+  {
+    id: 1,
+    name: 'Ode Davidsson',
+    title: 'Developer II',
+    role: 'Admin',
+  },
+  {
+    id: 2,
+    name: 'Dare Featenby',
+    title: 'Structural Engineer',
+    role: 'Sales Intern',
+  },
+  {
+    id: 3,
+    name: 'Alanah Glader',
+    title: 'Dental Hygienist',
+    role: 'Sales Intern',
+  },
+  {
+    id: 4,
+    name: 'Marylynne Binton',
+    title: 'Structural Engineer',
+    role: 'Sales Intern',
+  },
+  {
+    id: 5,
+    name: 'Georgena MacKain',
+    title: 'Operator',
+    role: 'Sales Intern',
+  },
+  {
+    id: 6,
+    name: 'Ferdinande Hodgins',
+    title: 'Health Coach III',
+    role: 'Sales Manager',
+  },
+  {
+    id: 7,
+    name: 'Land Childes',
+    title: 'Structural Analysis Engineer',
+    role: 'Sales Manager',
+  },
+  {
+    id: 8,
+    name: 'Christina Ibeson',
+    title: 'Assistant Professor',
+    role: 'Sales Manager',
+  },
+  {
+    id: 9,
+    name: 'Dmitri Barron',
+    title: 'VP Quality Control',
+    role: 'Sales Person',
+  },
+  {
+    id: 10,
+    name: 'Kimmie Grassick',
+    title: 'Product Engineer',
+    role: 'Sales Intern',
+  },
+  {
+    id: 11,
+    name: 'Grenville Dewer',
+    title: 'Technical Writer',
+    role: 'Sales Person',
+  },
+  {
+    id: 12,
+    name: 'Anni De Vuyst',
+    title: 'Environmental Specialist',
+    role: 'Sales Manager',
+  },
+  {
+    id: 13,
+    name: 'Luci Schiersch',
+    title: 'Assistant Manager',
+    role: 'Sales Manager',
+  },
+  {
+    id: 14,
+    name: 'Brett McCurry',
+    title: 'Nurse Practicioner',
+    role: 'Sales Person',
+  },
+  {
+    id: 15,
+    name: 'Leland Widmore',
+    title: 'Programmer Analyst I',
+    role: 'Sales Manager',
+  },
+  {
+    id: 16,
+    name: 'Donn Wasmer',
+    title: 'Administrative Assistant II',
+    role: 'Sales Intern',
+  },
+  {
+    id: 17,
+    name: 'Pearline Quiddington',
+    title: 'Administrative Officer',
+    role: 'Sales Intern',
+  },
+  {
+    id: 18,
+    name: 'Vlad Wadworth',
+    title: 'Librarian',
+    role: 'Sales Intern',
+  },
+  {
+    id: 19,
+    name: 'Loy Romi',
+    title: 'VP Quality Control',
+    role: 'Sales Manager',
+  },
+  {
+    id: 20,
+    name: 'Clayson Raith',
+    title: 'VP Marketing',
+    role: 'Sales Manager',
+  },
+  {
+    id: 21,
+    name: 'Barbette Clout',
+    title: 'Dental Hygienist',
+    role: 'Sales Manager',
+  },
+  {
+    id: 22,
+    name: 'Danica Douthwaite',
+    title: 'Quality Engineer',
+    role: 'Sales Manager',
+  },
+  {
+    id: 23,
+    name: 'Cassy Dungey',
+    title: 'Research Nurse',
+    role: 'Sales Manager',
+  },
+  {
+    id: 24,
+    name: 'Camila Ruscoe',
+    title: 'Director of Sales',
+    role: 'Sales Person',
+  },
+  {
+    id: 25,
+    name: 'Onida McKea',
+    title: 'Financial Analyst',
+    role: 'Sales Person',
+  },
+  {
+    id: 26,
+    name: 'Kerrin Howsley',
+    title: 'Dental Hygienist',
+    role: 'Sales Intern',
+  },
+  {
+    id: 27,
+    name: 'Justinn Mitrikhin',
+    title: 'Web Designer I',
+    role: 'Sales Person',
+  },
+];
+
+export interface ITableSettingsCompanyInfo {
+  id: number;
+  address: string;
+  phone: string;
+  email: string;
+  website: string;
+}
+export const tableDataSettingsCompanyInfo: ITableSettingsCompanyInfo[] = [
+  {
+    id: 1,
+    address: '1234 Sly Street, Suspiciousbury, New Anon Town, USA 12345',
+    phone: '+123 456 789 01 23',
+    email: 'someSlyGuy@gmail.com',
+    website: 'http://liandri.org',
+  },
+];

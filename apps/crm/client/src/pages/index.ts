@@ -12,3 +12,4 @@ export { default as PageCompanies } from './companies/CompaniesPage';
 export { default as PageCompaniesCreate } from './companies/CompaniesCreatePage';
 export { default as PageContacts } from './contacts/ContactsPage';
 export { default as PageContactsCreate } from './contacts/ContactsCreatePage';
+export { default as PageSettings } from './settings/SettingsPage';
