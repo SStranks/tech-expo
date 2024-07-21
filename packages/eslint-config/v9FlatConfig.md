@@ -9,18 +9,18 @@
 
 // ✔ // ✖ // ⬡ .
 
-- @tanstack/eslint-plugin-query // ✖ .
 - eslint-config-airbnb // ✖ .
 - eslint-config-airbnb-base // ✖ .
 - eslint-config-airbnb-typescript // ✖ .
 - eslint-import-resolver-typescript // ⬡ .
 - eslint-plugin-import // ✖ .
-- eslint-plugin-react // ✖ .
 - eslint-plugin-react-hooks // ✖ .
 - eslint-plugin-testing-library // ✖ .
 - eslint-plugin-storybook // ✖ .
+- eslint-plugin-jsx-a11y // ✖ .
+- eslint-plugin-react // ✔ .
+- @tanstack/eslint-plugin-query // ✔ .
 - @typescript-eslint // ✔ .
-- eslint-plugin-jsx-a11y // ✔ .
 - eslint-config-prettier // ✔ .
 - eslint-plugin-perfectionist // ✔ .
 - eslint-plugin-prettier // ✔ .
