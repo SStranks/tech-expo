@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   ColumnFiltersState,
   SortingState,
@@ -8,12 +9,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ITableDataQuotes } from '#Data/MockData';
 import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
 import { TableListView } from '#Components/tanstack-table/views';
+import { ITableDataQuotes } from '#Data/MockData';
 import { ColumnQuotes } from '../../columns';
 import styles from './_TableQuotes.module.scss';
-import { useNavigate } from 'react-router-dom';
 
 interface IProps {
   tableData: ITableDataQuotes[];

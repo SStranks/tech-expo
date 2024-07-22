@@ -55,4 +55,5 @@ export { default as IconSquareArrowTopRight } from './IconSquareArrowTopRight';
 export { default as IconTheme } from './IconTheme';
 export { default as IconTimezone } from './IconTimezone';
 export { default as IconUser } from './IconUser';
+export { default as IconUserShield } from './IconUserShield';
 export { default as IconUserTitle } from './IconUserTitle';
