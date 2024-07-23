@@ -1,18 +1,20 @@
 import { ITableDataCompanies } from '#Data/MockData';
 import { createColumnHelper } from '@tanstack/react-table';
 import { RowActionsControl } from '../controls';
+import { CompanySingle, UserSingle } from '../elements';
+import RelatedContacts from '../elements/RelatedContacts';
 
 const columnHelper = createColumnHelper<ITableDataCompanies>();
 
 const columnCompaniesDef = [
   columnHelper.accessor('companyTitle', {
     id: 'Company',
-    cell: (info) => info.getValue(),
+    cell: (info) => <CompanySingle companyName={info.getValue()} />,
     header: ({ column }) => <span>{column.id}</span>,
   }),
   columnHelper.accessor('salesOwner', {
     id: 'Sales Owner',
-    cell: (info) => info.getValue(),
+    cell: (info) => <UserSingle userName={info.getValue()} />,
     header: ({ column }) => <span>{column.id}</span>,
   }),
   columnHelper.accessor('openDealsAmount', {
@@ -24,7 +26,7 @@ const columnCompaniesDef = [
   }),
   columnHelper.accessor('relatedContacts', {
     id: 'Related Contacts',
-    cell: (info) => <span>{info.getValue().join(' + ')}</span>,
+    cell: (info) => <RelatedContacts relatedContacts={info.getValue()} />,
     header: ({ column }) => <span>{column.id}</span>,
     enableSorting: false,
   }),

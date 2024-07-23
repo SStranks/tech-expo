@@ -1,0 +1,28 @@
+.relatedContacts {
+  display: flex;
+  column-gap: 8px;
+}
+
+.displayImage {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.extraUsers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  color: var(--thm-text-primary);
+  background-color: var(--thm-icon-secondary);
+  border-radius: 50%;
+  overflow: hidden;
+
+  & :nth-child(1) {
+    font-size: 8px;
+  }
+}

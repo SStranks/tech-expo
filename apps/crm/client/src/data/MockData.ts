@@ -2123,7 +2123,15 @@ export const tableDataCompanies: ITableDataCompanies[] = [
     companyTitle: 'Vipe',
     salesOwner: 'Randolph Asif',
     openDealsAmount: '$582.23',
-    relatedContacts: ['Dianemarie Hazeldene', 'Godard Jacquot', 'Ottilie Adds'],
+    relatedContacts: [
+      'Dianemarie Hazeldene',
+      'Godard Jacquot',
+      'Ottilie Adds',
+      'Harbert Farnish',
+      'Zena Beavan',
+      'Ailene Gittus',
+      'Ev Bosomworth',
+    ],
   },
   {
     id: 7,

@@ -1,7 +1,7 @@
 import { ITableDataContacts } from '#Data/MockData';
 import { Row, createColumnHelper } from '@tanstack/react-table';
 import { RowActionsControl } from '../controls';
-import { ContactStatus } from '../elements';
+import { ContactStatus, UserSingle } from '../elements';
 
 const deleteControlClickFn = (row: Row<ITableDataContacts>) => {
   return () => alert(`${row.original.title}: delete control`);
@@ -11,7 +11,7 @@ const columnHelper = createColumnHelper<ITableDataContacts>();
 
 const columnContactsDef = [
   columnHelper.accessor('name', {
-    cell: (info) => info.getValue(),
+    cell: (info) => <UserSingle userName={info.getValue()} />,
     header: () => <span>Name</span>,
   }),
   columnHelper.accessor('email', { cell: (info) => info.getValue(), header: () => <span>Email</span> }),
