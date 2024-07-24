@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import FormModal from '#Components/modal/FormModal';
 import { StylesTableListView } from '#Components/tanstack-table/views';
-import { TableQuotesDelete } from '#Components/tanstack-table/tables';
+import { TableContactsDelete } from '#Components/tanstack-table/tables';
 
-function QuoteDeletePage(): JSX.Element {
+function ContactsDeletePage(): JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
   const navigate = useNavigate();
   let { state } = useLocation();
@@ -28,8 +28,8 @@ function QuoteDeletePage(): JSX.Element {
 
   return (
     <FormModal portalActive={portalActive} setPortalActive={setPortalActive}>
-      <FormModal.Header title="Delete Quote: <INSERT DYNAMIC ID>" />
-      <TableQuotesDelete tableData={[state]} />
+      <FormModal.Header title="Delete Contact: <INSERT DYNAMIC ID>" />
+      <TableContactsDelete tableData={[state]} />
       <FormModal.Footer>
         <FormModal.CancelButton />
         <FormModal.DeleteButton />
@@ -38,4 +38,4 @@ function QuoteDeletePage(): JSX.Element {
   );
 }
 
-export default QuoteDeletePage;
+export default ContactsDeletePage;

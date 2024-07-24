@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 import { IconDelete, IconEdit, IconEye, IconPhone } from '#Components/svg';
 import styles from './_RowActionsControl.module.scss';
+import { Row } from '@tanstack/react-table';
 
 interface IViewControl {
   entryId: string;
@@ -15,8 +16,9 @@ interface ICallControl {
   entryId: string;
 }
 
-interface IDeleteControl {
+interface IDeleteControl<I> {
   entryId: string;
+  row: Row<I>;
 }
 
 function RowActionsControl({ children }: PropsWithChildren): JSX.Element {
@@ -47,9 +49,9 @@ function UpdateControl({ entryId }: IUpdateControl): JSX.Element {
   );
 }
 
-function DeleteControl({ entryId }: IDeleteControl): JSX.Element {
+function DeleteControl<I>({ entryId, row }: IDeleteControl<I>): JSX.Element {
   return (
-    <Link to={`delete/${entryId}`} className={styles.linkDelete}>
+    <Link to={`delete/${entryId}`} state={row.original} className={styles.linkDelete}>
       <IconDelete svgClass={styles.svg} />
     </Link>
   );
