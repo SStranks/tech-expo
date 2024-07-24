@@ -1,3 +1,4 @@
+@use '#Sass/abstracts/animations' as anim;
 @use '#Sass/components/buttons' as btn;
 
 .triggerBtn {
@@ -28,9 +29,6 @@
 }
 
 .popover {
-  display: grid;
-  grid-template-columns: 1fr;
-  row-gap: 15px;
   padding: 10px;
   background-color: var(--thm-background-default);
   border: 1px solid var(--thm-border-default);
@@ -43,17 +41,42 @@
   }
 }
 
+.searchField {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+}
+
+.input {
+  padding: 5px;
+  border: 1px solid var(--thm-button-secondary-border);
+  border-radius: 2px;
+  font-size: 15px;
+  outline: none;
+  transition: anim.$theme-transition-border-color;
+
+  &:hover {
+    transition-duration: 0.1ms;
+    border-color: var(--thm-border-info);
+  }
+
+  &:focus {
+    border: 1px solid var(--thm-border-info);
+    box-shadow: 0 0 5px 1px var(--thm-border-info);
+  }
+}
+
 .filterBtn {
   @include btn.btn-primary;
   column-gap: 4px;
-  min-height: 24px;
-  font-size: 14px;
+  height: 24px;
+  padding-inline: 4px 8px;
+  font-size: 15px;
 }
 
 .clearBtn {
-  min-height: 24px;
+  @include btn.btn-danger;
+  height: 24px;
   padding-inline: 8px;
-  background-color: var(--thm-background-danger);
-  border-radius: 6px;
   font-size: 14px;
 }
