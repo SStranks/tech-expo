@@ -77,7 +77,7 @@ function TableListView<T>(props: IProps<T>): JSX.Element {
         </thead>
         <tbody className={styles.tbody}>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} className={styles.tbody__tr}>
+            <tr key={row.id} className={styles.tbody__tr} data-table-row-id={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className={styles.td}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

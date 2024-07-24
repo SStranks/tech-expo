@@ -1,11 +1,7 @@
-import { IconDelete, IconEdit, IconEye, IconPhone } from '#Components/svg';
 import { PropsWithChildren } from 'react';
-import styles from './_RowActionsControl.module.scss';
 import { Link } from 'react-router-dom';
-
-interface IChildProps {
-  onClick: () => void;
-}
+import { IconDelete, IconEdit, IconEye, IconPhone } from '#Components/svg';
+import styles from './_RowActionsControl.module.scss';
 
 interface IViewControl {
   entryId: string;
@@ -16,6 +12,10 @@ interface IUpdateControl {
 }
 
 interface ICallControl {
+  entryId: string;
+}
+
+interface IDeleteControl {
   entryId: string;
 }
 
@@ -47,11 +47,11 @@ function UpdateControl({ entryId }: IUpdateControl): JSX.Element {
   );
 }
 
-function DeleteControl({ onClick }: IChildProps): JSX.Element {
+function DeleteControl({ entryId }: IDeleteControl): JSX.Element {
   return (
-    <button type="button" onClick={onClick} className={styles.linkDelete}>
+    <Link to={`delete/${entryId}`} className={styles.linkDelete}>
       <IconDelete svgClass={styles.svg} />
-    </button>
+    </Link>
   );
 }
 

@@ -145,6 +145,24 @@ $icon-hover-vertical-transform: translateY(-10%);
 /* -------------------------------- */
 
 /* -------------------------------- */
+/*   Tanstack-Table                 */
+/* -------------------------------- */
+
+@mixin danger-pulse {
+  animation: danger-pulse 0.7s infinite alternate;
+}
+
+@keyframes danger-pulse {
+  0% {
+    background-color: inherit;
+  }
+
+  100% {
+    background-color: var(--thm-button-primary-destructive-hover);
+  }
+}
+
+/* -------------------------------- */
 /*   Suspense/Fallback Transitions  */
 /* -------------------------------- */
 

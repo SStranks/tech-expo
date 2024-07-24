@@ -120,6 +120,13 @@ $border-radius: 8px;
   }
 }
 
+@mixin danger-button {
+  @include btn.btn-danger;
+  height: 32px;
+  min-width: 32px;
+  padding: 4px 15px;
+}
+
 /* -------------------------------- */
 /*   Input Fields                   */
 /* -------------------------------- */

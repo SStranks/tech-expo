@@ -77,3 +77,21 @@
     color: var(--thm-button-secondary-disabled-text);
   }
 }
+
+@mixin btn-danger {
+  @include btn-root;
+  color: var(--thm-button-secondary-destructive-text);
+  background-color: var(--thm-button-secondary-destructive-background);
+  border: 1px solid var(--thm-button-secondary-destructive-border);
+  border-radius: 6px;
+
+  &:hover {
+    background-color: var(--thm-button-secondary-destructive-hover);
+  }
+
+  &:disabled {
+    background-color: var(--thm-button-secondary-destructive-disabled-background);
+    border: 1px solid var(--thm-button-secondary-destructive-disabled-border);
+    color: var(--thm-button-secondary-destructive-disabled-text);
+  }
+}

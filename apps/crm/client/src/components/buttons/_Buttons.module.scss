@@ -45,3 +45,7 @@
 .okayBtn {
   @include form.okay-button;
 }
+
+.deleteBtn {
+  @include form.danger-button;
+}

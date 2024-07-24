@@ -1,5 +1,5 @@
 import { PropsWithChildren, createContext, useContext, useMemo, useRef } from 'react';
-import { ButtonCancel, ButtonClose, ButtonOkay } from '#Components/buttons';
+import { ButtonCancel, ButtonClose, ButtonOkay, ButtonDelete } from '#Components/buttons';
 import usePortalClose from '#Hooks/usePortalClose';
 import styles from './_FormModal.module.scss';
 
@@ -78,11 +78,16 @@ function OkayButton(): JSX.Element {
   return <ButtonOkay onClick={closeModal} />;
 }
 
+function DeleteButton(): JSX.Element {
+  return <ButtonDelete />;
+}
+
 FormModal.Header = Header;
 FormModal.Content = Content;
 FormModal.Footer = Footer;
 FormModal.CloseButton = CloseButton;
 FormModal.CancelButton = CancelButton;
 FormModal.OkayButton = OkayButton;
+FormModal.DeleteButton = DeleteButton;
 
 export default FormModal;

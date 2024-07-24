@@ -1,3 +1,4 @@
+export { default as StylesTableListView } from './_TableListView.module.scss';
 export { default as TableDefaultView } from './TableDefaultView';
 export { default as TableGridView } from './TableGridView';
 export { default as TableListView } from './TableListView';

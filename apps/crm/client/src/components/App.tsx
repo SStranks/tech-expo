@@ -19,6 +19,7 @@ import {
   PageAuditLog,
   PageAuditLogDetails,
   PageSettings,
+  PageQuoteDelete,
 } from '#Pages/index';
 import {
   RouteDashboard,
@@ -65,6 +66,7 @@ function App(): JSX.Element {
             <Route path="" element={<PageQuotes />}>
               <Route path="create" element={<PageQuoteCreate />} />
               <Route path="update/:id" element={<PageQuoteUpdate />} />
+              <Route path="delete/:id" element={<PageQuoteDelete />} />
             </Route>
             <Route path="read/:id" element={<PageQuoteRead />} />
           </Route>

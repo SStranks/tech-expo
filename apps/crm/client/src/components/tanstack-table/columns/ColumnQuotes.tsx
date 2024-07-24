@@ -1,11 +1,7 @@
 import { ITableDataQuotes } from '#Data/MockData';
-import { Row, createColumnHelper } from '@tanstack/react-table';
+import { createColumnHelper } from '@tanstack/react-table';
 import { RowActionsControl } from '../controls';
-import { CompanySingle, QuoteStage } from '../elements';
-
-const deleteControlClickFn = (row: Row<ITableDataQuotes>) => {
-  return () => alert(`${row.original.title}: delete control`);
-};
+import { CompanySingle, QuoteParticipants, QuoteStage } from '../elements';
 
 const columnHelper = createColumnHelper<ITableDataQuotes>();
 
@@ -32,9 +28,7 @@ const columnQuotesDef = [
   columnHelper.accessor((row) => ({ preparedBy: row['prepared by'], preparedFor: row['prepared for'] }), {
     id: 'participants',
     cell: (info) => (
-      <span>
-        {info.getValue().preparedBy} + {info.getValue().preparedFor}
-      </span>
+      <QuoteParticipants participantBy={info.getValue().preparedBy} participantFor={info.getValue().preparedFor} />
     ),
     header: () => <span>Participants</span>,
   }),
@@ -50,7 +44,7 @@ const columnQuotesDef = [
       <RowActionsControl>
         <RowActionsControl.ViewControl entryId={row.id} />
         <RowActionsControl.UpdateControl entryId={row.id} />
-        <RowActionsControl.DeleteControl onClick={deleteControlClickFn(row)} />
+        <RowActionsControl.DeleteControl entryId={row.id} />
       </RowActionsControl>
     ),
     header: () => <span>Actions</span>,
