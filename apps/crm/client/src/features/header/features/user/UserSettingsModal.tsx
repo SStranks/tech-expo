@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ReactPortal } from '#Components/index';
 import { IconClose, IconEmail, IconPhone, IconSmartphone, IconTimezone, IconUserTitle } from '#Components/svg';
-import UserRole from '#Components/ui/UserRole';
+import UserRole from '#Components/general/UserRole';
 import { UserData } from '#Data/MockData';
 import usePortalClose from '#Hooks/usePortalClose';
 import CompanyLogo from '#Img/CompanyLogo.png';

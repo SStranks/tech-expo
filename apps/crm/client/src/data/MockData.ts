@@ -2077,6 +2077,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
 
 export interface ITableDataCompanies {
   id: number;
+  companyLogo: string;
   companyTitle: string;
   salesOwner: string;
   openDealsAmount: string;
@@ -2085,6 +2086,7 @@ export interface ITableDataCompanies {
 export const tableDataCompanies: ITableDataCompanies[] = [
   {
     id: 1,
+    companyLogo: CompanyLogo,
     companyTitle: 'Trunyx',
     salesOwner: 'Lari Traher',
     openDealsAmount: '$2770.14',
@@ -2092,6 +2094,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 2,
+    companyLogo: CompanyLogo,
     companyTitle: 'Riffwire',
     salesOwner: 'Curtis Traviss',
     openDealsAmount: '$146.86',
@@ -2099,6 +2102,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 3,
+    companyLogo: CompanyLogo,
     companyTitle: 'Dabfeed',
     salesOwner: 'Diana Hawkeridge',
     openDealsAmount: '$467.80',
@@ -2106,6 +2110,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 4,
+    companyLogo: CompanyLogo,
     companyTitle: 'Riffwire',
     salesOwner: 'Boyd Levicount',
     openDealsAmount: '$2517.87',
@@ -2113,6 +2118,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 5,
+    companyLogo: CompanyLogo,
     companyTitle: 'Avamba',
     salesOwner: 'Maryann Bannister',
     openDealsAmount: '$7757.69',
@@ -2120,6 +2126,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 6,
+    companyLogo: CompanyLogo,
     companyTitle: 'Vipe',
     salesOwner: 'Randolph Asif',
     openDealsAmount: '$582.23',
@@ -2135,6 +2142,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 7,
+    companyLogo: CompanyLogo,
     companyTitle: 'Zoonoodle',
     salesOwner: 'Babbie Kassman',
     openDealsAmount: '$5367.74',
@@ -2142,6 +2150,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 8,
+    companyLogo: CompanyLogo,
     companyTitle: 'Jayo',
     salesOwner: 'Sigismondo Addicote',
     openDealsAmount: '$9691.05',
@@ -2149,6 +2158,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 9,
+    companyLogo: CompanyLogo,
     companyTitle: 'Demizz',
     salesOwner: 'Lambert Dillistone',
     openDealsAmount: '$686.60',
@@ -2156,6 +2166,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 10,
+    companyLogo: CompanyLogo,
     companyTitle: 'Viva',
     salesOwner: 'Ofilia Langstrath',
     openDealsAmount: '$6059.72',
@@ -2163,6 +2174,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 11,
+    companyLogo: CompanyLogo,
     companyTitle: 'Aimbo',
     salesOwner: 'Anne Palmar',
     openDealsAmount: '$6529.17',
@@ -2170,6 +2182,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 12,
+    companyLogo: CompanyLogo,
     companyTitle: 'Flashset',
     salesOwner: 'Anatollo Huck',
     openDealsAmount: '$6563.40',
@@ -2177,6 +2190,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 13,
+    companyLogo: CompanyLogo,
     companyTitle: 'Bluezoom',
     salesOwner: 'Bert Laurentin',
     openDealsAmount: '$4112.57',
@@ -2184,6 +2198,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 14,
+    companyLogo: CompanyLogo,
     companyTitle: 'Vidoo',
     salesOwner: 'Daphene Keymer',
     openDealsAmount: '$9408.21',
@@ -2191,6 +2206,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 15,
+    companyLogo: CompanyLogo,
     companyTitle: 'Vipe',
     salesOwner: 'Colline Soughton',
     openDealsAmount: '$2934.36',
@@ -2198,6 +2214,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 16,
+    companyLogo: CompanyLogo,
     companyTitle: 'Dablist',
     salesOwner: 'Margie Kent',
     openDealsAmount: '$3863.57',
@@ -2205,6 +2222,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 17,
+    companyLogo: CompanyLogo,
     companyTitle: 'Geba',
     salesOwner: 'Sally Milner',
     openDealsAmount: '$8387.85',
@@ -2212,6 +2230,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 18,
+    companyLogo: CompanyLogo,
     companyTitle: 'Livepath',
     salesOwner: 'Davin Ege',
     openDealsAmount: '$1532.38',
@@ -2219,6 +2238,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 19,
+    companyLogo: CompanyLogo,
     companyTitle: 'Rhybox',
     salesOwner: 'Edee Bubbear',
     openDealsAmount: '$6131.33',
@@ -2226,6 +2246,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 20,
+    companyLogo: CompanyLogo,
     companyTitle: 'Youspan',
     salesOwner: "Kristofor O'Donoghue",
     openDealsAmount: '$1527.61',
@@ -2233,6 +2254,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 21,
+    companyLogo: CompanyLogo,
     companyTitle: 'Snaptags',
     salesOwner: 'Marilyn Cowlishaw',
     openDealsAmount: '$204.87',
@@ -2240,6 +2262,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 22,
+    companyLogo: CompanyLogo,
     companyTitle: 'Skivee',
     salesOwner: 'Chicky Conechie',
     openDealsAmount: '$547.70',
@@ -2247,6 +2270,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 23,
+    companyLogo: CompanyLogo,
     companyTitle: 'Zoozzy',
     salesOwner: 'Josie Dowles',
     openDealsAmount: '$457.50',
@@ -2254,6 +2278,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 24,
+    companyLogo: CompanyLogo,
     companyTitle: 'Yakijo',
     salesOwner: 'Chiquia Gravey',
     openDealsAmount: '$8106.12',
@@ -2261,6 +2286,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 25,
+    companyLogo: CompanyLogo,
     companyTitle: 'Skilith',
     salesOwner: 'Dar Kale',
     openDealsAmount: '$8068.61',
@@ -2268,6 +2294,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 26,
+    companyLogo: CompanyLogo,
     companyTitle: 'Fanoodle',
     salesOwner: 'Lara Battleson',
     openDealsAmount: '$8728.33',
@@ -2275,6 +2302,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 27,
+    companyLogo: CompanyLogo,
     companyTitle: 'Yakidoo',
     salesOwner: 'Ad Harnes',
     openDealsAmount: '$1125.97',
@@ -2282,6 +2310,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 28,
+    companyLogo: CompanyLogo,
     companyTitle: 'Skilith',
     salesOwner: 'Angelika Aronovitz',
     openDealsAmount: '$5621.72',
@@ -2289,6 +2318,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 29,
+    companyLogo: CompanyLogo,
     companyTitle: 'Eabox',
     salesOwner: 'Elfrieda Stepney',
     openDealsAmount: '$9590.75',
@@ -2296,6 +2326,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 30,
+    companyLogo: CompanyLogo,
     companyTitle: 'Fivespan',
     salesOwner: 'Pavia Rawnsley',
     openDealsAmount: '$9668.75',
@@ -2303,6 +2334,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 31,
+    companyLogo: CompanyLogo,
     companyTitle: 'Fadeo',
     salesOwner: 'Pearce Mulbry',
     openDealsAmount: '$5416.98',
@@ -2310,6 +2342,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 32,
+    companyLogo: CompanyLogo,
     companyTitle: 'Mydo',
     salesOwner: 'Hasty Fritchly',
     openDealsAmount: '$5602.54',
@@ -2317,6 +2350,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 33,
+    companyLogo: CompanyLogo,
     companyTitle: 'Aimbo',
     salesOwner: 'Edee Symson',
     openDealsAmount: '$8035.14',
@@ -2324,6 +2358,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 34,
+    companyLogo: CompanyLogo,
     companyTitle: 'Meevee',
     salesOwner: 'Meghan Treslove',
     openDealsAmount: '$6724.11',
@@ -2331,6 +2366,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 35,
+    companyLogo: CompanyLogo,
     companyTitle: 'Voonix',
     salesOwner: 'Vania Jowers',
     openDealsAmount: '$1708.24',
@@ -2338,6 +2374,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 36,
+    companyLogo: CompanyLogo,
     companyTitle: 'Brainbox',
     salesOwner: 'Gill Fludder',
     openDealsAmount: '$7690.65',
@@ -2345,6 +2382,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 37,
+    companyLogo: CompanyLogo,
     companyTitle: 'Gigabox',
     salesOwner: 'Gabbie Chavez',
     openDealsAmount: '$5475.68',
@@ -2352,6 +2390,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 38,
+    companyLogo: CompanyLogo,
     companyTitle: 'Oyope',
     salesOwner: 'Niven Yakubowicz',
     openDealsAmount: '$7995.51',
@@ -2359,6 +2398,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 39,
+    companyLogo: CompanyLogo,
     companyTitle: 'Eimbee',
     salesOwner: 'Normy Ibanez',
     openDealsAmount: '$2037.84',
@@ -2366,6 +2406,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 40,
+    companyLogo: CompanyLogo,
     companyTitle: 'Quamba',
     salesOwner: 'Tawnya Haseley',
     openDealsAmount: '$8768.23',
@@ -2373,6 +2414,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 41,
+    companyLogo: CompanyLogo,
     companyTitle: 'Oyonder',
     salesOwner: 'Meggie Arblaster',
     openDealsAmount: '$4365.82',
@@ -2380,6 +2422,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 42,
+    companyLogo: CompanyLogo,
     companyTitle: 'Brightbean',
     salesOwner: 'Kora Cassella',
     openDealsAmount: '$6445.03',
@@ -2387,6 +2430,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 43,
+    companyLogo: CompanyLogo,
     companyTitle: 'Gigashots',
     salesOwner: 'Alphard Bridat',
     openDealsAmount: '$741.03',
@@ -2394,6 +2438,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 44,
+    companyLogo: CompanyLogo,
     companyTitle: 'Skippad',
     salesOwner: 'Jennine Stalf',
     openDealsAmount: '$9992.09',
@@ -2401,6 +2446,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 45,
+    companyLogo: CompanyLogo,
     companyTitle: 'Meedoo',
     salesOwner: 'Judas Tarburn',
     openDealsAmount: '$5196.73',
@@ -2408,6 +2454,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 46,
+    companyLogo: CompanyLogo,
     companyTitle: 'Kaymbo',
     salesOwner: 'Claudine Josephson',
     openDealsAmount: '$5715.88',
@@ -2415,6 +2462,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 47,
+    companyLogo: CompanyLogo,
     companyTitle: 'Minyx',
     salesOwner: 'Goldina Selwyne',
     openDealsAmount: '$2676.13',
@@ -2422,6 +2470,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 48,
+    companyLogo: CompanyLogo,
     companyTitle: 'Jetwire',
     salesOwner: 'Jesse Heinke',
     openDealsAmount: '$523.94',
@@ -2429,6 +2478,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 49,
+    companyLogo: CompanyLogo,
     companyTitle: 'DabZ',
     salesOwner: 'Casper Battrum',
     openDealsAmount: '$3470.20',
@@ -2436,6 +2486,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 50,
+    companyLogo: CompanyLogo,
     companyTitle: 'Youspan',
     salesOwner: 'Shalom Jozefczak',
     openDealsAmount: '$2560.74',
@@ -2443,6 +2494,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 51,
+    companyLogo: CompanyLogo,
     companyTitle: 'Minyx',
     salesOwner: 'Renault Skpsey',
     openDealsAmount: '$1066.87',
@@ -2450,6 +2502,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 52,
+    companyLogo: CompanyLogo,
     companyTitle: 'Ozu',
     salesOwner: 'Agneta Freschi',
     openDealsAmount: '$9288.03',
@@ -2457,6 +2510,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 53,
+    companyLogo: CompanyLogo,
     companyTitle: 'Dynabox',
     salesOwner: 'Roxanne Kenington',
     openDealsAmount: '$1322.42',
@@ -2464,6 +2518,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 54,
+    companyLogo: CompanyLogo,
     companyTitle: 'Realpoint',
     salesOwner: 'Jeannette Roger',
     openDealsAmount: '$2721.17',
@@ -2471,6 +2526,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 55,
+    companyLogo: CompanyLogo,
     companyTitle: 'Wikizz',
     salesOwner: 'Virgie Autrie',
     openDealsAmount: '$1390.95',
@@ -2478,6 +2534,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 56,
+    companyLogo: CompanyLogo,
     companyTitle: 'Tagtune',
     salesOwner: 'Emmery Samwell',
     openDealsAmount: '$2953.45',
@@ -2485,6 +2542,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 57,
+    companyLogo: CompanyLogo,
     companyTitle: 'Jaxspan',
     salesOwner: 'Krystle Greenig',
     openDealsAmount: '$8969.90',
@@ -2492,6 +2550,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 58,
+    companyLogo: CompanyLogo,
     companyTitle: 'Fivespan',
     salesOwner: 'Dayna Heinicke',
     openDealsAmount: '$3620.31',
@@ -2499,6 +2558,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 59,
+    companyLogo: CompanyLogo,
     companyTitle: 'Eimbee',
     salesOwner: 'Erinn Delicate',
     openDealsAmount: '$4793.77',
@@ -2506,6 +2566,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 60,
+    companyLogo: CompanyLogo,
     companyTitle: 'Topicshots',
     salesOwner: 'Paul Ridesdale',
     openDealsAmount: '$5653.91',
@@ -2513,6 +2574,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 61,
+    companyLogo: CompanyLogo,
     companyTitle: 'Teklist',
     salesOwner: 'Constanta Bance',
     openDealsAmount: '$3693.57',
@@ -2520,6 +2582,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 62,
+    companyLogo: CompanyLogo,
     companyTitle: 'Eayo',
     salesOwner: 'Demetris Bothwell',
     openDealsAmount: '$3344.34',
@@ -2527,6 +2590,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 63,
+    companyLogo: CompanyLogo,
     companyTitle: 'Trudeo',
     salesOwner: 'Cleavland Moulsdall',
     openDealsAmount: '$1665.10',
@@ -2534,6 +2598,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 64,
+    companyLogo: CompanyLogo,
     companyTitle: 'Trudoo',
     salesOwner: 'Stacia Rookledge',
     openDealsAmount: '$9447.66',
@@ -2541,6 +2606,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 65,
+    companyLogo: CompanyLogo,
     companyTitle: 'Youspan',
     salesOwner: 'Halsy Jollie',
     openDealsAmount: '$6719.24',
@@ -2548,6 +2614,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 66,
+    companyLogo: CompanyLogo,
     companyTitle: 'Zoovu',
     salesOwner: 'Jonas Matherson',
     openDealsAmount: '$7143.83',
@@ -2555,6 +2622,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 67,
+    companyLogo: CompanyLogo,
     companyTitle: 'Twitterworks',
     salesOwner: 'Skylar Hattrick',
     openDealsAmount: '$3043.59',
@@ -2562,6 +2630,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 68,
+    companyLogo: CompanyLogo,
     companyTitle: 'Feedmix',
     salesOwner: 'Shannon Cotter',
     openDealsAmount: '$7465.15',
@@ -2569,6 +2638,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 69,
+    companyLogo: CompanyLogo,
     companyTitle: 'InnoZ',
     salesOwner: 'Elinore Walbrun',
     openDealsAmount: '$3302.15',
@@ -2576,6 +2646,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 70,
+    companyLogo: CompanyLogo,
     companyTitle: 'Realbridge',
     salesOwner: 'Marie Bernt',
     openDealsAmount: '$3376.21',
@@ -2583,6 +2654,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 71,
+    companyLogo: CompanyLogo,
     companyTitle: 'Linklinks',
     salesOwner: 'Catie Cockley',
     openDealsAmount: '$1837.02',
@@ -2590,6 +2662,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 72,
+    companyLogo: CompanyLogo,
     companyTitle: 'Leexo',
     salesOwner: 'Cairistiona Emmert',
     openDealsAmount: '$8409.71',
@@ -2597,6 +2670,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 73,
+    companyLogo: CompanyLogo,
     companyTitle: 'Voomm',
     salesOwner: 'Perry Hasluck',
     openDealsAmount: '$4494.02',
@@ -2604,6 +2678,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 74,
+    companyLogo: CompanyLogo,
     companyTitle: 'Yacero',
     salesOwner: 'Kyle Skatcher',
     openDealsAmount: '$8397.24',
@@ -2611,6 +2686,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 75,
+    companyLogo: CompanyLogo,
     companyTitle: 'Wikido',
     salesOwner: 'Sigvard Helian',
     openDealsAmount: '$8050.59',
@@ -2618,6 +2694,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 76,
+    companyLogo: CompanyLogo,
     companyTitle: 'Quinu',
     salesOwner: 'Humfrey Kyffin',
     openDealsAmount: '$4168.67',
@@ -2625,6 +2702,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 77,
+    companyLogo: CompanyLogo,
     companyTitle: 'Skivee',
     salesOwner: 'Sax Mercer',
     openDealsAmount: '$9460.29',
@@ -2632,6 +2710,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 78,
+    companyLogo: CompanyLogo,
     companyTitle: 'Fivebridge',
     salesOwner: 'Chloe Roffe',
     openDealsAmount: '$595.55',
@@ -2639,6 +2718,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 79,
+    companyLogo: CompanyLogo,
     companyTitle: 'Gabcube',
     salesOwner: 'Lizbeth Oldland',
     openDealsAmount: '$2415.47',
@@ -2646,6 +2726,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 80,
+    companyLogo: CompanyLogo,
     companyTitle: 'Zooxo',
     salesOwner: 'Heath Tilling',
     openDealsAmount: '$5855.26',
@@ -2653,6 +2734,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 81,
+    companyLogo: CompanyLogo,
     companyTitle: 'Babbleopia',
     salesOwner: 'Pearce Losselyong',
     openDealsAmount: '$7173.86',
@@ -2660,6 +2742,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 82,
+    companyLogo: CompanyLogo,
     companyTitle: 'Wikido',
     salesOwner: 'Tallulah Coper',
     openDealsAmount: '$5203.72',
@@ -2667,6 +2750,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 83,
+    companyLogo: CompanyLogo,
     companyTitle: 'Podcat',
     salesOwner: 'Claude Forrester',
     openDealsAmount: '$1695.70',
@@ -2674,6 +2758,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 84,
+    companyLogo: CompanyLogo,
     companyTitle: 'Vinte',
     salesOwner: 'Bondy Cartmail',
     openDealsAmount: '$1014.29',
@@ -2681,6 +2766,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 85,
+    companyLogo: CompanyLogo,
     companyTitle: 'Twitterbeat',
     salesOwner: 'Augustine Krimmer',
     openDealsAmount: '$6118.17',
@@ -2688,6 +2774,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 86,
+    companyLogo: CompanyLogo,
     companyTitle: 'Oyoba',
     salesOwner: 'Wallie Furst',
     openDealsAmount: '$1102.63',
@@ -2695,6 +2782,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 87,
+    companyLogo: CompanyLogo,
     companyTitle: 'Nlounge',
     salesOwner: 'Reginald Troucher',
     openDealsAmount: '$8554.25',
@@ -2702,6 +2790,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 88,
+    companyLogo: CompanyLogo,
     companyTitle: 'Mynte',
     salesOwner: 'Hedi Skirlin',
     openDealsAmount: '$9588.54',
@@ -2709,6 +2798,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 89,
+    companyLogo: CompanyLogo,
     companyTitle: 'Riffpath',
     salesOwner: 'Emilia Freathy',
     openDealsAmount: '$5859.73',
@@ -2716,6 +2806,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 90,
+    companyLogo: CompanyLogo,
     companyTitle: 'Yata',
     salesOwner: 'Breena Smitherman',
     openDealsAmount: '$7634.86',
@@ -2723,6 +2814,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 91,
+    companyLogo: CompanyLogo,
     companyTitle: 'Twinte',
     salesOwner: 'Beltran Jodrellec',
     openDealsAmount: '$1446.31',
@@ -2730,6 +2822,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 92,
+    companyLogo: CompanyLogo,
     companyTitle: 'Wordware',
     salesOwner: 'Stacy Bonaire',
     openDealsAmount: '$2610.56',
@@ -2737,6 +2830,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 93,
+    companyLogo: CompanyLogo,
     companyTitle: 'Quimm',
     salesOwner: 'Chanda Gorthy',
     openDealsAmount: '$5116.39',
@@ -2744,6 +2838,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 94,
+    companyLogo: CompanyLogo,
     companyTitle: 'Eamia',
     salesOwner: 'Nichols Cornford',
     openDealsAmount: '$560.83',
@@ -2751,6 +2846,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 95,
+    companyLogo: CompanyLogo,
     companyTitle: 'Yambee',
     salesOwner: 'Breena Kingswell',
     openDealsAmount: '$3978.34',
@@ -2758,6 +2854,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 96,
+    companyLogo: CompanyLogo,
     companyTitle: 'Katz',
     salesOwner: 'Randy Birkwood',
     openDealsAmount: '$1798.44',
@@ -2765,6 +2862,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 97,
+    companyLogo: CompanyLogo,
     companyTitle: 'Jamia',
     salesOwner: 'Sandy Ayer',
     openDealsAmount: '$5724.73',
@@ -2772,6 +2870,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 98,
+    companyLogo: CompanyLogo,
     companyTitle: 'Youtags',
     salesOwner: 'Nowell Bafford',
     openDealsAmount: '$3146.97',
@@ -2779,6 +2878,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 99,
+    companyLogo: CompanyLogo,
     companyTitle: 'Topiczoom',
     salesOwner: 'Noble Saffen',
     openDealsAmount: '$8322.07',
@@ -2786,6 +2886,7 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
   {
     id: 100,
+    companyLogo: CompanyLogo,
     companyTitle: 'Jaxworks',
     salesOwner: 'Chevy Barter',
     openDealsAmount: '$2489.95',

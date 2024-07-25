@@ -1,0 +1,34 @@
+@use '#Sass/abstracts/animations' as a;
+
+.companiesCardUpper {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  justify-items: center;
+  height: 100%;
+  padding: 12px;
+  gap: 8px 0;
+  color: var(--thm-text-default);
+  transition: a.$theme-transition-color;
+
+  &__companyLogo {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+  }
+
+  &__companyTitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+
+  &__openDealsAmount {
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+}

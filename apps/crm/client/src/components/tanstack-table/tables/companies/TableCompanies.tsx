@@ -11,9 +11,10 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
-import { TableListView } from '#Components/tanstack-table/views';
+import { TableGridView, TableListView } from '#Components/tanstack-table/views';
 import { ColumnCompanies } from '../../columns';
 import styles from './_TableCompanies.module.scss';
+import { TableCompaniesCardLower, TableCompaniesCardUpper, TableGridCard } from '#Components/tanstack-table/cards';
 
 interface IProps {
   tableData: ITableDataCompanies[];
@@ -56,6 +57,25 @@ function TableCompanies(props: IProps): JSX.Element {
     navigate('create');
   };
 
+  const tableCards = table.getRowModel().rows.map((row) => {
+    const { companyTitle, companyLogo, openDealsAmount, salesOwner, relatedContacts } = row.original;
+
+    return (
+      <TableGridCard key={row.id}>
+        <TableGridCard.UpperSection>
+          <TableCompaniesCardUpper
+            companyLogo={companyLogo}
+            companyTitle={companyTitle}
+            openDealsAmount={openDealsAmount}
+          />
+        </TableGridCard.UpperSection>
+        <TableGridCard.LowerSection>
+          <TableCompaniesCardLower salesOwner={salesOwner} relatedContacts={relatedContacts} />
+        </TableGridCard.LowerSection>
+      </TableGridCard>
+    );
+  });
+
   return (
     <div className={styles.container}>
       <TableControlsHeader
@@ -64,7 +84,7 @@ function TableCompanies(props: IProps): JSX.Element {
         listGridToggle={{ tableView, setTableView, columnFilters, setColumnFilters, resetColumnFilters }}
       />
       {tableView === 'list' && <TableListView table={table} />}
-      {/* {tableView === 'grid' && <TableGridView table={table} />} */}
+      {tableView === 'grid' && <TableGridView tableCards={tableCards} />}
       <div className={styles.tableControlsFooter}>
         <TableControlsFooter
           entriesName="companies"

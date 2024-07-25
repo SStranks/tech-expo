@@ -1,0 +1,48 @@
+@use '#Sass/abstracts/colors' as c;
+
+$img-width: 24px;
+$img-height: 24px;
+$img-border: 2px;
+
+.relatedContacts {
+  display: flex;
+  column-gap: 8px;
+}
+
+.compressCircles {
+  display: flex;
+  align-items: center;
+
+  @for $i from 1 through 4 {
+    > :nth-child(#{$i}) {
+      width: calc($img-width + ($img-border * 2));
+      height: calc($img-height + ($img-border * 2));
+      border: $img-border solid var(--thm-background-card);
+      transform: translateX(($i - 1) * -8px);
+    }
+  }
+}
+
+.displayImage {
+  width: $img-width;
+  height: $img-height;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.extraUsers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: $img-width;
+  height: $img-height;
+  font-size: 12px;
+  color: var(--thm-text-primary);
+  background-color: var(--thm-icon-secondary);
+  border-radius: 50%;
+  overflow: hidden;
+
+  & :nth-child(1) {
+    font-size: 8px;
+  }
+}

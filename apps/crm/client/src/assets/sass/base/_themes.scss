@@ -42,6 +42,7 @@ $light-theme: (
   background-danger: c.$col-red3-light,
   background-info: c.$col-blue3-light,
   background-modal: hsla(0deg 0% 0% / 35%),
+  background-card: hsl(240deg 1% 99%),
   // Icons
   icon-default: c.$col-slate11-light,
   icon-secondary: c.$col-slate10-light,
@@ -146,6 +147,7 @@ $dark-theme: (
   background-danger: c.$col-red3-light,
   background-info: c.$col-blue3-dark,
   background-modal: hsla(0deg 0% 0% / 65%),
+  background-card: hsl(210deg 11% 7%),
   // Icons
   icon-default: c.$col-slate11-dark,
   icon-secondary: c.$col-slate10-dark,
