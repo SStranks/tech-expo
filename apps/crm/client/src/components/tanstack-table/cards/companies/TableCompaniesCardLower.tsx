@@ -1,3 +1,5 @@
+import type { CoreRow } from '@tanstack/react-table';
+import type { ITableDataCompanies } from '#Data/MockData';
 import UserCircle from '#Components/general/UserCircle';
 import userImage from '#Img/image-35.jpg';
 import RelatedContacts from './RelatedContacts';
@@ -7,22 +9,20 @@ import styles from './_TableCompaniesCardLower.module.scss';
 const USER_IMAGE = userImage;
 
 interface IProps {
-  salesOwner: string;
-  relatedContacts: string[];
+  rowOriginal: CoreRow<ITableDataCompanies>['original'];
 }
 
 function TableCompaniesCardLower(props: IProps): JSX.Element {
-  const { salesOwner, relatedContacts } = props;
+  const { rowOriginal } = props;
 
   /* // TODO:  Add another component that takes userName initials and makes coloured circle with abbrv, if userImage not available */
-  console.log(salesOwner);
 
   return (
     <div className={styles.companiesCardLower}>
       <span className={styles.companiesCardLower__relatedContacts}>Related Contacts</span>
       <span className={styles.companiesCardLower__salesOwner}>Sales Owner</span>
       <div className={styles.companiesCardLower__relatedContactsImgs}>
-        <RelatedContacts relatedContacts={relatedContacts} />
+        <RelatedContacts relatedContacts={rowOriginal.relatedContacts} />
       </div>
       <div className={styles.companiesCardLower__salesOwnerImg}>
         <UserCircle userImage={USER_IMAGE} />

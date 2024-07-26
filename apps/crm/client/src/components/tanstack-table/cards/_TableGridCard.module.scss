@@ -8,19 +8,26 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(2, auto);
+  max-width: 400px;
   background-color: var(--thm-background-card);
   border: 1px solid var(--thm-border-secondary);
   border-radius: 4px;
   transition: a.$theme-transition-background, a.$theme-transition-border-color;
 
-  &__optionsBtn {
-    position: absolute;
-    top: calc(0px + 8px);
-    right: calc(0px + 8px);
-  }
+  // &__optionsBtn {
+  //   position: absolute;
+  //   top: calc(0px + 8px);
+  //   right: calc(0px + 8px);
+  // }
 
   &__upper {
     border-bottom: 1px solid var(--thm-border-secondary);
     transition: a.$theme-transition-border-color;
+  }
+}
+
+.inputMenu {
+  &__test {
+    background-color: red;
   }
 }

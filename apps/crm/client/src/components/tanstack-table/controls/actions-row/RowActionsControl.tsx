@@ -17,7 +17,6 @@ interface ICallControl {
 }
 
 interface IDeleteControl<I> {
-  entryId: string;
   row: Row<I>;
 }
 
@@ -49,9 +48,9 @@ function UpdateControl({ entryId }: IUpdateControl): JSX.Element {
   );
 }
 
-function DeleteControl<I>({ entryId, row }: IDeleteControl<I>): JSX.Element {
+function DeleteControl<I>({ row }: IDeleteControl<I>): JSX.Element {
   return (
-    <Link to={`delete/${entryId}`} state={row.original} className={styles.linkDelete}>
+    <Link to={`delete/${row.id}`} state={row.original} className={styles.linkDelete}>
       <IconDelete svgClass={styles.svg} />
     </Link>
   );

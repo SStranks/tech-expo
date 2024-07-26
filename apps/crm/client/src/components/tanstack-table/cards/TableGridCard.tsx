@@ -1,13 +1,13 @@
 import { PropsWithChildren } from 'react';
-import { ButtonOptions } from '#Components/buttons';
 import styles from './_TableGridCard.module.scss';
 
-function TableGridCard({ children }: PropsWithChildren): JSX.Element {
+interface ITableGridCard {
+  id: string;
+}
+
+function TableGridCard({ children, id }: PropsWithChildren<ITableGridCard>): JSX.Element {
   return (
-    <div className={styles.tableGridCard}>
-      <div className={styles.tableGridCard__optionsBtn}>
-        <ButtonOptions />
-      </div>
+    <div className={styles.tableGridCard} data-table-row-id={id}>
       {children}
     </div>
   );

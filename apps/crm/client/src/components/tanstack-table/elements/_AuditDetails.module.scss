@@ -1,3 +1,5 @@
+@use '#Sass/abstracts/animations' as anim;
+
 .auditDetails {
   display: flex;
   justify-content: center;
@@ -9,6 +11,7 @@
   background-color: var(--thm-button-secondary-background);
   border-radius: 6px;
   border: 1px solid var(--thm-button-secondary-border);
+  transition: anim.$theme-transition-background, anim.$theme-transition-border-color, anim.$theme-transition-color;
 
   &__svg {
     width: 16px;

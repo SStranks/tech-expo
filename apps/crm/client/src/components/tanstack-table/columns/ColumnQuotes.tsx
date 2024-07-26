@@ -44,7 +44,7 @@ const columnQuotesDef = [
       <RowActionsControl>
         <RowActionsControl.ViewControl entryId={row.id} />
         <RowActionsControl.UpdateControl entryId={row.id} />
-        <RowActionsControl.DeleteControl entryId={row.id} row={row} />
+        <RowActionsControl.DeleteControl row={row} />
       </RowActionsControl>
     ),
     header: () => <span>Actions</span>,

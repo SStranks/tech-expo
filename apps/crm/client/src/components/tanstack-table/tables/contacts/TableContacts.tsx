@@ -1,3 +1,4 @@
+import type { ITableDataContacts } from '#Data/MockData';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -11,7 +12,6 @@ import {
 } from '@tanstack/react-table';
 import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
 import { TableGridView, TableListView } from '#Components/tanstack-table/views';
-import { ITableDataContacts } from '#Data/MockData';
 import { ColumnContacts } from '../../columns';
 import styles from './_TableContacts.module.scss';
 import { TableContactsCardLower, TableContactsCardUpper, TableGridCard } from '#Components/tanstack-table/cards';
@@ -58,14 +58,13 @@ function TableContacts(props: IProps): JSX.Element {
   };
 
   const tableCards = table.getRowModel().rows.map((row) => {
-    const { name, email, image, status, title, company, companyLogo } = row.original;
     return (
-      <TableGridCard key={row.id}>
+      <TableGridCard key={row.id} id={row.original.id}>
         <TableGridCard.UpperSection>
-          <TableContactsCardUpper img={image} name={name} email={email} status={status} />
+          <TableContactsCardUpper rowOriginal={row.original} />
         </TableGridCard.UpperSection>
         <TableGridCard.LowerSection>
-          <TableContactsCardLower role={title} companyImg={companyLogo} companyName={company} />
+          <TableContactsCardLower rowOriginal={row.original} />
         </TableGridCard.LowerSection>
       </TableGridCard>
     );

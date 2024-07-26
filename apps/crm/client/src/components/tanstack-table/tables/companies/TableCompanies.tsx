@@ -58,19 +58,13 @@ function TableCompanies(props: IProps): JSX.Element {
   };
 
   const tableCards = table.getRowModel().rows.map((row) => {
-    const { companyTitle, companyLogo, openDealsAmount, salesOwner, relatedContacts } = row.original;
-
     return (
-      <TableGridCard key={row.id}>
+      <TableGridCard key={row.id} id={row.original.id}>
         <TableGridCard.UpperSection>
-          <TableCompaniesCardUpper
-            companyLogo={companyLogo}
-            companyTitle={companyTitle}
-            openDealsAmount={openDealsAmount}
-          />
+          <TableCompaniesCardUpper rowOriginal={row.original} />
         </TableGridCard.UpperSection>
         <TableGridCard.LowerSection>
-          <TableCompaniesCardLower salesOwner={salesOwner} relatedContacts={relatedContacts} />
+          <TableCompaniesCardLower rowOriginal={row.original} />
         </TableGridCard.LowerSection>
       </TableGridCard>
     );

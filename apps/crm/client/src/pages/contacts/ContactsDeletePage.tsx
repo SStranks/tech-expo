@@ -15,7 +15,7 @@ function ContactsDeletePage(): JSX.Element {
   }, [setPortalActiveInternal]);
 
   useEffect(() => {
-    const tableRow = document.querySelector(`tr[data-table-row-id="${id}"]`);
+    const tableRow = document.querySelector(`[data-table-row-id="${id}"]`);
     tableRow?.classList.add(StylesTableListView.dangerRow);
 
     return () => tableRow?.classList.remove(StylesTableListView.dangerRow);
