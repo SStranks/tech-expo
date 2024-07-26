@@ -35,7 +35,7 @@ const columnCompaniesDef = [
     cell: ({ row }) => (
       <RowActionsControl>
         <RowActionsControl.ViewControl entryId={row.id} />
-        <RowActionsControl.DeleteControl row={row} />
+        <RowActionsControl.DeleteControl rowOriginal={row.original} />
       </RowActionsControl>
     ),
     header: ({ column }) => <span>{column.id}</span>,

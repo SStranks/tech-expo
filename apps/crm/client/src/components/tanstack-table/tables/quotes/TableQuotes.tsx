@@ -33,9 +33,10 @@ function TableQuotes(props: IProps): JSX.Element {
     columns: ColumnQuotes,
     meta: { tableName: 'quotes' },
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    getRowId: (originalRow) => originalRow.id,
     state: {
       sorting,
       pagination,

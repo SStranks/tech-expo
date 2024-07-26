@@ -21,7 +21,6 @@ const options = {
 zxcvbnOptions.setOptions(options);
 
 export const usePasswordStrength = (password: string) => {
-  // eslint-disable-next-line unicorn/no-null
   const [result, setResult] = useState<ZxcvbnResult | null>(null);
   const deferredPassword = useDeferredValue(password);
 

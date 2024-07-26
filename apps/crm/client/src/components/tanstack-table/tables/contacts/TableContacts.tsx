@@ -38,6 +38,7 @@ function TableContacts(props: IProps): JSX.Element {
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getRowId: (originalRow) => originalRow.id,
     state: {
       sorting,
       pagination,

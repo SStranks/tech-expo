@@ -9,10 +9,11 @@ interface IProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
   isRequired: string | ValidationRule<boolean> | undefined;
+  defaultValue?: string;
 }
 
 function Input(props: IProps): JSX.Element {
-  const { register, type, id, error, isRequired } = props;
+  const { register, type, id, error, isRequired, defaultValue } = props;
 
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown
   return (
@@ -21,6 +22,7 @@ function Input(props: IProps): JSX.Element {
       type={type}
       id={id}
       className={styles.input}
+      defaultValue={defaultValue}
       placeholder=""
       aria-invalid={error ? true : false}
       aria-required={isRequired ? true : false}

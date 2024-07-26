@@ -1063,7 +1063,7 @@ export const tableDataContacts: ITableDataContacts[] = [
 ];
 
 export interface ITableDataQuotes {
-  id: number;
+  id: string;
   title: string;
   company: string;
   'total amount': string;
@@ -1074,7 +1074,7 @@ export interface ITableDataQuotes {
 }
 export const tableDataQuotes: ITableDataQuotes[] = [
   {
-    id: 1,
+    id: '1',
     title: 'Tablet',
     company: 'Bluezoom',
     'total amount': '$987.17',
@@ -1084,7 +1084,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '5/7/2023',
   },
   {
-    id: 2,
+    id: '2',
     title: 'Headphones',
     company: 'Twinder',
     'total amount': '$3406.17',
@@ -1094,7 +1094,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '7/22/2023',
   },
   {
-    id: 3,
+    id: '3',
     title: 'Laptop',
     company: 'Kimia',
     'total amount': '$836.67',
@@ -1104,7 +1104,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '7/14/2023',
   },
   {
-    id: 4,
+    id: '4',
     title: 'Smartwatch',
     company: 'Flipopia',
     'total amount': '$1160.90',
@@ -1114,7 +1114,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '10/14/2023',
   },
   {
-    id: 5,
+    id: '5',
     title: 'Headphones',
     company: 'Kanoodle',
     'total amount': '$8202.68',
@@ -1124,7 +1124,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '11/14/2023',
   },
   {
-    id: 6,
+    id: '6',
     title: 'Smartphone',
     company: 'Pixoboo',
     'total amount': '$2623.35',
@@ -1134,7 +1134,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '3/17/2024',
   },
   {
-    id: 7,
+    id: '7',
     title: 'Headphones',
     company: 'Babbleset',
     'total amount': '$9775.46',
@@ -1144,7 +1144,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '1/26/2024',
   },
   {
-    id: 8,
+    id: '8',
     title: 'Smartphone',
     company: 'Kare',
     'total amount': '$231.65',
@@ -1154,7 +1154,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '1/3/2024',
   },
   {
-    id: 9,
+    id: '9',
     title: 'Smartphone',
     company: 'Thoughtsphere',
     'total amount': '$4114.47',
@@ -1164,7 +1164,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '8/20/2023',
   },
   {
-    id: 10,
+    id: '10',
     title: 'Tablet',
     company: 'Rhynoodle',
     'total amount': '$1641.82',
@@ -1174,7 +1174,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '2/18/2024',
   },
   {
-    id: 11,
+    id: '11',
     title: 'Drone',
     company: 'Realcube',
     'total amount': '$9049.31',
@@ -1184,7 +1184,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '6/28/2023',
   },
   {
-    id: 12,
+    id: '12',
     title: 'Smartwatch',
     company: 'Latz',
     'total amount': '$4832.62',
@@ -1194,7 +1194,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '3/4/2024',
   },
   {
-    id: 13,
+    id: '13',
     title: 'Drone',
     company: 'Jazzy',
     'total amount': '$795.62',
@@ -1204,7 +1204,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '11/14/2023',
   },
   {
-    id: 14,
+    id: '14',
     title: 'Laptop',
     company: 'Thoughtworks',
     'total amount': '$816.33',
@@ -1214,7 +1214,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '9/1/2023',
   },
   {
-    id: 15,
+    id: '15',
     title: 'Headphones',
     company: 'Jaxspan',
     'total amount': '$8531.86',
@@ -1224,7 +1224,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '9/27/2023',
   },
   {
-    id: 16,
+    id: '16',
     title: 'Smartphone',
     company: 'Riffpath',
     'total amount': '$928.57',
@@ -1234,7 +1234,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '7/14/2023',
   },
   {
-    id: 17,
+    id: '17',
     title: 'Tablet',
     company: 'Edgewire',
     'total amount': '$6881.53',
@@ -1244,7 +1244,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '8/9/2023',
   },
   {
-    id: 18,
+    id: '18',
     title: 'Drone',
     company: 'Mymm',
     'total amount': '$3391.77',
@@ -1254,7 +1254,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '8/31/2023',
   },
   {
-    id: 19,
+    id: '19',
     title: 'Smartphone',
     company: 'Skipfire',
     'total amount': '$9168.47',
@@ -1264,7 +1264,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '6/2/2023',
   },
   {
-    id: 20,
+    id: '20',
     title: 'Smartwatch',
     company: 'Eidel',
     'total amount': '$8640.87',
@@ -1274,7 +1274,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '5/12/2023',
   },
   {
-    id: 21,
+    id: '21',
     title: 'Tablet',
     company: 'Voonder',
     'total amount': '$376.65',
@@ -1284,7 +1284,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '8/23/2023',
   },
   {
-    id: 22,
+    id: '22',
     title: 'Smartphone',
     company: 'Jatri',
     'total amount': '$8812.10',
@@ -1294,7 +1294,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '2/2/2024',
   },
   {
-    id: 23,
+    id: '23',
     title: 'Smartwatch',
     company: 'Quatz',
     'total amount': '$4443.11',
@@ -1304,7 +1304,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '1/31/2024',
   },
   {
-    id: 24,
+    id: '24',
     title: 'Smartwatch',
     company: 'Realmix',
     'total amount': '$2048.78',
@@ -1314,7 +1314,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '8/23/2023',
   },
   {
-    id: 25,
+    id: '25',
     title: 'Smartphone',
     company: 'Ailane',
     'total amount': '$3176.21',
@@ -1324,7 +1324,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '9/17/2023',
   },
   {
-    id: 26,
+    id: '26',
     title: 'Smartwatch',
     company: 'Photobug',
     'total amount': '$6316.65',
@@ -1334,7 +1334,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '3/26/2024',
   },
   {
-    id: 27,
+    id: '27',
     title: 'Smartphone',
     company: 'Jatri',
     'total amount': '$1298.28',
@@ -1344,7 +1344,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '4/14/2024',
   },
   {
-    id: 28,
+    id: '28',
     title: 'Headphones',
     company: 'Fliptune',
     'total amount': '$1233.34',
@@ -1354,7 +1354,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '5/16/2023',
   },
   {
-    id: 29,
+    id: '29',
     title: 'Headphones',
     company: 'Devshare',
     'total amount': '$2352.57',
@@ -1364,7 +1364,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '10/18/2023',
   },
   {
-    id: 30,
+    id: '30',
     title: 'Laptop',
     company: 'Fliptune',
     'total amount': '$3164.94',
@@ -1374,7 +1374,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '4/23/2024',
   },
   {
-    id: 31,
+    id: '31',
     title: 'Drone',
     company: 'Camimbo',
     'total amount': '$2160.86',
@@ -1384,7 +1384,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '3/28/2024',
   },
   {
-    id: 32,
+    id: '32',
     title: 'Laptop',
     company: 'Ainyx',
     'total amount': '$3987.94',
@@ -1394,7 +1394,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '12/31/2023',
   },
   {
-    id: 33,
+    id: '33',
     title: 'Drone',
     company: 'Skaboo',
     'total amount': '$2166.55',
@@ -1404,7 +1404,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '7/18/2023',
   },
   {
-    id: 34,
+    id: '34',
     title: 'Smartwatch',
     company: 'Jabbersphere',
     'total amount': '$7580.51',
@@ -1414,7 +1414,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '6/30/2023',
   },
   {
-    id: 35,
+    id: '35',
     title: 'Drone',
     company: 'JumpXS',
     'total amount': '$1474.52',
@@ -1424,7 +1424,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '12/27/2023',
   },
   {
-    id: 36,
+    id: '36',
     title: 'Smartwatch',
     company: 'Skimia',
     'total amount': '$6237.93',
@@ -1434,7 +1434,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '4/17/2024',
   },
   {
-    id: 37,
+    id: '37',
     title: 'Camera',
     company: 'Riffwire',
     'total amount': '$1906.09',
@@ -1444,7 +1444,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '10/19/2023',
   },
   {
-    id: 38,
+    id: '38',
     title: 'Laptop',
     company: 'Thoughtstorm',
     'total amount': '$2391.89',
@@ -1454,7 +1454,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '5/23/2023',
   },
   {
-    id: 39,
+    id: '39',
     title: 'Camera',
     company: 'Oyoloo',
     'total amount': '$425.75',
@@ -1464,7 +1464,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '10/27/2023',
   },
   {
-    id: 40,
+    id: '40',
     title: 'Tablet',
     company: 'Chatterbridge',
     'total amount': '$4261.36',
@@ -1474,7 +1474,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '11/5/2023',
   },
   {
-    id: 41,
+    id: '41',
     title: 'Drone',
     company: 'Rhynoodle',
     'total amount': '$5546.70',
@@ -1484,7 +1484,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '6/13/2023',
   },
   {
-    id: 42,
+    id: '42',
     title: 'Laptop',
     company: 'Centidel',
     'total amount': '$7739.65',
@@ -1494,7 +1494,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '1/23/2024',
   },
   {
-    id: 43,
+    id: '43',
     title: 'Smartphone',
     company: 'Brainbox',
     'total amount': '$9993.18',
@@ -1504,7 +1504,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '10/27/2023',
   },
   {
-    id: 44,
+    id: '44',
     title: 'Tablet',
     company: 'Yata',
     'total amount': '$2819.49',
@@ -1514,7 +1514,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '12/17/2023',
   },
   {
-    id: 45,
+    id: '45',
     title: 'Headphones',
     company: 'Bubblemix',
     'total amount': '$665.56',
@@ -1524,7 +1524,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '6/3/2023',
   },
   {
-    id: 46,
+    id: '46',
     title: 'Smartwatch',
     company: 'Pixoboo',
     'total amount': '$3147.05',
@@ -1534,7 +1534,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '6/26/2023',
   },
   {
-    id: 47,
+    id: '47',
     title: 'Tablet',
     company: 'Jaxnation',
     'total amount': '$3592.18',
@@ -1544,7 +1544,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '4/3/2024',
   },
   {
-    id: 48,
+    id: '48',
     title: 'Laptop',
     company: 'Skynoodle',
     'total amount': '$4669.71',
@@ -1554,7 +1554,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '12/1/2023',
   },
   {
-    id: 49,
+    id: '49',
     title: 'Tablet',
     company: 'Youspan',
     'total amount': '$5717.91',
@@ -1564,7 +1564,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '9/17/2023',
   },
   {
-    id: 50,
+    id: '50',
     title: 'Headphones',
     company: 'Feedspan',
     'total amount': '$3505.47',
@@ -1574,7 +1574,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '4/20/2024',
   },
   {
-    id: 51,
+    id: '51',
     title: 'Smartwatch',
     company: 'Linkbuzz',
     'total amount': '$5730.10',
@@ -1584,7 +1584,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '3/12/2024',
   },
   {
-    id: 52,
+    id: '52',
     title: 'Laptop',
     company: 'Snaptags',
     'total amount': '$3686.90',
@@ -1594,7 +1594,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '8/18/2023',
   },
   {
-    id: 53,
+    id: '53',
     title: 'Camera',
     company: 'Oloo',
     'total amount': '$7131.76',
@@ -1604,7 +1604,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '1/30/2024',
   },
   {
-    id: 54,
+    id: '54',
     title: 'Laptop',
     company: 'Devify',
     'total amount': '$944.65',
@@ -1614,7 +1614,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '12/13/2023',
   },
   {
-    id: 55,
+    id: '55',
     title: 'Laptop',
     company: 'Rhyloo',
     'total amount': '$3324.83',
@@ -1624,7 +1624,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '8/12/2023',
   },
   {
-    id: 56,
+    id: '56',
     title: 'Smartwatch',
     company: 'Brightbean',
     'total amount': '$6037.47',
@@ -1634,7 +1634,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '3/4/2024',
   },
   {
-    id: 57,
+    id: '57',
     title: 'Camera',
     company: 'Bluezoom',
     'total amount': '$122.09',
@@ -1644,7 +1644,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '1/28/2024',
   },
   {
-    id: 58,
+    id: '58',
     title: 'Smartwatch',
     company: 'Thoughtblab',
     'total amount': '$6882.38',
@@ -1654,7 +1654,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '6/15/2023',
   },
   {
-    id: 59,
+    id: '59',
     title: 'Smartphone',
     company: 'Oozz',
     'total amount': '$7385.62',
@@ -1664,7 +1664,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '12/4/2023',
   },
   {
-    id: 60,
+    id: '60',
     title: 'Smartphone',
     company: 'Fadeo',
     'total amount': '$2840.07',
@@ -1674,7 +1674,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '3/30/2024',
   },
   {
-    id: 61,
+    id: '61',
     title: 'Smartwatch',
     company: 'Vipe',
     'total amount': '$8165.44',
@@ -1684,7 +1684,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '9/11/2023',
   },
   {
-    id: 62,
+    id: '62',
     title: 'Smartphone',
     company: 'Zazio',
     'total amount': '$8384.23',
@@ -1694,7 +1694,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '6/24/2023',
   },
   {
-    id: 63,
+    id: '63',
     title: 'Headphones',
     company: 'Topdrive',
     'total amount': '$3168.20',
@@ -1704,7 +1704,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '11/6/2023',
   },
   {
-    id: 64,
+    id: '64',
     title: 'Tablet',
     company: 'Meetz',
     'total amount': '$8861.72',
@@ -1714,7 +1714,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '11/20/2023',
   },
   {
-    id: 65,
+    id: '65',
     title: 'Drone',
     company: 'Meemm',
     'total amount': '$9963.37',
@@ -1724,7 +1724,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '7/1/2023',
   },
   {
-    id: 66,
+    id: '66',
     title: 'Drone',
     company: 'Wordware',
     'total amount': '$5975.90',
@@ -1734,7 +1734,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '5/9/2023',
   },
   {
-    id: 67,
+    id: '67',
     title: 'Tablet',
     company: 'Quinu',
     'total amount': '$1862.69',
@@ -1744,7 +1744,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '10/13/2023',
   },
   {
-    id: 68,
+    id: '68',
     title: 'Laptop',
     company: 'Yozio',
     'total amount': '$464.14',
@@ -1754,7 +1754,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '5/24/2023',
   },
   {
-    id: 69,
+    id: '69',
     title: 'Laptop',
     company: 'Livefish',
     'total amount': '$2443.96',
@@ -1764,7 +1764,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '4/17/2024',
   },
   {
-    id: 70,
+    id: '70',
     title: 'Laptop',
     company: 'Teklist',
     'total amount': '$3318.39',
@@ -1774,7 +1774,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '7/20/2023',
   },
   {
-    id: 71,
+    id: '71',
     title: 'Laptop',
     company: 'Rhyzio',
     'total amount': '$1091.83',
@@ -1784,7 +1784,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '12/1/2023',
   },
   {
-    id: 72,
+    id: '72',
     title: 'Tablet',
     company: 'Flipopia',
     'total amount': '$3962.48',
@@ -1794,7 +1794,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '4/23/2024',
   },
   {
-    id: 73,
+    id: '73',
     title: 'Smartphone',
     company: 'Realbridge',
     'total amount': '$9008.16',
@@ -1804,7 +1804,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '12/29/2023',
   },
   {
-    id: 74,
+    id: '74',
     title: 'Headphones',
     company: 'Devbug',
     'total amount': '$7498.88',
@@ -1814,7 +1814,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '12/22/2023',
   },
   {
-    id: 75,
+    id: '75',
     title: 'Smartwatch',
     company: 'Kanoodle',
     'total amount': '$2044.56',
@@ -1824,7 +1824,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '2/2/2024',
   },
   {
-    id: 76,
+    id: '76',
     title: 'Tablet',
     company: 'Meejo',
     'total amount': '$7102.16',
@@ -1834,7 +1834,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '2/16/2024',
   },
   {
-    id: 77,
+    id: '77',
     title: 'Smartphone',
     company: 'Dabshots',
     'total amount': '$5189.46',
@@ -1844,7 +1844,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '5/24/2023',
   },
   {
-    id: 78,
+    id: '78',
     title: 'Drone',
     company: 'Twitterlist',
     'total amount': '$9553.73',
@@ -1854,7 +1854,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '10/22/2023',
   },
   {
-    id: 79,
+    id: '79',
     title: 'Tablet',
     company: 'Skyndu',
     'total amount': '$5747.96',
@@ -1864,7 +1864,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '2/26/2024',
   },
   {
-    id: 80,
+    id: '80',
     title: 'Smartwatch',
     company: 'Tazz',
     'total amount': '$5032.40',
@@ -1874,7 +1874,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '4/3/2024',
   },
   {
-    id: 81,
+    id: '81',
     title: 'Tablet',
     company: 'Flashset',
     'total amount': '$5114.64',
@@ -1884,7 +1884,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '7/20/2023',
   },
   {
-    id: 82,
+    id: '82',
     title: 'Smartwatch',
     company: 'Snaptags',
     'total amount': '$5202.89',
@@ -1894,7 +1894,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '1/28/2024',
   },
   {
-    id: 83,
+    id: '83',
     title: 'Headphones',
     company: 'Tagpad',
     'total amount': '$9836.43',
@@ -1904,7 +1904,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '10/27/2023',
   },
   {
-    id: 84,
+    id: '84',
     title: 'Smartphone',
     company: 'Flipbug',
     'total amount': '$690.04',
@@ -1914,7 +1914,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '10/7/2023',
   },
   {
-    id: 85,
+    id: '85',
     title: 'Camera',
     company: 'Browsedrive',
     'total amount': '$1502.57',
@@ -1924,7 +1924,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '9/17/2023',
   },
   {
-    id: 86,
+    id: '86',
     title: 'Drone',
     company: 'Skimia',
     'total amount': '$483.68',
@@ -1934,7 +1934,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '7/14/2023',
   },
   {
-    id: 87,
+    id: '87',
     title: 'Smartwatch',
     company: 'Kwimbee',
     'total amount': '$3658.18',
@@ -1944,7 +1944,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '6/25/2023',
   },
   {
-    id: 88,
+    id: '88',
     title: 'Drone',
     company: 'Latz',
     'total amount': '$7073.54',
@@ -1954,7 +1954,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '7/17/2023',
   },
   {
-    id: 89,
+    id: '89',
     title: 'Headphones',
     company: 'Aivee',
     'total amount': '$6920.73',
@@ -1964,7 +1964,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '1/22/2024',
   },
   {
-    id: 90,
+    id: '90',
     title: 'Smartwatch',
     company: 'Browseblab',
     'total amount': '$6782.00',
@@ -1974,7 +1974,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '8/10/2023',
   },
   {
-    id: 91,
+    id: '91',
     title: 'Drone',
     company: 'Bluejam',
     'total amount': '$8156.33',
@@ -1984,7 +1984,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '9/3/2023',
   },
   {
-    id: 92,
+    id: '92',
     title: 'Smartwatch',
     company: 'Babbleblab',
     'total amount': '$1341.77',
@@ -1994,7 +1994,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '4/14/2024',
   },
   {
-    id: 93,
+    id: '93',
     title: 'Smartphone',
     company: 'Shufflester',
     'total amount': '$9803.47',
@@ -2004,7 +2004,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '2/4/2024',
   },
   {
-    id: 94,
+    id: '94',
     title: 'Laptop',
     company: 'Brightbean',
     'total amount': '$7662.81',
@@ -2014,7 +2014,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '3/2/2024',
   },
   {
-    id: 95,
+    id: '95',
     title: 'Smartwatch',
     company: 'Eimbee',
     'total amount': '$9191.07',
@@ -2024,7 +2024,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '7/6/2023',
   },
   {
-    id: 96,
+    id: '96',
     title: 'Smartwatch',
     company: 'Mynte',
     'total amount': '$2072.41',
@@ -2034,7 +2034,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '6/24/2023',
   },
   {
-    id: 97,
+    id: '97',
     title: 'Headphones',
     company: 'Quatz',
     'total amount': '$9685.97',
@@ -2044,7 +2044,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '2/6/2024',
   },
   {
-    id: 98,
+    id: '98',
     title: 'Tablet',
     company: 'Voonte',
     'total amount': '$6329.50',
@@ -2054,7 +2054,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '4/10/2024',
   },
   {
-    id: 99,
+    id: '99',
     title: 'Smartwatch',
     company: 'Gigabox',
     'total amount': '$438.32',
@@ -2064,7 +2064,7 @@ export const tableDataQuotes: ITableDataQuotes[] = [
     'created at': '2/9/2024',
   },
   {
-    id: 100,
+    id: '100',
     title: 'Laptop',
     company: 'Livetube',
     'total amount': '$310.03',

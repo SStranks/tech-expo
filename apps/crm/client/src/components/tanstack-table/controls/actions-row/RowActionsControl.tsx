@@ -1,23 +1,26 @@
-import { PropsWithChildren } from 'react';
+import type { CoreRow } from '@tanstack/react-table';
+import type { PropsWithChildren } from 'react';
+import type { ITableDataCompanies, ITableDataContacts, ITableDataQuotes } from '#Data/MockData';
 import { Link } from 'react-router-dom';
 import { IconDelete, IconEdit, IconEye, IconPhone } from '#Components/svg';
 import styles from './_RowActionsControl.module.scss';
-import { Row } from '@tanstack/react-table';
+
+type TTableDataAllUnion = ITableDataContacts | ITableDataCompanies | ITableDataQuotes;
 
 interface IViewControl {
   entryId: string;
 }
 
 interface IUpdateControl {
-  entryId: string;
+  rowOriginal: CoreRow<TTableDataAllUnion>['original'];
 }
 
 interface ICallControl {
   entryId: string;
 }
 
-interface IDeleteControl<I> {
-  row: Row<I>;
+interface IDeleteControl {
+  rowOriginal: CoreRow<TTableDataAllUnion>['original'];
 }
 
 function RowActionsControl({ children }: PropsWithChildren): JSX.Element {
@@ -40,17 +43,17 @@ function CallControl({ entryId }: ICallControl): JSX.Element {
   );
 }
 
-function UpdateControl({ entryId }: IUpdateControl): JSX.Element {
+function UpdateControl({ rowOriginal }: IUpdateControl): JSX.Element {
   return (
-    <Link to={`update/${entryId}`} className={styles.link}>
+    <Link to={`update/${rowOriginal.id}`} state={rowOriginal} className={styles.link}>
       <IconEdit svgClass={styles.svg} />
     </Link>
   );
 }
 
-function DeleteControl<I>({ row }: IDeleteControl<I>): JSX.Element {
+function DeleteControl({ rowOriginal }: IDeleteControl): JSX.Element {
   return (
-    <Link to={`delete/${row.id}`} state={row.original} className={styles.linkDelete}>
+    <Link to={`delete/${rowOriginal.id}`} state={rowOriginal} className={styles.linkDelete}>
       <IconDelete svgClass={styles.svg} />
     </Link>
   );

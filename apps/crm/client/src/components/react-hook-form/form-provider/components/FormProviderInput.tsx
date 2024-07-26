@@ -6,9 +6,10 @@ interface IProps {
   name: string;
   type: React.HTMLInputTypeAttribute;
   label: string;
+  defaultValue?: string;
   rules?: RegisterOptions;
 }
-function FormProviderInput({ name, type, label, rules = {} }: IProps): JSX.Element {
+function FormProviderInput({ name, type, label, defaultValue, rules = {} }: IProps): JSX.Element {
   const {
     register,
     formState: { errors, isSubmitted },
@@ -30,6 +31,7 @@ function FormProviderInput({ name, type, label, rules = {} }: IProps): JSX.Eleme
         register={{ ...register(name, rules) }}
         id={id}
         type={type}
+        defaultValue={defaultValue}
         error={errors[name as string]}
         isRequired={rules?.required}
       />

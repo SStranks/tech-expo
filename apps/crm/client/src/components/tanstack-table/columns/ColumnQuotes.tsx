@@ -43,8 +43,8 @@ const columnQuotesDef = [
     cell: ({ row }) => (
       <RowActionsControl>
         <RowActionsControl.ViewControl entryId={row.id} />
-        <RowActionsControl.UpdateControl entryId={row.id} />
-        <RowActionsControl.DeleteControl row={row} />
+        <RowActionsControl.UpdateControl rowOriginal={row.original} />
+        <RowActionsControl.DeleteControl rowOriginal={row.original} />
       </RowActionsControl>
     ),
     header: () => <span>Actions</span>,
