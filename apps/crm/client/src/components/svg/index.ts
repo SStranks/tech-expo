@@ -28,6 +28,7 @@ export { default as IconContacts } from './IconContacts';
 export { default as IconCurrencyPound } from './IconCurrencyPound';
 export { default as IconDashboard } from './IconDashboard';
 export { default as IconDelete } from './IconDelete';
+export { default as IconDocument } from './IconDocument';
 export { default as IconEdit } from './IconEdit';
 export { default as IconEmail } from './IconEmail';
 export { default as IconEye } from './IconEye';
