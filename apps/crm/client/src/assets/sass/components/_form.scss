@@ -144,8 +144,6 @@ $input-border-radius: 8px;
 
 @mixin input-base {
   width: 100%;
-  border: none;
-  outline: none;
 }
 
 @mixin input-container {

@@ -64,7 +64,8 @@ ol {
 button {
   cursor: pointer;
   background-color: transparent;
-  border: none;
+  border-color: transparent;
+  outline-color: transparent;
   text-decoration: none;
 
   &:disabled {
@@ -75,6 +76,8 @@ button {
 input {
   cursor: pointer;
   color-scheme: var(--thm-color-scheme);
+  border-color: transparent;
+  outline-color: transparent;
   font-size: inherit;
   font-family: inherit;
   font-weight: inherit;

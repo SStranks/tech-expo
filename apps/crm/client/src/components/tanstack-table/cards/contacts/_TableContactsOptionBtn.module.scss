@@ -1,3 +1,5 @@
+@use '#Sass/components/aria-react' as aria;
+
 .contactsOptionBtn {
   width: 28px;
   height: 28px;
@@ -29,13 +31,14 @@
   }
 
   &__menu {
+    @include aria.react-aria-outline;
     display: flex;
     flex-direction: column;
     row-gap: 4px;
-    outline: none;
   }
 
   &__menuItem {
+    @include aria.react-aria-outline;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -43,7 +46,6 @@
     padding: 6px 15px;
     color: var(--thm-text-default);
     border-radius: 4px;
-    outline: none;
 
     &__svg {
       width: 18px;
@@ -58,6 +60,7 @@
   }
 
   &__menuItemWarning {
+    @include aria.react-aria-outline;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -65,7 +68,6 @@
     padding: 6px 15px;
     color: var(--thm-text-danger);
     border-radius: 4px;
-    outline: none;
 
     &__svg {
       width: 18px;

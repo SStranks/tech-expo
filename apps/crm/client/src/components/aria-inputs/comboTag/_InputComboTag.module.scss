@@ -1,5 +1,6 @@
 @use '#Sass/abstracts/animations' as a;
 @use '#Sass/components/form' as form;
+@use '#Sass/components/aria-react' as aria;
 
 $padding: 16px;
 $tag-group-padding: 6px;
@@ -26,6 +27,7 @@ $tag-group-padding: 6px;
 }
 
 .input {
+  @include aria.react-aria-outline;
   display: inline-block;
   max-width: 100%;
   min-width: 5px;
@@ -33,8 +35,6 @@ $tag-group-padding: 6px;
   padding-left: calc($padding - $tag-group-padding);
   color: var(--thm-text-default);
   background-color: transparent;
-  border: none;
-  outline: none;
 }
 
 .combo {
@@ -63,12 +63,12 @@ $tag-group-padding: 6px;
 }
 
 .popover {
+  @include aria.react-aria-outline;
   width: calc(var(--trigger-width) + ($padding * 2));
   background-color: var(--thm-background-default);
   border: 1px solid var(--thm-button-secondary-border);
   border-radius: form.$input-border-radius;
   transform: translate(-$padding, $padding);
-  outline: none;
   overflow: hidden;
 
   &[data-entering] {
@@ -79,16 +79,16 @@ $tag-group-padding: 6px;
 }
 
 .listBox {
-  outline: none;
+  @include aria.react-aria-outline;
 }
 
 .listItem {
+  @include aria.react-aria-outline;
   display: flex;
   align-items: center;
   height: 40px;
   color: var(--thm-text-default);
   padding: 0 $padding;
-  outline: none;
 
   &[data-focused] {
     background-color: var(--thm-background-element);

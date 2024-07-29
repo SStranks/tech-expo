@@ -1,4 +1,5 @@
 @use '#Sass/abstracts/animations' as a;
+@use '#Sass/components/aria-react' as aria;
 
 .searchField {
   display: flex;
@@ -31,9 +32,8 @@
 }
 
 .input {
+  @include aria.react-aria-outline;
   margin-left: 8px;
-  border: none;
-  outline: none;
   background-color: transparent;
 
   &::-webkit-search-cancel-button,

@@ -1,5 +1,6 @@
 @use '#Sass/abstracts/animations' as anim;
 @use '#Sass/components/buttons' as btn;
+@use '#Sass/components/aria-react' as aria;
 
 .triggerBtn {
   display: flex;
@@ -48,11 +49,11 @@
 }
 
 .input {
+  @include aria.react-aria-outline;
   padding: 5px;
   border: 1px solid var(--thm-button-secondary-border);
   border-radius: 2px;
   font-size: 15px;
-  outline: none;
   transition: anim.$theme-transition-border-color;
 
   &:hover {

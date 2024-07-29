@@ -1,0 +1,33 @@
+/* -------------------------------- */
+/*     ~ React-Aria-Components ~    */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+/*   Imports                        */
+// @use '../abstracts/animations' as a;
+// @use '../abstracts/functions' as f;
+// @use '../abstracts/colors' as c;
+// @use '../abstracts/mixins' as mx;
+// @use '../abstracts/variables' as v;
+// @use '../base/themes' as t;
+
+/* -------------------------------- */
+/*   Default                        */
+/* -------------------------------- */
+
+@mixin react-aria-outline {
+  &:focus-visible,
+  &:focus-within,
+  &[data-focused] {
+    outline: 1px solid transparent;
+  }
+}

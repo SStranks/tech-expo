@@ -1,4 +1,5 @@
 @use '#Sass/abstracts/mixins' as mx;
+@use '#Sass/components/aria-react' as aria;
 
 .item {
   display: grid;
@@ -54,6 +55,7 @@
   margin-top: 4px;
 
   &__input {
+    @include aria.react-aria-outline;
     font-size: 14px;
     width: 100%;
     padding: 4px 8px;
@@ -61,7 +63,6 @@
     background-color: var(--thm-button-secondary-background);
     border: 1px solid var(--thm-button-secondary-border);
     border-radius: 4px;
-    outline: none;
 
     &:focus {
       border: 1px solid var(--thm-border-info);

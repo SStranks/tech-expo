@@ -25,10 +25,7 @@ function TableCompaniesOptionBtn(props: IProps): JSX.Element {
             <span>View Company</span>
           </MenuItem>
           <MenuItem
-            onAction={() => {
-              console.log(rowOriginal.id);
-              navigate(`delete/${rowOriginal.id}`, { state: rowOriginal });
-            }}
+            onAction={() => navigate(`delete/${rowOriginal.id}`, { state: rowOriginal })}
             className={styles.companiesOptionBtn__menuItemWarning}>
             <IconDelete svgClass={styles.companiesOptionBtn__menuItemWarning__svg} />
             <span>Delete Company</span>

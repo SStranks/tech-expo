@@ -1,4 +1,5 @@
 @use '#Sass/components/form' as form;
+@use '#Sass/components/aria-react' as aria;
 
 $padding: 16px;
 @mixin button-svg {
@@ -21,12 +22,11 @@ $padding: 16px;
 }
 
 .input {
+  @include aria.react-aria-outline;
   grid-area: input;
   width: 100%;
   color: var(--thm-text-default);
   background-color: transparent;
-  border: none;
-  outline: none;
 }
 
 .buttonIncrement {

@@ -1,4 +1,5 @@
 @use '#Sass/components/form' as form;
+@use '#Sass/components/aria-react' as aria;
 
 $padding: 16px;
 $calendar-background-color: var(--thm-background-subtle);
@@ -8,7 +9,7 @@ $calendar-background-color: var(--thm-background-subtle);
 }
 
 .button {
-  outline: none;
+  @include aria.react-aria-outline;
 
   &__svg {
     color: var(--thm-icon-default);
@@ -53,7 +54,7 @@ $calendar-background-color: var(--thm-background-subtle);
 }
 
 .dateSegment {
-  outline: none;
+  @include aria.react-aria-outline;
 
   &:focus {
     background-color: var(--thm-icon-info);
@@ -122,6 +123,7 @@ $calendar-background-color: var(--thm-background-subtle);
   // &__body {}
 
   &__cell {
+    @include aria.react-aria-outline;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -134,7 +136,6 @@ $calendar-background-color: var(--thm-background-subtle);
     &[data-hovered],
     &[data-focused] {
       background-color: var(--thm-button-primary-hover);
-      outline: none;
     }
 
     &[data-outside-month] {

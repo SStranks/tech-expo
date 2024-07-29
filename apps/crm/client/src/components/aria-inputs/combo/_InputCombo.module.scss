@@ -1,6 +1,7 @@
 @use '#Sass/abstracts/animations' as a;
 @use '#Sass/abstracts/mixins' as mx;
 @use '#Sass/components/form' as form;
+@use '#Sass/components/aria-react' as aria;
 
 $padding: 16px;
 $popover-offset-y: 6px;
@@ -13,12 +14,11 @@ $popover-offset-y: 6px;
   height: 100%;
 
   &__input {
+    @include aria.react-aria-outline;
     width: 100%;
     height: 100%;
     color: var(--thm-text-default);
     background-color: transparent;
-    border: none;
-    outline: none;
   }
 
   &__button {
@@ -72,12 +72,12 @@ $popover-offset-y: 6px;
 }
 
 .popover {
+  @include aria.react-aria-outline;
   width: calc(var(--trigger-width) + ($padding * 2));
   background-color: var(--thm-background-default);
   border: 1px solid var(--thm-button-secondary-border);
   border-radius: form.$input-border-radius;
   transform: translate(-$padding, $popover-offset-y);
-  outline: none;
   overflow: hidden;
 
   &[data-entering] {
@@ -88,16 +88,16 @@ $popover-offset-y: 6px;
 }
 
 .listBox {
-  outline: none;
+  @include aria.react-aria-outline;
 }
 
 .listItem {
+  @include aria.react-aria-outline;
   display: flex;
   align-items: center;
   height: 40px;
   color: var(--thm-text-default);
   padding: 0 $padding;
-  outline: none;
 
   &[data-focused] {
     background-color: var(--thm-background-element);
