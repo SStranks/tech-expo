@@ -1,0 +1,13 @@
+@use '#Sass/components/buttons' as btn;
+
+.quoteFinancialsItem {
+  display: contents;
+
+  & > :nth-of-type(n) {
+    padding: 4px 12px;
+  }
+
+  &__deleteBtn {
+    @include btn.btn-secondary;
+  }
+}

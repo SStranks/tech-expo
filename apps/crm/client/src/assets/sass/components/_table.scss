@@ -25,6 +25,7 @@
 /* -------------------------------- */
 
 // TODO:  Determine palette for light mode, then add both into _themes.scss
+// TODO:  Same colors are used in QuoteStatusUpdater; extract and consolidate
 @mixin table-row-icon-green {
   color: c.$col-lime11-dark;
   background-color: c.$col-lime8-dark;

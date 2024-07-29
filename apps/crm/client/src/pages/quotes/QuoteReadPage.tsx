@@ -1,16 +1,22 @@
 import { Link } from 'react-router-dom';
 import { MarkdownEditor } from '#Components/index';
-import QuoteStatusUpdater from './components/QuoteStatusUpdater';
-import styles from './_QuoteReadPage.module.scss';
 import { IconArrowLeftAlt, IconDocument, IconEdit } from '#Components/svg';
+import QuoteStatusUpdater from './components/QuoteStatusUpdater';
+import CompanyLogo from '#Img/Microsoft_logo.png';
+import styles from './_QuoteReadPage.module.scss';
+import QuoteFinancials from './components/QuoteFinancials';
 
 // TEMP DEV:  Values
 const quoteTitle = 'High-tech Software Platform';
+const companyLogo = CompanyLogo;
 const companyTitle = 'Microsoft';
 const companyCountry = 'United States';
 const companyWebsite = 'http://www.microsoft.com';
 const quotePreparedBy = 'Mr Adam Smith';
 const quotePreparedFor = 'Mr Bob McNugget';
+const subTotal = '$2,700';
+const salesTax = '16%';
+const grandTotal = '$4,000';
 
 function QuoteReadPage(): JSX.Element {
   return (
@@ -38,31 +44,44 @@ function QuoteReadPage(): JSX.Element {
       <QuoteStatusUpdater />
       <div className={styles.quoteDocument}>
         <div className={styles.quoteDocument__header}>
-          <img src="" alt="" />
-          <div className="">
-            <span>{companyTitle}</span>
+          <img src={companyLogo} alt={companyTitle} className={styles.quoteDocument__header__companyLogo} />
+          <div className={styles.quoteDocument__header__details}>
+            <span className={styles.quoteDocument__header__companyTitle}>{companyTitle}</span>
             <span>{companyCountry}</span>
             <span>{companyWebsite}</span>
           </div>
-          <div className="">
-            <div className="">
-              <span>Prepared By:</span>
+          <div className={styles.quoteDocument__header__participants}>
+            <div className={styles.quoteDocument__header__prepared}>
+              <span className={styles.quoteDocument__header__preparedParticipant}>Prepared By:</span>
               <span>{quotePreparedBy}</span>
             </div>
-            <div className="">
-              <span>Prepared For:</span>
+            <div className={styles.quoteDocument__header__prepared}>
+              <span className={styles.quoteDocument__header__preparedParticipant}>Prepared For:</span>
               <span>{quotePreparedFor}</span>
             </div>
-            <div className=""></div>
           </div>
         </div>
-        <hr className={styles.quoteDocument__hr} />
+        <hr className={styles.hr} />
         <div className={styles.quoteDocument__body}>
-          <div className={styles.quote__body__titleBlock}></div>
-          <div className={styles.quote__body__table}></div>
-          <div className={styles.quote__body__financials}></div>
+          <div className={styles.quoteDocument__body__titleBlock}>
+            <span className={styles.quoteDocument__body__titleBlock__title}>Products / Services</span>
+            <div className="">{/* // TODO:  Component for waiting/saving/saved */}</div>
+          </div>
+          <div className={styles.quoteDocument__body__table}>
+            <QuoteFinancials />
+            <div className={styles.quoteDocument__body__financials}>
+              <div className={styles.quoteDocument__body__financials__grid}>
+                <span>Sub-Total</span>
+                <span>{subTotal}</span>
+                <span>Sales Tax</span>
+                <span>{salesTax}</span>
+                <span>Grand Total</span>
+                <span>{grandTotal}</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <hr className={styles.quoteDocument__hr} />
+        <hr className={styles.hr} />
         <div className={styles.quoteDocument__footer}>
           <div className={styles.markdownEditor}>
             <MarkdownEditor />

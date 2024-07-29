@@ -13,8 +13,8 @@ import {
 import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
 import { TableGridView, TableListView } from '#Components/tanstack-table/views';
 import { ColumnCompanies } from '../../columns';
-import styles from './_TableCompanies.module.scss';
 import { TableCompaniesCardLower, TableCompaniesCardUpper, TableGridCard } from '#Components/tanstack-table/cards';
+import styles from './_TableCompanies.module.scss';
 
 interface IProps {
   tableData: ITableDataCompanies[];

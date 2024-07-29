@@ -65,8 +65,11 @@ button {
   cursor: pointer;
   background-color: transparent;
   border-color: transparent;
-  outline-color: transparent;
   text-decoration: none;
+
+  &:focus {
+    outline: 1px solid transparent;
+  }
 
   &:disabled {
     cursor: not-allowed;
@@ -77,7 +80,6 @@ input {
   cursor: pointer;
   color-scheme: var(--thm-color-scheme);
   border-color: transparent;
-  outline-color: transparent;
   font-size: inherit;
   font-family: inherit;
   font-weight: inherit;
@@ -87,6 +89,10 @@ input {
   &::-webkit-inner-spin-button {
     appearance: none;
     margin: 0;
+  }
+
+  &:focus {
+    outline: 1px solid transparent;
   }
 
   &::placeholder {
