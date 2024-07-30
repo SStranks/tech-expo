@@ -19,7 +19,7 @@
 
 /*   Imports                        */
 @use 'sass:math';
-@use 'animations' as a;
+@use 'animations' as anim;
 @use 'colors' as c;
 @use 'functions' as f;
 @use 'variables' as v;
@@ -138,7 +138,7 @@
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  transition: a.$button-hover-header;
+  transition: anim.$button-hover-header;
 
   &:hover {
     background-color: var(--thm-background-subtle);
@@ -148,7 +148,7 @@
 @mixin header-button-svg {
   min-width: v.$svg-dim-width;
   height: v.$svg-dim-height;
-  transition: a.$theme-transition-color;
+  transition: anim.$theme-transition-color;
 
   & > path {
     color: var(--thm-icon-default);

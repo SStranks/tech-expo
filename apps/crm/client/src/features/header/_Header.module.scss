@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/animations' as anim;
 @use '#Sass/abstracts/mixins' as mx;
 @use '#Sass/abstracts/variables' as v;
 
@@ -12,7 +12,7 @@
   padding-inline: 20px;
   background: var(--thm-background-default);
   border-bottom: 1px solid var(--thm-border-secondary);
-  transition: a.$theme-transition-background, a.$theme-transition-border-color;
+  transition: anim.$theme-transition-background, anim.$theme-transition-border-color;
 }
 
 .companyDetails {

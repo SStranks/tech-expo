@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/animations' as anim;
 @use '#Sass/abstracts/colors' as c;
 @use '#Sass/abstracts/variables' as v;
 
@@ -19,11 +19,11 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
   color: var(--thm-text-default);
   border-radius: 6px;
   list-style: none;
-  transition: a.$theme-transition-color, a.$theme-transition-background, a.$button-hover-sidebar;
+  transition: anim.$theme-transition-color, anim.$theme-transition-background, anim.$button-hover-sidebar;
 
   &__iconContainer {
     transition:
-      a.$sidebar-menu-button-icon,
+      anim.$sidebar-menu-button-icon,
       transform 250ms;
     min-width: $icon-dim;
     max-width: $icon-dim;
@@ -32,7 +32,7 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
 
   &__svg {
     color: var(--thm-icon-default);
-    transition: a.$theme-transition-color;
+    transition: anim.$theme-transition-color;
   }
 
   &__text {
@@ -59,7 +59,7 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
     position: relative;
     column-gap: 0;
     transition:
-      a.$theme-transition-background,
+      anim.$theme-transition-background,
       column-gap 0ms 500ms;
 
     & .menuLink__iconContainer {

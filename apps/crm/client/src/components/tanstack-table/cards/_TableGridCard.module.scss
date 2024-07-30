@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/animations' as anim;
 
 // NOTE:  --thm-background-card from on-screen render using below - transparency/background is factored in.
 // background-color: hsl(from var(--thm-background-overlay) h s l / 35%);
@@ -12,7 +12,7 @@
   background-color: var(--thm-background-card);
   border: 1px solid var(--thm-border-secondary);
   border-radius: 4px;
-  transition: a.$theme-transition-background, a.$theme-transition-border-color;
+  transition: anim.$theme-transition-background, anim.$theme-transition-border-color;
 
   // &__optionsBtn {
   //   position: absolute;
@@ -22,7 +22,7 @@
 
   &__upper {
     border-bottom: 1px solid var(--thm-border-secondary);
-    transition: a.$theme-transition-border-color;
+    transition: anim.$theme-transition-border-color;
   }
 }
 

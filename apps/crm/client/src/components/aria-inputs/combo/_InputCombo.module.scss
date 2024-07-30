@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/animations' as anim;
 @use '#Sass/abstracts/mixins' as mx;
 @use '#Sass/components/form' as form;
 @use '#Sass/components/aria-react' as aria;
@@ -28,7 +28,7 @@ $popover-offset-y: 6px;
     width: 30px;
     height: 30px;
     border-radius: 6px;
-    transition: a.$button-hover-header;
+    transition: anim.$button-hover-header;
 
     &__svg {
       color: var(--thm-icon-default);

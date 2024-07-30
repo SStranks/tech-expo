@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/animations' as anim;
 @use '#Sass/components/form' as form;
 
 .modalContainer {
@@ -30,4 +30,4 @@
 /*   CSS-Transition-Group           */
 /* -------------------------------- */
 
-@include a.ctg-modal-default;
+@include anim.ctg-modal-default;

@@ -1,6 +1,4 @@
-@use '#Sass/abstracts/animations' as a;
 @use '#Sass/abstracts/mixins' as mx;
-@use '#Sass/abstracts/variables' as v;
 
 .themeToggle {
   @include mx.header-button;

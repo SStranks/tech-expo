@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/animations' as anim;
 
 .contactsCardUpper {
   position: relative;
@@ -10,7 +10,7 @@
   padding: 12px;
   gap: 8px 0;
   color: var(--thm-text-default);
-  transition: a.$theme-transition-color;
+  transition: anim.$theme-transition-color;
 
   &__optionsBtn {
     position: absolute;

@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/animations' as anim;
 @use '#Sass/components/aria-react' as aria;
 
 .searchField {
@@ -9,7 +9,7 @@
   border: 1px solid var(--thm-button-secondary-border);
   border-radius: 6px;
   font-size: 14px;
-  transition: a.$theme-transition-border-color;
+  transition: anim.$theme-transition-border-color;
 
   &:hover {
     transition-duration: 0.1ms;

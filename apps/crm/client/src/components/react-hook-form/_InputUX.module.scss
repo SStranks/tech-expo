@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/animations' as anim;
 @use '#Sass/components/form' as form;
 
 $padding: 16px;
@@ -11,7 +11,7 @@ $padding: 16px;
   background-color: inherit;
   border: form.$input-border;
   border-radius: form.$input-border-radius;
-  transition: a.$input-focus;
+  transition: anim.$input-focus;
 
   &__label {
     position: absolute;

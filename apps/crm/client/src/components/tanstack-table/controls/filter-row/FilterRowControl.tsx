@@ -53,7 +53,7 @@ function FilterRowControl(props: IProps): JSX.Element {
           <Input placeholder={`Search ${fieldName}`} className={styles.input} />
           <div className={styles.popover__controls}>
             <Button onPress={() => onFormSubmit(inputValue)} className={styles.filterBtn}>
-              <IconFilter svgClass={styles.svg} />
+              <IconFilter svgClass={`${styles.svg} ${styles.filterBtn__svg}`} />
               Filter
             </Button>
             <Button onPress={clearFilterBtnHandler} className={styles.clearBtn}>

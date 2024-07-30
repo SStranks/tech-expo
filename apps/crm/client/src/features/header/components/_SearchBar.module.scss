@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/animations' as anim;
 @use '#Sass/abstracts/colors' as c;
 @use '#Sass/abstracts/variables' as v;
 
@@ -28,7 +28,7 @@
   &__svg {
     min-width: 17px;
     height: 17px;
-    transition: a.$theme-transition-color;
+    transition: anim.$theme-transition-color;
 
     & > path {
       color: var(--thm-icon-default);
@@ -45,7 +45,7 @@
     background-color: var(--thm-button-secondary-background);
     border: 1px solid var(--thm-button-secondary-border);
     border-radius: 6px;
-    transition: a.$theme-transition-background, a.$theme-transition-border-color;
+    transition: anim.$theme-transition-background, anim.$theme-transition-border-color;
   }
 }
 
@@ -63,4 +63,4 @@
 /*   CSS-Transition-Group           */
 /* -------------------------------- */
 
-@include a.ctg-modal-default;
+@include anim.ctg-modal-default;

@@ -19,7 +19,7 @@
 
 /*   Imports                        */
 @use '../abstracts/variables' as *;
-@use '../abstracts/animations' as a;
+@use '../abstracts/animations' as anim;
 @use '../abstracts/functions' as f;
 @use '../abstracts/mixins' as mx;
 
@@ -40,8 +40,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   @include mx.scrollbar-base;
-
-  // overflow-y: overlay;
+  overflow-y: hidden;
 }
 
 img,
@@ -83,7 +82,7 @@ input {
   font-size: inherit;
   font-family: inherit;
   font-weight: inherit;
-  transition: a.$theme-transition-background;
+  transition: anim.$theme-transition-background;
 
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
@@ -96,7 +95,7 @@ input {
   }
 
   &::placeholder {
-    transition: a.$theme-transition-background;
+    transition: anim.$theme-transition-background;
   }
 }
 

@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/animations' as anim;
 @use '#Sass/abstracts/mixins' as mx;
 @use '#Sass/abstracts/variables' as v;
 
@@ -29,12 +29,12 @@
     }
 
     &--unreadMessages {
-      transition: a.$theme-transition-background;
+      transition: anim.$theme-transition-background;
       background-color: var(--thm-danger-primary);
     }
 
     &--readMessages {
-      transition: a.$theme-transition-background;
+      transition: anim.$theme-transition-background;
       background-color: var(--thm-success-primary);
     }
   }
@@ -83,7 +83,7 @@
       width: 100%;
       color: var(--thm-text-default);
       padding: 12px 0;
-      transition: a.$theme-transition-background;
+      transition: anim.$theme-transition-background;
 
       &:hover {
         background-color: var(--thm-button-secondary-hover);
@@ -96,4 +96,4 @@
 /*   CSS-Transition-Group           */
 /* -------------------------------- */
 
-@include a.ctg-modal-default;
+@include anim.ctg-modal-default;

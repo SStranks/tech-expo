@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/animations' as anim;
 @use '#Sass/abstracts/mixins' as mx;
 @use '#Sass/abstracts/variables' as v;
 
@@ -20,6 +20,6 @@
 
   &__main {
     background-color: var(--thm-background-screen);
-    transition: a.$theme-transition-background;
+    transition: anim.$theme-transition-background;
   }
 }

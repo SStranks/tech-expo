@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/animations' as a;
+@use '#Sass/abstracts/animations' as anim;
 @use '#Sass/abstracts/mixins' as mx;
 @use '#Sass/abstracts/variables' as v;
 
@@ -11,8 +11,8 @@
   background: var(--thm-background-default);
   border-right: 1px solid var(--thm-border-secondary);
   transition:
-    a.$theme-transition-background,
-    a.$theme-transition-border-color,
+    anim.$theme-transition-background,
+    anim.$theme-transition-border-color,
     width 600ms ease-in-out;
 
   &__list {
@@ -35,7 +35,7 @@
     background-color: var(--thm-background-default);
     border-right: 1px solid var(--thm-border-secondary);
     border-radius: 8px;
-    transition: a.$theme-transition-background, a.$theme-transition-border-color;
+    transition: anim.$theme-transition-background, anim.$theme-transition-border-color;
 
     &::before {
       content: '';
@@ -46,7 +46,7 @@
       height: 45px;
       border-bottom-left-radius: 16px;
       box-shadow: -15px 0 0 0 var(--thm-background-default);
-      transition: a.$theme-transition-boxshadow;
+      transition: anim.$theme-transition-boxshadow;
     }
   }
 
@@ -55,8 +55,8 @@
     width: v.$aside-dim-width-minimized;
     padding: v.$aside-padding-minimized;
     transition:
-      a.$theme-transition-background,
-      a.$theme-transition-border-color,
+      anim.$theme-transition-background,
+      anim.$theme-transition-border-color,
       width 300ms ease-in-out;
   }
 }
