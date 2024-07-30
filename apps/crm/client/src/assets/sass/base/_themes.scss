@@ -120,6 +120,11 @@ $light-theme: (
   button-quaternary-disabled-background: transparent,
   button-quaternary-disabled-border: transparent,
   button-quaternary-disabled-text: c.$col-slate9-light,
+  button-quinary-destructive-background: c.$col-white,
+  button-quinary-destructive-border: c.$col-red7-light,
+  button-quinary-destructive-hover: c.$col-red3-light,
+  button-quinary-destructive-icon: c.$col-red9-light,
+  button-quinary-destructive-text: c.$col-red11-light,
   // Shadows
   // States
   success-primary: c.$col-green10-light,
@@ -227,6 +232,11 @@ $dark-theme: (
   button-quaternary-disabled-background: transparent,
   button-quaternary-disabled-border: transparent,
   button-quaternary-disabled-text: c.$col-slate11-dark,
+  button-quinary-destructive-background: c.$col-white,
+  button-quinary-destructive-border: c.$col-red7-light,
+  button-quinary-destructive-hover: c.$col-red3-light,
+  button-quinary-destructive-icon: c.$col-red9-light,
+  button-quinary-destructive-text: c.$col-red11-light,
   // Shadows
   // States
   success-primary: c.$col-green10-dark,

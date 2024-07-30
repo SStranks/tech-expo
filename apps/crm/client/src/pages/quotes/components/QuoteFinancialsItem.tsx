@@ -9,23 +9,25 @@ function QuoteFinancialsItem(): JSX.Element {
   return (
     <div className={styles.quoteFinancialsItem}>
       <div className={styles.quoteFinancialsItem__gridItem}>
-        <span>$27.00</span>
+        {/* // NOTE:  PLACEHOLDER */}
+        {/* // TODO:  Need to make input aria component; also utilize in login forms*/}
+        <input type="text" className={styles.inputTemp} />
       </div>
       <div className={styles.quoteFinancialsItem__gridItem}>
-        <span>$27.00</span>
+        <input type="text" className={styles.inputTemp} />
       </div>
       <div className={styles.quoteFinancialsItem__gridItem}>
-        <span>$27.00</span>
+        <input type="text" className={styles.inputTemp} />
       </div>
       <div className={styles.quoteFinancialsItem__gridItem}>
-        <span>$27.00</span>
+        <input type="text" className={styles.inputTemp} />
       </div>
       <div className={styles.quoteFinancialsItem__gridItem}>
         <span>$27.00</span>
       </div>
       <div className={styles.quoteFinancialsItem__gridItem}>
         <button onClick={deleteItemClickHandler} className={styles.quoteFinancialsItem__deleteBtn}>
-          <IconDelete />
+          <IconDelete svgClass={styles.quoteFinancialsItem__deleteBtn__svg} />
         </button>
       </div>
     </div>

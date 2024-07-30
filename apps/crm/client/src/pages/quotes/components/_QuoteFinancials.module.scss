@@ -1,3 +1,5 @@
+@use '#Sass/abstracts/colors' as c;
+
 $row-padding: 12px 16px;
 
 .quoteFinancialsTable {
@@ -7,7 +9,7 @@ $row-padding: 12px 16px;
     'header header header header header header'
     'service service service service service service'
     'addService . . . . .' / 25% 20% 10% 15% 25% 5%;
-  border: 1px solid var(--thm-border-quaternary);
+  border: 1px solid c.$col-slate12-dark;
   border-radius: 8px;
   overflow: hidden;
 
@@ -24,12 +26,12 @@ $row-padding: 12px 16px;
     }
 
     & > * {
-      border-right: 2px solid var(--thm-border-tertiary);
+      border-right: 2px solid c.$col-slate12-dark;
     }
   }
 
   &__services {
-    grid-area: service;
+    grid-column: 1 / span 6;
     display: grid;
     grid-template-columns: subgrid;
   }

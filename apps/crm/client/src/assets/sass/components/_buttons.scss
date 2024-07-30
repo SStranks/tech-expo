@@ -95,3 +95,21 @@
     color: var(--thm-button-secondary-destructive-disabled-text);
   }
 }
+
+@mixin btn-danger-inverse {
+  @include btn-root;
+  color: var(--thm-button-quinary-destructive-text);
+  background-color: var(--thm-button-quinary-destructive-background);
+  border: 1px solid var(--thm-button-quinary-destructive-border);
+  border-radius: 6px;
+
+  &:hover {
+    background-color: var(--thm-button-quinary-destructive-hover);
+  }
+
+  &:disabled {
+    background-color: var(--thm-button-quinary-destructive-disabled-background);
+    border: 1px solid var(--thm-button-quinary-destructive-disabled-border);
+    color: var(--thm-button-quinary-destructive-disabled-text);
+  }
+}
