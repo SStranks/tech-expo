@@ -20,10 +20,10 @@
       "#Services/*": ["src/services/*"],
       "#Stories/*": ["src/stories/*"],
       "#Types/*": ["src/types/*"],
-      "#Utils/*": ["src/utils/*"],
+      "#Utils/*": ["src/utils/*"]
     },
-    "typeRoots": ["node_modules/@types", "node_modules/@testing-library"],
+    "typeRoots": ["node_modules/@types", "node_modules/@testing-library"]
   },
   "include": ["src/**/*", "../shared/*", "global.d.ts", "jest.config.ts"],
-  "exclude": ["node_modules", "public", "dist", "cypress.config.ts", "cypress"],
+  "exclude": ["node_modules", "public", "dist", "cypress.config.ts", "cypress"]
 }

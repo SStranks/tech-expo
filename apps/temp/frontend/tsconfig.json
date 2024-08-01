@@ -17,10 +17,10 @@
       "#Pages/*": ["src/pages/*"],
       "#Services/*": ["src/services/*"],
       "#Types/*": ["src/types/*"],
-      "#Utils/*": ["src/utils/*"],
+      "#Utils/*": ["src/utils/*"]
     },
-    "types": ["node", "@testing-library/jest-dom"],
+    "types": ["node", "@testing-library/jest-dom"]
   },
-  "include": ["src/**/*", "../shared/*", "global.d.ts", "jest.config.ts"],
-  "exclude": ["node_modules", "public", "dist", "cypress"],
+  "include": ["src/**/*", "../shared/*", "global.d.ts", "jest.config.ts", ".storybook/**/*"],
+  "exclude": ["node_modules", "public", "dist", "cypress"]
 }

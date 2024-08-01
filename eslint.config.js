@@ -8,7 +8,16 @@ import { EslintConfigReactTest } from '@packages/eslint-config-react-test';
 export default [
   {
     // --- Global Ignores
-    ignores: ['**/node_modules', '**/dist', '**/build', '**/__snapshots__', '**/mocks', '**/coverage', '**/.sassdoc'],
+    ignores: [
+      '**/node_modules',
+      '**/dist',
+      '**/build',
+      '**/__snapshots__',
+      '**/mocks',
+      '**/coverage',
+      '**/.sassdoc',
+      '!**/.storybook',
+    ],
   },
   {
     // --- Global Configuration
