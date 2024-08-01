@@ -22,7 +22,6 @@ const DevConfig = {
     static: [
       {
         directory: path.resolve(CWD, 'public'),
-        publicPath: '/',
         staticOptions: {
           extensions: ['jpeg', 'png'],
         },
