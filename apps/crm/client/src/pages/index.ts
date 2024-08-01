@@ -11,6 +11,7 @@ export { default as PageQuoteUpdate } from './quotes/QuoteUpdatePage';
 export { default as PageQuoteDelete } from './quotes/QuoteDeletePage';
 export { default as PageCompanies } from './companies/CompaniesPage';
 export { default as PageCompaniesCreate } from './companies/CompaniesCreatePage';
+export { default as PageCompaniesRead } from './companies/CompaniesReadPage';
 export { default as PageCompaniesDelete } from './companies/CompaniesDeletePage';
 export { default as PageContacts } from './contacts/ContactsPage';
 export { default as PageContactsCreate } from './contacts/ContactsCreatePage';

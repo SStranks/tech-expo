@@ -1,0 +1,37 @@
+$svg-dim: 14px;
+$column-gap: 14px;
+$padding: 16px;
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: $column-gap;
+  padding: $padding;
+
+  &__contacts {
+    display: flex;
+    align-items: center;
+    column-gap: $column-gap;
+  }
+
+  &__svg {
+    width: $svg-dim;
+    height: $svg-dim;
+    color: var(--thm-text-default);
+  }
+
+  &__title {
+    color: var(--thm-text-default);
+    font-weight: 700;
+  }
+
+  &__total {
+    color: var(--thm-text-secondary);
+  }
+}
+
+.noContacts {
+  padding: $padding;
+  color: var(--thm-text-default);
+}

@@ -10,6 +10,7 @@ function SettingsPage(): JSX.Element {
   return (
     <div className={styles.settingsPage}>
       <TableSettingsContacts tableData={tableDataSettingsContacts} />
+      {/* // TODO:  Convert to NON <table>; not correct use case */}
       {/* // TODO:  Extract table into component */}
       <div className={styles.tableContainer}>
         <table className={styles.table}>
