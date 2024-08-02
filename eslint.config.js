@@ -3,7 +3,7 @@ import { EslintConfigCypress } from '@packages/eslint-config-cypress';
 import { EslintConfigExpress } from '@packages/eslint-config-express';
 import { EslintConfigReact } from '@packages/eslint-config-react';
 import { EslintConfigReactTest } from '@packages/eslint-config-react-test';
-// import { EslintConfigStorybook } from '@packages/eslint-config-storybook';
+import { EslintConfigStorybook } from '@packages/eslint-config-storybook';
 
 export default [
   {
@@ -39,12 +39,14 @@ export default [
     settings: { ...EslintConfigReact.settings },
   },
   {
-    // --- CRM: Client; NodeJS Express + Testing (Node)
-    files: ['apps/crm/server/server/**/*.[jt]s'],
-    languageOptions: { ...EslintConfigExpress.languageOptions },
-    plugins: { ...EslintConfigExpress.plugins },
-    rules: { ...EslintConfigExpress.rules },
-    settings: { ...EslintConfigExpress.settings },
+    // --- CRM: Client; Storybook
+    files: ['apps/crm/client/src/stories/*.stories.[jt]s?(x)'],
+    languageOptions: {
+      parserOptions: { project: ['./apps/crm/client/tsconfig.json'] },
+    },
+    plugins: { ...EslintConfigStorybook.plugins },
+    rules: { ...EslintConfigStorybook.rules },
+    settings: { ...EslintConfigStorybook.settings },
   },
   {
     // --- CRM: Client; Testing (Jest + RTL)
@@ -61,6 +63,14 @@ export default [
     plugins: { ...EslintConfigCypress.plugins },
     rules: { ...EslintConfigCypress.rules },
     settings: { ...EslintConfigCypress.settings },
+  },
+  {
+    // --- CRM: Client; NodeJS Express + Testing (Node)
+    files: ['apps/crm/server/server/**/*.[jt]s'],
+    languageOptions: { ...EslintConfigExpress.languageOptions },
+    plugins: { ...EslintConfigExpress.plugins },
+    rules: { ...EslintConfigExpress.rules },
+    settings: { ...EslintConfigExpress.settings },
   },
   ConfigPrettier,
 ];
