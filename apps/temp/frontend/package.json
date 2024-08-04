@@ -21,12 +21,9 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@packages/babel-config": "workspace:*",
-    "@packages/cypress-config": "workspace:*",
     "@packages/jest-config-react": "workspace:*",
     "@packages/prettier-config": "workspace:*",
     "@packages/typescript-config": "workspace:*",
-    "@packages/webpack-config": "workspace:*",
     "@testing-library/jest-dom": "^6.4.1",
     "@testing-library/react": "^15.0.7",
     "@testing-library/user-event": "^14.5.2",

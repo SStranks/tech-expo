@@ -2,7 +2,7 @@ import DefaultLayout from '#Layouts/DefaultLayout';
 import { Aside } from '../../src/features/sidebar/Aside';
 
 beforeEach(() => {
-  cy.mount(<DefaultLayout header={<></>} aside={<Aside />} main={<></>} />);
+  cy.mount(<DefaultLayout header={<></>} aside={<Aside />} />);
 });
 
 describe('Sidebar menu functionality', () => {

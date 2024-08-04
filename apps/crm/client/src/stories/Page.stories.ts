@@ -1,7 +1,6 @@
 /* eslint-disable storybook/use-storybook-expect */
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect } from '@storybook/jest';
-import { within, userEvent } from '@storybook/test';
+import { within, userEvent, expect } from '@storybook/test';
 
 import { Page } from './Page';
 

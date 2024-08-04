@@ -1,6 +1,15 @@
-import { default as ReactWebpack5Preview } from '@packages/storybook-config/react-webpack5/preview';
-import '../src/assets/sass/global-imports.scss';
+import type { Preview } from '@storybook/react';
+import '#Sass/global-imports.scss';
 
-const preview = { ...ReactWebpack5Preview };
+const preview: Preview = {
+  parameters: {
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/i,
+      },
+    },
+  },
+};
 
 export default preview;
