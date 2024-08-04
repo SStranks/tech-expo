@@ -24,9 +24,7 @@
     "test:server": "pnpm --filter './apps/**/+(server|backend)' node:test"
   },
   "dependencies": {
-    "@packages/babel-config": "workspace:*",
     "@packages/commitlint-config": "workspace:*",
-    "@packages/cypress-config": "workspace:*",
     "@packages/eslint-config": "workspace:*",
     "@packages/eslint-config-airbnb": "workspace:*",
     "@packages/eslint-config-cypress": "workspace:*",
@@ -38,28 +36,17 @@
     "@packages/jest-config-node": "workspace:*",
     "@packages/jest-config-react": "workspace:*",
     "@packages/secretlint-config": "workspace:*",
-    "@packages/storybook-config": "workspace:*",
     "@packages/stylelint-config": "workspace:*",
-    "@packages/typescript-config": "workspace:*",
-    "@packages/webpack-config": "workspace:*"
+    "@packages/typescript-config": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.9",
-    "@babel/eslint-parser": "^7.23.10",
-    "@babel/plugin-transform-runtime": "^7.23.9",
-    "@babel/preset-env": "^7.23.9",
-    "@babel/preset-react": "^7.23.3",
-    "@babel/preset-typescript": "^7.23.3",
-    "@babel/runtime": "^7.23.9",
-    "@commitlint/cli": "^19.3.0",
+    "@commitlint/cli": "19.3.0",
     "eslint": "8.57.0",
-    "husky": "^9.0.10",
-    "lint-staged": "^15.2.1",
-    "prettier": "^3.2.4",
-    "sassdoc": "^2.7.4",
-    "secretlint": "^8.1.1",
-    "storybook": "^8.2.6",
-    "stylelint": "^16.2.1",
-    "typescript": "^5.3.3"
+    "husky": "9.0.10",
+    "lint-staged": "15.2.1",
+    "prettier": "3.2.4",
+    "secretlint": "8.1.1",
+    "stylelint": "16.2.1",
+    "typescript": "5.3.3"
   }
 }

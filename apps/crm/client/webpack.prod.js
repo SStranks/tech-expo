@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/numeric-separators-style */
 import BrotliPlugin from 'brotli-webpack-plugin';
 import CompressionPlugin from 'compression-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
@@ -39,9 +40,12 @@ const ProdConfig = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
+              modules: {
+                localIdentName: '[local]-[hash:base64:5]',
+                namedExport: false,
+                exportLocalsConvention: 'asIs',
+              },
               importLoaders: 1,
-              localIdentName: '[local]-[hash:base64:5]',
             },
           },
           {
@@ -67,7 +71,11 @@ const ProdConfig = {
                   return true;
                 },
               },
-              modules: { localIdentName: '[local]-[hash:base64:5]' },
+              modules: {
+                localIdentName: '[local]-[hash:base64:5]',
+                namedExport: false,
+                exportLocalsConvention: 'asIs',
+              },
               importLoaders: 2, // => post-css and sass
             },
           },

@@ -74,7 +74,7 @@ export const EslintConfig = {
       ...PluginImport.configs.typescript.settings['import/resolver'],
       typescript: {
         alwaysTryTypes: true,
-        project: ['**/+(client|frontend)/tsconfig.json', '**/+(server|backend)/tsconfig.json'],
+        project: ['**/+(client|frontend)/tsconfig.json', '**/+(server|backend)/tsconfig.json', 'tsconfig.json'],
       },
     },
   },

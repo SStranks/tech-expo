@@ -3,16 +3,18 @@ import Dotenv from 'dotenv-webpack';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 
-import path from 'node:path';
 import { merge } from 'webpack-merge';
+import path from 'node:path';
+import url from 'node:url';
 import CommonConfig from './webpack.common.js';
 
-const CWD = process.env.INIT_CWD;
+const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 
 const DevConfig = {
+  // context: '/src',
   mode: 'development',
   output: {
-    path: path.resolve(CWD, 'dist'),
+    path: path.resolve(CUR, 'dist'),
     filename: 'main.js',
     publicPath: '/',
   },
@@ -21,7 +23,7 @@ const DevConfig = {
     port: 3000,
     static: [
       {
-        directory: path.resolve(CWD, 'public'),
+        directory: path.resolve(CUR, 'public'),
         staticOptions: {
           extensions: ['jpeg', 'png'],
         },
@@ -36,6 +38,8 @@ const DevConfig = {
   stats: {
     loggingDebug: ['sass-loader'],
     errorDetails: true,
+    errorStack: true,
+    warnings: false, // NOTE:  Turn back on later
   },
   module: {
     rules: [
@@ -86,14 +90,14 @@ const DevConfig = {
   },
   plugins: [
     new HTMLWebpackPlugin({
-      template: path.resolve(CWD, './src/index-template.html.ejs'),
-      favicon: path.resolve(CWD, './src/favicon.ico'),
+      template: path.resolve(CUR, './src/index-template.html.ejs'),
+      favicon: path.resolve(CUR, './src/favicon.ico'),
       templateParameters: {
         PUBLIC_URL: process.env.PUBLIC_URL,
       },
     }),
-    new CopyPlugin({ patterns: [{ from: path.resolve(CWD, './public'), noErrorOnMissing: true }] }),
-    new Dotenv({ path: path.resolve(CWD, './.env.dev') }),
+    new CopyPlugin({ patterns: [{ from: path.resolve(CUR, './public'), noErrorOnMissing: true }] }),
+    new Dotenv({ path: path.resolve(CUR, './.env.dev') }),
   ],
 };
 
