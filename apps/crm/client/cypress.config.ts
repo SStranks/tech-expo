@@ -1,5 +1,5 @@
 import { defineConfig } from 'cypress';
-import WebpackConfig from './cypress/webpack.config';
+import { default as WebpackCypressConfig } from './cypress/webpack.cypress.js';
 
 export default defineConfig({
   e2e: {
@@ -10,7 +10,7 @@ export default defineConfig({
 
   component: {
     devServer: {
-      webpackConfig: WebpackConfig,
+      webpackConfig: WebpackCypressConfig,
       framework: 'react',
       bundler: 'webpack',
     },
