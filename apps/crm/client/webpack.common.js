@@ -1,9 +1,8 @@
 import ESLintPlugin from 'eslint-webpack-plugin';
 import path from 'node:path';
-// import url from 'node:url';
+import url from 'node:url';
 
-const CUR = process.env.INIT_CWD;
-// const CUR = path.dirname(url.fileURLToPath(import.meta.url));
+const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 
 const CommonConfig = {
   entry: path.resolve(CUR, './src/index.tsx'),
@@ -37,30 +36,12 @@ const CommonConfig = {
   module: {
     rules: [
       {
-        test: /\.(ts|tsx|js|jsx)$/,
-        exclude: [/node_modules/],
-        use: [
-          {
-            loader: 'babel-loader',
-          },
-          {
-            loader: 'ts-loader',
-            options: {
-              onlyCompileBundledFiles: true,
-              compilerOptions: {
-                noEmit: false,
-              },
-            },
-          },
-        ],
-      },
-      {
         test: /\.html$/,
         use: 'html-loader',
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif|avif)$/i,
-        type: 'asset/resource',
+        type: 'asset',
       },
       {
         test: /\.m?js/,

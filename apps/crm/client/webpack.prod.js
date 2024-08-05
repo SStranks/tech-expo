@@ -7,32 +7,45 @@ import Dotenv from 'dotenv-webpack';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
+import { merge } from 'webpack-merge';
 
 import path from 'node:path';
+import url from 'node:url';
 
-import { merge } from 'webpack-merge';
 import CommonConfig from './webpack.common.js';
 
-const CWD = process.env.INIT_CWD;
+const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 
 const ProdConfig = {
   mode: 'production',
-  // entry: {
-  //   app: './src/index.tsx',
-  //   script: './src/script.ts',
-  //   serviceWorker: {
-  //     import: './src/serviceWorker.ts',
-  //     filename: 'serviceWorker.js',
-  //   },
-  // },
   output: {
-    path: path.resolve(CWD, 'dist'),
-    filename: 'main.[contenthash].js',
+    path: path.resolve(CUR, 'dist'),
+    filename: '[name].bundle.[contenthash].js',
     assetModuleFilename: 'assets/[ext]/[name].[hash][ext]',
     clean: true,
   },
+  devtool: 'source-map',
   module: {
     rules: [
+      {
+        test: /\.(ts|tsx|js|jsx)$/,
+        exclude: [/node_modules/],
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+          {
+            loader: 'ts-loader',
+            options: {
+              onlyCompileBundledFiles: true,
+              compilerOptions: {
+                noEmit: false,
+              },
+            },
+          },
+        ],
+      },
       {
         test: /\.css$/,
         use: [
@@ -98,6 +111,16 @@ const ProdConfig = {
     ],
   },
   optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[/\\]node_modules[/\\](react|react-dom)[/\\]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
     minimizer: [
       '...',
       new CssMinimizerPlugin(),
@@ -107,7 +130,12 @@ const ProdConfig = {
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminMinify,
           options: {
-            plugins: ['imagemin-gifsicle', 'imagemin-mozjpeg', 'imagemin-pngquant', 'imagemin-svgo'],
+            plugins: [
+              ['gifsicle', { interlaced: true, optimizationLevel: 3 }],
+              ['mozjpeg', { quality: 100 }],
+              ['pngquant'],
+              ['svgo'],
+            ],
           },
         },
         generator: [
@@ -127,8 +155,8 @@ const ProdConfig = {
       filename: '[name].[contenthash].css',
     }),
     new HTMLWebpackPlugin({
-      template: path.resolve(CWD, './src/index-template.html.ejs'),
-      favicon: path.resolve(CWD, './src/favicon.ico'),
+      template: path.resolve(CUR, './src/index-template.html.ejs'),
+      favicon: path.resolve(CUR, './src/favicon.ico'),
       templateParameters: {
         PUBLIC_URL: process.env.PUBLIC_URL,
       },
@@ -154,21 +182,22 @@ const ProdConfig = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve(CWD, 'public'),
-          to: path.resolve(CWD, 'dist/public'),
+          from: path.resolve(CUR, 'public'),
+          to: path.resolve(CUR, 'dist/public'),
           globOptions: { ignore: ['**/img/**'] },
           noErrorOnMissing: true,
         },
         {
-          from: path.resolve(CWD, 'public/img'),
-          to: path.resolve(CWD, 'dist/img/[path][name].[contenthash][ext]'),
+          from: path.resolve(CUR, 'public/img'),
+          to: path.resolve(CUR, 'dist/img/[path][name].[contenthash][ext]'),
           noErrorOnMissing: true,
         },
-        { from: path.resolve(CWD, 'public/robots.txt'), noErrorOnMissing: true },
-        { from: path.resolve(CWD, 'public/sitemap.xml'), noErrorOnMissing: true },
+        { from: path.resolve(CUR, 'public/robots.txt'), noErrorOnMissing: true },
+        { from: path.resolve(CUR, 'public/sitemap.xml'), noErrorOnMissing: true },
       ],
     }),
-    new Dotenv({ path: path.resolve(CWD, './.env.prod') }),
+    new Dotenv({ path: path.resolve(CUR, './.env.prod') }),
+    new WebpackManifestPlugin({}),
   ],
 };
 

@@ -11,10 +11,10 @@ import CommonConfig from './webpack.common.js';
 const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 
 const DevConfig = {
-  // context: '/src',
   mode: 'development',
   output: {
     path: path.resolve(CUR, 'dist'),
+    pathinfo: false,
     filename: 'main.js',
     publicPath: '/',
   },
@@ -44,11 +44,32 @@ const DevConfig = {
   module: {
     rules: [
       {
+        test: /\.(ts|tsx|js|jsx)$/,
+        include: path.resolve(CUR, 'src'),
+        exclude: [/node_modules/],
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+              onlyCompileBundledFiles: true,
+              compilerOptions: {
+                noEmit: false,
+              },
+            },
+          },
+        ],
+      },
+      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.module\.scss$/,
+        exclude: [/node_modules/],
         use: [
           'style-loader',
           {
@@ -66,7 +87,7 @@ const DevConfig = {
       },
       {
         test: /\.scss$/,
-        exclude: /\.module.scss$/,
+        exclude: [/node_modules/, /\.module.scss$/],
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
