@@ -5,10 +5,11 @@ import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 
 import { merge } from 'webpack-merge';
 import path from 'node:path';
-import url from 'node:url';
+// import url from 'node:url';
 import CommonConfig from './webpack.common.js';
 
-const CUR = path.dirname(url.fileURLToPath(import.meta.url));
+const CUR = './';
+// const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 
 const DevConfig = {
   mode: 'development',
@@ -39,7 +40,7 @@ const DevConfig = {
     loggingDebug: ['sass-loader'],
     errorDetails: true,
     errorStack: true,
-    warnings: false, // NOTE:  Turn back on later
+    warnings: true,
   },
   module: {
     rules: [

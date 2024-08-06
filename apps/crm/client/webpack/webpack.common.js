@@ -1,8 +1,9 @@
 import ESLintPlugin from 'eslint-webpack-plugin';
 import path from 'node:path';
-import url from 'node:url';
+// import url from 'node:url';
 
-const CUR = path.dirname(url.fileURLToPath(import.meta.url));
+const CUR = './';
+// const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 
 const CommonConfig = {
   entry: path.resolve(CUR, './src/index.tsx'),

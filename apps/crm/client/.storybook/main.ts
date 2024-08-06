@@ -1,5 +1,5 @@
 import type { StorybookConfig } from '@storybook/react-webpack5';
-import CommonConfig from '../webpack.common.js';
+import CommonConfig from '../webpack/webpack.common.js';
 
 const config: StorybookConfig = {
   framework: '@storybook/react-webpack5',
@@ -15,6 +15,9 @@ const config: StorybookConfig = {
     autodocs: 'tag',
   },
   staticDirs: ['../public'],
+  core: {
+    disableTelemetry: true,
+  },
   babel: (config) => {
     return { ...config, rootMode: 'upward' };
   },

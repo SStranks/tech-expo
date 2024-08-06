@@ -19,10 +19,11 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "start": "webpack-dev-server --config ./webpack.dev.js",
-    "build": "webpack --config ./webpack.prod.js",
+    "start": "webpack-dev-server --config ./webpack/webpack.dev.js",
+    "build": "webpack --config ./webpack/webpack.prod.js",
     "build:serve": "http-server ./dist --brotli",
     "build:watch": "webpack --config ./webpack.dev.js --watch",
+    "build:stats": "bundle-stats --html -d ./webpack ./webpack/build-stats.json && http-server bundle-stats.html -o",
     "jest:test": "jest --config ../../../jest.config.js --selectProjects CRM-Client",
     "jest:coverage": "jest --coverage --config ../../../jest.config.js --selectProjects CRM-Client",
     "jest:watch": "jest --watch --config ../../../jest.config.js --selectProjects CRM-Client",
@@ -62,6 +63,7 @@
     "@babel/preset-react": "7.23.3",
     "@babel/preset-typescript": "7.23.3",
     "@babel/runtime": "7.23.9",
+    "@bundle-stats/plugin-webpack-filter": "^4.14.0",
     "@chromatic-com/storybook": "1.6.1",
     "@packages/jest-config-react": "workspace:*",
     "@packages/prettier-config": "workspace:*",
@@ -89,6 +91,7 @@
     "autoprefixer": "10.4.17",
     "babel-loader": "9.1.3",
     "brotli-webpack-plugin": "1.1.0",
+    "bundle-stats": "^4.14.0",
     "compression-webpack-plugin": "11.0.0",
     "copy-webpack-plugin": "12.0.2",
     "css-loader": "7.1.1",
@@ -123,6 +126,7 @@
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "5.0.3",
     "webpack-manifest-plugin": "5.0.0",
-    "webpack-merge": "5.10.0"
+    "webpack-merge": "5.10.0",
+    "webpack-stats-plugin": "^1.1.3"
   }
 }

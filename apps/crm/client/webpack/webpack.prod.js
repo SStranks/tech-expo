@@ -8,20 +8,24 @@ import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
+import { StatsWriterPlugin } from 'webpack-stats-plugin';
+import filterWebpackStats from '@bundle-stats/plugin-webpack-filter';
 import { merge } from 'webpack-merge';
 
 import path from 'node:path';
-import url from 'node:url';
+// import url from 'node:url';
 
 import CommonConfig from './webpack.common.js';
 
-const CUR = path.dirname(url.fileURLToPath(import.meta.url));
+const CUR = './';
+// const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 
 const ProdConfig = {
   mode: 'production',
   output: {
     path: path.resolve(CUR, 'dist'),
     filename: '[name].bundle.[contenthash].js',
+    chunkFilename: '[name].[chunkhash].js',
     assetModuleFilename: 'assets/[ext]/[name].[hash][ext]',
     clean: true,
   },
@@ -116,7 +120,7 @@ const ProdConfig = {
       cacheGroups: {
         vendor: {
           test: /[/\\]node_modules[/\\](react|react-dom)[/\\]/,
-          name: 'vendors',
+          name: 'react',
           chunks: 'all',
         },
       },
@@ -198,6 +202,18 @@ const ProdConfig = {
     }),
     new Dotenv({ path: path.resolve(CUR, './.env.prod') }),
     new WebpackManifestPlugin({}),
+    new StatsWriterPlugin({
+      filename: '../webpack/build-stats.json',
+      stats: {
+        assets: true,
+        chunks: true,
+        modules: true,
+      },
+      transform: (webpackStats) => {
+        const filteredSource = filterWebpackStats.default(webpackStats);
+        return JSON.stringify(filteredSource);
+      },
+    }),
   ],
 };
 
