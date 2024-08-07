@@ -1,16 +1,19 @@
+// @ts-check
+import 'webpack-dev-server';
 import CopyPlugin from 'copy-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
-
 import { merge } from 'webpack-merge';
+
+import CommonConfig from './webpack.common.js';
 import path from 'node:path';
 // import url from 'node:url';
-import CommonConfig from './webpack.common.js';
 
 const CUR = './';
 // const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 
+/** @type { import('webpack').Configuration } */
 const DevConfig = {
   mode: 'development',
   output: {
@@ -97,7 +100,7 @@ const DevConfig = {
     minimizer: [
       new ImageMinimizerPlugin({
         test: /\.(jpe?g|png|gif|svg)$/i,
-        exclude: [/favicon/i],
+        exclude: /favicon/i,
         generator: [
           {
             type: 'asset',

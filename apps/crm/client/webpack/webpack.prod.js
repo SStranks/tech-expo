@@ -1,3 +1,4 @@
+// @ts-check
 /* eslint-disable unicorn/numeric-separators-style */
 import BrotliPlugin from 'brotli-webpack-plugin';
 import CompressionPlugin from 'compression-webpack-plugin';
@@ -20,6 +21,7 @@ import CommonConfig from './webpack.common.js';
 const CUR = './';
 // const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 
+/** @type { import('webpack').Configuration } */
 const ProdConfig = {
   mode: 'production',
   output: {
@@ -83,7 +85,7 @@ const ProdConfig = {
             loader: 'css-loader',
             options: {
               url: {
-                filter: (assetUrl) => {
+                filter: (/** @type {string} */ assetUrl) => {
                   if (assetUrl.startsWith('/public')) return false;
                   return true;
                 },
@@ -130,7 +132,7 @@ const ProdConfig = {
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
         test: /\.(jpe?g|png|gif|svg)$/i,
-        exclude: [/favicon/i, /image-hero/i],
+        exclude: /(favicon|image-hero)/i,
         minimizer: {
           implementation: ImageMinimizerPlugin.imageminMinify,
           options: {
@@ -209,7 +211,7 @@ const ProdConfig = {
         chunks: true,
         modules: true,
       },
-      transform: (webpackStats) => {
+      transform: (/** @type {import('webpack').StatsCompilation} */ webpackStats) => {
         const filteredSource = filterWebpackStats.default(webpackStats);
         return JSON.stringify(filteredSource);
       },
