@@ -48,6 +48,8 @@ export const EslintConfig = {
     'prettier/prettier': ['error'],
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/no-use-before-define': 'error',
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-require-imports': 'error',
     'unicorn/prefer-module': 'off',
     'unicorn/expiring-todo-comments': 'off',
     'unicorn/prevent-abbreviations': 'off',
