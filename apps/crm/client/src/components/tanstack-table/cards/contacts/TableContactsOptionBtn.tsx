@@ -2,8 +2,8 @@ import type { CoreRow } from '@tanstack/react-table';
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from 'react-aria-components';
 import { useNavigate } from 'react-router-dom';
 import { IconDelete, IconEye, IconMenuDots } from '#Components/svg';
-import styles from './_TableContactsOptionBtn.module.scss';
 import { ITableDataContacts } from '#Data/MockData';
+import styles from './_TableContactsOptionBtn.module.scss';
 
 interface IProps {
   rowOriginal: CoreRow<ITableDataContacts>['original'];
