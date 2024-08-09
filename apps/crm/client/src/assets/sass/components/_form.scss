@@ -13,11 +13,7 @@
 /* -------------------------------- */
 
 /*   Imports                        */
-@use '../abstracts/functions' as f;
-@use '../abstracts/colors' as c;
 @use '../abstracts/mixins' as mx;
-@use '../abstracts/variables' as v;
-@use '../base/themes' as t;
 @use '../components/buttons' as btn;
 
 $border-radius: 8px;

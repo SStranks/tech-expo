@@ -14,10 +14,7 @@
 
 /*   Imports                        */
 @use '../abstracts/animations' as anim;
-@use '../abstracts/functions' as f;
-@use '../abstracts/colors' as c;
 @use '../abstracts/mixins' as mx;
-@use '../abstracts/variables' as v;
 
 /* -------------------------------- */
 /*   Default                        */
@@ -25,7 +22,7 @@
 
 @mixin btn-root {
   // @include mx.header-subtitle using ($rem) {
-  //   padding: f.px2em-parent(15, $rem) f.px2em-parent(30, $rem);
+  //   padding: fn.px2em-parent(15, $rem) fn.px2em-parent(30, $rem);
   // }
   cursor: pointer;
   position: relative;

@@ -1,7 +1,7 @@
-@use '#Sass/abstracts/variables' as v;
+@use '#Sass/abstracts/variables' as var;
 
 .viewportLayout {
-  max-height: calc(100vh - v.$header-dim-vertical);
+  max-height: calc(100vh - var.$header-dim-vertical);
   padding: 24px;
   overflow-y: auto;
 

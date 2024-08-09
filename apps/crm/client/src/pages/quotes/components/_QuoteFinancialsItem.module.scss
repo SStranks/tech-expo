@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/colors' as c;
+@use '#Sass/abstracts/colors' as col;
 @use '#Sass/components/buttons' as btn;
 
 .quoteFinancialsItem {
@@ -7,7 +7,7 @@
   grid-template-columns: subgrid;
   height: 45px;
   align-items: center;
-  border-bottom: 1px solid c.$col-slate12-dark;
+  border-bottom: 1px solid col.$col-slate12-dark;
 
   &__gridItem {
     padding: 8px 16px;
@@ -35,6 +35,6 @@
   width: 100%;
   color: black;
   background-color: transparent;
-  border: 1px solid c.$col-slate12-dark;
+  border: 1px solid col.$col-slate12-dark;
   border-radius: 6px;
 }

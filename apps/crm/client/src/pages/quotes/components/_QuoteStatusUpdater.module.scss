@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/colors' as c;
+@use '#Sass/abstracts/colors' as col;
 
 $height: 44px;
 
@@ -42,20 +42,20 @@ $height: 44px;
 .draft {
   & > button:nth-of-type(-n + 1) {
     color: var(--thm-text-default);
-    background-color: c.$col-sky7-dark;
+    background-color: col.$col-sky7-dark;
   }
 }
 
 .sent {
   & > button:nth-of-type(-n + 2) {
-    background-color: c.$col-sky11-dark;
+    background-color: col.$col-sky11-dark;
     color: var(--thm-text-default);
   }
 }
 
 .accepted {
   & > button:nth-of-type(-n + 3) {
-    background-color: c.$col-lime11-dark;
+    background-color: col.$col-lime11-dark;
     color: var(--thm-text-default);
   }
 }

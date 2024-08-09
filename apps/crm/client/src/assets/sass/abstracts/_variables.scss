@@ -18,7 +18,7 @@
 ////
 
 /*   Imports                        */
-@use 'functions' as f;
+@use 'functions' as fn;
 
 /* -------------------------------- */
 /*   Margin & Padding               */
@@ -26,7 +26,7 @@
 
 /// Horizontal padding for desktop sized screens
 /// @type Number (em)
-$padding-desktop-horizontal: f.px2em(165);
+$padding-desktop-horizontal: fn.px2em(165);
 
 /* -------------------------------- */
 /*   Borders                        */

@@ -20,9 +20,8 @@
 /*   Imports                        */
 @use 'sass:math';
 @use 'animations' as anim;
-@use 'colors' as c;
-@use 'functions' as f;
-@use 'variables' as v;
+@use 'functions' as fn;
+@use 'variables' as var;
 @use '../base/themes' as thm;
 
 /* -------------------------------- */
@@ -127,7 +126,7 @@
 
 /// UI Border styling including transition
 @mixin ui-border($border-property) {
-  #{$border-property}: v.$border-ui;
+  #{$border-property}: var.$border-ui;
   border-color: var(--thm-border-ui);
 }
 
@@ -146,8 +145,8 @@
 }
 
 @mixin header-button-svg {
-  min-width: v.$svg-dim-width;
-  height: v.$svg-dim-height;
+  min-width: var.$svg-dim-width;
+  height: var.$svg-dim-height;
   transition: anim.$theme-transition-color;
 
   & > path {
@@ -163,11 +162,11 @@
 /// @require px2rem Pixel to REM converter <>
 /// @link https://sass-lang.com/documentation/at-rules/mixin/#passing-arguments-to-content-blocks Sass: Mixins; Passing arguments to content blocks
 @mixin header-h1 {
-  $rem: f.px2rem(56);
+  $rem: fn.px2rem(56);
   font-size: $rem;
   font-weight: 700;
-  line-height: f.px2rem(58);
-  letter-spacing: f.px2rem(2);
+  line-height: fn.px2rem(58);
+  letter-spacing: fn.px2rem(2);
   text-transform: uppercase;
   @content ($rem);
 }
@@ -180,10 +179,10 @@
 /// @require px2rem Pixel to REM converter <>
 /// @link https://sass-lang.com/documentation/at-rules/mixin/#passing-arguments-to-content-blocks Sass: Mixins; Passing arguments to content blocks
 @mixin body-regular {
-  $rem: f.px2rem(15);
+  $rem: fn.px2rem(15);
   font-size: $rem;
   font-weight: 500;
-  line-height: f.px2rem(25);
+  line-height: fn.px2rem(25);
   @content ($rem);
 }
 
@@ -228,9 +227,9 @@
 /// Input text styling
 @mixin input-text {
   font-weight: 700;
-  font-size: f.px2rem(14);
-  line-height: f.px2rem(20);
-  letter-spacing: f.px2rem(-0.25);
+  font-size: fn.px2rem(14);
+  line-height: fn.px2rem(20);
+  letter-spacing: fn.px2rem(-0.25);
 }
 
 /* -------------------------------- */

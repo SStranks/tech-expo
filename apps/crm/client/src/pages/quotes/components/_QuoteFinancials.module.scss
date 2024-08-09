@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/colors' as c;
+@use '#Sass/abstracts/colors' as col;
 
 $row-padding: 12px 16px;
 
@@ -9,7 +9,7 @@ $row-padding: 12px 16px;
     'header header header header header header'
     'service service service service service service'
     'addService . . . . .' / 25% 20% 10% 15% 25% 5%;
-  border: 1px solid c.$col-slate12-dark;
+  border: 1px solid col.$col-slate12-dark;
   border-radius: 8px;
   overflow: hidden;
 
@@ -26,7 +26,7 @@ $row-padding: 12px 16px;
     }
 
     & > * {
-      border-right: 2px solid c.$col-slate12-dark;
+      border-right: 2px solid col.$col-slate12-dark;
     }
   }
 

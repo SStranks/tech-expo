@@ -1,6 +1,6 @@
 @use '#Sass/abstracts/animations' as anim;
 @use '#Sass/abstracts/mixins' as mx;
-@use '#Sass/abstracts/variables' as v;
+@use '#Sass/abstracts/variables' as var;
 
 .layout {
   @include mx.scrollbar-base;
@@ -9,13 +9,13 @@
   overflow-x: hidden;
 
   &__header {
-    height: v.$header-dim-vertical;
+    height: var.$header-dim-vertical;
   }
 
   &__contents {
     display: grid;
     grid-template-columns: min-content 1fr;
-    height: calc(100vh - v.$header-dim-vertical);
+    height: calc(100vh - var.$header-dim-vertical);
   }
 
   &__main {

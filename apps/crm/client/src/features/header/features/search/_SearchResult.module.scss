@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/variables' as v;
+@use '#Sass/abstracts/variables' as var;
 
 .searchResult {
   display: flex;
@@ -13,8 +13,8 @@
   }
 
   &__svg {
-    width: v.$svg-dim-width;
-    height: v.$svg-dim-height;
+    width: var.$svg-dim-width;
+    height: var.$svg-dim-height;
     color: var(--thm-icon-default);
   }
 }

@@ -1,13 +1,13 @@
 @use '#Sass/abstracts/animations' as anim;
 @use '#Sass/abstracts/mixins' as mx;
-@use '#Sass/abstracts/variables' as v;
+@use '#Sass/abstracts/variables' as var;
 
 .aside {
   @include mx.ui-border(border-right);
   position: relative;
-  width: v.$aside-dim-width-maximized;
+  width: var.$aside-dim-width-maximized;
   height: 100%;
-  padding: v.$aside-padding-maximized;
+  padding: var.$aside-padding-maximized;
   background: var(--thm-background-default);
   border-right: 1px solid var(--thm-border-secondary);
   transition:
@@ -52,8 +52,8 @@
 
   &--minimize {
     position: relative;
-    width: v.$aside-dim-width-minimized;
-    padding: v.$aside-padding-minimized;
+    width: var.$aside-dim-width-minimized;
+    padding: var.$aside-padding-minimized;
     transition:
       anim.$theme-transition-background,
       anim.$theme-transition-border-color,

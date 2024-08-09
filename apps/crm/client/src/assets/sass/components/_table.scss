@@ -13,11 +13,8 @@
 /* -------------------------------- */
 
 /*   Imports                        */
-@use '../abstracts/functions' as f;
-@use '../abstracts/colors' as c;
+@use '../abstracts/colors' as col;
 @use '../abstracts/mixins' as mx;
-@use '../abstracts/variables' as v;
-@use '../base/themes' as t;
 @use '../components/buttons' as btn;
 
 /* -------------------------------- */
@@ -27,25 +24,25 @@
 // TODO:  Determine palette for light mode, then add both into _themes.scss
 // TODO:  Same colors are used in QuoteStatusUpdater; extract and consolidate
 @mixin table-row-icon-green {
-  color: c.$col-lime11-dark;
-  background-color: c.$col-lime8-dark;
-  border-color: c.$col-lime11-dark;
+  color: col.$col-lime11-dark;
+  background-color: col.$col-lime8-dark;
+  border-color: col.$col-lime11-dark;
 }
 
 @mixin table-row-icon-red {
-  color: c.$col-red11-dark;
-  background-color: c.$col-ruby7-dark;
-  border-color: c.$col-red11-dark;
+  color: col.$col-red11-dark;
+  background-color: col.$col-ruby7-dark;
+  border-color: col.$col-red11-dark;
 }
 
 @mixin table-row-icon-blue {
-  color: c.$col-blue7-dark;
-  background-color: c.$col-sky11-dark;
-  border-color: c.$col-blue7-dark;
+  color: col.$col-blue7-dark;
+  background-color: col.$col-sky11-dark;
+  border-color: col.$col-blue7-dark;
 }
 
 @mixin table-row-icon-cyan {
-  color: c.$col-cyan11-dark;
-  background-color: c.$col-sky8-dark;
-  border-color: c.$col-cyan11-dark;
+  color: col.$col-cyan11-dark;
+  background-color: col.$col-sky8-dark;
+  border-color: col.$col-cyan11-dark;
 }

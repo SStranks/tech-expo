@@ -1,6 +1,6 @@
 @use '#Sass/abstracts/animations' as anim;
 @use '#Sass/abstracts/mixins' as mx;
-@use '#Sass/abstracts/variables' as v;
+@use '#Sass/abstracts/variables' as var;
 
 // Utilized in the React component as dynamic variable; for placement of portal relative to window
 :root {
@@ -42,7 +42,7 @@
 
 .portalContent {
   position: absolute;
-  top: calc(v.$header-dim-vertical + v.$header-modals-offset-y);
+  top: calc(var.$header-dim-vertical + var.$header-modals-offset-y);
   left: var(--notifications-menu-offset-x);
   margin-inline: auto;
   display: flex;

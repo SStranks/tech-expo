@@ -1,4 +1,4 @@
-@use '#Sass/abstracts/functions' as f;
+@use '#Sass/abstracts/functions' as fn;
 
 .tooltip {
   pointer-events: none;
@@ -13,7 +13,7 @@
     width: 100%;
     padding: 12px;
     color: white;
-    font-size: f.px2rem(15);
+    font-size: fn.px2rem(15);
     text-wrap: nowrap;
   }
 }

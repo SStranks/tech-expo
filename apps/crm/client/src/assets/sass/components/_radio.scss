@@ -13,11 +13,8 @@
 /* -------------------------------- */
 
 /*   Imports                        */
-@use '../abstracts/functions' as f;
-@use '../abstracts/colors' as c;
+@use '../abstracts/colors' as col;
 @use '../abstracts/mixins' as mx;
-@use '../abstracts/variables' as v;
-@use '../base/themes' as t;
 
 /* -------------------------------- */
 /*   Default                        */
@@ -30,10 +27,10 @@
   margin: 0;
   width: 20px;
   height: 20px;
-  border: 1px solid c.$col-1e;
+  border: 1px solid col.$col-1e;
   border-radius: 50%;
   background-color: transparent;
-  color: c.$col-1c;
+  color: col.$col-1c;
 
   &::before {
     content: '';
@@ -43,6 +40,6 @@
   }
 
   &:checked::before {
-    box-shadow: inset 1em 1em c.$col-1a;
+    box-shadow: inset 1em 1em col.$col-1a;
   }
 }

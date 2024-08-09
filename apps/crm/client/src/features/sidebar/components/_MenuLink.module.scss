@@ -1,11 +1,10 @@
 @use '#Sass/abstracts/animations' as anim;
-@use '#Sass/abstracts/colors' as c;
-@use '#Sass/abstracts/variables' as v;
+@use '#Sass/abstracts/variables' as var;
 
 // Calculations for animation when toggling sidebar min/maximize
-$icon-dim: v.$svg-dim-width;
+$icon-dim: var.$svg-dim-width;
 $menulink-padding: 10px;
-$list-item-dim-x: calc(v.$aside-dim-width-minimized - (v.$aside-padding-minimized * 2));
+$list-item-dim-x: calc(var.$aside-dim-width-minimized - (var.$aside-padding-minimized * 2));
 $list-item-centre-x: calc($list-item-dim-x / 2);
 $icon-centre-offset-from-list-item-edge: calc(($icon-dim / 2) + $menulink-padding);
 $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item-edge);
