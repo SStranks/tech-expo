@@ -14,8 +14,11 @@
   background-color: var(--thm-button-secondary-background);
   border: 1px solid var(--thm-button-secondary-border);
   border-radius: 6px;
-  transition-property: transform, background-color, color, border-color;
-  transition-duration: 150ms, 1s, 1s, 1s;
+  transition:
+    transform 150ms,
+    background-color 1s,
+    color 1s,
+    border-color 1s;
 
   &:hover {
     background-color: var(--thm-button-secondary-hover);

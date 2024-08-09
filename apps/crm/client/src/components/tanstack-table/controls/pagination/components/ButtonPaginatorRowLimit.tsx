@@ -1,7 +1,15 @@
 import type { Updater } from '@tanstack/react-table';
-import { Button, Key, Label, ListBox, ListBoxItem, Popover, Select, SelectValue } from 'react-aria-components';
+import { useContext } from 'react';
+import { Button, Key, Label, ListBox, ListBoxItem, Popover, Select, SelectStateContext } from 'react-aria-components';
 import { IconList } from '#Components/svg';
 import styles from './_ButtonPaginatorRowLimit.module.scss';
+
+// NOTE:  Without manually using context; <SelectValue /> needs to sit inside <Button /> or <Label />
+function SelectValueWrapper(): JSX.Element {
+  const selectValue = useContext(SelectStateContext);
+  const value = selectValue?.selectedItem?.textValue;
+  return <span className={styles.selectValue}>{value}</span>;
+}
 
 const PAGE_SIZES = [10, 20, 50, 100];
 
@@ -22,7 +30,7 @@ function ButtonPaginatorRowLimit(props: IProps): JSX.Element {
       <Button className={styles.button}>
         <IconList svgClass={styles.button__svg} />
       </Button>
-      <SelectValue className={styles.selectValue} />
+      <SelectValueWrapper />
       <Popover className={styles.popover}>
         <ListBox>
           {PAGE_SIZES.map((number: number) => (
