@@ -1,6 +1,5 @@
 // @ts-check
 /* eslint-disable unicorn/numeric-separators-style */
-import BrotliPlugin from 'brotli-webpack-plugin';
 import CompressionPlugin from 'compression-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
@@ -10,10 +9,12 @@ import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { StatsWriterPlugin } from 'webpack-stats-plugin';
-import filterWebpackStats from '@bundle-stats/plugin-webpack-filter';
+// import filterWebpackStats from '@bundle-stats/plugin-webpack-filter';
+import filterWebpackStats2 from './filterWebpackStats.cjs';
 import { merge } from 'webpack-merge';
 
 import path from 'node:path';
+import zlib from 'node:zlib';
 // import url from 'node:url';
 
 import CommonConfig from './webpack.common.js';
@@ -131,29 +132,57 @@ const ProdConfig = {
       '...',
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        exclude: /(favicon|image-hero)/i,
+        test: /\.(jpeg|jpg|webp|avif|png|gif)$/i,
+        exclude: /(favicon)/i,
         minimizer: {
-          implementation: ImageMinimizerPlugin.imageminMinify,
+          implementation: ImageMinimizerPlugin.sharpMinify,
           options: {
-            plugins: [
-              ['gifsicle', { interlaced: true, optimizationLevel: 3 }],
-              ['mozjpeg', { quality: 100 }],
-              ['pngquant'],
-              ['svgo'],
-            ],
-          },
-        },
-        generator: [
-          {
-            type: 'asset',
-            implementation: ImageMinimizerPlugin.imageminGenerate,
-            options: {
-              plugins: ['imagemin-webp'],
+            encodeOptions: {
+              jpeg: { quality: 100 },
+              webp: { lossless: true },
+              avif: { lossless: true },
+              png: { compressionLevel: 8 },
+              gif: { progressive: true },
             },
           },
-        ],
+        },
       }),
+      new ImageMinimizerPlugin({
+        test: /\.(svg)$/i,
+        minimizer: {
+          implementation: ImageMinimizerPlugin.svgoMinify,
+          options: {
+            encodeOptions: {
+              multiplass: true,
+              plugins: ['preset-default'],
+            },
+          },
+        },
+      }),
+      // new ImageMinimizerPlugin({
+      //   test: /\.(jpe?g|png|gif|svg)$/i,
+      //   exclude: /(favicon|image-hero)/i,
+      //   minimizer: {
+      //     implementation: ImageMinimizerPlugin.imageminMinify,
+      //     options: {
+      //       plugins: [
+      //         ['gifsicle', { interlaced: true, optimizationLevel: 3 }],
+      //         ['mozjpeg', { quality: 100 }],
+      //         ['pngquant'],
+      //         ['svgo'],
+      //       ],
+      //     },
+      //   },
+      //   generator: [
+      //     {
+      //       type: 'asset',
+      //       implementation: ImageMinimizerPlugin.imageminGenerate,
+      //       options: {
+      //         plugins: ['imagemin-webp'],
+      //       },
+      //     },
+      //   ],
+      // }),
     ],
   },
   plugins: [
@@ -175,13 +204,17 @@ const ProdConfig = {
     new CompressionPlugin({
       filename: '[path][base].gz',
       algorithm: 'gzip',
-      test: /\.js$|\.css$|\.html$/,
+      test: /\.(js|css|html|svg)$/,
       threshold: 10240,
       minRatio: 0.7,
     }),
-    new BrotliPlugin({
-      asset: '[path].br[query]',
-      test: /\.js$|\.css$|\.html$/,
+    new CompressionPlugin({
+      filename: '[path][base].br',
+      algorithm: 'brotliCompress',
+      test: /\.(js|css|html|svg)$/,
+      compressionOptions: {
+        [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+      },
       threshold: 10240,
       minRatio: 0.7,
     }),
@@ -212,7 +245,9 @@ const ProdConfig = {
         modules: true,
       },
       transform: (/** @type {import('webpack').StatsCompilation} */ webpackStats) => {
-        const filteredSource = filterWebpackStats.default(webpackStats);
+        // const filteredSource = filterWebpackStats.default(webpackStats, {});
+        // @ts-expect-error No type file
+        const filteredSource = filterWebpackStats2.default(webpackStats, {});
         return JSON.stringify(filteredSource);
       },
     }),

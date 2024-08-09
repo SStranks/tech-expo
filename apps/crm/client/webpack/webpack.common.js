@@ -44,7 +44,7 @@ const CommonConfig = {
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif|avif)$/i,
-        type: 'asset',
+        type: 'asset/resource',
       },
       {
         test: /\.m?js/,
