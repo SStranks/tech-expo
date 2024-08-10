@@ -1,5 +1,6 @@
 @use '#Sass/abstracts/animations' as anim;
 @use '#Sass/abstracts/mixins' as mx;
+@use '#Sass/abstracts/ux' as ux;
 @use '#Sass/abstracts/variables' as var;
 @use '#Sass/components/aria-react' as aria;
 
@@ -20,9 +21,12 @@
   border: 1px solid var(--thm-button-secondary-border);
   border-radius: 6px;
 
+  &:hover {
+    @include ux.input-ux-primary-hover;
+  }
+
   &:has(.searchForm__input:focus) {
-    border: 1px solid var(--thm-border-info);
-    box-shadow: 0 0 5px 1px var(--thm-border-info);
+    @include ux.input-ux-primary-focus;
   }
 
   &__svg {

@@ -1,0 +1,36 @@
+/* -------------------------------- */
+/*              ~ UX ~              */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+////
+/// --- SASSDOC
+/// @group UX
+////
+
+/*   Imports                        */
+
+/* -------------------------------- */
+/*   Inputs                         */
+/* -------------------------------- */
+
+/// Input UX; Primary - Hover
+@mixin input-ux-primary-hover {
+  transition-duration: 0.1ms;
+  border-color: var(--thm-border-info);
+}
+
+/// Input UX; Primary - Focus
+@mixin input-ux-primary-focus {
+  border: 1px solid var(--thm-border-info);
+  box-shadow: 0 0 5px 1px var(--thm-border-info);
+}

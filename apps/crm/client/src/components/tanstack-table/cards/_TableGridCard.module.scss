@@ -1,5 +1,7 @@
 @use '#Sass/abstracts/animations' as anim;
 
+$grid-card-height: 240px;
+
 // NOTE:  --thm-background-card from on-screen render using below - transparency/background is factored in.
 // background-color: hsl(from var(--thm-background-overlay) h s l / 35%);
 
@@ -9,6 +11,7 @@
   grid-template-columns: 1fr;
   grid-template-rows: repeat(2, auto);
   max-width: 400px;
+  height: $grid-card-height;
   background-color: var(--thm-background-card);
   border: 1px solid var(--thm-border-secondary);
   border-radius: 4px;

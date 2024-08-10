@@ -1,4 +1,5 @@
 @use '#Sass/abstracts/animations' as anim;
+@use '#Sass/abstracts/ux' as ux;
 @use '#Sass/components/aria-react' as aria;
 
 .searchField {
@@ -12,13 +13,11 @@
   transition: anim.$theme-transition-border-color;
 
   &:hover {
-    transition-duration: 0.1ms;
-    border-color: var(--thm-border-info);
+    @include ux.input-ux-primary-hover;
   }
 
   &:has(.input:focus) {
-    border: 1px solid var(--thm-border-info);
-    box-shadow: 0 0 5px 1px var(--thm-border-info);
+    @include ux.input-ux-primary-focus;
   }
 }
 

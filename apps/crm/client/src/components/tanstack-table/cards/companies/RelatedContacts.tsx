@@ -1,4 +1,5 @@
 import type { ITableDataCompanies } from '#Data/MockData';
+import UserCircle from '#Components/general/UserCircle';
 import userImage from '#Img/image-35.jpg';
 import styles from './_RelatedContacts.module.scss';
 
@@ -11,9 +12,7 @@ import styles from './_RelatedContacts.module.scss';
 const USER_IMAGE = userImage;
 
 const CIRCLE_USER_IMAGES = (relatedContacts: ITableDataCompanies['relatedContacts']) => {
-  return relatedContacts
-    .slice(0, 3)
-    .map((contact, i) => <img key={i} src={USER_IMAGE} alt={contact} className={styles.displayImage} />);
+  return relatedContacts.slice(0, 3).map((contact, i) => <UserCircle key={i} alt={contact} userImage={USER_IMAGE} />);
 };
 
 const CIRCLE_EXTRA_USERS = (relatedContacts: ITableDataCompanies['relatedContacts']) => {
