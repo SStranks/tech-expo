@@ -1,6 +1,7 @@
 export { default as ColumnAuditLog } from './ColumnAuditLog';
 export { default as ColumnAuditLogDetails } from './ColumnAuditLogDetails';
 export { default as ColumnCompanies } from './ColumnCompanies';
+export { default as ColumnCompaniesContacts } from './ColumnCompaniesContacts';
 export { default as ColumnCompaniesDelete } from './ColumnCompaniesDelete';
 export { default as ColumnContacts } from './ColumnContacts';
 export { default as ColumnContactsDelete } from './ColumnContactsDelete';

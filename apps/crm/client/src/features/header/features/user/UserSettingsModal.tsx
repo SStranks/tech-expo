@@ -1,13 +1,12 @@
 import { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ReactPortal } from '#Components/index';
+import { EditableRow, UserRole } from '#Components/general';
 import { IconClose, IconEmail, IconPhone, IconSmartphone, IconTimezone, IconUserTitle } from '#Components/svg';
-import UserRole from '#Components/general/UserRole';
 import { UserData } from '#Data/MockData';
 import usePortalClose from '#Hooks/usePortalClose';
 import CompanyLogo from '#Img/CompanyLogo.png';
 import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
-import SettingsItem from './SettingsItem';
 import styles from './_UserSettingsModal.module.scss';
 
 interface IProps {
@@ -63,11 +62,11 @@ function UserSettingsModal(props: IProps): JSX.Element {
                 <img src="" alt="" />
                 <span>{userName} Profile</span>
               </div>
-              <SettingsItem IconSvg={IconUserTitle} title="Organisation Role" description={UserData.role} />
-              <SettingsItem IconSvg={IconPhone} title="Office Phone" description={UserData.phone} />
-              <SettingsItem IconSvg={IconSmartphone} title="Mobile Phone" description={UserData.mobile} />
-              <SettingsItem IconSvg={IconEmail} title="Email" description={UserData.email} />
-              <SettingsItem IconSvg={IconTimezone} title="Time Zone" description={UserData.timezone} />
+              <EditableRow IconSvg={IconUserTitle} title="Organisation Role" description={UserData.role} />
+              <EditableRow IconSvg={IconPhone} title="Office Phone" description={UserData.phone} />
+              <EditableRow IconSvg={IconSmartphone} title="Mobile Phone" description={UserData.mobile} />
+              <EditableRow IconSvg={IconEmail} title="Email" description={UserData.email} />
+              <EditableRow IconSvg={IconTimezone} title="Time Zone" description={UserData.timezone} />
             </div>
           </div>
         </div>

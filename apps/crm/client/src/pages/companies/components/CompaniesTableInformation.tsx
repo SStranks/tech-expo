@@ -1,5 +1,6 @@
 import { TableSingleColumn } from '#Components/general';
-import { IconCompanies, IconEdit } from '#Components/svg';
+import { EditableRow } from '#Components/general';
+import { IconCompanies } from '#Components/svg';
 import styles from './_CompaniesTableInformation.module.scss';
 
 interface ICompanyInfo {
@@ -28,74 +29,32 @@ function CompaniesTableInformation(props: IProps): JSX.Element {
       </TableSingleColumn.Header>
       <TableSingleColumn.Row>
         <div className={styles.row}>
-          <IconCompanies svgClass={styles.row__svg} />
-          <div className={styles.row__details}>
-            <span>Company Size</span>
-            <span className={styles.row__details__value}>{companyInfo.size}</span>
-          </div>
-          <button className={styles.row__editBtn}>
-            <IconEdit svgClass={styles.row__editBtn__svg} />
-          </button>
+          <EditableRow IconSvg={IconCompanies} title="Company Size" description={companyInfo.size} />
         </div>
       </TableSingleColumn.Row>
       <TableSingleColumn.Row>
         <div className={styles.row}>
-          <IconCompanies svgClass={styles.row__svg} />
-          <div className={styles.row__details}>
-            <span>Company Revenue</span>
-            <span className={styles.row__details__value}>{companyInfo.revenue}</span>
-          </div>
-          <button className={styles.row__editBtn}>
-            <IconEdit svgClass={styles.row__editBtn__svg} />
-          </button>
+          <EditableRow IconSvg={IconCompanies} title="Company Revenue" description={companyInfo.revenue} />
         </div>
       </TableSingleColumn.Row>
       <TableSingleColumn.Row>
         <div className={styles.row}>
-          <IconCompanies svgClass={styles.row__svg} />
-          <div className={styles.row__details}>
-            <span>Company Industry</span>
-            <span className={styles.row__details__value}>{companyInfo.industry}</span>
-          </div>
-          <button className={styles.row__editBtn}>
-            <IconEdit svgClass={styles.row__editBtn__svg} />
-          </button>
+          <EditableRow IconSvg={IconCompanies} title="Company Industry" description={companyInfo.industry} />
         </div>
       </TableSingleColumn.Row>
       <TableSingleColumn.Row>
         <div className={styles.row}>
-          <IconCompanies svgClass={styles.row__svg} />
-          <div className={styles.row__details}>
-            <span>Company Type</span>
-            <span className={styles.row__details__value}>{companyInfo.type}</span>
-          </div>
-          <button className={styles.row__editBtn}>
-            <IconEdit svgClass={styles.row__editBtn__svg} />
-          </button>
+          <EditableRow IconSvg={IconCompanies} title="Company Type" description={companyInfo.type} />
         </div>
       </TableSingleColumn.Row>
       <TableSingleColumn.Row>
         <div className={styles.row}>
-          <IconCompanies svgClass={styles.row__svg} />
-          <div className={styles.row__details}>
-            <span>Country</span>
-            <span className={styles.row__details__value}>{companyInfo.country}</span>
-          </div>
-          <button className={styles.row__editBtn}>
-            <IconEdit svgClass={styles.row__editBtn__svg} />
-          </button>
+          <EditableRow IconSvg={IconCompanies} title="Country" description={companyInfo.country} />
         </div>
       </TableSingleColumn.Row>
       <TableSingleColumn.Row>
         <div className={styles.row}>
-          <IconCompanies svgClass={styles.row__svg} />
-          <div className={styles.row__details}>
-            <span>Website</span>
-            <span className={styles.row__details__value}>{companyInfo.website}</span>
-          </div>
-          <button className={styles.row__editBtn}>
-            <IconEdit svgClass={styles.row__editBtn__svg} />
-          </button>
+          <EditableRow IconSvg={IconCompanies} title="Website" description={companyInfo.website} />
         </div>
       </TableSingleColumn.Row>
     </TableSingleColumn>

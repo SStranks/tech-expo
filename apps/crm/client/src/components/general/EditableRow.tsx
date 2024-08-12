@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IIcon, IconEdit } from '#Components/svg';
-import styles from './_SettingsItem.module.scss';
+import styles from './_EditableRow.module.scss';
 
 interface IProps {
   IconSvg: IIcon;
@@ -8,7 +8,8 @@ interface IProps {
   description: string;
 }
 
-function SettingsItem(props: IProps): JSX.Element {
+// Consuming components: CompaniesTableInformation, UserSettingsModal
+function EditableRow(props: IProps): JSX.Element {
   const { IconSvg, title, description } = props;
   const [editSettingActive, setEditSettingActive] = useState<boolean>(false);
   const [editInputValue, setEditInputValue] = useState<string>(description);
@@ -64,4 +65,4 @@ function SettingsItem(props: IProps): JSX.Element {
   );
 }
 
-export default SettingsItem;
+export default EditableRow;

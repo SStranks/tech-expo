@@ -2,7 +2,7 @@ import type { CoreRow } from '@tanstack/react-table';
 import type { PropsWithChildren } from 'react';
 import type { ITableDataCompanies, ITableDataContacts, ITableDataQuotes } from '#Data/MockData';
 import { Link } from 'react-router-dom';
-import { IconDelete, IconEdit, IconEye, IconPhone } from '#Components/svg';
+import { IconDelete, IconEdit, IconEmail, IconEye, IconPhone } from '#Components/svg';
 import styles from './_RowActionsControl.module.scss';
 
 type TTableDataAllUnion = ITableDataContacts | ITableDataCompanies | ITableDataQuotes;
@@ -43,6 +43,14 @@ function CallControl({ entryId }: ICallControl): JSX.Element {
   );
 }
 
+function EmailControl({ entryId }: ICallControl): JSX.Element {
+  return (
+    <Link to={`read/${entryId}`} className={styles.link}>
+      <IconEmail svgClass={styles.svg} />
+    </Link>
+  );
+}
+
 function UpdateControl({ rowOriginal }: IUpdateControl): JSX.Element {
   return (
     <Link to={`update/${rowOriginal.id}`} state={rowOriginal} className={styles.link}>
@@ -62,6 +70,7 @@ function DeleteControl({ rowOriginal }: IDeleteControl): JSX.Element {
 RowActionsControl.ViewControl = ViewControl;
 RowActionsControl.UpdateControl = UpdateControl;
 RowActionsControl.CallControl = CallControl;
+RowActionsControl.EmailControl = EmailControl;
 RowActionsControl.DeleteControl = DeleteControl;
 
 export default RowActionsControl;

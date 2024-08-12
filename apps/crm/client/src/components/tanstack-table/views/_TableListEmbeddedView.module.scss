@@ -1,0 +1,132 @@
+@use '#Sass/abstracts/animations' as anim;
+@use '#Sass/abstracts/mixins' as mx;
+
+$header-row-height: 40px;
+$row-height: 40px;
+
+@mixin column-sticky {
+  position: sticky;
+  right: 0;
+  background-color: var(--thm-background-screen);
+  transition-property: background-color;
+
+  // BUG:  Transition on linear-gradient not applicable
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 100%;
+    background: linear-gradient(to left, var(--thm-background-screen), transparent);
+    transform: translateX(-10px);
+    transition-property: background;
+  }
+}
+
+.tableContainer {
+  @include mx.scrollbar-table-base;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  width: 100%;
+  height: calc($row-height * 5 + $header-row-height + mx.$scrollbar-table-dim + 2px);
+  transition-property: border-color;
+  overflow: auto;
+  z-index: 0;
+}
+
+.table {
+  position: relative;
+  border-collapse: collapse;
+}
+
+.thead {
+  cursor: grab;
+  position: sticky;
+  top: 0;
+  display: table-header-group;
+  height: $header-row-height;
+  background-color: var(--thm-background-screen);
+  color: var(--thm-text-secondary);
+  font-size: 14px;
+  font-weight: 800;
+  transition-property: color, background-color;
+  z-index: 1;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    width: 100%;
+    height: 1px;
+    background-color: var(--thm-border-default);
+    transition-property: background-color;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.th {
+  padding-inline: 16px;
+  text-align: left;
+  text-wrap: nowrap;
+
+  &:last-of-type {
+    position: sticky;
+    top: 0;
+    right: 0;
+    background-color: var(--thm-background-screen);
+    transition-property: background-color;
+  }
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__controls {
+      display: flex;
+      align-items: center;
+      column-gap: 5px;
+      margin-left: 20px;
+    }
+  }
+}
+
+.tbody {
+  color: var(--thm-text-default);
+  font-size: 14px;
+  transition-property: color;
+
+  &__tr {
+    height: $row-height;
+    max-height: $row-height;
+    transition-property: background-color;
+
+    &:nth-child(even) {
+      background-color: var(--thm-background-subtle);
+    }
+
+    & > td:last-of-type {
+      @include column-sticky;
+    }
+  }
+}
+
+.td {
+  padding-inline: 16px;
+  text-wrap: nowrap;
+}
+
+.dangerRow {
+  @include anim.danger-pulse;
+}
+
+.paginatorControls {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px 0;
+}
