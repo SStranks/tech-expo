@@ -1,6 +1,6 @@
 import type { ColumnFiltersState } from '@tanstack/react-table';
 import ListGridToggle from '#Components/buttons/list-grid-toggle/ListGridToggle';
-import { IconAddCircle } from '#Components/svg';
+import { IconCirclePlus } from '#Components/svg';
 import { GlobalFilterControl } from '../';
 import styles from './_TableControlsHeader.module.scss';
 
@@ -30,7 +30,7 @@ function TableControlsHeader(props: IProps): JSX.Element {
     <div className={styles.header}>
       <button type="button" className={styles.header__createContactBtn} onClick={createEntryBtn.onClick}>
         <span>{createEntryBtn.displayText}</span>
-        <IconAddCircle svgClass={styles.header__createContactBtn__svg} />
+        <IconCirclePlus svgClass={styles.header__createContactBtn__svg} />
       </button>
       <div className={styles.header__controls}>
         <GlobalFilterControl

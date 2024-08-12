@@ -10,6 +10,7 @@ interface IProps<T> {
   setPageIndex: (updater: Updater<number>) => void;
 }
 
+// TODO: // REFACTOR:  99% idential to TableListView; styles and paginator control different.
 function TableListEmbeddedView<T>(props: IProps<T>): JSX.Element {
   const { table, pageCount, pageIndex, setPageIndex } = props;
   const tableContainerRef = useRef<HTMLDivElement>(null);

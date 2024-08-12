@@ -19,14 +19,21 @@ $padding: 16px;
     width: $svg-dim;
     height: $svg-dim;
     color: var(--thm-text-default);
+    transition-property: color;
   }
 
   &__title {
     color: var(--thm-text-default);
     font-weight: 700;
+    transition-property: color;
   }
 
   &__total {
     color: var(--thm-text-secondary);
+    transition-property: color;
   }
+}
+
+.addEntryBtn {
+  padding: $padding;
 }

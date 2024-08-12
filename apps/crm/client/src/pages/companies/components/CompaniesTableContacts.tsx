@@ -1,8 +1,14 @@
+import { ButtonAddEntry } from '#Components/buttons';
 import { TableSingleColumn } from '#Components/general';
-import { IconCirclePlus, IconUser } from '#Components/svg';
+import { IconUser } from '#Components/svg';
 import { TableCompaniesContacts } from '#Components/tanstack-table/tables';
 import { tableDataContacts } from '#Data/MockData';
 import styles from './_CompaniesTableContacts.module.scss';
+
+// TEMP: .
+const onClick = () => {
+  console.log('Fired');
+};
 
 function CompaniesTableContacts(): JSX.Element {
   return (
@@ -22,8 +28,9 @@ function CompaniesTableContacts(): JSX.Element {
         <TableCompaniesContacts tableData={tableDataContacts} />
       </TableSingleColumn.Row>
       <TableSingleColumn.Row>
-        <IconCirclePlus svgClass="" />
-        <span>Add New Contact</span>
+        <div className={styles.addEntryBtn}>
+          <ButtonAddEntry buttonText="Add New Contact" onClick={onClick} />
+        </div>
       </TableSingleColumn.Row>
     </TableSingleColumn>
   );

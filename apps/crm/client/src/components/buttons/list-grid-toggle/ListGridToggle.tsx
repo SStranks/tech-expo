@@ -1,7 +1,7 @@
 import type { ColumnFiltersState, Updater } from '@tanstack/react-table';
 import { useState } from 'react';
 import { Label, Radio, RadioGroup } from 'react-aria-components';
-import { IconGrid, IconList } from '#Components/svg';
+import { IconGrid, IconListDownArrow } from '#Components/svg';
 import styles from './_ListGridToggle.module.scss';
 
 interface IProps {
@@ -32,7 +32,7 @@ function ListGridToggle(props: IProps): JSX.Element {
     <RadioGroup onChange={onChangeHandler} defaultValue={tableView} className={styles.radioGroup}>
       <Label></Label>
       <Radio value="list" className={styles.radio}>
-        <IconList svgClass={styles.radio__svg} />
+        <IconListDownArrow svgClass={styles.radio__svg} />
       </Radio>
       <Radio value="grid" className={styles.radio}>
         <IconGrid svgClass={styles.radio__svg} />

@@ -1,3 +1,4 @@
+export { default as ButtonAddEntry } from './ButtonAddEntry';
 export { default as ButtonCancel } from './ButtonCancel';
 export { default as ButtonClose } from './ButtonClose';
 export { default as ButtonDelete } from './ButtonDelete';

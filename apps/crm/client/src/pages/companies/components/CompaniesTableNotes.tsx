@@ -1,16 +1,19 @@
 import { TableSingleColumn } from '#Components/general';
+import { IconList } from '#Components/svg';
+import { CommentThread } from '#Features/comment';
+import styles from './_CompaniesTableQuotes.module.scss';
 
 function CompaniesTableNotes(): JSX.Element {
   return (
     <TableSingleColumn>
       <TableSingleColumn.Header>
-        <div className="">
-          {/* icon */}
-          <span>Notes</span>
+        <div className={styles.header}>
+          <IconList svgClass={styles.header__svg} />
+          <span className={styles.header__title}>Notes</span>
         </div>
       </TableSingleColumn.Header>
       <TableSingleColumn.Row>
-        <span>NOTES COMPONENTS</span>
+        <CommentThread />
       </TableSingleColumn.Row>
     </TableSingleColumn>
   );

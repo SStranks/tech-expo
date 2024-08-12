@@ -3926,3 +3926,31 @@ export const tableDataSettingsCompanyInfo: ITableSettingsCompanyInfo[] = [
     website: 'http://liandri.org',
   },
 ];
+
+// TODO:  'stage' needs to be dynamic against pipeline categories
+export interface ITableDataDeals {
+  id: string;
+  title: string;
+  amount: string;
+  stage: 'lost' | 'won' | 'under review';
+  dealContact: string;
+  dealOwner: string;
+}
+export const tableDataDeals: ITableDataDeals[] = [
+  {
+    id: '1',
+    title: 'Tasty Chips',
+    amount: '£27,000.00',
+    stage: 'won',
+    dealContact: 'Bob Woodwood',
+    dealOwner: 'Bob GoodGood',
+  },
+  {
+    id: '2',
+    title: 'Tasty Chips',
+    amount: '£27,000.00',
+    stage: 'won',
+    dealContact: 'Bob Woodwood',
+    dealOwner: 'Bob GoodGood',
+  },
+];

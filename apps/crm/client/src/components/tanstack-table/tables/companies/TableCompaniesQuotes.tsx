@@ -1,4 +1,4 @@
-import type { ITableDataContacts } from '#Data/MockData';
+import type { ITableDataQuotes } from '#Data/MockData';
 import { useState } from 'react';
 import {
   ColumnFiltersState,
@@ -7,22 +7,22 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ColumnCompaniesContacts } from '../../columns';
+import { ColumnCompaniesQuotes } from '../../columns';
 import { TableListEmbeddedView } from '#Components/tanstack-table/views';
 
 interface IProps {
-  tableData: ITableDataContacts[];
+  tableData: ITableDataQuotes[];
 }
 
-function TableCompaniesContacts(props: IProps): JSX.Element {
+function TableCompaniesQuotes(props: IProps): JSX.Element {
   const { tableData } = props;
-  const [data] = useState<ITableDataContacts[]>(tableData);
+  const [data] = useState<ITableDataQuotes[]>(tableData);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
     data,
-    columns: ColumnCompaniesContacts,
+    columns: ColumnCompaniesQuotes,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -47,4 +47,4 @@ function TableCompaniesContacts(props: IProps): JSX.Element {
   );
 }
 
-export default TableCompaniesContacts;
+export default TableCompaniesQuotes;

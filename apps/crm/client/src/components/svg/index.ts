@@ -4,7 +4,6 @@ export interface IProps {
 }
 export type IIcon = ({ svgClass }: IProps) => JSX.Element;
 
-export { default as IconAddCircle } from './IconAddCircle';
 export { default as IconAdministration } from './IconAdministration';
 export { default as IconAudit } from './IconAudit';
 export { default as IconArrowDownAlt } from './IconArrowDownAlt';
@@ -38,6 +37,7 @@ export { default as IconGlobal } from './IconGlobal';
 export { default as IconGrid } from './IconGrid';
 export { default as IconKanban } from './IconKanban';
 export { default as IconList } from './IconList';
+export { default as IconListDownArrow } from './IconListDownArrow';
 export { default as IconLogout } from './IconLogout';
 export { default as IconMagniferZoomIn } from './IconMagniferZoomIn';
 export { default as IconMenuDots } from './IconMenuDots';

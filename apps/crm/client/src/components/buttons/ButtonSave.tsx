@@ -2,11 +2,12 @@ import styles from './_Buttons.module.scss';
 
 interface IProps {
   disabled?: boolean;
+  onClick: () => void;
 }
 
-function ButtonSave({ disabled }: IProps): JSX.Element {
+function ButtonSave({ disabled, onClick }: IProps): JSX.Element {
   return (
-    <button type="submit" disabled={disabled} className={styles.saveBtn}>
+    <button type="submit" onClick={onClick} disabled={disabled} className={styles.saveBtn}>
       Save
     </button>
   );
