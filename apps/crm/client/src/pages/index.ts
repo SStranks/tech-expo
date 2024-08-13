@@ -18,3 +18,5 @@ export { default as PageContactsCreate } from './contacts/ContactsCreatePage';
 export { default as PageContactsDelete } from './contacts/ContactsDeletePage';
 export { default as PageContactsRead } from './contacts/ContactsReadPage';
 export { default as PageSettings } from './settings/SettingsPage';
+export { default as PageKanban } from './kanban/KanbanPage';
+export { default as PagePipline } from './pipeline/PipelinePage';

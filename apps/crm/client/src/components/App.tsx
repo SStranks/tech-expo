@@ -24,6 +24,8 @@ import {
   PageContactsDelete,
   PageCompaniesRead,
   PageContactsRead,
+  PageKanban,
+  PagePipline,
 } from '#Pages/index';
 import {
   RouteDashboard,
@@ -54,8 +56,18 @@ function App(): JSX.Element {
           <Route index element={<RouteDashboard />} />
           <Route path="calendar" element={<RouteCalendar />} />
           <Route path="scrumboard" element={<RouteScrumboard />} />
-          <Route path="kanban" element={<RouteKanban />} />
-          <Route path="pipeline" element={<RoutePipeline />} />
+          <Route path="kanban" element={<RouteKanban />}>
+            <Route path="" element={<PageKanban />}>
+              {/* <Route path="create" element={<PageCompaniesCreate />} />
+              <Route path="delete/:id" element={<PageCompaniesDelete />} /> */}
+            </Route>
+          </Route>
+          <Route path="pipeline" element={<RoutePipeline />}>
+            <Route path="" element={<PagePipline />}>
+              {/* <Route path="create" element={<PageCompaniesCreate />} />
+              <Route path="delete/:id" element={<PageCompaniesDelete />} /> */}
+            </Route>
+          </Route>
           <Route path="companies" element={<RouteCompanies />}>
             <Route path="" element={<PageCompanies />}>
               <Route path="create" element={<PageCompaniesCreate />} />

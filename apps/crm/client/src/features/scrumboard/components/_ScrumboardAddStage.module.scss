@@ -1,0 +1,16 @@
+.addStage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  padding: 12px;
+  border: 1px dashed var(--thm-border-default);
+  border-radius: 4px;
+  color: var(--thm-text-default);
+  text-wrap: nowrap;
+
+  &:hover {
+    background-color: var(--thm-background-info);
+  }
+}
