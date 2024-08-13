@@ -57,6 +57,7 @@ export interface ITableDataContacts {
   companyLogo: string;
   title: string;
   status: 'new' | 'contacted' | 'interested' | 'qualified' | 'unqualified' | 'negotiation' | 'lost' | 'won' | 'churned';
+  phone: string;
 }
 export const tableDataContacts: ITableDataContacts[] = [
   {
@@ -68,6 +69,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Graphic Designer',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '2',
@@ -78,6 +80,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Research Associate',
     status: 'contacted',
+    phone: '08001239999',
   },
   {
     id: '3',
@@ -88,6 +91,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Data Coordinator',
     status: 'interested',
+    phone: '08001239999',
   },
   {
     id: '4',
@@ -98,6 +102,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Human Resources Assistant II',
     status: 'unqualified',
+    phone: '08001239999',
   },
   {
     id: '5',
@@ -108,6 +113,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Pharmacist',
     status: 'qualified',
+    phone: '08001239999',
   },
   {
     id: '6',
@@ -118,6 +124,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Media Manager IV',
     status: 'negotiation',
+    phone: '08001239999',
   },
   {
     id: '7',
@@ -128,6 +135,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Junior Executive',
     status: 'lost',
+    phone: '08001239999',
   },
   {
     id: '8',
@@ -138,6 +146,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Computer Systems Analyst II',
     status: 'won',
+    phone: '08001239999',
   },
   {
     id: '9',
@@ -148,6 +157,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Office Assistant IV',
     status: 'churned',
+    phone: '08001239999',
   },
   {
     id: '10',
@@ -158,6 +168,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Quality Control Specialist',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '11',
@@ -168,6 +179,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Financial Advisor',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '12',
@@ -178,6 +190,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Tax Accountant',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '13',
@@ -188,6 +201,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Recruiter',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '14',
@@ -198,6 +212,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Account Executive',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '15',
@@ -208,6 +223,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Physical Therapy Assistant',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '16',
@@ -218,6 +234,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Pharmacist',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '17',
@@ -228,6 +245,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Actuary',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '18',
@@ -238,6 +256,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Marketing Assistant',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '19',
@@ -248,6 +267,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Assistant Media Planner',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '20',
@@ -258,6 +278,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Desktop Support Technician',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '21',
@@ -268,6 +289,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Senior Financial Analyst',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '22',
@@ -278,6 +300,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Analyst Programmer',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '23',
@@ -288,6 +311,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Teacher',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '24',
@@ -298,6 +322,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Safety Technician II',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '25',
@@ -308,6 +333,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Environmental Tech',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '26',
@@ -318,6 +344,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'VP Quality Control',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '27',
@@ -328,6 +355,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Executive Secretary',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '28',
@@ -338,6 +366,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Assistant Professor',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '29',
@@ -348,6 +377,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Tax Accountant',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '30',
@@ -358,6 +388,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'VP Marketing',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '31',
@@ -368,6 +399,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Financial Advisor',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '32',
@@ -378,6 +410,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Senior Developer',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '33',
@@ -388,6 +421,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Accountant II',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '34',
@@ -398,6 +432,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Health Coach IV',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '35',
@@ -408,6 +443,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Clinical Specialist',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '36',
@@ -418,6 +454,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Marketing Manager',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '37',
@@ -428,6 +465,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Librarian',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '38',
@@ -438,6 +476,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Social Worker',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '39',
@@ -448,6 +487,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Community Outreach Specialist',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '40',
@@ -458,6 +498,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'VP Accounting',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '41',
@@ -468,6 +509,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Database Administrator II',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '42',
@@ -478,6 +520,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Data Coordinator',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '43',
@@ -488,6 +531,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Research Associate',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '44',
@@ -498,6 +542,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Senior Financial Analyst',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '45',
@@ -508,6 +553,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'General Manager',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '46',
@@ -518,6 +564,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Information Systems Manager',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '47',
@@ -528,6 +575,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Programmer I',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '48',
@@ -538,6 +586,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Actuary',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '49',
@@ -548,6 +597,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Teacher',
     status: 'new',
+    phone: '08001239999',
   },
 
   {
@@ -559,6 +609,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'General Manager',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '51',
@@ -569,6 +620,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Physical Therapy Assistant',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '52',
@@ -579,6 +631,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Geologist IV',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '53',
@@ -589,6 +642,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Human Resources Manager',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '54',
@@ -599,6 +653,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Statistician I',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '55',
@@ -609,6 +664,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Recruiter',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '56',
@@ -619,6 +675,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Data Coordinator',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '57',
@@ -629,6 +686,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Health Coach III',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '58',
@@ -639,6 +697,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Accountant III',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '59',
@@ -649,6 +708,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Human Resources Assistant I',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '60',
@@ -659,6 +719,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Administrative Assistant IV',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '61',
@@ -669,6 +730,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Clinical Specialist',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '62',
@@ -679,6 +741,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Operator',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '63',
@@ -689,6 +752,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'VP Product Management',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '64',
@@ -699,6 +763,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'General Manager',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '65',
@@ -709,6 +774,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Professor',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '66',
@@ -719,6 +785,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Engineer I',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '67',
@@ -729,6 +796,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Marketing Assistant',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '68',
@@ -739,6 +807,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Research Assistant II',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '69',
@@ -749,6 +818,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Financial Advisor',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '70',
@@ -759,6 +829,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Programmer Analyst I',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '71',
@@ -769,6 +840,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Accountant IV',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '72',
@@ -779,6 +851,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Recruiter',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '73',
@@ -789,6 +862,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Librarian',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '74',
@@ -799,6 +873,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Safety Technician I',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '75',
@@ -809,6 +884,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Desktop Support Technician',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '76',
@@ -819,6 +895,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Product Engineer',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '77',
@@ -829,6 +906,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Account Coordinator',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '78',
@@ -839,6 +917,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'VP Quality Control',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '79',
@@ -849,6 +928,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Senior Cost Accountant',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '80',
@@ -859,6 +939,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Nurse',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '81',
@@ -869,6 +950,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Marketing Assistant',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '82',
@@ -879,6 +961,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Analog Circuit Design manager',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '83',
@@ -889,6 +972,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Web Designer III',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '84',
@@ -899,6 +983,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Financial Analyst',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '85',
@@ -909,6 +994,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Environmental Tech',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '86',
@@ -919,6 +1005,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Human Resources Manager',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '87',
@@ -929,6 +1016,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Marketing Manager',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '88',
@@ -939,6 +1027,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Payment Adjustment Coordinator',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '89',
@@ -949,6 +1038,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Occupational Therapist',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '90',
@@ -959,6 +1049,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Structural Engineer',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '91',
@@ -969,6 +1060,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Research Assistant I',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '92',
@@ -979,6 +1071,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Senior Sales Associate',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '93',
@@ -989,6 +1082,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'GIS Technical Architect',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '94',
@@ -999,6 +1093,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Associate Professor',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '95',
@@ -1009,6 +1104,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Chief Design Engineer',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '96',
@@ -1019,6 +1115,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Food Chemist',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '97',
@@ -1029,6 +1126,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Analyst Programmer',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '98',
@@ -1039,6 +1137,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Programmer III',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '99',
@@ -1049,6 +1148,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Operator',
     status: 'new',
+    phone: '08001239999',
   },
   {
     id: '100',
@@ -1059,6 +1159,7 @@ export const tableDataContacts: ITableDataContacts[] = [
     companyLogo: CompanyLogo,
     title: 'Project Manager',
     status: 'new',
+    phone: '08001239999',
   },
 ];
 

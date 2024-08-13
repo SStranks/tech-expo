@@ -16,4 +16,5 @@ export { default as PageCompaniesDelete } from './companies/CompaniesDeletePage'
 export { default as PageContacts } from './contacts/ContactsPage';
 export { default as PageContactsCreate } from './contacts/ContactsCreatePage';
 export { default as PageContactsDelete } from './contacts/ContactsDeletePage';
+export { default as PageContactsRead } from './contacts/ContactsReadPage';
 export { default as PageSettings } from './settings/SettingsPage';

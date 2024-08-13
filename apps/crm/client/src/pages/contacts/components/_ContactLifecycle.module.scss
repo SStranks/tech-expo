@@ -1,0 +1,88 @@
+@use '#Sass/components/table' as tbl;
+
+$svg-dim: 14px;
+$column-gap: 14px;
+$padding: 16px;
+
+// REFACTOR:  Styles are the same across all the sub-tables generally; condense.
+
+.header {
+  display: flex;
+  align-items: center;
+  column-gap: $column-gap;
+  padding: $padding;
+
+  &__svg {
+    width: $svg-dim;
+    height: $svg-dim;
+    color: var(--thm-text-default);
+    transition-property: color;
+  }
+
+  &__title {
+    color: var(--thm-text-default);
+    font-weight: 700;
+    transition-property: color;
+  }
+}
+
+.tracker {
+  width: 100%;
+  padding: calc($padding / 2) $padding;
+
+  &__container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    align-items: center;
+    height: 40px;
+    background-color: transparent;
+  }
+
+  &__pill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 4px;
+    height: 100%;
+    padding: 0 12px;
+    border-top: 1px solid var(--thm-border-default);
+    border-bottom: 1px solid var(--thm-border-default);
+
+    // light blue, blue, green, red
+    // @include tbl.table-row-icon-cyan;
+    // @include tbl.table-row-icon-blue;
+    // @include tbl.table-row-icon-green;
+    // @include tbl.table-row-icon-red;
+
+    &:first-child {
+      border-left: 1px solid var(--thm-border-default);
+      border-radius: 4px 0 0 4px;
+    }
+
+    &:last-child {
+      border-right: 1px solid var(--thm-border-default);
+      border-radius: 0 4px 4px 0;
+    }
+
+    &:not(:first-child) {
+      margin-left: -1px;
+    }
+
+    &:not(:last-child) {
+      border-right: 1px solid var(--thm-border-default);
+    }
+  }
+
+  &__stage {
+    color: var(--thm-text-default);
+    transition-property: color;
+  }
+
+  &__svg {
+    width: 16px;
+    height: 16px;
+    margin-top: 4px;
+    color: var(--thm-text-default);
+    transition-property: color;
+  }
+}

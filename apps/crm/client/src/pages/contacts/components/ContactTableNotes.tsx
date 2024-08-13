@@ -1,9 +1,9 @@
 import { TableSingleColumn } from '#Components/general';
 import { IconList } from '#Components/svg';
 import { CommentThread } from '#Features/comment';
-import styles from './_CompaniesTableNotes.module.scss';
+import styles from './_ContactTableNotes.module.scss';
 
-function CompaniesTableNotes(): JSX.Element {
+function ContactTableNotes(): JSX.Element {
   return (
     <TableSingleColumn>
       <TableSingleColumn.Header>
@@ -19,4 +19,4 @@ function CompaniesTableNotes(): JSX.Element {
   );
 }
 
-export default CompaniesTableNotes;
+export default ContactTableNotes;

@@ -1,0 +1,50 @@
+.contactsReadPage {
+  &__header {
+    display: flex;
+    column-gap: 18px;
+    margin-bottom: 40px;
+  }
+
+  &__tables {
+    display: grid;
+    grid-template:
+      'lifecycle user'
+      'notes user' / 2fr 1fr;
+    gap: 32px 24px;
+  }
+}
+
+.userProfileImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 6px;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 12px;
+
+  &__name {
+    color: var(--thm-text-default);
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  &__title {
+    color: var(--thm-text-secondary);
+  }
+}
+
+.lifecycleTable {
+  grid-area: lifecycle;
+}
+
+.notesTable {
+  grid-area: notes;
+}
+
+.userTable {
+  grid-area: user;
+}

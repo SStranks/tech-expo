@@ -16,6 +16,10 @@ interface IUpdateControl {
 }
 
 interface ICallControl {
+  phone: string;
+}
+
+interface IEmailControl {
   entryId: string;
 }
 
@@ -35,17 +39,17 @@ function ViewControl({ entryId }: IViewControl): JSX.Element {
   );
 }
 
-function CallControl({ entryId }: ICallControl): JSX.Element {
+function CallControl({ phone }: ICallControl): JSX.Element {
   return (
-    <Link to={`read/${entryId}`} className={styles.link}>
+    <Link to={`tel:${phone}`} className={styles.link}>
       <IconPhone svgClass={styles.svg} />
     </Link>
   );
 }
 
-function EmailControl({ entryId }: ICallControl): JSX.Element {
+function EmailControl({ entryId }: IEmailControl): JSX.Element {
   return (
-    <Link to={`read/${entryId}`} className={styles.link}>
+    <Link to={`email:${entryId}`} className={styles.link}>
       <IconEmail svgClass={styles.svg} />
     </Link>
   );

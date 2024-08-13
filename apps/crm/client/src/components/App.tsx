@@ -23,6 +23,7 @@ import {
   PageCompaniesDelete,
   PageContactsDelete,
   PageCompaniesRead,
+  PageContactsRead,
 } from '#Pages/index';
 import {
   RouteDashboard,
@@ -67,6 +68,7 @@ function App(): JSX.Element {
               <Route path="create" element={<PageContactsCreate />} />
               <Route path="delete/:id" element={<PageContactsDelete />} />
             </Route>
+            <Route path="read/:id" element={<PageContactsRead />} />
           </Route>
           <Route path="quotes" element={<RouteQuotes />}>
             <Route path="" element={<PageQuotes />}>

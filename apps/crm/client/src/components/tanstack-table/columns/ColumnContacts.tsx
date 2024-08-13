@@ -24,7 +24,7 @@ const columnContactsDef = [
     cell: ({ row }) => (
       <RowActionsControl>
         <RowActionsControl.ViewControl entryId={row.id} />
-        <RowActionsControl.UpdateControl rowOriginal={row.original} />
+        <RowActionsControl.CallControl phone={row.original.phone} />
         <RowActionsControl.DeleteControl rowOriginal={row.original} />
       </RowActionsControl>
     ),
