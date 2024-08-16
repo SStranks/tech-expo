@@ -26,6 +26,7 @@ import {
   PageContactsRead,
   PageKanban,
   PagePipline,
+  PagePiplineStageCreate,
 } from '#Pages/index';
 import {
   RouteDashboard,
@@ -64,8 +65,9 @@ function App(): JSX.Element {
           </Route>
           <Route path="pipeline" element={<RoutePipeline />}>
             <Route path="" element={<PagePipline />}>
-              {/* <Route path="create" element={<PageCompaniesCreate />} />
-              <Route path="delete/:id" element={<PageCompaniesDelete />} /> */}
+              <Route path="stage/create" element={<PagePiplineStageCreate />} />
+              {/* <Route path="stage/update/:id" element={<PageCompaniesDelete />} />
+              <Route path="stage/delete/:id" element={<PageCompaniesDelete />} /> */}
             </Route>
           </Route>
           <Route path="companies" element={<RouteCompanies />}>

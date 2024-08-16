@@ -1,8 +1,10 @@
 import { StrictMode } from 'react';
+import { Provider } from 'react-redux';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import App from './components/App';
-import './assets/sass/global-imports.scss';
+import App from '#Components/App';
+import ReduxStore from '#Redux/store';
+import '#Sass/global-imports.scss';
 
 const container = document.querySelector('#root');
 const root = createRoot(container!);
@@ -10,7 +12,9 @@ const root = createRoot(container!);
 root.render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <Provider store={ReduxStore}>
+        <App />
+      </Provider>
     </BrowserRouter>
   </StrictMode>
 );

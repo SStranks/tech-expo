@@ -29,6 +29,7 @@ const CommonConfig = {
       '#Lib': path.resolve(CUR, 'src/lib'),
       '#Modules': path.resolve(CUR, 'src/modules'),
       '#Pages': path.resolve(CUR, 'src/pages'),
+      '#Redux': path.resolve(CUR, 'src/redux'),
       '#Routes': path.resolve(CUR, 'src/routes'),
       '#Services': path.resolve(CUR, 'src/services'),
       '#Stories': path.resolve(CUR, 'src/stories'),

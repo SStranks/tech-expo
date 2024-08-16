@@ -1,0 +1,35 @@
+.addCardBtn {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--thm-icon-default);
+
+  &:hover {
+    background-color: var(--thm-background-element);
+
+    & .addCardBtn__svg {
+      color: var(--thm-icon-info);
+    }
+  }
+}
+
+.addCardBtn--won {
+  &:hover {
+    background-color: var(--thm-scrumboard-column-won-button-hover);
+
+    & .addCardBtn__svg {
+      color: var(--thm-scrumboard-column-won-icon-hover);
+    }
+  }
+}
+
+.addCardBtn--lost {
+  &:hover {
+    background-color: var(--thm-scrumboard-column-lost-button-hover);
+
+    & .addCardBtn__svg {
+      color: var(--thm-scrumboard-column-lost-icon-hover);
+    }
+  }
+}

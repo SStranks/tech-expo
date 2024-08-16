@@ -1,25 +1,36 @@
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, type DropResult } from 'react-beautiful-dnd';
+import { moveTaskHorizontal, moveTaskVertical } from '#Features/scrumboard/redux/pipelineSlice';
+import { useReduxDispatch, useReduxSelector } from '#Redux/hooks';
 import { ScrumboardColumns } from './index';
 import styles from './_Scrumboard.module.scss';
 
-const onDragStart = () => {
-  console.log('start');
-};
-const onDragEnd = () => {
-  console.log('start');
-};
+function ScrumBoard(): JSX.Element {
+  const reduxDispatch = useReduxDispatch();
+  const data = useReduxSelector((store) => store.scrumboardPipeline);
 
-export type TScrumboardPage = 'kanban' | 'pipeline';
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const onDragEnd = (result: DropResult) => {
+    const { destination, source, draggableId } = result;
 
-interface IProps {
-  page: TScrumboardPage;
-}
+    // If location is null or the same starting point
+    if (!destination) return;
+    if (destination.droppableId === source.droppableId && destination.index === source.index) return;
 
-function ScrumBoard({ page }: IProps): JSX.Element {
+    const columnStart = data.columns[source.droppableId];
+    const columnEnd = data.columns[destination.droppableId];
+
+    // If a task is moved within the same column
+    if (columnStart === columnEnd)
+      return reduxDispatch(moveTaskVertical({ columnStart, destination, source, draggableId }));
+
+    // If a task is moved between columns
+    return reduxDispatch(moveTaskHorizontal({ columnStart, columnEnd, destination, source, draggableId }));
+  };
+
   return (
-    <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd}>
       <div className={styles.scrumboard}>
-        <ScrumboardColumns page={page} />
+        <ScrumboardColumns data={data} />
       </div>
     </DragDropContext>
   );

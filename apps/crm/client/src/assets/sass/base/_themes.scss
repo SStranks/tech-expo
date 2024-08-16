@@ -129,7 +129,12 @@ $light-theme: (
   // States
   success-primary: col.$col-green10-light,
   danger-primary: col.$col-red11-light,
-  neutral-primary: col.$col-blue10-light
+  neutral-primary: col.$col-blue10-light,
+  // Unique Components
+  scrumboard-column-won-button-hover: col.$col-green6-light,
+  scrumboard-column-won-icon-hover: col.$col-green10-light,
+  scrumboard-column-lost-button-hover: col.$col-red6-light,
+  scrumboard-column-lost-icon-hover: col.$col-red10-light
 );
 
 /* -------------------------------- */
@@ -241,7 +246,18 @@ $dark-theme: (
   // States
   success-primary: col.$col-green10-dark,
   danger-primary: col.$col-red11-dark,
-  neutral-primary: col.$col-blue10-dark
+  neutral-primary: col.$col-blue10-dark,
+  // Unique Components
+  scrumboard-card-drag-text-primary: col.$col-blue8-dark,
+  scrumboard-card-drag-text-secondary: col.$col-blue10-dark,
+  scrumboard-column-won-text-primary: col.$col-green8-dark,
+  scrumboard-column-won-text-secondary: col.$col-green10-dark,
+  scrumboard-column-won-button-hover: col.$col-green6-dark,
+  scrumboard-column-won-icon-hover: col.$col-green10-dark,
+  scrumboard-column-lost-text-primary: col.$col-red8-dark,
+  scrumboard-column-lost-text-secondary: col.$col-red10-dark,
+  scrumboard-column-lost-button-hover: col.$col-red6-dark,
+  scrumboard-column-lost-icon-hover: col.$col-red10-dark
 );
 
 /// Class applied to body tag to overwrite default variables

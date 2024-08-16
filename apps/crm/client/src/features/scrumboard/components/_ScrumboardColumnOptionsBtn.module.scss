@@ -7,16 +7,12 @@
   border-radius: 4px;
 
   &__svg {
-    & path {
-      color: var(--thm-icon-default);
-    }
+    color: var(--thm-icon-default);
   }
 
   &:hover {
     & .companiesOptionBtn__svg {
-      & path {
-        color: var(--thm-icon-info);
-      }
+      color: var(--thm-icon-info);
     }
 
     background-color: var(--thm-background-element);

@@ -37,6 +37,7 @@ export default {
     '^#Lib/(.*)$': '<rootDir>/src/lib/$1',
     '^#Modules/(.*)$': '<rootDir>/src/modules/$1',
     '^#Pages/(.*)$': '<rootDir>/src/pages/$1',
+    '^#Redux/(.*)$': '<rootDir>/src/redux/$1',
     '^#Routes/(.*)$': '<rootDir>/src/routes/$1',
     '^#Services/(.*)$': '<rootDir>/src/services/$1',
     '^#Stories/(.*)$': '<rootDir>/src/stories/$1',

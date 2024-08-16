@@ -16,6 +16,7 @@
       "#Lib/*": ["src/lib/*"],
       "#Modules/*": ["src/modules/*"],
       "#Pages/*": ["src/pages/*"],
+      "#Redux/*": ["src/redux/*"],
       "#Routes/*": ["src/routes/*"],
       "#Services/*": ["src/services/*"],
       "#Stories/*": ["src/stories/*"],

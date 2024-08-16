@@ -1,5 +1,5 @@
 import { PropsWithChildren, useId } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, SubmitHandler, FieldValues, DefaultValues } from 'react-hook-form';
 import {
   FormProviderSubmitButton,
   FormProviderInput,
@@ -13,14 +13,18 @@ import {
   FormProviderTimeField,
 } from './';
 
-interface IProps {
-  defaultValues?: Record<string, unknown>;
-  onSubmit: (data: unknown) => void;
+interface IProps<T extends FieldValues> {
+  defaultValues?: DefaultValues<T>;
+  onSubmit: SubmitHandler<T>;
 }
 
 // Compound Component Parent
-function RHFFormProvider({ children, defaultValues = {}, onSubmit }: PropsWithChildren<IProps>): JSX.Element {
-  const methods = useForm({ defaultValues, mode: 'onChange' });
+function RHFFormProvider<T extends FieldValues>({
+  children,
+  defaultValues,
+  onSubmit,
+}: PropsWithChildren<IProps<T>>): JSX.Element {
+  const methods = useForm<T>({ defaultValues, mode: 'onChange' });
   const genId = useId();
 
   return (

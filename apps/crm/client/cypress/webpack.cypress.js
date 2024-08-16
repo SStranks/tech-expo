@@ -33,6 +33,7 @@ const config = {
     // Prefix with ~ to initiate module resolver
     modules: ['node_modules', path.resolve(CUR, '../src/assets')],
     alias: {
+      '#Shared': path.resolve(CUR, '../../shared'),
       '#Img': path.resolve(CUR, '../src/assets/img'),
       '#Sass': path.resolve(CUR, '../src/assets/sass'),
       '#Svg': path.resolve(CUR, '../src/assets/svg'),
@@ -43,8 +44,12 @@ const config = {
       '#Hooks': path.resolve(CUR, '../src/hooks'),
       '#Layouts': path.resolve(CUR, '../src/layouts'),
       '#Lib': path.resolve(CUR, '../src/lib'),
+      '#Modules': path.resolve(CUR, '../src/modules'),
       '#Pages': path.resolve(CUR, '../src/pages'),
+      '#Redux': path.resolve(CUR, '../src/redux'),
+      '#Routes': path.resolve(CUR, '../src/routes'),
       '#Services': path.resolve(CUR, '../src/services'),
+      '#Stories': path.resolve(CUR, '../src/stories'),
       '#Types': path.resolve(CUR, '../src/types'),
       '#Utils': path.resolve(CUR, '../src/utils'),
     },

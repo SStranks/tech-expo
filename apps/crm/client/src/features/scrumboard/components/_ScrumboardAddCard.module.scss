@@ -1,0 +1,14 @@
+.addCard {
+  width: 100%;
+  font-size: 14px;
+  padding: 8px 16px;
+  background-color: var(--thm-background-subtle);
+  color: var(--thm-text-info);
+  border: 1px dashed var(--thm-border-default);
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--thm-background-info);
+    border-color: var(--thm-border-info);
+  }
+}

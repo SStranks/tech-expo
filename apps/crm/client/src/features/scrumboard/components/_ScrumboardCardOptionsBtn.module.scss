@@ -1,22 +1,18 @@
 @use '#Sass/components/aria-react' as aria;
 
-.companiesOptionBtn {
+.cardOptionsBtn {
   width: 28px;
   height: 28px;
   padding: 4px;
   border-radius: 4px;
 
   &__svg {
-    & path {
-      color: var(--thm-icon-default);
-    }
+    color: var(--thm-icon-default);
   }
 
   &:hover {
-    & .companiesOptionBtn__svg {
-      & path {
-        color: var(--thm-icon-info);
-      }
+    & .cardOptionsBtn__svg {
+      color: var(--thm-icon-info);
     }
 
     background-color: var(--thm-background-element);
@@ -79,5 +75,25 @@
     &:focus {
       background-color: hsl(from var(--thm-button-primary-destructive-background) h s l / 20%);
     }
+  }
+}
+
+.cardOptionsBtn--won {
+  &:hover {
+    & .cardOptionsBtn__svg {
+      color: var(--thm-scrumboard-column-won-icon-hover);
+    }
+
+    background-color: var(--thm-scrumboard-column-won-button-hover);
+  }
+}
+
+.cardOptionsBtn--lost {
+  &:hover {
+    & .cardOptionsBtn__svg {
+      color: var(--thm-scrumboard-column-lost-icon-hover);
+    }
+
+    background-color: var(--thm-scrumboard-column-lost-button-hover);
   }
 }

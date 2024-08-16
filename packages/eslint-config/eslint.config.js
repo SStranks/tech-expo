@@ -50,6 +50,14 @@ export const EslintConfig = {
     '@typescript-eslint/no-use-before-define': 'error',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-require-imports': 'error',
+    '@typescript-eslint/no-restricted-imports': [
+      'warn',
+      {
+        name: 'react-redux',
+        importNames: ['useSelector', 'useDispatch'],
+        message: 'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
+      },
+    ],
     'unicorn/prefer-module': 'off',
     'unicorn/expiring-todo-comments': 'off',
     'unicorn/prevent-abbreviations': 'off',

@@ -1,8 +1,8 @@
 .card {
   width: 300px;
   border: 1px solid var(--thm-border-default);
-  border-radius: 8px;
-  background-color: white;
+  border-radius: 4px;
+  background-color: var(--thm-background-subtle);
 
   &__upper {
     display: flex;
@@ -41,6 +41,7 @@
 .dealInfo {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   justify-content: center;
   margin-top: -6px;
   overflow: hidden;
@@ -61,6 +62,10 @@
 
   &__title {
     font-weight: 700;
+    color: var(--thm-text-default);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
 
@@ -71,6 +76,16 @@
   & .card__upper {
     border-bottom: 1px solid var(--thm-border-success);
   }
+
+  & .dealInfo {
+    &__title {
+      color: var(--thm-scrumboard-column-won-text-primary);
+    }
+
+    &__company {
+      color: var(--thm-scrumboard-column-won-text-secondary);
+    }
+  }
 }
 
 .card--lost {
@@ -79,5 +94,34 @@
 
   & .card__upper {
     border-bottom: 1px solid var(--thm-border-danger);
+  }
+
+  & .dealInfo {
+    &__title {
+      color: var(--thm-scrumboard-column-lost-text-primary);
+    }
+
+    &__company {
+      color: var(--thm-scrumboard-column-lost-text-secondary);
+    }
+  }
+}
+
+.card--dragging {
+  background-color: var(--thm-background-info);
+  border-color: var(--thm-border-info);
+
+  & .card__upper {
+    border-bottom: 1px solid var(--thm-border-info);
+  }
+
+  & .dealInfo {
+    &__title {
+      color: var(--thm-scrumboard-card-drag-text-primary);
+    }
+
+    &__company {
+      color: var(--thm-scrumboard-card-drag-text-primary);
+    }
   }
 }

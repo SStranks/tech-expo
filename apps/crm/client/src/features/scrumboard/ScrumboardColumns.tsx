@@ -1,19 +1,37 @@
-import type { TScrumboardPage } from './Scrumboard';
-import { ScrumboardAddStage, ScrumboardColumn } from './index';
+import type { IInitialData } from '#Data/MockDnD';
+import {
+  ScrumboardAddStage,
+  ScrumboardColumn,
+  ScrumboardColumnLost,
+  ScrumboardColumnUnassigned,
+  ScrumboardColumnWon,
+} from './index';
 import styles from './_ScrumboardColumns.module.scss';
 
 interface IProps {
-  page: TScrumboardPage;
+  data: IInitialData;
 }
 
-function ScrumboardColumns({ page }: IProps): JSX.Element {
+function ScrumboardColumns({ data }: IProps): JSX.Element {
+  const columnUnassigned = data.columns['column-unassigned'];
+  const columnUnassignedTasks = columnUnassigned.taskIds.map((taskId) => data.tasks[taskId]);
+  const columnWon = data.columns['column-won'];
+  const columnWonTasks = columnWon.taskIds.map((taskId) => data.tasks[taskId]);
+  const columnLost = data.columns['column-lost'];
+  const columnLostTasks = columnLost.taskIds.map((taskId) => data.tasks[taskId]);
+
   return (
     <div className={styles.columns}>
-      <ScrumboardColumn pipeline={{ pipelineColumnTotal: '27,000' }} />
-      <ScrumboardColumn pipeline={{ pipelineColumnTotal: '27,000' }} />
+      <ScrumboardColumnUnassigned key={columnUnassigned.id} column={columnUnassigned} tasks={columnUnassignedTasks} />
+      {data.columnOrder.map((columnId) => {
+        const column = data.columns[columnId];
+        const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
+
+        return <ScrumboardColumn key={column.id} column={column} tasks={tasks} />;
+      })}
       <ScrumboardAddStage />
-      {page === 'pipeline' && <ScrumboardColumn pipeline={{ pipelineColumnTotal: '33,000', pipelineStage: 'won' }} />}
-      {page === 'pipeline' && <ScrumboardColumn pipeline={{ pipelineColumnTotal: '33,000', pipelineStage: 'lost' }} />}
+      <ScrumboardColumnWon key={columnWon.id} column={columnWon} tasks={columnWonTasks} />
+      <ScrumboardColumnLost key={columnLost.id} column={columnLost} tasks={columnLostTasks} />
     </div>
   );
 }

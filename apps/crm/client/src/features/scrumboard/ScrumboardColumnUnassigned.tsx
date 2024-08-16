@@ -1,6 +1,6 @@
 import type { IColumn, ITask } from '#Data/MockDnD';
+import { ScrumboardAddCard, ScrumboardCard, ScrumboardColumnAddBtn } from './index';
 import DroppableStrictMode from '#Components/react-beautiful-dnd/DroppableStrictMode';
-import { ScrumboardAddCard, ScrumboardCard, ScrumboardColumnAddBtn, ScrumboardColumnOptionsBtn } from './index';
 import styles from './_ScrumboardColumn.module.scss';
 
 interface IScrumboardColumn {
@@ -8,7 +8,7 @@ interface IScrumboardColumn {
   tasks: ITask[];
 }
 
-function ScrumboardColumn(props: IScrumboardColumn): JSX.Element {
+function ScrumboardColumnUnassigned(props: IScrumboardColumn): JSX.Element {
   const { column, tasks } = props;
   const dealsTotal = tasks.reduce((acc, cur) => acc + cur.dealTotal, 0);
 
@@ -27,7 +27,6 @@ function ScrumboardColumn(props: IScrumboardColumn): JSX.Element {
                 )}
               </div>
               <div className={styles.headerControls}>
-                <ScrumboardColumnOptionsBtn />
                 <ScrumboardColumnAddBtn />
               </div>
             </div>
@@ -46,4 +45,4 @@ function ScrumboardColumn(props: IScrumboardColumn): JSX.Element {
   );
 }
 
-export default ScrumboardColumn;
+export default ScrumboardColumnUnassigned;
