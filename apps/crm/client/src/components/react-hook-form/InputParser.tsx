@@ -47,6 +47,7 @@ function InputParser<T>({ ReactAriaComponent, ...props }: IProps<T>): JSX.Elemen
 
   // console.log('VALUE', value);
   // console.log('CHANGE', onChange);
+  // console.log(props);
 
   return <ReactAriaComponent {...(props as T)} {...{ onChange, value }} />;
 }

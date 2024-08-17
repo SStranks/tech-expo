@@ -33,6 +33,7 @@ import {
   PagePiplineStageDelete,
   PagePiplineDealsDelete,
   PagePiplineDealDelete,
+  PagePiplineDealUpdate,
 } from '#Pages/index';
 import {
   RouteDashboard,
@@ -81,6 +82,7 @@ function App(): JSX.Element {
           <Route element={<RoutePipeline />}>
             <Route path="pipeline" element={<PagePipline />}>
               <Route path="deal/create" element={<PagePiplineDealCreate />} />
+              <Route path="deal/update/:id" element={<PagePiplineDealUpdate />} />
               <Route path="deal/delete/:id" element={<PagePiplineDealDelete />} />
               <Route path="deals/delete/:id" element={<PagePiplineDealsDelete />} />
               <Route path="stage/create" element={<PagePiplineStageCreate />} />

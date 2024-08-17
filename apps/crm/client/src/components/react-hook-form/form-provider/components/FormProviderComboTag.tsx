@@ -1,3 +1,4 @@
+import type { ComboBoxProps } from 'react-aria-components';
 import { useId } from 'react';
 import { Controller, useFormContext, type RegisterOptions } from 'react-hook-form';
 import { InputComboTag } from '#Components/aria-inputs';
@@ -10,7 +11,12 @@ interface IProps {
   rules?: RegisterOptions;
 }
 
-function FormProviderComboTag({ name, label, listItems, rules = {} }: IProps): JSX.Element {
+function FormProviderComboTag<T extends object>({
+  name,
+  label,
+  listItems,
+  rules = {},
+}: ComboBoxProps<T> & IProps): JSX.Element {
   const {
     control,
     trigger,

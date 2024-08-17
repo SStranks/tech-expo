@@ -18,7 +18,10 @@ function ScrumboardCardOptionsBtn({ taskId, columnId, taskStatus }: IProps): JSX
       </Button>
       <Popover placement="bottom right" className={styles.cardOptionsBtn__popover}>
         <Menu className={styles.cardOptionsBtn__menu}>
-          <MenuItem onAction={() => console.log('Options Fire')} className={styles.cardOptionsBtn__menuItem}>
+          <MenuItem
+            href={`pipeline/deal/update/${taskId}`}
+            routerOptions={{ state: { taskId } }}
+            className={styles.cardOptionsBtn__menuItem}>
             <IconEye svgClass={styles.cardOptionsBtn__menuItem__svg} />
             <span>View Card</span>
           </MenuItem>

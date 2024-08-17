@@ -1,22 +1,24 @@
 import { useId } from 'react';
 import { useFormContext, type RegisterOptions } from 'react-hook-form';
 import { InputUx, Input } from '#Components/react-hook-form';
+import { InputProps } from 'react-aria-components';
 
 interface IProps {
   name: string;
   type: React.HTMLInputTypeAttribute;
   label: string;
-  defaultValue?: string;
   rules?: RegisterOptions;
 }
-function FormProviderInput({ name, type, label, defaultValue, rules = {} }: IProps): JSX.Element {
+function FormProviderInput({ name, type, label, rules = {}, ...rest }: InputProps & IProps): JSX.Element {
   const {
     register,
-    formState: { errors, isSubmitted, dirtyFields },
+    formState: { errors, defaultValues, isSubmitted, dirtyFields },
     getFieldState,
   } = useFormContext();
   const { invalid } = getFieldState(name);
   const id = useId();
+
+  const defaultValue = defaultValues?.[name];
 
   return (
     <InputUx
@@ -34,6 +36,7 @@ function FormProviderInput({ name, type, label, defaultValue, rules = {} }: IPro
         defaultValue={defaultValue}
         error={errors[name as string]}
         isRequired={rules?.required}
+        {...rest}
       />
     </InputUx>
   );
