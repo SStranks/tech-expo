@@ -1,3 +1,5 @@
+@use '#Sass/abstracts/animations' as anim;
+
 .card {
   width: 300px;
   border: 1px solid var(--thm-border-default);
@@ -124,4 +126,8 @@
       color: var(--thm-scrumboard-card-drag-text-primary);
     }
   }
+}
+
+.dangerCard {
+  @include anim.danger-pulse;
 }

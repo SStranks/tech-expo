@@ -1,4 +1,5 @@
-import { Outlet, Route, Routes, Navigate } from 'react-router-dom';
+import { RouterProvider } from 'react-aria-components';
+import { Outlet, Route, Routes, Navigate, useNavigate, NavigateOptions } from 'react-router-dom';
 import { Aside } from '#Features/sidebar/Aside';
 import Header from '#Features/header/Header';
 import { LayoutDefault } from '#Layouts/index';
@@ -27,6 +28,11 @@ import {
   PageKanban,
   PagePipline,
   PagePiplineStageCreate,
+  PagePiplineDealCreate,
+  PagePiplineStageUpdate,
+  PagePiplineStageDelete,
+  PagePiplineDealsDelete,
+  PagePiplineDealDelete,
 } from '#Pages/index';
 import {
   RouteDashboard,
@@ -42,9 +48,18 @@ import {
   RouteAuditLog,
 } from '#Routes/index';
 
+declare module 'react-aria-components' {
+  interface RouterConfig {
+    routerOptions: NavigateOptions;
+  }
+}
+
 function App(): JSX.Element {
+  // NOTE:  RouterProvider: Integrates React-Aria-Components into React-Router
+  const navigate = useNavigate();
+
   return (
-    <>
+    <RouterProvider navigate={navigate}>
       <Routes>
         <Route
           element={
@@ -63,11 +78,14 @@ function App(): JSX.Element {
               <Route path="delete/:id" element={<PageCompaniesDelete />} /> */}
             </Route>
           </Route>
-          <Route path="pipeline" element={<RoutePipeline />}>
-            <Route path="" element={<PagePipline />}>
+          <Route element={<RoutePipeline />}>
+            <Route path="pipeline" element={<PagePipline />}>
+              <Route path="deal/create" element={<PagePiplineDealCreate />} />
+              <Route path="deal/delete/:id" element={<PagePiplineDealDelete />} />
+              <Route path="deals/delete/:id" element={<PagePiplineDealsDelete />} />
               <Route path="stage/create" element={<PagePiplineStageCreate />} />
-              {/* <Route path="stage/update/:id" element={<PageCompaniesDelete />} />
-              <Route path="stage/delete/:id" element={<PageCompaniesDelete />} /> */}
+              <Route path="stage/update/:id" element={<PagePiplineStageUpdate />} />
+              <Route path="stage/delete/:id" element={<PagePiplineStageDelete />} />
             </Route>
           </Route>
           <Route path="companies" element={<RouteCompanies />}>
@@ -117,7 +135,7 @@ function App(): JSX.Element {
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Route>
       </Routes>
-    </>
+    </RouterProvider>
   );
 }
 

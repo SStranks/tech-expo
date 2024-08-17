@@ -137,6 +137,5 @@ export const initialData: IInitialData = {
       taskIds: ['task-4'],
     },
   },
-  // columnOrder: ['column-unassigned', 'column-new', 'column-won', 'column-lost'],
   columnOrder: ['column-new'],
 };

@@ -26,7 +26,9 @@ if (module.hot) {
     root.render(
       <StrictMode>
         <BrowserRouter>
-          <AppHMR />
+          <Provider store={ReduxStore}>
+            <AppHMR />
+          </Provider>
         </BrowserRouter>
       </StrictMode>
     );

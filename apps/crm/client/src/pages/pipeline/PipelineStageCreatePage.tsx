@@ -4,7 +4,7 @@ import FormModal from '#Components/modal/FormModal';
 import { GENERIC_TEXT_RULES } from '#Components/react-hook-form/validationRules';
 import { FormProvider } from '#Components/react-hook-form';
 import { useReduxDispatch } from '#Redux/hooks';
-import { addStage } from '#Features/scrumboard/redux/pipelineSlice';
+import { createStage } from '#Features/scrumboard/redux/pipelineSlice';
 import { SubmitHandler } from 'react-hook-form';
 
 type IFormData = {
@@ -26,7 +26,7 @@ function PipelineStageCreatePage(): JSX.Element {
   };
 
   const onSubmit: SubmitHandler<IFormData> = (data) => {
-    reduxDispatch(addStage({ title: data.title }));
+    reduxDispatch(createStage({ title: data.title }));
     setPortalActiveInternal(false);
     navigate(-1);
   };

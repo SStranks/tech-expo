@@ -30,14 +30,14 @@ function ScrumboardColumnLost(props: IScrumboardColumn): JSX.Element {
                 )}
               </div>
               <div className={styles.headerControls}>
-                <ScrumboardColumnAddBtn columnStyle="lost" />
+                <ScrumboardColumnAddBtn columnId={column.id} columnStyle="lost" />
               </div>
             </div>
             <span className={styles['pipelineTotal--lost']}>${dealsTotal}</span>
           </div>
           <div className={styles.column__cards}>
             {tasks.map((task, i) => {
-              return <ScrumboardCard key={task.id} task={task} index={i} taskStatus="lost" />;
+              return <ScrumboardCard key={task.id} task={task} index={i} columnId={column.id} taskStatus="lost" />;
             })}
           </div>
           {provided.placeholder}

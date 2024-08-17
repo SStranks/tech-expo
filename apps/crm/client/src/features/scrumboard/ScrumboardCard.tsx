@@ -6,11 +6,12 @@ import { ITask } from '#Data/MockDnD';
 
 interface IProps {
   task: ITask;
+  columnId: string;
   index: number;
   taskStatus?: 'won' | 'lost';
 }
 
-function ScrumBoardCard({ task, index, taskStatus }: IProps): JSX.Element {
+function ScrumBoardCard({ task, columnId, index, taskStatus }: IProps): JSX.Element {
   return (
     <Draggable draggableId={task.id} index={index}>
       {(provided, snapshot) => (
@@ -24,7 +25,7 @@ function ScrumBoardCard({ task, index, taskStatus }: IProps): JSX.Element {
             <div className={styles.dealInfo}>
               <div className={styles.dealInfo__upper}>
                 <span className={styles.dealInfo__company}>{task.companyTitle}</span>
-                <ScrumboardCardOptionsBtn taskStatus={taskStatus} />
+                <ScrumboardCardOptionsBtn taskId={task.id} columnId={columnId} taskStatus={taskStatus} />
               </div>
               <span className={styles.dealInfo__title}>{task.dealTitle}</span>
             </div>

@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FormModal from '#Components/modal/FormModal';
 import { FormProvider } from '#Components/react-hook-form';
-import { ScrumboardColumnStyles } from '#Features/scrumboard';
+import { ScrumboardCardStyles } from '#Features/scrumboard';
 import { SubmitHandler } from 'react-hook-form';
-import { deleteStage } from '#Features/scrumboard/redux/pipelineSlice';
+import { deleteDealsAll } from '#Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch } from '#Redux/hooks';
 
-function PiplineStageDeletePage(): JSX.Element {
+function PiplineDealsDeletePage(): JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
@@ -22,9 +22,10 @@ function PiplineStageDeletePage(): JSX.Element {
 
   useEffect(() => {
     const column = document.querySelector(`[data-rbd-droppable-id="${locationState.columnId}"]`);
-    column?.classList.add(ScrumboardColumnStyles.dangerColumn);
+    const cards = column?.querySelectorAll('[data-rbd-draggable-id]');
+    cards?.forEach((card) => card.classList.add(ScrumboardCardStyles.dangerCard));
 
-    return () => column?.classList.remove(ScrumboardColumnStyles.dangerColumn);
+    return () => cards?.forEach((card) => card.classList.remove(ScrumboardCardStyles.dangerCard));
   }, [locationState.columnId]);
 
   const setPortalActive = () => {
@@ -33,7 +34,7 @@ function PiplineStageDeletePage(): JSX.Element {
   };
 
   const onSubmit: SubmitHandler<Record<string, never>> = () => {
-    reduxDispatch(deleteStage({ columnId: locationState.columnId }));
+    reduxDispatch(deleteDealsAll({ columnId: locationState.columnId }));
     setPortalActiveInternal(false);
     navigate(-1);
   };
@@ -41,7 +42,7 @@ function PiplineStageDeletePage(): JSX.Element {
   return (
     <FormModal portalActive={portalActive} setPortalActive={setPortalActive}>
       <FormProvider onSubmit={onSubmit}>
-        <FormModal.Header title={`Delete Stage: ${locationState.columnTitle}`} />
+        <FormModal.Header title="Delete All Deals " />
         <FormModal.Footer>
           <FormModal.CancelButton />
           <FormModal.DeleteButton />
@@ -51,4 +52,4 @@ function PiplineStageDeletePage(): JSX.Element {
   );
 }
 
-export default PiplineStageDeletePage;
+export default PiplineDealsDeletePage;

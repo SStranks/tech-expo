@@ -1,10 +1,15 @@
+import { Link } from 'react-router-dom';
 import styles from './_ScrumboardAddCard.module.scss';
 
-function ScrumboardAddCard(): JSX.Element {
+interface IProps {
+  columnId: string;
+}
+
+function ScrumboardAddCard({ columnId }: IProps): JSX.Element {
   return (
-    <button type="button" onClick={() => console.log('click')} className={styles.addCard}>
+    <Link to={'deal/create'} state={{ columnId }} className={styles.addCard}>
       <span>Add New Card</span>
-    </button>
+    </Link>
   );
 }
 

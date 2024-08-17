@@ -19,8 +19,6 @@ function InputUx(props: PropsWithChildren<IProps>): JSX.Element {
   const inputValidated = isDirty && !invalid;
   const showErrorState = error && isSubmitted;
 
-  // console.log(inputValidated, isDirty, invalid);
-
   return (
     <div
       className={`${styles.inputUX} ${inputValidated ? styles.success : ''} ${isRequired && !isDirty ? styles.inputUX__required : ''} ${showErrorState ? styles.error : ''}`}>

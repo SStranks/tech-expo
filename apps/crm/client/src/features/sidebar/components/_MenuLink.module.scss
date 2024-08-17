@@ -15,7 +15,6 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
   align-items: center;
   column-gap: 8px;
   padding: $menulink-padding;
-  color: var(--thm-text-default);
   border-radius: 6px;
   list-style: none;
   transition: anim.$theme-transition-color, anim.$theme-transition-background, anim.$button-hover-sidebar;
@@ -36,6 +35,7 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
 
   &__text {
     width: 100%;
+    color: var(--thm-text-default);
     font-size: 14px;
     font-weight: 500;
     overflow: hidden;
@@ -82,7 +82,6 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
   }
 
   &__activeRoute {
-    color: var(--thm-text-link);
     background-color: var(--thm-background-info);
 
     &:hover {
@@ -93,7 +92,11 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
       }
     }
 
-    &__svg {
+    & .menuLink__text {
+      color: var(--thm-text-link);
+    }
+
+    & .menuLink__svg {
       color: var(--thm-icon-info);
     }
   }

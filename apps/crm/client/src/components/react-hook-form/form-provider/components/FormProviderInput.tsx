@@ -12,10 +12,10 @@ interface IProps {
 function FormProviderInput({ name, type, label, defaultValue, rules = {} }: IProps): JSX.Element {
   const {
     register,
-    formState: { errors, isSubmitted },
+    formState: { errors, isSubmitted, dirtyFields },
     getFieldState,
   } = useFormContext();
-  const { invalid, isDirty } = getFieldState(name);
+  const { invalid } = getFieldState(name);
   const id = useId();
 
   return (
@@ -24,7 +24,7 @@ function FormProviderInput({ name, type, label, defaultValue, rules = {} }: IPro
       label={label}
       error={errors[name as string]}
       isSubmitted={isSubmitted}
-      isDirty={isDirty}
+      isDirty={dirtyFields[name] || defaultValue}
       isRequired={rules?.required}
       invalid={invalid}>
       <Input

@@ -30,14 +30,14 @@ function ScrumboardColumnWon(props: IScrumboardColumn): JSX.Element {
                 )}
               </div>
               <div className={styles.headerControls}>
-                <ScrumboardColumnAddBtn columnStyle="won" />
+                <ScrumboardColumnAddBtn columnStyle="won" columnId={column.id} />
               </div>
             </div>
             <span className={styles['pipelineTotal--won']}>${dealsTotal}</span>
           </div>
           <div className={styles.column__cards}>
             {tasks.map((task, i) => {
-              return <ScrumboardCard key={task.id} task={task} index={i} taskStatus="won" />;
+              return <ScrumboardCard key={task.id} task={task} index={i} columnId={column.id} taskStatus="won" />;
             })}
           </div>
           {provided.placeholder}

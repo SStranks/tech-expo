@@ -4,7 +4,7 @@ import ScrumBoard from '#Features/scrumboard/Scrumboard';
 function PipelinePage(): JSX.Element {
   return (
     <>
-      <ScrumBoard page="pipeline" />
+      <ScrumBoard />
       <OutletPortalTransition />
     </>
   );

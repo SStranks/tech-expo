@@ -3,10 +3,12 @@ import { IconDelete, IconEye, IconMenuDots } from '#Components/svg';
 import styles from './_ScrumboardCardOptionsBtn.module.scss';
 
 interface IProps {
+  taskId: string;
+  columnId: string;
   taskStatus?: 'won' | 'lost';
 }
 
-function ScrumboardCardOptionsBtn({ taskStatus }: IProps): JSX.Element {
+function ScrumboardCardOptionsBtn({ taskId, columnId, taskStatus }: IProps): JSX.Element {
   return (
     <MenuTrigger>
       <Button
@@ -20,7 +22,10 @@ function ScrumboardCardOptionsBtn({ taskStatus }: IProps): JSX.Element {
             <IconEye svgClass={styles.cardOptionsBtn__menuItem__svg} />
             <span>View Card</span>
           </MenuItem>
-          <MenuItem onAction={() => console.log('Options Fire')} className={styles.cardOptionsBtn__menuItemWarning}>
+          <MenuItem
+            href={`pipeline/deal/delete/${taskId}`}
+            routerOptions={{ state: { columnId, taskId } }}
+            className={styles.cardOptionsBtn__menuItemWarning}>
             <IconDelete svgClass={styles.cardOptionsBtn__menuItemWarning__svg} />
             <span>Delete Card</span>
           </MenuItem>

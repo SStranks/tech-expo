@@ -27,16 +27,16 @@ function ScrumboardColumnUnassigned(props: IScrumboardColumn): JSX.Element {
                 )}
               </div>
               <div className={styles.headerControls}>
-                <ScrumboardColumnAddBtn />
+                <ScrumboardColumnAddBtn columnId={column.id} />
               </div>
             </div>
             <span className={styles.pipelineTotal}>${dealsTotal}</span>
           </div>
           <div className={styles.column__cards}>
             {tasks.map((task, i) => {
-              return <ScrumboardCard key={task.id} task={task} index={i} />;
+              return <ScrumboardCard key={task.id} task={task} index={i} columnId={column.id} />;
             })}
-            {tasks.length === 0 && <ScrumboardAddCard />}
+            {tasks.length === 0 && <ScrumboardAddCard columnId={column.id} />}
           </div>
           {provided.placeholder}
         </div>

@@ -1,6 +1,6 @@
 @use '#Sass/components/aria-react' as aria;
 
-.companiesOptionBtn {
+.scrumboardOptionBtn {
   width: 28px;
   height: 28px;
   padding: 4px;
@@ -11,7 +11,7 @@
   }
 
   &:hover {
-    & .companiesOptionBtn__svg {
+    & .scrumboardOptionBtn__svg {
       color: var(--thm-icon-info);
     }
 
