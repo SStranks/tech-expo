@@ -12,9 +12,11 @@ interface IProps {
 function FormProviderDatePicker({ name, label, rules = {} }: IProps): JSX.Element {
   const {
     control,
-    formState: { isSubmitted },
+    formState: { defaultValues, isSubmitted, dirtyFields },
   } = useFormContext();
   const id = useId();
+
+  const defaultValue = defaultValues?.[name];
   // const placeholder = today(getLocalTimeZone());
 
   return (
@@ -22,14 +24,15 @@ function FormProviderDatePicker({ name, label, rules = {} }: IProps): JSX.Elemen
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error, isDirty } }) => (
+      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error } }) => (
         <InputUx
           id={id}
           label={label}
+          defaultValue={defaultValue}
           error={error}
           isSubmitted={isSubmitted}
           invalid={isInvalid}
-          isDirty={isDirty}
+          isDirty={dirtyFields[name] || defaultValue}
           isRequired={rules?.required}>
           <InputParser
             ReactAriaComponent={InputDatePicker}

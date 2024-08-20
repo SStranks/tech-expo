@@ -4,10 +4,7 @@ import { parseDate, parseTime } from '@internationalized/date';
 const onChangeFunctions = {
   InputCombo: (e: unknown[]) => e[0] ?? '', // Clearing input returns NULL key; React-Hook-Form 'required' needs empty string to trigger validation error.
   InputDatePicker: (e: unknown[]) => e.toString(), // CalendarDate object has 'toString' method
-  InputNumber: (e: unknown[]) => {
-    // eslint-disable-next-line unicorn/prefer-number-properties
-    return isNaN(e[0] as number) ? undefined : e[0];
-  },
+  InputNumber: (e: unknown[]) => e[0],
   InputSelect: (e: unknown[]) => e[0],
   InputTimeField: (e: unknown[]) => e.toString(),
   InputTagGroup: (e: unknown[]) => e[0],
@@ -17,7 +14,7 @@ const onChangeFunctions = {
 const valueFunctions = {
   InputCombo: (v: unknown) => v ?? '',
   InputDatePicker: (v: unknown) => (typeof v === 'string' && (v as string).length > 0 ? parseDate(v as string) : null),
-  InputNumber: (v: unknown) => v ?? Number.NaN,
+  InputNumber: (v: unknown) => v,
   InputSelect: (v: unknown) => v,
   InputTimeField: (v: unknown) => (typeof v === 'string' && (v as string).length > 0 ? parseTime(v as string) : null),
   InputTagGroup: (v: unknown) => v,

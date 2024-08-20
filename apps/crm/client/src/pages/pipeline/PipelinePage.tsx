@@ -1,10 +1,10 @@
 import OutletPortalTransition from '#Components/react-transition-group/OutletPortalTransition';
-import ScrumBoard from '#Features/scrumboard/Scrumboard';
+import { ScrumboardPipeline } from '#Features/scrumboard';
 
 function PipelinePage(): JSX.Element {
   return (
     <>
-      <ScrumBoard />
+      <ScrumboardPipeline />
       <OutletPortalTransition />
     </>
   );

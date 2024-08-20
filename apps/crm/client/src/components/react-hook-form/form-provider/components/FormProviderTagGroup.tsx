@@ -13,11 +13,12 @@ function FormProviderTagGroup({ name, label, rules = {} }: IProps): JSX.Element 
   const {
     control,
     trigger,
-    formState: { defaultValues, isSubmitted },
+    formState: { defaultValues, isSubmitted, dirtyFields },
   } = useFormContext();
   const id = useId();
 
   const defaultValue = defaultValues?.[name];
+
   console.log('FORMMODAL, defaultValue', defaultValue);
   if (rules.required) rules.validate = (v) => v.length > 0;
 
@@ -27,13 +28,14 @@ function FormProviderTagGroup({ name, label, rules = {} }: IProps): JSX.Element 
       defaultValue={defaultValue}
       name={name}
       rules={rules}
-      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, isDirty, error } }) => (
+      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error } }) => (
         <InputUx
           id={id}
           label={label}
+          defaultValue={defaultValue}
           error={error}
           isSubmitted={isSubmitted}
-          isDirty={isDirty}
+          isDirty={dirtyFields[name] || defaultValue}
           invalid={isInvalid}
           isRequired={rules?.required}>
           <InputParser

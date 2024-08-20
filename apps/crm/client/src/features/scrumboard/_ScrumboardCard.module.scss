@@ -1,6 +1,7 @@
 @use '#Sass/abstracts/animations' as anim;
 
 .card {
+  cursor: grab;
   width: 300px;
   border: 1px solid var(--thm-border-default);
   border-radius: 4px;

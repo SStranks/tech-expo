@@ -1,10 +1,10 @@
 import type { DraggableLocation } from 'react-beautiful-dnd';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IColumn, initialData } from '#Data/MockScrumboardPipeline';
+import { IColumn, initialData } from '#Data/MockScrumboardKanban';
 
 // TEMP DEV: .
-import UserImage from '#Img/image-35.jpg';
-import CompanyLogo from '#Img/CompanyLogo.png';
+// import UserImage from '#Img/image-35.jpg';
+// import CompanyLogo from '#Img/CompanyLogo.png';
 
 interface IMoveTaskPayload {
   columnStart: IColumn;
@@ -18,18 +18,18 @@ interface ICreateStagePayload {
   title: string;
 }
 
-interface ICreateDealPayload {
-  columnId: string;
-  companyTitle: string;
-  dealTitle: string;
-  dealStage: string;
-  dealTotal: number;
-  dealOwner: string;
-}
+// interface ICreateDealPayload {
+//   columnId: string;
+//   companyTitle: string;
+//   dealTitle: string;
+//   dealStage: string;
+//   dealTotal: number;
+//   dealOwner: string;
+// }
 
-interface IUpdateDealPayload extends Omit<ICreateDealPayload, 'columnId'> {
-  taskId: string;
-}
+// interface IUpdateDealPayload extends Omit<ICreateDealPayload, 'columnId'> {
+//   taskId: string;
+// }
 
 interface IUpdateStagePayload {
   columnId: string;
@@ -50,8 +50,8 @@ interface IDeleteDealPayload {
 }
 
 // TODO:  Error handling/boundary inside reducers.
-const pipelineSlice = createSlice({
-  name: 'scrumboardPipeline',
+const kanbanSlice = createSlice({
+  name: 'scrumboardKanban',
   initialState: initialData,
   reducers: {
     moveTaskVertical(state, action: PayloadAction<Omit<IMoveTaskPayload, 'columnEnd'>>) {
@@ -68,41 +68,41 @@ const pipelineSlice = createSlice({
       state.columns[columnStart.id].taskIds.splice(source.index, 1);
       state.columns[columnEnd.id].taskIds.splice(destination.index, 0, draggableId);
     },
-    createDeal(state, action: PayloadAction<ICreateDealPayload>) {
-      // NOTE:  Deal owner is currently hardcoded in PipelineDeal[Create/Update]Page.
-      const { columnId, companyTitle, dealTitle, dealStage, dealTotal, dealOwner } = action.payload;
+    // createTask(state, action: PayloadAction<ICreateDealPayload>) {
+    //   // NOTE:  Deal owner is currently hardcoded in PipelineDeal[Create/Update]Page.
+    //   const { columnId, companyTitle, dealTitle, dealStage, dealTotal, dealOwner } = action.payload;
 
-      const newTaskId = `task-${Math.floor(Math.random() * 100_000)}`; // TEMP DEV:  Need to make ID system.
-      const newTask = {
-        id: newTaskId,
-        companyLogo: CompanyLogo,
-        companyTitle,
-        dealTitle,
-        dealOwner,
-        userImage: UserImage,
-        daysElapsed: 27,
-        dealTotal,
-      };
+    //   const newTaskId = `task-${Math.floor(Math.random() * 100_000)}`; // TEMP DEV:  Need to make ID system.
+    //   const newTask = {
+    //     id: newTaskId,
+    //     companyLogo: CompanyLogo,
+    //     companyTitle,
+    //     dealTitle,
+    //     dealOwner,
+    //     userImage: UserImage,
+    //     daysElapsed: 27,
+    //     dealTotal,
+    //   };
 
-      console.log(dealStage); // Ignored for now.
+    //   console.log(dealStage); // Ignored for now.
 
-      // Push new task to tasks.
-      state.tasks[newTaskId] = newTask;
-      // Find column by id; push task to column taskIds array.
-      state.columns[columnId].taskIds.push(newTaskId);
-    },
-    updateDeal(state, action: PayloadAction<IUpdateDealPayload>) {
-      // NOTE:  Deal owner is currently hardcoded in PipelineDeal[Create/Update]Page.
-      const { taskId } = action.payload;
-      const { dealStage } = action.payload; // TEMP: .
-      const updateFields = { ...action.payload };
+    //   // Push new task to tasks.
+    //   state.tasks[newTaskId] = newTask;
+    //   // Find column by id; push task to column taskIds array.
+    //   state.columns[columnId].taskIds.push(newTaskId);
+    // },
+    // updateTask(state, action: PayloadAction<IUpdateDealPayload>) {
+    //   // NOTE:  Deal owner is currently hardcoded in PipelineDeal[Create/Update]Page.
+    //   const { taskId } = action.payload;
+    //   const { dealStage } = action.payload; // TEMP: .
+    //   const updateFields = { ...action.payload };
 
-      console.log(dealStage); // TEMP: . Ignored for now.
+    //   console.log(dealStage); // TEMP: . Ignored for now.
 
-      const oldFields = state.tasks[taskId];
-      state.tasks[taskId] = { ...oldFields, ...updateFields };
-    },
-    deleteDeal(state, action: PayloadAction<IDeleteDealPayload>) {
+    //   const oldFields = state.tasks[taskId];
+    //   state.tasks[taskId] = { ...oldFields, ...updateFields };
+    // },
+    deleteTask(state, action: PayloadAction<IDeleteDealPayload>) {
       const { columnId, taskId } = action.payload;
 
       // Delete task from tasks
@@ -110,7 +110,7 @@ const pipelineSlice = createSlice({
       // Delete task ID from column
       state.columns[columnId].taskIds = state.columns[columnId].taskIds.filter((task) => task !== taskId);
     },
-    deleteDealsAll(state, action: PayloadAction<IDeleteDealsAllPayload>) {
+    deleteTasksAll(state, action: PayloadAction<IDeleteDealsAllPayload>) {
       const { columnId } = action.payload;
 
       // Delete tasks
@@ -151,14 +151,14 @@ const pipelineSlice = createSlice({
 });
 
 export const {
-  createDeal,
-  updateDeal,
+  // createTask,
+  // updateTask,
   createStage,
   moveTaskVertical,
   moveTaskHorizontal,
   updateStage,
   deleteStage,
-  deleteDealsAll,
-  deleteDeal,
-} = pipelineSlice.actions;
-export default pipelineSlice.reducer;
+  deleteTasksAll,
+  deleteTask,
+} = kanbanSlice.actions;
+export default kanbanSlice.reducer;

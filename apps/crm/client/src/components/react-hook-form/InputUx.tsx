@@ -5,6 +5,7 @@ import styles from './_InputUX.module.scss';
 interface IProps {
   label: string;
   id: string;
+  defaultValue: string | number | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
   isDirty: boolean | undefined;
@@ -15,13 +16,16 @@ interface IProps {
 
 // Wrapper: UX presentation for state of input; valid, invalid, focused, etc
 function InputUx(props: PropsWithChildren<IProps>): JSX.Element {
-  const { label, id, error, isDirty, isRequired, invalid, isSubmitted, children } = props;
-  const inputValidated = isDirty && !invalid;
+  const { label, id, defaultValue, error, isDirty, isRequired, invalid, isSubmitted, children } = props;
+  const inputValidated = !error && (defaultValue || (isDirty && !invalid));
   const showErrorState = error && isSubmitted;
+  const inputRequired = isRequired && invalid;
+
+  // console.log(isDirty, invalid, error, isSubmitted);
 
   return (
     <div
-      className={`${styles.inputUX} ${inputValidated ? styles.success : ''} ${isRequired && !isDirty ? styles.inputUX__required : ''} ${showErrorState ? styles.error : ''}`}>
+      className={`${styles.inputUX} ${inputValidated ? styles.success : ''} ${inputRequired ? styles.inputUX__required : ''} ${showErrorState ? styles.error : ''}`}>
       {children}
       <label htmlFor={id} className={styles.inputUX__label} data-is-dirty={isDirty}>
         {label}

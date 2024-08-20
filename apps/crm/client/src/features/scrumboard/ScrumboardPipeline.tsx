@@ -1,10 +1,10 @@
 import { DragDropContext, type DropResult } from 'react-beautiful-dnd';
 import { moveTaskHorizontal, moveTaskVertical } from '#Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch, useReduxSelector } from '#Redux/hooks';
-import { ScrumboardColumns } from './index';
+import { ScrumboardPipelineColumns } from './index';
 import styles from './_Scrumboard.module.scss';
 
-function ScrumBoard(): JSX.Element {
+function ScrumBoardPipeline(): JSX.Element {
   const reduxDispatch = useReduxDispatch();
   const data = useReduxSelector((store) => store.scrumboardPipeline);
 
@@ -30,10 +30,10 @@ function ScrumBoard(): JSX.Element {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={styles.scrumboard}>
-        <ScrumboardColumns data={data} />
+        <ScrumboardPipelineColumns data={data} />
       </div>
     </DragDropContext>
   );
 }
 
-export default ScrumBoard;
+export default ScrumBoardPipeline;

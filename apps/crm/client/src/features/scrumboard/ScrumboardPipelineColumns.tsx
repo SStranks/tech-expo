@@ -1,10 +1,10 @@
-import type { IInitialData } from '#Data/MockDnD';
+import type { IInitialData } from '#Data/MockScrumboardPipeline';
 import {
   ScrumboardAddStage,
-  ScrumboardColumn,
-  ScrumboardColumnLost,
-  ScrumboardColumnUnassigned,
-  ScrumboardColumnWon,
+  ScrumboardPipelineColumn,
+  ScrumboardPipelineColumnLost,
+  ScrumboardPipelineColumnUnassigned,
+  ScrumboardPipelineColumnWon,
 } from './index';
 import styles from './_ScrumboardColumns.module.scss';
 
@@ -12,7 +12,7 @@ interface IProps {
   data: IInitialData;
 }
 
-function ScrumboardColumns({ data }: IProps): JSX.Element {
+function ScrumboardPipelineColumns({ data }: IProps): JSX.Element {
   const columnUnassigned = data.columns['column-unassigned'];
   const columnUnassignedTasks = columnUnassigned.taskIds.map((taskId) => data.tasks[taskId]);
   const columnWon = data.columns['column-won'];
@@ -22,18 +22,22 @@ function ScrumboardColumns({ data }: IProps): JSX.Element {
 
   return (
     <div className={styles.columns}>
-      <ScrumboardColumnUnassigned key={columnUnassigned.id} column={columnUnassigned} tasks={columnUnassignedTasks} />
+      <ScrumboardPipelineColumnUnassigned
+        key={columnUnassigned.id}
+        column={columnUnassigned}
+        tasks={columnUnassignedTasks}
+      />
       {data.columnOrder.map((columnId) => {
         const column = data.columns[columnId];
         const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
 
-        return <ScrumboardColumn key={column.id} column={column} tasks={tasks} />;
+        return <ScrumboardPipelineColumn key={column.id} column={column} tasks={tasks} />;
       })}
       <ScrumboardAddStage />
-      <ScrumboardColumnWon key={columnWon.id} column={columnWon} tasks={columnWonTasks} />
-      <ScrumboardColumnLost key={columnLost.id} column={columnLost} tasks={columnLostTasks} />
+      <ScrumboardPipelineColumnWon key={columnWon.id} column={columnWon} tasks={columnWonTasks} />
+      <ScrumboardPipelineColumnLost key={columnLost.id} column={columnLost} tasks={columnLostTasks} />
     </div>
   );
 }
 
-export default ScrumboardColumns;
+export default ScrumboardPipelineColumns;

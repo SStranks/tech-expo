@@ -1,10 +1,10 @@
 import OutletPortalTransition from '#Components/react-transition-group/OutletPortalTransition';
-import ScrumBoard from '#Features/scrumboard/Scrumboard';
+import { ScrumboardKanban } from '#Features/scrumboard';
 
 function KanbanPage(): JSX.Element {
   return (
     <>
-      <ScrumBoard page="kanban" />
+      <ScrumboardKanban />
       <OutletPortalTransition />
     </>
   );

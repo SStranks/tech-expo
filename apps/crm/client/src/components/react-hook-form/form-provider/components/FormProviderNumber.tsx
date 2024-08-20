@@ -1,4 +1,3 @@
-import type { NumberFieldProps } from 'react-aria-components';
 import { useId } from 'react';
 import { Controller, useFormContext, type RegisterOptions } from 'react-hook-form';
 import { InputNumber } from '#Components/aria-inputs';
@@ -10,10 +9,10 @@ interface IProps {
   rules?: RegisterOptions;
 }
 
-function FormProviderNumber({ name, label, rules = {}, ...rest }: NumberFieldProps & IProps): JSX.Element {
+function FormProviderNumber({ name, label, rules = {}, ...rest }: IProps): JSX.Element {
   const {
     control,
-    formState: { defaultValues, isSubmitted },
+    formState: { defaultValues, isSubmitted, dirtyFields },
   } = useFormContext();
   const id = useId();
 
@@ -24,14 +23,15 @@ function FormProviderNumber({ name, label, rules = {}, ...rest }: NumberFieldPro
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error, isDirty } }) => (
+      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error } }) => (
         <InputUx
           id={id}
           label={label}
           error={error}
+          defaultValue={defaultValue}
           isSubmitted={isSubmitted}
           invalid={isInvalid}
-          isDirty={isDirty || defaultValue}
+          isDirty={dirtyFields[name] || defaultValue}
           isRequired={rules?.required}>
           <InputParser
             ReactAriaComponent={InputNumber}

@@ -2,7 +2,8 @@ import { UserCircle } from '#Components/general';
 import { Draggable } from 'react-beautiful-dnd';
 import { ScrumboardCardOptionsBtn } from '.';
 import styles from './_ScrumboardCard.module.scss';
-import { ITask } from '#Data/MockDnD';
+import { ITask } from '#Data/MockScrumboardPipeline';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
   task: ITask;
@@ -11,14 +12,21 @@ interface IProps {
   taskStatus?: 'won' | 'lost';
 }
 
-function ScrumBoardCard({ task, columnId, index, taskStatus }: IProps): JSX.Element {
+function ScrumBoardPipelineCard({ task, columnId, index, taskStatus }: IProps): JSX.Element {
+  const navigate = useNavigate();
+
+  const onDoubleClickHandler = () => {
+    navigate(`deal/update/${task.id}`, { state: { taskId: task.id } });
+  };
+
   return (
     <Draggable draggableId={task.id} index={index}>
       {(provided, snapshot) => (
         <div
-          ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
+          onDoubleClick={onDoubleClickHandler}
+          ref={provided.innerRef}
           className={`${styles.card} ${taskStatus ? styles[`card--${taskStatus}`] : ''} ${snapshot.isDragging ? styles['card--dragging'] : ''}`}>
           <div className={styles.card__upper}>
             <img src={task.companyLogo} alt="" className={styles.companyLogo} />
@@ -45,4 +53,4 @@ function ScrumBoardCard({ task, columnId, index, taskStatus }: IProps): JSX.Elem
   );
 }
 
-export default ScrumBoardCard;
+export default ScrumBoardPipelineCard;

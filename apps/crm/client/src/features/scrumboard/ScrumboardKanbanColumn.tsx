@@ -1,6 +1,6 @@
-import type { IColumn, ITask } from '#Data/MockDnD';
+import type { IColumn, ITask } from '#Data/MockScrumboardKanban';
 import DroppableStrictMode from '#Components/react-beautiful-dnd/DroppableStrictMode';
-import { ScrumboardAddCard, ScrumboardCard, ScrumboardColumnAddBtn, ScrumboardColumnOptionsBtn } from './index';
+import { ScrumboardAddCard, ScrumboardKanbanCard, ScrumboardColumnAddBtn, ScrumboardColumnOptionsBtn } from './index';
 import styles from './_ScrumboardColumn.module.scss';
 
 interface IScrumboardColumn {
@@ -8,9 +8,8 @@ interface IScrumboardColumn {
   tasks: ITask[];
 }
 
-function ScrumboardColumn(props: IScrumboardColumn): JSX.Element {
+function ScrumboardKanbanColumn(props: IScrumboardColumn): JSX.Element {
   const { column, tasks } = props;
-  const dealsTotal = tasks.reduce((acc, cur) => acc + cur.dealTotal, 0);
 
   return (
     <DroppableStrictMode droppableId={column.id}>
@@ -31,11 +30,10 @@ function ScrumboardColumn(props: IScrumboardColumn): JSX.Element {
                 <ScrumboardColumnAddBtn columnId={column.id} />
               </div>
             </div>
-            <span className={styles.pipelineTotal}>${dealsTotal}</span>
           </div>
           <div className={styles.column__cards}>
             {tasks.map((task, i) => {
-              return <ScrumboardCard key={task.id} task={task} index={i} columnId={column.id} />;
+              return <ScrumboardKanbanCard key={task.id} task={task} index={i} columnId={column.id} />;
             })}
             {tasks.length === 0 && <ScrumboardAddCard columnId={column.id} />}
           </div>
@@ -46,4 +44,4 @@ function ScrumboardColumn(props: IScrumboardColumn): JSX.Element {
   );
 }
 
-export default ScrumboardColumn;
+export default ScrumboardKanbanColumn;

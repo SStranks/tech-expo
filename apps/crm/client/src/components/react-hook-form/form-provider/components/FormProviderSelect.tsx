@@ -20,7 +20,7 @@ function FormProviderSelect<T extends object>({
 }: SelectProps<T> & IProps): JSX.Element {
   const {
     control,
-    formState: { defaultValues, isSubmitted },
+    formState: { defaultValues, isSubmitted, dirtyFields },
   } = useFormContext();
   const id = useId();
 
@@ -31,13 +31,14 @@ function FormProviderSelect<T extends object>({
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { name, value, onChange, onBlur }, fieldState: { isDirty, invalid: isInvalid, error } }) => (
+      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error } }) => (
         <InputUx
           id={id}
           label={label}
+          defaultValue={defaultValue}
           error={error}
           isSubmitted={isSubmitted}
-          isDirty={isDirty || defaultValue}
+          isDirty={dirtyFields[name] || defaultValue}
           invalid={isInvalid}
           isRequired={rules?.required}>
           <InputParser

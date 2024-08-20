@@ -20,7 +20,7 @@ function FormProviderComboTag<T extends object>({
   const {
     control,
     trigger,
-    formState: { defaultValues, isSubmitted },
+    formState: { defaultValues, isSubmitted, dirtyFields },
   } = useFormContext();
   const id = useId();
 
@@ -31,14 +31,15 @@ function FormProviderComboTag<T extends object>({
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, isDirty, error } }) => (
+      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error } }) => (
         <InputUx
           id={id}
           label={label}
+          defaultValue={defaultValue}
           error={error}
           isSubmitted={isSubmitted}
           invalid={isInvalid}
-          isDirty={isDirty}
+          isDirty={dirtyFields[name] || defaultValue}
           isRequired={rules?.required}>
           <InputParser
             ReactAriaComponent={InputComboTag}

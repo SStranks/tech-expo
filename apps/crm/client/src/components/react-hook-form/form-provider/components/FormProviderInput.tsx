@@ -25,6 +25,7 @@ function FormProviderInput({ name, type, label, rules = {}, ...rest }: InputProp
       id={id}
       label={label}
       error={errors[name as string]}
+      defaultValue={defaultValue}
       isSubmitted={isSubmitted}
       isDirty={dirtyFields[name] || defaultValue}
       isRequired={rules?.required}

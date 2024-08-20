@@ -27,7 +27,6 @@ function FormProviderCombo<T extends object>({
   const id = useId();
 
   const defaultValue = defaultValues?.[name];
-  // if (name === 'companyTitle') console.log(dirtyFields, name, defaultValues);
 
   return (
     <Controller
@@ -40,6 +39,7 @@ function FormProviderCombo<T extends object>({
           id={id}
           label={label}
           error={error}
+          defaultValue={defaultValue}
           isSubmitted={isSubmitted}
           isDirty={dirtyFields[name] || defaultValue}
           invalid={isInvalid}

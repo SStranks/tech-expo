@@ -11,18 +11,21 @@ function FormProviderTextArea({ name, label, rules = {} }: IProps): JSX.Element 
   const {
     register,
     getFieldState,
-    formState: { errors, isSubmitted },
+    formState: { defaultValues, errors, isSubmitted, dirtyFields },
   } = useFormContext();
-  const { invalid, isDirty } = getFieldState(name);
+  const { invalid } = getFieldState(name);
   const id = useId();
+
+  const defaultValue = defaultValues?.[name];
 
   return (
     <InputUx
       id={id}
       label={label}
+      defaultValue={defaultValue}
       error={errors[name as string]}
       isSubmitted={isSubmitted}
-      isDirty={isDirty}
+      isDirty={dirtyFields[name] || defaultValue}
       invalid={invalid}
       isRequired={rules?.required}>
       <TextArea register={register} id={id} name={name} rules={rules} error={errors[name as string]} label={label} />

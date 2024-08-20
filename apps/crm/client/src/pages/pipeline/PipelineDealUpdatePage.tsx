@@ -2,9 +2,9 @@ import type { SubmitHandler } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FormModal from '#Components/modal/FormModal';
-import { GENERIC_TEXT_RULES } from '#Components/react-hook-form/validationRules';
+import { GENERIC_NUMBER_RULES, GENERIC_TEXT_RULES } from '#Components/react-hook-form/validationRules';
 import { FormProvider } from '#Components/react-hook-form';
-import { createDeal } from '#Features/scrumboard/redux/pipelineSlice';
+import { updateDeal } from '#Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch, useReduxSelector } from '#Redux/hooks';
 
 // TEMP DEV: .
@@ -15,7 +15,7 @@ type IFormData = {
   companyTitle: string;
   dealStage: string;
   dealTitle: string;
-  dealValue: number;
+  dealTotal: number;
   dealOwner: string;
 };
 
@@ -41,9 +41,10 @@ function PipelineDealUpdatePage(): JSX.Element {
   };
 
   const onSubmit: SubmitHandler<IFormData> = (data) => {
-    const { companyTitle, dealOwner, dealStage, dealValue, dealTitle } = data;
-    const { columnId } = locationState;
-    reduxDispatch(createDeal({ columnId, companyTitle, dealOwner, dealStage, dealValue, dealTitle }));
+    const { companyTitle, dealOwner, dealStage, dealTotal, dealTitle } = data;
+    const taskId = task.id;
+
+    reduxDispatch(updateDeal({ taskId, companyTitle, dealOwner, dealStage, dealTotal, dealTitle }));
     setPortalActiveInternal(false);
     navigate(-1);
   };
@@ -57,7 +58,7 @@ function PipelineDealUpdatePage(): JSX.Element {
           companyTitle: task.companyTitle,
           dealStage: 'new',
           dealOwner: 'Bob',
-          dealValue: task.dealTotal,
+          dealTotal: task.dealTotal,
         }}>
         <FormModal.Header title="Edit Deal" />
         <FormModal.Content>
@@ -83,12 +84,7 @@ function PipelineDealUpdatePage(): JSX.Element {
             style={{ display: 'flex', flexDirection: 'column', rowGap: '10px', backgroundColor: 'inherit' }}>
             {/* // Make defaultSelectedKey dynamic; needs column-id */}
             <FormProvider.Select items={stageList} name="dealStage" label="Deal Stage" />
-            <FormProvider.Number
-              defaultValue={task.dealTotal}
-              rules={GENERIC_TEXT_RULES}
-              name="dealValue"
-              label="Deal Value"
-            />
+            <FormProvider.Number rules={GENERIC_NUMBER_RULES} name="dealTotal" label="Deal Value" />
           </div>
           <FormProvider.Combo
             items={ownersList}

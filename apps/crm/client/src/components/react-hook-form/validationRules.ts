@@ -9,6 +9,16 @@ export const GENERIC_TEXT_RULES = {
   },
 };
 
+export const GENERIC_NUMBER_RULES = {
+  required: {
+    value: true,
+    message: 'Please enter a valid number',
+  },
+  validate: {
+    isNumber: (v: number) => !Number.isNaN(v) || 'Please enter a valid number',
+  },
+};
+
 export const EMAIL_RULES = {
   required: {
     value: true,
