@@ -1,0 +1,15 @@
+.userCircleAbbv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  background-color: blue;
+  border-radius: 50%;
+
+  &__text {
+    font-size: 12px;
+    color: var(--thm-text-primary);
+    text-transform: capitalize;
+  }
+}

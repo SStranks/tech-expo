@@ -2,8 +2,6 @@ import PluginImport from 'eslint-plugin-import';
 import PluginSecurity from 'eslint-plugin-security';
 import PluginNode from 'eslint-plugin-n';
 
-import ConfigAirBnbBase from 'eslint-config-airbnb-base';
-
 import globals from 'globals';
 
 export const EslintConfigExpress = {
@@ -25,7 +23,6 @@ export const EslintConfigExpress = {
     n: PluginNode,
   },
   rules: {
-    ...ConfigAirBnbBase.rules,
     ...PluginSecurity.configs.recommended.rules,
     ...PluginNode.configs['recommended-module'].rules,
     'no-unused-vars': ['error', { argsIgnorePattern: 'next' }],

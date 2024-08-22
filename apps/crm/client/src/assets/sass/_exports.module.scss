@@ -1,0 +1,12 @@
+/* stylelint-disable property-no-unknown */
+@use 'variables' as var;
+
+// Export SASS variables for consumption inside JS
+/*   Exports                        */
+:export {
+  // hot-toast styling
+  colorToastMagenta: var.$magenta;
+  colorToastRoyalBlue: var.$royal-blue;
+  colorToastRed: var.$toast-red;
+  colorToastMuteBlue: var.$toast-mute-blue;
+}

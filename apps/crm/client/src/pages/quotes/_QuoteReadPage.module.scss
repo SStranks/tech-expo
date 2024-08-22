@@ -1,0 +1,159 @@
+@use '#Sass/abstracts/animations' as anim;
+@use '#Sass/components/buttons' as btn;
+
+.quoteReadPage {
+  margin-inline: auto;
+  max-width: 950px;
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+
+  &__quoteTitle {
+    color: var(--thm-text-secondary);
+    transition: anim.$theme-transition-color;
+  }
+}
+
+.backQuotesPage {
+  @include btn.btn-secondary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 6px;
+  padding: 4px 15px;
+  margin-bottom: 32px;
+  line-height: 1.2;
+}
+
+.hr {
+  border-color: var(--thm-border-quaternary);
+  transition: anim.$theme-transition-border-color;
+}
+
+.summaryBtns {
+  display: flex;
+  column-gap: 12px;
+
+  &__convertPDF {
+    @include btn.btn-primary;
+    column-gap: 8px;
+
+    &__svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__editQuote {
+    @include btn.btn-secondary;
+    column-gap: 8px;
+    padding-inline: 16px;
+
+    &__svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.quoteDocument {
+  margin-top: 32px;
+  background-color: white;
+  box-shadow: 0 0 25px 1px var(--thm-border-default);
+  border-radius: 6px;
+  transition: anim.$theme-transition-boxshadow;
+
+  &__header {
+    display: flex;
+    justify-content: flex-start;
+    column-gap: 24px;
+    padding: 32px;
+
+    &__companyLogo {
+      width: 75px;
+      height: 75px;
+      border-radius: 4px;
+    }
+
+    &__companyTitle {
+      font-weight: 800;
+    }
+
+    &__details {
+      display: flex;
+      flex-direction: column;
+      row-gap: 8px;
+      color: var(--thm-text-quaternary);
+      transition: anim.$theme-transition-color;
+    }
+
+    &__participants {
+      display: flex;
+      flex-direction: column;
+      row-gap: 18px;
+      margin-left: auto;
+    }
+
+    &__prepared {
+      display: flex;
+      flex-direction: column;
+      row-gap: 8px;
+      color: var(--thm-text-tertiary);
+      transition: anim.$theme-transition-color;
+    }
+
+    &__preparedParticipant {
+      font-weight: 800;
+    }
+  }
+
+  &__body {
+    padding: 32px;
+
+    &__titleBlock {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 32px;
+
+      &__title {
+        color: var(--thm-text-quaternary);
+        font-size: 24px;
+        font-weight: 700;
+        transition: anim.$theme-transition-color;
+      }
+    }
+
+    &__table {
+      display: grid;
+      grid-template:
+        'table table table table table table'
+        '. . . . financials financials' / 25% 20% 10% 15% 25% 5%;
+    }
+
+    &__financials {
+      grid-area: financials;
+      padding-left: 12px;
+      margin-top: 32px;
+
+      &__grid {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        row-gap: 12px;
+        width: 100%;
+        color: var(--thm-text-tertiary);
+        transition: anim.$theme-transition-color;
+
+        & > :nth-of-type(2n) {
+          text-align: end;
+        }
+      }
+    }
+  }
+
+  &__footer {
+    padding: 32px;
+  }
+}

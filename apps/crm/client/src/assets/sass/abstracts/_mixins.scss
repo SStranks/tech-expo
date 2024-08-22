@@ -1,0 +1,268 @@
+/* -------------------------------- */
+/*            ~ Mixins ~            */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+////
+/// --- SASSDOC
+/// @group Mixins
+////
+
+/*   Imports                        */
+@use 'sass:math';
+@use 'animations' as anim;
+@use 'functions' as fn;
+@use 'variables' as var;
+@use '../base/themes' as thm;
+
+/* -------------------------------- */
+/*   :root Theme Variables          */
+/* -------------------------------- */
+
+/// Maps over the default color theme map and adds each key/value as a new root variable.
+/// @parameter {map} $theme [thm.$light-theme] - Sass Map of element strings and color values
+/// @output CSS Variable: e.g. `--thm-text-header: #000000`
+@mixin root-theme-map-to-variables($theme: thm.$light-theme) {
+  @each $theme-item, $value in $theme {
+    --thm-#{$theme-item}: #{$value};
+  }
+}
+
+/* -------------------------------- */
+/*   UI                             */
+/* -------------------------------- */
+
+// NOTE:  Transitions not applicable on ::webkit-scrollbar;
+// NOTE:  Potential solution @property: see https://stackoverflow.com/a/74050413/20274651
+// NOTE:  Does not work in firefox however
+
+/// Base style for all scrollbars
+@mixin scrollbar-base {
+  &::-webkit-scrollbar-track {
+    background-color: var(--thm-background-default);
+    transition-property: background-color;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: var(--thm-background-default);
+    transition-property: background-color;
+  }
+
+  &::-webkit-scrollbar {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--thm-background-selected);
+    border-radius: 5px;
+    transition-property: background-color;
+
+    &:hover {
+      background-color: var(--thm-button-tertiary-hover);
+    }
+  }
+}
+
+/// Base style for all table scrollbars
+$scrollbar-table-dim: 12px;
+@mixin scrollbar-table-base {
+  &::-webkit-scrollbar-track {
+    background-color: var(--thm-background-default);
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: var(--thm-background-default);
+  }
+
+  &::-webkit-scrollbar {
+    width: $scrollbar-table-dim;
+    height: $scrollbar-table-dim;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--thm-background-selected);
+    border-radius: 5px;
+
+    &:hover {
+      background-color: var(--thm-button-tertiary-hover);
+    }
+  }
+}
+
+/// Base style for all portal scrollbars
+@mixin scrollbar-portal-base {
+  &::-webkit-scrollbar-track {
+    background-color: var(--thm-background-default);
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: var(--thm-background-default);
+  }
+
+  &::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--thm-background-selected);
+    border-radius: 5px;
+
+    &:hover {
+      background-color: var(--thm-button-tertiary-hover);
+    }
+  }
+}
+
+/// UI Border styling including transition
+@mixin ui-border($border-property) {
+  #{$border-property}: var.$border-ui;
+  border-color: var(--thm-border-ui);
+}
+
+@mixin header-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  transition: anim.$button-hover-header;
+
+  &:hover {
+    background-color: var(--thm-background-subtle);
+  }
+}
+
+@mixin header-button-svg {
+  min-width: var.$svg-dim-width;
+  height: var.$svg-dim-height;
+  transition: anim.$theme-transition-color;
+
+  & > path {
+    color: var(--thm-icon-default);
+  }
+}
+
+/* -------------------------------- */
+/*   Text: Header                   */
+/* -------------------------------- */
+
+/// H1 header styling
+/// @require px2rem Pixel to REM converter <>
+/// @link https://sass-lang.com/documentation/at-rules/mixin/#passing-arguments-to-content-blocks Sass: Mixins; Passing arguments to content blocks
+@mixin header-h1 {
+  $rem: fn.px2rem(56);
+  font-size: $rem;
+  font-weight: 700;
+  line-height: fn.px2rem(58);
+  letter-spacing: fn.px2rem(2);
+  text-transform: uppercase;
+  @content ($rem);
+}
+
+/* -------------------------------- */
+/*   Text: Body                     */
+/* -------------------------------- */
+
+/// Body Regular styling
+/// @require px2rem Pixel to REM converter <>
+/// @link https://sass-lang.com/documentation/at-rules/mixin/#passing-arguments-to-content-blocks Sass: Mixins; Passing arguments to content blocks
+@mixin body-regular {
+  $rem: fn.px2rem(15);
+  font-size: $rem;
+  font-weight: 500;
+  line-height: fn.px2rem(25);
+  @content ($rem);
+}
+
+/* -------------------------------- */
+/*   Text: Decoration               */
+/* -------------------------------- */
+
+/// Link underline styling
+@mixin text-link-underline {
+  cursor: pointer;
+  text-decoration-line: underline;
+  text-underline-offset: 3px;
+}
+
+/* -------------------------------- */
+/*   Extend Click Area              */
+/* -------------------------------- */
+
+/// Extends the click area around clickable elements
+/// @parameter {Percentage} $x [175%] - Extend horizontal clickable area
+/// @parameter {Percentage} $y [150] - Extend horizontal clickable area
+/// @parameter {Boolean} $visible [true] - Debug: Display the visible click area with a color.
+@mixin extend-clickarea($x: 175%, $y: 150%, $visible: true) {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: $x;
+    height: $y;
+    @if $visible == true {
+      background: rgb(239 172 207 / 80%);
+    }
+  }
+}
+
+/* -------------------------------- */
+/*   Input: Text                    */
+/* -------------------------------- */
+
+/// Input text styling
+@mixin input-text {
+  font-weight: 700;
+  font-size: fn.px2rem(14);
+  line-height: fn.px2rem(20);
+  letter-spacing: fn.px2rem(-0.25);
+}
+
+/* -------------------------------- */
+/*   Fluid Typogrpahy               */
+/* -------------------------------- */
+
+// The first two arguments are for screen resolutions from which the font will be responsive.
+// The last two arguments are for the smallest and largest font size.
+// Calculates line-height automatically.
+@mixin fluid-font($min-width, $max-width, $min-font-size, $max-font-size) {
+  $unit1: math.unit($min-width);
+  $unit2: math.unit($max-width);
+  $unit3: math.unit($min-font-size);
+  $unit4: math.unit($max-font-size);
+  @if $unit1 == $unit2 and $unit1 == $unit3 and $unit1 == $unit4 {
+    & {
+      font-size: $min-font-size;
+      line-height: $min-font-size * 1.618;
+      @media screen and (min-width: $min-width) {
+        font-size: calc(
+          #{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} *
+            ((100vw - #{$min-width}) / #{strip-unit($max-width - $min-width)})
+        );
+        line-height: calc(
+          #{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * 1.618 *
+            ((100vw - #{$min-width}) / #{strip-unit($max-width - $min-width)})
+        );
+      }
+      @media screen and (min-width: $max-width) {
+        font-size: $max-font-size;
+        line-height: $max-font-size * 1.618;
+      }
+    }
+  }
+}

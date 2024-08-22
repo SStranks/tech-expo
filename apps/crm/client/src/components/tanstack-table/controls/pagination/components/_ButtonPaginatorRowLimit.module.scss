@@ -1,0 +1,65 @@
+@use '#Sass/components/aria-react' as aria;
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: var(--thm-background-subtle);
+  }
+
+  &__svg {
+    min-width: 20px;
+    height: 20px;
+    color: var(--thm-icon-default);
+    pointer-events: none;
+  }
+}
+
+.selectValue {
+  margin-left: 3px;
+  color: var(--thm-text-default);
+  font-size: 12px;
+  transition-property: color;
+}
+
+.popover {
+  color: var(--thm-text-default);
+  border: 1px solid var(--thm-border-default);
+  border-radius: 4px;
+  font-size: 14px;
+  transform: translateX(5px);
+  background-color: var(--thm-background-default);
+}
+
+.listItem {
+  @include aria.react-aria-outline;
+  cursor: pointer;
+  padding: 3px 8px;
+
+  &[data-selected] {
+    background-color: var(--thm-background-selected);
+  }
+
+  &[data-hovered] {
+    background-color: var(--thm-background-hover);
+  }
+}
+
+.select {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80px;
+  padding-inline: 10px;
+
+  &[data-open] {
+    .button__svg {
+      color: var(--thm-icon-info);
+    }
+  }
+}

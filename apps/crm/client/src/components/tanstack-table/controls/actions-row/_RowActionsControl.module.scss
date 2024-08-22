@@ -1,0 +1,46 @@
+.rowActions {
+  display: flex;
+  justify-content: center;
+  column-gap: 5px;
+}
+
+@mixin link-base {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--thm-border-default);
+  border-radius: 4px;
+}
+
+.svg {
+  min-width: 14px;
+  height: 14px;
+  color: var(--thm-icon-default);
+}
+
+.link {
+  @include link-base;
+
+  &:hover {
+    border-color: var(--thm-icon-info);
+
+    & .svg {
+      color: var(--thm-icon-info);
+    }
+  }
+}
+
+.linkDelete {
+  @include link-base;
+  border: 1px solid var(--thm-border-danger);
+
+  &:hover {
+    background-color: hsl(from var(--thm-icon-danger) h s l / 20%);
+
+    & .svg {
+      color: var(--thm-icon-danger);
+    }
+  }
+}

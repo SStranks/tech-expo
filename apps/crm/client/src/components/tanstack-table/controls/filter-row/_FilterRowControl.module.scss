@@ -1,0 +1,86 @@
+@use '#Sass/abstracts/animations' as anim;
+@use '#Sass/abstracts/ux' as ux;
+@use '#Sass/components/buttons' as btn;
+@use '#Sass/components/aria-react' as aria;
+
+.triggerBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+
+  &__active {
+    border: 1px solid var(--thm-icon-info);
+  }
+
+  &:hover {
+    background-color: var(--thm-background-subtle);
+  }
+}
+
+.svg {
+  min-width: 14px;
+  height: 14px;
+  color: var(--thm-icon-default);
+
+  &__active {
+    color: var(--thm-icon-info);
+  }
+}
+
+.popover {
+  padding: 10px;
+  background-color: var(--thm-background-default);
+  border: 1px solid var(--thm-border-default);
+  border-radius: 6px;
+
+  &__controls {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 8px;
+  }
+}
+
+.searchField {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+}
+
+.input {
+  @include aria.react-aria-outline;
+  padding: 5px;
+  border: 1px solid var(--thm-button-secondary-border);
+  border-radius: 2px;
+  font-size: 15px;
+  transition: anim.$theme-transition-border-color;
+
+  &:hover {
+    @include ux.input-ux-primary-hover;
+  }
+
+  &:has(.input:focus) {
+    @include ux.input-ux-primary-focus;
+  }
+}
+
+.filterBtn {
+  @include btn.btn-primary;
+  column-gap: 4px;
+  height: 24px;
+  padding-inline: 4px 8px;
+  font-size: 15px;
+
+  &__svg {
+    color: white;
+  }
+}
+
+.clearBtn {
+  @include btn.btn-danger;
+  height: 24px;
+  padding-inline: 8px;
+  font-size: 14px;
+}

@@ -1,0 +1,30 @@
+$svg-dim: 14px;
+$column-gap: 14px;
+$padding: 16px;
+
+.header {
+  display: flex;
+  align-items: center;
+  column-gap: $column-gap;
+  padding: $padding;
+
+  &__headerSvg {
+    width: $svg-dim;
+    height: $svg-dim;
+    color: var(--thm-text-default);
+    transition-property: color;
+  }
+
+  &__headerTitle {
+    color: var(--thm-text-default);
+    font-weight: 700;
+    transition-property: color;
+  }
+}
+
+.row {
+  display: flex;
+  column-gap: $column-gap;
+  align-items: flex-start;
+  padding: 12px $padding;
+}

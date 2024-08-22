@@ -11,20 +11,22 @@
   "type": "module",
   "packageManager": "pnpm@9.0.6",
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20.9.0"
   },
   "prettier": "@packages/prettier-config",
   "scripts": {
+    "outdated": "pnpm outdated -r > outdatedPackages.txt",
     "commitlint": "commitlint",
     "lint": "eslint",
     "prepare": "husky install",
-    "secretlint": "secretlint --maskSecrets \"**/*\""
+    "secretlint": "secretlint --maskSecrets \"**/*\"",
+    "test:client": "pnpm --filter './apps/**/+(client|frontend)' jest:test",
+    "test:server": "pnpm --filter './apps/**/+(server|backend)' node:test"
   },
   "dependencies": {
-    "@packages/babel-config": "workspace:*",
     "@packages/commitlint-config": "workspace:*",
-    "@packages/cypress-config": "workspace:*",
     "@packages/eslint-config": "workspace:*",
+    "@packages/eslint-config-airbnb": "workspace:*",
     "@packages/eslint-config-cypress": "workspace:*",
     "@packages/eslint-config-express": "workspace:*",
     "@packages/eslint-config-react": "workspace:*",
@@ -33,29 +35,18 @@
     "@packages/jest-config": "workspace:*",
     "@packages/jest-config-node": "workspace:*",
     "@packages/jest-config-react": "workspace:*",
-    "@packages/prettier-config": "workspace:*",
     "@packages/secretlint-config": "workspace:*",
-    "@packages/storybook-config": "workspace:*",
     "@packages/stylelint-config": "workspace:*",
-    "@packages/typescript-config": "workspace:*",
-    "@packages/webpack-config": "workspace:*"
+    "@packages/typescript-config": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.9",
-    "@babel/eslint-parser": "^7.23.10",
-    "@babel/plugin-transform-runtime": "^7.23.9",
-    "@babel/preset-env": "^7.23.9",
-    "@babel/preset-react": "^7.23.3",
-    "@babel/preset-typescript": "^7.23.3",
-    "@babel/runtime": "^7.23.9",
-    "@commitlint/cli": "^18.6.0",
-    "eslint": "^8.56.0",
-    "husky": "^9.0.10",
-    "lint-staged": "^15.2.1",
-    "prettier": "^3.2.4",
-    "sassdoc": "^2.7.4",
-    "secretlint": "^8.1.1",
-    "stylelint": "^16.2.1",
-    "typescript": "^5.3.3"
+    "@commitlint/cli": "19.3.0",
+    "eslint": "8.57.0",
+    "husky": "9.0.10",
+    "lint-staged": "15.2.1",
+    "prettier": "3.2.4",
+    "secretlint": "8.1.1",
+    "stylelint": "16.8.1",
+    "typescript": "5.3.3"
   }
 }

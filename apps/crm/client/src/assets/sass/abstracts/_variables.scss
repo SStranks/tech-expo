@@ -1,0 +1,90 @@
+/* -------------------------------- */
+/*          ~ Variables ~           */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+////
+/// --- SASSDOC
+/// @group Variables
+////
+
+/*   Imports                        */
+@use 'functions' as fn;
+
+/* -------------------------------- */
+/*   Margin & Padding               */
+/* -------------------------------- */
+
+/// Horizontal padding for desktop sized screens
+/// @type Number (em)
+$padding-desktop-horizontal: fn.px2em(165);
+
+/* -------------------------------- */
+/*   Borders                        */
+/* -------------------------------- */
+
+/// Equal four corner border radius
+/// @type Number (pixel)
+$border-radius-1: 8px;
+
+/// UI Border dimension and style
+/// @type Number (pixel)
+$border-ui: 1px solid;
+
+/* -------------------------------- */
+/*   Shadows                        */
+/* -------------------------------- */
+
+/// Box shadow variation; light black
+/// @type Pixel Pixel Pixel Pixel RGB
+$box-shadow-1: 0 10px 10px -10px rgb(72 84 159 / 10%);
+
+/* -------------------------------- */
+/*   Web Element - SVG Icons        */
+/* -------------------------------- */
+
+/// UI SVG Icon Dimensions
+/// @type Number (pixel)
+$svg-dim-width: 20px;
+$svg-dim-height: 20px;
+
+/* -------------------------------- */
+/*   Web Element - Header           */
+/* -------------------------------- */
+
+/// Navigation bar vertical dimension
+/// @type Number (pixel)
+$header-dim-vertical: 70px;
+
+/// Navigation bar drop-down modals Y offset
+/// @type Number (pixel)
+$header-modals-offset-y: 10px;
+
+/* -------------------------------- */
+/*   Web Element - Aside            */
+/* -------------------------------- */
+
+/// Aside width - maximum
+/// @type Number (pixel)
+$aside-dim-width-maximized: 250px;
+
+/// Aside width - minimum
+/// /// @type Number (pixel)
+$aside-dim-width-minimized: 80px;
+
+/// Aside padding - maximized
+/// @type Number (pixel)
+$aside-padding-maximized: 8px;
+
+/// Aside padding - minimized
+/// @type Number (pixel)
+$aside-padding-minimized: 8px;

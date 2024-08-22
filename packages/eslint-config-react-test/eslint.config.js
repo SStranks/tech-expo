@@ -9,9 +9,9 @@ export const EslintConfigReactTest = {
     jest: PluginJest,
   },
   rules: {
-    ...PluginJestDom.configs.recommended.rules,
+    ...PluginJestDom.configs['flat/recommended'].rules,
     ...PluginTestingLibrary.configs['react'].rules,
-    ...PluginJest.configs.recommended.rules,
+    ...PluginJest.configs['flat/recommended'].rules,
   },
 };
 

@@ -1,0 +1,28 @@
+@use '#Sass/abstracts/ux' as ux;
+@use '#Sass/components/aria-react' as aria;
+
+.commentInsert {
+  display: flex;
+  align-items: center;
+  column-gap: 16px;
+  padding: 16px;
+}
+
+.input {
+  @include aria.react-aria-outline;
+  font-size: 14px;
+  width: 100%;
+  padding: 4px 8px;
+  color: var(--thm-text-default);
+  background-color: var(--thm-button-secondary-background);
+  border: 1px solid var(--thm-button-secondary-border);
+  border-radius: 4px;
+
+  &:hover {
+    @include ux.input-ux-primary-hover;
+  }
+
+  &:focus {
+    @include ux.input-ux-primary-focus;
+  }
+}

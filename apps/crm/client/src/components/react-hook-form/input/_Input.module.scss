@@ -1,0 +1,9 @@
+@use '#Sass/components/form' as form;
+
+.input {
+  @include form.input-base;
+  padding: 0 form.$input-padding;
+  color: form.$input-text;
+  background-color: inherit;
+  border-radius: inherit;
+}

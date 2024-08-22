@@ -1,0 +1,114 @@
+@use '#Sass/abstracts/animations' as anim;
+
+.column {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 24px;
+
+  &--won {
+    border: 1px solid var(--thm-border-success);
+    border-radius: 4px;
+  }
+
+  &--lost {
+    border: 1px solid var(--thm-border-danger);
+    border-radius: 4px;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--thm-border-default);
+    overflow: hidden;
+
+    &--won {
+      background-color: var(--thm-background-success);
+      border-color: var(--thm-border-success);
+      border-radius: 4px 4px 0 0;
+    }
+
+    &--lost {
+      background-color: var(--thm-background-danger);
+      border-color: var(--thm-border-danger);
+      border-radius: 4px 4px 0 0;
+    }
+  }
+
+  &__cards {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+    padding: 0 16px;
+    margin-top: 12px;
+  }
+}
+
+.headerPanel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerDetails {
+  display: flex;
+  column-gap: 8px;
+  color: white;
+  text-transform: uppercase;
+
+  &__title {
+    &--won {
+      color: var(--thm-scrumboard-column-won-text-secondary);
+    }
+
+    &--lost {
+      color: var(--thm-scrumboard-column-lost-text-secondary);
+    }
+  }
+}
+
+.headerControls {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.pipelineTotal {
+  color: white;
+
+  &--won {
+    color: var(--thm-scrumboard-column-won-text-secondary);
+  }
+
+  &--lost {
+    color: var(--thm-scrumboard-column-lost-text-secondary);
+  }
+}
+
+.addCardBtn {
+  color: white;
+}
+
+.cardsTotal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5px;
+  border: 1px solid var(--thm-border-default);
+  border-radius: 4px;
+
+  &--won {
+    color: var(--thm-scrumboard-column-won-text-secondary);
+    border-color: var(--thm-border-success);
+  }
+
+  &--lost {
+    color: var(--thm-scrumboard-column-lost-text-secondary);
+    border-color: var(--thm-border-danger);
+  }
+}
+
+.dangerColumn {
+  @include anim.danger-pulse;
+}

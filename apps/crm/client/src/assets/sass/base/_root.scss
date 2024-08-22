@@ -1,0 +1,31 @@
+/* -------------------------------- */
+/*             ~ Root ~             */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+////
+/// --- SASSDOC
+/// @group Root
+////
+
+/*   Imports                        */
+@use '../abstracts/mixins' as mx;
+
+/* -------------------------------- */
+/*   Root                           */
+/* -------------------------------- */
+
+/// Document root
+:root {
+  // Establish default theme color variables
+  @include mx.root-theme-map-to-variables;
+}

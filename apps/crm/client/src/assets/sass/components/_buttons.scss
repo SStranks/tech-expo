@@ -1,0 +1,136 @@
+/* -------------------------------- */
+/*           ~ Buttons ~            */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+/*   Imports                        */
+@use '../abstracts/animations' as anim;
+@use '../abstracts/mixins' as mx;
+
+/* -------------------------------- */
+/*   Default                        */
+/* -------------------------------- */
+
+@mixin btn-root {
+  // @include mx.header-subtitle using ($rem) {
+  //   padding: fn.px2em-parent(15, $rem) fn.px2em-parent(30, $rem);
+  // }
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+}
+
+@mixin btn-primary {
+  @include btn-root;
+  height: 36px;
+  padding-inline: 16px;
+  line-height: 1.2;
+  background-color: var(--thm-button-primary-background);
+  color: var(--thm-button-primary-text);
+  border-radius: 6px;
+  box-shadow:
+    0 1px 3px rgba(0 0 0 / 30%),
+    0 1px 2px rgba(0 0 0 / 30%);
+  transition: anim.$button-hover-viewport;
+
+  &:hover {
+    background-color: var(--thm-button-primary-hover);
+  }
+
+  &:disabled {
+    background-color: var(--thm-button-primary-disabled-background);
+    border: 1px solid var(--thm-button-primary-disabled-border);
+    color: var(--thm-button-primary-disabled-text);
+  }
+}
+
+@mixin btn-secondary {
+  @include btn-root;
+  color: var(--thm-button-secondary-text);
+  background-color: var(--thm-button-secondary-background);
+  border: 1px solid var(--thm-button-secondary-border);
+  border-radius: 6px;
+
+  &:hover {
+    background-color: var(--thm-button-secondary-hover);
+  }
+
+  &:disabled {
+    background-color: var(--thm-button-secondary-disabled-background);
+    border: 1px solid var(--thm-button-secondary-disabled-border);
+    color: var(--thm-button-secondary-disabled-text);
+  }
+}
+
+// TODO:  Style up different; same as primary; make background transparent, blue border and text.
+@mixin btn-tertiary {
+  @include btn-root;
+  height: 36px;
+  padding-inline: 16px;
+  line-height: 1.2;
+  background-color: var(--thm-button-primary-background);
+  color: var(--thm-button-primary-text);
+  border-radius: 6px;
+  box-shadow:
+    0 1px 3px rgba(0 0 0 / 30%),
+    0 1px 2px rgba(0 0 0 / 30%);
+  transition: anim.$button-hover-viewport;
+
+  &:hover {
+    background-color: var(--thm-button-primary-hover);
+  }
+
+  &:disabled {
+    background-color: var(--thm-button-primary-disabled-background);
+    border: 1px solid var(--thm-button-primary-disabled-border);
+    color: var(--thm-button-primary-disabled-text);
+  }
+}
+
+@mixin btn-danger {
+  @include btn-root;
+  color: var(--thm-button-secondary-destructive-text);
+  background-color: var(--thm-button-secondary-destructive-background);
+  border: 1px solid var(--thm-button-secondary-destructive-border);
+  border-radius: 6px;
+
+  &:hover {
+    background-color: var(--thm-button-secondary-destructive-hover);
+  }
+
+  &:disabled {
+    background-color: var(--thm-button-secondary-destructive-disabled-background);
+    border: 1px solid var(--thm-button-secondary-destructive-disabled-border);
+    color: var(--thm-button-secondary-destructive-disabled-text);
+  }
+}
+
+@mixin btn-danger-inverse {
+  @include btn-root;
+  color: var(--thm-button-quinary-destructive-text);
+  background-color: var(--thm-button-quinary-destructive-background);
+  border: 1px solid var(--thm-button-quinary-destructive-border);
+  border-radius: 6px;
+
+  &:hover {
+    background-color: var(--thm-button-quinary-destructive-hover);
+  }
+
+  &:disabled {
+    background-color: var(--thm-button-quinary-destructive-disabled-background);
+    border: 1px solid var(--thm-button-quinary-destructive-disabled-border);
+    color: var(--thm-button-quinary-destructive-disabled-text);
+  }
+}

@@ -1,0 +1,79 @@
+@use '#Sass/components/aria-react' as aria;
+
+.scrumboardOptionBtn {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  border-radius: 4px;
+
+  &__svg {
+    color: var(--thm-icon-default);
+  }
+
+  &:hover {
+    & .scrumboardOptionBtn__svg {
+      color: var(--thm-icon-info);
+    }
+
+    background-color: var(--thm-background-element);
+  }
+
+  &__popover {
+    padding: 4px;
+    background-color: var(--thm-background-subtle);
+    box-shadow: 0 0 15px 2px hsl(0deg 0% 0% / 10%);
+    border: 1px solid var(--thm-border-secondary);
+    border-radius: 6px;
+  }
+
+  &__menu {
+    @include aria.react-aria-outline;
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+  }
+
+  &__menuItem {
+    @include aria.react-aria-outline;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    column-gap: 14px;
+    padding: 6px 15px;
+    color: var(--thm-text-default);
+    border-radius: 4px;
+
+    &__svg {
+      width: 18px;
+      height: 18px;
+      color: var(--thm-icon-default);
+    }
+
+    &:hover,
+    &:focus {
+      background-color: var(--thm-button-primary-hover);
+    }
+  }
+
+  &__menuItemWarning {
+    @include aria.react-aria-outline;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    column-gap: 14px;
+    padding: 6px 15px;
+    color: var(--thm-text-danger);
+    border-radius: 4px;
+
+    &__svg {
+      width: 18px;
+      height: 18px;
+      color: var(--thm-icon-danger);
+    }
+
+    &:hover,
+    &:focus {
+      background-color: hsl(from var(--thm-button-primary-destructive-background) h s l / 20%);
+    }
+  }
+}

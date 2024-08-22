@@ -1,0 +1,97 @@
+/* -------------------------------- */
+/*            ~ Readme ~            */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+/* -------------------------------- */
+/*   SCSS Abbreviations             */
+/* -------------------------------- */
+
+// @use '#Sass/abstracts/animations' as anim;
+// @use '#Sass/abstracts/colors' as col;
+// @use '#Sass/abstracts/functions' as fn;
+// @use '#Sass/abstracts/media-queries' as mq;
+// @use '#Sass/abstracts/mixins' as mx;
+// @use '#Sass/abstracts/variables' as var;
+
+// @use '#Sass/base/themes' as thm;
+
+// @use '#Sass/components/aria-react' as aria;
+// @use '#Sass/components/buttons' as btn;
+// @use '#Sass/components/checkbox' as chk;
+// @use '#Sass/components/dropdown' as dd;
+// @use '#Sass/components/form' as form;
+// @use '#Sass/components/radio' as rdo;
+// @use '#Sass/components/table' as tbl;
+
+/* -------------------------------- */
+/*   SCSS Architecture              */
+/* -------------------------------- */
+
+/* -------------------------------- */
+/*   Abstracts                      */
+/* -------------------------------- */
+
+// _animations
+//    - Theme Transitions
+//    - Modal Transitions
+//    - Suspense/Fallback Transitions
+// _colors
+//    - Primary
+//    - Secondary
+//    - Tertiary
+// _functions
+//    - Functions
+//    - Z-Index Manager
+// _media-queries
+//    - Breakpoints
+//    - Mixin Ranges
+//    - Media Queries: Multiple
+//    - Media Queries: Specific
+// _mixins
+//    - Text: Header
+//    - Text: Body
+//    - Text: Decoration
+//    - Extend Click Area
+//    - Input: Text
+//    - Fluid Typography
+// _variables
+//    - Margin & Padding
+//    - Borders
+//    - Shadows
+//    - Web Element
+
+/* -------------------------------- */
+/*   Base                           */
+/* -------------------------------- */
+
+// _font-face
+//    - Font Imports
+//    - Font-face Imports
+// _globals
+// _reset
+// _root
+// _themes
+//    - Light theme
+//    - Dark theme
+// _typography
+
+/* -------------------------------- */
+/*   Components                     */
+/* -------------------------------- */
+
+// _buttons
+// _checkbox
+// _dropdown
+// _form
+// _input_text
+// _radio

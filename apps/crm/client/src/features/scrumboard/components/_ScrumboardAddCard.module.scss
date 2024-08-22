@@ -1,0 +1,17 @@
+.addCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: var(--thm-background-subtle);
+  color: var(--thm-text-info);
+  border: 1px dashed var(--thm-border-default);
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--thm-background-info);
+    border-color: var(--thm-border-info);
+  }
+}

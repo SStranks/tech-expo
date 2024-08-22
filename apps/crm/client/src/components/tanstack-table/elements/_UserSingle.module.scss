@@ -1,0 +1,17 @@
+.userSingle {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 8px;
+
+  &__img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  &__userName {
+    text-transform: capitalize;
+  }
+}

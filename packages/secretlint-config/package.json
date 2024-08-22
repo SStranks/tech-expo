@@ -6,6 +6,6 @@
   "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
   "license": "ISC",
   "devDependencies": {
-    "@secretlint/secretlint-rule-preset-recommend": "^8.1.1"
+    "@secretlint/secretlint-rule-preset-recommend": "8.1.1"
   }
 }

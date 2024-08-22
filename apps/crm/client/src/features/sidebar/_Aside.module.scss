@@ -1,0 +1,62 @@
+@use '#Sass/abstracts/animations' as anim;
+@use '#Sass/abstracts/mixins' as mx;
+@use '#Sass/abstracts/variables' as var;
+
+.aside {
+  @include mx.ui-border(border-right);
+  position: relative;
+  width: var.$aside-dim-width-maximized;
+  height: 100%;
+  padding: var.$aside-padding-maximized;
+  background: var(--thm-background-default);
+  border-right: 1px solid var(--thm-border-secondary);
+  transition:
+    anim.$theme-transition-background,
+    anim.$theme-transition-border-color,
+    width 600ms ease-in-out;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+    height: 100%;
+    padding-left: unset;
+  }
+
+  &__menuButton {
+    position: absolute;
+    bottom: 20px;
+    right: -22.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    width: 45px;
+    background-color: var(--thm-background-default);
+    border-right: 1px solid var(--thm-border-secondary);
+    border-radius: 8px;
+    transition: anim.$theme-transition-background, anim.$theme-transition-border-color;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -45px;
+      left: 22.5px;
+      width: 45px;
+      height: 45px;
+      border-bottom-left-radius: 16px;
+      box-shadow: -15px 0 0 0 var(--thm-background-default);
+      transition: anim.$theme-transition-boxshadow;
+    }
+  }
+
+  &--minimize {
+    position: relative;
+    width: var.$aside-dim-width-minimized;
+    padding: var.$aside-padding-minimized;
+    transition:
+      anim.$theme-transition-background,
+      anim.$theme-transition-border-color,
+      width 300ms ease-in-out;
+  }
+}

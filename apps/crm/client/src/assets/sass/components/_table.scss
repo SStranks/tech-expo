@@ -1,0 +1,48 @@
+/* -------------------------------- */
+/*        ~ Table Elements ~        */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+/*   Imports                        */
+@use '../abstracts/colors' as col;
+@use '../abstracts/mixins' as mx;
+@use '../components/buttons' as btn;
+
+/* -------------------------------- */
+/*   Row Icons - Color Palette      */
+/* -------------------------------- */
+
+// TODO:  Determine palette for light mode, then add both into _themes.scss
+// TODO:  Same colors are used in QuoteStatusUpdater; extract and consolidate
+@mixin table-row-icon-green {
+  color: col.$col-lime11-dark;
+  background-color: col.$col-lime8-dark;
+  border-color: col.$col-lime11-dark;
+}
+
+@mixin table-row-icon-red {
+  color: col.$col-red11-dark;
+  background-color: col.$col-ruby7-dark;
+  border-color: col.$col-red11-dark;
+}
+
+@mixin table-row-icon-blue {
+  color: col.$col-blue7-dark;
+  background-color: col.$col-sky11-dark;
+  border-color: col.$col-blue7-dark;
+}
+
+@mixin table-row-icon-cyan {
+  color: col.$col-cyan11-dark;
+  background-color: col.$col-sky8-dark;
+  border-color: col.$col-cyan11-dark;
+}

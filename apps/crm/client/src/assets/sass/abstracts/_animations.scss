@@ -1,0 +1,200 @@
+/* -------------------------------- */
+/*          ~ Animations ~          */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+////
+/// --- SASSDOC
+/// @group Animations
+////
+
+/*   Imports                        */
+
+/* -------------------------------- */
+/*   CSS Transition Group           */
+/* -------------------------------- */
+
+$ctg-enter-modal: 1500ms;
+$ctg-exit-modal: 200ms;
+
+/* -------------------------------- */
+/*   Theme Transitions              */
+/* -------------------------------- */
+
+/// Provides the transition durations for background, color, and fill properties.
+/// @example
+///   .class {
+///     transition: $theme-transition
+///   }
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
+
+$theme-transition-duration: 1s;
+$theme-transition-background: background $theme-transition-duration;
+$theme-transition-color: color $theme-transition-duration;
+$theme-transition-fill: fill $theme-transition-duration;
+$theme-transition-boxshadow: box-shadow $theme-transition-duration;
+$theme-transition-border-color: border-color $theme-transition-duration;
+$theme-transition-filter: filter $theme-transition-duration;
+
+@mixin transitions {
+  transition-property:
+    color,
+    background-color,
+    border-color,
+    text-decoration-color,
+    fill,
+    stroke,
+    opacity,
+    box-shadow,
+    transform,
+    filter,
+    backdrop-filter,
+    -webkit-backdrop-filter;
+}
+
+/* -------------------------------- */
+/*   Element Transitions            */
+/* -------------------------------- */
+
+/// Provides the transition durations for background, color, and fill properties.
+/// @example
+///   .class {
+///     transition: $nav-sticky-transition
+///   }
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
+
+$sidebar-menu-button-icon: transform 150ms;
+
+/* -------------------------------- */
+/*   Input Transitions              */
+/* -------------------------------- */
+
+/// Provides the transition settings for form input fields
+/// @example
+///   .class {
+///     transition: $nav-sticky-transition
+///   }
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
+
+$input-focus:
+  box-shadow 200ms ease-in-out,
+  border-color 200ms ease-in-out;
+
+/* -------------------------------- */
+/*   Hover Transitions              */
+/* -------------------------------- */
+
+/// Provides the transition for hover properties.
+/// @example
+///   .class {
+///     transition: $nav-sticky-transition
+///   }
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/transition MDN: CSS Transition
+
+$button-hover-viewport: background-color 200ms;
+$button-hover-header: background-color 650ms;
+$button-hover-sidebar: background-color 650ms;
+$icon-hover-vertical-transition: transform 150ms;
+$icon-hover-vertical-transform: translateY(-10%);
+
+/* -------------------------------- */
+/*   CSS-Transition-Group           */
+/* -------------------------------- */
+
+@mixin ctg-modal-default {
+  .appear,
+  .appeaDone {
+    opacity: 0;
+  }
+
+  .enter {
+    opacity: 0;
+  }
+
+  .enterActive {
+    opacity: 1;
+    transition: opacity 550ms;
+  }
+
+  .enterDone {
+    opacity: 1;
+  }
+
+  .exit {
+    opacity: 1;
+  }
+
+  .exitActive {
+    opacity: 0;
+    transition: opacity 250ms ease-out;
+  }
+}
+
+/* -------------------------------- */
+/*   React-Transition-Group         */
+/* -------------------------------- */
+
+/* -------------------------------- */
+/*   Tanstack-Table                 */
+/* -------------------------------- */
+
+@mixin danger-pulse {
+  animation: danger-pulse 0.7s infinite alternate;
+}
+
+@keyframes danger-pulse {
+  0% {
+    background-color: inherit;
+  }
+
+  100% {
+    background-color: var(--thm-button-primary-destructive-hover);
+  }
+}
+
+/* -------------------------------- */
+/*   Suspense/Fallback Transitions  */
+/* -------------------------------- */
+
+.fallback-fade-in {
+  visibility: hidden;
+  animation: fadein 1.5s;
+  animation-fill-mode: forwards;
+  animation-delay: 0.5s; /* no spinner flickering for fast load times */
+}
+
+.fallback-fade-out {
+  animation: fadeout 1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadein {
+  from {
+    visibility: visible;
+    opacity: 0;
+  }
+
+  to {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,106 @@
+/* -------------------------------- */
+/*          ~ Functions ~           */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+////
+/// --- SASSDOC
+/// @group Functions
+////
+
+/*   Imports                        */
+@use 'sass:math';
+@use 'sass:meta';
+@use 'sass:list';
+
+/* -------------------------------- */
+/*   Functions                      */
+/* -------------------------------- */
+
+/// Convert pixel value to REM. Returns 0 if input is 0, err if unit included
+/// @parameter {integer} $pixel - Unitless pixel integer
+@function px2rem($pixel) {
+  @if math.is-unitless($pixel) {
+    /* stylelint-disable-next-line length-zero-no-unit */
+    $rem-value: math.div($pixel, 16) + 0rem;
+    $zero-safe-rem: if($pixel == 0, 0, $rem-value);
+    @return $zero-safe-rem;
+  } @else {
+    @error "Do not use units when using the rem() function";
+  }
+}
+
+/// Convert pixel value to EM. Returns 0 if input is 0, err if unit included
+/// @parameter {integer} $pixel - Unitless pixel integer
+@function px2em($pixel) {
+  @if math.is-unitless($pixel) {
+    /* stylelint-disable-next-line length-zero-no-unit */
+    $em-value: math.div($pixel, 16) + 0em;
+    $zero-safe-em: if($pixel == 0, 0, $em-value);
+    @return $zero-safe-em;
+  } @else {
+    @error "Do not use units when using the em() function";
+  }
+}
+
+/// Convert pixel value to EM, taking parent REM into consideration.
+/// @parameter {Integer} $pixel - Pixel (unit or unitless)
+/// @parameter {Integer} $rem - REM (unit or unitless)
+/// @require strip-unit Remove unit from number <>
+/// @return {Number<em>} Returns an EM value, or 0 if input was 0 with a unit.
+@function px2em-parent($pixel, $rem) {
+  $val1: strip-unit($pixel);
+  $val2: strip-unit($rem);
+
+  /* stylelint-disable-next-line length-zero-no-unit */
+  $em-value: math.div($val1, ($val2 * 16)) + 0em;
+  $zero-safe-em: if($val1 == 0, 0, $em-value);
+  @return $zero-safe-em;
+}
+
+/// Removes the unit from a number
+/// @parameter {Integer} $number A number with a unit suffix.
+/// @return {Number} Returns a unitless number.
+@function strip-unit($number) {
+  @if meta.type-of($number) == 'number' and not math.is-unitless($number) {
+    @return math.div($number, ($number * 0 + 1));
+  }
+
+  @return $number;
+}
+
+/* -------------------------------- */
+/*   Z_Index Manager                */
+/* -------------------------------- */
+
+// Order determined by '$z-indexes' list
+// Organise $z-indexes and call function with relevant element name.
+/// Z-Index Manager
+/// @parameter {String} $name String provided at instantiation, referring to the element having Z-Index set.
+/// @parameter {Variable} $z-indexes List of string names of elements; ranked in descending order of Z-Index.
+/// @require $z-indexes List of string name representations of elements to be ordered.
+/// @example
+///   .component {
+///     z-index: z('Modal')
+///   }
+@function z($name, $z-indexes-list: $z-indexes) {
+  @if list.index($z-indexes-list, $name) {
+    @return (list.length($z-indexes-list) - list.index($z-indexes-list, $name)) + 1;
+  } @else {
+    @warn 'There is no item "#{$name}" in this list; choose one of: #{$z-indexes-list}';
+
+    @return null;
+  }
+}
+
+/// Z-Index List. Descending order of Z-Index; 0, 1, 2..
+$z-indexes: ('global-portal', 'root');

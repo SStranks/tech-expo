@@ -1,0 +1,174 @@
+/* -------------------------------- */
+/*        ~ Form Elements ~         */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+/*   Imports                        */
+@use '../abstracts/mixins' as mx;
+@use '../components/buttons' as btn;
+
+$border-radius: 8px;
+
+@mixin form-base-authentication-pages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  padding: 40px;
+  background-color: var(--thm-background-subtle);
+  border-radius: $border-radius;
+  box-shadow: 0 0 10px 2px hsla(0deg 0% 0% / 15%);
+}
+
+@mixin form-base-modal {
+  width: 100%;
+  max-width: 560px;
+  background-color: var(--thm-background-default);
+  border: 1px solid var(--thm-border-secondary);
+  border-radius: 6px;
+}
+
+@mixin form-base-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  color: var(--thm-text-default);
+  border-bottom: 1px solid var(--thm-border-secondary);
+}
+
+@mixin form-base-modal-content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  padding: 20px 24px;
+  background-color: var(--thm-background-subtle);
+}
+
+@mixin form-base-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 10px;
+  padding: 20px 24px;
+  border-top: 1px solid var(--thm-border-secondary);
+}
+
+// &__form {
+//   background-color: inherit;
+
+//   // TEMP DEV: .
+//   display: flex;
+//   flex-direction: column;
+//   row-gap: 20px;
+// }
+
+/* -------------------------------- */
+/*   Buttons                        */
+/* -------------------------------- */
+
+@mixin submit-button {
+  @include btn.btn-root;
+  cursor: pointer;
+  background-color: hsl(113deg 100% 28%);
+  border-radius: $border-radius;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+@mixin save-button {
+  @include btn.btn-primary;
+  height: 32px;
+  min-width: 32px;
+  padding: 4px 15px;
+}
+
+@mixin cancel-button {
+  @include btn.btn-secondary;
+  height: 32px;
+  min-width: 32px;
+  padding: 4px 15px;
+}
+
+@mixin okay-button {
+  @include btn.btn-primary;
+  height: 32px;
+  min-width: 32px;
+  padding: 4px 15px;
+}
+
+@mixin info-button {
+  @include btn.btn-root;
+
+  &:hover {
+    background-color: var(--thm-button-primary-hover);
+  }
+}
+
+@mixin danger-button {
+  @include btn.btn-danger;
+  height: 32px;
+  min-width: 32px;
+  padding: 4px 15px;
+}
+
+/* -------------------------------- */
+/*   Input Fields                   */
+/* -------------------------------- */
+
+$input-height: 50px;
+$input-padding: 16px;
+$input-background-color: transparent;
+$input-color-active: var(--thm-border-info);
+$input-color-success: var(--thm-success-primary);
+$input-color-danger: var(--thm-border-danger);
+$input-border: 1px solid var(--thm-button-secondary-border);
+$input-text: var(--thm-text-default);
+$input-placeholder: var(--thm-icon-secondary);
+$input-border-radius: 8px;
+
+@mixin input-base {
+  width: 100%;
+}
+
+@mixin input-container {
+  display: flex;
+  width: 100%;
+}
+
+@mixin input-focus-within {
+  border-color: $input-color-active;
+  box-shadow: 0 0 0 1px $input-color-active;
+}
+
+@mixin input-valid {
+  box-shadow: 0 0 0 1px $input-color-success;
+  border-color: $input-color-success;
+
+  &:focus-within {
+    border-color: $input-color-success;
+    box-shadow: 0 0 0 1px $input-color-success;
+  }
+}
+
+@mixin input-validated {
+  animation: pulse 1s;
+  box-shadow: 0 0 0 10px transparent;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 $input-color-success;
+  }
+}

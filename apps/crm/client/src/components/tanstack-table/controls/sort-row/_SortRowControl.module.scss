@@ -1,0 +1,34 @@
+.sortRowControlBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+
+  &__active {
+    border: 1px solid var(--thm-icon-info);
+  }
+
+  &:hover {
+    background-color: var(--thm-background-subtle);
+  }
+}
+
+.svg {
+  color: var(--thm-icon-default);
+  min-width: 18px;
+  height: 18px;
+
+  &__ascending {
+    > path:first-of-type {
+      color: var(--thm-icon-info);
+    }
+  }
+
+  &__descending {
+    > path:last-of-type {
+      color: var(--thm-icon-info);
+    }
+  }
+}

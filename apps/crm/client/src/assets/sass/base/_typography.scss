@@ -1,0 +1,50 @@
+/* -------------------------------- */
+/*          ~ Typography ~          */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+////
+/// --- SASSDOC
+/// @group Typography
+////
+
+/*   Imports                        */
+
+/* -------------------------------- */
+/*   Font                           */
+/* -------------------------------- */
+
+/// Sets the default font-family for the webpage.
+html,
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/// Sets the default font-family for all headers, parapgraphs, and spans, acrossthe webpage.
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+  font-family: inherit;
+}
+
+/// Removes the default text-decoration styling for links; not visited, visited, active, and hover.
+a,
+a:visited,
+a:active,
+a:hover {
+  text-decoration: 0;
+}

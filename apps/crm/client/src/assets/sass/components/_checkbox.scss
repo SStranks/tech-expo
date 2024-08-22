@@ -1,0 +1,59 @@
+/* -------------------------------- */
+/*           ~ Checkbox ~           */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+/*   Imports                        */
+@use '../abstracts/functions' as fn;
+@use '../abstracts/colors' as col;
+@use '../abstracts/mixins' as mx;
+@use '../abstracts/variables' as var;
+
+/* -------------------------------- */
+/*   Default                        */
+/* -------------------------------- */
+
+// Mixin to be included in span tag, inside label; hide default checkbox.
+@mixin checkbox-subtask-checkbox {
+  width: fn.px2em(16);
+  height: fn.px2em(16);
+  background-color: var(--thm-chkbox-default-chkbox-bg);
+  box-shadow: 0 0 0 1px col.$col-1g;
+  border-radius: var.$border-radius-chkbx-1;
+
+  &:hover {
+    background-color: var(--thm-chkbox-default-chkbox-bg);
+  }
+
+  &:checked {
+    background-color: col.$col-1a;
+  }
+}
+
+// Mixin to be applied to container (label tag)
+@mixin checkbox-subtask-label {
+  cursor: pointer;
+  display: block;
+  position: relative;
+  padding: fn.px2em(12) 0 fn.px2em(12) fn.px2em(44);
+  color: col.$Black;
+  background-color: var(--thm-chkbox-default-label-bg);
+  border-radius: var.$border-radius-chkbx-1;
+
+  &:hover {
+    background-color: var(--thm-chkbox-default-label-hover-bg);
+  }
+
+  &:checked {
+    background-color: var(--thm-chkbox-default-label-bg);
+  }
+}

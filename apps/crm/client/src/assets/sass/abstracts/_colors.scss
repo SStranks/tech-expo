@@ -1,0 +1,288 @@
+/* -------------------------------- */
+/*           ~ Colors ~             */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+////
+/// --- SASSDOC
+/// @group Colors
+////
+
+/*   Imports                        */
+
+/* -------------------------------- */
+/*   Radix UI Palette               */
+/* -------------------------------- */
+
+// Base
+$col-white: #fff;
+$col-black: #000;
+
+// Slate
+$col-slate1-light: hsl(206deg 30% 98.8%);
+$col-slate2-light: hsl(210deg 16.7% 97.6%);
+$col-slate3-light: hsl(209deg 13.3% 95.3%);
+$col-slate4-light: hsl(209deg 12.2% 93.2%);
+$col-slate5-light: hsl(208deg 11.7% 91.1%);
+$col-slate6-light: hsl(208deg 11.3% 88.9%);
+$col-slate7-light: hsl(207deg 11.1% 85.9%);
+$col-slate8-light: hsl(205deg 10.7% 78%);
+$col-slate9-light: hsl(206deg 6% 56.1%);
+$col-slate10-light: hsl(206deg 5.8% 52.3%);
+$col-slate11-light: hsl(206deg 6% 43.5%);
+$col-slate12-light: hsl(206deg 24% 9%);
+$col-slate1-dark: hsl(200deg 7% 8.8%);
+$col-slate2-dark: hsl(195deg 7.1% 11%);
+$col-slate3-dark: hsl(197deg 6.8% 13.6%);
+$col-slate4-dark: hsl(198deg 6.6% 15.8%);
+$col-slate5-dark: hsl(199deg 6.4% 17.9%);
+$col-slate6-dark: hsl(201deg 6.2% 20.5%);
+$col-slate7-dark: hsl(203deg 6% 24.3%);
+$col-slate8-dark: hsl(207deg 5.6% 31.6%);
+$col-slate9-dark: hsl(206deg 6% 43.9%);
+$col-slate10-dark: hsl(206deg 5.2% 49.5%);
+$col-slate11-dark: hsl(206deg 6% 63%);
+$col-slate12-dark: hsl(210deg 6% 93%);
+
+// Blue
+$col-blue1-light: hsl(206deg 100% 99.2%);
+$col-blue2-light: hsl(210deg 100% 98%);
+$col-blue3-light: hsl(209deg 100% 96.5%);
+$col-blue4-light: hsl(210deg 98.8% 94%);
+$col-blue5-light: hsl(209deg 95% 90.1%);
+$col-blue6-light: hsl(209deg 81.2% 84.5%);
+$col-blue7-light: hsl(208deg 77.5% 76.9%);
+$col-blue8-light: hsl(206deg 81.9% 65.3%);
+$col-blue9-light: hsl(206deg 100% 50%);
+$col-blue10-light: hsl(208deg 100% 47.3%);
+$col-blue11-light: hsl(211deg 100% 43.2%);
+$col-blue12-light: hsl(211deg 100% 15%);
+$col-blue1-dark: hsl(212deg 35% 9.2%);
+$col-blue2-dark: hsl(216deg 50% 11.8%);
+$col-blue3-dark: hsl(214deg 59.4% 15.3%);
+$col-blue4-dark: hsl(214deg 65.8% 17.9%);
+$col-blue5-dark: hsl(213deg 71.2% 20.2%);
+$col-blue6-dark: hsl(212deg 77.4% 23.1%);
+$col-blue7-dark: hsl(211deg 85.1% 27.4%);
+$col-blue8-dark: hsl(211deg 89.7% 34.1%);
+$col-blue9-dark: hsl(206deg 100% 50%);
+$col-blue10-dark: hsl(209deg 100% 60.6%);
+$col-blue11-dark: hsl(210deg 100% 66.1%);
+$col-blue12-dark: hsl(206deg 98% 95.8%);
+
+// Cyan
+$col-cyan1-light: hsl(195deg 67% 99%);
+$col-cyan2-light: hsl(187deg 53% 97%);
+$col-cyan3-light: hsl(184deg 69% 92%);
+$col-cyan4-light: hsl(187deg 71% 88%);
+$col-cyan5-light: hsl(187deg 66% 83%);
+$col-cyan6-light: hsl(188deg 61% 76%);
+$col-cyan7-light: hsl(189deg 58% 68%);
+$col-cyan8-light: hsl(189deg 60% 53%);
+$col-cyan9-light: hsl(191deg 100% 39%);
+$col-cyan10-light: hsl(191deg 93% 38%);
+$col-cyan11-light: hsl(192deg 81% 33%);
+$col-cyan12-light: hsl(192deg 69% 17%);
+$col-cyan1-dark: hsl(196deg 41% 7%);
+$col-cyan2-dark: hsl(199deg 33% 9%);
+$col-cyan3-dark: hsl(193deg 74% 12%);
+$col-cyan4-dark: hsl(193deg 100% 14%);
+$col-cyan5-dark: hsl(193deg 100% 17%);
+$col-cyan6-dark: hsl(192deg 93% 21%);
+$col-cyan7-dark: hsl(193deg 75% 28%);
+$col-cyan8-dark: hsl(192deg 80% 34%);
+$col-cyan9-dark: hsl(191deg 100% 39%);
+$col-cyan10-dark: hsl(191deg 71% 48%);
+$col-cyan11-dark: hsl(190deg 75% 60%);
+$col-cyan12-dark: hsl(190deg 80% 84%);
+
+// Lime
+$col-lime1-light: hsl(80deg 43% 99%);
+$col-lime2-light: hsl(77deg 41% 97%);
+$col-lime3-light: hsl(75deg 64% 90%);
+$col-lime4-light: hsl(76deg 63% 84%);
+$col-lime5-light: hsl(78deg 58% 78%);
+$col-lime6-light: hsl(80deg 50% 71%);
+$col-lime7-light: hsl(82deg 43% 63%);
+$col-lime8-light: hsl(85deg 40% 52%);
+$col-lime9-light: hsl(81deg 80% 66%);
+$col-lime10-light: hsl(81deg 75% 60%);
+$col-lime11-light: hsl(85deg 45% 34%);
+$col-lime12-light: hsl(75deg 39% 18%);
+$col-lime1-dark: hsl(77deg 23% 6%);
+$col-lime2-dark: hsl(90deg 24% 8%);
+$col-lime3-dark: hsl(93deg 28% 13%);
+$col-lime4-dark: hsl(92deg 31% 16%);
+$col-lime5-dark: hsl(91deg 32% 20%);
+$col-lime6-dark: hsl(92deg 32% 24%);
+$col-lime7-dark: hsl(91deg 33% 29%);
+$col-lime8-dark: hsl(90deg 35% 34%);
+$col-lime9-dark: hsl(81deg 80% 66%);
+$col-lime10-dark: hsl(78deg 100% 72%);
+$col-lime11-dark: hsl(80deg 70% 66%);
+$col-lime12-dark: hsl(80deg 79% 85%);
+
+// Green
+$col-green1-light: hsl(136deg 50% 98.9%);
+$col-green2-light: hsl(138deg 62.5% 96.9%);
+$col-green3-light: hsl(139deg 55.2% 94.5%);
+$col-green4-light: hsl(140deg 48.7% 91%);
+$col-green5-light: hsl(141deg 43.7% 86%);
+$col-green6-light: hsl(143deg 40.3% 79%);
+$col-green7-light: hsl(146deg 38.5% 69%);
+$col-green8-light: hsl(151deg 40.2% 54.1%);
+$col-green9-light: hsl(151deg 55% 41.5%);
+$col-green10-light: hsl(152deg 57.5% 37.6%);
+$col-green11-light: hsl(153deg 67% 28.5%);
+$col-green12-light: hsl(155deg 40% 14%);
+$col-green1-dark: hsl(146deg 30% 7.4%);
+$col-green2-dark: hsl(155deg 44.2% 8.4%);
+$col-green3-dark: hsl(155deg 46.7% 10.9%);
+$col-green4-dark: hsl(154deg 48.4% 12.9%);
+$col-green5-dark: hsl(154deg 49.7% 14.9%);
+$col-green6-dark: hsl(154deg 50.9% 17.6%);
+$col-green7-dark: hsl(153deg 51.8% 21.8%);
+$col-green8-dark: hsl(151deg 51.7% 28.4%);
+$col-green9-dark: hsl(151deg 55% 41.5%);
+$col-green10-dark: hsl(151deg 49.3% 46.5%);
+$col-green11-dark: hsl(151deg 50% 53.2%);
+$col-green12-dark: hsl(137deg 72% 94%);
+
+// Yellow
+$col-yellow1-light: hsl(60deg 54% 98.5%);
+$col-yellow2-light: hsl(52deg 100% 95.5%);
+$col-yellow3-light: hsl(55deg 100% 90.9%);
+$col-yellow4-light: hsl(54deg 100% 86.6%);
+$col-yellow5-light: hsl(52deg 97.9% 82%);
+$col-yellow6-light: hsl(50deg 89.4% 76.1%);
+$col-yellow7-light: hsl(47deg 80.4% 68%);
+$col-yellow8-light: hsl(48deg 100% 46.1%);
+$col-yellow9-light: hsl(53deg 92% 50%);
+$col-yellow10-light: hsl(50deg 100% 48.5%);
+$col-yellow11-light: hsl(42deg 100% 29%);
+$col-yellow12-light: hsl(40deg 55% 13.5%);
+$col-yellow1-dark: hsl(45deg 100% 5.5%);
+$col-yellow2-dark: hsl(46deg 100% 6.7%);
+$col-yellow3-dark: hsl(45deg 100% 8.7%);
+$col-yellow4-dark: hsl(45deg 100% 10.4%);
+$col-yellow5-dark: hsl(47deg 100% 12.1%);
+$col-yellow6-dark: hsl(49deg 100% 14.3%);
+$col-yellow7-dark: hsl(49deg 90.3% 18.4%);
+$col-yellow8-dark: hsl(50deg 100% 22%);
+$col-yellow9-dark: hsl(53deg 92% 50%);
+$col-yellow10-dark: hsl(54deg 100% 68%);
+$col-yellow11-dark: hsl(48deg 100% 47%);
+$col-yellow12-dark: hsl(53deg 100% 91%);
+
+// Orange
+$col-orange1-light: hsl(20deg 60% 99%);
+$col-orange2-light: hsl(33deg 100% 96%);
+$col-orange3-light: hsl(37deg 100% 92%);
+$col-orange4-light: hsl(34deg 100% 85%);
+$col-orange5-light: hsl(33deg 100% 80%);
+$col-orange6-light: hsl(30deg 100% 75%);
+$col-orange7-light: hsl(27deg 87% 71%);
+$col-orange8-light: hsl(25deg 80% 63%);
+$col-orange9-light: hsl(23deg 93% 53%);
+$col-orange10-light: hsl(24deg 100% 47%);
+$col-orange11-light: hsl(23deg 100% 40%);
+$col-orange12-light: hsl(16deg 50% 23%);
+$col-orange1-dark: hsl(27deg 24% 7%);
+$col-orange2-dark: hsl(28deg 33% 9%);
+$col-orange3-dark: hsl(29deg 65% 12%);
+$col-orange4-dark: hsl(28deg 100% 14%);
+$col-orange5-dark: hsl(28deg 100% 17%);
+$col-orange6-dark: hsl(27deg 79% 22%);
+$col-orange7-dark: hsl(25deg 63% 30%);
+$col-orange8-dark: hsl(23deg 60% 40%);
+$col-orange9-dark: hsl(23deg 93% 53%);
+$col-orange10-dark: hsl(26deg 100% 56%);
+$col-orange11-dark: hsl(26deg 100% 67%);
+$col-orange12-dark: hsl(30deg 100% 88%);
+
+// Red
+$col-red1-light: hsl(359deg 100% 99.4%);
+$col-red2-light: hsl(359deg 100% 98.6%);
+$col-red3-light: hsl(360deg 100% 96.8%);
+$col-red4-light: hsl(360deg 97.9% 94.8%);
+$col-red5-light: hsl(360deg 90.2% 91.9%);
+$col-red6-light: hsl(360deg 81.7% 87.8%);
+$col-red7-light: hsl(359deg 74.2% 81.7%);
+$col-red8-light: hsl(359deg 69.5% 74.3%);
+$col-red9-light: hsl(358deg 75% 59%);
+$col-red10-light: hsl(358deg 69.4% 55.2%);
+$col-red11-light: hsl(358deg 65% 48.7%);
+$col-red12-light: hsl(354deg 50% 14.6%);
+$col-red1-dark: hsl(353deg 23% 9.8%);
+$col-red2-dark: hsl(357deg 34.4% 12%);
+$col-red3-dark: hsl(356deg 43.4% 16.4%);
+$col-red4-dark: hsl(356deg 47.6% 19.2%);
+$col-red5-dark: hsl(356deg 51.1% 21.9%);
+$col-red6-dark: hsl(356deg 55.2% 25.9%);
+$col-red7-dark: hsl(357deg 60.2% 31.8%);
+$col-red8-dark: hsl(358deg 65% 40.4%);
+$col-red9-dark: hsl(358deg 75% 59%);
+$col-red10-dark: hsl(358deg 85.3% 64%);
+$col-red11-dark: hsl(358deg 100% 69.5%);
+$col-red12-dark: hsl(351deg 89% 96%);
+
+// Ruby
+$col-ruby1-light: hsl(340deg 100% 99%);
+$col-ruby2-light: hsl(353deg 100% 98%);
+$col-ruby3-light: hsl(351deg 91% 96%);
+$col-ruby4-light: hsl(351deg 100% 93%);
+$col-ruby5-light: hsl(350deg 100% 90%);
+$col-ruby6-light: hsl(351deg 80% 86%);
+$col-ruby7-light: hsl(349deg 68% 81%);
+$col-ruby8-light: hsl(348deg 61% 74%);
+$col-ruby9-light: hsl(348deg 75% 59%);
+$col-ruby10-light: hsl(347deg 70% 55%);
+$col-ruby11-light: hsl(345deg 70% 47%);
+$col-ruby12-light: hsl(344deg 63% 24%);
+$col-ruby1-dark: hsl(345deg 19% 8%);
+$col-ruby2-dark: hsl(347deg 18% 10%);
+$col-ruby3-dark: hsl(344deg 49% 15%);
+$col-ruby4-dark: hsl(342deg 61% 19%);
+$col-ruby5-dark: hsl(342deg 57% 24%);
+$col-ruby6-dark: hsl(344deg 50% 29%);
+$col-ruby7-dark: hsl(346deg 45% 37%);
+$col-ruby8-dark: hsl(348deg 45% 48%);
+$col-ruby9-dark: hsl(348deg 75% 59%);
+$col-ruby10-dark: hsl(350deg 79% 64%);
+$col-ruby11-dark: hsl(355deg 100% 79%);
+$col-ruby12-dark: hsl(340deg 96% 91%);
+
+// Sky
+$col-sky1-light: hsl(190deg 100% 99%);
+$col-sky2-light: hsl(195deg 75% 97%);
+$col-sky3-light: hsl(195deg 88% 94%);
+$col-sky4-light: hsl(195deg 80% 90%);
+$col-sky5-light: hsl(195deg 73% 85%);
+$col-sky6-light: hsl(197deg 65% 80%);
+$col-sky7-light: hsl(197deg 61% 72%);
+$col-sky8-light: hsl(198deg 60% 61%);
+$col-sky9-light: hsl(193deg 98% 74%);
+$col-sky10-light: hsl(194deg 90% 71%);
+$col-sky11-light: hsl(196deg 100% 31%);
+$col-sky12-light: hsl(205deg 50% 23%);
+$col-sky1-dark: hsl(217deg 41% 9%);
+$col-sky2-dark: hsl(215deg 39% 11%);
+$col-sky3-dark: hsl(211deg 58% 16%);
+$col-sky4-dark: hsl(208deg 67% 20%);
+$col-sky5-dark: hsl(206deg 66% 24%);
+$col-sky6-dark: hsl(205deg 64% 29%);
+$col-sky7-dark: hsl(203deg 65% 35%);
+$col-sky8-dark: hsl(200deg 75% 39%);
+$col-sky9-dark: hsl(193deg 98% 74%);
+$col-sky10-dark: hsl(192deg 100% 83%);
+$col-sky11-dark: hsl(200deg 80% 70%);
+$col-sky12-dark: hsl(192deg 100% 88%);

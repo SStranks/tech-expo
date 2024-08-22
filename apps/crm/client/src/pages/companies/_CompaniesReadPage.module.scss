@@ -1,0 +1,60 @@
+.companiesReadPage {
+  &__header {
+    display: flex;
+    column-gap: 18px;
+    margin-bottom: 40px;
+  }
+
+  &__tables {
+    display: grid;
+    grid-template:
+      'contacts company'
+      'deals company'
+      'quotes company'
+      'notes company' / 2fr 1fr;
+    gap: 32px 24px;
+  }
+}
+
+.companyLogo {
+  width: 100px;
+  height: 100px;
+  border-radius: 6px;
+}
+
+.companyDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 12px;
+
+  &__name {
+    color: var(--thm-text-default);
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  &__salesOwner {
+    color: var(--thm-text-secondary);
+  }
+}
+
+.companyTable {
+  grid-area: company;
+}
+
+.contactsTable {
+  grid-area: contacts;
+}
+
+.dealsTable {
+  grid-area: deals;
+}
+
+.quotesTable {
+  grid-area: quotes;
+}
+
+.notesTable {
+  grid-area: notes;
+}

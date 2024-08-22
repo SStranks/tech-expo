@@ -1,0 +1,45 @@
+/* -------------------------------- */
+/*        ~ Radio Buttons ~         */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+/*   Imports                        */
+@use '../abstracts/colors' as col;
+@use '../abstracts/mixins' as mx;
+
+/* -------------------------------- */
+/*   Default                        */
+/* -------------------------------- */
+
+@mixin radio-default {
+  appearance: none;
+  display: grid;
+  place-content: center;
+  margin: 0;
+  width: 20px;
+  height: 20px;
+  border: 1px solid col.$col-1e;
+  border-radius: 50%;
+  background-color: transparent;
+  color: col.$col-1c;
+
+  &::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  &:checked::before {
+    box-shadow: inset 1em 1em col.$col-1a;
+  }
+}

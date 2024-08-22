@@ -17,28 +17,25 @@
     "stylelint:lint": "pnpm stylelint ./**/*.{css,scss}"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@packages/babel-config": "workspace:^",
-    "@packages/cypress-config": "workspace:^",
-    "@packages/jest-config-react": "workspace:^",
-    "@packages/prettier-config": "workspace:^",
-    "@packages/typescript-config": "workspace:^",
-    "@packages/webpack-config": "workspace:^",
-    "@testing-library/jest-dom": "^6.4.1",
-    "@testing-library/react": "^14.2.1",
-    "@testing-library/user-event": "^14.5.2",
-    "@types/jest": "^29.5.12",
-    "@types/node": "^20.11.16",
-    "@types/react": "^18.2.51",
-    "@types/react-dom": "^18.2.18",
-    "@types/react-test-renderer": "^18.0.7",
-    "cypress": "^13.6.4",
-    "jest": "^29.7.0",
-    "react-test-renderer": "^18.2.0",
-    "sass": "^1.70.0",
-    "start-server-and-test": "^2.0.3"
+    "@packages/jest-config-react": "workspace:*",
+    "@packages/prettier-config": "workspace:*",
+    "@packages/typescript-config": "workspace:*",
+    "@testing-library/jest-dom": "6.4.1",
+    "@testing-library/react": "15.0.7",
+    "@testing-library/user-event": "14.5.2",
+    "@types/jest": "29.5.12",
+    "@types/node": "20.11.16",
+    "@types/react": "18.2.51",
+    "@types/react-dom": "18.2.18",
+    "@types/react-test-renderer": "18.0.7",
+    "cypress": "13.6.4",
+    "jest": "29.7.0",
+    "react-test-renderer": "18.2.0",
+    "sass": "1.70.0",
+    "start-server-and-test": "2.0.3"
   }
 }

@@ -1,0 +1,44 @@
+/* -------------------------------- */
+/*           ~ Dropdown ~           */
+/* -------------------------------- */
+/*           [CRM System]           */
+/* -------------------------------- */
+/*   CRM System for TechExpo24      */
+/*   [-- INSERT WEB ADDRESS --]     */
+/* -------------------------------- */
+/*   version:   1.0                 */
+/*   date:      07/02/2024          */
+/*   author:    Simon Stranks       */
+/*   website:   github.com/SStranks */
+/* -------------------------------- */
+
+/*   Imports                        */
+@use '../abstracts/functions' as fn;
+@use '../abstracts/colors' as col;
+@use '../abstracts/mixins' as mx;
+@use '../abstracts/variables' as var;
+
+/* -------------------------------- */
+/*   Default                        */
+/* -------------------------------- */
+
+@mixin dropdown-default {
+  @include mx.body-l;
+  padding: fn.px2em(8) 0 fn.px2em(8) fn.px2em(16);
+  color: var(--thm-dropdown-default-text);
+  background-color: var(--thm-dropdown-default-bg);
+  border-radius: var.$border-radius-dropdown;
+  border: 1px solid col.$col-2c;
+
+  &:active {
+    border: 1px solid col.$col-1a;
+  }
+}
+
+@mixin dropdown-default-list {
+  @include mx.body-l;
+  padding: fn.px2em(16);
+  background-color: var(--thm-dropdown-default-list-bg);
+  color: col.$col-1g;
+  border-radius: var.$border-radius-dropdown-list;
+}

@@ -1,0 +1,67 @@
+@use '#Sass/abstracts/animations' as anim;
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  column-gap: 7px;
+  width: 240px;
+  height: 35px;
+  padding-inline: 10px;
+  color: var(--thm-button-secondary-text);
+  font-size: 14px;
+  background-color: var(--thm-button-secondary-background);
+  border: 1px solid var(--thm-button-secondary-border);
+  border-radius: 6px;
+  transition:
+    transform 150ms,
+    background-color 1s,
+    color 1s,
+    border-color 1s;
+
+  &:hover {
+    background-color: var(--thm-button-secondary-hover);
+  }
+
+  &:active {
+    transform: scale(97%);
+  }
+
+  &__svg {
+    min-width: 17px;
+    height: 17px;
+    transition: anim.$theme-transition-color;
+
+    & > path {
+      color: var(--thm-icon-default);
+    }
+  }
+
+  &__shortcutKey {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin-left: auto;
+    background-color: var(--thm-button-secondary-background);
+    border: 1px solid var(--thm-button-secondary-border);
+    border-radius: 6px;
+    transition: anim.$theme-transition-background, anim.$theme-transition-border-color;
+  }
+}
+
+.portalContent {
+  position: absolute;
+  inset: 0;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: hsla(0deg 0% 0% / 25%);
+}
+
+/* -------------------------------- */
+/*   CSS-Transition-Group           */
+/* -------------------------------- */
+
+@include anim.ctg-modal-default;

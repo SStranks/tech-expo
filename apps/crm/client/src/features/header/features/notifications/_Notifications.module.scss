@@ -1,0 +1,99 @@
+@use '#Sass/abstracts/animations' as anim;
+@use '#Sass/abstracts/mixins' as mx;
+@use '#Sass/abstracts/variables' as var;
+
+// Utilized in the React component as dynamic variable; for placement of portal relative to window
+:root {
+  --notifications-menu-offset-x: ;
+}
+
+.notificationIcon {
+  @include mx.header-button;
+  position: relative;
+
+  &__svg {
+    @include mx.header-button-svg;
+  }
+
+  &__indicator {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px black;
+
+    &--noMessages {
+      background-color: var(--thm-neutral-primary);
+    }
+
+    &--unreadMessages {
+      transition: anim.$theme-transition-background;
+      background-color: var(--thm-danger-primary);
+    }
+
+    &--readMessages {
+      transition: anim.$theme-transition-background;
+      background-color: var(--thm-success-primary);
+    }
+  }
+}
+
+.portalContent {
+  position: absolute;
+  top: calc(var.$header-dim-vertical + var.$header-modals-offset-y);
+  left: var(--notifications-menu-offset-x);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 380px;
+  height: fit-content;
+  background-color: var(--thm-background-default);
+  border: 1px solid var(--thm-border-secondary);
+  border-radius: 6px;
+  transform: translateX(-100%);
+  z-index: 1;
+}
+
+.notifications {
+  width: 100%;
+
+  &__header {
+    padding: 12px 16px;
+    color: var(--thm-text-default);
+    border-bottom: 1px solid var(--thm-border-secondary);
+  }
+
+  &__list {
+    @include mx.scrollbar-portal-base;
+    height: 200px;
+    background-color: var(--thm-background-subtle);
+    overflow-y: scroll;
+  }
+
+  &__clear {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid var(--thm-border-secondary);
+
+    &__clearBtn {
+      width: 100%;
+      color: var(--thm-text-default);
+      padding: 12px 0;
+      transition: anim.$theme-transition-background;
+
+      &:hover {
+        background-color: var(--thm-button-secondary-hover);
+      }
+    }
+  }
+}
+
+/* -------------------------------- */
+/*   CSS-Transition-Group           */
+/* -------------------------------- */
+
+@include anim.ctg-modal-default;
