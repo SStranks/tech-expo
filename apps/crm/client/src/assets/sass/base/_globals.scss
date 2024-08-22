@@ -75,12 +75,9 @@ button {
 
 input {
   cursor: pointer;
-  color-scheme: var(--thm-color-scheme);
-  border-color: transparent;
   font-size: inherit;
   font-family: inherit;
   font-weight: inherit;
-  transition: anim.$theme-transition-background;
 
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {

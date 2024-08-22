@@ -1,7 +1,12 @@
+import { Outlet } from 'react-router-dom';
 import ViewportLayout from '#Layouts/ViewportLayout';
 
 function AdministrationRoute(): JSX.Element {
-  return <ViewportLayout>Administration Route</ViewportLayout>;
+  return (
+    <ViewportLayout>
+      <Outlet />
+    </ViewportLayout>
+  );
 }
 
 export default AdministrationRoute;

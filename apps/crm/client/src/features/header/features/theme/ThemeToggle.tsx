@@ -1,29 +1,34 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { IconTheme } from '#Components/svg';
+import { useReduxDispatch } from '#Redux/hooks';
+import { toggleTheme } from './redux/themeSlice';
 import styles from './_ThemeToggle.module.scss';
 
 export const LOCALSTORAGE_TOKEN = 'dark-mode';
 
-const themePreferenceLocalStorage = (body: HTMLElement | null) => {
-  if (body?.classList.contains('dark-theme')) {
-    window.localStorage.setItem(LOCALSTORAGE_TOKEN, 'true');
-  } else {
-    window.localStorage.setItem(LOCALSTORAGE_TOKEN, 'false');
-  }
-};
-
-const themeToggle = () => {
-  const body = document.querySelector('body');
-  body?.classList.add('theme-transition-duration');
-  body?.classList.toggle('dark-theme');
-  requestAnimationFrame(() => {
-    // Theme transition duration is added and immediately removed; prevents clash with :hover transitions
-    body?.classList.remove('theme-transition-duration');
-  });
-  themePreferenceLocalStorage(body);
-};
-
 function ThemeToggle(): JSX.Element {
+  const reduxDispatch = useReduxDispatch();
+
+  const themeToggle = useCallback(() => {
+    const body = document.querySelector('body');
+    body?.classList.add('theme-transition-duration');
+    body?.classList.toggle('dark-theme');
+
+    // Theme transition duration is added and immediately removed; prevents clash with :hover transitions
+    requestAnimationFrame(() => {
+      body?.classList.remove('theme-transition-duration');
+    });
+
+    // Set the localStorage key and set Redux state value
+    if (body?.classList.contains('dark-theme')) {
+      reduxDispatch(toggleTheme(true));
+      window.localStorage.setItem(LOCALSTORAGE_TOKEN, 'true');
+    } else {
+      reduxDispatch(toggleTheme(false));
+      window.localStorage.setItem(LOCALSTORAGE_TOKEN, 'false');
+    }
+  }, [reduxDispatch]);
+
   // Set theme on page load; check for localStorage token first, then user preferred color scheme
   useEffect(() => {
     const onPageLoad = () => {
@@ -41,7 +46,7 @@ function ThemeToggle(): JSX.Element {
     window.addEventListener('load', onPageLoad);
 
     return () => window.removeEventListener('load', onPageLoad);
-  }, []);
+  }, [themeToggle]);
 
   return (
     <button type="button" className={styles.themeToggle} onClick={themeToggle} aria-label="theme switch toggle">

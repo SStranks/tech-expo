@@ -1,11 +1,11 @@
-export { default as RouteAdministration } from './AdministrationRoute';
+export { default as RouteAdministration } from './administration/AdministrationRoute';
 export { default as RouteAuditLog } from './audit-log/AuditLogRoute';
-export { default as RouteCalendar } from './CalendarRoute';
+export { default as RouteCalendar } from './calendar/CalendarRoute';
 export { default as RouteCompanies } from './companies/CompaniesRoute';
 export { default as RouteContacts } from './contacts/ContactsRoute';
-export { default as RouteDashboard } from './DashboardRoute';
+export { default as RouteDashboard } from './dashboard/DashboardRoute';
 export { default as RouteKanban } from './kanban/KanbanRoute';
 export { default as RoutePipeline } from './pipeline/PipelineRoute';
 export { default as RouteQuotes } from './quotes/QuotesRoute';
-export { default as RouteScrumboard } from './ScrumboardRoute';
-export { default as RouteSettings } from './SettingsRoute';
+export { default as RouteScrumboard } from './scrumboard/ScrumboardRoute';
+export { default as RouteSettings } from './settings/SettingsRoute';

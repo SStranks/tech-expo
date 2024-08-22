@@ -53,5 +53,5 @@ export const initialData: IInitialData = {
       taskIds: [],
     },
   },
-  columnOrder: ['todo', 'complete'],
+  columnOrder: ['column-todo', 'column-complete'],
 };

@@ -34,6 +34,7 @@ import {
   PagePiplineDealsDelete,
   PagePiplineDealDelete,
   PagePiplineDealUpdate,
+  PageCalendar,
 } from '#Pages/index';
 import {
   RouteDashboard,
@@ -71,7 +72,9 @@ function App(): JSX.Element {
             </Authenticate>
           }>
           <Route index element={<RouteDashboard />} />
-          <Route path="calendar" element={<RouteCalendar />} />
+          <Route element={<RouteCalendar />}>
+            <Route path="calendar" element={<PageCalendar />} />
+          </Route>
           <Route path="scrumboard" element={<RouteScrumboard />} />
           <Route path="kanban" element={<RouteKanban />}>
             <Route path="" element={<PageKanban />}>

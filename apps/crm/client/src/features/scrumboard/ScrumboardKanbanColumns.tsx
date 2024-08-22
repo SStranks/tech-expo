@@ -7,6 +7,7 @@ interface IProps {
 }
 
 function ScrumboardKanbanColumns({ data }: IProps): JSX.Element {
+  console.log(data);
   const columnUnassigned = data.columns['column-unassigned'];
   const columnUnassignedTasks = columnUnassigned.taskIds.map((taskId) => data.tasks[taskId]);
 
