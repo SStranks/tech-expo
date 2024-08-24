@@ -4,14 +4,17 @@ import PluginUnicorn from 'eslint-plugin-unicorn';
 import PluginPrettier from 'eslint-plugin-prettier';
 import PluginImport from 'eslint-plugin-import';
 import PluginRegexp from 'eslint-plugin-regexp';
-import PluginPerfectionist from 'eslint-plugin-perfectionist';
+// import PluginPerfectionist from 'eslint-plugin-perfectionist';
 
 import RecommendedEslint from '@eslint/js';
 import globals from 'globals';
 
+// import { fixupPluginRules } from '@eslint/compat';
+
 export { default as ConfigPrettier } from 'eslint-config-prettier';
 
 export const EslintConfig = {
+  ignores: [],
   languageOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
@@ -27,10 +30,10 @@ export const EslintConfig = {
   plugins: {
     '@typescript-eslint': PluginTypescriptEslint,
     unicorn: PluginUnicorn,
-    import: PluginImport,
     prettier: PluginPrettier,
     regexp: PluginRegexp,
-    perfectionist: PluginPerfectionist,
+    // import: fixupPluginRules(PluginImport),
+    // perfectionist: PluginPerfectionist,
   },
   rules: {
     ...RecommendedEslint.configs.recommended.rules,
@@ -44,7 +47,7 @@ export const EslintConfig = {
     'no-console': 'off',
     'no-underscore-dangle': 'off',
     'no-use-before-define': 'off',
-    'import/no-unresolved': 'error',
+    // 'import/no-unresolved': 'error',
     'prettier/prettier': ['error'],
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/no-use-before-define': 'error',
@@ -84,7 +87,11 @@ export const EslintConfig = {
       ...PluginImport.configs.typescript.settings['import/resolver'],
       typescript: {
         alwaysTryTypes: true,
-        project: ['**/+(client|frontend)/tsconfig.json', '**/+(server|backend)/tsconfig.json', 'tsconfig.json'],
+        project: [
+          'apps/**/+(client|frontend)/tsconfig.json',
+          'apps/**/+(server|backend)/tsconfig.json',
+          'tsconfig.json',
+        ],
       },
     },
   },

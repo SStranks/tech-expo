@@ -9,14 +9,14 @@ export default [
   {
     // --- Global Ignores
     ignores: [
-      '**/node_modules',
-      '**/dist',
-      '**/build',
-      '**/__snapshots__',
-      '**/mocks',
-      '**/coverage',
-      '**/.sassdoc',
-      '!**/.storybook',
+      '**/node_modules/',
+      '**/dist/',
+      '**/build/',
+      '**/__snapshots__/',
+      '**/mocks/',
+      '**/coverage/',
+      '**/.sassdoc/',
+      '!**/.storybook/',
     ],
   },
   {
@@ -66,7 +66,7 @@ export default [
   },
   {
     // --- CRM: Client; NodeJS Express + Testing (Node)
-    files: ['apps/crm/server/server/**/*.[jt]s'],
+    files: ['apps/crm/server/src/**/*.[jt]s'],
     languageOptions: { ...EslintConfigExpress.languageOptions },
     plugins: { ...EslintConfigExpress.plugins },
     rules: { ...EslintConfigExpress.rules },

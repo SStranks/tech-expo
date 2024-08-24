@@ -1,8 +1,10 @@
-import PluginImport from 'eslint-plugin-import';
+// import PluginImport from 'eslint-plugin-import';
 import PluginSecurity from 'eslint-plugin-security';
 import PluginNode from 'eslint-plugin-n';
 
 import globals from 'globals';
+
+// NOTE:  PluginImport currently not working with flat-config
 
 export const EslintConfigExpress = {
   languageOptions: {
@@ -18,23 +20,19 @@ export const EslintConfigExpress = {
     },
   },
   plugins: {
-    import: PluginImport,
+    // import: fixupPluginRules(PluginImport),
     security: PluginSecurity,
     n: PluginNode,
   },
   rules: {
+    // ...PluginImport.configs.recommended.rules,
     ...PluginSecurity.configs.recommended.rules,
-    ...PluginNode.configs['recommended-module'].rules,
+    ...PluginNode.configs['flat/recommended-module'].rules,
     'no-unused-vars': ['error', { argsIgnorePattern: 'next' }],
     'no-console': 'off',
     'arrow-body-style': 'off',
     'n/no-missing-import': 'off',
-    'n/no-unpublished-import': [
-      'error',
-      {
-        allowModules: ['supertest'],
-      },
-    ],
+    'n/no-unpublished-import': 'off',
   },
 };
 
