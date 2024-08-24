@@ -1,0 +1,41 @@
+{
+  // NOTE:  Does this bug still apply??
+  // "extends": "@packages/typescript-config/nodejs", // BUG:  PNPM/Docker/TS doesn't support symlink extends
+  // "extends": "./tsconfig.node.json",
+  "extends": "@packages/typescript-config/nodejs",
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "#Shared/*": ["../shared/*"],
+      "#Config/*": ["config/*"],
+      "#Controllers/*": ["controllers/*"],
+      "#Data/*": ["data/*"],
+      "#Graphql/*": ["graphql/*"],
+      "#Helpers/*": ["helpers/*"],
+      "#Log/*": ["log/*"],
+      "#Middleware/*": ["middleware/*"],
+      "#Models/*": ["models/*"],
+      "#Routes/*": ["routes/*"],
+      "#Services/*": ["services/*"],
+      "#Tests/*": ["tests/*"],
+      "#Types/*": ["types/*"],
+      "#Utils/*": ["utils/*"],
+      "#Views/*": ["views/*"],
+    },
+    // "typeRoots": ["node_modules/@types", "node_modules/@testing-library"],
+  },
+
+  "ts-node": {
+    "esm": true,
+    "require": ["tsconfig-paths/register"],
+    "experimentalSpecifierResolution": "node",
+  },
+
+  "tsc-alias": {
+    "verbose": true,
+    "resolveFullPaths": true,
+  },
+
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"],
+}

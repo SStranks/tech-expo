@@ -9,6 +9,9 @@
 **/public
 **/dist
 
+# Logs
+**/*.log
+
 # Testing
 **/coverage
 

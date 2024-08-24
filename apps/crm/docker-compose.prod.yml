@@ -1,0 +1,49 @@
+services:
+
+  # Server: NodeJS Express
+  node-api:
+    container_name: techexpo-node-api-prod
+    build:
+      dockerfile: ./Dockerfile
+    image: techexpo-nodejs-express-api
+    env_file:
+      - ./server/.env.prod
+    networks:
+      - techexpo
+    security_opt:
+      - no-new-privileges
+
+  # Client: Nginx-React
+  react-app:
+    container_name: techexpo-react-app-prod
+    build:
+      dockerfile: ./Dockerfile
+    image: techexpo-react-app
+    env_file:
+      - ./frontend/.env.prod
+    depends_on:
+      - node-api
+    networks:
+      - techexpo
+    security_opt:
+      - no-new-privileges
+
+  # NGINX
+  nginx:
+    container_name: techexpo-nginx-prod
+    restart: on-failure
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - node-api
+      - react-app
+    ports:
+      - 8080:80
+    networks:
+      - techexpo
+    security_opt:
+      - no-new-privileges
+
+networks:
+  techexpo:

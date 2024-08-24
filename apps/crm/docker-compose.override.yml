@@ -1,0 +1,63 @@
+services:
+
+  # Server: NodeJS Express  
+  node-api:
+    container_name: techexpo-node-api-dev
+    image: node:18-alpine3.17
+    working_dir: /app/server
+    command: npm start
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    volumes:
+      - ./shared:/app/shared:ro
+      - ./server:/app/server:ro
+      - ../../node_modules:/node_modules:ro
+    env_file:
+      - ./server/.env.dev
+    depends_on:
+      - mongodb
+    security_opt:
+      - no-new-privileges
+
+  # Client: React App
+  # Use 'npm start' from ./client to init webpack-dev-server
+
+  # DB: MongoDB
+  mongodb:
+    container_name: techexpo-mongodb
+    image: mongo:6.0.6-custom
+    restart: on-failure
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+    ports:
+      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+    volumes:
+      - mongodb-data:/data/db
+    security_opt:
+      - no-new-privileges
+
+  # DB: MongoDB Express
+  mongo-express:
+    container_name: techexpo-mongo-express
+    image: mongo-express-custom
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    ports:
+      - $MONGOEXP_LOCAL_PORT:$MONGOEXP_DOCKER_PORT
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=$MONGODB_USER
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=$MONGODB_PASSWORD
+      - ME_CONFIG_BASICAUTH_USERNAME=$MONGOEXP_BASICAUTH_USER
+      - ME_CONFIG_BASICAUTH_PASSWORD=$MONGOEXP_BASICAUTH_PASS
+    volumes:
+      - mongodb-data:/data/db
+    security_opt:
+      - no-new-privileges
+
+volumes:
+  mongodb-data:
+    name: mongodb-data
+    external: true
