@@ -1,5 +1,7 @@
 import { replaceTscAliasPaths } from 'tsc-alias';
+import { connectMongoDB, disconnectMongoDB } from '#Config/dbMongo';
 import { pinoLogger, rollbar } from '#Helpers/index';
+import app from './app';
 
 if (process.env.NODE_ENV === 'production') {
   replaceTscAliasPaths();
@@ -20,7 +22,9 @@ process.on('uncaughtException', (err: Error) => {
   });
 });
 
-import app from './app';
+// NOTE:  Add in event emitter; once DB established, make event, catch it here and then trigger app.listen
+connectMongoDB();
+
 const server = app.listen(PORT, () => {
   pinoLogger.info(`Server running successfuly in ${process.env.NODE_ENV} mode on Port ${PORT}`);
 });
@@ -39,8 +43,9 @@ process.on('unhandledRejection', (err: Error) => {
 });
 
 // SIGTERM
-process.on('SIGTERM', () => {
+process.on('SIGTERM', async () => {
   const exitMsg = 'SIGTERM signal received. Shutting down server';
+  await disconnectMongoDB();
   pinoLogger.info(exitMsg);
   server.close(() => {
     console.log('Server terminated');
@@ -48,8 +53,9 @@ process.on('SIGTERM', () => {
 });
 
 // SIGINT
-process.on('SIGINT', () => {
+process.on('SIGINT', async () => {
   const exitMsg = 'SIGINT signal received. Shutting down server';
+  await disconnectMongoDB();
   pinoLogger.info(exitMsg);
   server.close(() => {
     console.log('Server terminated');
