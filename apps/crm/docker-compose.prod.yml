@@ -9,7 +9,7 @@ services:
     env_file:
       - ./server/.env.prod
     networks:
-      - techexpo
+      - crm-backend
     security_opt:
       - no-new-privileges
 
@@ -45,5 +45,30 @@ services:
     security_opt:
       - no-new-privileges
 
+  # DB: MongoDB
+  mongodb:
+    container_name: techexpo-mongodb
+    image: mongo:6.0.6-custom
+    restart: on-failure
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_INITDB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_INITDB_ROOT_PASSWORD
+    ports:
+      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+    volumes:
+      - mongodb-prod-data:/data/db
+      - ./server/mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+    networks:
+      - crm-backend
+    security_opt:
+      - no-new-privileges
+    command: mongod --auth
+
+volumes:
+  mongodb-prod-data:
+    name: mongodb-prod-data
+    external: true
+
 networks:
-  techexpo:
+  crm-backend:
+    driver: bridge

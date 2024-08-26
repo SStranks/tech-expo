@@ -7,7 +7,7 @@ services:
     working_dir: /app/server
     command: npm start
     ports:
-      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+      - ${NODE_LOCAL_PORT:?error}:${NODE_DOCKER_PORT:?error}
     volumes:
       - ./shared:/app/shared:ro
       - ./server:/app/server:ro
@@ -24,18 +24,22 @@ services:
 
   # DB: MongoDB
   mongodb:
-    container_name: techexpo-mongodb
+    container_name: ${MONGODB_CONTAINER}
     image: mongo:6.0.6-custom
     restart: on-failure
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_INITDB_ROOT_USERNAME:?error}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_INITDB_ROOT_PASSWORD:?error}
     ports:
-      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+      - ${MONGODB_LOCAL_PORT:?error}:${MONGODB_DOCKER_PORT:?error}
     volumes:
       - mongodb-data:/data/db
+      - ./server/mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+    env_file:
+      - ./server/.env.dev
     security_opt:
       - no-new-privileges
+    command: mongod --auth
 
   # DB: MongoDB Express
   mongo-express:
@@ -45,15 +49,18 @@ services:
       - mongodb
     restart: unless-stopped
     ports:
-      - $MONGOEXP_LOCAL_PORT:$MONGOEXP_DOCKER_PORT
+      - ${MONGOEXP_LOCAL_PORT:?error}:${MONGOEXP_DOCKER_PORT:?error}
     environment:
-      - ME_CONFIG_MONGODB_SERVER=mongodb
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=$MONGODB_USER
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=$MONGODB_PASSWORD
-      - ME_CONFIG_BASICAUTH_USERNAME=$MONGOEXP_BASICAUTH_USER
-      - ME_CONFIG_BASICAUTH_PASSWORD=$MONGOEXP_BASICAUTH_PASS
+      - ME_CONFIG_MONGODB_URI=${MONGODB_PROTOCOL}://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_CONTAINER}:${MONGODB_PORT}/${MONGODB_DATABASE}${MONGODB_ARGS}
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=${MONGODB_USER}
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=${MONGODB_PASSWORD}
+      - ME_CONFIG_BASICAUTH_USERNAME=${MONGOEXP_BASICAUTH_USER:?error}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGOEXP_BASICAUTH_PASS:?error}
     volumes:
       - mongodb-data:/data/db
+    env_file:
+      - ./server/.env.dev
     security_opt:
       - no-new-privileges
 
