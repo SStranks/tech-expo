@@ -15,9 +15,9 @@
 - eslint-import-resolver-typescript // ⬡ .
 - eslint-plugin-import // ✖ .
 - eslint-plugin-react-hooks // ✖ .
-- eslint-plugin-testing-library // ✖ .
 - eslint-plugin-storybook // ✖ .
 - eslint-plugin-jsx-a11y // ✖ .
+- eslint-plugin-testing-library // ✔ .
 - eslint-plugin-react // ✔ .
 - @tanstack/eslint-plugin-query // ✔ .
 - @typescript-eslint // ✔ .
