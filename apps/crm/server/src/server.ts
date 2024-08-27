@@ -1,7 +1,7 @@
 import { replaceTscAliasPaths } from 'tsc-alias';
 import { connectMongoDB, disconnectMongoDB } from '#Config/dbMongo';
 import { pinoLogger, rollbar } from '#Helpers/index';
-import app from './app';
+import app from '#App/app';
 
 if (process.env.NODE_ENV === 'production') {
   replaceTscAliasPaths();
@@ -23,6 +23,7 @@ process.on('uncaughtException', (err: Error) => {
 });
 
 // NOTE:  Add in event emitter; once DB established, make event, catch it here and then trigger app.listen
+// https://awan.com.np/make-app-listen-only-after-db-connection-in-node/
 connectMongoDB();
 
 const server = app.listen(PORT, () => {

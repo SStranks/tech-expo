@@ -15,12 +15,22 @@ services:
       - ../shared:/app/shared:ro
       - ../server:/app/server:ro
       - ../../../node_modules:/node_modules:ro
+    environment:
+      - MONGODB_USER=/run/secrets/mongodb_user
+      - MONGODB_PASSWORD=/run/secrets/mongodb_password
+      - POSTGRES_USER=/run/secrets/postgres_user
+      - POSTGRES_PASSWORD=/run/secrets/postgres_password
     env_file:
       - ../server/.env.dev
     depends_on:
       - mongodb
     security_opt:
       - no-new-privileges
+    secrets:
+      - mongodb_user
+      - mongodb_password
+      - postgres_user
+      - postgres_password
 
   # DB: MongoDB
   mongodb:
@@ -75,6 +85,8 @@ services:
   postgres:
     image: postgres:16.4
     restart: always
+    ports:
+      - ${POSTGRES_LOCAL_PORT:?error}:${POSTGRES_DOCKER_PORT:?error}
     shm_size: 128mb
     volumes:
       - postgres-data:/var/lib/postgresql/data

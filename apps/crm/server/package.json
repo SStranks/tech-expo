@@ -33,7 +33,9 @@
     "docker:build": "docker image build -f Dockerfile.prod -t $npm_package_config_dockerImageRepo:$npm_package_version .",
     "docker:postbuild": "docker image tag $npm_package_config_dockerImageRepo:$npm_package_version $npm_package_config_dockerImageRepo:latest",
     "docker:run": "docker run --name $npm_package_config_dockerImageName -d -p $npm_package_config_dockerImagePort:$npm_package_config_dockerInternalContainerPort $npm_package_config_dockerImageRepo",
-    "docker:clean": "docker rm -f $npm_package_config_imageName"
+    "docker:clean": "docker rm -f $npm_package_config_imageName",
+    "drizzle:generate": "drizzle-kit generate",
+    "drizzle:migrate": "drizzle-kit migrate"
   },
   "config": {
     "dockerImageRepo": "techexpo/server",
@@ -47,8 +49,10 @@
     "#Config/*": "./src/config/*",
     "#Controllers/*": "./src/controllers/*",
     "#Data/*": "./src/data/*",
+    "#Drizzle/*": "./src/drizzle/*",
     "#Graphql/*": "./src/graphql/*",
     "#Helpers/*": "./src/helpers/*",
+    "#Lib/*": "./src/lib/*",
     "#Log/*": "./src/log/*",
     "#Middleware/*": "./src/middleware/*",
     "#Models/*": "./src/models/*",
@@ -85,6 +89,7 @@
     "pino": "^9.3.2",
     "pino-http": "^10.2.0",
     "pino-mongodb": "^4.3.0",
+    "postgres": "^3.4.4",
     "rollbar": "^2.26.4",
     "sharp": "^0.33.5",
     "slugify": "^1.6.6",
@@ -104,6 +109,7 @@
     "@types/node": "^22.5.0",
     "@types/validator": "^13.12.0",
     "@types/ws": "^8.5.12",
+    "drizzle-kit": "^0.24.2",
     "nodemon": "^3.1.4",
     "pino-pretty": "^11.2.2",
     "ts-node": "^10.9.2",
