@@ -43,6 +43,7 @@
   },
   "imports": {
     "#Shared/*": "../shared/*",
+    "#App/*": "./src/app/*",
     "#Config/*": "./src/config/*",
     "#Controllers/*": "./src/controllers/*",
     "#Data/*": "./src/data/*",

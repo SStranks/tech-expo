@@ -1,0 +1,111 @@
+services:
+
+  # Client: React App
+  # Use 'npm start' from ./client to init webpack-dev-server
+
+  # Server: NodeJS Express  
+  node-api:
+    container_name: techexpo-node-api-dev
+    image: node:18-alpine3.17
+    working_dir: /app/server
+    command: npm start
+    ports:
+      - ${NODE_LOCAL_PORT:?error}:${NODE_DOCKER_PORT:?error}
+    volumes:
+      - ../shared:/app/shared:ro
+      - ../server:/app/server:ro
+      - ../../../node_modules:/node_modules:ro
+    env_file:
+      - ../server/.env.dev
+    depends_on:
+      - mongodb
+    security_opt:
+      - no-new-privileges
+
+  # DB: MongoDB
+  mongodb:
+    container_name: ${MONGODB_CONTAINER}
+    image: mongo:6.0.6-custom
+    restart: on-failure
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=/run/secrets/mongodb_root_user
+      - MONGO_INITDB_ROOT_PASSWORD=/run/secrets/mongodb_root_password
+    ports:
+      - ${MONGODB_LOCAL_PORT:?error}:${MONGODB_DOCKER_PORT:?error}
+    volumes:
+      - mongodb-data:/data/db
+      - ../server/mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+    env_file:
+      - ../server/.env.dev
+    security_opt:
+      - no-new-privileges
+    command: mongod --auth
+    secrets:
+      - mongodb_root_user
+      - mongodb_root_password
+
+  # DB: MongoDB Express
+  mongo-express:
+    container_name: techexpo-mongo-express
+    image: mongo-express-custom
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    ports:
+      - ${MONGOEXP_LOCAL_PORT:?error}:${MONGOEXP_DOCKER_PORT:?error}
+    environment:
+      - ME_CONFIG_MONGODB_URI=${MONGODB_PROTOCOL}://${/run/secrets/mongodb_user}:${/run/secrets/mongodb_password}@${MONGODB_CONTAINER}:${MONGODB_PORT}/${MONGODB_DATABASE}${MONGODB_ARGS}
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=/run/secrets/mongodb_user
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=/run/secrets/mongodb_password
+      - ME_CONFIG_BASICAUTH_USERNAME=/run/secrets/mongoexpress_user
+      - ME_CONFIG_BASICAUTH_PASSWORD=/run/secrets/mongoexpress_password
+    volumes:
+      - mongodb-data:/data/db
+    env_file:
+      - ../server/.env.dev
+    security_opt:
+      - no-new-privileges
+    secrets:
+      - mongoexpress_user
+      - mongoexpress_password
+      - mongodb_user
+      - mongodb_password
+
+  postgres:
+    image: postgres:16.4
+    restart: always
+    shm_size: 128mb
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=/run/secrets/postgres_user
+      - POSTGRES_PASSWORD=/run/secrets/postgres_password
+    env_file:
+      - ../server/.env.dev
+    secrets:
+      - postgres_user
+      - postgres_password
+
+volumes:
+  mongodb-data:
+    name: mongodb-data
+    external: true
+
+secrets:
+  mongodb_user:
+    file: ./secrets/.secret.mongodb_user.txt
+  mongodb_password:
+    file: ./secrets/.secret.mongodb_password.txt
+  mongodb_root_user:
+    file: ./secrets/.secret.mongodb_root_user.txt
+  mongodb_root_password:
+    file: ./secrets/.secret.mongodb_root_password.txt
+  mongoexpress_user:
+    file: ./secrets/.secret.mongoexpress_user.txt
+  mongoexpress_password:
+    file: ./secrets/.secret.mongoexpress_password.txt
+  postgres_user:
+    file: ./secrets/.secret.postgres_user.txt
+  postgres_password:
+    file: ./secrets/.secret.postgres_password.txt

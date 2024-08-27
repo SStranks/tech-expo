@@ -7,7 +7,7 @@ services:
       dockerfile: ./Dockerfile
     image: techexpo-nodejs-express-api
     env_file:
-      - ./server/.env.prod
+      - ../server/.env.prod
     networks:
       - crm-backend
     security_opt:
@@ -20,7 +20,7 @@ services:
       dockerfile: ./Dockerfile
     image: techexpo-react-app
     env_file:
-      - ./frontend/.env.prod
+      - ../client/.env.prod
     depends_on:
       - node-api
     networks:
@@ -33,7 +33,7 @@ services:
     container_name: techexpo-nginx-prod
     restart: on-failure
     build:
-      context: ./nginx
+      context: ../nginx
       dockerfile: Dockerfile
     depends_on:
       - node-api
@@ -57,7 +57,7 @@ services:
       - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
     volumes:
       - mongodb-prod-data:/data/db
-      - ./server/mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+      - ../server/mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
     networks:
       - crm-backend
     security_opt:

@@ -7,6 +7,7 @@
     "baseUrl": "./src",
     "paths": {
       "#Shared/*": ["../shared/*"],
+      "#App/*": ["app/*"],
       "#Config/*": ["config/*"],
       "#Controllers/*": ["controllers/*"],
       "#Data/*": ["data/*"],
@@ -36,6 +37,6 @@
     "resolveFullPaths": true,
   },
 
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/app/app.ts"],
   "exclude": ["node_modules", "dist"],
 }

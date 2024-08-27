@@ -5,10 +5,10 @@ services:
   # Backend: NodeJS Express
   node-api:
     build:
-      context: ./server
+      context: ../server
 
   # Frontend: React
   react-app:
     build:
-      context: ./client
+      context: ../client
     profiles: [ "prod" ]
