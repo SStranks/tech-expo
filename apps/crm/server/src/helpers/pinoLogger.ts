@@ -23,28 +23,28 @@ switch (true) {
     };
     transport = pino.transport({
       targets: [
-        {
-          target: 'pino/file',
-          level: 'info',
-          options: {
-            destination: `${path.resolve(CUR, '../log/app.dev.log')}`,
-          },
-        },
-        {
-          target: 'pino-mongodb',
-          level: 'info',
-          options: {
-            uri: `${process.env.MONGODB_PROTOCOL}://${process.env.MONGODB_HOST}/`,
-            database: process.env.MONGODB_DATABASE,
-            collection: `logs-${YEAR}-${MONTH}-${DAY}`,
-            mongoOptions: {
-              auth: {
-                username: process.env.MONGODB_USER,
-                password: process.env.MONGODB_PASSWORD,
-              },
-            },
-          },
-        },
+        // {
+        //   target: 'pino/file',
+        //   level: 'info',
+        //   options: {
+        //     destination: `${path.resolve(CUR, '../log/app.dev.log')}`,
+        //   },
+        // },
+        // {
+        //   target: 'pino-mongodb',
+        //   level: 'info',
+        //   options: {
+        //     uri: `${process.env.MONGODB_PROTOCOL}://${process.env.MONGODB_HOST}/`,
+        //     database: process.env.MONGODB_DATABASE,
+        //     collection: `logs-${YEAR}-${MONTH}-${DAY}`,
+        //     mongoOptions: {
+        //       auth: {
+        //         username: process.env.MONGODB_USER,
+        //         password: process.env.MONGODB_PASSWORD,
+        //       },
+        //     },
+        //   },
+        // },
         {
           target: 'pino-pretty',
           level: 'trace',

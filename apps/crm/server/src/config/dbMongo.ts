@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, type TopologyEvents } from 'mongodb';
 import pinoLogger from '#Helpers/pinoLogger';
 import rollbar from '#Helpers/rollbar';
 
@@ -22,80 +22,43 @@ pinoLogger.debug({ mongoDebug });
 
 const mongoClient = new MongoClient(MONGO_URI);
 
-// mongoClient.on('serverHeartbeatStarted', () => {
-//   pinoLogger.info(`serverHeartbeatStarted: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-// });
+type TMongoServerEvents = {
+  // eslint-disable-next-line no-unused-vars
+  [Key in keyof TopologyEvents]?: boolean;
+};
 
-// mongoClient.on('serverHeartbeatSucceeded', () => {
-//   pinoLogger.info(`serverHeartbeatSucceeded: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-// });
+class ServerEventsLogger {
+  private MongoClient;
+  private eventNames;
 
-// mongoClient.on('serverHeartbeatFailed', () => {
-//   pinoLogger.info(`serverHeartbeatFailed: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-// });
+  constructor(mongoClient: MongoClient, eventName: TMongoServerEvents) {
+    this.MongoClient = mongoClient;
+    this.eventNames = eventName;
 
-mongoClient.on('serverOpening', () => {
-  pinoLogger.info(`serverOpening: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-});
+    Object.keys(this.eventNames).forEach((event) => {
+      this.MongoClient.on(event, () => {
+        pinoLogger.info(`${event}: MongoDB: @${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}`);
+      });
+    });
+  }
+}
 
-mongoClient.on('serverClosed', () => {
-  pinoLogger.info(`serverClosed: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-});
-
-mongoClient.on('topologyOpening', () => {
-  pinoLogger.info(`topologyOpening: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-});
-
-mongoClient.on('topologyClosed', () => {
-  pinoLogger.info(`topologyClosed: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-});
-
-mongoClient.on('connectionPoolCreated', () => {
-  pinoLogger.info(`connectionPoolCreated: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-});
-
-mongoClient.on('connectionPoolReady', () => {
-  pinoLogger.info(`connectionPoolReady: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-});
-
-mongoClient.on('connectionPoolClosed', () => {
-  pinoLogger.info(`connectionPoolClosed: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-});
-
-mongoClient.on('connectionReady', () => {
-  pinoLogger.info(`connectionReady: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-});
-
-mongoClient.on('connectionClosed', () => {
-  pinoLogger.info(`connectionClosed: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-});
-
-mongoClient.on('connectionCheckOutStarted', () => {
-  pinoLogger.info(`connectionCheckOutStarted: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-});
-
-mongoClient.on('connectionCheckOutFailed', () => {
-  pinoLogger.info(`connectionCheckOutFailed: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-});
-
-mongoClient.on('connectionCheckedOut', () => {
-  pinoLogger.info(`connectionCheckedOut: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-});
-
-mongoClient.on('connectionCheckedIn', () => {
-  pinoLogger.info(`connectionCheckedIn: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
-});
-
-mongoClient.on('connectionPoolCleared', () => {
-  pinoLogger.info(`connectionPoolCleared: MongoDB: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`);
+new ServerEventsLogger(mongoClient, {
+  serverOpening: true,
+  serverClosed: true,
+  connectionCreated: true,
+  connectionClosed: true,
+  error: true,
+  timeout: true,
 });
 
 const connectMongoDB = async () => {
   try {
     await mongoClient.connect();
   } catch (error) {
-    process.exitCode = 1;
     const errMsg = `Cannot connect to database: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`;
+    process.exitCode = 1;
+
     pinoLogger.fatal(error, errMsg);
     rollbar.critical(errMsg, error as Error, () => {
       // eslint-disable-next-line n/no-process-exit, unicorn/no-process-exit
@@ -108,4 +71,6 @@ const disconnectMongoDB = async () => {
   await mongoClient.close();
 };
 
-export { connectMongoDB, disconnectMongoDB };
+const mongoDB = mongoClient.db(`${MONGODB_DATABASE}`);
+
+export { mongoDB, connectMongoDB, disconnectMongoDB };

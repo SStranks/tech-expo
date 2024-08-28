@@ -1,13 +1,10 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/postgres-js';
 import DrizzleLogger from '#Lib/drizzleLogger';
-import schema from '#Drizzle/schema';
-
-// Migrations Client
-const migrationClient = postgres(process.env.POSTGRES_URL as string, { max: 1 });
+import * as schema from '#Drizzle/schema';
 
 // Query Client
 const queryClient = postgres(process.env.POSTGRES_URL as string);
 const postgresDB = drizzle(queryClient, { schema, logger: new DrizzleLogger() });
 
-export { migrationClient, postgresDB };
+export default postgresDB;

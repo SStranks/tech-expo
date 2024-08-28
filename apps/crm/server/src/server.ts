@@ -15,6 +15,7 @@ const PORT = process.env.NODE_DOCKER_PORT || process.env.NODE_LOCAL_PORT || 4000
 process.on('uncaughtException', (err: Error) => {
   process.exitCode = 1;
   const exitMsg = `UncaughtException; Exit Code: ${process.exitCode}`;
+
   pinoLogger.fatal(err, exitMsg);
   rollbar.critical(exitMsg, err, () => {
     // eslint-disable-next-line n/no-process-exit
@@ -34,6 +35,7 @@ const server = app.listen(PORT, () => {
 process.on('unhandledRejection', (err: Error) => {
   process.exitCode = 1;
   const exitMsg = `UnhandledRejection; Exit Code: ${process.exitCode}`;
+
   pinoLogger.fatal(err, exitMsg);
   rollbar.critical(exitMsg, err, () => {
     server.close(() => {
@@ -46,6 +48,7 @@ process.on('unhandledRejection', (err: Error) => {
 // SIGTERM
 process.on('SIGTERM', async () => {
   const exitMsg = 'SIGTERM signal received. Shutting down server';
+
   await disconnectMongoDB();
   pinoLogger.info(exitMsg);
   server.close(() => {
@@ -56,6 +59,7 @@ process.on('SIGTERM', async () => {
 // SIGINT
 process.on('SIGINT', async () => {
   const exitMsg = 'SIGINT signal received. Shutting down server';
+
   await disconnectMongoDB();
   pinoLogger.info(exitMsg);
   server.close(() => {
