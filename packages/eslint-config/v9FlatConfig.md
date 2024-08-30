@@ -16,6 +16,7 @@
 - eslint-plugin-import // ✖ .
 - eslint-plugin-react-hooks // ✖ .
 - eslint-plugin-storybook // ✖ .
+- @graphql-eslint // ✖ .
 - eslint-plugin-jsx-a11y // ✔ .
 - eslint-plugin-testing-library // ✔ .
 - eslint-plugin-react // ✔ .

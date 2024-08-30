@@ -28,7 +28,7 @@ export const EslintConfigExpress = {
     // ...PluginImport.configs.recommended.rules,
     ...PluginSecurity.configs.recommended.rules,
     ...PluginNode.configs['flat/recommended-module'].rules,
-    'no-unused-vars': ['error', { argsIgnorePattern: 'next' }],
+    'no-unused-vars': ['error', { argsIgnorePattern: '(_req|_res|_next)' }],
     'no-console': 'off',
     'arrow-body-style': 'off',
     'n/no-missing-import': 'off',

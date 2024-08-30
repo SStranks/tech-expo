@@ -1,0 +1,21 @@
+{
+  "name": "@packages/eslint-config-graphql",
+  "version": "1.0.0",
+  "private": true,
+  "description": "shared eslint graphql configuration",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "type": "module",
+  "exports": {
+    ".": "./eslint.config.js",
+    "./react": {
+      "default": "./react/eslint.config.js"
+    },
+    "./nodejs": {
+      "default": "./nodejs/eslint.config.js"
+    }
+  },
+  "devDependencies": {
+    "@graphql-eslint/eslint-plugin": "^3.20.1"
+  }
+}

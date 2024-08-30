@@ -29,6 +29,7 @@
     "@packages/eslint-config-airbnb": "workspace:*",
     "@packages/eslint-config-cypress": "workspace:*",
     "@packages/eslint-config-express": "workspace:*",
+    "@packages/eslint-config-graphql": "workspace:*",
     "@packages/eslint-config-react": "workspace:*",
     "@packages/eslint-config-react-test": "workspace:*",
     "@packages/eslint-config-storybook": "workspace:*",

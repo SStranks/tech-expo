@@ -1,8 +1,7 @@
 import PluginReact from 'eslint-plugin-react';
 import PluginReactHooks from 'eslint-plugin-react-hooks';
 import PluginJSXA11Y from 'eslint-plugin-jsx-a11y';
-// NOTE:  @tanstack/eslint-plugin-query is not flatconfig compatible yet.
-import { configs as ReactQueryConfigs, rules as ReactQueryRules } from '@tanstack/eslint-plugin-query';
+import PluginQuery from '@tanstack/eslint-plugin-query';
 
 import globals from 'globals';
 
@@ -26,12 +25,13 @@ export const EslintConfigReact = {
     react: PluginReact,
     'react-hooks': PluginReactHooks,
     'jsx-a11y': PluginJSXA11Y,
-    '@tanstack/eslint-plugin-query': { rules: ReactQueryRules, configs: ReactQueryConfigs },
+    '@tanstack/query': PluginQuery,
   },
   rules: {
     ...PluginReact.configs.recommended.rules,
     ...PluginReactHooks.configs.recommended.rules,
     ...PluginJSXA11Y.configs.recommended.rules,
+    ...PluginQuery.configs['flat/recommended'].rules,
     'react/function-component-definition': 'off',
     'react/jsx-filename-extension': [
       1,
@@ -43,13 +43,13 @@ export const EslintConfigReact = {
     'react/prop-types': 0,
     'react/react-in-jsx-scope': 0,
     'react/require-default-props': 0,
-    '@tanstack/eslint-plugin-query/exhaustive-deps': 'error',
-    '@tanstack/eslint-plugin-query/no-rest-destructuring': 'warn',
-    '@tanstack/eslint-plugin-query/stable-query-client': 'error',
+    '@tanstack/query/exhaustive-deps': 'error',
+    '@tanstack/query/no-rest-destructuring': 'warn',
+    '@tanstack/query/stable-query-client': 'error',
   },
   settings: {
     react: {
-      version: 'detect',
+      version: '18.2',
     },
   },
 };
