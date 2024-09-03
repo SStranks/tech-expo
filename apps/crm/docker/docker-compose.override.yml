@@ -5,7 +5,7 @@ services:
 
   # Server: NodeJS Express  
   node-api:
-    container_name: techexpo-node-api-dev
+    container_name: techexpo-express
     image: node:18-alpine3.17
     working_dir: /app/server
     command: npm start
@@ -15,38 +15,35 @@ services:
       - ../shared:/app/shared:ro
       - ../server:/app/server:ro
       - ../../../node_modules:/node_modules:ro
+    networks:
+      - crm-backend
     environment:
-      - MONGODB_USER=/run/secrets/mongodb_user
-      - MONGODB_PASSWORD=/run/secrets/mongodb_password
-      - POSTGRES_USER=/run/secrets/postgres_user
-      - POSTGRES_PASSWORD=/run/secrets/postgres_password
+      - MONGODB_HOST=${MONGODB_CONTAINER}
+      - POSTGRES_HOST=${POSTGRES_CONTAINER}
     env_file:
       - ../server/.env.dev
+      - ./.env.dev
     depends_on:
       - mongodb
+      - postgres
     security_opt:
       - no-new-privileges
-    secrets:
-      - mongodb_user
-      - mongodb_password
-      - postgres_user
-      - postgres_password
 
   # DB: MongoDB
   mongodb:
     container_name: ${MONGODB_CONTAINER}
-    image: mongo:6.0.6-custom
+    image: mongo:7.0.4
     restart: on-failure
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=/run/secrets/mongodb_root_user
-      - MONGO_INITDB_ROOT_PASSWORD=/run/secrets/mongodb_root_password
+      MONGO_INITDB_ROOT_USERNAME_FILE: /run/secrets/mongodb_root_user
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongodb_root_password
     ports:
       - ${MONGODB_LOCAL_PORT:?error}:${MONGODB_DOCKER_PORT:?error}
     volumes:
       - mongodb-data:/data/db
       - ../server/mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
-    env_file:
-      - ../server/.env.dev
+    networks:
+      - crm-backend
     security_opt:
       - no-new-privileges
     command: mongod --auth
@@ -57,44 +54,47 @@ services:
   # DB: MongoDB Express
   mongo-express:
     container_name: techexpo-mongo-express
-    image: mongo-express-custom
+    image: mongo-express:1.0.2
     depends_on:
       - mongodb
     restart: unless-stopped
     ports:
       - ${MONGOEXP_LOCAL_PORT:?error}:${MONGOEXP_DOCKER_PORT:?error}
     environment:
-      - ME_CONFIG_MONGODB_URI=${MONGODB_PROTOCOL}://${/run/secrets/mongodb_user}:${/run/secrets/mongodb_password}@${MONGODB_CONTAINER}:${MONGODB_PORT}/${MONGODB_DATABASE}${MONGODB_ARGS}
-      - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
-      - ME_CONFIG_MONGODB_AUTH_USERNAME=/run/secrets/mongodb_user
-      - ME_CONFIG_MONGODB_AUTH_PASSWORD=/run/secrets/mongodb_password
-      - ME_CONFIG_BASICAUTH_USERNAME=/run/secrets/mongoexpress_user
-      - ME_CONFIG_BASICAUTH_PASSWORD=/run/secrets/mongoexpress_password
-    volumes:
-      - mongodb-data:/data/db
-    env_file:
-      - ../server/.env.dev
+      # // NOTE:  v1.0.3 will allow URL_FILE.
+      ME_CONFIG_MONGODB_URL: ${MONGODB_PROTOCOL}://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_CONTAINER}:${MONGODB_PORT}/${MONGODB_DATABASE}${MONGODB_ARGS}
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: ${ME_CONFIG_MONGODB_ENABLE_ADMIN}
+      ME_CONFIG_MONGODB_AUTH_USERNAME_FILE: /run/secrets/mongodb_user
+      ME_CONFIG_MONGODB_AUTH_PASSWORD_FILE: /run/secrets/mongodb_password
+      ME_CONFIG_BASICAUTH_USERNAME_FILE: /run/secrets/mongoexpress_user
+      ME_CONFIG_BASICAUTH_PASSWORD_FILE: /run/secrets/mongoexpress_password
+    networks:
+      - crm-backend
     security_opt:
       - no-new-privileges
     secrets:
+      - mongoexpress_url
       - mongoexpress_user
       - mongoexpress_password
       - mongodb_user
       - mongodb_password
 
+  # DB: Postgres
   postgres:
+    container_name: ${POSTGRES_CONTAINER}
     image: postgres:16.4
-    restart: always
+    restart: on-failure
     ports:
       - ${POSTGRES_LOCAL_PORT:?error}:${POSTGRES_DOCKER_PORT:?error}
     shm_size: 128mb
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-techexpo:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=/run/secrets/postgres_user
-      - POSTGRES_PASSWORD=/run/secrets/postgres_password
-    env_file:
-      - ../server/.env.dev
+      POSTGRES_USER_FILE: /run/secrets/postgres_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - crm-backend
     secrets:
       - postgres_user
       - postgres_password
@@ -103,6 +103,13 @@ volumes:
   mongodb-data:
     name: mongodb-data
     external: true
+  postgres-techexpo:
+    name: postgres-techexpo
+    external: true
+
+networks:
+  crm-backend:
+    driver: bridge
 
 secrets:
   mongodb_user:
@@ -113,6 +120,8 @@ secrets:
     file: ./secrets/.secret.mongodb_root_user.txt
   mongodb_root_password:
     file: ./secrets/.secret.mongodb_root_password.txt
+  mongoexpress_url:
+    file: ./secrets/.secret.mongoexpress_url.txt
   mongoexpress_user:
     file: ./secrets/.secret.mongoexpress_user.txt
   mongoexpress_password:
@@ -121,3 +130,5 @@ secrets:
     file: ./secrets/.secret.postgres_user.txt
   postgres_password:
     file: ./secrets/.secret.postgres_password.txt
+  postgres_url:
+    file: ./secrets/.secret.postgres_url.txt
