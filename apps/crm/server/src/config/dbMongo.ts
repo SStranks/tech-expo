@@ -7,18 +7,8 @@ const { MONGODB_PROTOCOL, MONGODB_USER, MONGODB_PASSWORD, MONGODB_HOST, MONGODB_
 
 const MONGO_URI = `${MONGODB_PROTOCOL}://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}${MONGODB_ARGS}`;
 
-const mongoDebug = {
-  URI: MONGO_URI,
-  protocol: MONGODB_PROTOCOL,
-  user: MONGODB_USER,
-  password: MONGODB_PASSWORD,
-  host: MONGODB_HOST,
-  port: MONGODB_PORT,
-  database: MONGODB_DATABASE,
-  args: MONGODB_ARGS,
-};
 // NOTE:  DANGER: Ensure logger for current ENV is not storing credentials; level INFO or higher.
-pinoLogger.debug({ mongoDebug });
+pinoLogger.debug(MONGO_URI);
 
 const mongoClient = new MongoClient(MONGO_URI);
 
@@ -56,7 +46,7 @@ const connectMongoDB = async () => {
   try {
     await mongoClient.connect();
   } catch (error) {
-    const errMsg = `Cannot connect to database: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`;
+    const errMsg = `Cannot connect to Mongo: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`;
     process.exitCode = 1;
 
     pinoLogger.fatal(error, errMsg);
@@ -67,10 +57,6 @@ const connectMongoDB = async () => {
   }
 };
 
-const disconnectMongoDB = async () => {
-  await mongoClient.close();
-};
-
 const mongoDB = mongoClient.db(`${MONGODB_DATABASE}`);
 
-export { mongoDB, connectMongoDB, disconnectMongoDB };
+export { mongoDB, connectMongoDB, mongoClient };

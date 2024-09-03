@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import AppError from '#Utils/appError';
+import AppError from '#Utils/errors/appError';
 
 // API Versioning
 const version = function (version: number) {

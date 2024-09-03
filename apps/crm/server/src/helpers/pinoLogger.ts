@@ -1,11 +1,8 @@
 import pino, { type LoggerOptions } from 'pino';
-import path from 'node:path';
-import url from 'node:url';
 
 // NOTE:  Logger levels: trace, debug, info, warn, error, and fatal.
 
 const NODE_ENV = process.env.NODE_ENV;
-const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 const DATE = new Date();
 const YEAR = DATE.getFullYear();
 const MONTH = DATE.toLocaleString('default', { month: 'short' });
@@ -23,13 +20,6 @@ switch (true) {
     };
     transport = pino.transport({
       targets: [
-        // {
-        //   target: 'pino/file',
-        //   level: 'info',
-        //   options: {
-        //     destination: `${path.resolve(CUR, '../log/app.dev.log')}`,
-        //   },
-        // },
         // {
         //   target: 'pino-mongodb',
         //   level: 'info',
@@ -62,11 +52,6 @@ switch (true) {
     };
     transport = pino.transport({
       targets: [
-        {
-          target: 'pino/file',
-          level: 'warn',
-          options: { destination: `${path.resolve(CUR, '../log/app.prod.log')}` },
-        },
         {
           target: 'pino-mongodb',
           level: 'error',

@@ -1,79 +1,66 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable unicorn/numeric-separators-style */
-import type { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
+import type { ErrorRequestHandler } from 'express';
+import { ZodError } from 'zod';
 import { pinoLogger, rollbar } from '#Helpers/index';
-import AppError from '#Utils/appError';
+import { CustomError, PostgresError, ZodValidationError } from '#Utils/errors';
 
-const handleCastErrorDB = (err: any) => {
-  const message = `Invalid ${err.path}: ${err.value}`;
-  return new AppError(message, 400);
-};
-
-const handleDuplicateFieldsDB = (err: any) => {
-  if (err.errmsg) {
-    const value = // eslint-disable-next-line security/detect-unsafe-regex
-      ((err.errmsg as string).match(/(["'])(\\?.)*?\1/) as Array<string>)[0];
-    const message = `Duplicate field value: ${value}. Please use another value!`;
-    return new AppError(message, 400);
-  }
-  return new AppError('Error: Duplicate field value; Error handler misconfiguration.', 400);
-};
-
-const handleValidationErrorDB = (err: any) => {
-  const errors = (Object.values(err.errors) as Record<string, unknown>[]).map((el) => el.message);
-  const message = `Invalid input data. ${errors.join('. ')}`;
-  return new AppError(message, 400);
-};
-
-const sendErrorDev = (err: any, res: Response) => {
-  pinoLogger.error(err, `GlobalError: ${err.message}`);
-  res.status(err.statusCode).json({
-    status: err.status,
-    error: err,
-    message: err.message,
-    stack: err.stack,
-  });
-};
-
-const sendErrorProd = (err: any, res: Response) => {
-  // Operational: Error can be safely sent to client.
-  if (err.isOperational) {
-    res.status(err.statusCode).json({
-      status: err.status,
-      message: err.message,
-    });
-  } else {
-    const errMsg = 'Non-Operational Error';
-    // Log Error
-    pinoLogger.error(err, errMsg);
-    rollbar.error(errMsg, err);
-    // Response
-    res.status(500).json({
-      status: 'Error',
-      message: `${errMsg}. Contact support`,
-    });
-  }
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const globalErrorHandler: ErrorRequestHandler = (err: any, _req: Request, res: Response, _next: NextFunction): void => {
-  let error = { ...err };
-  error.message = err.message;
-  error.statusCode = err.statusCode || 500;
-  error.status = err.status || 'error';
-
+const globalErrorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   if (process.env.NODE_ENV === 'development') {
-    sendErrorDev(error, res);
-  } else if (process.env.NODE_ENV === 'production') {
-    // MongoDB Casting Error
-    if (error.name === 'CastError') error = handleCastErrorDB(error);
-    // MongoDB Duplicate Fields Error.
-    if (error.code === 11000) error = handleDuplicateFieldsDB(error);
-    // MongoDB Validation Error
-    if (error.name === 'ValidationError') error = handleValidationErrorDB(error);
+    if (err instanceof CustomError) {
+      const { statusCode, errors, message, stack } = err;
 
-    sendErrorProd(error, res);
+      pinoLogger.error(err, `GlobalErrorHandler: ${message}`);
+      return res.status(statusCode).json({ statusCode, errors, stack });
+    }
+
+    pinoLogger.error(err, `Non-Operational Error: ${err.message}`);
+    return res.status(500).json({
+      message: `Non-Operational Error: ${err.message}`,
+      error: err,
+      stack: err.stack,
+    });
   }
+
+  // NODE_ENV: PRODUCTION
+  let error = err;
+  if (error instanceof ZodError) error = new ZodValidationError({ zod: { error }, context: { error }, logging: true });
+  if (error instanceof Error && error.name === 'PostgresError')
+    error = new PostgresError({ context: { error, message: error.message }, logging: true });
+
+  if (err instanceof ZodValidationError) {
+    const { statusCode, errors, zodError, logging, stack, message } = err;
+
+    if (logging) {
+      const logError = JSON.stringify({ statusCode, errors, stack });
+      pinoLogger.error(logError, 'Operational Error');
+    }
+
+    // Return user friendly Zod error
+    const validationErrors = zodError.error.format();
+
+    return res.status(statusCode).json({ statusCode, message, validationErrors });
+  }
+
+  // Includes: BadRequestError, PostgresError
+  if (err instanceof CustomError) {
+    const { statusCode, errors, logging, stack, message } = err;
+
+    if (logging) {
+      const logError = JSON.stringify({ statusCode, errors, stack });
+      pinoLogger.error(logError, 'Operational Error');
+    }
+
+    return res.status(statusCode).json({ statusCode, message });
+  }
+
+  // Unhnandled Errors
+  const errMsg = 'Non-Operational Error';
+  pinoLogger.error(err, errMsg);
+  rollbar.error(errMsg, err);
+
+  return res.status(500).json({
+    status: 'Error',
+    message: `${errMsg}. Contact support`,
+  });
 };
 
 export default globalErrorHandler;
