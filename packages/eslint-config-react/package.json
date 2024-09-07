@@ -12,9 +12,9 @@
     }
   },
   "devDependencies": {
-    "@tanstack/eslint-plugin-query": "^5.52.0",
-    "eslint-plugin-jsx-a11y": "^6.9.0",
-    "eslint-plugin-react": "^7.35.0",
+    "@tanstack/eslint-plugin-query": "^5.53.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-react": "^7.35.2",
     "eslint-plugin-react-hooks": "^4.6.2",
     "globals": "^15.9.0"
   }

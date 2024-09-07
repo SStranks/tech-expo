@@ -2,14 +2,12 @@ import ParserTypescriptEslint from '@typescript-eslint/parser';
 import PluginTypescriptEslint from '@typescript-eslint/eslint-plugin';
 import PluginUnicorn from 'eslint-plugin-unicorn';
 import PluginPrettier from 'eslint-plugin-prettier';
-import PluginImport from 'eslint-plugin-import';
+// import PluginImport from 'eslint-plugin-import';
 import PluginRegexp from 'eslint-plugin-regexp';
 // import PluginPerfectionist from 'eslint-plugin-perfectionist';
 
 import RecommendedEslint from '@eslint/js';
 import globals from 'globals';
-
-// import { fixupPluginRules } from '@eslint/compat';
 
 export { default as ConfigPrettier } from 'eslint-config-prettier';
 
@@ -32,7 +30,7 @@ export const EslintConfig = {
     unicorn: PluginUnicorn,
     prettier: PluginPrettier,
     regexp: PluginRegexp,
-    // import: fixupPluginRules(PluginImport),
+    // import: PluginImport,
     // perfectionist: PluginPerfectionist,
   },
   rules: {
@@ -40,6 +38,7 @@ export const EslintConfig = {
     ...PluginUnicorn.configs.recommended.rules,
     ...PluginTypescriptEslint.configs.recommended.rules,
     ...PluginRegexp.configs.recommended.rules,
+    // ...PluginImport.flatConfigs.recommended.rules,
     // ...PluginPerfectionist.configs['recommended-line-length'].rules,
     'arrow-body-style': 'off',
     'no-unused-vars': 'off',
@@ -82,9 +81,9 @@ export const EslintConfig = {
     'import/parsers': {
       '@typescript-eslint/parser': ['*.ts', '*.tsx', '*.html'],
     },
-    ...PluginImport.configs.typescript.settings,
+    // ...PluginImport.configs.typescript.settings,
     'import/resolver': {
-      ...PluginImport.configs.typescript.settings['import/resolver'],
+      // ...PluginImport.configs.typescript.settings['import/resolver'],
       typescript: {
         alwaysTryTypes: true,
         project: [

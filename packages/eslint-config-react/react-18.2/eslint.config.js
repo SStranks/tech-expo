@@ -30,7 +30,7 @@ export const EslintConfigReact = {
   rules: {
     ...PluginReact.configs.recommended.rules,
     ...PluginReactHooks.configs.recommended.rules,
-    ...PluginJSXA11Y.configs.recommended.rules,
+    ...PluginJSXA11Y.flatConfigs.recommended.rules,
     ...PluginQuery.configs['flat/recommended'].rules,
     'react/function-component-definition': 'off',
     'react/jsx-filename-extension': [
