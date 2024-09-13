@@ -11,6 +11,7 @@ services:
     command: npm start
     ports:
       - ${NODE_LOCAL_PORT:?error}:${NODE_DOCKER_PORT:?error}
+      - "9229:9229"
     volumes:
       - ../shared:/app/shared:ro
       - ../server:/app/server:ro
@@ -20,6 +21,7 @@ services:
     environment:
       - MONGODB_HOST=${MONGODB_CONTAINER}
       - POSTGRES_HOST=${POSTGRES_CONTAINER}
+      - REDIS_HOST=${REDIS_CONTAINER}
     env_file:
       - ../server/.env.dev
       - ./.env.dev
@@ -99,12 +101,36 @@ services:
       - postgres_user
       - postgres_password
 
+  redis:
+    container_name: ${REDIS_CONTAINER}
+    image: redis:7.4-alpine
+    restart: on-failure
+    ports:
+      - ${REDIS_LOCAL_PORT:?error}:${REDIS_DOCKER_PORT:?error}
+    command: /bin/sh -c "redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD:?error}"
+    volumes:
+      - redis-techexpo:/data
+    networks:
+      - crm-backend
+
+  redisinsight:
+    container_name: ${REDISINSIGHT_CONTAINER}
+    image: redis/redisinsight:2.54
+    restart: on-failure
+    ports:
+      - ${REDISINSIGHT_LOCAL_PORT:?error}:${REDISINSIGHT_DOCKER_PORT:?error}
+    networks:
+      - crm-backend
+
 volumes:
   mongodb-data:
     name: mongodb-data
     external: true
   postgres-techexpo:
     name: postgres-techexpo
+    external: true
+  redis-techexpo:
+    name: redis-techexpo
     external: true
 
 networks:
