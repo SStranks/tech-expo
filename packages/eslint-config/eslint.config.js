@@ -12,7 +12,7 @@ import globals from 'globals';
 export { default as ConfigPrettier } from 'eslint-config-prettier';
 
 export const EslintConfig = {
-  ignores: [],
+  ...PluginTypescriptEslint.configs.recommended,
   languageOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
@@ -36,7 +36,6 @@ export const EslintConfig = {
   rules: {
     ...RecommendedEslint.configs.recommended.rules,
     ...PluginUnicorn.configs.recommended.rules,
-    ...PluginTypescriptEslint.configs.recommended.rules,
     ...PluginRegexp.configs.recommended.rules,
     // ...PluginImport.flatConfigs.recommended.rules,
     // ...PluginPerfectionist.configs['recommended-line-length'].rules,

@@ -22,15 +22,15 @@ export default [
     ],
   },
   {
-    // --- Global Configuration
+    name: 'Global Configuration',
     languageOptions: { ...EslintConfig.languageOptions },
     plugins: { ...EslintConfig.plugins },
     rules: { ...EslintConfig.rules },
     settings: { ...EslintConfig.settings },
   },
   // === INDIVIDUAL PROJECTS ===
-  // --- CRM: Client; React + TypeScript + GraphQL
   {
+    name: 'CRM: Client; React + TypeScript + GraphQL',
     files: ['apps/crm/client/src/**/*.[jt]s?(x)', 'apps/pnpm-outdated/client/src/*.ts'],
     // processor: EslintConfigGraphQLReact.processor,
     languageOptions: {
@@ -42,7 +42,7 @@ export default [
     settings: { ...EslintConfigReact_18p2.settings },
   },
   {
-    // --- CRM: Client; Storybook
+    name: 'CRM: Client; Storybook',
     files: ['apps/crm/client/src/stories/*.stories.[jt]s?(x)'],
     languageOptions: {
       parserOptions: { project: ['./apps/crm/client/tsconfig.json'] },
@@ -52,7 +52,7 @@ export default [
     settings: { ...EslintConfigStorybook.settings },
   },
   {
-    // --- CRM: Client; Testing (Jest + RTL)
+    name: 'CRM: Client; Testing (Jest + RTL)',
     files: ['apps/crm/client/src/**/?(*.)+(spec|test).[jt]s?(x)'],
     languageOptions: { ...EslintConfigReact_18p2.languageOptions },
     plugins: { ...EslintConfigReact_18p2.plugins, ...EslintConfigReactTest.plugins },
@@ -60,7 +60,7 @@ export default [
     settings: { ...EslintConfigReact_18p2.settings },
   },
   {
-    // --- CRM: Client; Testing (Cypress)
+    name: 'CRM: Client; Testing (Cypress)',
     files: ['apps/crm/client/cypress/**/*.cy.[jt]s?(x)'],
     languageOptions: { ...EslintConfigCypress.languageOptions },
     plugins: { ...EslintConfigCypress.plugins },
@@ -68,7 +68,7 @@ export default [
     settings: { ...EslintConfigCypress.settings },
   },
   {
-    // --- CRM: Server; NodeJS Express + Testing (Node)
+    name: 'CRM: Server; NodeJS Express + Testing (Node)',
     files: ['apps/crm/server/src/**/*.[jt]s'],
     languageOptions: { ...EslintConfigExpress.languageOptions },
     plugins: { ...EslintConfigExpress.plugins },
@@ -76,7 +76,7 @@ export default [
     settings: { ...EslintConfigExpress.settings },
   },
   // {
-  //   // --- CRM: Server; GraphQL
+  //   name: 'CRM: Server; GraphQL',
   //   files: ['apps/crm/server/src/**/*.{graphql,gql}'],
   //   languageOptions: {
   //     ...EslintConfigGraphQLNode.languageOptions,

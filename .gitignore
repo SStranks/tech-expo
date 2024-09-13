@@ -15,6 +15,9 @@
 # Logs
 **/*.log
 
+# Drizzle 
+**/drizzle/migrations
+
 # Testing
 **/coverage
 
