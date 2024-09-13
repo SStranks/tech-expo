@@ -54,7 +54,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=$MONGODB_INITDB_ROOT_USERNAME
       - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_INITDB_ROOT_PASSWORD
     ports:
-      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT # // NOTE:  Is this required; don't expose to public
     volumes:
       - mongodb-prod-data:/data/db
       - ../server/mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
@@ -63,6 +63,8 @@ services:
     security_opt:
       - no-new-privileges
     command: mongod --auth
+  # // DANGER:  Password in .conf file - need to explore options for transferring from secret/env.
+  # redis:
 
 volumes:
   mongodb-prod-data:
