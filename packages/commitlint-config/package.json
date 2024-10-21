@@ -8,6 +8,6 @@
   "main": "commitlint.config.js",
   "type": "module",
   "devDependencies": {
-    "@commitlint/config-conventional": "^19.4.1"
+    "@commitlint/config-conventional": "^19.5.0"
   }
 }

@@ -10,7 +10,7 @@
     "jest.config.js"
   ],
   "devDependencies": {
-    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-env": "^7.25.8",
     "http-errors": "^2.0.0",
     "jest-environment-node": "^29.7.0",
     "ts-jest": "^29.2.5"

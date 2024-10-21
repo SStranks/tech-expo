@@ -9,7 +9,7 @@
     "jest.config.ts"
   ],
   "devDependencies": {
-    "@types/jest": "^29.5.12",
+    "@types/jest": "^29.5.13",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0"
   }

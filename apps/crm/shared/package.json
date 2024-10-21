@@ -1,0 +1,12 @@
+{
+  "name": "@apps/crm-shared",
+  "version": "1.0.0",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {},
+  "devDependencies": {}
+}

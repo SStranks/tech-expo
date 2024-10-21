@@ -41,13 +41,13 @@
     "@packages/typescript-config": "workspace:*"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.4.1",
-    "eslint": "^9.10.0",
-    "husky": "^9.1.5",
+    "@commitlint/cli": "^19.5.0",
+    "eslint": "^9.13.0",
+    "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
-    "secretlint": "^8.2.4",
-    "stylelint": "^16.9.0",
-    "typescript": "^5.5.4"
+    "secretlint": "^9.0.0",
+    "stylelint": "^16.10.0",
+    "typescript": "^5.6.3"
   }
 }
