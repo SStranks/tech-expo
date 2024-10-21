@@ -44,9 +44,9 @@ export default [
   {
     name: 'CRM: Client; Storybook',
     files: ['apps/crm/client/src/stories/*.stories.[jt]s?(x)'],
-    languageOptions: {
-      parserOptions: { project: ['./apps/crm/client/tsconfig.json'] },
-    },
+    // languageOptions: {
+    //   parserOptions: { project: ['tsconfig.json'] },
+    // },
     plugins: { ...EslintConfigStorybook.plugins },
     rules: { ...EslintConfigStorybook.rules },
     settings: { ...EslintConfigStorybook.settings },

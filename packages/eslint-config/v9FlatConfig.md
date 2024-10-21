@@ -13,9 +13,9 @@
 - eslint-config-airbnb-base // ✖ .
 - eslint-config-airbnb-typescript // ✖ .
 - eslint-import-resolver-typescript // ⬡ .
-- eslint-plugin-react-hooks // ✖ .
-- eslint-plugin-storybook // ✖ .
 - @graphql-eslint // ✖ .
+- eslint-plugin-storybook // ✔ .
+- eslint-plugin-react-hooks // ✔ .
 - eslint-plugin-import // ✔ .
 - eslint-plugin-jsx-a11y // ✔ .
 - eslint-plugin-testing-library // ✔ .

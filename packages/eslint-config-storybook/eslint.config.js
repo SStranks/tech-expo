@@ -5,7 +5,7 @@ export const EslintConfigStorybook = {
     storybook: PluginStorybook,
   },
   rules: {
-    ...PluginStorybook.configs.recommended.overrides[0].rules,
+    ...PluginStorybook.configs['flat/recommended'][1].rules,
   },
   settings: {},
 };

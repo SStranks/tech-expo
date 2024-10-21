@@ -2,7 +2,7 @@ import ParserTypescriptEslint from '@typescript-eslint/parser';
 import PluginTypescriptEslint from '@typescript-eslint/eslint-plugin';
 import PluginUnicorn from 'eslint-plugin-unicorn';
 import PluginPrettier from 'eslint-plugin-prettier';
-// import PluginImport from 'eslint-plugin-import';
+import PluginImport from 'eslint-plugin-import';
 import PluginRegexp from 'eslint-plugin-regexp';
 // import PluginPerfectionist from 'eslint-plugin-perfectionist';
 
@@ -30,14 +30,14 @@ export const EslintConfig = {
     unicorn: PluginUnicorn,
     prettier: PluginPrettier,
     regexp: PluginRegexp,
-    // import: PluginImport,
+    import: PluginImport,
     // perfectionist: PluginPerfectionist,
   },
   rules: {
     ...RecommendedEslint.configs.recommended.rules,
     ...PluginUnicorn.configs.recommended.rules,
     ...PluginRegexp.configs.recommended.rules,
-    // ...PluginImport.flatConfigs.recommended.rules,
+    ...PluginImport.flatConfigs.recommended.rules,
     // ...PluginPerfectionist.configs['recommended-line-length'].rules,
     'arrow-body-style': 'off',
     'no-unused-vars': 'off',
@@ -45,7 +45,7 @@ export const EslintConfig = {
     'no-console': 'off',
     'no-underscore-dangle': 'off',
     'no-use-before-define': 'off',
-    // 'import/no-unresolved': 'error',
+    'import/no-unresolved': 'error',
     'prettier/prettier': ['error'],
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '(_req|_res|_next)' }],
     '@typescript-eslint/no-use-before-define': 'error',

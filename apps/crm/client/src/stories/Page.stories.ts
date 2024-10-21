@@ -1,4 +1,3 @@
-/* eslint-disable storybook/use-storybook-expect */
 import type { Meta, StoryObj } from '@storybook/react';
 import { within, userEvent, expect } from '@storybook/test';
 
@@ -24,7 +23,7 @@ export const LoggedIn: Story = {
     const canvas = within(canvasElement);
     const loginButton = canvas.getByRole('button', { name: /log in/i });
     await expect(loginButton).toBeInTheDocument();
-    await userEvent.click(loginButton);
+    await userEvent.click(loginButton); // TEST:  Eslint-storybook - should error without await keyword; known bug: https://github.com/storybookjs/eslint-plugin-storybook/issues/168
     await expect(loginButton).not.toBeInTheDocument();
 
     const logoutButton = canvas.getByRole('button', { name: /log out/i });
