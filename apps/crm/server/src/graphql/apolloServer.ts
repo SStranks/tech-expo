@@ -11,7 +11,9 @@ import rollbar from '#Helpers/rollbar';
 const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 const typeDefs = await readFile(path.resolve(CUR, '../graphql/schema.graphql'), 'utf8');
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers, formatError });
+const introspection = process.env.NODE_ENV !== 'production';
+
+const apolloServer = new ApolloServer({ typeDefs, resolvers, formatError, introspection });
 
 try {
   await apolloServer.start();
