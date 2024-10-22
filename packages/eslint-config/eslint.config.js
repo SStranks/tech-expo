@@ -1,12 +1,11 @@
-import ParserTypescriptEslint from '@typescript-eslint/parser';
-import PluginTypescriptEslint from '@typescript-eslint/eslint-plugin';
-import PluginUnicorn from 'eslint-plugin-unicorn';
-import PluginPrettier from 'eslint-plugin-prettier';
-import PluginImport from 'eslint-plugin-import';
-import PluginRegexp from 'eslint-plugin-regexp';
-// import PluginPerfectionist from 'eslint-plugin-perfectionist';
-
 import RecommendedEslint from '@eslint/js';
+import PluginTypescriptEslint from '@typescript-eslint/eslint-plugin';
+import ParserTypescriptEslint from '@typescript-eslint/parser';
+import PluginImport from 'eslint-plugin-import';
+import PluginPerfectionist from 'eslint-plugin-perfectionist';
+import PluginPrettier from 'eslint-plugin-prettier';
+import PluginRegexp from 'eslint-plugin-regexp';
+import PluginUnicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
 
 export { default as ConfigPrettier } from 'eslint-config-prettier';
@@ -31,7 +30,7 @@ export const EslintConfig = {
     prettier: PluginPrettier,
     regexp: PluginRegexp,
     import: PluginImport,
-    // perfectionist: PluginPerfectionist,
+    perfectionist: PluginPerfectionist,
   },
   rules: {
     ...RecommendedEslint.configs.recommended.rules,
@@ -57,6 +56,30 @@ export const EslintConfig = {
         name: 'react-redux',
         importNames: ['useSelector', 'useDispatch'],
         message: 'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
+      },
+    ],
+    'perfectionist/sort-exports': 'error',
+    'perfectionist/sort-named-imports': 'error',
+    'perfectionist/sort-imports': [
+      'error',
+      {
+        type: 'alphabetical',
+        order: 'asc',
+        ignoreCase: true,
+        internalPattern: ['#*/**'],
+        newlinesBetween: 'always',
+        environment: 'node',
+        groups: [
+          'type',
+          ['external-type', 'builtin-type', 'internal-type'],
+          ['parent-type', 'sibling-type', 'index-type'],
+          'external',
+          'internal',
+          ['parent', 'sibling', 'index'],
+          'object',
+          'unknown',
+          'style',
+        ],
       },
     ],
     'unicorn/prefer-module': 'off',
