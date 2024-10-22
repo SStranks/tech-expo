@@ -25,7 +25,7 @@ const config: StorybookConfig = {
     if (config.resolve) {
       config.resolve.alias = {
         ...config.resolve.alias,
-        ...CommonConfig.resolve.alias,
+        ...CommonConfig.resolve?.alias,
       };
     }
 
