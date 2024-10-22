@@ -1,0 +1,1 @@
+ALTER TABLE "user" ALTER COLUMN "passwordResetToken" SET DATA TYPE varchar(64);
