@@ -21,8 +21,9 @@ const DevConfig = {
     pathinfo: false,
     filename: 'main.js',
     publicPath: '/',
+    devtoolModuleFilenameTemplate: 'file:///[absolute-resource-path]',
   },
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   devServer: {
     port: 3000,
     static: [
