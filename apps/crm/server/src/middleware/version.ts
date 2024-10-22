@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import AppError from '#Utils/errors/appError';
+import { BadRequestError } from '#Utils/errors';
 
 // API Versioning
 const version = function (version: number) {
@@ -7,7 +7,7 @@ const version = function (version: number) {
     let requestVersion = Number.parseInt(req.params.version.slice(1));
 
     if (typeof requestVersion !== 'number') {
-      return next(new AppError('Invalid API version', 400));
+      return next(new BadRequestError({ message: 'Invalid API version', logging: true }));
     } else if (requestVersion >= version) {
       return next();
     }
