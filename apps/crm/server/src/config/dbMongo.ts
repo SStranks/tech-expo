@@ -7,13 +7,12 @@ const { MONGODB_PROTOCOL, MONGODB_USER, MONGODB_PASSWORD, MONGODB_HOST, MONGODB_
 
 const MONGO_URI = `${MONGODB_PROTOCOL}://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}${MONGODB_ARGS}`;
 
-// NOTE:  DANGER: Ensure logger for current ENV is not storing credentials; level INFO or higher.
+// DANGER:  Ensure logger for current ENV is not storing credentials; level INFO or higher.
 pinoLogger.debug(MONGO_URI);
 
 const mongoClient = new MongoClient(MONGO_URI);
 
 type TMongoServerEvents = {
-  // eslint-disable-next-line no-unused-vars
   [Key in keyof TopologyEvents]?: boolean;
 };
 

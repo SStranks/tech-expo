@@ -1,12 +1,13 @@
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
-import pinoLogger from '#Helpers/pinoLogger';
-import rollbar from '#Helpers/rollbar';
+import { pinoLogger, rollbar } from '#Helpers/index';
 import DrizzleLogger from '#Lib/drizzleLogger';
-import * as schema from '#Drizzle/schema';
+import * as schema from '#Config/schema/index';
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_LOCAL_PORT, POSTGRES_DB } = process.env;
 const POSTGRES_URL = `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_LOCAL_PORT}/${POSTGRES_DB}`;
+
+// DANGER:  Ensure logger for current ENV is not storing credentials; level INFO or higher.
 pinoLogger.debug(POSTGRES_URL);
 
 // Query Client
