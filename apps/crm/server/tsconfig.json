@@ -6,12 +6,10 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "#Shared/*": ["../shared/*"],
       "#App/*": ["app/*"],
       "#Config/*": ["config/*"],
       "#Controllers/*": ["controllers/*"],
       "#Data/*": ["data/*"],
-      "#Drizzle/*": ["drizzle/*"],
       "#Graphql/*": ["graphql/*"],
       "#Helpers/*": ["helpers/*"],
       "#Lib/*": ["lib/*"],
