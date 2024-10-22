@@ -1,0 +1,164 @@
+// TEMPLATE BUILDER: https://usewaypoint.github.io/email-builder-js
+{
+  "root": {
+    "type": "EmailLayout",
+    "data": {
+      "backdropColor": "#f3f7fa",
+      "borderColor": null,
+      "borderRadius": 4,
+      "canvasColor": "#ffffff",
+      "textColor": "#464646",
+      "fontFamily": "ROUNDED_SANS",
+      "childrenIds": [
+        "block-1727432376302",
+        "block-1727432282662",
+        "block_BFLBa3q5y8kax9KngyXP65",
+        "block_4T7sDFb4rqbSyWjLGJKmov",
+        "block-1727432328750",
+        "block-1727432304733",
+        "block_Rvc8ZfTjfhXjpphHquJKvP"
+      ]
+    }
+  },
+  "block_BFLBa3q5y8kax9KngyXP65": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "012345",
+        "level": "h1"
+      },
+      "style": {
+        "color": null,
+        "backgroundColor": "#fff2f8",
+        "fontFamily": "MONOSPACE",
+        "fontWeight": "bold",
+        "textAlign": "center",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      }
+    }
+  },
+  "block_4T7sDFb4rqbSyWjLGJKmov": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "color": "#1a1a1a",
+        "backgroundColor": null,
+        "fontSize": 16,
+        "fontFamily": null,
+        "fontWeight": "normal",
+        "textAlign": "center",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "This code will expire in 10 minutes."
+      }
+    }
+  },
+  "block_Rvc8ZfTjfhXjpphHquJKvP": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "color": "#868686",
+        "backgroundColor": null,
+        "fontSize": 14,
+        "fontFamily": null,
+        "fontWeight": "normal",
+        "textAlign": "center",
+        "padding": {
+          "top": 8,
+          "bottom": 12,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "If you did not sign up for this account you can safely ignore this email\n"
+      }
+    }
+  },
+  "block-1727432282662": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "color": "#1a1a1a",
+        "fontWeight": "normal",
+        "textAlign": "center",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "To begin using our service, please enter the following one-time verification code at the sign-up portal - click the button below to redirected to the portal."
+      }
+    }
+  },
+  "block-1727432304733": {
+    "type": "Divider",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 4,
+          "bottom": 4,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "lineColor": "#CCCCCC"
+      }
+    }
+  },
+  "block-1727432328750": {
+    "type": "Button",
+    "data": {
+      "style": {
+        "textAlign": "center",
+        "padding": {
+          "top": 0,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "buttonBackgroundColor": "#c995d0",
+        "text": "Sign-Up Verification Portal",
+        "url": "https://www.usewaypoint.com"
+      }
+    }
+  },
+  "block-1727432376302": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "TECHEXPO - CRM VERIFICATION",
+        "level": "h1"
+      },
+      "style": {
+        "color": "#ebebeb",
+        "backgroundColor": "#d28adb",
+        "fontWeight": "bold",
+        "textAlign": "center",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      }
+    }
+  }
+}
