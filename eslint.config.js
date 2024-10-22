@@ -1,8 +1,9 @@
-import { EslintConfig, ConfigPrettier } from '@packages/eslint-config';
+/* eslint-disable perfectionist/sort-objects */
+import { ConfigPrettier, EslintConfig } from '@packages/eslint-config';
 import { EslintConfigCypress } from '@packages/eslint-config-cypress';
 import { EslintConfigExpress } from '@packages/eslint-config-express';
-import { EslintConfigReact as EslintConfigReact_18p2 } from '@packages/eslint-config-react/react-18.2';
 import { EslintConfigReactTest } from '@packages/eslint-config-react-test';
+import { EslintConfigReact as EslintConfigReact_18p2 } from '@packages/eslint-config-react/react-18.2';
 import { EslintConfigStorybook } from '@packages/eslint-config-storybook';
 // NOTE:  GraphQL; waiting for v4 for flat-config support
 // import { EslintConfigGraphQLReact, EslintConfigGraphQLNode } from '@packages/eslint-config-graphql';

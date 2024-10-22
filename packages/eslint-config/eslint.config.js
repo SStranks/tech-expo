@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 import RecommendedEslint from '@eslint/js';
 import PluginTypescriptEslint from '@typescript-eslint/eslint-plugin';
 import ParserTypescriptEslint from '@typescript-eslint/parser';
@@ -58,6 +59,7 @@ export const EslintConfig = {
         message: 'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
       },
     ],
+    'perfectionist/sort-objects': 'error',
     'perfectionist/sort-exports': 'error',
     'perfectionist/sort-named-imports': 'error',
     'perfectionist/sort-imports': [
