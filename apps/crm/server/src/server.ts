@@ -1,5 +1,8 @@
 import { replaceTscAliasPaths } from 'tsc-alias';
+import validateEnvironmentVariables from '#Config/env';
 import { pinoLogger, rollbar } from '#Helpers/index';
+
+validateEnvironmentVariables();
 
 if (process.env.NODE_ENV === 'production') {
   replaceTscAliasPaths();
@@ -25,11 +28,12 @@ process.on('uncaughtException', (err: Error) => {
 
 import { mongoClient } from '#Config/dbMongo';
 import { connectPostgresDB, postgresClient } from '#Config/dbPostgres';
+import { connectRedisDB, redisClient } from '#Config/dbRedis';
 
 // Database Connections
 // await connectMongoDB();
 await connectPostgresDB();
-
+await connectRedisDB();
 // ------------------------------------------------------------------------
 
 import { apolloServer } from '#Graphql/apolloServer';
@@ -47,6 +51,7 @@ process.on('unhandledRejection', async (err: Error) => {
   await apolloServer.stop();
   await mongoClient.close();
   await postgresClient.end();
+  await redisClient.disconnect();
 
   pinoLogger.fatal(err, exitMsg);
   rollbar.critical(exitMsg, err, () => {
@@ -64,6 +69,7 @@ process.on('SIGTERM', async () => {
   await apolloServer.stop();
   await mongoClient.close();
   await postgresClient.end();
+  await redisClient.disconnect();
 
   pinoLogger.info(exitMsg);
   server.close(() => {
@@ -78,6 +84,7 @@ process.on('SIGINT', async () => {
   await apolloServer.stop();
   await mongoClient.close();
   await postgresClient.end();
+  await redisClient.disconnect();
 
   pinoLogger.info(exitMsg);
   server.close(() => {
