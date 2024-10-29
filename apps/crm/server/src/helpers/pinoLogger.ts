@@ -12,10 +12,15 @@ let config: LoggerOptions = {};
 let transport;
 
 switch (true) {
+  case NODE_ENV === 'test': {
+    config = { enabled: false, name: 'Pino-Test' };
+    transport = {};
+    break;
+  }
   case NODE_ENV === 'development' || NODE_ENV === undefined: {
     config = {
-      name: 'Pino-Dev',
       level: process.env.PINO_LOG_LEVEL || 'trace',
+      name: 'Pino-Dev',
       timestamp: pino.stdTimeFunctions.isoTime,
     };
     transport = pino.transport({
@@ -36,9 +41,9 @@ switch (true) {
         //   },
         // },
         {
-          target: 'pino-pretty',
           level: 'trace',
           options: { colorize: true },
+          target: 'pino-pretty',
         },
       ],
     });
@@ -46,26 +51,26 @@ switch (true) {
   }
   case NODE_ENV === 'production': {
     config = {
-      name: 'Pino-Prod',
       level: process.env.PINO_LOG_LEVEL_PROD || 'info',
+      name: 'Pino-Prod',
       timestamp: pino.stdTimeFunctions.isoTime,
     };
     transport = pino.transport({
       targets: [
         {
-          target: 'pino-mongodb',
           level: 'error',
           options: {
-            uri: `${process.env.MONGODB_PROTOCOL}://${process.env.MONGODB_HOST}/`,
-            database: process.env.MONGODB_DATABASE,
             collection: `logs-${YEAR}-${MONTH}-${DAY}`,
+            database: process.env.MONGODB_DATABASE,
             mongoOptions: {
               auth: {
-                username: process.env.MONGODB_USER,
                 password: process.env.MONGODB_PASSWORD,
+                username: process.env.MONGODB_USER,
               },
             },
+            uri: `${process.env.MONGODB_PROTOCOL}://${process.env.MONGODB_HOST}/`,
           },
+          target: 'pino-mongodb',
         },
       ],
     });
