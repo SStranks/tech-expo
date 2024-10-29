@@ -1,55 +1,61 @@
 import type { ErrorRequestHandler } from 'express';
+
 import { ZodError } from 'zod';
+
 import { pinoLogger, rollbar } from '#Helpers/index';
 import { CustomError, PostgresError, ZodValidationError } from '#Utils/errors';
 
 const globalErrorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
     if (err instanceof CustomError) {
-      const { statusCode, errors, message, stack } = err;
+      const { errors, message, stack, statusCode } = err;
 
       pinoLogger.error(err, `GlobalErrorHandler: ${message}`);
-      return res.status(statusCode).json({ statusCode, errors, stack });
+      res.status(statusCode).json({ errors, stack, statusCode });
+      return;
     }
 
     pinoLogger.error(err, `Non-Operational Error: ${err.message}`);
-    return res.status(500).json({
-      message: `Non-Operational Error: ${err.message}`,
+    res.status(500).json({
       error: err,
+      message: `Non-Operational Error: ${err.message}`,
       stack: err.stack,
     });
+    return;
   }
 
   // NODE_ENV: PRODUCTION
   let error = err;
-  if (error instanceof ZodError) error = new ZodValidationError({ zod: { error }, context: { error }, logging: true });
+  if (error instanceof ZodError) error = new ZodValidationError({ context: { error }, logging: true, zod: { error } });
   if (error instanceof Error && error.name === 'PostgresError')
     error = new PostgresError({ context: { error, message: error.message }, logging: true });
 
   if (err instanceof ZodValidationError) {
-    const { statusCode, errors, zodError, logging, stack, message } = err;
+    const { errors, logging, message, stack, statusCode, zodError } = err;
 
     if (logging) {
-      const logError = JSON.stringify({ statusCode, errors, stack });
+      const logError = JSON.stringify({ errors, stack, statusCode });
       pinoLogger.error(logError, 'Operational Error');
     }
 
     // Return user friendly Zod error
     const validationErrors = zodError.error.format();
 
-    return res.status(statusCode).json({ statusCode, message, validationErrors });
+    res.status(statusCode).json({ message, statusCode, validationErrors });
+    return;
   }
 
   // Includes: BadRequestError, PostgresError
   if (err instanceof CustomError) {
-    const { statusCode, errors, logging, stack, message } = err;
+    const { errors, logging, message, stack, statusCode } = err;
 
     if (logging) {
-      const logError = JSON.stringify({ statusCode, errors, stack });
+      const logError = JSON.stringify({ errors, stack, statusCode });
       pinoLogger.error(logError, 'Operational Error');
     }
 
-    return res.status(statusCode).json({ statusCode, message });
+    res.status(statusCode).json({ message, statusCode });
+    return;
   }
 
   // Unhnandled Errors
@@ -57,9 +63,9 @@ const globalErrorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   pinoLogger.error(err, errMsg);
   rollbar.error(errMsg, err);
 
-  return res.status(500).json({
-    status: 'Error',
+  res.status(500).json({
     message: `${errMsg}. Contact support`,
+    status: 'Error',
   });
 };
 

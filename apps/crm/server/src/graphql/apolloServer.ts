@@ -3,17 +3,18 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import url from 'node:url';
 
-import { resolvers } from './resolvers';
-import formatError from './errors';
 import pinoLogger from '#Helpers/pinoLogger';
 import rollbar from '#Helpers/rollbar';
+
+import formatError from './errors';
+import { resolvers } from './resolvers';
 
 const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 const typeDefs = await readFile(path.resolve(CUR, '../graphql/schema.graphql'), 'utf8');
 
 const introspection = process.env.NODE_ENV !== 'production';
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers, formatError, introspection });
+const apolloServer = new ApolloServer({ formatError, introspection, resolvers, typeDefs });
 
 try {
   await apolloServer.start();

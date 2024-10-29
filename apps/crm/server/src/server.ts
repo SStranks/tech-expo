@@ -1,4 +1,5 @@
 import { replaceTscAliasPaths } from 'tsc-alias';
+
 import validateEnvironmentVariables from '#Config/env';
 import { pinoLogger, rollbar } from '#Helpers/index';
 
@@ -36,8 +37,8 @@ await connectPostgresDB();
 await connectRedisDB();
 // ------------------------------------------------------------------------
 
-import { apolloServer } from '#Graphql/apolloServer';
 import app from '#App/app';
+import { apolloServer } from '#Graphql/apolloServer';
 
 const server = app.listen(PORT, () => {
   pinoLogger.info(`Server running successfuly in ${process.env.NODE_ENV} mode on Port ${PORT}`);

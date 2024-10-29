@@ -1,7 +1,8 @@
 import { createClient } from 'redis';
+
 import { pinoLogger, rollbar } from '#Helpers/index';
 
-const { REDIS_USERNAME, REDIS_PASSWORD, REDIS_LOCAL_PORT, REDIS_HOST } = process.env;
+const { REDIS_HOST, REDIS_LOCAL_PORT, REDIS_PASSWORD, REDIS_USERNAME } = process.env;
 const REDIS_URL = `redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_LOCAL_PORT}`;
 
 const redisClient = createClient({
@@ -35,9 +36,9 @@ class ServerEventsLogger {
 // NOTE:  Redis requires at least 1 eventEmitter to be listened to
 new ServerEventsLogger(redisClient, {
   connect: true,
-  ready: true,
   end: true,
   error: true,
+  ready: true,
   reconnecting: true,
 });
 
