@@ -1,5 +1,7 @@
-import { IconArrowLeftDoubleAlt, IconMenuDots } from '#Components/svg';
 import { useState } from 'react';
+
+import { IconArrowLeftDoubleAlt, IconMenuDots } from '#Components/svg';
+
 import styles from './_ButtonPaginator.module.scss';
 
 interface IProps {
@@ -9,7 +11,7 @@ interface IProps {
 }
 
 function ButtonPaginatorPages(props: IProps): JSX.Element {
-  const { direction, title, onClick } = props;
+  const { direction, onClick, title } = props;
   const [active, setActive] = useState<boolean>(false);
 
   const activate = () => {

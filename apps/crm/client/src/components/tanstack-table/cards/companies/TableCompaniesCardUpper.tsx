@@ -1,6 +1,8 @@
-import type { ITableDataCompanies } from '#Data/MockData';
 import type { CoreRow } from '@tanstack/react-table';
+import type { ITableDataCompanies } from '#Data/MockData';
+
 import TableCompaniesOptionBtn from './TableCompaniesOptionBtn';
+
 import styles from './_TableCompaniesCardUpper.module.scss';
 
 interface IProps {

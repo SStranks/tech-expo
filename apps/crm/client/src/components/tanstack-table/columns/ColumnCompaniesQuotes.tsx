@@ -1,5 +1,7 @@
 import { createColumnHelper } from '@tanstack/react-table';
+
 import { ITableDataQuotes } from '#Data/MockData';
+
 import { RowActionsControl } from '../controls';
 import { QuoteParticipants, QuoteStage, UserSingle } from '../elements';
 

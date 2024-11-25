@@ -1,14 +1,16 @@
 import { render, screen } from '@testing-library/react';
-import ForgotPasswordPage from './ForgotPasswordPage';
-import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
+
 import { EMAIL_RULES } from '#Components/react-hook-form/validationRules';
+
+import ForgotPasswordPage from './ForgotPasswordPage';
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
     render(<ForgotPasswordPage />, { wrapper: BrowserRouter });
 
-    const headerH1 = screen.getByRole('heading', { level: 1, name: /password reset/i });
+    const headerH1 = screen.getByRole('heading', { name: /password reset/i, level: 1 });
     const formElement = screen.getByRole('form', { name: /password reset/i });
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const resetPasswordButton = screen.getByRole('button', { name: /email reset instructions/i });

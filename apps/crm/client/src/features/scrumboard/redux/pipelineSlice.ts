@@ -1,10 +1,12 @@
+/* eslint-disable perfectionist/sort-objects */
 import type { DraggableLocation } from 'react-beautiful-dnd';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IColumn, initialData } from '#Data/MockScrumboardPipeline';
 
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { IColumn, initialData } from '#Data/MockScrumboardPipeline';
+import CompanyLogo from '#Img/CompanyLogo.png';
 // TEMP DEV: .
 import UserImage from '#Img/image-35.jpg';
-import CompanyLogo from '#Img/CompanyLogo.png';
 
 interface IMoveTaskPayload {
   columnStart: IColumn;

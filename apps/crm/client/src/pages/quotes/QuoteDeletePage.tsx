@@ -1,10 +1,12 @@
 import type { CoreRow } from '@tanstack/react-table';
 import type { ITableDataQuotes } from '#Data/MockData';
+
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import FormModal from '#Components/modal/FormModal';
-import { StylesTableListView } from '#Components/tanstack-table/views';
 import { TableQuotesDelete } from '#Components/tanstack-table/tables';
+import { StylesTableListView } from '#Components/tanstack-table/views';
 
 function QuoteDeletePage(): JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);

@@ -1,5 +1,7 @@
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from 'react-aria-components';
+
 import { IconDelete, IconEye, IconMenuDots } from '#Components/svg';
+
 import styles from './_ScrumboardCardOptionsBtn.module.scss';
 
 interface IProps {
@@ -8,7 +10,7 @@ interface IProps {
   taskStatus?: 'won' | 'lost';
 }
 
-function ScrumboardCardOptionsBtn({ taskId, columnId, taskStatus }: IProps): JSX.Element {
+function ScrumboardCardOptionsBtn({ columnId, taskId, taskStatus }: IProps): JSX.Element {
   return (
     <MenuTrigger>
       <Button

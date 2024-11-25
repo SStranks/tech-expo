@@ -1,5 +1,5 @@
 import type { ITableDataDeals } from '#Data/MockData';
-import { useState } from 'react';
+
 import {
   ColumnFiltersState,
   getCoreRowModel,
@@ -9,8 +9,11 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import { ColumnCompaniesDeals } from '../../columns';
+import { useState } from 'react';
+
 import { TableListEmbeddedView } from '#Components/tanstack-table/views';
+
+import { ColumnCompaniesDeals } from '../../columns';
 
 interface IProps {
   tableData: ITableDataDeals[];
@@ -24,21 +27,21 @@ function TableCompaniesDeals(props: IProps): JSX.Element {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
-    data,
-    columns: ColumnCompaniesDeals,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     getRowId: (originalRow) => originalRow.id,
     state: {
-      sorting,
-      pagination,
       columnFilters,
+      pagination,
+      sorting,
     },
+    columns: ColumnCompaniesDeals,
+    data,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
   });
 
   const { getPageCount, setPageIndex } = table;

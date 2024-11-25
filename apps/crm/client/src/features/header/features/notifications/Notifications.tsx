@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
+
 import { ReactPortal } from '#Components/index';
 import { IconNotificationBell } from '#Components/svg';
 import { INotification } from '#Data/MockData';
@@ -11,7 +12,9 @@ import {
   CTG_ON_ENTER_CSS_ROOT,
   CTG_ON_EXITED_CSS_ROOT,
 } from '#Utils/cssTransitionGroup';
+
 import NotificationsList from './NotificationsList';
+
 import styles from './_Notifications.module.scss';
 
 // Defined at top of 'styles' scss; used to offset portal from window edge

@@ -1,5 +1,6 @@
-import styles from './_CommentList.module.scss';
 import { CommentPosted } from './index';
+
+import styles from './_CommentList.module.scss';
 
 function CommentList(): JSX.Element {
   return (

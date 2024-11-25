@@ -1,4 +1,5 @@
 import CompanyLogo from '#Img/Microsoft_logo.png';
+
 import {
   CompaniesTableContacts,
   CompaniesTableDeals,
@@ -6,17 +7,18 @@ import {
   CompaniesTableNotes,
   CompaniesTableQuotes,
 } from './components';
+
 import styles from './_CompaniesReadPage.module.scss';
 
 const companyName = 'Microsoft';
 const salesOwner = 'Bob Woodwood';
 
 const companyInfo = {
-  size: 'ENTERPRISE',
-  revenue: '$27,000,000,000',
-  industry: 'TELECOMMUNICATIONS',
-  type: 'B2G',
   country: 'England',
+  industry: 'TELECOMMUNICATIONS',
+  revenue: '$27,000,000,000',
+  size: 'ENTERPRISE',
+  type: 'B2G',
   website: 'http://boom.com',
 };
 

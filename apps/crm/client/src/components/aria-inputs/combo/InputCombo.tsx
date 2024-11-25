@@ -1,5 +1,7 @@
 import { Button, ComboBox, Input, ListBox, ListBoxItem, Popover } from 'react-aria-components';
+
 import IconArrowDownAlt from '#Components/svg/IconArrowDownAlt';
+
 import styles from './_InputCombo.module.scss';
 
 interface IProps {
@@ -12,7 +14,7 @@ interface IProps {
 }
 
 function InputCombo(props: IProps): JSX.Element {
-  const { items, value, onChange, id, ...rest } = props;
+  const { id, items, onChange, value, ...rest } = props;
 
   return (
     <ComboBox

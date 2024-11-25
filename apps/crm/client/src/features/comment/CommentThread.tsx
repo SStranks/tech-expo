@@ -1,5 +1,6 @@
+import { CommentInsert, CommentList } from './index';
+
 import styles from './_CommentThread.module.scss';
-import { CommentList, CommentInsert } from './index';
 
 // TODO:  Need to make Form wrapper and new input (thinner version of login ones)
 function CommentThread(): JSX.Element {

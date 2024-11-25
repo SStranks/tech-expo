@@ -1,5 +1,6 @@
 import { useId } from 'react';
-import { useFormContext, type RegisterOptions } from 'react-hook-form';
+import { type RegisterOptions, useFormContext } from 'react-hook-form';
+
 import { InputUx, TextArea } from '#Components/react-hook-form';
 
 interface IProps {
@@ -9,9 +10,9 @@ interface IProps {
 }
 function FormProviderTextArea({ name, label, rules = {} }: IProps): JSX.Element {
   const {
-    register,
+    formState: { defaultValues, dirtyFields, errors, isSubmitted },
     getFieldState,
-    formState: { defaultValues, errors, isSubmitted, dirtyFields },
+    register,
   } = useFormContext();
   const { invalid } = getFieldState(name);
   const id = useId();

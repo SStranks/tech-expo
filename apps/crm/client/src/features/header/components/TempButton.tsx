@@ -1,6 +1,7 @@
+import { useState } from 'react';
+
 import FormModal from '#Components/modal/FormModal';
 import { IconEye } from '#Svg/icons';
-import { useState } from 'react';
 
 interface IListItem {
   id: string;
@@ -28,21 +29,21 @@ function TempButton(): JSX.Element {
     setPortalActive(true);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, unicorn/consistent-function-scoping
+  // eslint-disable-next-line unicorn/consistent-function-scoping
   const onSubmit = async (data: any) => {
     console.log('FORM SUBMITTED!', data);
   };
 
   const defaultValues = {
     input: '',
-    textarea: '',
-    inputSelect: '',
     inputCombo: '',
-    inputNumber: undefined,
-    inputDatePicker: '',
-    inputTimeField: '',
-    inputTagGroup: listItems,
     inputComboTag: '',
+    inputDatePicker: '',
+    inputNumber: undefined,
+    inputSelect: '',
+    inputTagGroup: listItems,
+    inputTimeField: '',
+    textarea: '',
   };
 
   return (

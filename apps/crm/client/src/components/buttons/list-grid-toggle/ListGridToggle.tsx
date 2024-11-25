@@ -1,7 +1,10 @@
 import type { ColumnFiltersState, Updater } from '@tanstack/react-table';
+
 import { useState } from 'react';
 import { Label, Radio, RadioGroup } from 'react-aria-components';
+
 import { IconGrid, IconListDownArrow } from '#Components/svg';
+
 import styles from './_ListGridToggle.module.scss';
 
 interface IProps {
@@ -13,7 +16,7 @@ interface IProps {
 }
 
 function ListGridToggle(props: IProps): JSX.Element {
-  const { tableView, setTableView, columnFilters, setColumnFilters, resetColumnFilters } = props;
+  const { columnFilters, resetColumnFilters, setColumnFilters, setTableView, tableView } = props;
   const [columnFiltersInternal, setColumnFiltersInternal] = useState<ColumnFiltersState>(columnFilters);
 
   const onChangeHandler = (val: string) => {

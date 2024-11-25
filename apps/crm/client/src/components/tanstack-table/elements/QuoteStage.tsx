@@ -1,5 +1,7 @@
 import type { ITableDataQuotes } from '#Data/MockData';
+
 import { IconCircleTick, IconFullScreen, IconSquareArrowTopRight } from '#Components/svg';
+
 import styles from './_QuoteStage.module.scss';
 
 function StageIcon(stage: ITableDataQuotes['stage']) {

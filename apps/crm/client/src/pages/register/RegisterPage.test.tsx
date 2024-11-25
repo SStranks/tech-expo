@@ -1,10 +1,12 @@
 /* eslint-disable unicorn/numeric-separators-style */
-/* eslint-disable jest/no-commented-out-tests */
-import { BrowserRouter } from 'react-router-dom';
+
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import RegisterPage from './RegisterPage';
+import { BrowserRouter } from 'react-router-dom';
+
 import { EMAIL_RULES } from '#Components/react-hook-form/validationRules';
+
+import RegisterPage from './RegisterPage';
 
 const STRONG_PASSWORD = 'a&9Hg2*(lMbs';
 
@@ -12,7 +14,7 @@ describe('Initialization', () => {
   test('Component should render correctly', async () => {
     render(<RegisterPage />, { wrapper: BrowserRouter });
 
-    const headerH1 = screen.getByRole('heading', { level: 1, name: /register account/i });
+    const headerH1 = screen.getByRole('heading', { name: /register account/i, level: 1 });
     const formElement = screen.getByRole('form', { name: /register account/i });
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const passwordInput = await screen.findByLabelText(/password/i);

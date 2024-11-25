@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import UserSettingsMenu from './UserSettingsMenu';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
+
+import UserSettingsMenu from './UserSettingsMenu';
 
 describe('Initialization', () => {
   test('Component should render correctly; user settings window should not be present before click event', () => {

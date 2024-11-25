@@ -1,5 +1,5 @@
 import type { ITableSettingsContacts } from '#Data/MockData';
-import { useState } from 'react';
+
 import {
   ColumnFiltersState,
   getCoreRowModel,
@@ -7,9 +7,12 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { useState } from 'react';
+
 import { ColumnSettingsContacts } from '#Components/tanstack-table/columns';
 import { TableControlsFooter } from '#Components/tanstack-table/controls';
 import { TableDefaultView } from '#Components/tanstack-table/views';
+
 import styles from './_TableSettingsContacts.module.scss';
 
 interface IProps {
@@ -24,19 +27,19 @@ function TableSettingsContacts(props: IProps): JSX.Element {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
-    data,
-    columns: ColumnSettingsContacts,
-    meta: { tableName: 'settings-contacts' },
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     state: {
-      pagination,
       columnFilters,
+      pagination,
     },
-    onPaginationChange: setPagination,
-    onColumnFiltersChange: setColumnFilters,
+    columns: ColumnSettingsContacts,
+    data,
     enableSorting: false,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    meta: { tableName: 'settings-contacts' },
+    onColumnFiltersChange: setColumnFilters,
+    onPaginationChange: setPagination,
   });
 
   const { getPageCount, getRowCount, setPageIndex, setPageSize } = table;

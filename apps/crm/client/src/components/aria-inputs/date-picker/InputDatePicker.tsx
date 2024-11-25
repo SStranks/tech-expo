@@ -1,4 +1,6 @@
 import type { DatePickerProps, DateValue, ValidationResult } from 'react-aria-components';
+
+import { getLocalTimeZone, today } from '@internationalized/date';
 import { useContext } from 'react';
 import {
   Button,
@@ -21,8 +23,9 @@ import {
   Popover,
   Text,
 } from 'react-aria-components';
-import { getLocalTimeZone, today } from '@internationalized/date';
+
 import { IconArrowDownAlt, IconArrowLeftAlt, IconArrowLeftDoubleAlt } from '#Components/svg';
+
 import styles from './_InputDatePicker.module.scss';
 
 const DATE_TODAY = today(getLocalTimeZone());
@@ -51,7 +54,7 @@ interface IButtonYearProps {
 }
 
 // Advance/Recess calendar view by one year
-function ButtonYear({ operation, className = undefined }: IButtonYearProps): JSX.Element {
+function ButtonYear({ className = undefined, operation }: IButtonYearProps): JSX.Element {
   let state = useContext(CalendarStateContext);
 
   return (
@@ -73,7 +76,7 @@ interface MyDatePickerProps<T extends DateValue> extends DatePickerProps<T> {
   errorMessage?: string | ((validation: ValidationResult) => string);
 }
 
-function InputDatePicker<T extends DateValue>({ label, description, errorMessage, ...props }: MyDatePickerProps<T>) {
+function InputDatePicker<T extends DateValue>({ description, errorMessage, label, ...props }: MyDatePickerProps<T>) {
   return (
     <DatePicker {...props} className={styles.datePicker}>
       <Label className={styles.label}>

@@ -1,6 +1,8 @@
 import type { ComboBoxProps } from 'react-aria-components';
+
 import { useId } from 'react';
-import { type RegisterOptions, useFormContext, Controller } from 'react-hook-form';
+import { Controller, type RegisterOptions, useFormContext } from 'react-hook-form';
+
 import { InputCombo } from '#Components/aria-inputs';
 import { InputParser, InputUx } from '#Components/react-hook-form';
 
@@ -14,15 +16,15 @@ interface IProps {
 
 function FormProviderCombo<T extends object>({
   name,
-  label,
   defaultInputValue,
   items,
+  label,
   rules = {},
   ...rest
 }: ComboBoxProps<T> & IProps): JSX.Element {
   const {
     control,
-    formState: { defaultValues, isSubmitted, dirtyFields },
+    formState: { defaultValues, dirtyFields, isSubmitted },
   } = useFormContext();
   const id = useId();
 
@@ -34,7 +36,7 @@ function FormProviderCombo<T extends object>({
       name={name}
       rules={rules}
       defaultValue={defaultInputValue}
-      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error } }) => (
+      render={({ field: { name, onBlur, onChange, value }, fieldState: { error, invalid: isInvalid } }) => (
         <InputUx
           id={id}
           label={label}
@@ -48,7 +50,7 @@ function FormProviderCombo<T extends object>({
             ReactAriaComponent={InputCombo}
             value={value}
             onChange={onChange}
-            {...{ name, id, label, items, onBlur, defaultValue, isInvalid, ...rest }}
+            {...{ id, name, defaultValue, isInvalid, items, label, onBlur, ...rest }}
           />
         </InputUx>
       )}

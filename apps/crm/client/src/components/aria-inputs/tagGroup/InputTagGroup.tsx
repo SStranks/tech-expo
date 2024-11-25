@@ -1,6 +1,8 @@
-import { TagGroup, TagList, Tag, Button, Key } from 'react-aria-components';
+import { Button, Key, Tag, TagGroup, TagList } from 'react-aria-components';
 import { FieldValues, UseFormTrigger } from 'react-hook-form';
+
 import { IconClose } from '#Components/svg';
+
 import styles from './_InputTagGroup.module.scss';
 
 interface IProps {
@@ -13,7 +15,7 @@ interface IProps {
 }
 
 function InputTagGroup(props: IProps): JSX.Element {
-  const { name, trigger, onChange, value, id, ...rest } = props;
+  const { id, name, onChange, trigger, value, ...rest } = props;
 
   const onRemove = (ids: Set<Key>) => {
     const newList = value.filter((p) => !ids.has(p.id));

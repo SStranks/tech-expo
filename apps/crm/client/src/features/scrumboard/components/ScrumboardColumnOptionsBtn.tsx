@@ -1,5 +1,7 @@
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from 'react-aria-components';
+
 import { IconDelete, IconEye, IconMenuDots } from '#Components/svg';
+
 import styles from './_ScrumboardColumnOptionsBtn.module.scss';
 
 interface IProps {

@@ -1,17 +1,22 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
+
 import { ReactPortal } from '#Components/index';
 import { IconLogout, IconSettings, IconUser } from '#Components/svg';
 import usePortalClose from '#Hooks/usePortalClose';
 import usePortalResizeEvent from '#Hooks/usePortalResizeEvent';
+import { useReduxDispatch } from '#Redux/hooks';
+import { clearAuthState } from '#Redux/reducers/authSlice';
 import {
   CTG_ENTER_MODAL,
   CTG_EXIT_MODAL,
   CTG_ON_ENTER_CSS_ROOT,
   CTG_ON_EXITED_CSS_ROOT,
 } from '#Utils/cssTransitionGroup';
+
 import UserSettingsModal from './UserSettingsModal';
+
 import styles from './_UserSettingsMenu.module.scss';
 
 // Defined at top of 'styles' scss; used to offset portal from window edge
@@ -33,6 +38,7 @@ interface IProps {
 
 function UserSettingsMenu(props: IProps): JSX.Element {
   const { userName } = props;
+  const reduxDispatch = useReduxDispatch();
   const [menuPortalActive, setMenuPortalActive] = useState<boolean>(false);
   const [settingsPortalActive, setSettingsPortalActive] = useState<boolean>(false);
   const menuPortalContentRef = useRef<HTMLDivElement>(null);
@@ -53,7 +59,7 @@ function UserSettingsMenu(props: IProps): JSX.Element {
 
   const logoutBtnClickHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
-    window.localStorage.removeItem('CRM Login Token');
+    reduxDispatch(clearAuthState());
     navigate('/login');
   };
 

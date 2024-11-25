@@ -1,4 +1,5 @@
 import type { ITableAuditLog } from '#Data/MockData';
+
 import {
   ColumnFiltersState,
   getCoreRowModel,
@@ -9,9 +10,11 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useState } from 'react';
+
 import { ColumnAuditLog } from '#Components/tanstack-table/columns';
 import { TableControlsFooter } from '#Components/tanstack-table/controls';
 import { TableDefaultView } from '#Components/tanstack-table/views';
+
 import styles from './_TableAuditLog.module.scss';
 
 interface IProps {
@@ -26,21 +29,21 @@ function TableAuditLog(props: IProps): JSX.Element {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
-    data,
+    state: {
+      columnFilters,
+      pagination,
+      sorting,
+    },
     columns: ColumnAuditLog,
-    meta: { tableName: 'audit' },
+    data,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      sorting,
-      pagination,
-      columnFilters,
-    },
-    onSortingChange: setSorting,
-    onPaginationChange: setPagination,
+    meta: { tableName: 'audit' },
     onColumnFiltersChange: setColumnFilters,
+    onPaginationChange: setPagination,
+    onSortingChange: setSorting,
   });
 
   const { getPageCount, getRowCount, setPageIndex, setPageSize } = table;

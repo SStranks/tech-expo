@@ -1,5 +1,7 @@
-import { ITableDataDeals } from '#Data/MockData';
 import { createColumnHelper } from '@tanstack/react-table';
+
+import { ITableDataDeals } from '#Data/MockData';
+
 import { RowActionsControl } from '../controls';
 import { DealParticipants } from '../elements';
 
@@ -24,7 +26,7 @@ const columnCompaniesDealssDef = [
     header: ({ column }) => <span>{column.id}</span>,
     enableSorting: false,
   }),
-  columnHelper.accessor((row) => ({ dealOwner: row['dealOwner'], dealContact: row['dealContact'] }), {
+  columnHelper.accessor((row) => ({ dealContact: row['dealContact'], dealOwner: row['dealOwner'] }), {
     id: 'Participants',
     cell: (info) => (
       <DealParticipants dealOwner={info.getValue().dealOwner} dealContact={info.getValue().dealContact} />

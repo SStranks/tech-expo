@@ -1,11 +1,12 @@
 import { PropsWithChildren } from 'react';
+
 import styles from './_TableGridCard.module.scss';
 
 interface ITableGridCard {
   id: string;
 }
 
-function TableGridCard({ children, id }: PropsWithChildren<ITableGridCard>): JSX.Element {
+function TableGridCard({ id, children }: PropsWithChildren<ITableGridCard>): JSX.Element {
   return (
     <div className={styles.tableGridCard} data-table-row-id={id}>
       {children}

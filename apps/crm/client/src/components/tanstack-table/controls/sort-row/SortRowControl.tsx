@@ -1,5 +1,7 @@
 import type { SortDirection } from '@tanstack/react-table';
+
 import { IconSortVertical } from '#Components/svg';
+
 import styles from './_SortRowControl.module.scss';
 
 const iconDirectionStyles = (sortDirection: IProps['sortDirection']) => {

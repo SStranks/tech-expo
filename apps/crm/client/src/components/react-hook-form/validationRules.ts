@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 export const GENERIC_TEXT_RULES = {
   required: {
     value: true,

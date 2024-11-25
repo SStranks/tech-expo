@@ -1,12 +1,14 @@
 import { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { ReactPortal } from '#Components/index';
+
 import { EditableRow, UserRole } from '#Components/general';
+import { ReactPortal } from '#Components/index';
 import { IconClose, IconEmail, IconPhone, IconSmartphone, IconTimezone, IconUserTitle } from '#Components/svg';
 import { UserData } from '#Data/MockData';
 import usePortalClose from '#Hooks/usePortalClose';
 import CompanyLogo from '#Img/CompanyLogo.png';
 import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
+
 import styles from './_UserSettingsModal.module.scss';
 
 interface IProps {
@@ -16,7 +18,7 @@ interface IProps {
 }
 
 function UserSettingsModal(props: IProps): JSX.Element {
-  const { userName, settingsPortalActive, setSettingsPortalActive } = props;
+  const { setSettingsPortalActive, settingsPortalActive, userName } = props;
   const portalRef = useRef<HTMLDivElement>(null);
   const portalContentRef = useRef<HTMLDivElement>(null);
   const portalCloseButtonRef = useRef<HTMLButtonElement>(null);

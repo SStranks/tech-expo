@@ -1,5 +1,6 @@
-import CompanyLogo from '#Img/Microsoft_logo.png';
+/* eslint-disable perfectionist/sort-objects */
 import ProfileImg from '#Img/image-35.jpg';
+import CompanyLogo from '#Img/Microsoft_logo.png';
 
 export const CompanyTitle = 'TechExpoInc';
 

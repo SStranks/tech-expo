@@ -1,6 +1,9 @@
 import { useId } from 'react';
-import { IconEye, IconCircleInfo } from '#Components/svg';
+
+import { IconCircleInfo, IconEye } from '#Components/svg';
+
 import InputUx from '../InputUx';
+
 import skeleton from './_InputPasswordSkeleton.module.scss';
 import styles from './_InputPasswordStrength.module.scss';
 

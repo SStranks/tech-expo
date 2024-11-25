@@ -1,5 +1,7 @@
-import { ITableDataContacts } from '#Data/MockData';
 import { createColumnHelper } from '@tanstack/react-table';
+
+import { ITableDataContacts } from '#Data/MockData';
+
 import { RowActionsControl } from '../controls';
 import { ContactStatus, UserSingle } from '../elements';
 
@@ -16,8 +18,8 @@ const columnContactsDef = [
   columnHelper.accessor('status', {
     cell: (info) => <ContactStatus status={info.getValue()} />,
     header: () => <span>Status</span>,
-    enableGlobalFilter: false,
     enableColumnFilter: false,
+    enableGlobalFilter: false,
   }),
   columnHelper.display({
     id: 'Actions',

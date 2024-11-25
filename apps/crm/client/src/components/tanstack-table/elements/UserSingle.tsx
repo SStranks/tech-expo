@@ -1,4 +1,5 @@
 import userImage from '#Img/image-35.jpg';
+
 import styles from './_UserSingle.module.scss';
 
 // TODO:  Make image dynamic; currently not part of mock data.

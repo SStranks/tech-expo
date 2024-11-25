@@ -1,6 +1,8 @@
+import { flexRender, type Table, Updater } from '@tanstack/react-table';
 import { useRef } from 'react';
-import { flexRender, Updater, type Table } from '@tanstack/react-table';
+
 import { FilterRowControl, PaginatorRangeControl, SortRowControl } from '../controls';
+
 import styles from './_TableListEmbeddedView.module.scss';
 
 interface IProps<T> {
@@ -12,7 +14,7 @@ interface IProps<T> {
 
 // TODO: // REFACTOR:  99% idential to TableListView; styles and paginator control different.
 function TableListEmbeddedView<T>(props: IProps<T>): JSX.Element {
-  const { table, pageCount, pageIndex, setPageIndex } = props;
+  const { pageCount, pageIndex, setPageIndex, table } = props;
   const tableContainerRef = useRef<HTMLDivElement>(null);
   let pos = { left: 0, x: 0 };
 

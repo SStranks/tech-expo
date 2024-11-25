@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { SearchField, Input, Button, Label } from 'react-aria-components';
+import { Button, Input, Label, SearchField } from 'react-aria-components';
+
 import { IconClose, IconSearch } from '#Components/svg';
+
 import styles from './_GlobalFilterControl.module.scss';
 
 interface IProps {
@@ -11,7 +13,7 @@ interface IProps {
 }
 
 function GlobalFilterControl(props: IProps): JSX.Element {
-  const { label, globalFilter, setGlobalFilter, debounceDelay = 250 } = props;
+  const { debounceDelay = 250, globalFilter, label, setGlobalFilter } = props;
   const [debouncedValue, setDebouncedValue] = useState(globalFilter);
 
   useEffect(() => {

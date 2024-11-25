@@ -1,6 +1,8 @@
 import type { Updater } from '@tanstack/react-table';
-import ButtonPaginatorRowLimit from '../pagination/components/ButtonPaginatorRowLimit';
+
 import { PaginatorRangeControl } from '../';
+import ButtonPaginatorRowLimit from '../pagination/components/ButtonPaginatorRowLimit';
+
 import styles from './_TableControlsFooter.module.scss';
 
 interface IProps {
@@ -13,7 +15,7 @@ interface IProps {
 }
 
 function TableControlsFooter(props: IProps): JSX.Element {
-  const { entriesName, entriesTotal, pageIndex, getPageCount, setPageIndex, setPageSize } = props;
+  const { entriesName, entriesTotal, getPageCount, pageIndex, setPageIndex, setPageSize } = props;
 
   return (
     <div className={styles.tableControls}>

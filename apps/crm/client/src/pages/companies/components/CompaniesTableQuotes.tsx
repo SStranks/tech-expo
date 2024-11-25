@@ -3,6 +3,7 @@ import { TableSingleColumn } from '#Components/general';
 import { IconBillQuote } from '#Components/svg';
 import { TableCompaniesQuotes } from '#Components/tanstack-table/tables';
 import { tableDataQuotes } from '#Data/MockData';
+
 import styles from './_CompaniesTableQuotes.module.scss';
 
 // TEMP: .

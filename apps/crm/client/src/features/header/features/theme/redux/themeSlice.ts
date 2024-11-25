@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {

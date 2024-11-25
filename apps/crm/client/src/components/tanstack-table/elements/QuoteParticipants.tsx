@@ -1,5 +1,7 @@
 import type { ITableDataQuotes } from '#Data/MockData';
+
 import UserCircleAbbv from '#Components/general/UserCircleAbbv';
+
 import styles from './_QuotesParticipants.module.scss';
 
 interface IProps {

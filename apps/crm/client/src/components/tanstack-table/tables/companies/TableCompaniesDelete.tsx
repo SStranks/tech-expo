@@ -1,8 +1,12 @@
 import type { ITableDataCompanies } from '#Data/MockData';
-import { useState } from 'react';
+
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useState } from 'react';
+
 import { TableModalView } from '#Components/tanstack-table/views';
+
 import { ColumnCompaniesDelete } from '../../columns';
+
 import styles from './_TableCompanies.module.scss';
 
 interface IProps {
@@ -14,11 +18,11 @@ function TableCompanies(props: IProps): JSX.Element {
   const [data] = useState<ITableDataCompanies[]>(tableData);
 
   const table = useReactTable({
-    data,
     columns: ColumnCompaniesDelete,
-    getCoreRowModel: getCoreRowModel(),
+    data,
     enableFilters: false,
     enableSorting: false,
+    getCoreRowModel: getCoreRowModel(),
   });
 
   return (

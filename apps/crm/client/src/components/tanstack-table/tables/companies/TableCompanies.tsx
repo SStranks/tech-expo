@@ -1,19 +1,23 @@
 import type { ITableDataCompanies } from '#Data/MockData';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import {
   ColumnFiltersState,
-  SortingState,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { TableCompaniesCardLower, TableCompaniesCardUpper, TableGridCard } from '#Components/tanstack-table/cards';
 import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
 import { TableGridView, TableListView } from '#Components/tanstack-table/views';
+
 import { ColumnCompanies } from '../../columns';
-import { TableCompaniesCardLower, TableCompaniesCardUpper, TableGridCard } from '#Components/tanstack-table/cards';
+
 import styles from './_TableCompanies.module.scss';
 
 interface IProps {
@@ -31,27 +35,27 @@ function TableCompanies(props: IProps): JSX.Element {
   const navigate = useNavigate();
 
   const table = useReactTable({
-    data,
-    columns: ColumnCompanies,
-    meta: { tableName: 'companies' },
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     getRowId: (originalRow) => originalRow.id,
     state: {
-      sorting,
-      pagination,
-      globalFilter,
       columnFilters,
+      globalFilter,
+      pagination,
+      sorting,
     },
-    onSortingChange: setSorting,
-    onPaginationChange: setPagination,
-    onGlobalFilterChange: setGlobalFilter,
+    columns: ColumnCompanies,
+    data,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    meta: { tableName: 'companies' },
     onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination,
+    onSortingChange: setSorting,
   });
 
-  const { getPageCount, getRowCount, setPageIndex, setPageSize, resetColumnFilters, options } = table;
+  const { getPageCount, getRowCount, options, resetColumnFilters, setPageIndex, setPageSize } = table;
   const tableName = options.meta?.tableName;
 
   const createCompany = () => {
@@ -76,7 +80,7 @@ function TableCompanies(props: IProps): JSX.Element {
       <TableControlsHeader
         createEntryBtn={{ displayText: 'Create Company', onClick: createCompany }}
         globalFilter={{ globalFilter, setGlobalFilter, tableName }}
-        listGridToggle={{ tableView, setTableView, columnFilters, setColumnFilters, resetColumnFilters }}
+        listGridToggle={{ columnFilters, resetColumnFilters, setColumnFilters, setTableView, tableView }}
       />
       {tableView === 'list' && <TableListView table={table} />}
       {tableView === 'grid' && <TableGridView tableCards={tableCards} />}

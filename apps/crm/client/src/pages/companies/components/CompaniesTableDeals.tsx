@@ -1,8 +1,9 @@
 import { ButtonAddEntry } from '#Components/buttons';
 import { TableSingleColumn } from '#Components/general';
-import { TableCompaniesDeals } from '#Components/tanstack-table/tables';
 import { IconPipe } from '#Components/svg';
+import { TableCompaniesDeals } from '#Components/tanstack-table/tables';
 import { tableDataDeals } from '#Data/MockData';
+
 import styles from './_CompaniesTableDeals.module.scss';
 
 // TODO:  Make 'Stage' icons for table

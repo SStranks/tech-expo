@@ -1,5 +1,8 @@
+/* eslint-disable perfectionist/sort-objects */
 import type { DraggableLocation } from 'react-beautiful-dnd';
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { IColumn, initialData } from '#Data/MockScrumboardKanban';
 
 // TEMP DEV: .

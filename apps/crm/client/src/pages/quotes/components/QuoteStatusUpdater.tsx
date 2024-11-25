@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import styles from './_QuoteStatusUpdater.module.scss';
 
 type TQuoteStatus = 'draft' | 'sent' | 'accepted';

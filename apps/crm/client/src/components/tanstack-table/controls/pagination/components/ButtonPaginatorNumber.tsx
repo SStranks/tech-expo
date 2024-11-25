@@ -7,7 +7,7 @@ interface IProps {
 }
 
 function ButtonPaginatorNumber(props: IProps): JSX.Element {
-  const { number, active, onClick } = props;
+  const { active, number, onClick } = props;
 
   return (
     <button

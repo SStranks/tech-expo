@@ -1,4 +1,5 @@
 import companyImage from '#Img/Microsoft_logo.png';
+
 import styles from './_CompanySingle.module.scss';
 
 // TODO:  Make image dynamic; currently not part of mock data.

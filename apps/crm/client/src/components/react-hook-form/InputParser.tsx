@@ -1,24 +1,24 @@
-import { ComponentType } from 'react';
 import { parseDate, parseTime } from '@internationalized/date';
+import { ComponentType } from 'react';
 
 const onChangeFunctions = {
   InputCombo: (e: unknown[]) => e[0] ?? '', // Clearing input returns NULL key; React-Hook-Form 'required' needs empty string to trigger validation error.
+  InputComboTag: (e: unknown[]) => e[0],
   InputDatePicker: (e: unknown[]) => e.toString(), // CalendarDate object has 'toString' method
   InputNumber: (e: unknown[]) => e[0],
   InputSelect: (e: unknown[]) => e[0],
-  InputTimeField: (e: unknown[]) => e.toString(),
   InputTagGroup: (e: unknown[]) => e[0],
-  InputComboTag: (e: unknown[]) => e[0],
+  InputTimeField: (e: unknown[]) => e.toString(),
 };
 
 const valueFunctions = {
   InputCombo: (v: unknown) => v ?? '',
+  InputComboTag: (v: unknown) => v,
   InputDatePicker: (v: unknown) => (typeof v === 'string' && (v as string).length > 0 ? parseDate(v as string) : null),
   InputNumber: (v: unknown) => v,
   InputSelect: (v: unknown) => v,
-  InputTimeField: (v: unknown) => (typeof v === 'string' && (v as string).length > 0 ? parseTime(v as string) : null),
   InputTagGroup: (v: unknown) => v,
-  InputComboTag: (v: unknown) => v,
+  InputTimeField: (v: unknown) => (typeof v === 'string' && (v as string).length > 0 ? parseTime(v as string) : null),
 };
 
 interface IProps<T> {

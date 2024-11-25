@@ -1,7 +1,9 @@
-import Logo from './components/Logo';
-import SettingsBar from './components/SettingsBar';
-import SearchBar from './components/SearchBar';
 import CompanyLogo from '#Img/CompanyLogo.png';
+
+import Logo from './components/Logo';
+import SearchBar from './components/SearchBar';
+import SettingsBar from './components/SettingsBar';
+
 import styles from './_Header.module.scss';
 
 function Header(): JSX.Element {

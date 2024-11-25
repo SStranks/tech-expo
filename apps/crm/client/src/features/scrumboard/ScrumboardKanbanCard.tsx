@@ -1,8 +1,12 @@
 import type { ITask } from '#Data/MockScrumboardKanban';
+
 import { Draggable } from 'react-beautiful-dnd';
 import { useNavigate } from 'react-router-dom';
+
 import { UserCircle } from '#Components/general';
+
 import { ScrumboardCardOptionsBtn } from '.';
+
 import styles from './_ScrumboardCard.module.scss';
 
 interface IProps {
@@ -12,7 +16,7 @@ interface IProps {
   taskStatus?: 'won' | 'lost';
 }
 
-function ScrumBoardKanbanCard({ task, columnId, index, taskStatus }: IProps): JSX.Element {
+function ScrumBoardKanbanCard({ columnId, index, task, taskStatus }: IProps): JSX.Element {
   const navigate = useNavigate();
 
   const onDoubleClickHandler = () => {

@@ -3,6 +3,7 @@ import { TableSingleColumn } from '#Components/general';
 import { IconUser } from '#Components/svg';
 import { TableCompaniesContacts } from '#Components/tanstack-table/tables';
 import { tableDataContacts } from '#Data/MockData';
+
 import styles from './_CompaniesTableContacts.module.scss';
 
 // TEMP: .

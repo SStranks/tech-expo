@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
-import UserSettingsModal from './UserSettingsModal';
 import { config } from 'react-transition-group';
+
+import UserSettingsModal from './UserSettingsModal';
 
 describe('Initialization', () => {
   const setStateMockFn = jest.fn();

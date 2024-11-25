@@ -1,7 +1,8 @@
 import { useId } from 'react';
-import { useFormContext, type RegisterOptions } from 'react-hook-form';
-import { InputUx, Input } from '#Components/react-hook-form';
 import { InputProps } from 'react-aria-components';
+import { type RegisterOptions, useFormContext } from 'react-hook-form';
+
+import { Input, InputUx } from '#Components/react-hook-form';
 
 interface IProps {
   name: string;
@@ -9,11 +10,11 @@ interface IProps {
   label: string;
   rules?: RegisterOptions;
 }
-function FormProviderInput({ name, type, label, rules = {}, ...rest }: InputProps & IProps): JSX.Element {
+function FormProviderInput({ name, label, rules = {}, type, ...rest }: InputProps & IProps): JSX.Element {
   const {
-    register,
-    formState: { errors, defaultValues, isSubmitted, dirtyFields },
+    formState: { defaultValues, dirtyFields, errors, isSubmitted },
     getFieldState,
+    register,
   } = useFormContext();
   const { invalid } = getFieldState(name);
   const id = useId();

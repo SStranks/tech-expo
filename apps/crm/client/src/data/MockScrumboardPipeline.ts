@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 import CompanyLogo from '#Img/CompanyLogo.png';
 import UserImage from '#Img/image-35.jpg';
 

@@ -1,6 +1,8 @@
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
+
 import { ReactPortal } from '#Components/index';
+
 import styles from './_ToolTip.module.scss';
 
 /**
@@ -44,8 +46,8 @@ const calculateFinalPosition = (childCoords: ICoords | undefined, position: TPos
   }
 
   return {
-    top,
     left,
+    top,
     transform: `translate(${translateX}, ${translateY})`,
   };
 };
@@ -60,7 +62,7 @@ interface IProps {
   offset: number;
 }
 
-function ToolTip({ text, children = undefined, position, offset }: PropsWithChildren<IProps>): JSX.Element {
+function ToolTip({ children = undefined, offset, position, text }: PropsWithChildren<IProps>): JSX.Element {
   const [childCoords, setChildCoords] = useState<ICoords>();
   const [active, setActive] = useState<boolean>();
   const nodeRef = useRef<HTMLDivElement>(null);
@@ -80,10 +82,10 @@ function ToolTip({ text, children = undefined, position, offset }: PropsWithChil
 
   // Mouse must be stationary within the target element for 500ms before tooltip is triggered
   const onMouseMoveHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { top, left, width, height } = e.currentTarget.getBoundingClientRect();
+    const { height, left, top, width } = e.currentTarget.getBoundingClientRect();
     clearTimeout(timeoutRef?.current);
     timeoutRef.current = setTimeout(() => {
-      setChildCoords({ top, left, width, height });
+      setChildCoords({ height, left, top, width });
       setActive(true);
     }, 500);
   };

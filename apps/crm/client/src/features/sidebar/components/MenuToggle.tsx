@@ -6,7 +6,7 @@ interface IProps {
 }
 
 function MenuToggle(props: IProps): JSX.Element {
-  const { sidebarMaximize, setSidebarMaximize } = props;
+  const { setSidebarMaximize, sidebarMaximize } = props;
 
   const btnClickHandler = () => {
     setSidebarMaximize((prev) => !prev);

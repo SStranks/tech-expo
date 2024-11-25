@@ -1,6 +1,6 @@
 import type { ZxcvbnResult } from '@zxcvbn-ts/core';
+
 import { useEffect, useId, useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
   Control,
   FieldError,
@@ -8,13 +8,17 @@ import {
   Path,
   UseFormRegister,
   UseFormTrigger,
-  ValidationRule,
   useWatch,
+  ValidationRule,
 } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+
+import { IconCircleInfo, IconEye, IconPassword } from '#Components/svg';
 import { usePasswordStrength } from '#Lib/zxcvbn';
-import { IconPassword, IconEye, IconCircleInfo } from '#Components/svg';
-import styles from './_InputPasswordStrength.module.scss';
+
 import InputUx from '../InputUx';
+
+import styles from './_InputPasswordStrength.module.scss';
 
 const ARIA_LIVE = [
   'Password strength 0 out of 4: Too guessable',
@@ -47,11 +51,11 @@ interface IProps<T extends FieldValues> {
 
 // TODO:  Style and reformat password information text
 function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Element {
-  const { register, control, trigger, inputName, isDirty, invalid, isRequired, isSubmitted, error, reveal, label } =
+  const { control, error, inputName, invalid, isDirty, isRequired, isSubmitted, label, register, reveal, trigger } =
     props;
   const [passwordReveal, setPasswordReveal] = useState<boolean>(reveal);
   const [informationPanel, setInformationPanel] = useState<boolean>(false);
-  const passwordValue = useWatch({ control, name: inputName });
+  const passwordValue = useWatch({ name: inputName, control });
   const result = usePasswordStrength(passwordValue);
   const passwordId = useId();
 
@@ -69,8 +73,8 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Ele
   };
 
   const VALIDATION_RULES = {
-    required: { value: true, message: 'Please enter strong password' },
     validate: () => result?.score === 4 || 'Password is insufficiently strong',
+    required: { message: 'Please enter strong password', value: true },
   };
 
   return (

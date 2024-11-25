@@ -1,6 +1,8 @@
 import type { ComboBoxProps } from 'react-aria-components';
+
 import { useId } from 'react';
-import { Controller, useFormContext, type RegisterOptions } from 'react-hook-form';
+import { Controller, type RegisterOptions, useFormContext } from 'react-hook-form';
+
 import { InputComboTag } from '#Components/aria-inputs';
 import { InputParser, InputUx } from '#Components/react-hook-form';
 
@@ -19,8 +21,8 @@ function FormProviderComboTag<T extends object>({
 }: ComboBoxProps<T> & IProps): JSX.Element {
   const {
     control,
+    formState: { defaultValues, dirtyFields, isSubmitted },
     trigger,
-    formState: { defaultValues, isSubmitted, dirtyFields },
   } = useFormContext();
   const id = useId();
 
@@ -31,7 +33,7 @@ function FormProviderComboTag<T extends object>({
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error } }) => (
+      render={({ field: { name, onBlur, onChange, value }, fieldState: { error, invalid: isInvalid } }) => (
         <InputUx
           id={id}
           label={label}
@@ -45,7 +47,7 @@ function FormProviderComboTag<T extends object>({
             ReactAriaComponent={InputComboTag}
             value={value}
             onChange={onChange}
-            {...{ name, id, label, listItems, onBlur, defaultValue, isInvalid, trigger }}
+            {...{ id, name, defaultValue, isInvalid, label, listItems, onBlur, trigger }}
           />
         </InputUx>
       )}

@@ -1,5 +1,7 @@
-import { ITableDataQuotes } from '#Data/MockData';
 import { createColumnHelper } from '@tanstack/react-table';
+
+import { ITableDataQuotes } from '#Data/MockData';
+
 import { RowActionsControl } from '../controls';
 import { CompanySingle, QuoteParticipants, QuoteStage } from '../elements';
 
@@ -17,8 +19,8 @@ const columnQuotesDef = [
   columnHelper.accessor('total amount', {
     cell: (info) => info.getValue(),
     header: () => <span>Total Amount</span>,
-    enableGlobalFilter: false,
     enableColumnFilter: false,
+    enableGlobalFilter: false,
   }),
   columnHelper.accessor('stage', {
     cell: (info) => <QuoteStage stage={info.getValue()} />,
@@ -35,8 +37,8 @@ const columnQuotesDef = [
   columnHelper.accessor('created at', {
     cell: (info) => info.getValue(),
     header: () => <span>Created At</span>,
-    enableGlobalFilter: false,
     enableColumnFilter: false,
+    enableGlobalFilter: false,
   }),
   columnHelper.display({
     id: 'Actions',

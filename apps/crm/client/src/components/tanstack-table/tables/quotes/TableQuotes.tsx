@@ -1,18 +1,21 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   ColumnFiltersState,
-  SortingState,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
 import { TableListView } from '#Components/tanstack-table/views';
 import { ITableDataQuotes } from '#Data/MockData';
+
 import { ColumnQuotes } from '../../columns';
+
 import styles from './_TableQuotes.module.scss';
 
 interface IProps {
@@ -29,27 +32,27 @@ function TableQuotes(props: IProps): JSX.Element {
   const navigate = useNavigate();
 
   const table = useReactTable({
-    data,
+    getRowId: (originalRow) => originalRow.id,
+    state: {
+      columnFilters,
+      globalFilter,
+      pagination,
+      sorting,
+    },
     columns: ColumnQuotes,
-    meta: { tableName: 'quotes' },
+    data,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getRowId: (originalRow) => originalRow.id,
-    state: {
-      sorting,
-      pagination,
-      globalFilter,
-      columnFilters,
-    },
-    onSortingChange: setSorting,
-    onPaginationChange: setPagination,
-    onGlobalFilterChange: setGlobalFilter,
+    meta: { tableName: 'quotes' },
     onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination,
+    onSortingChange: setSorting,
   });
 
-  const { getPageCount, getRowCount, setPageIndex, setPageSize, options } = table;
+  const { getPageCount, getRowCount, options, setPageIndex, setPageSize } = table;
   const tableName = options.meta?.tableName;
 
   const createQuote = () => {

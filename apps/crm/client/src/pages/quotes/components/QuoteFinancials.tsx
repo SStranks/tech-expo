@@ -1,6 +1,9 @@
-import { useState, useId } from 'react';
+import { useId, useState } from 'react';
+
 import { IconCirclePlus } from '#Components/svg';
+
 import QuoteFinancialsItem from './QuoteFinancialsItem';
+
 import styles from './_QuoteFinancials.module.scss';
 
 function QuoteFinancials(): JSX.Element {

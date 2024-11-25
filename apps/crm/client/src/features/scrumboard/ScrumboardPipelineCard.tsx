@@ -1,9 +1,12 @@
-import { UserCircle } from '#Components/general';
 import { Draggable } from 'react-beautiful-dnd';
-import { ScrumboardCardOptionsBtn } from '.';
-import styles from './_ScrumboardCard.module.scss';
-import { ITask } from '#Data/MockScrumboardPipeline';
 import { useNavigate } from 'react-router-dom';
+
+import { UserCircle } from '#Components/general';
+import { ITask } from '#Data/MockScrumboardPipeline';
+
+import { ScrumboardCardOptionsBtn } from '.';
+
+import styles from './_ScrumboardCard.module.scss';
 
 interface IProps {
   task: ITask;
@@ -12,7 +15,7 @@ interface IProps {
   taskStatus?: 'won' | 'lost';
 }
 
-function ScrumBoardPipelineCard({ task, columnId, index, taskStatus }: IProps): JSX.Element {
+function ScrumBoardPipelineCard({ columnId, index, task, taskStatus }: IProps): JSX.Element {
   const navigate = useNavigate();
 
   const onDoubleClickHandler = () => {

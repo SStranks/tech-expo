@@ -1,8 +1,11 @@
 import type { ITableAuditLogDetails } from '#Data/MockData';
-import { useState } from 'react';
+
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useState } from 'react';
+
 import { ColumnAuditLogDetails } from '#Components/tanstack-table/columns';
 import { TableModalView } from '#Components/tanstack-table/views';
+
 import styles from './_TableAuditLog.module.scss';
 
 interface IProps {
@@ -14,12 +17,12 @@ function TableAuditLogDetails(props: IProps): JSX.Element {
   const [data] = useState<ITableAuditLogDetails[]>(tableData);
 
   const table = useReactTable({
-    data,
     columns: ColumnAuditLogDetails,
-    meta: { tableName: 'audit-details' },
-    getCoreRowModel: getCoreRowModel(),
-    enableSorting: false,
+    data,
     enableFilters: false,
+    enableSorting: false,
+    getCoreRowModel: getCoreRowModel(),
+    meta: { tableName: 'audit-details' },
   });
 
   return (

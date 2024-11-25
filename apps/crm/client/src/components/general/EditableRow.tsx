@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { IIcon, IconEdit } from '#Components/svg';
+
+import { IconEdit, IIcon } from '#Components/svg';
+
 import styles from './_EditableRow.module.scss';
 
 interface IProps {
@@ -10,7 +12,7 @@ interface IProps {
 
 // Consuming components: CompaniesTableInformation, UserSettingsModal
 function EditableRow(props: IProps): JSX.Element {
-  const { IconSvg, title, description } = props;
+  const { description, IconSvg, title } = props;
   const [editSettingActive, setEditSettingActive] = useState<boolean>(false);
   const [editInputValue, setEditInputValue] = useState<string>(description);
 

@@ -1,12 +1,14 @@
 import type { ITableSettingsContacts } from '#Data/MockData';
+
 import { IconUser, IconUserShield } from '#Components/svg';
+
 import styles from './_SettingsRole.module.scss';
 
 const CSS_ROLE_CLASS = {
   admin: 'admin',
+  'sales intern': 'salesIntern',
   'sales manager': 'salesManager',
   'sales person': 'salesPerson',
-  'sales intern': 'salesIntern',
 };
 
 function RoleIcon(userRole: ITableSettingsContacts['role']) {

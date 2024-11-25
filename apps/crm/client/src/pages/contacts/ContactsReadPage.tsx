@@ -1,16 +1,18 @@
 import user from '#Img/image-35.jpg';
+
+import { ContactLifecycle, ContactTableInformation, ContactTableNotes } from './components';
+
 import styles from './_ContactsReadPage.module.scss';
-import { ContactTableNotes, ContactTableInformation, ContactLifecycle } from './components';
 
 // TEMP DEV: .
 const userInfo = {
-  username: 'Bob Woodwood',
-  email: 'bob47@titus.org',
   company: 'SumCompany',
-  title: 'Investor Integration Facilitator',
+  email: 'bob47@titus.org',
   phone: '08001239999',
-  timezone: 'GMT',
   stage: 'Interested',
+  timezone: 'GMT',
+  title: 'Investor Integration Facilitator',
+  username: 'Bob Woodwood',
 };
 
 // REFACTOR:  Same layout as CompaniesReadPage; consolidate into a layout

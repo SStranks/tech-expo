@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import Logo from './Logo';
+
 import CompanyLogo from '#Img/CompanyLogo.png';
+
+import Logo from './Logo';
 
 describe('Initialization', () => {
   test('Component renders correctly; contains logo image and company title', () => {

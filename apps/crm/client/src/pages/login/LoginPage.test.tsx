@@ -1,14 +1,16 @@
 import { render, screen } from '@testing-library/react';
-import LoginPage from './LoginPage';
-import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
+
 import { EMAIL_RULES } from '#Components/react-hook-form/validationRules';
+
+import LoginPage from './LoginPage';
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
     render(<LoginPage />, { wrapper: BrowserRouter });
 
-    const headerH1 = screen.getByRole('heading', { level: 1, name: /sign in/i });
+    const headerH1 = screen.getByRole('heading', { name: /sign in/i, level: 1 });
     const formElement = screen.getByRole('form', { name: /sign in/i });
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const passwordInput = screen.getByLabelText(/password/i);

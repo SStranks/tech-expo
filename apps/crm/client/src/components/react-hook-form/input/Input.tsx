@@ -13,7 +13,7 @@ interface IProps {
 }
 
 function Input(props: IProps): JSX.Element {
-  const { defaultValue, error, id, isRequired, register, type, ...rest } = props;
+  const { id, defaultValue, error, isRequired, register, type, ...rest } = props;
 
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown
   return (

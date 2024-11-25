@@ -1,6 +1,7 @@
 import { TableSingleColumn } from '#Components/general';
 import { IconList } from '#Components/svg';
 import { CommentThread } from '#Features/comment';
+
 import styles from './_CompaniesTableNotes.module.scss';
 
 function CompaniesTableNotes(): JSX.Element {

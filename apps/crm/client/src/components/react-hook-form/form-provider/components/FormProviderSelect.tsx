@@ -1,6 +1,8 @@
 import type { SelectProps } from 'react-aria-components';
+
 import { useId } from 'react';
 import { Controller, RegisterOptions, useFormContext } from 'react-hook-form';
+
 import { InputSelect } from '#Components/aria-inputs';
 import { InputParser, InputUx } from '#Components/react-hook-form';
 
@@ -13,14 +15,14 @@ interface IProps {
 
 function FormProviderSelect<T extends object>({
   name,
-  label,
   items,
+  label,
   rules = {},
   ...rest
 }: SelectProps<T> & IProps): JSX.Element {
   const {
     control,
-    formState: { defaultValues, isSubmitted, dirtyFields },
+    formState: { defaultValues, dirtyFields, isSubmitted },
   } = useFormContext();
   const id = useId();
 
@@ -31,7 +33,7 @@ function FormProviderSelect<T extends object>({
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error } }) => (
+      render={({ field: { name, onBlur, onChange, value }, fieldState: { error, invalid: isInvalid } }) => (
         <InputUx
           id={id}
           label={label}
@@ -45,7 +47,7 @@ function FormProviderSelect<T extends object>({
             ReactAriaComponent={InputSelect}
             value={value}
             onChange={onChange}
-            {...{ name, id, 'aria-label': label, items, onBlur, isInvalid, ...rest }}
+            {...{ id, name, 'aria-label': label, isInvalid, items, onBlur, ...rest }}
           />
         </InputUx>
       )}

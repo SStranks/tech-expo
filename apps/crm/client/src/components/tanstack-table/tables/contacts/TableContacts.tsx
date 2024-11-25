@@ -1,20 +1,24 @@
 import type { ITableDataContacts } from '#Data/MockData';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import {
   ColumnFiltersState,
-  SortingState,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { TableContactsCardLower, TableContactsCardUpper, TableGridCard } from '#Components/tanstack-table/cards';
 import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
 import { TableGridView, TableListView } from '#Components/tanstack-table/views';
+
 import { ColumnContacts } from '../../columns';
+
 import styles from './_TableContacts.module.scss';
-import { TableContactsCardLower, TableContactsCardUpper, TableGridCard } from '#Components/tanstack-table/cards';
 
 interface IProps {
   tableData: ITableDataContacts[];
@@ -31,27 +35,27 @@ function TableContacts(props: IProps): JSX.Element {
   const navigate = useNavigate();
 
   const table = useReactTable({
-    data,
-    columns: ColumnContacts,
-    meta: { tableName: 'contacts' },
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     getRowId: (originalRow) => originalRow.id,
     state: {
-      sorting,
-      pagination,
-      globalFilter,
       columnFilters,
+      globalFilter,
+      pagination,
+      sorting,
     },
-    onSortingChange: setSorting,
-    onPaginationChange: setPagination,
-    onGlobalFilterChange: setGlobalFilter,
+    columns: ColumnContacts,
+    data,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    meta: { tableName: 'contacts' },
     onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination,
+    onSortingChange: setSorting,
   });
 
-  const { getPageCount, getRowCount, setPageIndex, setPageSize, resetColumnFilters, options } = table;
+  const { getPageCount, getRowCount, options, resetColumnFilters, setPageIndex, setPageSize } = table;
   const tableName = options.meta?.tableName;
 
   const createContact = () => {
@@ -76,7 +80,7 @@ function TableContacts(props: IProps): JSX.Element {
       <TableControlsHeader
         createEntryBtn={{ displayText: 'Create Contact', onClick: createContact }}
         globalFilter={{ globalFilter, setGlobalFilter, tableName }}
-        listGridToggle={{ tableView, setTableView, columnFilters, setColumnFilters, resetColumnFilters }}
+        listGridToggle={{ columnFilters, resetColumnFilters, setColumnFilters, setTableView, tableView }}
       />
       {tableView === 'list' && <TableListView table={table} />}
       {tableView === 'grid' && <TableGridView tableCards={tableCards} />}

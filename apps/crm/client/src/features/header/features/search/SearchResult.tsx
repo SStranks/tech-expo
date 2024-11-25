@@ -1,4 +1,5 @@
-import { IconNotebook, IconArrowRightUp } from '#Components/svg';
+import { IconArrowRightUp, IconNotebook } from '#Components/svg';
+
 import styles from './_SearchResult.module.scss';
 
 interface IProps {
@@ -8,7 +9,7 @@ interface IProps {
 }
 
 function SearchResult(props: IProps): JSX.Element {
-  const { title, category, description } = props;
+  const { category, description, title } = props;
 
   return (
     <div className={styles.searchResult} role="option" aria-selected={true}>

@@ -1,7 +1,9 @@
 import type { Updater } from '@tanstack/react-table';
+
 import ButtonPaginatorNumber from './components/ButtonPaginatorNumber';
 import ButtonPaginatorPages from './components/ButtonPaginatorPages';
 import ButtonPaginatorSinglePage from './components/ButtonPaginatorSinglePage';
+
 import styles from './_PaginatorRangeControl.module.scss';
 
 interface IProps {

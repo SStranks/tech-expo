@@ -59,7 +59,17 @@ export const EslintConfig = {
         message: 'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
       },
     ],
-    'perfectionist/sort-objects': 'error',
+    'perfectionist/sort-objects': [
+      'error',
+      {
+        // destructuredObjects: { groups: false }, Not yet released as 4.0.3 - committed but not released.
+        groups: ['top', ['multiline', 'method'], ['unknown'], 'bottom'],
+        customGroups: {
+          top: ['^id$', '^name$'],
+          bottom: '.+_metadata$',
+        },
+      },
+    ],
     'perfectionist/sort-exports': 'error',
     'perfectionist/sort-named-imports': 'error',
     'perfectionist/sort-imports': [
@@ -68,7 +78,7 @@ export const EslintConfig = {
         type: 'alphabetical',
         order: 'asc',
         ignoreCase: true,
-        internalPattern: ['#*/**'],
+        internalPattern: ['^#.*'],
         newlinesBetween: 'always',
         environment: 'node',
         groups: [

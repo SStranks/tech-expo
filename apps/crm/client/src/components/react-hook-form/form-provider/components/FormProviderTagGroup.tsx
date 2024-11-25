@@ -1,5 +1,6 @@
 import { useId } from 'react';
-import { Controller, useFormContext, type RegisterOptions } from 'react-hook-form';
+import { Controller, type RegisterOptions, useFormContext } from 'react-hook-form';
+
 import { InputTagGroup } from '#Components/aria-inputs';
 import { InputParser, InputUx } from '#Components/react-hook-form';
 
@@ -12,8 +13,8 @@ interface IProps {
 function FormProviderTagGroup({ name, label, rules = {} }: IProps): JSX.Element {
   const {
     control,
+    formState: { defaultValues, dirtyFields, isSubmitted },
     trigger,
-    formState: { defaultValues, isSubmitted, dirtyFields },
   } = useFormContext();
   const id = useId();
 
@@ -28,7 +29,7 @@ function FormProviderTagGroup({ name, label, rules = {} }: IProps): JSX.Element 
       defaultValue={defaultValue}
       name={name}
       rules={rules}
-      render={({ field: { name, value, onChange, onBlur }, fieldState: { invalid: isInvalid, error } }) => (
+      render={({ field: { name, onBlur, onChange, value }, fieldState: { error, invalid: isInvalid } }) => (
         <InputUx
           id={id}
           label={label}
@@ -42,7 +43,7 @@ function FormProviderTagGroup({ name, label, rules = {} }: IProps): JSX.Element 
             ReactAriaComponent={InputTagGroup}
             value={value}
             onChange={onChange}
-            {...{ name, id, label, onBlur, isInvalid, defaultValue, trigger }}
+            {...{ id, name, defaultValue, isInvalid, label, onBlur, trigger }}
           />
         </InputUx>
       )}

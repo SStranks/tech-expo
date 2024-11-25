@@ -1,7 +1,9 @@
+import { Button, FieldError, Group, Input, NumberField } from 'react-aria-components';
 import { DeepRequired, FieldErrorsImpl, FieldValues, Merge, FieldError as TFieldError } from 'react-hook-form';
-import { NumberField, Group, Input, Button, FieldError } from 'react-aria-components';
+
 import IconOperatorMinus from '#Components/svg/IconOperatorMinus';
 import IconOperatorPlus from '#Components/svg/IconOperatorPlus';
+
 import styles from './_InputNumber.module.scss';
 
 interface MyNumberFieldProps<T extends FieldValues = FieldValues> {

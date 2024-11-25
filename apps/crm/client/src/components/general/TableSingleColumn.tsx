@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from 'react';
+
 import styles from './_TableSingleColumn.module.scss';
 
 function TableSingleColumn({ children }: PropsWithChildren): JSX.Element {

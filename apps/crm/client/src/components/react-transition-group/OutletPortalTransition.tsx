@@ -1,8 +1,10 @@
 import { useRef } from 'react';
 import { useLocation, useOutlet } from 'react-router-dom';
-import { SwitchTransition, CSSTransition } from 'react-transition-group';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
+
 import ReactPortal from '#Components/modal/ReactPortal';
 import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
+
 import styles from './_reactTransitionGroup.module.scss';
 
 // Wrapper component that adds a CSSTransition effect to React Portals.

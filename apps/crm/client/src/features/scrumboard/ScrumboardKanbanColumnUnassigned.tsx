@@ -1,6 +1,9 @@
 import type { IColumn, ITask } from '#Data/MockScrumboardKanban';
-import { ScrumboardAddCard, ScrumboardKanbanCard, ScrumboardColumnAddBtn } from './index';
+
 import DroppableStrictMode from '#Components/react-beautiful-dnd/DroppableStrictMode';
+
+import { ScrumboardAddCard, ScrumboardColumnAddBtn, ScrumboardKanbanCard } from './index';
+
 import styles from './_ScrumboardColumn.module.scss';
 
 interface IScrumboardColumn {

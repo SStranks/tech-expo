@@ -7,6 +7,6 @@ export { default as ColumnCompaniesDelete } from './ColumnCompaniesDelete';
 export { default as ColumnCompaniesQuotes } from './ColumnCompaniesQuotes';
 export { default as ColumnContacts } from './ColumnContacts';
 export { default as ColumnContactsDelete } from './ColumnContactsDelete';
-export { default as ColumnSettingsContacts } from './ColumnSettingsContacts';
 export { default as ColumnQuotes } from './ColumnQuotes';
 export { default as ColumnQuotesDelete } from './ColumnQuotesDelete';
+export { default as ColumnSettingsContacts } from './ColumnSettingsContacts';

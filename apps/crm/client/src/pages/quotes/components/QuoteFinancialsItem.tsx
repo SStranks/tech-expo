@@ -1,4 +1,5 @@
 import { IconDelete } from '#Components/svg';
+
 import styles from './_QuoteFinancialsItem.module.scss';
 
 const deleteItemClickHandler = () => {

@@ -1,7 +1,9 @@
-import { DeepRequired, FieldErrorsImpl, FieldValues, Merge, FieldError as TFieldError } from 'react-hook-form';
 import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { ValidationResult } from 'react-aria-components';
+import { DeepRequired, FieldErrorsImpl, FieldValues, Merge, FieldError as TFieldError } from 'react-hook-form';
+
 import InputDatePicker from './InputDatePicker';
+
 import styles from './_InputDatePicker.module.scss';
 
 const DATE_TODAY = today(getLocalTimeZone());
@@ -17,7 +19,7 @@ interface IProps<T extends FieldValues = FieldValues> {
   errorMessage?: string | ((validation: ValidationResult) => string);
 }
 
-function Wrapper({ valueRHF, onChangeRHF, isDirty, isRequired, error, ...props }: IProps): JSX.Element {
+function Wrapper({ error, isDirty, isRequired, onChangeRHF, valueRHF, ...props }: IProps): JSX.Element {
   const inputValidated = isDirty && !error;
 
   // RETURN to React-Hook-Form; convert from CalendarDate to string
@@ -32,7 +34,7 @@ function Wrapper({ valueRHF, onChangeRHF, isDirty, isRequired, error, ...props }
   return (
     <div
       className={`${styles.wrapper} ${inputValidated ? styles.success : ''} ${isRequired ? styles.wrapper__required : ''}`}>
-      <InputDatePicker placeholderValue={DATE_TODAY} {...{ props, onChange, value }} />
+      <InputDatePicker placeholderValue={DATE_TODAY} {...{ onChange, props, value }} />
     </div>
   );
 }

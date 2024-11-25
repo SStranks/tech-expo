@@ -1,12 +1,15 @@
-import { lazy, Suspense, useId } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import InputPasswordSkeleton from '#Components/react-hook-form/input-password/InputPasswordSkeleton';
 import type { TInputPasswordStrength } from '#Components/react-hook-form/input-password/InputPasswordStrength';
-import styles from './_UpdatePasswordPage.module.scss';
+
+import { lazy, Suspense, useId } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+
 import { Input } from '#Components/react-hook-form';
-import { PASSWORD_RULES } from '#Components/react-hook-form/validationRules';
+import InputPasswordSkeleton from '#Components/react-hook-form/input-password/InputPasswordSkeleton';
 import InputUx from '#Components/react-hook-form/InputUx';
+import { PASSWORD_RULES } from '#Components/react-hook-form/validationRules';
+
+import styles from './_UpdatePasswordPage.module.scss';
 
 // Contains 'zxcvbn' package; heavy weight
 const InputPasswordStrength = lazy(
@@ -20,15 +23,15 @@ interface IInputs {
 
 function UpdatePasswordPage(): JSX.Element {
   const {
+    control,
+    formState: { dirtyFields, errors, isSubmitted },
+    formState,
+    getFieldState,
+    getValues,
+    handleSubmit,
     register,
     trigger,
-    control,
-    getValues,
-    getFieldState,
-    formState: { errors, dirtyFields, isSubmitted },
-    formState,
-    handleSubmit,
-  } = useForm<IInputs>({ mode: 'onChange', defaultValues: { newPassword: '', confirmPassword: '' } });
+  } = useForm<IInputs>({ defaultValues: { confirmPassword: '', newPassword: '' }, mode: 'onChange' });
   const { invalid: newPasswordInvalid } = getFieldState('newPassword', formState);
   const { invalid: confirmPasswordInvalid } = getFieldState('confirmPassword', formState);
   const navigate = useNavigate();
@@ -77,8 +80,8 @@ function UpdatePasswordPage(): JSX.Element {
             register={{
               ...register('confirmPassword', {
                 required: {
-                  value: true,
                   message: 'Please enter your new password again',
+                  value: true,
                 },
                 validate: {
                   matchNewPassword: (v: string) => {

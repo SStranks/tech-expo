@@ -1,4 +1,5 @@
 import { IconArrowLeftAlt } from '#Components/svg';
+
 import styles from './_ButtonPaginator.module.scss';
 
 interface IProps {
@@ -9,7 +10,7 @@ interface IProps {
 }
 
 function ButtonPaginatorSinglePage(props: IProps): JSX.Element {
-  const { direction, title, disabled, onClick } = props;
+  const { direction, disabled, onClick, title } = props;
 
   return (
     <button type="button" title={title} className={styles.button} onClick={onClick} disabled={disabled}>

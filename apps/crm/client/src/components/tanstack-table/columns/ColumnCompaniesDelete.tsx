@@ -1,5 +1,7 @@
-import { ITableDataCompanies } from '#Data/MockData';
 import { createColumnHelper } from '@tanstack/react-table';
+
+import { ITableDataCompanies } from '#Data/MockData';
+
 import { CompanySingle, UserSingle } from '../elements';
 
 const columnHelper = createColumnHelper<ITableDataCompanies>();
@@ -19,8 +21,8 @@ const columnCompaniesDeleteDef = [
     id: 'Open Deals Total',
     cell: (info) => info.getValue(),
     header: ({ column }) => <span>{column.id}</span>,
-    enableGlobalFilter: false,
     enableColumnFilter: false,
+    enableGlobalFilter: false,
   }),
 ];
 

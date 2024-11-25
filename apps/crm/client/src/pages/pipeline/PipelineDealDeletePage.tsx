@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import FormModal from '#Components/modal/FormModal';
 import { FormProvider } from '#Components/react-hook-form';
 import { ScrumboardCardStyles } from '#Features/scrumboard';
-import { SubmitHandler } from 'react-hook-form';
 import { deleteDeal } from '#Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch } from '#Redux/hooks';
 

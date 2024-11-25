@@ -1,5 +1,7 @@
 import { Outlet } from 'react-router-dom';
+
 import ViewportLayout from '#Layouts/ViewportLayout';
+
 import styles from './_AuditlogRoute.module.scss';
 
 function AuditLogRoute(): JSX.Element {

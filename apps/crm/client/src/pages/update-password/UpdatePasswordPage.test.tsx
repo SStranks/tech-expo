@@ -1,7 +1,8 @@
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 /* eslint-disable unicorn/numeric-separators-style */
 import { BrowserRouter } from 'react-router-dom';
-import { screen, render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+
 import UpdatePasswordPage from './UpdatePasswordPage';
 
 const STRONG_PASSWORD = 'a&9Hg2*(lMbs';
@@ -10,7 +11,7 @@ describe('Initialization', () => {
   test('Component should render correctly', async () => {
     render(<UpdatePasswordPage />, { wrapper: BrowserRouter });
 
-    const headerH1 = screen.getByRole('heading', { level: 1, name: /set new password/i });
+    const headerH1 = screen.getByRole('heading', { name: /set new password/i, level: 1 });
     const formElement = screen.getByRole('form', { name: /set new password/i });
     const passwordStrengthInput = await screen.findByLabelText(/^password$/i);
     const passwordConfirmInput = await screen.findByLabelText(/^confirm password$/i);

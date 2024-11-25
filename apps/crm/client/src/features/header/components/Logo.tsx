@@ -6,7 +6,7 @@ interface IProps {
 }
 
 function Logo(props: IProps): JSX.Element {
-  const { title, logoUrl } = props;
+  const { logoUrl, title } = props;
   return (
     <div className={styles.logo}>
       <img src={logoUrl} alt="company logo" className={styles.logo__img} />

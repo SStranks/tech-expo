@@ -1,7 +1,8 @@
-import { BrowserRouter } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useForm } from 'react-hook-form';
+import { BrowserRouter } from 'react-router-dom';
+
 import InputPasswordStrength from './InputPasswordStrength';
 
 beforeEach(() => {

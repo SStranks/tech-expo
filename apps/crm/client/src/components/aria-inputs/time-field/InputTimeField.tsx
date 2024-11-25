@@ -2,13 +2,14 @@ import {
   DateInput,
   DateSegment,
   FieldError,
-  Text,
   Label,
+  Text,
   TimeField,
   TimeFieldProps,
   TimeValue,
   ValidationResult,
 } from 'react-aria-components';
+
 import styles from './_InputTimeField.module.scss';
 
 interface MyTimeFieldProps<T extends TimeValue> extends TimeFieldProps<T> {
@@ -18,9 +19,9 @@ interface MyTimeFieldProps<T extends TimeValue> extends TimeFieldProps<T> {
 }
 
 function InputTimeField<T extends TimeValue>({
-  label,
   description,
   errorMessage,
+  label,
   ...props
 }: MyTimeFieldProps<T>): JSX.Element {
   return (

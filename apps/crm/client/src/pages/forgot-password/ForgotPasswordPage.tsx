@@ -1,9 +1,11 @@
 import { useId } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+
 import { Input } from '#Components/react-hook-form';
 import InputUx from '#Components/react-hook-form/InputUx';
 import { EMAIL_RULES } from '#Components/react-hook-form/validationRules';
+
 import styles from './_ForgotPasswordPage.module.scss';
 
 interface IInputs {
@@ -12,12 +14,12 @@ interface IInputs {
 
 function ForgotPasswordPage(): JSX.Element {
   const {
-    register,
-    handleSubmit,
-    getFieldState,
     formState,
-    formState: { errors, dirtyFields, isSubmitted },
-  } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '' } });
+    formState: { dirtyFields, errors, isSubmitted },
+    getFieldState,
+    handleSubmit,
+    register,
+  } = useForm<IInputs>({ defaultValues: { email: '' }, mode: 'onChange' });
   const { invalid: emailInvalid } = getFieldState('email', formState);
   const navigate = useNavigate();
   const id = useId();

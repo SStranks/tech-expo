@@ -1,5 +1,7 @@
-import { ITableDataCompanies } from '#Data/MockData';
 import { createColumnHelper } from '@tanstack/react-table';
+
+import { ITableDataCompanies } from '#Data/MockData';
+
 import { RowActionsControl } from '../controls';
 import { CompanySingle, UserSingle } from '../elements';
 import RelatedContacts from '../elements/RelatedContacts';
@@ -21,8 +23,8 @@ const columnCompaniesDef = [
     id: 'Open Deals Total',
     cell: (info) => info.getValue(),
     header: ({ column }) => <span>{column.id}</span>,
-    enableGlobalFilter: false,
     enableColumnFilter: false,
+    enableGlobalFilter: false,
   }),
   columnHelper.accessor('relatedContacts', {
     id: 'Related Contacts',

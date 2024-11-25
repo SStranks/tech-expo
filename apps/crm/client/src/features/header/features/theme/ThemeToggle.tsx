@@ -1,7 +1,10 @@
 import { useCallback, useEffect } from 'react';
+
 import { IconTheme } from '#Components/svg';
 import { useReduxDispatch } from '#Redux/hooks';
+
 import { toggleTheme } from './redux/themeSlice';
+
 import styles from './_ThemeToggle.module.scss';
 
 export const LOCALSTORAGE_TOKEN = 'dark-mode';
@@ -22,22 +25,22 @@ function ThemeToggle(): JSX.Element {
     // Set the localStorage key and set Redux state value
     if (body?.classList.contains('dark-theme')) {
       reduxDispatch(toggleTheme(true));
-      window.localStorage.setItem(LOCALSTORAGE_TOKEN, 'true');
+      globalThis.localStorage.setItem(LOCALSTORAGE_TOKEN, 'true');
     } else {
       reduxDispatch(toggleTheme(false));
-      window.localStorage.setItem(LOCALSTORAGE_TOKEN, 'false');
+      globalThis.localStorage.setItem(LOCALSTORAGE_TOKEN, 'false');
     }
   }, [reduxDispatch]);
 
   // Set theme on page load; check for localStorage token first, then user preferred color scheme
   useEffect(() => {
     const onPageLoad = () => {
-      const localStorageToken = window.localStorage.getItem(LOCALSTORAGE_TOKEN);
+      const localStorageToken = globalThis.localStorage.getItem(LOCALSTORAGE_TOKEN);
       if (localStorageToken !== null) {
         if (localStorageToken === 'true') return themeToggle();
         return;
       }
-      const query = window.matchMedia('(prefers-color-scheme: dark)');
+      const query = globalThis.matchMedia('(prefers-color-scheme: dark)');
       if (query.matches) {
         return themeToggle();
       }

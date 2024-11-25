@@ -1,6 +1,8 @@
-import { useRef } from 'react';
 import { flexRender, type Table } from '@tanstack/react-table';
+import { useRef } from 'react';
+
 import { FilterRowControl, SortRowControl } from '../controls';
+
 import styles from './_TableListView.module.scss';
 
 interface IProps<T> {

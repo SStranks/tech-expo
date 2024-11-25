@@ -1,8 +1,10 @@
-import { useState } from 'react';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useState } from 'react';
+
 import { ColumnContactsDelete } from '#Components/tanstack-table/columns';
 import { TableModalView } from '#Components/tanstack-table/views';
 import { ITableDataContacts } from '#Data/MockData';
+
 import styles from './_TableContacts.module.scss';
 
 interface IProps {
@@ -14,11 +16,11 @@ function TableContactsDelete(props: IProps): JSX.Element {
   const [data] = useState<ITableDataContacts[]>(tableData);
 
   const table = useReactTable({
-    data,
     columns: ColumnContactsDelete,
-    getCoreRowModel: getCoreRowModel(),
+    data,
     enableFilters: false,
     enableSorting: false,
+    getCoreRowModel: getCoreRowModel(),
   });
 
   return (

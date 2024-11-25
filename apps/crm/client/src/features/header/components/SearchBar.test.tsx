@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import SearchBar from './SearchBar';
-import { config } from 'react-transition-group';
 import userEvent from '@testing-library/user-event';
+import { config } from 'react-transition-group';
+
+import SearchBar from './SearchBar';
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {

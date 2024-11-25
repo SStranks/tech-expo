@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
+
 import { IconOperatorPlus } from '#Components/svg';
+
 import styles from './_ScrumboardColumnAddBtn.module.scss';
 
 interface IProps {
@@ -7,7 +9,7 @@ interface IProps {
   columnId: string;
 }
 
-function ScrumboardColumnAddBtn({ columnStyle, columnId }: IProps): JSX.Element {
+function ScrumboardColumnAddBtn({ columnId, columnStyle }: IProps): JSX.Element {
   return (
     <Link
       to={'deal/create'}

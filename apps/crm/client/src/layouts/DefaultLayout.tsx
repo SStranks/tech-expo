@@ -1,4 +1,5 @@
 import { PropsWithChildren } from 'react';
+
 import styles from './_DefaultLayout.module.scss';
 
 interface IProps {
@@ -6,7 +7,7 @@ interface IProps {
   aside: JSX.Element;
 }
 
-function DefaultLayout({ header, aside, children = undefined }: PropsWithChildren<IProps>): JSX.Element {
+function DefaultLayout({ aside, children = undefined, header }: PropsWithChildren<IProps>): JSX.Element {
   return (
     <div className={styles.layout}>
       <div className={styles.layout__header}>{header}</div>

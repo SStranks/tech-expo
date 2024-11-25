@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+
 import styles from './_ScrumboardAddStage.module.scss';
 
 function ScrumboardAddStage(): JSX.Element {

@@ -1,6 +1,7 @@
+import { useForm } from 'react-hook-form';
+
 import InputPasswordStrength from '#Components/react-hook-form/input-password/InputPasswordStrength';
 import Input from '#Components/react-hook-form/input/Input';
-import { useForm } from 'react-hook-form';
 
 interface IInputs {
   email: string;
@@ -9,9 +10,9 @@ interface IInputs {
 }
 
 function ASD(): JSX.Element {
-  const { register, trigger, setFocus } = useForm<IInputs>({
-    mode: 'onSubmit',
+  const { register, setFocus, trigger } = useForm<IInputs>({
     defaultValues: { email: '', password: '', password33: '' },
+    mode: 'onSubmit',
   });
 
   return (

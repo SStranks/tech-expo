@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom';
+
 import { MarkdownEditor } from '#Components/index';
 import { IconArrowLeftAlt, IconDocument, IconEdit } from '#Components/svg';
-import QuoteStatusUpdater from './components/QuoteStatusUpdater';
 import CompanyLogo from '#Img/Microsoft_logo.png';
-import styles from './_QuoteReadPage.module.scss';
+
 import QuoteFinancials from './components/QuoteFinancials';
+import QuoteStatusUpdater from './components/QuoteStatusUpdater';
+
+import styles from './_QuoteReadPage.module.scss';
 
 // TEMP DEV:  Values
 const quoteTitle = 'High-tech Software Platform';

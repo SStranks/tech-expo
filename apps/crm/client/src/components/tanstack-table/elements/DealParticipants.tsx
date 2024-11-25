@@ -1,5 +1,7 @@
 import type { ITableDataDeals } from '#Data/MockData';
+
 import UserCircleAbbv from '#Components/general/UserCircleAbbv';
+
 import styles from './_QuotesParticipants.module.scss';
 
 interface IProps {
@@ -9,7 +11,7 @@ interface IProps {
 
 // REFACTOR:  Same as QuoteParticipants generally
 function DealParticipants(props: IProps): JSX.Element {
-  const { dealOwner, dealContact } = props;
+  const { dealContact, dealOwner } = props;
 
   return (
     <div className={styles.quoteParticipants}>

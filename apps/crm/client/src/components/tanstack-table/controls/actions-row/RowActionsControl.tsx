@@ -1,8 +1,11 @@
 import type { CoreRow } from '@tanstack/react-table';
-import type { PropsWithChildren } from 'react';
 import type { ITableDataCompanies, ITableDataContacts, ITableDataQuotes } from '#Data/MockData';
+import type { PropsWithChildren } from 'react';
+
 import { Link } from 'react-router-dom';
+
 import { IconDelete, IconEdit, IconEmail, IconEye, IconPhone } from '#Components/svg';
+
 import styles from './_RowActionsControl.module.scss';
 
 type TTableDataAllUnion = ITableDataContacts | ITableDataCompanies | ITableDataQuotes;

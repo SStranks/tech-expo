@@ -1,4 +1,5 @@
 import { searchResults } from '#Data/MockData';
+
 import SearchResult from './SearchResult';
 
 // TODO:  Implement keyboard navigation - convert component/use 'cmdk'; pnpm add cmdk

@@ -1,9 +1,11 @@
 import type { SubmitHandler } from 'react-hook-form';
+
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import FormModal from '#Components/modal/FormModal';
-import { GENERIC_TEXT_RULES } from '#Components/react-hook-form/validationRules';
 import { FormProvider } from '#Components/react-hook-form';
+import { GENERIC_TEXT_RULES } from '#Components/react-hook-form/validationRules';
 import { createDeal } from '#Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch } from '#Redux/hooks';
 
@@ -41,9 +43,9 @@ function PipelineDealCreatePage(): JSX.Element {
   };
 
   const onSubmit: SubmitHandler<IFormData> = (data) => {
-    const { companyTitle, dealOwner, dealStage, dealValue, dealTitle } = data;
+    const { companyTitle, dealOwner, dealStage, dealTitle, dealValue } = data;
     const { columnId } = locationState;
-    reduxDispatch(createDeal({ columnId, companyTitle, dealOwner, dealStage, dealValue, dealTitle }));
+    reduxDispatch(createDeal({ columnId, companyTitle, dealOwner, dealStage, dealTitle, dealValue }));
     setPortalActiveInternal(false);
     navigate(-1);
   };

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import FormModal from '#Components/modal/FormModal';
 import { FormProvider } from '#Components/react-hook-form';
 import { GENERIC_TEXT_RULES } from '#Components/react-hook-form/validationRules';

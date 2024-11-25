@@ -1,10 +1,15 @@
-import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
-import { Input } from '#Components/react-hook-form';
-import { PASSWORD_RULES, EMAIL_RULES } from '#Components/react-hook-form/validationRules';
-import styles from './_LoginPage.module.scss';
-import InputUx from '#Components/react-hook-form/InputUx';
 import { useId } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+import { Input } from '#Components/react-hook-form';
+import InputUx from '#Components/react-hook-form/InputUx';
+import { EMAIL_RULES, PASSWORD_RULES } from '#Components/react-hook-form/validationRules';
+import { useReduxDispatch } from '#Redux/hooks';
+import { authenticateUser } from '#Redux/reducers/authSlice';
+import { serviceAuth, serviceHttp } from '#Services/index';
+
+import styles from './_LoginPage.module.scss';
 
 interface IInputs {
   email: string;
@@ -14,23 +19,39 @@ interface IInputs {
 // TODO:  Think about security; remembering credentials?
 function LoginPage(): JSX.Element {
   const {
-    register,
-    handleSubmit,
-    getFieldState,
     formState,
-    formState: { errors, dirtyFields, isSubmitted },
-  } = useForm<IInputs>({ mode: 'onChange', defaultValues: { email: '', password: '' } });
+    formState: { defaultValues, dirtyFields, errors, isSubmitted, isSubmitting },
+    getFieldState,
+    handleSubmit,
+    register,
+  } = useForm<IInputs>({ defaultValues: { email: 'user@email.com', password: 'password' }, mode: 'onChange' });
+  // DANGER: // TEMP DEV:  Remove email and password default values
   const { invalid: emailInvalid } = getFieldState('email', formState);
   const { invalid: passwordInvalid } = getFieldState('password', formState);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const emailId = useId();
   const passwordId = useId();
+  const reduxDispatch = useReduxDispatch();
+
+  const fromURL = location.state?.from?.pathname || '/';
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
-    if (data.email === 'admin@admin.com' && data.password === '12345') {
-      window.localStorage.setItem('CRM Login Token', 'Valid');
-      navigate('/');
+    try {
+      // setIsLoading(true);
+      // TODO:  Get back user details and store in redux
+      await serviceHttp.login({ email: data.email, password: data.password });
+      // Successful login; returns Auth and Refresh http-cookie JWTs
+      serviceAuth.activateRefreshToken();
+      // Send user to requested protected route, or default to homepage
+      navigate(fromURL, { replace: true });
+    } catch (error) {
+      // TODO:  Toast Notification
+      console.log('ERROR*******', error);
+    } finally {
+      // setIsLoading(false);
+      reduxDispatch(authenticateUser(true));
     }
   });
 
@@ -41,6 +62,7 @@ function LoginPage(): JSX.Element {
         <InputUx
           id={emailId}
           label="Email address"
+          defaultValue={defaultValues?.email}
           error={errors['email']}
           isDirty={dirtyFields['email']}
           invalid={emailInvalid}
@@ -58,6 +80,7 @@ function LoginPage(): JSX.Element {
           id={passwordId}
           label="Password"
           error={errors['password']}
+          defaultValue={defaultValues?.password}
           isDirty={dirtyFields['password']}
           invalid={passwordInvalid}
           isRequired={PASSWORD_RULES?.required}
@@ -81,7 +104,7 @@ function LoginPage(): JSX.Element {
         </div>
         {/* <button type="submit" className={styles.loginForm__submitBtn} disabled={!isValid}> */}
         <button type="submit" className={styles.loginForm__submitBtn}>
-          Sign In
+          {isSubmitting ? 'Loading' : 'Sign In'}
         </button>
         <p>
           Don&#39;t have an account?

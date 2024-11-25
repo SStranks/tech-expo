@@ -1,5 +1,7 @@
-import { IconMagniferZoomIn } from '#Components/svg';
 import { useNavigate } from 'react-router-dom';
+
+import { IconMagniferZoomIn } from '#Components/svg';
+
 import styles from './_AuditDetails.module.scss';
 
 function AuditDetails(): JSX.Element {
