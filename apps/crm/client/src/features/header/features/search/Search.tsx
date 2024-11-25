@@ -1,9 +1,12 @@
 import { useRef, useState } from 'react';
+
 import { IconClose, IconSearch } from '#Components/svg';
 import usePortalClose from '#Hooks/usePortalClose';
 import usePortalFocusTrap from '#Hooks/usePortalFocusTrap';
 import { LogoAlgolia } from '#Svg/logos';
+
 import SearchResults from './SearchResults';
+
 import styles from './_Search.module.scss';
 
 interface IProps {
@@ -18,7 +21,6 @@ function Search(props: IProps): JSX.Element {
   const [searchInput, setSearchInput] = useState<string>('');
   const searchInputRef = useRef<HTMLInputElement>(null);
   const portalContentRef = useRef<HTMLDivElement>(null);
-  // eslint-disable-next-line unicorn/no-null
   usePortalClose(portalActive, setPortalActive, portalContentRef, null);
   usePortalFocusTrap(portalActive);
 

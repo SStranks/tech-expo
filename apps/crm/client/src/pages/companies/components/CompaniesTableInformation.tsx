@@ -1,6 +1,6 @@
-import { TableSingleColumn } from '#Components/general';
-import { EditableRow } from '#Components/general';
+import { EditableRow, TableSingleColumn } from '#Components/general';
 import { IconCompanies } from '#Components/svg';
+
 import styles from './_CompaniesTableInformation.module.scss';
 
 interface ICompanyInfo {

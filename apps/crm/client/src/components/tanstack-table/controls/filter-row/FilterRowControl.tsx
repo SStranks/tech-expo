@@ -1,11 +1,13 @@
 import type { Column } from '@tanstack/react-table';
+
 import { useId, useState } from 'react';
 import { Button, DialogTrigger, Input, Popover, SearchField } from 'react-aria-components';
+
 import { IconFilter } from '#Components/svg';
+
 import styles from './_FilterRowControl.module.scss';
 
 interface IProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   column: Column<any, unknown>;
   fieldName: string;
 }

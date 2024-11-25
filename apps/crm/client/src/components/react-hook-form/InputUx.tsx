@@ -1,12 +1,12 @@
 import { PropsWithChildren } from 'react';
 import { FieldError, FieldErrorsImpl, Merge, ValidationRule } from 'react-hook-form';
+
 import styles from './_InputUX.module.scss';
 
 interface IProps {
   label: string;
   id: string;
   defaultValue: string | number | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
   isDirty: boolean | undefined;
   isRequired?: string | ValidationRule<boolean> | undefined;
@@ -16,7 +16,7 @@ interface IProps {
 
 // Wrapper: UX presentation for state of input; valid, invalid, focused, etc
 function InputUx(props: PropsWithChildren<IProps>): JSX.Element {
-  const { label, id, defaultValue, error, isDirty, isRequired, invalid, isSubmitted, children } = props;
+  const { children, defaultValue, error, id, invalid, isDirty, isRequired, isSubmitted, label } = props;
   const inputValidated = !error && (defaultValue || (isDirty && !invalid));
   const showErrorState = error && isSubmitted;
   const inputRequired = isRequired && invalid;

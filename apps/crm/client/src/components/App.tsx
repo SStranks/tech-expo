@@ -1,53 +1,54 @@
 import { RouterProvider } from 'react-aria-components';
-import { Outlet, Route, Routes, Navigate, useNavigate, NavigateOptions } from 'react-router-dom';
-import { Aside } from '#Features/sidebar/Aside';
+import { Navigate, NavigateOptions, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
+
 import Header from '#Features/header/Header';
+import { Aside } from '#Features/sidebar/Aside';
 import { LayoutDefault } from '#Layouts/index';
 import { Authenticate } from '#Modules/index';
 import {
-  PageForgotPassword,
-  PageLogin,
-  PageQuoteRead,
-  PageQuoteCreate,
-  PageQuoteUpdate,
-  PageQuotes,
-  PageRegister,
-  PageUpdatePassword,
-  PageCompanies,
-  PageCompaniesCreate,
-  PageContacts,
-  PageContactsCreate,
   PageAuditLog,
   PageAuditLogDetails,
-  PageSettings,
-  PageQuoteDelete,
-  PageCompaniesDelete,
-  PageContactsDelete,
-  PageCompaniesRead,
-  PageContactsRead,
-  PageKanban,
-  PagePipline,
-  PagePiplineStageCreate,
-  PagePiplineDealCreate,
-  PagePiplineStageUpdate,
-  PagePiplineStageDelete,
-  PagePiplineDealsDelete,
-  PagePiplineDealDelete,
-  PagePiplineDealUpdate,
   PageCalendar,
+  PageCompanies,
+  PageCompaniesCreate,
+  PageCompaniesDelete,
+  PageCompaniesRead,
+  PageContacts,
+  PageContactsCreate,
+  PageContactsDelete,
+  PageContactsRead,
+  PageForgotPassword,
+  PageKanban,
+  PageLogin,
+  PagePipline,
+  PagePiplineDealCreate,
+  PagePiplineDealDelete,
+  PagePiplineDealsDelete,
+  PagePiplineDealUpdate,
+  PagePiplineStageCreate,
+  PagePiplineStageDelete,
+  PagePiplineStageUpdate,
+  PageQuoteCreate,
+  PageQuoteDelete,
+  PageQuoteRead,
+  PageQuotes,
+  PageQuoteUpdate,
+  PageRegister,
+  PageSettings,
+  PageUpdatePassword,
 } from '#Pages/index';
 import {
-  RouteDashboard,
+  RouteAdministration,
+  RouteAuditLog,
   RouteCalendar,
+  RouteCompanies,
   RouteContacts,
-  RouteScrumboard,
+  RouteDashboard,
   RouteKanban,
   RoutePipeline,
-  RouteCompanies,
   RouteQuotes,
-  RouteAdministration,
+  RouteScrumboard,
   RouteSettings,
-  RouteAuditLog,
 } from '#Routes/index';
 
 declare module 'react-aria-components' {
@@ -59,6 +60,7 @@ declare module 'react-aria-components' {
 function App(): JSX.Element {
   // NOTE:  RouterProvider: Integrates React-Aria-Components into React-Router
   const navigate = useNavigate();
+  console.log('APP');
 
   return (
     <RouterProvider navigate={navigate}>
@@ -71,7 +73,7 @@ function App(): JSX.Element {
               </LayoutDefault>
             </Authenticate>
           }>
-          <Route index element={<RouteDashboard />} />
+          <Route index path="/" element={<RouteDashboard />} />
           <Route element={<RouteCalendar />}>
             <Route path="calendar" element={<PageCalendar />} />
           </Route>
@@ -132,7 +134,6 @@ function App(): JSX.Element {
               <Navigate to="/" />
             </Authenticate>
           }>
-          <Route index element={<RouteDashboard />} />
           <Route path="/login" element={<PageLogin />} />
           <Route path="/register" element={<PageRegister />} />
           <Route path="/forgot-password" element={<PageForgotPassword />} />

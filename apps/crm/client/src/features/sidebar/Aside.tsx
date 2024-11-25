@@ -1,8 +1,23 @@
 import { useState } from 'react';
+
 import { ToolTip } from '#Components/index';
-import { IIcon, IconAudit, IconBillQuote, IconCalendar, IconCompanies, IconContacts, IconScrum } from '#Components/svg';
-import { IconDashboard, IconKanban, IconPipe, IconSettings, IconAdministration } from '#Components/svg';
+import {
+  IconAdministration,
+  IconAudit,
+  IconBillQuote,
+  IconCalendar,
+  IconCompanies,
+  IconContacts,
+  IconDashboard,
+  IconKanban,
+  IconPipe,
+  IconScrum,
+  IconSettings,
+  IIcon,
+} from '#Components/svg';
+
 import { MenuLink, MenuToggle } from './components';
+
 import styles from './_Aside.module.scss';
 
 type TMenuCategories = [string, string, IIcon][];

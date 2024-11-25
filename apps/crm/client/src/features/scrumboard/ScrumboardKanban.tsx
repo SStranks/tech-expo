@@ -1,16 +1,18 @@
 import { DragDropContext, type DropResult } from 'react-beautiful-dnd';
+
 import { moveTaskHorizontal, moveTaskVertical } from '#Features/scrumboard/redux/kanbanSlice';
 import { useReduxDispatch, useReduxSelector } from '#Redux/hooks';
+
 import { ScrumboardKanbanColumns } from './index';
+
 import styles from './_Scrumboard.module.scss';
 
 function ScrumBoard(): JSX.Element {
   const reduxDispatch = useReduxDispatch();
   const data = useReduxSelector((store) => store.scrumboardKanban);
 
-  // eslint-disable-next-line unicorn/consistent-function-scoping
   const onDragEnd = (result: DropResult) => {
-    const { destination, source, draggableId } = result;
+    const { destination, draggableId, source } = result;
 
     // If location is null or the same starting point
     if (!destination) return;
@@ -21,10 +23,10 @@ function ScrumBoard(): JSX.Element {
 
     // If a task is moved within the same column
     if (columnStart === columnEnd)
-      return reduxDispatch(moveTaskVertical({ columnStart, destination, source, draggableId }));
+      return reduxDispatch(moveTaskVertical({ columnStart, destination, draggableId, source }));
 
     // If a task is moved between columns
-    return reduxDispatch(moveTaskHorizontal({ columnStart, columnEnd, destination, source, draggableId }));
+    return reduxDispatch(moveTaskHorizontal({ columnEnd, columnStart, destination, draggableId, source }));
   };
 
   return (
