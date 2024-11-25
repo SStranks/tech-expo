@@ -1,13 +1,14 @@
+/* eslint-disable perfectionist/sort-objects */
 // @ts-check
 import 'webpack-dev-server';
 import CopyPlugin from 'copy-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
+import path from 'node:path';
 import { merge } from 'webpack-merge';
 
 import CommonConfig from './webpack.common.js';
-import path from 'node:path';
 // import url from 'node:url';
 
 const CUR = './';
@@ -87,13 +88,33 @@ const DevConfig = {
               },
             },
           },
-          'sass-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                silenceDeprecations: ['legacy-js-api'],
+              },
+              api: 'legacy',
+            },
+          },
         ],
       },
       {
         test: /\.scss$/,
         exclude: [/node_modules/, /\.module.scss$/],
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                silenceDeprecations: ['legacy-js-api'],
+              },
+              api: 'legacy',
+            },
+          },
+        ],
       },
     ],
   },
