@@ -1,4 +1,4 @@
-import styles from './_ButtonPaginator.module.scss';
+import styles from './ButtonPaginator.module.scss';
 
 interface IProps {
   number: number;

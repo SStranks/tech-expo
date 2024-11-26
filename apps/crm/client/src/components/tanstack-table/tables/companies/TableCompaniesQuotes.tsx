@@ -1,4 +1,4 @@
-import type { ITableDataQuotes } from '#Data/MockData';
+import type { ITableDataQuotes } from '@Data/MockData';
 
 import {
   ColumnFiltersState,
@@ -9,7 +9,7 @@ import {
 } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { TableListEmbeddedView } from '#Components/tanstack-table/views';
+import { TableListEmbeddedView } from '@Components/tanstack-table/views';
 
 import { ColumnCompaniesQuotes } from '../../columns';
 

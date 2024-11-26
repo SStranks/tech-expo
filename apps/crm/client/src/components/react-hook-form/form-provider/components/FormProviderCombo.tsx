@@ -3,8 +3,8 @@ import type { ComboBoxProps } from 'react-aria-components';
 import { useId } from 'react';
 import { Controller, type RegisterOptions, useFormContext } from 'react-hook-form';
 
-import { InputCombo } from '#Components/aria-inputs';
-import { InputParser, InputUx } from '#Components/react-hook-form';
+import { InputCombo } from '@Components/aria-inputs';
+import { InputParser, InputUx } from '@Components/react-hook-form';
 
 interface IProps {
   name: string;
@@ -15,10 +15,10 @@ interface IProps {
 }
 
 function FormProviderCombo<T extends object>({
-  name,
   defaultInputValue,
   items,
   label,
+  name,
   rules = {},
   ...rest
 }: ComboBoxProps<T> & IProps): JSX.Element {

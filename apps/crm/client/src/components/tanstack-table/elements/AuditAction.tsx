@@ -1,6 +1,6 @@
-import { ITableAuditLog } from '#Data/MockData';
+import { ITableAuditLog } from '@Data/MockData';
 
-import styles from './_AuditAction.module.scss';
+import styles from './AuditAction.module.scss';
 
 interface IProps {
   action: ITableAuditLog['action'];

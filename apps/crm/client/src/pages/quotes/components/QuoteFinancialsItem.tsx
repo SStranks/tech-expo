@@ -1,6 +1,6 @@
-import { IconDelete } from '#Components/svg';
+import { IconDelete } from '@Components/svg';
 
-import styles from './_QuoteFinancialsItem.module.scss';
+import styles from './QuoteFinancialsItem.module.scss';
 
 const deleteItemClickHandler = () => {
   console.log('delete');

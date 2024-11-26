@@ -1,9 +1,9 @@
-import type { IIcon } from '#Components/svg';
+import type { IIcon } from '@Components/svg';
 
 import { useId, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import styles from './_MenuLink.module.scss';
+import styles from './MenuLink.module.scss';
 
 interface IProps {
   name: string;
@@ -14,7 +14,7 @@ interface IProps {
 }
 
 function MenuLink(props: IProps): JSX.Element {
-  const { name, href, Icon, index, minimize } = props;
+  const { href, Icon, index, minimize, name } = props;
   const location = useLocation();
   const menuLinkRef = useRef<HTMLLIElement>(null);
   const id = useId();

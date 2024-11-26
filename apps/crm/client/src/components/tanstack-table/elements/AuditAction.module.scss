@@ -1,0 +1,21 @@
+@use '@Sass/components/table' as tbl;
+
+.auditAction {
+  width: fit-content;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid;
+  text-transform: capitalize;
+
+  &--create {
+    @include tbl.table-row-icon-green;
+  }
+
+  &--update {
+    @include tbl.table-row-icon-cyan;
+  }
+
+  &--delete {
+    @include tbl.table-row-icon-red;
+  }
+}

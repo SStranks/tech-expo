@@ -2,7 +2,7 @@ import { useId } from 'react';
 import { InputProps } from 'react-aria-components';
 import { type RegisterOptions, useFormContext } from 'react-hook-form';
 
-import { Input, InputUx } from '#Components/react-hook-form';
+import { Input, InputUx } from '@Components/react-hook-form';
 
 interface IProps {
   name: string;
@@ -10,7 +10,7 @@ interface IProps {
   label: string;
   rules?: RegisterOptions;
 }
-function FormProviderInput({ name, label, rules = {}, type, ...rest }: InputProps & IProps): JSX.Element {
+function FormProviderInput({ label, name, rules = {}, type, ...rest }: InputProps & IProps): JSX.Element {
   const {
     formState: { defaultValues, dirtyFields, errors, isSubmitted },
     getFieldState,

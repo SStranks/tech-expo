@@ -1,10 +1,10 @@
-export { default as ScrumboardCardStyles } from './_ScrumboardCard.module.scss';
-export { default as ScrumboardColumnStyles } from './_ScrumboardColumn.module.scss';
 export { default as ScrumboardAddCard } from './components/ScrumboardAddCard';
 export { default as ScrumboardAddStage } from './components/ScrumboardAddStage';
 export { default as ScrumboardCardOptionsBtn } from './components/ScrumboardCardOptionsBtn';
 export { default as ScrumboardColumnAddBtn } from './components/ScrumboardColumnAddBtn';
 export { default as ScrumboardColumnOptionsBtn } from './components/ScrumboardColumnOptionsBtn';
+export { default as ScrumboardCardStyles } from './ScrumboardCard.module.scss';
+export { default as ScrumboardColumnStyles } from './ScrumboardColumn.module.scss';
 export { default as ScrumboardKanban } from './ScrumboardKanban';
 export { default as ScrumboardKanbanCard } from './ScrumboardKanbanCard';
 export { default as ScrumboardKanbanColumn } from './ScrumboardKanbanColumn';

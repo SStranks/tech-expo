@@ -1,13 +1,13 @@
 import { useRef, useState } from 'react';
 
-import { IconClose, IconSearch } from '#Components/svg';
-import usePortalClose from '#Hooks/usePortalClose';
-import usePortalFocusTrap from '#Hooks/usePortalFocusTrap';
-import { LogoAlgolia } from '#Svg/logos';
+import { IconClose, IconSearch } from '@Components/svg';
+import usePortalClose from '@Hooks/usePortalClose';
+import usePortalFocusTrap from '@Hooks/usePortalFocusTrap';
+import { LogoAlgolia } from '@Svg/logos';
 
 import SearchResults from './SearchResults';
 
-import styles from './_Search.module.scss';
+import styles from './Search.module.scss';
 
 interface IProps {
   portalActive: boolean;

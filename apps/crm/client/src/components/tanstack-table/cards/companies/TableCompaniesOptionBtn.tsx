@@ -1,12 +1,13 @@
 import type { CoreRow } from '@tanstack/react-table';
-import type { ITableDataCompanies } from '#Data/MockData';
+
+import type { ITableDataCompanies } from '@Data/MockData';
 
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from 'react-aria-components';
 import { useNavigate } from 'react-router-dom';
 
-import { IconDelete, IconEye, IconMenuDots } from '#Components/svg';
+import { IconDelete, IconEye, IconMenuDots } from '@Components/svg';
 
-import styles from './_TableCompaniesOptionBtn.module.scss';
+import styles from './TableCompaniesOptionBtn.module.scss';
 
 interface IProps {
   rowOriginal: CoreRow<ITableDataCompanies>['original'];

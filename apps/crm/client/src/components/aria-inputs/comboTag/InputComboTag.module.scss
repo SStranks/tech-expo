@@ -1,0 +1,171 @@
+@use '@Sass/components/form' as form;
+@use '@Sass/components/aria-react' as aria;
+
+$padding: 16px;
+$tag-group-padding: 6px;
+
+.inputsGroup {
+  display: flex;
+  align-items: center;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+
+  &__button {
+    &__svg {
+      color: var(--thm-icon-default);
+      transform-origin: center;
+      transition: transform 0.4s;
+    }
+  }
+}
+
+.input {
+  @include aria.react-aria-outline;
+  display: inline-block;
+  max-width: 100%;
+  min-width: 5px;
+  height: 100%;
+  padding-left: calc($padding - $tag-group-padding);
+  color: var(--thm-text-default);
+  background-color: transparent;
+}
+
+.combo {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: var(--thm-text-default);
+  background-color: inherit;
+  border-radius: inherit;
+  padding-right: $padding;
+
+  &[data-open] {
+    & .inputContainer__button__svg {
+      transform: scaleY(-1);
+    }
+  }
+}
+
+// Displayed selected value, or placeholder value
+.comboValue {
+  color: var(--thm-text-default);
+
+  &[data-placeholder] {
+    opacity: 0;
+  }
+}
+
+.popover {
+  @include aria.react-aria-outline;
+  width: calc(var(--trigger-width) + ($padding * 2));
+  background-color: var(--thm-background-default);
+  border: 1px solid var(--thm-button-secondary-border);
+  border-radius: form.$input-border-radius;
+  transform: translate(-$padding, $padding);
+  overflow: hidden;
+
+  &[data-entering] {
+    border: 1px solid var(--thm-button-secondary-border);
+    overflow: hidden;
+    animation: slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+.listBox {
+  @include aria.react-aria-outline;
+}
+
+.listItem {
+  @include aria.react-aria-outline;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  color: var(--thm-text-default);
+  padding: 0 $padding;
+
+  &[data-focused] {
+    background-color: var(--thm-background-element);
+  }
+
+  &[data-selected] {
+    background-color: var(--thm-success-primary);
+  }
+}
+
+.success {
+  position: relative;
+  @include form.input-valid;
+
+  &::before {
+    display: none;
+  }
+
+  &::after {
+    @include form.input-validated;
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  &:has(.combo:is([data-open], [data-focused], [data-focus-visible], [data-required])) {
+    @include form.input-valid;
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translate(-$padding, calc($padding - 8px));
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-$padding, $padding);
+  }
+}
+
+// =====
+
+.tagGroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  gap: 5px;
+  padding: $tag-group-padding;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  padding: 5px 10px;
+  color: var(--thm-text-default);
+  background-color: var(--thm-background-overlay);
+  border-radius: 5px;
+
+  &:has(.button:hover) {
+    background-color: var(--thm-background-element);
+  }
+}
+
+.tagList {
+  display: contents;
+}
+
+.button {
+  &__svg {
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+    color: var(--thm-icon-default);
+  }
+}

@@ -1,9 +1,9 @@
-import type { ITableDataCompanies } from '#Data/MockData';
+import type { ITableDataCompanies } from '@Data/MockData';
 
-import UserCircle from '#Components/general/UserCircle';
-import userImage from '#Img/image-35.jpg';
+import UserCircle from '@Components/general/UserCircle';
+import userImage from '@Img/image-35.jpg';
 
-import styles from './_RelatedContacts.module.scss';
+import styles from './RelatedContacts.module.scss';
 
 // NOTE:  This file is a DUPLICATE of one within tanstack-table/elements (and associated SCSS)
 // TODO:  Make image dynamic; currently not part of mock data.

@@ -1,7 +1,7 @@
-import { EditableRow, TableSingleColumn } from '#Components/general';
-import { IconCompanies } from '#Components/svg';
+import { EditableRow, TableSingleColumn } from '@Components/general';
+import { IconCompanies } from '@Components/svg';
 
-import styles from './_ContactTableInformation.module.scss';
+import styles from './ContactTableInformation.module.scss';
 
 interface IUserInfo {
   username: string;

@@ -1,13 +1,13 @@
-import type { ITableDataCompanies } from '#Data/MockData';
+import type { ITableDataCompanies } from '@Data/MockData';
 
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { TableModalView } from '#Components/tanstack-table/views';
+import { TableModalView } from '@Components/tanstack-table/views';
 
 import { ColumnCompaniesDelete } from '../../columns';
 
-import styles from './_TableCompanies.module.scss';
+import styles from './TableCompanies.module.scss';
 
 interface IProps {
   tableData: ITableDataCompanies[];

@@ -1,4 +1,4 @@
-import styles from './_Buttons.module.scss';
+import styles from './Buttons.module.scss';
 
 interface IProps {
   disabled?: boolean;

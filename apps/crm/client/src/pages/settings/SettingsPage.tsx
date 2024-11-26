@@ -1,8 +1,8 @@
-import { IconCity, IconEmail, IconGlobal, IconPhone } from '#Components/svg';
-import { TableSettingsContacts } from '#Components/tanstack-table/tables';
-import { tableDataSettingsCompanyInfo, tableDataSettingsContacts } from '#Data/MockData';
+import { IconCity, IconEmail, IconGlobal, IconPhone } from '@Components/svg';
+import { TableSettingsContacts } from '@Components/tanstack-table/tables';
+import { tableDataSettingsCompanyInfo, tableDataSettingsContacts } from '@Data/MockData';
 
-import styles from './_SettingsPage.module.scss';
+import styles from './SettingsPage.module.scss';
 
 // TEMP DEV: // NOTE:  Make dynamic
 const COMPANY_INFO = tableDataSettingsCompanyInfo;

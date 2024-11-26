@@ -1,4 +1,4 @@
-import type { ITableDataDeals } from '#Data/MockData';
+import type { ITableDataDeals } from '@Data/MockData';
 
 import {
   ColumnFiltersState,
@@ -11,7 +11,7 @@ import {
 } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { TableListEmbeddedView } from '#Components/tanstack-table/views';
+import { TableListEmbeddedView } from '@Components/tanstack-table/views';
 
 import { ColumnCompaniesDeals } from '../../columns';
 

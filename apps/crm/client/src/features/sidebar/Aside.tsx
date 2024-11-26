@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ToolTip } from '#Components/index';
+import { ToolTip } from '@Components/index';
 import {
   IconAdministration,
   IconAudit,
@@ -14,11 +14,11 @@ import {
   IconScrum,
   IconSettings,
   IIcon,
-} from '#Components/svg';
+} from '@Components/svg';
 
 import { MenuLink, MenuToggle } from './components';
 
-import styles from './_Aside.module.scss';
+import styles from './Aside.module.scss';
 
 type TMenuCategories = [string, string, IIcon][];
 

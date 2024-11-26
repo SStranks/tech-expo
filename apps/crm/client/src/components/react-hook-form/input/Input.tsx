@@ -1,7 +1,7 @@
 import { HTMLInputTypeAttribute } from 'react';
 import { FieldError, FieldErrorsImpl, Merge, UseFormRegisterReturn, ValidationRule } from 'react-hook-form';
 
-import styles from './_Input.module.scss';
+import styles from './Input.module.scss';
 
 interface IProps {
   register: UseFormRegisterReturn;
@@ -13,7 +13,7 @@ interface IProps {
 }
 
 function Input(props: IProps): JSX.Element {
-  const { id, defaultValue, error, isRequired, register, type, ...rest } = props;
+  const { defaultValue, error, id, isRequired, register, type, ...rest } = props;
 
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown
   return (

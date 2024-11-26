@@ -1,10 +1,10 @@
-import CompanyLogo from '#Img/CompanyLogo.png';
+import CompanyLogo from '@Img/CompanyLogo.png';
 
 import Logo from './components/Logo';
 import SearchBar from './components/SearchBar';
 import SettingsBar from './components/SettingsBar';
 
-import styles from './_Header.module.scss';
+import styles from './Header.module.scss';
 
 function Header(): JSX.Element {
   return (

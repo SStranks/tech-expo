@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
 
-import ViewportLayout from '#Layouts/ViewportLayout';
+import ViewportLayout from '@Layouts/ViewportLayout';
 
-import styles from './_ContactsRoute.module.scss';
+import styles from './ContactsRoute.module.scss';
 
 function ContactsRoute(): JSX.Element {
   return (

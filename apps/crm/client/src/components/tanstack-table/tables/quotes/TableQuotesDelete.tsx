@@ -1,12 +1,12 @@
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { TableModalView } from '#Components/tanstack-table/views';
-import { ITableDataQuotes } from '#Data/MockData';
+import { TableModalView } from '@Components/tanstack-table/views';
+import { ITableDataQuotes } from '@Data/MockData';
 
 import { ColumnQuotesDelete } from '../../columns';
 
-import styles from './_TableQuotes.module.scss';
+import styles from './TableQuotes.module.scss';
 
 interface IProps {
   tableData: ITableDataQuotes[];

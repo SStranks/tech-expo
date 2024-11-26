@@ -1,8 +1,8 @@
 import { useId } from 'react';
 import { Controller, type RegisterOptions, useFormContext } from 'react-hook-form';
 
-import { InputDatePicker } from '#Components/aria-inputs';
-import { InputParser, InputUx } from '#Components/react-hook-form';
+import { InputDatePicker } from '@Components/aria-inputs';
+import { InputParser, InputUx } from '@Components/react-hook-form';
 
 interface IProps {
   name: string;
@@ -10,7 +10,7 @@ interface IProps {
   rules?: RegisterOptions;
 }
 
-function FormProviderDatePicker({ name, label, rules = {} }: IProps): JSX.Element {
+function FormProviderDatePicker({ label, name, rules = {} }: IProps): JSX.Element {
   const {
     control,
     formState: { defaultValues, dirtyFields, isSubmitted },

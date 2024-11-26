@@ -1,4 +1,4 @@
-import styles from './_Logo.module.scss';
+import styles from './Logo.module.scss';
 
 interface IProps {
   title: string;

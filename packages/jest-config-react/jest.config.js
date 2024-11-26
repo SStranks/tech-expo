@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 import 'identity-obj-proxy';
 import path from 'node:path';
 import url from 'node:url';
@@ -25,9 +26,9 @@ export default {
       './jest.fileMock.ts'
     ),
     '\\.(css|sass|scss)$': 'identity-obj-proxy',
-    '^#Img/(.*)$': '<rootDir>/src/assets/img/$1',
+    '^@Img/(.*)$': '<rootDir>/src/assets/img/$1',
     '^#Sass/(.*)$': '<rootDir>/src/assets/sass/$1',
-    '^#Svg/(.*)$': '<rootDir>/src/assets/svg/$1',
+    '^@Svg/(.*)$': '<rootDir>/src/assets/svg/$1',
     '^#Components/(.*)$': '<rootDir>/src/components/$1',
     '^#Context/(.*)$': '<rootDir>/src/context/$1',
     '^#Data/(.*)$': '<rootDir>/src/data/$1',

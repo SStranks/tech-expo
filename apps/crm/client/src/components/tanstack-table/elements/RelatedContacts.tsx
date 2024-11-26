@@ -1,8 +1,8 @@
-import type { ITableDataCompanies } from '#Data/MockData';
+import type { ITableDataCompanies } from '@Data/MockData';
 
-import userImage from '#Img/image-35.jpg';
+import userImage from '@Img/image-35.jpg';
 
-import styles from './_RelatedContacts.module.scss';
+import styles from './RelatedContacts.module.scss';
 
 // TODO:  Make image dynamic; currently not part of mock data.
 // TODO:  Make tooltip to reveal name on hover of image

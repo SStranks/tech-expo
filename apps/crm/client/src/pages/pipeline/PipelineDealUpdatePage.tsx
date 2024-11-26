@@ -3,11 +3,11 @@ import type { SubmitHandler } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import FormModal from '#Components/modal/FormModal';
-import { FormProvider } from '#Components/react-hook-form';
-import { GENERIC_NUMBER_RULES, GENERIC_TEXT_RULES } from '#Components/react-hook-form/validationRules';
-import { updateDeal } from '#Features/scrumboard/redux/pipelineSlice';
-import { useReduxDispatch, useReduxSelector } from '#Redux/hooks';
+import FormModal from '@Components/modal/FormModal';
+import { FormProvider } from '@Components/react-hook-form';
+import { GENERIC_NUMBER_RULES, GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
+import { updateDeal } from '@Features/scrumboard/redux/pipelineSlice';
+import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 
 // TEMP DEV: .
 const companiesList = [{ name: 'Microsoft' }, { name: 'Linux' }];

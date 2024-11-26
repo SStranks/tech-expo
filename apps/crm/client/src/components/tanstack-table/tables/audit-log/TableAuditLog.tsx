@@ -1,4 +1,4 @@
-import type { ITableAuditLog } from '#Data/MockData';
+import type { ITableAuditLog } from '@Data/MockData';
 
 import {
   ColumnFiltersState,
@@ -11,11 +11,11 @@ import {
 } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { ColumnAuditLog } from '#Components/tanstack-table/columns';
-import { TableControlsFooter } from '#Components/tanstack-table/controls';
-import { TableDefaultView } from '#Components/tanstack-table/views';
+import { ColumnAuditLog } from '@Components/tanstack-table/columns';
+import { TableControlsFooter } from '@Components/tanstack-table/controls';
+import { TableDefaultView } from '@Components/tanstack-table/views';
 
-import styles from './_TableAuditLog.module.scss';
+import styles from './TableAuditLog.module.scss';
 
 interface IProps {
   tableData: ITableAuditLog[];

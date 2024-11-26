@@ -1,4 +1,4 @@
-import type { ITableSettingsContacts } from '#Data/MockData';
+import type { ITableSettingsContacts } from '@Data/MockData';
 
 import {
   ColumnFiltersState,
@@ -9,11 +9,11 @@ import {
 } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { ColumnSettingsContacts } from '#Components/tanstack-table/columns';
-import { TableControlsFooter } from '#Components/tanstack-table/controls';
-import { TableDefaultView } from '#Components/tanstack-table/views';
+import { ColumnSettingsContacts } from '@Components/tanstack-table/columns';
+import { TableControlsFooter } from '@Components/tanstack-table/controls';
+import { TableDefaultView } from '@Components/tanstack-table/views';
 
-import styles from './_TableSettingsContacts.module.scss';
+import styles from './TableSettingsContacts.module.scss';
 
 interface IProps {
   tableData: ITableSettingsContacts[];

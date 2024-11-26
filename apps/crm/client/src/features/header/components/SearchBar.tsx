@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-import { ReactPortal } from '#Components/index';
-import { IconSearch } from '#Components/svg';
-import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
+import { ReactPortal } from '@Components/index';
+import { IconSearch } from '@Components/svg';
+import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '@Utils/cssTransitionGroup';
 
 import Search from '../features/search/Search';
 
-import styles from './_SearchBar.module.scss';
+import styles from './SearchBar.module.scss';
 
 function SearchBar(): JSX.Element {
   const [portalActive, setPortalActive] = useState<boolean>(false);

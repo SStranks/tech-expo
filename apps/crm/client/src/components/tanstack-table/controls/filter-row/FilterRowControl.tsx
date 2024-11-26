@@ -3,9 +3,9 @@ import type { Column } from '@tanstack/react-table';
 import { useId, useState } from 'react';
 import { Button, DialogTrigger, Input, Popover, SearchField } from 'react-aria-components';
 
-import { IconFilter } from '#Components/svg';
+import { IconFilter } from '@Components/svg';
 
-import styles from './_FilterRowControl.module.scss';
+import styles from './FilterRowControl.module.scss';
 
 interface IProps {
   column: Column<any, unknown>;

@@ -1,8 +1,8 @@
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from 'react-aria-components';
 
-import { IconDelete, IconEye, IconMenuDots } from '#Components/svg';
+import { IconDelete, IconEye, IconMenuDots } from '@Components/svg';
 
-import styles from './_ScrumboardColumnOptionsBtn.module.scss';
+import styles from './ScrumboardColumnOptionsBtn.module.scss';
 
 interface IProps {
   columnId: string;

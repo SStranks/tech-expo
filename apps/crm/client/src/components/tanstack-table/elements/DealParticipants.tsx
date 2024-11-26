@@ -1,8 +1,8 @@
-import type { ITableDataDeals } from '#Data/MockData';
+import type { ITableDataDeals } from '@Data/MockData';
 
-import UserCircleAbbv from '#Components/general/UserCircleAbbv';
+import UserCircleAbbv from '@Components/general/UserCircleAbbv';
 
-import styles from './_QuotesParticipants.module.scss';
+import styles from './QuotesParticipants.module.scss';
 
 interface IProps {
   dealOwner: ITableDataDeals['dealOwner'];

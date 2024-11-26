@@ -1,4 +1,4 @@
-import styles from './_MenuToggle.module.scss';
+import styles from './MenuToggle.module.scss';
 
 interface IProps {
   sidebarMaximize: boolean | undefined;

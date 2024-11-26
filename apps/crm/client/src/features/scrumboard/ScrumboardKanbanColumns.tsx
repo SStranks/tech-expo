@@ -1,8 +1,8 @@
-import type { IInitialData } from '#Data/MockScrumboardKanban';
+import type { IInitialData } from '@Data/MockScrumboardKanban';
 
 import { ScrumboardAddStage, ScrumboardKanbanColumn, ScrumboardKanbanColumnUnassigned } from './index';
 
-import styles from './_ScrumboardColumns.module.scss';
+import styles from './ScrumboardColumns.module.scss';
 
 interface IProps {
   data: IInitialData;

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import styles from './_ScrumboardAddStage.module.scss';
+import styles from './ScrumboardAddStage.module.scss';
 
 function ScrumboardAddStage(): JSX.Element {
   return (

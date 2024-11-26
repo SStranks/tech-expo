@@ -1,9 +1,9 @@
 import { createViewDay, createViewMonthAgenda, createViewMonthGrid, createViewWeek } from '@schedule-x/calendar';
 import { ScheduleXCalendar, useCalendarApp } from '@schedule-x/react';
 
-import { useReduxSelector } from '#Redux/hooks';
+import { useReduxSelector } from '@Redux/hooks';
 
-import './_Calendar.scss';
+import './Calendar.scss';
 
 const calendarEvents = [
   {

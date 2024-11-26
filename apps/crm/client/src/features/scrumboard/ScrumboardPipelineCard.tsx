@@ -1,12 +1,12 @@
 import { Draggable } from 'react-beautiful-dnd';
 import { useNavigate } from 'react-router-dom';
 
-import { UserCircle } from '#Components/general';
-import { ITask } from '#Data/MockScrumboardPipeline';
+import { UserCircle } from '@Components/general';
+import { ITask } from '@Data/MockScrumboardPipeline';
 
 import { ScrumboardCardOptionsBtn } from '.';
 
-import styles from './_ScrumboardCard.module.scss';
+import styles from './ScrumboardCard.module.scss';
 
 interface IProps {
   task: ITask;

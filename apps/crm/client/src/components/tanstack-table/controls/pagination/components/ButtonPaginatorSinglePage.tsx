@@ -1,6 +1,6 @@
-import { IconArrowLeftAlt } from '#Components/svg';
+import { IconArrowLeftAlt } from '@Components/svg';
 
-import styles from './_ButtonPaginator.module.scss';
+import styles from './ButtonPaginator.module.scss';
 
 interface IProps {
   direction: 'previous' | 'next';

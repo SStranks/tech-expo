@@ -1,15 +1,15 @@
 import { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-import { EditableRow, UserRole } from '#Components/general';
-import { ReactPortal } from '#Components/index';
-import { IconClose, IconEmail, IconPhone, IconSmartphone, IconTimezone, IconUserTitle } from '#Components/svg';
-import { UserData } from '#Data/MockData';
-import usePortalClose from '#Hooks/usePortalClose';
-import CompanyLogo from '#Img/CompanyLogo.png';
-import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
+import { EditableRow, UserRole } from '@Components/general';
+import { ReactPortal } from '@Components/index';
+import { IconClose, IconEmail, IconPhone, IconSmartphone, IconTimezone, IconUserTitle } from '@Components/svg';
+import { UserData } from '@Data/MockData';
+import usePortalClose from '@Hooks/usePortalClose';
+import CompanyLogo from '@Img/CompanyLogo.png';
+import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '@Utils/cssTransitionGroup';
 
-import styles from './_UserSettingsModal.module.scss';
+import styles from './UserSettingsModal.module.scss';
 
 interface IProps {
   userName: string;

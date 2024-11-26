@@ -1,6 +1,6 @@
-import { IconClose } from '#Components/svg';
+import { IconClose } from '@Components/svg';
 
-import styles from './_Buttons.module.scss';
+import styles from './Buttons.module.scss';
 
 interface IProps {
   onClick?: (data?: unknown) => void;

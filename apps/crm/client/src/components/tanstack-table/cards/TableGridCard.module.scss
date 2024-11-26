@@ -1,0 +1,36 @@
+@use '@Sass/abstracts/animations' as anim;
+
+$grid-card-height: 240px;
+
+// NOTE:  --thm-background-card from on-screen render using below - transparency/background is factored in.
+// background-color: hsl(from var(--thm-background-overlay) h s l / 35%);
+
+.tableGridCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, auto);
+  max-width: 400px;
+  height: $grid-card-height;
+  background-color: var(--thm-background-card);
+  border: 1px solid var(--thm-border-secondary);
+  border-radius: 4px;
+  transition: anim.$theme-transition-background, anim.$theme-transition-border-color;
+
+  // &__optionsBtn {
+  //   position: absolute;
+  //   top: calc(0px + 8px);
+  //   right: calc(0px + 8px);
+  // }
+
+  &__upper {
+    border-bottom: 1px solid var(--thm-border-secondary);
+    transition: anim.$theme-transition-border-color;
+  }
+}
+
+.inputMenu {
+  &__test {
+    background-color: red;
+  }
+}

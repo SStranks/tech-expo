@@ -1,6 +1,6 @@
 import { createColumnHelper } from '@tanstack/react-table';
 
-import { ITableDataCompanies } from '#Data/MockData';
+import { ITableDataCompanies } from '@Data/MockData';
 
 import { CompanySingle, UserSingle } from '../elements';
 

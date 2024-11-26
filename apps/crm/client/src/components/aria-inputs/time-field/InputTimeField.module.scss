@@ -1,0 +1,28 @@
+@use '@Sass/components/aria-react' as aria;
+
+$padding: 16px;
+
+.timeField {
+  display: flex;
+  align-items: center;
+  padding-inline: $padding;
+}
+
+// .label {}
+
+.dateInput {
+  display: flex;
+  color: var(--thm-text-default);
+}
+
+.dateSegment {
+  @include aria.react-aria-outline;
+
+  &:focus {
+    background-color: var(--thm-icon-info);
+  }
+}
+
+// .text {}
+
+// .fieldError {}

@@ -4,7 +4,7 @@ import ButtonPaginatorNumber from './components/ButtonPaginatorNumber';
 import ButtonPaginatorPages from './components/ButtonPaginatorPages';
 import ButtonPaginatorSinglePage from './components/ButtonPaginatorSinglePage';
 
-import styles from './_PaginatorRangeControl.module.scss';
+import styles from './PaginatorRangeControl.module.scss';
 
 interface IProps {
   pageCount: number;

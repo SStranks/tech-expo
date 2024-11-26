@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import styles from './_ScrumboardAddCard.module.scss';
+import styles from './ScrumboardAddCard.module.scss';
 
 interface IProps {
   columnId: string;

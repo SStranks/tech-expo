@@ -1,4 +1,4 @@
-import CompanyLogo from '#Img/Microsoft_logo.png';
+import CompanyLogo from '@Img/Microsoft_logo.png';
 
 import {
   CompaniesTableContacts,
@@ -8,7 +8,7 @@ import {
   CompaniesTableQuotes,
 } from './components';
 
-import styles from './_CompaniesReadPage.module.scss';
+import styles from './CompaniesReadPage.module.scss';
 
 const companyName = 'Microsoft';
 const salesOwner = 'Bob Woodwood';

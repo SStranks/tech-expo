@@ -1,12 +1,13 @@
 import type { CoreRow } from '@tanstack/react-table';
-import type { ITableDataCompanies } from '#Data/MockData';
 
-import UserCircle from '#Components/general/UserCircle';
-import userImage from '#Img/image-35.jpg';
+import type { ITableDataCompanies } from '@Data/MockData';
+
+import UserCircle from '@Components/general/UserCircle';
+import userImage from '@Img/image-35.jpg';
 
 import RelatedContacts from './RelatedContacts';
 
-import styles from './_TableCompaniesCardLower.module.scss';
+import styles from './TableCompaniesCardLower.module.scss';
 
 // TODO:  Make image dynamic; currently not part of mock data.
 const USER_IMAGE = userImage;

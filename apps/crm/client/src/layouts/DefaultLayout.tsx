@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 
-import styles from './_DefaultLayout.module.scss';
+import styles from './DefaultLayout.module.scss';
 
 interface IProps {
   header: JSX.Element;

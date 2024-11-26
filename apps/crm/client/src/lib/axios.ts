@@ -6,7 +6,7 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios';
 
-import handleServiceError from '#Services/serviceHttpErrors';
+import handleServiceError from '@Services/serviceHttpErrors';
 
 export interface IAxiosClient {
   clientInstance: AxiosInstance;

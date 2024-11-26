@@ -9,7 +9,7 @@ import {
   UseFormRegister,
 } from 'react-hook-form';
 
-import styles from './_TextArea.module.scss';
+import styles from './TextArea.module.scss';
 
 // Automatically resizes textarea dependent on user input
 const autoHeightResize = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -27,7 +27,7 @@ interface IProps<T extends FieldValues = FieldValues> {
 }
 
 function TextArea(props: IProps): JSX.Element {
-  const { id, name, error, register, rules } = props;
+  const { error, id, name, register, rules } = props;
 
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown
   return (

@@ -2,10 +2,10 @@ import { useRef } from 'react';
 import { useLocation, useOutlet } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
-import ReactPortal from '#Components/modal/ReactPortal';
-import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
+import ReactPortal from '@Components/modal/ReactPortal';
+import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '@Utils/cssTransitionGroup';
 
-import styles from './_reactTransitionGroup.module.scss';
+import styles from './reactTransitionGroup.module.scss';
 
 // Wrapper component that adds a CSSTransition effect to React Portals.
 // Example: Companies Page; clicking 'Create Company' changes route to /companies/create - this page is an outlet within the companies page.

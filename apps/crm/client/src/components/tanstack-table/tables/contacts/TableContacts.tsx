@@ -1,4 +1,4 @@
-import type { ITableDataContacts } from '#Data/MockData';
+import type { ITableDataContacts } from '@Data/MockData';
 
 import {
   ColumnFiltersState,
@@ -12,13 +12,13 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { TableContactsCardLower, TableContactsCardUpper, TableGridCard } from '#Components/tanstack-table/cards';
-import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
-import { TableGridView, TableListView } from '#Components/tanstack-table/views';
+import { TableContactsCardLower, TableContactsCardUpper, TableGridCard } from '@Components/tanstack-table/cards';
+import { TableControlsFooter, TableControlsHeader } from '@Components/tanstack-table/controls';
+import { TableGridView, TableListView } from '@Components/tanstack-table/views';
 
 import { ColumnContacts } from '../../columns';
 
-import styles from './_TableContacts.module.scss';
+import styles from './TableContacts.module.scss';
 
 interface IProps {
   tableData: ITableDataContacts[];

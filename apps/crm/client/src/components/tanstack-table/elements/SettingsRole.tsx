@@ -1,8 +1,8 @@
-import type { ITableSettingsContacts } from '#Data/MockData';
+import type { ITableSettingsContacts } from '@Data/MockData';
 
-import { IconUser, IconUserShield } from '#Components/svg';
+import { IconUser, IconUserShield } from '@Components/svg';
 
-import styles from './_SettingsRole.module.scss';
+import styles from './SettingsRole.module.scss';
 
 const CSS_ROLE_CLASS = {
   admin: 'admin',

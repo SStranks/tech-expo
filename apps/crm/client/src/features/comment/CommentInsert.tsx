@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-import { UserCircle } from '#Components/general';
+import { UserCircle } from '@Components/general';
 // TEMP DEV: .
-import userImage from '#Img/image-35.jpg';
+import userImage from '@Img/image-35.jpg';
 
-import styles from './_CommentInsert.module.scss';
+import styles from './CommentInsert.module.scss';
 
 function CommentInsert(): JSX.Element {
   const [editInputValue, setEditInputValue] = useState<string>('');

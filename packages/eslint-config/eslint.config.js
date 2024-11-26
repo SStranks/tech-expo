@@ -62,7 +62,7 @@ export const EslintConfig = {
     'perfectionist/sort-objects': [
       'error',
       {
-        // destructuredObjects: { groups: false }, Not yet released as 4.0.3 - committed but not released.
+        destructuredObjects: { groups: false },
         groups: ['top', ['multiline', 'method'], ['unknown'], 'bottom'],
         customGroups: {
           top: ['^id$', '^name$'],
@@ -78,12 +78,12 @@ export const EslintConfig = {
         type: 'alphabetical',
         order: 'asc',
         ignoreCase: true,
-        internalPattern: ['^#.*'],
+        internalPattern: [`^@[A-Z]\\w*`],
         newlinesBetween: 'always',
         environment: 'node',
         groups: [
-          'type',
-          ['external-type', 'builtin-type', 'internal-type'],
+          ['external-type', 'builtin-type'],
+          'internal-type',
           ['parent-type', 'sibling-type', 'index-type'],
           'external',
           'internal',

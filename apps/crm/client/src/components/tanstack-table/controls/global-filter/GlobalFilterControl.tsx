@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Button, Input, Label, SearchField } from 'react-aria-components';
 
-import { IconClose, IconSearch } from '#Components/svg';
+import { IconClose, IconSearch } from '@Components/svg';
 
-import styles from './_GlobalFilterControl.module.scss';
+import styles from './GlobalFilterControl.module.scss';
 
 interface IProps {
   label: string;

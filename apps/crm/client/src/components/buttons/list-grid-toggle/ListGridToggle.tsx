@@ -3,9 +3,9 @@ import type { ColumnFiltersState, Updater } from '@tanstack/react-table';
 import { useState } from 'react';
 import { Label, Radio, RadioGroup } from 'react-aria-components';
 
-import { IconGrid, IconListDownArrow } from '#Components/svg';
+import { IconGrid, IconListDownArrow } from '@Components/svg';
 
-import styles from './_ListGridToggle.module.scss';
+import styles from './ListGridToggle.module.scss';
 
 interface IProps {
   tableView: 'list' | 'grid';

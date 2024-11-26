@@ -2,22 +2,22 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
-import { ReactPortal } from '#Components/index';
-import { IconLogout, IconSettings, IconUser } from '#Components/svg';
-import usePortalClose from '#Hooks/usePortalClose';
-import usePortalResizeEvent from '#Hooks/usePortalResizeEvent';
-import { useReduxDispatch } from '#Redux/hooks';
-import { clearAuthState } from '#Redux/reducers/authSlice';
+import { ReactPortal } from '@Components/index';
+import { IconLogout, IconSettings, IconUser } from '@Components/svg';
+import usePortalClose from '@Hooks/usePortalClose';
+import usePortalResizeEvent from '@Hooks/usePortalResizeEvent';
+import { useReduxDispatch } from '@Redux/hooks';
+import { clearAuthState } from '@Redux/reducers/authSlice';
 import {
   CTG_ENTER_MODAL,
   CTG_EXIT_MODAL,
   CTG_ON_ENTER_CSS_ROOT,
   CTG_ON_EXITED_CSS_ROOT,
-} from '#Utils/cssTransitionGroup';
+} from '@Utils/cssTransitionGroup';
 
 import UserSettingsModal from './UserSettingsModal';
 
-import styles from './_UserSettingsMenu.module.scss';
+import styles from './UserSettingsMenu.module.scss';
 
 // Defined at top of 'styles' scss; used to offset portal from window edge
 const CSS_ROOT_PROPERTY = '--user-settings-menu-offset-x';

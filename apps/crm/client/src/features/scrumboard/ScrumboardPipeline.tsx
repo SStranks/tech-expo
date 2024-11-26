@@ -1,11 +1,11 @@
 import { DragDropContext, type DropResult } from 'react-beautiful-dnd';
 
-import { moveTaskHorizontal, moveTaskVertical } from '#Features/scrumboard/redux/pipelineSlice';
-import { useReduxDispatch, useReduxSelector } from '#Redux/hooks';
+import { moveTaskHorizontal, moveTaskVertical } from '@Features/scrumboard/redux/pipelineSlice';
+import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 
 import { ScrumboardPipelineColumns } from './index';
 
-import styles from './_Scrumboard.module.scss';
+import styles from './Scrumboard.module.scss';
 
 function ScrumBoardPipeline(): JSX.Element {
   const reduxDispatch = useReduxDispatch();

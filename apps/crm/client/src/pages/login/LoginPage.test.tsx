@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 
-import { EMAIL_RULES } from '#Components/react-hook-form/validationRules';
+import { EMAIL_RULES } from '@Components/react-hook-form/validationRules';
 
 import LoginPage from './LoginPage';
 

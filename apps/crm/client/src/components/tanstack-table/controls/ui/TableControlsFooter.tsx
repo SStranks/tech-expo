@@ -3,7 +3,7 @@ import type { Updater } from '@tanstack/react-table';
 import { PaginatorRangeControl } from '../';
 import ButtonPaginatorRowLimit from '../pagination/components/ButtonPaginatorRowLimit';
 
-import styles from './_TableControlsFooter.module.scss';
+import styles from './TableControlsFooter.module.scss';
 
 interface IProps {
   entriesName: string;

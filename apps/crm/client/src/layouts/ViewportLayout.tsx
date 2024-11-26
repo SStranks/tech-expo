@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 
-import styles from './_ViewportLayout.module.scss';
+import styles from './ViewportLayout.module.scss';
 
 interface IProps {}
 

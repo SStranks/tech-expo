@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import FormModal from '#Components/modal/FormModal';
-import { FormProvider } from '#Components/react-hook-form';
-import { ScrumboardColumnStyles } from '#Features/scrumboard';
-import { deleteStage } from '#Features/scrumboard/redux/pipelineSlice';
-import { useReduxDispatch } from '#Redux/hooks';
+import FormModal from '@Components/modal/FormModal';
+import { FormProvider } from '@Components/react-hook-form';
+import { ScrumboardColumnStyles } from '@Features/scrumboard';
+import { deleteStage } from '@Features/scrumboard/redux/pipelineSlice';
+import { useReduxDispatch } from '@Redux/hooks';
 
 function PiplineStageDeletePage(): JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);

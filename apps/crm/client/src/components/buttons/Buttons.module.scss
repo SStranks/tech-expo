@@ -1,0 +1,76 @@
+@use '@Sass/components/buttons' as btn;
+@use '@Sass/components/form' as form;
+
+.cancelBtn {
+  @include form.cancel-button;
+}
+
+.closeBtn {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--thm-background-element);
+  }
+
+  &__svg {
+    & path {
+      color: var(--thm-icon-default);
+    }
+  }
+}
+
+.optionsBtn {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  border-radius: 4px;
+
+  &__svg {
+    & path {
+      color: var(--thm-icon-default);
+    }
+  }
+
+  &:hover {
+    & .optionsBtn__svg {
+      & path {
+        color: var(--thm-icon-info);
+      }
+    }
+
+    background-color: var(--thm-background-element);
+  }
+
+  &__popover {
+    padding: 4px;
+    background-color: var(--thm-background-subtle);
+    box-shadow: 0 0 15px 2px hsl(0deg 0% 0% / 10%);
+    border: 1px solid var(--thm-border-secondary);
+    border-radius: 6px;
+  }
+}
+
+.saveBtn {
+  @include form.save-button;
+}
+
+.okayBtn {
+  @include form.okay-button;
+}
+
+.deleteBtn {
+  @include form.danger-button;
+}
+
+.addEntryBtn {
+  @include btn.btn-tertiary;
+  column-gap: 8px;
+
+  &__svg {
+    width: 20px;
+    height: 20px;
+  }
+}

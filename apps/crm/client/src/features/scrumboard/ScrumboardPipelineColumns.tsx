@@ -1,4 +1,4 @@
-import type { IInitialData } from '#Data/MockScrumboardPipeline';
+import type { IInitialData } from '@Data/MockScrumboardPipeline';
 
 import {
   ScrumboardAddStage,
@@ -8,7 +8,7 @@ import {
   ScrumboardPipelineColumnWon,
 } from './index';
 
-import styles from './_ScrumboardColumns.module.scss';
+import styles from './ScrumboardColumns.module.scss';
 
 interface IProps {
   data: IInitialData;

@@ -1,8 +1,8 @@
-import type { ITableDataQuotes } from '#Data/MockData';
+import type { ITableDataQuotes } from '@Data/MockData';
 
-import UserCircleAbbv from '#Components/general/UserCircleAbbv';
+import UserCircleAbbv from '@Components/general/UserCircleAbbv';
 
-import styles from './_QuotesParticipants.module.scss';
+import styles from './QuotesParticipants.module.scss';
 
 interface IProps {
   participantBy: ITableDataQuotes['prepared by'];

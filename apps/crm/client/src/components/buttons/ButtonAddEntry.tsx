@@ -1,6 +1,6 @@
-import { IconCirclePlus } from '#Components/svg';
+import { IconCirclePlus } from '@Components/svg';
 
-import styles from './_Buttons.module.scss';
+import styles from './Buttons.module.scss';
 
 interface IProps {
   buttonText: string;

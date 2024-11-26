@@ -1,4 +1,4 @@
-import styles from './_UserCircleAbbv.module.scss';
+import styles from './UserCircleAbbv.module.scss';
 
 interface IProps {
   userName: string;

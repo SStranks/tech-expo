@@ -2,11 +2,11 @@ import { useId } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Input } from '#Components/react-hook-form';
-import InputUx from '#Components/react-hook-form/InputUx';
-import { EMAIL_RULES } from '#Components/react-hook-form/validationRules';
+import { Input } from '@Components/react-hook-form';
+import InputUx from '@Components/react-hook-form/InputUx';
+import { EMAIL_RULES } from '@Components/react-hook-form/validationRules';
 
-import styles from './_ForgotPasswordPage.module.scss';
+import styles from './ForgotPasswordPage.module.scss';
 
 interface IInputs {
   email: string;

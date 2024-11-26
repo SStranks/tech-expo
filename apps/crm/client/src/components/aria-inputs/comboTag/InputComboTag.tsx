@@ -14,9 +14,9 @@ import {
 } from 'react-aria-components';
 import { FieldValues, UseFormTrigger } from 'react-hook-form';
 
-import { IconArrowDownAlt, IconClose } from '#Components/svg';
+import { IconArrowDownAlt, IconClose } from '@Components/svg';
 
-import styles from './_InputComboTag.module.scss';
+import styles from './InputComboTag.module.scss';
 
 interface IListItem {
   id: number;
@@ -36,7 +36,7 @@ interface IProps {
 // NOTE:  Can't style multiple selection in ListBox when child of Combo; dynamic classes don't work within the component.
 // NOTE:  May have to break apart implemention and utilize hooks, or place ListBox outside combo and hook up.
 function InputComboTag(props: IProps): JSX.Element {
-  const { id, name, listItems, onChange, trigger, ...rest } = props;
+  const { id, listItems, name, onChange, trigger, ...rest } = props;
   const [selectedKeys, setSelectedKeys] = useState<IListItem[]>([]);
   const [inputValue, setInputValue] = useState('');
 

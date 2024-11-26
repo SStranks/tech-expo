@@ -1,9 +1,9 @@
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-import { ReactPortal } from '#Components/index';
+import { ReactPortal } from '@Components/index';
 
-import styles from './_ToolTip.module.scss';
+import styles from './ToolTip.module.scss';
 
 /**
  * Determine the positional coordinates for the tooltip, utilizing the DOMRect coordinates of the associated element. Tooltip utilizes a portal, with absolute positioning.

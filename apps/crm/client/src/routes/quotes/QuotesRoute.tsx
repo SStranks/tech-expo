@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
 
-import ViewportLayout from '#Layouts/ViewportLayout';
+import ViewportLayout from '@Layouts/ViewportLayout';
 
-import styles from './_QuotesRoute.module.scss';
+import styles from './QuotesRoute.module.scss';
 
 function QuotesRoute(): JSX.Element {
   return (

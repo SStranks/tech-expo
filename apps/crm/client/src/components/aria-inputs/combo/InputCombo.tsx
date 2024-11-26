@@ -1,8 +1,8 @@
 import { Button, ComboBox, Input, ListBox, ListBoxItem, Popover } from 'react-aria-components';
 
-import IconArrowDownAlt from '#Components/svg/IconArrowDownAlt';
+import IconArrowDownAlt from '@Components/svg/IconArrowDownAlt';
 
-import styles from './_InputCombo.module.scss';
+import styles from './InputCombo.module.scss';
 
 interface IProps {
   value: string | undefined;

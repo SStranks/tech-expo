@@ -3,8 +3,8 @@ import type { SelectProps } from 'react-aria-components';
 import { useId } from 'react';
 import { Controller, RegisterOptions, useFormContext } from 'react-hook-form';
 
-import { InputSelect } from '#Components/aria-inputs';
-import { InputParser, InputUx } from '#Components/react-hook-form';
+import { InputSelect } from '@Components/aria-inputs';
+import { InputParser, InputUx } from '@Components/react-hook-form';
 
 interface IProps {
   name: string;
@@ -14,9 +14,9 @@ interface IProps {
 }
 
 function FormProviderSelect<T extends object>({
-  name,
   items,
   label,
+  name,
   rules = {},
   ...rest
 }: SelectProps<T> & IProps): JSX.Element {

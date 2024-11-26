@@ -1,8 +1,8 @@
 import { Button, ListBox, ListBoxItem, Popover, Select, SelectValue } from 'react-aria-components';
 
-import IconArrowDownAlt from '#Components/svg/IconArrowDownAlt';
+import IconArrowDownAlt from '@Components/svg/IconArrowDownAlt';
 
-import styles from './_InputSelect.module.scss';
+import styles from './InputSelect.module.scss';
 
 interface IProps {
   name: string;

@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { FieldError, FieldErrorsImpl, Merge, ValidationRule } from 'react-hook-form';
 
-import styles from './_InputUX.module.scss';
+import styles from './InputUX.module.scss';
 
 interface IProps {
   label: string;
@@ -16,7 +16,7 @@ interface IProps {
 
 // Wrapper: UX presentation for state of input; valid, invalid, focused, etc
 function InputUx(props: PropsWithChildren<IProps>): JSX.Element {
-  const { id, children, defaultValue, error, invalid, isDirty, isRequired, isSubmitted, label } = props;
+  const { children, defaultValue, error, id, invalid, isDirty, isRequired, isSubmitted, label } = props;
   const inputValidated = !error && (defaultValue || (isDirty && !invalid));
   const showErrorState = error && isSubmitted;
   const inputRequired = isRequired && invalid;

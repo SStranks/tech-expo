@@ -3,7 +3,7 @@ import { useRef } from 'react';
 
 import { FilterRowControl, PaginatorRangeControl, SortRowControl } from '../controls';
 
-import styles from './_TableListEmbeddedView.module.scss';
+import styles from './TableListEmbeddedView.module.scss';
 
 interface IProps<T> {
   table: Table<T>;

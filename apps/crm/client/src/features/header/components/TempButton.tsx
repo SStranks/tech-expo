@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import FormModal from '#Components/modal/FormModal';
-import { IconEye } from '#Svg/icons';
+import FormModal from '@Components/modal/FormModal';
+import { IconEye } from '@Svg/icons';
 
 interface IListItem {
   id: string;

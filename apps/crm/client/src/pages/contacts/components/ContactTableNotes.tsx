@@ -1,8 +1,8 @@
-import { TableSingleColumn } from '#Components/general';
-import { IconList } from '#Components/svg';
-import { CommentThread } from '#Features/comment';
+import { TableSingleColumn } from '@Components/general';
+import { IconList } from '@Components/svg';
+import { CommentThread } from '@Features/comment';
 
-import styles from './_ContactTableNotes.module.scss';
+import styles from './ContactTableNotes.module.scss';
 
 function ContactTableNotes(): JSX.Element {
   return (

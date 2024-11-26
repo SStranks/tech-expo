@@ -1,4 +1,4 @@
-import type { ITableSettingsContacts } from '#Data/MockData';
+import type { ITableSettingsContacts } from '@Data/MockData';
 
 import { createColumnHelper } from '@tanstack/react-table';
 

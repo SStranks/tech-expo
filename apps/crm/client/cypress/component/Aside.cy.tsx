@@ -1,4 +1,5 @@
-import DefaultLayout from '#Layouts/DefaultLayout';
+import DefaultLayout from '@Layouts/DefaultLayout';
+
 import { Aside } from '../../src/features/sidebar/Aside';
 
 beforeEach(() => {

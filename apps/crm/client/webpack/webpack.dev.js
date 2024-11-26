@@ -84,17 +84,14 @@ const DevConfig = {
               modules: {
                 localIdentName: '[local]-[hash:base64:5]',
                 namedExport: false,
-                exportLocalsConvention: 'asIs',
+                exportLocalsConvention: 'as-is',
               },
             },
           },
           {
             loader: 'sass-loader',
             options: {
-              sassOptions: {
-                silenceDeprecations: ['legacy-js-api'],
-              },
-              api: 'legacy',
+              api: 'modern-compiler',
             },
           },
         ],
@@ -102,19 +99,7 @@ const DevConfig = {
       {
         test: /\.scss$/,
         exclude: [/node_modules/, /\.module.scss$/],
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              sassOptions: {
-                silenceDeprecations: ['legacy-js-api'],
-              },
-              api: 'legacy',
-            },
-          },
-        ],
+        use: ['style-loader', 'css-loader', { loader: 'sass-loader', options: { api: 'modern-compiler' } }],
       },
     ],
   },

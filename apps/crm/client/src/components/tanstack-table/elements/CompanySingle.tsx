@@ -1,6 +1,6 @@
-import companyImage from '#Img/Microsoft_logo.png';
+import companyImage from '@Img/Microsoft_logo.png';
 
-import styles from './_CompanySingle.module.scss';
+import styles from './CompanySingle.module.scss';
 
 // TODO:  Make image dynamic; currently not part of mock data.
 const COMPANY_IMAGE = companyImage;

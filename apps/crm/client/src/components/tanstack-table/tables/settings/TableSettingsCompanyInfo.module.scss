@@ -1,0 +1,7 @@
+@use '@Sass/components/buttons' as btn;
+
+.container {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 25px;
+}

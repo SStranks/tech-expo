@@ -1,6 +1,6 @@
-import userImage from '#Img/image-35.jpg';
+import userImage from '@Img/image-35.jpg';
 
-import styles from './_UserSingle.module.scss';
+import styles from './UserSingle.module.scss';
 
 // TODO:  Make image dynamic; currently not part of mock data.
 const USER_IMAGE = userImage;

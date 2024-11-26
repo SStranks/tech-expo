@@ -1,6 +1,6 @@
-import { INotification } from '#Data/MockData';
+import { INotification } from '@Data/MockData';
 
-import styles from './_NotificationsList.module.scss';
+import styles from './NotificationsList.module.scss';
 
 interface IProps {
   notifications: INotification[] | [];

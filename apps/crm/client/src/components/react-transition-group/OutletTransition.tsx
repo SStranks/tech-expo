@@ -2,9 +2,9 @@ import { useRef } from 'react';
 import { useLocation, useOutlet } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
-import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '#Utils/cssTransitionGroup';
+import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '@Utils/cssTransitionGroup';
 
-import styles from './_reactTransitionGroup.module.scss';
+import styles from './reactTransitionGroup.module.scss';
 
 function OutletTransition(): JSX.Element {
   const location = useLocation();

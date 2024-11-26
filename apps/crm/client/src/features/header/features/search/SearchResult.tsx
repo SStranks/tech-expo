@@ -1,6 +1,6 @@
-import { IconArrowRightUp, IconNotebook } from '#Components/svg';
+import { IconArrowRightUp, IconNotebook } from '@Components/svg';
 
-import styles from './_SearchResult.module.scss';
+import styles from './SearchResult.module.scss';
 
 interface IProps {
   title: string;

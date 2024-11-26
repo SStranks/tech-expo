@@ -2,14 +2,14 @@ import { useId } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import { Input } from '#Components/react-hook-form';
-import InputUx from '#Components/react-hook-form/InputUx';
-import { EMAIL_RULES, PASSWORD_RULES } from '#Components/react-hook-form/validationRules';
-import { useReduxDispatch } from '#Redux/hooks';
-import { authenticateUser } from '#Redux/reducers/authSlice';
-import { serviceAuth, serviceHttp } from '#Services/index';
+import { Input } from '@Components/react-hook-form';
+import InputUx from '@Components/react-hook-form/InputUx';
+import { EMAIL_RULES, PASSWORD_RULES } from '@Components/react-hook-form/validationRules';
+import { useReduxDispatch } from '@Redux/hooks';
+import { authenticateUser } from '@Redux/reducers/authSlice';
+import { serviceAuth, serviceHttp } from '@Services/index';
 
-import styles from './_LoginPage.module.scss';
+import styles from './LoginPage.module.scss';
 
 interface IInputs {
   email: string;

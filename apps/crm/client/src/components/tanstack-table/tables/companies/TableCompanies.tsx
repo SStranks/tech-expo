@@ -1,4 +1,4 @@
-import type { ITableDataCompanies } from '#Data/MockData';
+import type { ITableDataCompanies } from '@Data/MockData';
 
 import {
   ColumnFiltersState,
@@ -12,13 +12,13 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { TableCompaniesCardLower, TableCompaniesCardUpper, TableGridCard } from '#Components/tanstack-table/cards';
-import { TableControlsFooter, TableControlsHeader } from '#Components/tanstack-table/controls';
-import { TableGridView, TableListView } from '#Components/tanstack-table/views';
+import { TableCompaniesCardLower, TableCompaniesCardUpper, TableGridCard } from '@Components/tanstack-table/cards';
+import { TableControlsFooter, TableControlsHeader } from '@Components/tanstack-table/controls';
+import { TableGridView, TableListView } from '@Components/tanstack-table/views';
 
 import { ColumnCompanies } from '../../columns';
 
-import styles from './_TableCompanies.module.scss';
+import styles from './TableCompanies.module.scss';
 
 interface IProps {
   tableData: ITableDataCompanies[];

@@ -3,7 +3,7 @@ import { useRef } from 'react';
 
 import { FilterRowControl, SortRowControl } from '../controls';
 
-import styles from './_TableListView.module.scss';
+import styles from './TableListView.module.scss';
 
 interface IProps<T> {
   table: Table<T>;

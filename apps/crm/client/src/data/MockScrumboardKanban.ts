@@ -1,5 +1,5 @@
 /* eslint-disable perfectionist/sort-objects */
-import UserImage from '#Img/image-35.jpg';
+import UserImage from '@Img/image-35.jpg';
 
 export interface ITask {
   id: string;

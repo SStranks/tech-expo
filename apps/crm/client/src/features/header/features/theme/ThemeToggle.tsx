@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from 'react';
 
-import { IconTheme } from '#Components/svg';
-import { useReduxDispatch } from '#Redux/hooks';
+import { IconTheme } from '@Components/svg';
+import { useReduxDispatch } from '@Redux/hooks';
 
 import { toggleTheme } from './redux/themeSlice';
 
-import styles from './_ThemeToggle.module.scss';
+import styles from './ThemeToggle.module.scss';
 
 export const LOCALSTORAGE_TOKEN = 'dark-mode';
 

@@ -1,10 +1,10 @@
 import { RouterProvider } from 'react-aria-components';
 import { Navigate, NavigateOptions, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 
-import Header from '#Features/header/Header';
-import { Aside } from '#Features/sidebar/Aside';
-import { LayoutDefault } from '#Layouts/index';
-import { Authenticate } from '#Modules/index';
+import Header from '@Features/header/Header';
+import { Aside } from '@Features/sidebar/Aside';
+import { LayoutDefault } from '@Layouts/index';
+import { Authenticate } from '@Modules/index';
 import {
   PageAuditLog,
   PageAuditLogDetails,
@@ -36,7 +36,7 @@ import {
   PageRegister,
   PageSettings,
   PageUpdatePassword,
-} from '#Pages/index';
+} from '@Pages/index';
 import {
   RouteAdministration,
   RouteAuditLog,
@@ -49,7 +49,7 @@ import {
   RouteQuotes,
   RouteScrumboard,
   RouteSettings,
-} from '#Routes/index';
+} from '@Routes/index';
 
 declare module 'react-aria-components' {
   interface RouterConfig {

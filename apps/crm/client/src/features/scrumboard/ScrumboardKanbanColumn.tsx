@@ -1,10 +1,10 @@
-import type { IColumn, ITask } from '#Data/MockScrumboardKanban';
+import type { IColumn, ITask } from '@Data/MockScrumboardKanban';
 
-import DroppableStrictMode from '#Components/react-beautiful-dnd/DroppableStrictMode';
+import DroppableStrictMode from '@Components/react-beautiful-dnd/DroppableStrictMode';
 
 import { ScrumboardAddCard, ScrumboardColumnAddBtn, ScrumboardColumnOptionsBtn, ScrumboardKanbanCard } from './index';
 
-import styles from './_ScrumboardColumn.module.scss';
+import styles from './ScrumboardColumn.module.scss';
 
 interface IScrumboardColumn {
   column: IColumn;

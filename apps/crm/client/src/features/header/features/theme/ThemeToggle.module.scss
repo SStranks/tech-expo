@@ -1,0 +1,9 @@
+@use '@Sass/abstracts/mixins' as mx;
+
+.themeToggle {
+  @include mx.header-button;
+
+  &__svg {
+    @include mx.header-button-svg;
+  }
+}

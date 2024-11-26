@@ -1,0 +1,110 @@
+@use '@Sass/abstracts/functions' as fn;
+
+.tooltip {
+  pointer-events: none;
+  position: absolute;
+  background-color: hsl(0deg 0% 0% / 60%);
+  width: min-content;
+  height: min-content;
+  border-radius: 8px;
+
+  &__text {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    color: white;
+    font-size: fn.px2rem(15);
+    text-wrap: nowrap;
+  }
+}
+
+.arrow-left {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid hsl(0deg 0% 0% / 60%);
+    transform: translate(100%, -50%);
+  }
+}
+
+.arrow-right {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid hsl(0deg 0% 0% / 60%);
+    transform: translate(-100%, -50%);
+  }
+}
+
+.arrow-bottom {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid hsl(0deg 0% 0% / 60%);
+    transform: translate(-50%, -100%);
+  }
+}
+
+.arrow-top {
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid hsl(0deg 0% 0% / 60%);
+    transform: translate(-50%, 100%);
+  }
+}
+
+/* -------------------------------- */
+/*   CSS-Transition-Group           */
+/* -------------------------------- */
+
+.appear,
+.appeaDone {
+  opacity: 0;
+}
+
+.enter {
+  opacity: 0;
+}
+
+.enterActive {
+  opacity: 1;
+  transition: opacity 1000ms;
+}
+
+.enterDone {
+  opacity: 1;
+}
+
+.exit {
+  opacity: 1;
+}
+
+.exitActive {
+  opacity: 0;
+  transition: opacity 800ms;
+}

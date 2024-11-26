@@ -1,0 +1,114 @@
+@use '@Sass/components/form' as form;
+@use '@Sass/components/aria-react' as aria;
+
+$padding: 16px;
+
+.button {
+  @include aria.react-aria-outline;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  &__svg {
+    color: var(--thm-icon-default);
+    transform-origin: center;
+    transition: transform 0.4s;
+  }
+}
+
+.select {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 $padding;
+  color: var(--thm-text-default);
+  background-color: inherit;
+  border-radius: inherit;
+
+  &[data-open] {
+    & .button__svg {
+      transform: scaleY(-1);
+    }
+  }
+}
+
+// Displayed selected value, or placeholder value
+.selectValue {
+  color: var(--thm-text-default);
+
+  &[data-placeholder] {
+    opacity: 0;
+  }
+}
+
+.popover {
+  @include aria.react-aria-outline;
+  width: calc(var(--trigger-width) + ($padding * 2));
+  background-color: var(--thm-background-default);
+  border: 1px solid var(--thm-button-secondary-border);
+  border-radius: form.$input-border-radius;
+  transform: translate(-$padding, $padding);
+  overflow: hidden;
+
+  &[data-entering] {
+    border: 1px solid var(--thm-button-secondary-border);
+    overflow: hidden;
+    animation: slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+.listBox {
+  @include aria.react-aria-outline;
+}
+
+.listItem {
+  @include aria.react-aria-outline;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  color: var(--thm-text-default);
+  padding: 0 $padding;
+
+  &[data-focused] {
+    background-color: var(--thm-background-element);
+  }
+
+  &[data-selected] {
+    background-color: var(--thm-success-primary);
+  }
+}
+
+.success {
+  position: relative;
+  @include form.input-valid;
+
+  &::before {
+    display: none;
+  }
+
+  &::after {
+    @include form.input-validated;
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  &:has(.select:is([data-open], [data-focused], [data-focus-visible], [data-required])) {
+    @include form.input-valid;
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translate(-$padding, calc($padding - 8px));
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-$padding, $padding);
+  }
+}

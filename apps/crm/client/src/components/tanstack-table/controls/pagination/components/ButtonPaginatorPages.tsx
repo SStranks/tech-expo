@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import { IconArrowLeftDoubleAlt, IconMenuDots } from '#Components/svg';
+import { IconArrowLeftDoubleAlt, IconMenuDots } from '@Components/svg';
 
-import styles from './_ButtonPaginator.module.scss';
+import styles from './ButtonPaginator.module.scss';
 
 interface IProps {
   direction: 'previous' | 'next';

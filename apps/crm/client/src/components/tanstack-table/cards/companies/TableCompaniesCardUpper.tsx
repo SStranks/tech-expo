@@ -1,9 +1,10 @@
 import type { CoreRow } from '@tanstack/react-table';
-import type { ITableDataCompanies } from '#Data/MockData';
+
+import type { ITableDataCompanies } from '@Data/MockData';
 
 import TableCompaniesOptionBtn from './TableCompaniesOptionBtn';
 
-import styles from './_TableCompaniesCardUpper.module.scss';
+import styles from './TableCompaniesCardUpper.module.scss';
 
 interface IProps {
   rowOriginal: CoreRow<ITableDataCompanies>['original'];

@@ -1,8 +1,8 @@
-import user from '#Img/image-35.jpg';
+import user from '@Img/image-35.jpg';
 
 import { ContactLifecycle, ContactTableInformation, ContactTableNotes } from './components';
 
-import styles from './_ContactsReadPage.module.scss';
+import styles from './ContactsReadPage.module.scss';
 
 // TEMP DEV: .
 const userInfo = {

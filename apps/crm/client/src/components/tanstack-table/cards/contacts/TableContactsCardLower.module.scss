@@ -1,0 +1,30 @@
+@use '@Sass/abstracts/animations' as anim;
+
+.contactsCardLower {
+  display: grid;
+  height: 100%;
+  justify-items: center;
+  gap: 12px 0;
+  padding: 12px;
+  color: var(--thm-text-default);
+  transition: anim.$theme-transition-color;
+
+  &__role {
+    width: 80%;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.company {
+  display: flex;
+  align-items: center;
+  gap: 0 8px;
+
+  &__img {
+    width: 24px;
+    height: 24px;
+  }
+}

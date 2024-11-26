@@ -1,8 +1,8 @@
 import { useId } from 'react';
 import { Controller, type RegisterOptions, useFormContext } from 'react-hook-form';
 
-import { InputNumber } from '#Components/aria-inputs';
-import { InputParser, InputUx } from '#Components/react-hook-form';
+import { InputNumber } from '@Components/aria-inputs';
+import { InputParser, InputUx } from '@Components/react-hook-form';
 
 interface IProps {
   name: string;
@@ -10,7 +10,7 @@ interface IProps {
   rules?: RegisterOptions;
 }
 
-function FormProviderNumber({ name, label, rules = {}, ...rest }: IProps): JSX.Element {
+function FormProviderNumber({ label, name, rules = {}, ...rest }: IProps): JSX.Element {
   const {
     control,
     formState: { defaultValues, dirtyFields, isSubmitted },

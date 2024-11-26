@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
-import { IconOperatorPlus } from '#Components/svg';
+import { IconOperatorPlus } from '@Components/svg';
 
-import styles from './_ScrumboardColumnAddBtn.module.scss';
+import styles from './ScrumboardColumnAddBtn.module.scss';
 
 interface IProps {
   columnStyle?: 'won' | 'lost';

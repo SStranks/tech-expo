@@ -1,0 +1,40 @@
+@use '@Sass/abstracts/colors' as col;
+@use '@Sass/components/buttons' as btn;
+
+.quoteFinancialsItem {
+  grid-column: 1 / span 6;
+  display: grid;
+  grid-template-columns: subgrid;
+  height: 45px;
+  align-items: center;
+  border-bottom: 1px solid col.$col-slate12-dark;
+
+  &__gridItem {
+    padding: 8px 16px;
+
+    &:nth-last-child(1) {
+      padding: unset;
+      justify-self: center;
+    }
+  }
+
+  &__deleteBtn {
+    @include btn.btn-danger-inverse;
+    width: 24px;
+    height: 24px;
+
+    &__svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+// NOTE:  TEMPORARY PLACEHOLDER ELEMENT
+.inputTemp {
+  width: 100%;
+  color: black;
+  background-color: transparent;
+  border: 1px solid col.$col-slate12-dark;
+  border-radius: 6px;
+}

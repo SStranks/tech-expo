@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-import ViewportLayout from '#Layouts/ViewportLayout';
+import ViewportLayout from '@Layouts/ViewportLayout';
 
 function CalendarRoute(): JSX.Element {
   return (

@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react';
 
-import styles from './_TableSingleColumn.module.scss';
+import styles from './TableSingleColumn.module.scss';
 
 function TableSingleColumn({ children }: PropsWithChildren): JSX.Element {
   return <div className={styles.tableSingleColumn}>{children}</div>;

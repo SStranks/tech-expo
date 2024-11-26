@@ -24,9 +24,9 @@ import {
   Text,
 } from 'react-aria-components';
 
-import { IconArrowDownAlt, IconArrowLeftAlt, IconArrowLeftDoubleAlt } from '#Components/svg';
+import { IconArrowDownAlt, IconArrowLeftAlt, IconArrowLeftDoubleAlt } from '@Components/svg';
 
-import styles from './_InputDatePicker.module.scss';
+import styles from './InputDatePicker.module.scss';
 
 const DATE_TODAY = today(getLocalTimeZone());
 

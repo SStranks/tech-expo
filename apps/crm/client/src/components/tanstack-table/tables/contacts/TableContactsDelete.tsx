@@ -1,11 +1,11 @@
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { ColumnContactsDelete } from '#Components/tanstack-table/columns';
-import { TableModalView } from '#Components/tanstack-table/views';
-import { ITableDataContacts } from '#Data/MockData';
+import { ColumnContactsDelete } from '@Components/tanstack-table/columns';
+import { TableModalView } from '@Components/tanstack-table/views';
+import { ITableDataContacts } from '@Data/MockData';
 
-import styles from './_TableContacts.module.scss';
+import styles from './TableContacts.module.scss';
 
 interface IProps {
   tableData: ITableDataContacts[];

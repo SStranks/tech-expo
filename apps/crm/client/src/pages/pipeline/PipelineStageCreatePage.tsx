@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import FormModal from '#Components/modal/FormModal';
-import { FormProvider } from '#Components/react-hook-form';
-import { GENERIC_TEXT_RULES } from '#Components/react-hook-form/validationRules';
-import { createStage } from '#Features/scrumboard/redux/pipelineSlice';
-import { useReduxDispatch } from '#Redux/hooks';
+import FormModal from '@Components/modal/FormModal';
+import { FormProvider } from '@Components/react-hook-form';
+import { GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
+import { createStage } from '@Features/scrumboard/redux/pipelineSlice';
+import { useReduxDispatch } from '@Redux/hooks';
 
 type IFormData = {
   title: string;

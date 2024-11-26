@@ -1,8 +1,8 @@
 import { Button, Menu, MenuTrigger, Popover } from 'react-aria-components';
 
-import { IconMenuDots } from '#Components/svg';
+import { IconMenuDots } from '@Components/svg';
 
-import styles from './_Buttons.module.scss';
+import styles from './Buttons.module.scss';
 
 type TPlacementValues = 'top' | 'bottom' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right';
 

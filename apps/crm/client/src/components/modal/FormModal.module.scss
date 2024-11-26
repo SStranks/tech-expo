@@ -1,0 +1,33 @@
+@use '@Sass/abstracts/animations' as anim;
+@use '@Sass/components/form' as form;
+
+.modalContainer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--thm-background-modal);
+}
+
+.formModal {
+  @include form.form-base-modal;
+}
+
+.header {
+  @include form.form-base-modal-header;
+}
+
+.content {
+  @include form.form-base-modal-content;
+}
+
+.footer {
+  @include form.form-base-modal-footer;
+}
+
+/* -------------------------------- */
+/*   CSS-Transition-Group           */
+/* -------------------------------- */
+
+@include anim.ctg-modal-default;

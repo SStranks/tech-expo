@@ -1,0 +1,20 @@
+@use '@Sass/abstracts/animations' as anim;
+@use '@Sass/abstracts/mixins' as mx;
+@use '../cards/TableGridCard.module.scss' as card;
+
+$row-gap: 16px;
+
+.tableGridView {
+  @include mx.scrollbar-table-base;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: $row-gap 32px;
+  height: fit-content;
+  min-height: calc(($row-gap * 2) + (card.$grid-card-height * 1));
+  max-height: calc(($row-gap * 3) + (card.$grid-card-height * 2));
+  padding: 16px;
+  border: 1px solid var(--thm-border-default);
+  border-radius: 6px;
+  overflow: auto;
+  transition: anim.$theme-transition-border-color;
+}

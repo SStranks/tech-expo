@@ -1,12 +1,13 @@
 import type { CoreRow } from '@tanstack/react-table';
-import type { ITableDataCompanies } from '#Data/MockData';
+
+import type { ITableDataCompanies } from '@Data/MockData';
 
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import FormModal from '#Components/modal/FormModal';
-import { TableCompaniesDelete } from '#Components/tanstack-table/tables';
-import { StylesTableListView } from '#Components/tanstack-table/views';
+import FormModal from '@Components/modal/FormModal';
+import { TableCompaniesDelete } from '@Components/tanstack-table/tables';
+import { StylesTableListView } from '@Components/tanstack-table/views';
 
 function CompaniesDeletePage(): JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);

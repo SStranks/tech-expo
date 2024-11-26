@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
-import { IconMagniferZoomIn } from '#Components/svg';
+import { IconMagniferZoomIn } from '@Components/svg';
 
-import styles from './_AuditDetails.module.scss';
+import styles from './AuditDetails.module.scss';
 
 function AuditDetails(): JSX.Element {
   const navigate = useNavigate();

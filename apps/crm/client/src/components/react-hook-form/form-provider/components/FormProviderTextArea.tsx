@@ -1,14 +1,14 @@
 import { useId } from 'react';
 import { type RegisterOptions, useFormContext } from 'react-hook-form';
 
-import { InputUx, TextArea } from '#Components/react-hook-form';
+import { InputUx, TextArea } from '@Components/react-hook-form';
 
 interface IProps {
   name: string;
   label: string;
   rules?: RegisterOptions;
 }
-function FormProviderTextArea({ name, label, rules = {} }: IProps): JSX.Element {
+function FormProviderTextArea({ label, name, rules = {} }: IProps): JSX.Element {
   const {
     formState: { defaultValues, dirtyFields, errors, isSubmitted },
     getFieldState,

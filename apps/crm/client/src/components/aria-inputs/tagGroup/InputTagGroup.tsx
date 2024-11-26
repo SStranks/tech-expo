@@ -1,9 +1,9 @@
 import { Button, Key, Tag, TagGroup, TagList } from 'react-aria-components';
 import { FieldValues, UseFormTrigger } from 'react-hook-form';
 
-import { IconClose } from '#Components/svg';
+import { IconClose } from '@Components/svg';
 
-import styles from './_InputTagGroup.module.scss';
+import styles from './InputTagGroup.module.scss';
 
 interface IProps {
   name: string;

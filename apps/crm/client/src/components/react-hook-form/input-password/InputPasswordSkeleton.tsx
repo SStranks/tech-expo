@@ -1,11 +1,11 @@
 import { useId } from 'react';
 
-import { IconCircleInfo, IconEye } from '#Components/svg';
+import { IconCircleInfo, IconEye } from '@Components/svg';
 
 import InputUx from '../InputUx';
 
-import skeleton from './_InputPasswordSkeleton.module.scss';
-import styles from './_InputPasswordStrength.module.scss';
+import skeleton from './InputPasswordSkeleton.module.scss';
+import styles from './InputPasswordStrength.module.scss';
 
 interface IProps {
   label: string;

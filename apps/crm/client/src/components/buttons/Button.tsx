@@ -1,5 +1,6 @@
-import { IIcon } from '#Components/svg';
-import styles from './_Button.module.scss';
+import { IIcon } from '@Components/svg';
+
+import styles from './Button.module.scss';
 
 type TType = 'primary' | 'secondary' | 'quaternary';
 
@@ -23,8 +24,8 @@ function Button({
   buttonSize = 'default',
   buttonStyle = 'primary',
   buttonText = undefined,
-  type = 'button',
   form = undefined,
+  type = 'button',
 }: IProps): JSX.Element {
   const clickHandler = () => {
     if (buttonClickFn) buttonClickFn();

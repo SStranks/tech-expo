@@ -1,11 +1,11 @@
 import type { ColumnFiltersState } from '@tanstack/react-table';
 
-import ListGridToggle from '#Components/buttons/list-grid-toggle/ListGridToggle';
-import { IconCirclePlus } from '#Components/svg';
+import ListGridToggle from '@Components/buttons/list-grid-toggle/ListGridToggle';
+import { IconCirclePlus } from '@Components/svg';
 
 import { GlobalFilterControl } from '../';
 
-import styles from './_TableControlsHeader.module.scss';
+import styles from './TableControlsHeader.module.scss';
 
 interface IProps {
   createEntryBtn: {

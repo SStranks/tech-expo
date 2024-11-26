@@ -10,7 +10,7 @@ import {
   ValidationResult,
 } from 'react-aria-components';
 
-import styles from './_InputTimeField.module.scss';
+import styles from './InputTimeField.module.scss';
 
 interface MyTimeFieldProps<T extends TimeValue> extends TimeFieldProps<T> {
   label?: string;

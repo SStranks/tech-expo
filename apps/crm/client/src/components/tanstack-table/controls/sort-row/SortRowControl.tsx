@@ -1,8 +1,8 @@
 import type { SortDirection } from '@tanstack/react-table';
 
-import { IconSortVertical } from '#Components/svg';
+import { IconSortVertical } from '@Components/svg';
 
-import styles from './_SortRowControl.module.scss';
+import styles from './SortRowControl.module.scss';
 
 const iconDirectionStyles = (sortDirection: IProps['sortDirection']) => {
   if (sortDirection === 'asc') return styles.svg__ascending;

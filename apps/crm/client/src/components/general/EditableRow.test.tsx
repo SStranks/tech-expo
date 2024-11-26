@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { IconAdministration } from '#Components/svg';
+
+import { IconAdministration } from '@Components/svg';
+
 import EditableRow from './EditableRow';
 
 describe('Initialization', () => {

@@ -1,0 +1,41 @@
+@use '@Sass/abstracts/animations' as anim;
+
+.contactsCardUpper {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  justify-items: center;
+  height: 100%;
+  padding: 12px;
+  gap: 8px 0;
+  color: var(--thm-text-default);
+  transition: anim.$theme-transition-color;
+
+  &__optionsBtn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+
+  &__img {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+  }
+
+  &__name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+
+  &__email {
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+}

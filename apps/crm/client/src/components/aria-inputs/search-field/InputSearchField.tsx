@@ -1,6 +1,6 @@
 import { Button, Input, Label, SearchField } from 'react-aria-components';
 
-import styles from './_InputSearchField.module.scss';
+import styles from './InputSearchField.module.scss';
 
 function InputSearchField(): JSX.Element {
   return (

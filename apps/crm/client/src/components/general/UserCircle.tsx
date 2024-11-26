@@ -1,4 +1,4 @@
-import styles from './_UserCircle.module.scss';
+import styles from './UserCircle.module.scss';
 
 interface IProps {
   userImage: string;

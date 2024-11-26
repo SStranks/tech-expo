@@ -1,4 +1,4 @@
-import type { ITableDataContacts } from '#Data/MockData';
+import type { ITableDataContacts } from '@Data/MockData';
 
 import {
   IconCircleClock,
@@ -7,9 +7,9 @@ import {
   IconCirclePlus,
   IconCircleTick,
   IconCircleTriangleRight,
-} from '#Components/svg';
+} from '@Components/svg';
 
-import styles from './_ContactStatus.module.scss';
+import styles from './ContactStatus.module.scss';
 
 function StatusIcon(status: ITableDataContacts['status']) {
   switch (status) {

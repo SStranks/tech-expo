@@ -1,4 +1,4 @@
-import { searchResults } from '#Data/MockData';
+import { searchResults } from '@Data/MockData';
 
 import SearchResult from './SearchResult';
 

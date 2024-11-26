@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import CompanyLogo from '#Img/CompanyLogo.png';
+import CompanyLogo from '@Img/CompanyLogo.png';
 
 import Logo from './Logo';
 

@@ -3,10 +3,10 @@ import type { DraggableLocation } from 'react-beautiful-dnd';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { IColumn, initialData } from '#Data/MockScrumboardPipeline';
-import CompanyLogo from '#Img/CompanyLogo.png';
+import { IColumn, initialData } from '@Data/MockScrumboardPipeline';
+import CompanyLogo from '@Img/CompanyLogo.png';
 // TEMP DEV: .
-import UserImage from '#Img/image-35.jpg';
+import UserImage from '@Img/image-35.jpg';
 
 interface IMoveTaskPayload {
   columnStart: IColumn;

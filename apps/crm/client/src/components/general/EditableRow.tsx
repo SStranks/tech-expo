@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import { IconEdit, IIcon } from '#Components/svg';
+import { IconEdit, IIcon } from '@Components/svg';
 
-import styles from './_EditableRow.module.scss';
+import styles from './EditableRow.module.scss';
 
 interface IProps {
   IconSvg: IIcon;

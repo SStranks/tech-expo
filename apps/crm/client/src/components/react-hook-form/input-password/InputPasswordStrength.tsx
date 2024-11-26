@@ -13,12 +13,12 @@ import {
 } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-import { IconCircleInfo, IconEye, IconPassword } from '#Components/svg';
-import { usePasswordStrength } from '#Lib/zxcvbn';
+import { IconCircleInfo, IconEye, IconPassword } from '@Components/svg';
+import { usePasswordStrength } from '@Lib/zxcvbn';
 
 import InputUx from '../InputUx';
 
-import styles from './_InputPasswordStrength.module.scss';
+import styles from './InputPasswordStrength.module.scss';
 
 const ARIA_LIVE = [
   'Password strength 0 out of 4: Too guessable',

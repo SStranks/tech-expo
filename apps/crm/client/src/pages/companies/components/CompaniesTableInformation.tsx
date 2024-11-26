@@ -1,7 +1,7 @@
-import { EditableRow, TableSingleColumn } from '#Components/general';
-import { IconCompanies } from '#Components/svg';
+import { EditableRow, TableSingleColumn } from '@Components/general';
+import { IconCompanies } from '@Components/svg';
 
-import styles from './_CompaniesTableInformation.module.scss';
+import styles from './CompaniesTableInformation.module.scss';
 
 interface ICompanyInfo {
   size: string;

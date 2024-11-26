@@ -1,7 +1,8 @@
 import type { CoreRow } from '@tanstack/react-table';
-import type { ITableDataContacts } from '#Data/MockData';
 
-import styles from './_TableContactsCardLower.module.scss';
+import type { ITableDataContacts } from '@Data/MockData';
+
+import styles from './TableContactsCardLower.module.scss';
 
 interface IProps {
   rowOriginal: CoreRow<ITableDataContacts>['original'];

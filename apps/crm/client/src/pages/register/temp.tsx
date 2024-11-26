@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 
-import InputPasswordStrength from '#Components/react-hook-form/input-password/InputPasswordStrength';
-import Input from '#Components/react-hook-form/input/Input';
+import InputPasswordStrength from '@Components/react-hook-form/input-password/InputPasswordStrength';
+import Input from '@Components/react-hook-form/input/Input';
 
 interface IInputs {
   email: string;

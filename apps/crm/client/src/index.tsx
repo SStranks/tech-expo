@@ -3,10 +3,10 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
-import App from '#Components/App';
-import ReduxStore from '#Redux/store';
+import App from '@Components/App';
+import ReduxStore from '@Redux/store';
 
-import '#Sass/global-imports.scss';
+import '@Sass/global-imports.scss';
 
 const container = document.querySelector('#root');
 const root = createRoot(container!);

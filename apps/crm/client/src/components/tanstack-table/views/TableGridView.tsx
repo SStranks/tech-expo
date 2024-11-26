@@ -1,4 +1,4 @@
-import styles from './_TableGridView.module.scss';
+import styles from './TableGridView.module.scss';
 
 interface IProps {
   tableCards: JSX.Element[];

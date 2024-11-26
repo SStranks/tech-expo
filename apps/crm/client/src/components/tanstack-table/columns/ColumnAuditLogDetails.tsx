@@ -1,4 +1,4 @@
-import type { ITableAuditLogDetails } from '#Data/MockData';
+import type { ITableAuditLogDetails } from '@Data/MockData';
 
 import { createColumnHelper } from '@tanstack/react-table';
 

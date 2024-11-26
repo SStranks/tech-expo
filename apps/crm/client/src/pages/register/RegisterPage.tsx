@@ -1,18 +1,18 @@
-import type { TInputPasswordStrength } from '#Components/react-hook-form/input-password/InputPasswordStrength';
+import type { TInputPasswordStrength } from '@Components/react-hook-form/input-password/InputPasswordStrength';
 
 import { lazy, Suspense, useId } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Input, InputPasswordSkeleton } from '#Components/react-hook-form';
-import InputUx from '#Components/react-hook-form/InputUx';
-import { EMAIL_RULES } from '#Components/react-hook-form/validationRules';
+import { Input, InputPasswordSkeleton } from '@Components/react-hook-form';
+import InputUx from '@Components/react-hook-form/InputUx';
+import { EMAIL_RULES } from '@Components/react-hook-form/validationRules';
 
-import styles from './_RegisterPage.module.scss';
+import styles from './RegisterPage.module.scss';
 
 // Contains 'zxcvbn' package; heavy weight
 const InputPasswordStrength = lazy(
-  () => import('#Components/react-hook-form/input-password/InputPasswordStrength')
+  () => import('@Components/react-hook-form/input-password/InputPasswordStrength')
 ) as TInputPasswordStrength;
 
 export interface IInputs {

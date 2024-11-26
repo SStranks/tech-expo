@@ -1,9 +1,9 @@
 import { createContext, PropsWithChildren, useContext, useMemo, useRef } from 'react';
 
-import { ButtonCancel, ButtonClose, ButtonDelete, ButtonOkay } from '#Components/buttons';
-import usePortalClose from '#Hooks/usePortalClose';
+import { ButtonCancel, ButtonClose, ButtonDelete, ButtonOkay } from '@Components/buttons';
+import usePortalClose from '@Hooks/usePortalClose';
 
-import styles from './_FormModal.module.scss';
+import styles from './FormModal.module.scss';
 
 interface IFormModalContext {
   setPortalActive: React.Dispatch<React.SetStateAction<boolean>>;
