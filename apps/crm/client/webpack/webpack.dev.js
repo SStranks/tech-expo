@@ -91,6 +91,7 @@ const DevConfig = {
           {
             loader: 'sass-loader',
             options: {
+              implementation: 'sass-embedded',
               api: 'modern-compiler',
             },
           },
@@ -99,7 +100,11 @@ const DevConfig = {
       {
         test: /\.scss$/,
         exclude: [/node_modules/, /\.module.scss$/],
-        use: ['style-loader', 'css-loader', { loader: 'sass-loader', options: { api: 'modern-compiler' } }],
+        use: [
+          'style-loader',
+          'css-loader',
+          { loader: 'sass-loader', options: { implementation: 'sass-embedded', api: 'modern-compiler' } },
+        ],
       },
     ],
   },

@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 // @ts-check
 /* eslint-disable unicorn/numeric-separators-style */
 import CompressionPlugin from 'compression-webpack-plugin';
@@ -7,16 +8,15 @@ import Dotenv from 'dotenv-webpack';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
-import { StatsWriterPlugin } from 'webpack-stats-plugin';
-// import filterWebpackStats from '@bundle-stats/plugin-webpack-filter';
-import filterWebpackStats2 from './filterWebpackStats.cjs';
-import { merge } from 'webpack-merge';
-
 import path from 'node:path';
 import zlib from 'node:zlib';
-// import url from 'node:url';
+// import filterWebpackStats from '@bundle-stats/plugin-webpack-filter';
+import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
+import { merge } from 'webpack-merge';
+import { StatsWriterPlugin } from 'webpack-stats-plugin';
 
+import filterWebpackStats2 from './filterWebpackStats.cjs';
+// import url from 'node:url';
 import CommonConfig from './webpack.common.js';
 
 const CUR = './';
@@ -107,13 +107,29 @@ const ProdConfig = {
               },
             },
           },
-          'sass-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: 'sass-embedded',
+              api: 'modern-compiler',
+            },
+          },
         ],
       },
       {
         test: /\.scss$/,
         exclude: /\.module.scss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: 'sass-embedded',
+              api: 'modern-compiler',
+            },
+          },
+        ],
       },
     ],
   },
