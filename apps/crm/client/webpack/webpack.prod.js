@@ -8,12 +8,14 @@ import Dotenv from 'dotenv-webpack';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import path from 'node:path';
-import zlib from 'node:zlib';
+import TerserPlugin from 'terser-webpack-plugin';
 // import filterWebpackStats from '@bundle-stats/plugin-webpack-filter';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { merge } from 'webpack-merge';
 import { StatsWriterPlugin } from 'webpack-stats-plugin';
+
+import path from 'node:path';
+import zlib from 'node:zlib';
 
 import filterWebpackStats2 from './filterWebpackStats.cjs';
 // import url from 'node:url';
@@ -146,6 +148,13 @@ const ProdConfig = {
     },
     minimizer: [
       '...',
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: ['log', 'info'],
+          },
+        },
+      }),
       new CssMinimizerPlugin(),
       new ImageMinimizerPlugin({
         test: /\.(jpeg|jpg|webp|avif|png|gif)$/i,
@@ -175,30 +184,6 @@ const ProdConfig = {
           },
         },
       }),
-      // new ImageMinimizerPlugin({
-      //   test: /\.(jpe?g|png|gif|svg)$/i,
-      //   exclude: /(favicon|image-hero)/i,
-      //   minimizer: {
-      //     implementation: ImageMinimizerPlugin.imageminMinify,
-      //     options: {
-      //       plugins: [
-      //         ['gifsicle', { interlaced: true, optimizationLevel: 3 }],
-      //         ['mozjpeg', { quality: 100 }],
-      //         ['pngquant'],
-      //         ['svgo'],
-      //       ],
-      //     },
-      //   },
-      //   generator: [
-      //     {
-      //       type: 'asset',
-      //       implementation: ImageMinimizerPlugin.imageminGenerate,
-      //       options: {
-      //         plugins: ['imagemin-webp'],
-      //       },
-      //     },
-      //   ],
-      // }),
     ],
   },
   plugins: [

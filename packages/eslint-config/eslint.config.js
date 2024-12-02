@@ -78,7 +78,7 @@ export const EslintConfig = {
         type: 'alphabetical',
         order: 'asc',
         ignoreCase: true,
-        internalPattern: [`^@[A-Z]\\w*`],
+        internalPattern: [`^@[A-Z]\\w*`, `^#[A-Z]\\w*`],
         newlinesBetween: 'always',
         environment: 'node',
         groups: [
@@ -87,6 +87,7 @@ export const EslintConfig = {
           ['parent-type', 'sibling-type', 'index-type'],
           'external',
           'internal',
+          'builtin',
           ['parent', 'sibling', 'index'],
           'object',
           'unknown',
