@@ -1,11 +1,17 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+
+import { renderWithProviders } from '@Redux/utils';
 
 import Header from './Header';
 
 describe('Initialization', () => {
   test('Component should render correctly; contain header and h1 elements', () => {
-    render(<Header />, { wrapper: BrowserRouter });
+    renderWithProviders(
+      <BrowserRouter>
+        <Header />
+      </BrowserRouter>
+    );
 
     const headerElement = screen.getByRole('banner');
     const H1Element = screen.getByRole('heading', { level: 1 });

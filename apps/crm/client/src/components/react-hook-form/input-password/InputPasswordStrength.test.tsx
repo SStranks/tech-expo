@@ -2,11 +2,16 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useForm } from 'react-hook-form';
 import { BrowserRouter } from 'react-router-dom';
+import { beforeEach, vi } from 'vitest';
+
+import { MAX_PASSWORD } from '@Lib/__mocks__/zxcvbn';
 
 import InputPasswordStrength from './InputPasswordStrength';
 
+vi.mock('@Lib/zxcvbn');
+
 beforeEach(() => {
-  jest.resetAllMocks();
+  vi.resetAllMocks();
 });
 
 describe('Initialization', () => {
@@ -19,6 +24,8 @@ describe('Initialization', () => {
           register={methods.register}
           control={methods.control}
           trigger={methods.trigger}
+          defaultValue={methods.formState.defaultValues?.password}
+          invalid={methods.getFieldState('password').invalid}
           inputName="password"
           error={undefined}
           isDirty={undefined}
@@ -52,6 +59,8 @@ describe('Functionality', () => {
           register={methods.register}
           control={methods.control}
           trigger={methods.trigger}
+          defaultValue={methods.formState.defaultValues?.password}
+          invalid={methods.getFieldState('password').invalid}
           inputName="password"
           error={undefined}
           isDirty={undefined}
@@ -83,6 +92,8 @@ describe('Functionality', () => {
           register={methods.register}
           control={methods.control}
           trigger={methods.trigger}
+          defaultValue={methods.formState.defaultValues?.password}
+          invalid={methods.getFieldState('password').invalid}
           inputName="password"
           error={undefined}
           isDirty={undefined}
@@ -101,8 +112,18 @@ describe('Functionality', () => {
     const ariaOutputElement = await screen.findByRole('status');
 
     await user.click(passwordInput);
-    await user.keyboard('s!i0bF$qeVx');
+    await user.keyboard(MAX_PASSWORD);
+
+    const alert1 = screen.queryByText(/please enter strong password/i);
+    const alert2 = screen.queryByText(/please enter your new password again/i);
+    const alert3 = screen.queryByText(/passwords must be identical/i);
+    const alert4 = screen.queryByText(/password is insufficiently strong/i);
+
+    expect(alert1).not.toBeInTheDocument();
+    expect(alert2).not.toBeInTheDocument();
+    expect(alert3).not.toBeInTheDocument();
+    expect(alert4).not.toBeInTheDocument();
 
     expect(ariaOutputElement).toHaveTextContent('Password strength 4 out of 4: Very unguessable');
-  }, 9000);
+  });
 });

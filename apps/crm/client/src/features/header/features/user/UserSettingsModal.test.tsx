@@ -1,13 +1,14 @@
 import { render } from '@testing-library/react';
 import { config } from 'react-transition-group';
+import { vi } from 'vitest';
 
 import UserSettingsModal from './UserSettingsModal';
 
 describe('Initialization', () => {
-  const setStateMockFn = jest.fn();
+  const setStateMockFn = vi.fn();
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   test('Component should render correctly', () => {

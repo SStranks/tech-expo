@@ -9,6 +9,6 @@ describe('Initialization', () => {
     const viewportLayoutElement = screen.getByTestId('viewportLayout');
 
     expect(viewportLayoutElement).toBeInTheDocument();
-    expect(viewportLayoutElement).toHaveClass('viewportLayout');
+    expect(viewportLayoutElement).toHaveClass(/viewportLayout/i);
   });
 });

@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import Search from './Search';
 
-const setPortalActive = jest.fn();
+const setPortalActive = vi.fn();
 
 beforeEach(() => {
-  jest.resetAllMocks();
+  vi.resetAllMocks();
 });
 
 describe('Initialization', () => {
@@ -44,7 +45,7 @@ describe('Functionality', () => {
   test('Pressing "Enter" should submit search input, if input is not empty', async () => {
     render(<Search portalActive={true} setPortalActive={setPortalActive} />);
     const user = userEvent.setup();
-    const submitSpy = jest.spyOn(console, 'log');
+    const submitSpy = vi.spyOn(console, 'log');
 
     const searchInput = screen.getByRole('searchbox');
 

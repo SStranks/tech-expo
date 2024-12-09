@@ -1,11 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-/* eslint-disable unicorn/numeric-separators-style */
 import { BrowserRouter } from 'react-router-dom';
+import { beforeEach, describe, test, vi } from 'vitest';
+
+import { MAX_PASSWORD } from '@Lib/__mocks__/zxcvbn';
 
 import UpdatePasswordPage from './UpdatePasswordPage';
 
-const STRONG_PASSWORD = 'a&9Hg2*(lMbs';
+vi.mock('@Lib/zxcvbn');
+
+beforeEach(() => {
+  vi.resetAllMocks();
+});
 
 describe('Initialization', () => {
   test('Component should render correctly', async () => {
@@ -26,59 +32,79 @@ describe('Initialization', () => {
 });
 
 describe('Functionality', () => {
-  console.log = jest.fn();
+  const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {});
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   test('Form; Input validation; "required" errors on empty inputs', async () => {
-    render(<UpdatePasswordPage />, { wrapper: BrowserRouter });
     const user = userEvent.setup();
+    render(<UpdatePasswordPage />, { wrapper: BrowserRouter });
 
     const updatePasswordButton = screen.getByRole('button', { name: /update password/i });
     await user.click(updatePasswordButton);
 
-    expect(await screen.findAllByRole('alert')).toHaveLength(2);
+    const alert1 = await screen.findByText(/please enter strong password/i);
+    const alert2 = await screen.findByText(/please enter your new password again/i);
+
+    expect(alert1).toBeInTheDocument();
+    expect(alert2).toBeInTheDocument();
+
     // Submission
-    expect(console.log).not.toHaveBeenCalled();
+    expect(consoleMock).not.toHaveBeenCalled();
   });
 
   test('Form; Input validation; if confirmed password is incorrect display error', async () => {
-    render(<UpdatePasswordPage />, { wrapper: BrowserRouter });
     const user = userEvent.setup();
+    render(<UpdatePasswordPage />, { wrapper: BrowserRouter });
 
     const passwordStrengthInput = await screen.findByLabelText(/^password$/i);
     const passwordConfirmInput = await screen.findByLabelText(/^confirm password$/i);
-    const updatePasswordButton = screen.getByRole('button', { name: /update password/i });
+    const updatePasswordButton = await screen.findByRole('button', { name: /update password/i });
 
     await user.click(passwordStrengthInput);
-    await user.keyboard(STRONG_PASSWORD);
+    await user.keyboard(MAX_PASSWORD);
     await user.click(passwordConfirmInput);
     await user.keyboard('abc');
     await user.click(updatePasswordButton);
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('Passwords must be identical');
+    const alert1 = screen.queryByText(/please enter strong password/i);
+    const alert2 = screen.queryByText(/please enter your new password again/i);
+    const alert3 = screen.getByText(/Passwords must be identical/i);
+
+    expect(alert1).not.toBeInTheDocument();
+    expect(alert2).not.toBeInTheDocument();
+    expect(alert3).toBeInTheDocument();
+
     // Submission
-    expect(console.log).not.toHaveBeenCalled();
-  }, 10000);
+    expect(consoleMock).not.toHaveBeenCalled();
+  });
 
   test('Form; Submission success', async () => {
-    render(<UpdatePasswordPage />, { wrapper: BrowserRouter });
     const user = userEvent.setup();
+    render(<UpdatePasswordPage />, { wrapper: BrowserRouter });
 
     const passwordStrengthInput = await screen.findByLabelText(/^password$/i);
     const passwordConfirmInput = await screen.findByLabelText(/^confirm password$/i);
     const updatePasswordButton = screen.getByRole('button', { name: /update password/i });
 
     await user.click(passwordStrengthInput);
-    await user.keyboard(STRONG_PASSWORD);
+    await user.keyboard(MAX_PASSWORD);
     await user.click(passwordConfirmInput);
-    await user.keyboard(STRONG_PASSWORD);
+    await user.keyboard(MAX_PASSWORD);
     await user.click(updatePasswordButton);
 
-    expect(screen.queryAllByRole('alert')).toHaveLength(0);
+    const alert1 = screen.queryByText(/please enter strong password/i);
+    const alert2 = screen.queryByText(/please enter your new password again/i);
+    const alert3 = screen.queryByText(/Passwords must be identical/i);
+
+    expect(alert1).not.toBeInTheDocument();
+    expect(alert2).not.toBeInTheDocument();
+    expect(alert3).not.toBeInTheDocument();
+
     // Submission
-    expect(console.log).toHaveBeenCalledWith({ confirmPassword: STRONG_PASSWORD, newPassword: STRONG_PASSWORD });
-  }, 10000);
+    expect(consoleMock).toHaveBeenCalledTimes(1);
+    expect(consoleMock).toHaveBeenLastCalledWith({ confirmPassword: MAX_PASSWORD, newPassword: MAX_PASSWORD });
+  });
 });

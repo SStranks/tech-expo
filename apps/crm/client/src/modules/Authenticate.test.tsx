@@ -1,15 +1,15 @@
-import { render, screen } from '@testing-library/react';
+/* eslint-disable perfectionist/sort-imports */
+import { screen } from '@testing-library/react';
+
+import { setupStore } from '@Redux/store';
+import { authenticateUser } from '@Redux/reducers/authSlice';
+import { renderWithProviders } from '@Redux/utils';
 
 import Authenticate from './Authenticate';
 
 describe('Initialization', () => {
-  afterAll(() => {
-    // TEMP DEV:  Login functionality as localStorage key-pair
-    globalThis.localStorage.removeItem('CRM Login Token');
-  });
-
   test('Component should render correctly; no authentication renders fallback', () => {
-    render(
+    renderWithProviders(
       <Authenticate fallback={<h1>Fallback</h1>}>
         <h1>Children</h1>
       </Authenticate>
@@ -20,13 +20,15 @@ describe('Initialization', () => {
     expect(headingH1).toHaveTextContent('Fallback');
   });
 
-  test('Component should render correctly; no authentication renders children', () => {
-    // Authentication of user
-    globalThis.localStorage.setItem('CRM Login Token', 'Valid');
-    render(
+  test('Component should render correctly; authentication renders children', () => {
+    const store = setupStore();
+    store.dispatch(authenticateUser(true));
+
+    renderWithProviders(
       <Authenticate fallback={<h1>Fallback</h1>}>
         <h1>Children</h1>
-      </Authenticate>
+      </Authenticate>,
+      { store }
     );
 
     const headingH1 = screen.getByRole('heading', { level: 1 });

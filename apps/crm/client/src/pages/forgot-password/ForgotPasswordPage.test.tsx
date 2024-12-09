@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
+import { vi } from 'vitest';
 
 import { EMAIL_RULES } from '@Components/react-hook-form/validationRules';
 
@@ -25,10 +26,10 @@ describe('Initialization', () => {
 });
 
 describe('Functionality', () => {
-  console.log = jest.fn();
+  console.log = vi.fn();
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   test('Form links are valid', () => {
@@ -60,7 +61,7 @@ describe('Functionality', () => {
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const resetPasswordButton = screen.getByRole('button', { name: /email reset instructions/i });
 
-    emailInput.focus();
+    await user.click(emailInput);
     await user.keyboard('invalidAddress');
     await user.click(resetPasswordButton);
 
@@ -77,7 +78,7 @@ describe('Functionality', () => {
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const resetPasswordButton = screen.getByRole('button', { name: /email reset instructions/i });
 
-    emailInput.focus();
+    await user.click(emailInput);
     await user.keyboard('admin@admin.com');
     await user.click(resetPasswordButton);
 

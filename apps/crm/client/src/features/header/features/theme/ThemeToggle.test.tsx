@@ -1,11 +1,13 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { renderWithProviders } from '@Redux/utils';
 
 import ThemeToggle, { LOCALSTORAGE_TOKEN } from './ThemeToggle';
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
-    render(<ThemeToggle />);
+    renderWithProviders(<ThemeToggle />);
 
     const themeToggleButton = screen.getByRole('button');
     const themeSvg = screen.getByRole('img');
@@ -26,7 +28,7 @@ describe('Functionality', () => {
   });
 
   test('Theme toggle should add/remove class "dark-theme" to the body element upon click', async () => {
-    const { baseElement } = render(<ThemeToggle />);
+    const { baseElement } = renderWithProviders(<ThemeToggle />);
     globalThis.dispatchEvent(new Event('load'));
     const user = userEvent.setup();
 
@@ -41,7 +43,7 @@ describe('Functionality', () => {
   test('If local storage token for theme preference is set; set theme to dark', () => {
     // Set localStorage token for theme
     globalThis.localStorage.setItem(LOCALSTORAGE_TOKEN, 'true');
-    const { baseElement } = render(<ThemeToggle />);
+    const { baseElement } = renderWithProviders(<ThemeToggle />);
     // Component requires page load to trigger useEffect
     globalThis.dispatchEvent(new Event('load'));
 
@@ -52,7 +54,7 @@ describe('Functionality', () => {
   test('If local storage token for theme preference is set; set theme to light', () => {
     // Set localStorage token for theme
     globalThis.localStorage.setItem(LOCALSTORAGE_TOKEN, 'false');
-    const { baseElement } = render(<ThemeToggle />);
+    const { baseElement } = renderWithProviders(<ThemeToggle />);
     // Component requires page load to trigger useEffect
     globalThis.dispatchEvent(new Event('load'));
 

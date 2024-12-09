@@ -1,6 +1,7 @@
-import { BrowserRouter } from 'react-router-dom';
-import { userEvent } from '@testing-library/user-event';
 import { render, screen, waitFor } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
+
 import { Aside, MENU_CATEGORIES } from './Aside';
 
 describe('Initialization', () => {

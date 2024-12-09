@@ -136,6 +136,6 @@ describe('Functionality', () => {
     expect(notificationsListItems).toHaveLength(0);
   });
 
-  // eslint-disable-next-line jest/no-commented-out-tests
+  // eslint-disable-next-line vitest/no-commented-out-tests
   // test('If there are notifications; all have been read; show green dot indicator', () => {})
 });

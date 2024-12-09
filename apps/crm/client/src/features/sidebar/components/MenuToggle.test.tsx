@@ -1,8 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import MenuToggle from './MenuToggle';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
-const reactSetState = jest.fn();
+import MenuToggle from './MenuToggle';
+
+const reactSetState = vi.fn();
 
 beforeEach(() => {
   reactSetState.mockReset();

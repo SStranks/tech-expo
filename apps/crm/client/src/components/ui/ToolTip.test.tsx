@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { config } from 'react-transition-group';
-import ToolTip from './Tooltip';
 import userEvent from '@testing-library/user-event';
+import { config } from 'react-transition-group';
+
+import ToolTip from './Tooltip';
 
 describe('Initialization', () => {
   test('Component should render correctly; actual tooltip should not be present before hover event', () => {

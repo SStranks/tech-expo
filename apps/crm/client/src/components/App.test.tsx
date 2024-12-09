@@ -1,17 +1,29 @@
+/* eslint-disable perfectionist/sort-imports */
+import { screen } from '@testing-library/react';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
-import { render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
+
+import { setupStore } from '@Redux/store';
+import { authenticateUser } from '@Redux/reducers/authSlice';
+import { renderWithProviders } from '@Redux/utils';
+
 import App from './App';
 
-console.error = jest.fn();
-console.warn = jest.fn();
+console.error = vi.fn();
+console.warn = vi.fn();
 
+// TODO:  Set auth state as authorized to enable passage to main dashboard.
 describe('Initialization', () => {
   afterEach(() => {
-    jest.resetAllMocks;
+    vi.resetAllMocks;
   });
 
   test('App initializes without error or warnings', () => {
-    render(<App />, { wrapper: BrowserRouter });
+    renderWithProviders(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
 
     expect(console.error).toHaveBeenCalledTimes(0);
     expect(console.warn).toHaveBeenCalledTimes(0);
@@ -19,49 +31,44 @@ describe('Initialization', () => {
 });
 
 describe('Routes; user logged in', () => {
-  beforeAll(() => {
-    // TEMP DEV:  Login functionality as localStorage key-pair
-    window.localStorage.setItem('CRM Login Token', 'Valid');
-  });
-
-  afterAll(() => {
-    // TEMP DEV:  Login functionality as localStorage key-pair
-    window.localStorage.removeItem('CRM Login Token');
-  });
-
   test('Address "/" defaults to dashboard as index route', () => {
-    render(
+    const store = setupStore();
+    store.dispatch(authenticateUser(true));
+
+    renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
         <App />
-      </MemoryRouter>
+      </MemoryRouter>,
+      { store }
     );
 
-    const dashboardRoute = screen.getByText(/dashboard route/i);
+    // eslint-disable-next-line perfectionist/sort-objects
+    const dashboardRoute = screen.getByRole('heading', { level: 1, name: /dashboard/i });
 
     expect(dashboardRoute).toBeInTheDocument();
   });
 
   test('Erroneous route defaults back to index route', () => {
-    render(
+    const store = setupStore();
+    store.dispatch(authenticateUser(true));
+
+    renderWithProviders(
       <MemoryRouter initialEntries={['/someErroneousRoute']}>
         <App />
-      </MemoryRouter>
+      </MemoryRouter>,
+      { store }
     );
 
-    const dashboardRoute = screen.getByText(/dashboard route/i);
+    // eslint-disable-next-line perfectionist/sort-objects
+    const dashboardRoute = screen.getByRole('heading', { level: 1, name: /dashboard/i });
 
     expect(dashboardRoute).toBeInTheDocument();
   });
 });
 
 describe('Routes; user not authenticated', () => {
-  beforeAll(() => {
-    // TEMP DEV:  Login functionality as localStorage key-pair
-    window.localStorage.removeItem('CRM Login Token');
-  });
-
   test('All non-designated routes default back to "/login', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter initialEntries={['/someErroneousRoute']}>
         <App />
       </MemoryRouter>

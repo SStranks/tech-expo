@@ -1,26 +1,28 @@
-/* eslint-disable unicorn/numeric-separators-style */
-
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
+import { describe, vi } from 'vitest';
 
 import { EMAIL_RULES } from '@Components/react-hook-form/validationRules';
+import { MAX_PASSWORD } from '@Lib/__mocks__/zxcvbn';
 
 import RegisterPage from './RegisterPage';
 
-const STRONG_PASSWORD = 'a&9Hg2*(lMbs';
+vi.mock('@Lib/zxcvbn');
+
+beforeEach(() => {
+  vi.resetAllMocks();
+});
 
 describe('Initialization', () => {
   test('Component should render correctly', async () => {
     render(<RegisterPage />, { wrapper: BrowserRouter });
-
     const headerH1 = screen.getByRole('heading', { name: /register account/i, level: 1 });
     const formElement = screen.getByRole('form', { name: /register account/i });
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const passwordInput = await screen.findByLabelText(/password/i);
     const registerAccountButton = screen.getByRole('button', { name: /register account/i });
     const loginLink = screen.getByRole('link', { name: /login/i });
-
     expect(headerH1).toBeInTheDocument();
     expect(formElement).toBeInTheDocument();
     expect(emailInput).toBeInTheDocument();
@@ -31,10 +33,10 @@ describe('Initialization', () => {
 });
 
 describe('Functionality', () => {
-  console.log = jest.fn();
+  console.log = vi.fn();
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   test('Form links are valid', async () => {
@@ -66,16 +68,16 @@ describe('Functionality', () => {
     const passwordInput = await screen.findByLabelText(/password/i);
     const registerAccountButton = screen.getByRole('button', { name: /register account/i });
 
-    emailInput.focus();
+    await user.click(emailInput);
     await user.keyboard('invalidAddress');
-    passwordInput.focus();
-    await user.keyboard(STRONG_PASSWORD);
+    await user.click(passwordInput);
+    await user.keyboard(MAX_PASSWORD);
     await user.click(registerAccountButton);
 
     expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern.message);
     // Submission
     expect(console.log).not.toHaveBeenCalled();
-  }, 10000);
+  });
 
   test('Form; Input validation; error message on invalid password', async () => {
     render(<RegisterPage />, { wrapper: BrowserRouter });
@@ -85,9 +87,9 @@ describe('Functionality', () => {
     const passwordInput = await screen.findByLabelText(/password/i);
     const registerAccountButton = screen.getByRole('button', { name: /register account/i });
 
-    passwordInput.focus();
+    await user.click(passwordInput);
     await user.keyboard('abc');
-    emailInput.focus();
+    await user.click(emailInput);
     await user.keyboard('valid@address.com');
     await user.click(registerAccountButton);
 
@@ -104,14 +106,14 @@ describe('Functionality', () => {
     const passwordInput = await screen.findByLabelText(/password/i);
     const registerAccountButton = screen.getByRole('button', { name: /register account/i });
 
-    emailInput.focus();
+    await user.click(emailInput);
     await user.keyboard('admin@admin.com');
-    passwordInput.focus();
-    await user.keyboard(STRONG_PASSWORD);
+    await user.click(passwordInput);
+    await user.keyboard(MAX_PASSWORD);
     await user.click(registerAccountButton);
 
     expect(screen.queryAllByRole('alert')).toHaveLength(0);
     // Submission
-    expect(console.log).toHaveBeenCalledWith({ email: 'admin@admin.com', password: STRONG_PASSWORD });
+    expect(console.log).toHaveBeenCalledWith({ email: 'admin@admin.com', password: MAX_PASSWORD });
   });
 });

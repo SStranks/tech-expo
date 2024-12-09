@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { IconAdministration } from '@Components/svg';
 
@@ -63,7 +64,7 @@ describe('Functionality', () => {
   test('Revealed save button; should submit input value and revert component to original state', async () => {
     render(<EditableRow IconSvg={IconAdministration} title={'title'} description={'description'} />);
     const user = userEvent.setup();
-    const submitSpy = jest.spyOn(console, 'log');
+    const submitSpy = vi.spyOn(console, 'log');
 
     let editButton = screen.getByRole('button', { name: /^show edit title input$/i });
     await user.click(editButton);

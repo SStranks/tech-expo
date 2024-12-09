@@ -1,14 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { vi } from 'vitest';
 
 // import { IconCalendar } from '@Components/svg';
 import MenuLink from './MenuLink';
 
-const Icon = jest.fn();
+const Icon = vi.fn();
 
 describe('Initialization', () => {
   beforeEach(() => {
-    jest.resetAllMocks;
+    vi.resetAllMocks;
   });
 
   test('Component should render correctly', () => {
