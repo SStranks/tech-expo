@@ -1,12 +1,12 @@
+import PluginJest from 'eslint-plugin-jest';
 import PluginJestDom from 'eslint-plugin-jest-dom';
 import PluginTestingLibrary from 'eslint-plugin-testing-library';
-import PluginJest from 'eslint-plugin-jest';
 
-export const EslintConfigReactTest = {
+export const EslintConfigReactJest = {
   plugins: {
+    jest: PluginJest,
     'jest-dom': PluginJestDom,
     'testing-library': PluginTestingLibrary,
-    jest: PluginJest,
   },
   rules: {
     ...PluginJestDom.configs['flat/recommended'].rules,
@@ -15,4 +15,4 @@ export const EslintConfigReactTest = {
   },
 };
 
-export default [EslintConfigReactTest];
+export default [EslintConfigReactJest];

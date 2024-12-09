@@ -2,7 +2,8 @@
 import { ConfigPrettier, EslintConfig } from '@packages/eslint-config';
 import { EslintConfigCypress } from '@packages/eslint-config-cypress';
 import { EslintConfigExpress } from '@packages/eslint-config-express';
-import { EslintConfigReactTest } from '@packages/eslint-config-react-test';
+// import { EslintConfigReactJest } from '@packages/eslint-config-react-jest';
+import { EslintConfigReactVitest } from '@packages/eslint-config-react-vitest';
 import { EslintConfigReact as EslintConfigReact_18p2 } from '@packages/eslint-config-react/react-18.2';
 import { EslintConfigStorybook } from '@packages/eslint-config-storybook';
 // NOTE:  GraphQL; waiting for v4 for flat-config support
@@ -52,12 +53,20 @@ export default [
     rules: { ...EslintConfigStorybook.rules },
     settings: { ...EslintConfigStorybook.settings },
   },
+  // {
+  //   name: 'CRM: Client; Testing (Jest + RTL)',
+  //   files: ['apps/crm/client/src/**/?(*.jest.)+(spec|test).[jt]s?(x)'],
+  //   languageOptions: { ...EslintConfigReact_18p2.languageOptions },
+  //   plugins: { ...EslintConfigReact_18p2.plugins, ...EslintConfigReactJest.plugins },
+  //   rules: { ...EslintConfigReact_18p2.rules, ...EslintConfigReactJest.rules },
+  //   settings: { ...EslintConfigReact_18p2.settings },
+  // },
   {
-    name: 'CRM: Client; Testing (Jest + RTL)',
+    name: 'CRM: Client; Testing (Vitest + RTL)',
     files: ['apps/crm/client/src/**/?(*.)+(spec|test).[jt]s?(x)'],
     languageOptions: { ...EslintConfigReact_18p2.languageOptions },
-    plugins: { ...EslintConfigReact_18p2.plugins, ...EslintConfigReactTest.plugins },
-    rules: { ...EslintConfigReact_18p2.rules, ...EslintConfigReactTest.rules },
+    plugins: { ...EslintConfigReact_18p2.plugins, ...EslintConfigReactVitest.plugins },
+    rules: { ...EslintConfigReact_18p2.rules, ...EslintConfigReactVitest.rules },
     settings: { ...EslintConfigReact_18p2.settings },
   },
   {
@@ -112,8 +121,8 @@ export default [
 //   // Client; Testing (Jest + RTL)
 //   files: ['apps/*/+(frontend|client)/src/**/?(*.)+(spec|test).[jt]s?(x)'],
 //   languageOptions: { ...EslintConfigReact.languageOptions },
-//   plugins: { ...EslintConfigReact.plugins, ...EslintConfigReactTest.plugins },
-//   rules: { ...EslintConfigReact.rules, ...EslintConfigReactTest.rules },
+//   plugins: { ...EslintConfigReact.plugins, ...EslintConfigReactJest.plugins },
+//   rules: { ...EslintConfigReact.rules, ...EslintConfigReactJest.rules },
 //   settings: { ...EslintConfigReact.settings },
 // },
 // {

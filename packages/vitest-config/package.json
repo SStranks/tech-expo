@@ -1,0 +1,15 @@
+{
+  "name": "@packages/vitest-config",
+  "version": "1.0.0",
+  "private": true,
+  "description": "shared vitest configuration",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "files": [
+    "vitest.ts",
+    "setup.ts"
+  ],
+  "devDependencies": {
+    "vitest": "^2.1.8"
+  }
+}

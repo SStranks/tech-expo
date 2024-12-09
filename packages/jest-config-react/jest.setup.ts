@@ -1,4 +1,9 @@
 import '@testing-library/jest-dom';
+import { TextDecoder, TextEncoder } from 'node:util';
+
+// @ts-expect-error
+globalThis.TextDecoder = TextDecoder;
+globalThis.TextEncoder = TextEncoder;
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

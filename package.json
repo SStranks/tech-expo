@@ -31,14 +31,16 @@
     "@packages/eslint-config-express": "workspace:*",
     "@packages/eslint-config-graphql": "workspace:*",
     "@packages/eslint-config-react": "workspace:*",
-    "@packages/eslint-config-react-test": "workspace:*",
+    "@packages/eslint-config-react-jest": "workspace:*",
+    "@packages/eslint-config-react-vitest": "workspace:*",
     "@packages/eslint-config-storybook": "workspace:*",
     "@packages/jest-config": "workspace:*",
     "@packages/jest-config-node": "workspace:*",
     "@packages/jest-config-react": "workspace:*",
     "@packages/secretlint-config": "workspace:*",
     "@packages/stylelint-config": "workspace:*",
-    "@packages/typescript-config": "workspace:*"
+    "@packages/typescript-config": "workspace:*",
+    "@packages/vitest-config": "workspace:*"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",

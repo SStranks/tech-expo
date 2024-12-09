@@ -1,0 +1,15 @@
+{
+  "name": "@packages/eslint-config-react-jest",
+  "version": "1.0.0",
+  "private": true,
+  "description": "shared eslint react testing configuration",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "type": "module",
+  "main": "eslint.config.js",
+  "devDependencies": {
+    "eslint-plugin-jest": "^28.8.3",
+    "eslint-plugin-jest-dom": "^5.4.0",
+    "eslint-plugin-testing-library": "^6.3.0"
+  }
+}

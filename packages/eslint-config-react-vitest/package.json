@@ -1,15 +1,14 @@
 {
-  "name": "@packages/eslint-config-react-test",
+  "name": "@packages/eslint-config-react-vitest",
   "version": "1.0.0",
   "private": true,
-  "description": "shared eslint react testing configuration",
+  "description": "shared eslint vitest configuration",
   "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
   "license": "ISC",
   "type": "module",
   "main": "eslint.config.js",
   "devDependencies": {
-    "eslint-plugin-jest": "^28.8.3",
-    "eslint-plugin-jest-dom": "^5.4.0",
+    "@vitest/eslint-plugin": "^1.1.14",
     "eslint-plugin-testing-library": "^6.3.0"
   }
 }
