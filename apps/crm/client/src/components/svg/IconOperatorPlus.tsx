@@ -1,6 +1,6 @@
 import type { IProps } from './';
 
-function IconOperatorPlus({ svgClass = undefined }: IProps): JSX.Element {
+function IconOperatorPlus({ svgClass = undefined }: IProps): React.JSX.Element {
   return (
     <svg
       className={svgClass}

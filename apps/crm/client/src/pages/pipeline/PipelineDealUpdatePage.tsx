@@ -21,7 +21,7 @@ type IFormData = {
   dealOwner: string;
 };
 
-function PipelineDealUpdatePage(): JSX.Element {
+function PipelineDealUpdatePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
   const navigate = useNavigate();
   const { state } = useLocation();

@@ -12,7 +12,7 @@ interface IProps {
   onChange: (...event: unknown[]) => void;
 }
 
-function InputSelect({ ...props }: IProps): JSX.Element {
+function InputSelect({ ...props }: IProps): React.JSX.Element {
   return (
     <Select
       onSelectionChange={props.onChange}

@@ -8,7 +8,7 @@ interface IProps {
   allowedRoles: string[];
 }
 
-function Authorize({ allowedRoles, children = undefined }: PropsWithChildren<IProps>): JSX.Element | undefined {
+function Authorize({ allowedRoles, children = undefined }: PropsWithChildren<IProps>): React.JSX.Element | undefined {
   const auth = useReduxSelector((store) => store.auth);
   const location = useLocation();
 

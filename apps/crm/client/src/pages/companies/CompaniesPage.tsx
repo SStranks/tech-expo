@@ -2,7 +2,7 @@ import OutletPortalTransition from '@Components/react-transition-group/OutletPor
 import { TableCompanies } from '@Components/tanstack-table/tables';
 import { tableDataCompanies } from '@Data/MockData';
 
-function CompaniesPage(): JSX.Element {
+function CompaniesPage(): React.JSX.Element {
   return (
     <>
       <TableCompanies tableData={tableDataCompanies} />

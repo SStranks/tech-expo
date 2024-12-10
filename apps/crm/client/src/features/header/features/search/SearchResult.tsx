@@ -8,7 +8,7 @@ interface IProps {
   description: string;
 }
 
-function SearchResult(props: IProps): JSX.Element {
+function SearchResult(props: IProps): React.JSX.Element {
   const { category, description, title } = props;
 
   return (

@@ -2,7 +2,7 @@ import OutletPortalTransition from '@Components/react-transition-group/OutletPor
 import { TableQuotes } from '@Components/tanstack-table/tables';
 import { tableDataQuotes } from '@Data/MockData';
 
-function QuotesPage(): JSX.Element {
+function QuotesPage(): React.JSX.Element {
   return (
     <>
       <TableQuotes tableData={tableDataQuotes} />

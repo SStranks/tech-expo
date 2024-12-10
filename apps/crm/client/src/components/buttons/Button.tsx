@@ -26,7 +26,7 @@ function Button({
   buttonText = undefined,
   form = undefined,
   type = 'button',
-}: IProps): JSX.Element {
+}: IProps): React.JSX.Element {
   const clickHandler = () => {
     if (buttonClickFn) buttonClickFn();
   };

@@ -6,7 +6,7 @@ interface IProps {
 }
 
 // Creates circle image with users photograph
-function UserCircle(props: IProps): JSX.Element {
+function UserCircle(props: IProps): React.JSX.Element {
   const { alt, userImage } = props;
 
   return <img src={userImage} alt={alt ?? userImage} className={styles.userCircle} />;

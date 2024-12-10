@@ -8,7 +8,7 @@ import { IconListDownArrow } from '@Components/svg';
 import styles from './ButtonPaginatorRowLimit.module.scss';
 
 // NOTE:  Without manually using context; <SelectValue /> needs to sit inside <Button /> or <Label />
-function SelectValueWrapper(): JSX.Element {
+function SelectValueWrapper(): React.JSX.Element {
   const selectValue = useContext(SelectStateContext);
   const value = selectValue?.selectedItem?.textValue;
   return <span className={styles.selectValue}>{value}</span>;
@@ -20,7 +20,7 @@ interface IProps {
   setPageSize: (updater: Updater<number>) => void;
 }
 
-function ButtonPaginatorRowLimit(props: IProps): JSX.Element {
+function ButtonPaginatorRowLimit(props: IProps): React.JSX.Element {
   const { setPageSize } = props;
 
   const onSelectionChange = (key: Key) => {

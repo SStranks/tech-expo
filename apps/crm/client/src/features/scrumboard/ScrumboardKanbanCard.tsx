@@ -16,7 +16,7 @@ interface IProps {
   taskStatus?: 'won' | 'lost';
 }
 
-function ScrumBoardKanbanCard({ columnId, index, task, taskStatus }: IProps): JSX.Element {
+function ScrumBoardKanbanCard({ columnId, index, task, taskStatus }: IProps): React.JSX.Element {
   const navigate = useNavigate();
 
   const onDoubleClickHandler = () => {

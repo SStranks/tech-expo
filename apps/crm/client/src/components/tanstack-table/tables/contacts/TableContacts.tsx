@@ -24,7 +24,7 @@ interface IProps {
   tableData: ITableDataContacts[];
 }
 
-function TableContacts(props: IProps): JSX.Element {
+function TableContacts(props: IProps): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableDataContacts[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);

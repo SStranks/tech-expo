@@ -6,7 +6,7 @@ import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '@Utils/cssTransitionGroup';
 
 import styles from './reactTransitionGroup.module.scss';
 
-function OutletTransition(): JSX.Element {
+function OutletTransition(): React.JSX.Element {
   const location = useLocation();
   const currentOutlet = useOutlet();
   const outletRef = useRef<HTMLDivElement>(null);

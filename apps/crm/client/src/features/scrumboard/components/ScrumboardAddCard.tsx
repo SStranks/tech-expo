@@ -6,7 +6,7 @@ interface IProps {
   columnId: string;
 }
 
-function ScrumboardAddCard({ columnId }: IProps): JSX.Element {
+function ScrumboardAddCard({ columnId }: IProps): React.JSX.Element {
   return (
     <Link to={'deal/create'} state={{ columnId }} className={styles.addCard}>
       <span>Add New Card</span>

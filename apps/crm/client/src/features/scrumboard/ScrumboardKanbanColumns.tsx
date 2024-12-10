@@ -8,7 +8,7 @@ interface IProps {
   data: IInitialData;
 }
 
-function ScrumboardKanbanColumns({ data }: IProps): JSX.Element {
+function ScrumboardKanbanColumns({ data }: IProps): React.JSX.Element {
   console.log(data);
   const columnUnassigned = data.columns['column-unassigned'];
   const columnUnassignedTasks = columnUnassigned.taskIds.map((taskId) => data.tasks[taskId]);

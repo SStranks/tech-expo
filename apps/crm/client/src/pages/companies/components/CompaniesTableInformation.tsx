@@ -16,7 +16,7 @@ interface IProps {
   companyInfo: ICompanyInfo;
 }
 
-function CompaniesTableInformation(props: IProps): JSX.Element {
+function CompaniesTableInformation(props: IProps): React.JSX.Element {
   const { companyInfo } = props;
 
   return (

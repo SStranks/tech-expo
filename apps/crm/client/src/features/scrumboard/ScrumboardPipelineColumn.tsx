@@ -11,7 +11,7 @@ interface IScrumboardColumn {
   tasks: ITask[];
 }
 
-function ScrumboardPipelineColumn(props: IScrumboardColumn): JSX.Element {
+function ScrumboardPipelineColumn(props: IScrumboardColumn): React.JSX.Element {
   const { column, tasks } = props;
   const dealsTotal = tasks.reduce((acc, cur) => acc + cur.dealTotal, 0);
 

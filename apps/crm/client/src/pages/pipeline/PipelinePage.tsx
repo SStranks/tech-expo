@@ -1,7 +1,7 @@
 import OutletPortalTransition from '@Components/react-transition-group/OutletPortalTransition';
 import { ScrumboardPipeline } from '@Features/scrumboard';
 
-function PipelinePage(): JSX.Element {
+function PipelinePage(): React.JSX.Element {
   return (
     <>
       <ScrumboardPipeline />

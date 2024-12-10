@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 import ViewportLayout from '@Layouts/ViewportLayout';
 
-function PipelineRoute(): JSX.Element {
+function PipelineRoute(): React.JSX.Element {
   return (
     <ViewportLayout>
       <Outlet />

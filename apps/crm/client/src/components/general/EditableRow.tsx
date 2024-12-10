@@ -11,7 +11,7 @@ interface IProps {
 }
 
 // Consuming components: CompaniesTableInformation, UserSettingsModal
-function EditableRow(props: IProps): JSX.Element {
+function EditableRow(props: IProps): React.JSX.Element {
   const { description, IconSvg, title } = props;
   const [editSettingActive, setEditSettingActive] = useState<boolean>(false);
   const [editInputValue, setEditInputValue] = useState<string>(description);

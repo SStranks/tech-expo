@@ -4,7 +4,7 @@ import ViewportLayout from '@Layouts/ViewportLayout';
 
 import styles from './ContactsRoute.module.scss';
 
-function ContactsRoute(): JSX.Element {
+function ContactsRoute(): React.JSX.Element {
   return (
     <ViewportLayout>
       <div className={styles.contactsRouteLayout}>

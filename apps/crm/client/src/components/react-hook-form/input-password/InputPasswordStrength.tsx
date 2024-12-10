@@ -53,7 +53,7 @@ interface IProps<T extends FieldValues> {
 }
 
 // TODO:  Style and reformat password information text
-function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Element {
+function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): React.JSX.Element {
   const {
     control,
     error,

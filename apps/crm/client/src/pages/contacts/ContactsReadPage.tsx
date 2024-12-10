@@ -16,7 +16,7 @@ const userInfo = {
 };
 
 // REFACTOR:  Same layout as CompaniesReadPage; consolidate into a layout
-function ContactsReadPage(): JSX.Element {
+function ContactsReadPage(): React.JSX.Element {
   return (
     <div className={styles.contactsReadPage}>
       <div className={styles.contactsReadPage__header}>

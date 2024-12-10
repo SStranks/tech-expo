@@ -12,7 +12,7 @@ type IFormData = {
   stageTitle: string;
 };
 
-function PipelineStageUpdatePage(): JSX.Element {
+function PipelineStageUpdatePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();

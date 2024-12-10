@@ -12,7 +12,7 @@ interface IProps {
   rowOriginal: CoreRow<ITableDataContacts>['original'];
 }
 
-function TableContactsOptionBtn(props: IProps): JSX.Element {
+function TableContactsOptionBtn(props: IProps): React.JSX.Element {
   const { rowOriginal } = props;
   const navigate = useNavigate();
 

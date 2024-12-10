@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 import ViewportLayout from '@Layouts/ViewportLayout';
 
-function DashboardRoute(): JSX.Element {
+function DashboardRoute(): React.JSX.Element {
   return (
     <ViewportLayout>
       <Outlet />

@@ -21,7 +21,7 @@ interface IProps {
   tableData: ITableAuditLog[];
 }
 
-function TableAuditLog(props: IProps): JSX.Element {
+function TableAuditLog(props: IProps): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableAuditLog[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);

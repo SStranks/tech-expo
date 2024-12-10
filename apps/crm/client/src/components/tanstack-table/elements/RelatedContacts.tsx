@@ -32,7 +32,7 @@ interface IProps {
   relatedContacts: ITableDataCompanies['relatedContacts'];
 }
 
-function RelatedContacts(props: IProps): JSX.Element {
+function RelatedContacts(props: IProps): React.JSX.Element {
   const { relatedContacts } = props;
 
   const userImages = CIRCLE_USER_IMAGES(relatedContacts);

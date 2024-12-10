@@ -14,7 +14,7 @@ const calendarEvents = [
   },
 ];
 
-function Calendar(): JSX.Element {
+function Calendar(): React.JSX.Element {
   const reduxState = useReduxSelector((state) => state.theme.isDarkMode);
   const calendar = useCalendarApp({
     events: calendarEvents,

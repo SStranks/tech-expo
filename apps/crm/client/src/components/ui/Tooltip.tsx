@@ -62,7 +62,7 @@ interface IProps {
   offset: number;
 }
 
-function ToolTip({ children = undefined, offset, position, text }: PropsWithChildren<IProps>): JSX.Element {
+function ToolTip({ children = undefined, offset, position, text }: PropsWithChildren<IProps>): React.JSX.Element {
   const [childCoords, setChildCoords] = useState<ICoords>();
   const [active, setActive] = useState<boolean>();
   const nodeRef = useRef<HTMLDivElement>(null);

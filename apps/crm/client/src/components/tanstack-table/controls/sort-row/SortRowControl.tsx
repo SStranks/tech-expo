@@ -15,7 +15,7 @@ interface IProps {
   sortOnClick: ((event: unknown) => void) | undefined;
 }
 
-function SortRowControl(props: IProps): JSX.Element {
+function SortRowControl(props: IProps): React.JSX.Element {
   const { sortDirection, sortOnClick } = props;
 
   const activeStyles = iconDirectionStyles(sortDirection);

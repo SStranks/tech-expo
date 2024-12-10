@@ -22,7 +22,7 @@ const companyInfo = {
   website: 'http://boom.com',
 };
 
-function CompaniesReadPage(): JSX.Element {
+function CompaniesReadPage(): React.JSX.Element {
   return (
     <div className={styles.companiesReadPage}>
       <div className={styles.companiesReadPage__header}>

@@ -17,7 +17,7 @@ interface IProps {
   tableData: ITableDataContacts[];
 }
 
-function TableCompaniesContacts(props: IProps): JSX.Element {
+function TableCompaniesContacts(props: IProps): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableDataContacts[]>(tableData);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });

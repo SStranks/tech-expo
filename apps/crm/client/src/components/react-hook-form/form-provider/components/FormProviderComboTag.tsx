@@ -18,7 +18,7 @@ function FormProviderComboTag<T extends object>({
   listItems,
   name,
   rules = {},
-}: ComboBoxProps<T> & IProps): JSX.Element {
+}: ComboBoxProps<T> & IProps): React.JSX.Element {
   const {
     control,
     formState: { defaultValues, dirtyFields, isSubmitted },

@@ -19,7 +19,7 @@ interface IProps {
   tableData: ITableSettingsContacts[];
 }
 
-function TableSettingsContacts(props: IProps): JSX.Element {
+function TableSettingsContacts(props: IProps): React.JSX.Element {
   const { tableData } = props;
 
   const [data] = useState<ITableSettingsContacts[]>(tableData);

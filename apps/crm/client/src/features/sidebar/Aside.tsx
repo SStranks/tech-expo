@@ -36,7 +36,7 @@ export const MENU_CATEGORIES: TMenuCategories = [
   ['Audit Log', '/auditlog', IconAudit],
 ];
 
-export function Aside(): JSX.Element {
+export function Aside(): React.JSX.Element {
   const [sidebarMaximize, setSidebarMaximize] = useState<boolean | undefined>();
 
   const menuLinks = MENU_CATEGORIES.map(([name, href, icon], i) => {

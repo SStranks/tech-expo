@@ -10,7 +10,7 @@ interface IProps {
   onClick: () => void;
 }
 
-function ButtonPaginatorPages(props: IProps): JSX.Element {
+function ButtonPaginatorPages(props: IProps): React.JSX.Element {
   const { direction, onClick, title } = props;
   const [active, setActive] = useState<boolean>(false);
 

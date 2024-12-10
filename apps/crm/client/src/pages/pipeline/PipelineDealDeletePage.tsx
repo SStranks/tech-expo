@@ -8,7 +8,7 @@ import { ScrumboardCardStyles } from '@Features/scrumboard';
 import { deleteDeal } from '@Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch } from '@Redux/hooks';
 
-function PiplineDealDeletePage(): JSX.Element {
+function PiplineDealDeletePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();

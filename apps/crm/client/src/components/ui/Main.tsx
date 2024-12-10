@@ -1,6 +1,6 @@
 import styles from './Main.module.scss';
 
-function Main(): JSX.Element {
+function Main(): React.JSX.Element {
   return <main className={styles.main}>Content</main>;
 }
 

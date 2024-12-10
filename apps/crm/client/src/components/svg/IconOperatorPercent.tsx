@@ -1,6 +1,6 @@
 import type { IProps } from './';
 
-function IconOperatorPercent({ svgClass = undefined }: IProps): JSX.Element {
+function IconOperatorPercent({ svgClass = undefined }: IProps): React.JSX.Element {
   return (
     <svg
       className={svgClass}

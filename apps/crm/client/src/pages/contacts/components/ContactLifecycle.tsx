@@ -6,7 +6,7 @@ import { ContactStatus } from '@Components/tanstack-table/elements';
 
 import styles from './ContactLifecycle.module.scss';
 
-function ContactLifecycle(): JSX.Element {
+function ContactLifecycle(): React.JSX.Element {
   const [lifecycle, setLifecycle] = useState<string>('new');
 
   console.log(lifecycle);

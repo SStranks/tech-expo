@@ -5,7 +5,7 @@ interface IProps {
 }
 
 // Creates circle with the first letter of first and last name of user
-function UserCircleAbbv(props: IProps): JSX.Element {
+function UserCircleAbbv(props: IProps): React.JSX.Element {
   const { userName } = props;
 
   const [firstNameAbbv, lastNameAbbv] = userName.split(' ');

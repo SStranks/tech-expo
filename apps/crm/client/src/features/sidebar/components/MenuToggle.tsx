@@ -5,7 +5,7 @@ interface IProps {
   setSidebarMaximize: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
 
-function MenuToggle(props: IProps): JSX.Element {
+function MenuToggle(props: IProps): React.JSX.Element {
   const { setSidebarMaximize, sidebarMaximize } = props;
 
   const btnClickHandler = () => {

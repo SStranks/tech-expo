@@ -2,7 +2,7 @@ export interface IProps {
   svgClass?: string;
   mirror?: boolean;
 }
-export type IIcon = ({ svgClass }: IProps) => JSX.Element;
+export type IIcon = ({ svgClass }: IProps) => React.JSX.Element;
 
 export { default as IconAdministration } from './IconAdministration';
 export { default as IconArrowDownAlt } from './IconArrowDownAlt';

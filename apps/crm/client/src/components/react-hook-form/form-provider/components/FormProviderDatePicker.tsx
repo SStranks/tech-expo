@@ -10,7 +10,7 @@ interface IProps {
   rules?: RegisterOptions;
 }
 
-function FormProviderDatePicker({ label, name, rules = {} }: IProps): JSX.Element {
+function FormProviderDatePicker({ label, name, rules = {} }: IProps): React.JSX.Element {
   const {
     control,
     formState: { defaultValues, dirtyFields, isSubmitted },

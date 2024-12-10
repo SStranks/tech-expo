@@ -21,7 +21,7 @@ interface IInputs {
   confirmPassword: string;
 }
 
-function UpdatePasswordPage(): JSX.Element {
+function UpdatePasswordPage(): React.JSX.Element {
   const {
     control,
     formState: { defaultValues, dirtyFields, errors, isSubmitted },

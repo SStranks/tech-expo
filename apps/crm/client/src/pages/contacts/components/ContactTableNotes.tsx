@@ -4,7 +4,7 @@ import { CommentThread } from '@Features/comment';
 
 import styles from './ContactTableNotes.module.scss';
 
-function ContactTableNotes(): JSX.Element {
+function ContactTableNotes(): React.JSX.Element {
   return (
     <TableSingleColumn>
       <TableSingleColumn.Header>

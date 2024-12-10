@@ -9,7 +9,7 @@ interface IProps {
   companyName: string;
 }
 
-function CompanySingle(props: IProps): JSX.Element {
+function CompanySingle(props: IProps): React.JSX.Element {
   const { companyName } = props;
 
   return (

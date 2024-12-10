@@ -20,7 +20,7 @@ function FormModal({
   children = undefined,
   portalActive,
   setPortalActive: setPortalActiveProp,
-}: PropsWithChildren<IProps>): JSX.Element {
+}: PropsWithChildren<IProps>): React.JSX.Element {
   const modalContentRef = useRef<HTMLDivElement>(null);
   usePortalClose(portalActive, setPortalActiveProp, modalContentRef, null);
 
@@ -35,7 +35,7 @@ function FormModal({
   );
 }
 
-function Header({ title }: { title: string }): JSX.Element {
+function Header({ title }: { title: string }): React.JSX.Element {
   return (
     <div className={styles.header}>
       <h4>{title}</h4>
@@ -44,15 +44,15 @@ function Header({ title }: { title: string }): JSX.Element {
   );
 }
 
-function Content({ children }: PropsWithChildren): JSX.Element {
+function Content({ children }: PropsWithChildren): React.JSX.Element {
   return <div className={styles.content}>{children}</div>;
 }
 
-function Footer({ children }: PropsWithChildren): JSX.Element {
+function Footer({ children }: PropsWithChildren): React.JSX.Element {
   return <div className={styles.footer}>{children}</div>;
 }
 
-function CloseButton(): JSX.Element {
+function CloseButton(): React.JSX.Element {
   const { setPortalActive } = useContext(FormModalContext);
 
   const closeModal = () => {
@@ -62,7 +62,7 @@ function CloseButton(): JSX.Element {
   return <ButtonClose onClick={closeModal} />;
 }
 
-function CancelButton(): JSX.Element {
+function CancelButton(): React.JSX.Element {
   const { setPortalActive } = useContext(FormModalContext);
 
   const closeModal = () => {
@@ -71,7 +71,7 @@ function CancelButton(): JSX.Element {
   return <ButtonCancel onClick={closeModal} />;
 }
 
-function OkayButton(): JSX.Element {
+function OkayButton(): React.JSX.Element {
   const { setPortalActive } = useContext(FormModalContext);
 
   const closeModal = () => {
@@ -80,7 +80,7 @@ function OkayButton(): JSX.Element {
   return <ButtonOkay onClick={closeModal} />;
 }
 
-function DeleteButton(): JSX.Element {
+function DeleteButton(): React.JSX.Element {
   return <ButtonDelete />;
 }
 

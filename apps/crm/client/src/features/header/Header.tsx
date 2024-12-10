@@ -6,7 +6,7 @@ import SettingsBar from './components/SettingsBar';
 
 import styles from './Header.module.scss';
 
-function Header(): JSX.Element {
+function Header(): React.JSX.Element {
   return (
     <header className={styles.header}>
       <div className={styles.companyDetails}>

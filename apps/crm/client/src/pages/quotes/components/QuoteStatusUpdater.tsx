@@ -4,7 +4,7 @@ import styles from './QuoteStatusUpdater.module.scss';
 
 type TQuoteStatus = 'draft' | 'sent' | 'accepted';
 
-function QuoteStatusUpdater(): JSX.Element {
+function QuoteStatusUpdater(): React.JSX.Element {
   const [quoteStatus, setQuoteStatus] = useState<TQuoteStatus>('draft');
 
   const statusBtnClickHandler = (status: TQuoteStatus) => {

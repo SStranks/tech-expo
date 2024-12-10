@@ -22,7 +22,7 @@ interface IProps {
   stage: ITableDataQuotes['stage'];
 }
 
-function QuoteStage(props: IProps): JSX.Element {
+function QuoteStage(props: IProps): React.JSX.Element {
   const { stage } = props;
 
   return (

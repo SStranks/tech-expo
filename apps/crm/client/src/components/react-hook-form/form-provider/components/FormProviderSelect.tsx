@@ -19,7 +19,7 @@ function FormProviderSelect<T extends object>({
   name,
   rules = {},
   ...rest
-}: SelectProps<T> & IProps): JSX.Element {
+}: SelectProps<T> & IProps): React.JSX.Element {
   const {
     control,
     formState: { defaultValues, dirtyFields, isSubmitted },

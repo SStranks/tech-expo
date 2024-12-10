@@ -9,7 +9,7 @@ interface IProps<T> {
   table: Table<T>;
 }
 
-function TableListView<T>(props: IProps<T>): JSX.Element {
+function TableListView<T>(props: IProps<T>): React.JSX.Element {
   const { table } = props;
   const tableContainerRef = useRef<HTMLDivElement>(null);
   let pos = { left: 0, x: 0 };

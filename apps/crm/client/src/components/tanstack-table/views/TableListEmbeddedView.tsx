@@ -13,7 +13,7 @@ interface IProps<T> {
 }
 
 // TODO: // REFACTOR:  99% idential to TableListView; styles and paginator control different.
-function TableListEmbeddedView<T>(props: IProps<T>): JSX.Element {
+function TableListEmbeddedView<T>(props: IProps<T>): React.JSX.Element {
   const { pageCount, pageIndex, setPageIndex, table } = props;
   const tableContainerRef = useRef<HTMLDivElement>(null);
   let pos = { left: 0, x: 0 };

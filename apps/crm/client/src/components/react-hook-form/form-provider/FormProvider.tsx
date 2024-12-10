@@ -24,7 +24,7 @@ function RHFFormProvider<T extends FieldValues>({
   children,
   defaultValues,
   onSubmit,
-}: PropsWithChildren<IProps<T>>): JSX.Element {
+}: PropsWithChildren<IProps<T>>): React.JSX.Element {
   const methods = useForm<T>({ defaultValues, mode: 'onChange' });
   const genId = useId();
 

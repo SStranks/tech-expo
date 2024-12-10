@@ -2,7 +2,7 @@ import { Button, Input, Label, SearchField } from 'react-aria-components';
 
 import styles from './InputSearchField.module.scss';
 
-function InputSearchField(): JSX.Element {
+function InputSearchField(): React.JSX.Element {
   return (
     <SearchField className={styles.searchField}>
       <Label></Label>

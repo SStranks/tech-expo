@@ -31,7 +31,7 @@ import styles from './InputDatePicker.module.scss';
 const DATE_TODAY = today(getLocalTimeZone());
 
 // Focus calendar on the date today
-function ButtonToday(): JSX.Element {
+function ButtonToday(): React.JSX.Element {
   let state = useContext(DatePickerStateContext);
 
   return (
@@ -54,7 +54,7 @@ interface IButtonYearProps {
 }
 
 // Advance/Recess calendar view by one year
-function ButtonYear({ className = undefined, operation }: IButtonYearProps): JSX.Element {
+function ButtonYear({ className = undefined, operation }: IButtonYearProps): React.JSX.Element {
   let state = useContext(CalendarStateContext);
 
   return (

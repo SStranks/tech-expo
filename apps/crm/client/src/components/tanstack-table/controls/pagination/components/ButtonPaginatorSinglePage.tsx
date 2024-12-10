@@ -9,7 +9,7 @@ interface IProps {
   onClick: () => void;
 }
 
-function ButtonPaginatorSinglePage(props: IProps): JSX.Element {
+function ButtonPaginatorSinglePage(props: IProps): React.JSX.Element {
   const { direction, disabled, onClick, title } = props;
 
   return (

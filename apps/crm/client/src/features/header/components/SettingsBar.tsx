@@ -7,7 +7,7 @@ import UserSettings from '../features/user/UserSettingsMenu';
 import styles from './SettingsBar.module.scss';
 // import TempButton from './TempButton';
 
-function SettingsBar(): JSX.Element {
+function SettingsBar(): React.JSX.Element {
   return (
     <div className={styles.settingsBar}>
       {/* // TEMP DEV:  */}

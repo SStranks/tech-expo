@@ -13,7 +13,7 @@ const deleteBtnClickHandler = () => {
   console.log('Fired');
 };
 
-function CommentPosted(): JSX.Element {
+function CommentPosted(): React.JSX.Element {
   const [editInputValue, setEditInputValue] = useState<string>('');
   const [editTextAreaValue, setEditTextAreaValue] = useState<string>('');
   const [editActive, setEditActive] = useState<boolean>(false);

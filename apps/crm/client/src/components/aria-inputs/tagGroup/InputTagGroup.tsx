@@ -14,7 +14,7 @@ interface IProps {
   trigger: UseFormTrigger<FieldValues>;
 }
 
-function InputTagGroup(props: IProps): JSX.Element {
+function InputTagGroup(props: IProps): React.JSX.Element {
   const { id, name, onChange, trigger, value, ...rest } = props;
 
   const onRemove = (ids: Set<Key>) => {

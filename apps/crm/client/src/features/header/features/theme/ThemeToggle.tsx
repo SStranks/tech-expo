@@ -9,7 +9,7 @@ import styles from './ThemeToggle.module.scss';
 
 export const LOCALSTORAGE_TOKEN = 'dark-mode';
 
-function ThemeToggle(): JSX.Element {
+function ThemeToggle(): React.JSX.Element {
   const reduxDispatch = useReduxDispatch();
 
   const themeToggle = useCallback(() => {

@@ -9,7 +9,7 @@ import FormModal from '@Components/modal/FormModal';
 import { TableQuotesDelete } from '@Components/tanstack-table/tables';
 import { StylesTableListView } from '@Components/tanstack-table/views';
 
-function QuoteDeletePage(): JSX.Element {
+function QuoteDeletePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
   const navigate = useNavigate();
   // TODO:  Change assertion to runtime check later, using type guard.

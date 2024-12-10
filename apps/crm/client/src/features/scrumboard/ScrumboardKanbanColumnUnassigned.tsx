@@ -11,7 +11,7 @@ interface IScrumboardColumn {
   tasks: ITask[];
 }
 
-function ScrumboardKanbanColumnUnassigned(props: IScrumboardColumn): JSX.Element {
+function ScrumboardKanbanColumnUnassigned(props: IScrumboardColumn): React.JSX.Element {
   const { column, tasks } = props;
 
   return (

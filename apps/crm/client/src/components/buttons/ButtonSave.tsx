@@ -5,7 +5,7 @@ interface IProps {
   onClick: () => void;
 }
 
-function ButtonSave({ disabled, onClick }: IProps): JSX.Element {
+function ButtonSave({ disabled, onClick }: IProps): React.JSX.Element {
   return (
     <button type="submit" onClick={onClick} disabled={disabled} className={styles.saveBtn}>
       Save

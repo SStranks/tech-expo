@@ -6,7 +6,7 @@ interface IProps {
   action: ITableAuditLog['action'];
 }
 
-function AuditAction(props: IProps): JSX.Element {
+function AuditAction(props: IProps): React.JSX.Element {
   const { action } = props;
 
   return (

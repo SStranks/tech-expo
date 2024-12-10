@@ -20,7 +20,7 @@ export interface IInputs {
   password: string;
 }
 
-function RegisterPage(): JSX.Element {
+function RegisterPage(): React.JSX.Element {
   const {
     control,
     formState,

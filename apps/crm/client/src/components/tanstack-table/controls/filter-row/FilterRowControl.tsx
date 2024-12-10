@@ -12,7 +12,7 @@ interface IProps {
   fieldName: string;
 }
 
-function FilterRowControl(props: IProps): JSX.Element {
+function FilterRowControl(props: IProps): React.JSX.Element {
   const { column, fieldName } = props;
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
   const [filterActive, setFilterActive] = useState<boolean>(column.getIsFiltered);

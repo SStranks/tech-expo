@@ -12,7 +12,7 @@ import { GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules'
 // TEMP DEV: // TODO:  Need to get dynamic lists: sales owner = users in settings list; quote contact = user from contacts list; company = company from companies list
 const listItems = [{ name: 'Adam' }, { name: 'Bob' }, { name: 'Chuck' }, { name: 'Dave' }];
 
-function QuoteUpdatePage(): JSX.Element {
+function QuoteUpdatePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
   const navigate = useNavigate();
   // TODO:  Change assertion to runtime check later, using type guard.

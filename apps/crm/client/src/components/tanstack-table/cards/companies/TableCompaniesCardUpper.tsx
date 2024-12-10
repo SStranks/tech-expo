@@ -10,7 +10,7 @@ interface IProps {
   rowOriginal: CoreRow<ITableDataCompanies>['original'];
 }
 
-function TableCompaniesCardUpper(props: IProps): JSX.Element {
+function TableCompaniesCardUpper(props: IProps): React.JSX.Element {
   const { rowOriginal } = props;
 
   return (

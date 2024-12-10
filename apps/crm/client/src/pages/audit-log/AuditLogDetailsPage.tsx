@@ -5,7 +5,7 @@ import FormModal from '@Components/modal/FormModal';
 import { TableAuditLogDetails } from '@Components/tanstack-table/tables';
 import { tableDataAuditLogDetails } from '@Data/MockData';
 
-function AuditLogDetailsPage(): JSX.Element {
+function AuditLogDetailsPage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
   const navigate = useNavigate();
 

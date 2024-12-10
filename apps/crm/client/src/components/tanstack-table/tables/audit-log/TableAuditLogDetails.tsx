@@ -12,7 +12,7 @@ interface IProps {
   tableData: ITableAuditLogDetails[];
 }
 
-function TableAuditLogDetails(props: IProps): JSX.Element {
+function TableAuditLogDetails(props: IProps): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableAuditLogDetails[]>(tableData);
 

@@ -11,7 +11,7 @@ const onClick = () => {
   console.log('Fired');
 };
 
-function CompaniesTableQuotes(): JSX.Element {
+function CompaniesTableQuotes(): React.JSX.Element {
   return (
     <TableSingleColumn>
       <TableSingleColumn.Header>

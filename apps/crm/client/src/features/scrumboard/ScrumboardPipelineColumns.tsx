@@ -14,7 +14,7 @@ interface IProps {
   data: IInitialData;
 }
 
-function ScrumboardPipelineColumns({ data }: IProps): JSX.Element {
+function ScrumboardPipelineColumns({ data }: IProps): React.JSX.Element {
   const columnUnassigned = data.columns['column-unassigned'];
   const columnUnassignedTasks = columnUnassigned.taskIds.map((taskId) => data.tasks[taskId]);
   const columnWon = data.columns['column-won'];

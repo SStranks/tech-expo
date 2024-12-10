@@ -1,11 +1,11 @@
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from 'react-aria-components';
 
 interface IProps {
-  buttonContent: JSX.Element;
+  buttonContent: React.JSX.Element;
   styles: { [key: string]: string };
 }
 
-function InputMenu(props: IProps): JSX.Element {
+function InputMenu(props: IProps): React.JSX.Element {
   const { buttonContent, styles } = props;
 
   return (

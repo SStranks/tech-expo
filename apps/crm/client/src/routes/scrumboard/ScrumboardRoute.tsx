@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 import ViewportLayout from '@Layouts/ViewportLayout';
 
-function ScrumboardRoute(): JSX.Element {
+function ScrumboardRoute(): React.JSX.Element {
   return (
     <ViewportLayout>
       <Outlet />

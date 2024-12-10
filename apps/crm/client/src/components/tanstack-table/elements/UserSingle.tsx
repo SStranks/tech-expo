@@ -9,7 +9,7 @@ interface IProps {
   userName: string;
 }
 
-function UserSingle(props: IProps): JSX.Element {
+function UserSingle(props: IProps): React.JSX.Element {
   const { userName } = props;
 
   return (

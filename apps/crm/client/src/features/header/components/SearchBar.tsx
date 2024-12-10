@@ -9,7 +9,7 @@ import Search from '../features/search/Search';
 
 import styles from './SearchBar.module.scss';
 
-function SearchBar(): JSX.Element {
+function SearchBar(): React.JSX.Element {
   const [portalActive, setPortalActive] = useState<boolean>(false);
   const portalContentRef = useRef<HTMLDivElement>(null);
   const portalButtonRef = useRef<HTMLButtonElement>(null);

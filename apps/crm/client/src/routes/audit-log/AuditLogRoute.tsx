@@ -4,7 +4,7 @@ import ViewportLayout from '@Layouts/ViewportLayout';
 
 import styles from './AuditlogRoute.module.scss';
 
-function AuditLogRoute(): JSX.Element {
+function AuditLogRoute(): React.JSX.Element {
   return (
     <ViewportLayout>
       <div className={styles.auditLogRouteLayout}>

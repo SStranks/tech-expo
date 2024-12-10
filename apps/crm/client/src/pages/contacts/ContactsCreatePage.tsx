@@ -8,7 +8,7 @@ import { EMAIL_RULES, GENERIC_TEXT_RULES } from '@Components/react-hook-form/val
 // TEMP DEV: .
 const listItems = [{ name: 'Adam' }, { name: 'Bob' }, { name: 'Chuck' }, { name: 'Dave' }];
 
-function ContactsCreatePage(): JSX.Element {
+function ContactsCreatePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
   const navigate = useNavigate();
 

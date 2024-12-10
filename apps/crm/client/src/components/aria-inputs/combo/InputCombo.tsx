@@ -13,7 +13,7 @@ interface IProps {
   id: string;
 }
 
-function InputCombo(props: IProps): JSX.Element {
+function InputCombo(props: IProps): React.JSX.Element {
   const { id, items, onChange, value, ...rest } = props;
 
   return (

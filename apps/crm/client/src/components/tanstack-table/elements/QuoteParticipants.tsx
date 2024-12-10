@@ -9,7 +9,7 @@ interface IProps {
   participantFor: ITableDataQuotes['prepared for'];
 }
 
-function QuoteParticipants(props: IProps): JSX.Element {
+function QuoteParticipants(props: IProps): React.JSX.Element {
   const { participantBy, participantFor } = props;
 
   return (

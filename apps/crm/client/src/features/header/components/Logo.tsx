@@ -5,7 +5,7 @@ interface IProps {
   logoUrl: string;
 }
 
-function Logo(props: IProps): JSX.Element {
+function Logo(props: IProps): React.JSX.Element {
   const { logoUrl, title } = props;
   return (
     <div className={styles.logo}>

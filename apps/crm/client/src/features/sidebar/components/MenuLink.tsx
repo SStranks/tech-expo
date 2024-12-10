@@ -13,7 +13,7 @@ interface IProps {
   index: number;
 }
 
-function MenuLink(props: IProps): JSX.Element {
+function MenuLink(props: IProps): React.JSX.Element {
   const { href, Icon, index, minimize, name } = props;
   const location = useLocation();
   const menuLinkRef = useRef<HTMLLIElement>(null);

@@ -36,7 +36,7 @@ interface IProps {
 }
 
 // TODO:  1. Clear notifications. 2. Mark all as read. 3. Click on single notifcation; mark as read.
-function Notifications(props: IProps): JSX.Element {
+function Notifications(props: IProps): React.JSX.Element {
   const { notifications } = props;
   const [portalActive, setPortalActive] = useState<boolean>(false);
   const [notificationsList, setNotificationsList] = useState<INotification[]>(notifications);

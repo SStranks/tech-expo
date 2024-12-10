@@ -17,7 +17,7 @@ interface IProps {
   userInfo: IUserInfo;
 }
 
-function ContactTableInformation(props: IProps): JSX.Element {
+function ContactTableInformation(props: IProps): React.JSX.Element {
   const { userInfo } = props;
 
   return (

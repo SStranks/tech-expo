@@ -12,7 +12,7 @@ interface IInputs {
   email: string;
 }
 
-function ForgotPasswordPage(): JSX.Element {
+function ForgotPasswordPage(): React.JSX.Element {
   const {
     formState,
     formState: { dirtyFields, errors, isSubmitted },

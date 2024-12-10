@@ -4,7 +4,7 @@ import { CommentThread } from '@Features/comment';
 
 import styles from './CompaniesTableNotes.module.scss';
 
-function CompaniesTableNotes(): JSX.Element {
+function CompaniesTableNotes(): React.JSX.Element {
   return (
     <TableSingleColumn>
       <TableSingleColumn.Header>

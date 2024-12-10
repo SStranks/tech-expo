@@ -9,7 +9,7 @@ interface IProps {
   columnId: string;
 }
 
-function ScrumboardColumnAddBtn({ columnId, columnStyle }: IProps): JSX.Element {
+function ScrumboardColumnAddBtn({ columnId, columnStyle }: IProps): React.JSX.Element {
   return (
     <Link
       to={'deal/create'}

@@ -4,7 +4,7 @@ import ViewportLayout from '@Layouts/ViewportLayout';
 
 import styles from './CompaniesRoute.module.scss';
 
-function CompaniesRoute(): JSX.Element {
+function CompaniesRoute(): React.JSX.Element {
   return (
     <ViewportLayout>
       <div className={styles.contactsRouteLayout}>

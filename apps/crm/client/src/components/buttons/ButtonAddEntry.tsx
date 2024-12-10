@@ -7,7 +7,7 @@ interface IProps {
   onClick: () => void;
 }
 
-function ButtonAddEntry(props: IProps): JSX.Element {
+function ButtonAddEntry(props: IProps): React.JSX.Element {
   const { buttonText, onClick } = props;
 
   return (

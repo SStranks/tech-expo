@@ -9,7 +9,7 @@ interface IInputs {
   password33: string;
 }
 
-function ASD(): JSX.Element {
+function ASD(): React.JSX.Element {
   const { register, setFocus, trigger } = useForm<IInputs>({
     defaultValues: { email: '', password: '', password33: '' },
     mode: 'onSubmit',

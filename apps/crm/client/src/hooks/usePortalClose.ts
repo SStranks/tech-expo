@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 type TParam1 = boolean;
 type TParam2 = React.Dispatch<React.SetStateAction<boolean>>;
-type TParam3 = React.RefObject<HTMLDivElement>;
+type TParam3 = React.RefObject<HTMLDivElement | null>;
 type TParam4 = React.RefObject<HTMLButtonElement> | null;
 
 // Closes portal/modal content; when ESC key or click outside of modal content

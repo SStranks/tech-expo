@@ -19,7 +19,7 @@ interface IProps {
   tableData: ITableDataDeals[];
 }
 
-function TableCompaniesDeals(props: IProps): JSX.Element {
+function TableCompaniesDeals(props: IProps): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableDataDeals[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);

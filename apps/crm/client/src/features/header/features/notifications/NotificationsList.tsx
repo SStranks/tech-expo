@@ -7,7 +7,7 @@ interface IProps {
 }
 
 // TODO:  Implement keyboard navigation - convert component/use 'cmdk'; pnpm add cmdk
-function NotificationsList(props: IProps): JSX.Element {
+function NotificationsList(props: IProps): React.JSX.Element {
   const { notifications } = props;
 
   const notificationsListElements = notifications.map((el, i) => {

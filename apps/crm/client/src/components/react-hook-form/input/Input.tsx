@@ -12,7 +12,7 @@ interface IProps {
   defaultValue?: string;
 }
 
-function Input(props: IProps): JSX.Element {
+function Input(props: IProps): React.JSX.Element {
   const { defaultValue, error, id, isRequired, register, type, ...rest } = props;
 
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown

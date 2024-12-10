@@ -11,7 +11,7 @@ interface IProps {
   tableData: ITableDataContacts[];
 }
 
-function TableContactsDelete(props: IProps): JSX.Element {
+function TableContactsDelete(props: IProps): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableDataContacts[]>(tableData);
 

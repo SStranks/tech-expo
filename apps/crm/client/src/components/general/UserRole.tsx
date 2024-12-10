@@ -1,6 +1,6 @@
 import styles from './UserRole.module.scss';
 
-function UserRole(): JSX.Element {
+function UserRole(): React.JSX.Element {
   return <div className={styles.userRole}>Admin</div>;
 }
 

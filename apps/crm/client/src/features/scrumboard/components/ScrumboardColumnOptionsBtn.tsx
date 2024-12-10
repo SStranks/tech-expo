@@ -9,7 +9,7 @@ interface IProps {
   columnTitle: string;
 }
 
-function ScrumboardColumnOptionsBtn({ columnId, columnTitle }: IProps): JSX.Element {
+function ScrumboardColumnOptionsBtn({ columnId, columnTitle }: IProps): React.JSX.Element {
   return (
     <MenuTrigger>
       <Button className={styles.scrumboardOptionBtn} aria-label="Companies Option Menu">

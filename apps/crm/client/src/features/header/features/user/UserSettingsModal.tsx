@@ -17,7 +17,7 @@ interface IProps {
   setSettingsPortalActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function UserSettingsModal(props: IProps): JSX.Element {
+function UserSettingsModal(props: IProps): React.JSX.Element {
   const { setSettingsPortalActive, settingsPortalActive, userName } = props;
   const portalRef = useRef<HTMLDivElement>(null);
   const portalContentRef = useRef<HTMLDivElement>(null);

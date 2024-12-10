@@ -17,7 +17,7 @@ interface IProps {
   tableData: ITableDataQuotes[];
 }
 
-function TableCompaniesQuotes(props: IProps): JSX.Element {
+function TableCompaniesQuotes(props: IProps): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableDataQuotes[]>(tableData);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });

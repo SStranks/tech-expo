@@ -22,7 +22,7 @@ interface IProps {
   tableData: ITableDataQuotes[];
 }
 
-function TableQuotes(props: IProps): JSX.Element {
+function TableQuotes(props: IProps): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableDataQuotes[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);

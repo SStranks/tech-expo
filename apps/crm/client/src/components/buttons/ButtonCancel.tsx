@@ -4,7 +4,7 @@ interface IProps {
   onClick: () => void;
 }
 
-function ButtonCancel({ onClick }: IProps): JSX.Element {
+function ButtonCancel({ onClick }: IProps): React.JSX.Element {
   return (
     <button type="button" onClick={onClick} className={styles.cancelBtn}>
       Cancel

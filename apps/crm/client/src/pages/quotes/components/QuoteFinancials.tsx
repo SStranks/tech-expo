@@ -6,7 +6,7 @@ import QuoteFinancialsItem from './QuoteFinancialsItem';
 
 import styles from './QuoteFinancials.module.scss';
 
-function QuoteFinancials(): JSX.Element {
+function QuoteFinancials(): React.JSX.Element {
   const [serviceItems, setServiceItems] = useState<JSX.Element[]>([]);
   const id = useId();
 

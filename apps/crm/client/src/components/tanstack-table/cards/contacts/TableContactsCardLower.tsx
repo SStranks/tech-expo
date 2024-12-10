@@ -8,7 +8,7 @@ interface IProps {
   rowOriginal: CoreRow<ITableDataContacts>['original'];
 }
 
-function TableContactsCardLower(props: IProps): JSX.Element {
+function TableContactsCardLower(props: IProps): React.JSX.Element {
   const { rowOriginal } = props;
 
   return (

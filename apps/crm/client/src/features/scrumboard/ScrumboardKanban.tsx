@@ -7,7 +7,7 @@ import { ScrumboardKanbanColumns } from './index';
 
 import styles from './Scrumboard.module.scss';
 
-function ScrumBoard(): JSX.Element {
+function ScrumBoard(): React.JSX.Element {
   const reduxDispatch = useReduxDispatch();
   const data = useReduxSelector((store) => store.scrumboardKanban);
 

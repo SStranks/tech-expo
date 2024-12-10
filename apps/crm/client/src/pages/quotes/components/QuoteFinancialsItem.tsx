@@ -6,7 +6,7 @@ const deleteItemClickHandler = () => {
   console.log('delete');
 };
 
-function QuoteFinancialsItem(): JSX.Element {
+function QuoteFinancialsItem(): React.JSX.Element {
   return (
     <div className={styles.quoteFinancialsItem}>
       <div className={styles.quoteFinancialsItem__gridItem}>

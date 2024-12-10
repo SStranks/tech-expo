@@ -11,7 +11,7 @@ interface IProps {
   popoverPlacement: TPlacementValues;
 }
 
-function ButtonOptions(props: IProps): JSX.Element {
+function ButtonOptions(props: IProps): React.JSX.Element {
   const { buttonAriaLabel, popoverPlacement } = props;
 
   return (

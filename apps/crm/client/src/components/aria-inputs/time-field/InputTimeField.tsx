@@ -23,7 +23,7 @@ function InputTimeField<T extends TimeValue>({
   errorMessage,
   label,
   ...props
-}: MyTimeFieldProps<T>): JSX.Element {
+}: MyTimeFieldProps<T>): React.JSX.Element {
   return (
     <TimeField {...props} className={styles.timeField}>
       <Label className={styles.label}>

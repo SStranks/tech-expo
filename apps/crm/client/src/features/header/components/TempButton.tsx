@@ -22,7 +22,7 @@ let listItems: IListItem[] = [
 // console.log(listItems);
 
 // NOTE:  // TEMP DEV:  This component is a sandbox for testing various sub-components
-function TempButton(): JSX.Element {
+function TempButton(): React.JSX.Element {
   const [portalActive, setPortalActive] = useState<boolean>(true);
 
   const btnClickHandler = () => {

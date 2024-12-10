@@ -4,7 +4,7 @@ import { IconMagniferZoomIn } from '@Components/svg';
 
 import styles from './AuditDetails.module.scss';
 
-function AuditDetails(): JSX.Element {
+function AuditDetails(): React.JSX.Element {
   const navigate = useNavigate();
 
   const onClick = () => {

@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 // https://github.com/KRRISH96/react-portal-overlay/blob/main/src/components/ReactPortal.js
 
 type PortalChildren = {
-  children: JSX.Element | JSX.Element[];
+  children: React.JSX.Element | React.JSX.Element[];
   wrapperId: string;
 };
 

@@ -4,7 +4,7 @@ import { DeepRequired, FieldErrorsImpl, FieldValues, Merge, FieldError as TField
 
 import InputDatePicker from './InputDatePicker';
 
-import styles from './_InputDatePicker.module.scss';
+import styles from './InputDatePicker.module.scss';
 
 const DATE_TODAY = today(getLocalTimeZone());
 
@@ -19,7 +19,7 @@ interface IProps<T extends FieldValues = FieldValues> {
   errorMessage?: string | ((validation: ValidationResult) => string);
 }
 
-function Wrapper({ error, isDirty, isRequired, onChangeRHF, valueRHF, ...props }: IProps): JSX.Element {
+function Wrapper({ error, isDirty, isRequired, onChangeRHF, valueRHF, ...props }: IProps): React.JSX.Element {
   const inputValidated = isDirty && !error;
 
   // RETURN to React-Hook-Form; convert from CalendarDate to string

@@ -35,7 +35,7 @@ interface IProps {
 
 // NOTE:  Can't style multiple selection in ListBox when child of Combo; dynamic classes don't work within the component.
 // NOTE:  May have to break apart implemention and utilize hooks, or place ListBox outside combo and hook up.
-function InputComboTag(props: IProps): JSX.Element {
+function InputComboTag(props: IProps): React.JSX.Element {
   const { id, listItems, name, onChange, trigger, ...rest } = props;
   const [selectedKeys, setSelectedKeys] = useState<IListItem[]>([]);
   const [inputValue, setInputValue] = useState('');

@@ -12,7 +12,7 @@ interface IProps {
   debounceDelay?: number;
 }
 
-function GlobalFilterControl(props: IProps): JSX.Element {
+function GlobalFilterControl(props: IProps): React.JSX.Element {
   const { debounceDelay = 250, globalFilter, label, setGlobalFilter } = props;
   const [debouncedValue, setDebouncedValue] = useState(globalFilter);
 

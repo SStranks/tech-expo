@@ -4,7 +4,7 @@ interface IProps {
   disabled?: boolean;
 }
 
-function ButtonDelete({ disabled }: IProps): JSX.Element {
+function ButtonDelete({ disabled }: IProps): React.JSX.Element {
   return (
     <button type="submit" disabled={disabled} className={styles.deleteBtn}>
       Delete

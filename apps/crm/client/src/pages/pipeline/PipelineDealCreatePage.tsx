@@ -21,7 +21,7 @@ type IFormData = {
   dealOwner: string;
 };
 
-function PipelineDealCreatePage(): JSX.Element {
+function PipelineDealCreatePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
   // const { columns, columnOrder } = useReduxSelector((store) => store.scrumboardPipeline);
   const reduxDispatch = useReduxDispatch();

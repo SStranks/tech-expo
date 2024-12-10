@@ -47,7 +47,7 @@ interface IProps {
   status: ITableDataContacts['status'];
 }
 
-function ContactStatus(props: IProps): JSX.Element {
+function ContactStatus(props: IProps): React.JSX.Element {
   const { status } = props;
 
   return (

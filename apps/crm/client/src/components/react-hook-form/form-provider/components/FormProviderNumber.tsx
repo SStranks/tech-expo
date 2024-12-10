@@ -10,7 +10,7 @@ interface IProps {
   rules?: RegisterOptions;
 }
 
-function FormProviderNumber({ label, name, rules = {}, ...rest }: IProps): JSX.Element {
+function FormProviderNumber({ label, name, rules = {}, ...rest }: IProps): React.JSX.Element {
   const {
     control,
     formState: { defaultValues, dirtyFields, isSubmitted },

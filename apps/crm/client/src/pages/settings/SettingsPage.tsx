@@ -7,7 +7,7 @@ import styles from './SettingsPage.module.scss';
 // TEMP DEV: // NOTE:  Make dynamic
 const COMPANY_INFO = tableDataSettingsCompanyInfo;
 
-function SettingsPage(): JSX.Element {
+function SettingsPage(): React.JSX.Element {
   return (
     <div className={styles.settingsPage}>
       <TableSettingsContacts tableData={tableDataSettingsContacts} />

@@ -31,11 +31,11 @@ interface IDeleteControl {
   rowOriginal: CoreRow<TTableDataAllUnion>['original'];
 }
 
-function RowActionsControl({ children }: PropsWithChildren): JSX.Element {
+function RowActionsControl({ children }: PropsWithChildren): React.JSX.Element {
   return <div className={styles.rowActions}>{children}</div>;
 }
 
-function ViewControl({ entryId }: IViewControl): JSX.Element {
+function ViewControl({ entryId }: IViewControl): React.JSX.Element {
   return (
     <Link to={`read/${entryId}`} className={styles.link}>
       <IconEye svgClass={styles.svg} />
@@ -43,7 +43,7 @@ function ViewControl({ entryId }: IViewControl): JSX.Element {
   );
 }
 
-function CallControl({ phone }: ICallControl): JSX.Element {
+function CallControl({ phone }: ICallControl): React.JSX.Element {
   return (
     <Link to={`tel:${phone}`} className={styles.link}>
       <IconPhone svgClass={styles.svg} />
@@ -51,7 +51,7 @@ function CallControl({ phone }: ICallControl): JSX.Element {
   );
 }
 
-function EmailControl({ entryId }: IEmailControl): JSX.Element {
+function EmailControl({ entryId }: IEmailControl): React.JSX.Element {
   return (
     <Link to={`email:${entryId}`} className={styles.link}>
       <IconEmail svgClass={styles.svg} />
@@ -59,7 +59,7 @@ function EmailControl({ entryId }: IEmailControl): JSX.Element {
   );
 }
 
-function UpdateControl({ rowOriginal }: IUpdateControl): JSX.Element {
+function UpdateControl({ rowOriginal }: IUpdateControl): React.JSX.Element {
   return (
     <Link to={`update/${rowOriginal.id}`} state={rowOriginal} className={styles.link}>
       <IconEdit svgClass={styles.svg} />
@@ -67,7 +67,7 @@ function UpdateControl({ rowOriginal }: IUpdateControl): JSX.Element {
   );
 }
 
-function DeleteControl({ rowOriginal }: IDeleteControl): JSX.Element {
+function DeleteControl({ rowOriginal }: IDeleteControl): React.JSX.Element {
   return (
     <Link to={`delete/${rowOriginal.id}`} state={rowOriginal} className={styles.linkDelete}>
       <IconDelete svgClass={styles.svg} />

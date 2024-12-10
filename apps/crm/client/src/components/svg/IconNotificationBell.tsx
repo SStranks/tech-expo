@@ -1,6 +1,6 @@
 import type { IProps } from './';
 
-function IconNotificationBell({ svgClass = undefined }: IProps): JSX.Element {
+function IconNotificationBell({ svgClass = undefined }: IProps): React.JSX.Element {
   return (
     <svg
       className={svgClass}

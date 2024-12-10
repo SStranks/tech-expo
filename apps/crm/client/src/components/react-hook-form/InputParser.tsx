@@ -30,9 +30,9 @@ interface IProps<T> {
 /**
  * Wrapper Component: Manages data flow between libraries: React-Hook-Form, React-Aria-Components
  * @param ReactAriaComponent The React-Aria-Component component
- * @returns React-Aria-Component; JSX.Element
+ * @returns React-Aria-Component; React.JSX.Element
  */
-function InputParser<T>({ ReactAriaComponent, ...props }: IProps<T>): JSX.Element {
+function InputParser<T>({ ReactAriaComponent, ...props }: IProps<T>): React.JSX.Element {
   // RETURN to React-Hook-Form; convert from CalendarDate to string
   const onChange = (...e: unknown[]): void => {
     const convertedValue = onChangeFunctions[ReactAriaComponent.name as keyof typeof onChangeFunctions](e);

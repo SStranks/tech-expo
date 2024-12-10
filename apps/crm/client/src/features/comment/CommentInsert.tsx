@@ -6,7 +6,7 @@ import userImage from '@Img/image-35.jpg';
 
 import styles from './CommentInsert.module.scss';
 
-function CommentInsert(): JSX.Element {
+function CommentInsert(): React.JSX.Element {
   const [editInputValue, setEditInputValue] = useState<string>('');
 
   return (

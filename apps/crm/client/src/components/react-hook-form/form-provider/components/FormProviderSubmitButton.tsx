@@ -2,7 +2,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { ButtonSave } from '@Components/buttons';
 
-function FormProviderSubmitButton(): JSX.Element {
+function FormProviderSubmitButton(): React.JSX.Element {
   const {
     formState: { isSubmitting },
   } = useFormContext();

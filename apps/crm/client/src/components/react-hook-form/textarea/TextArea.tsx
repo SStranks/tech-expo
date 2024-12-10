@@ -26,7 +26,7 @@ interface IProps<T extends FieldValues = FieldValues> {
   label: string;
 }
 
-function TextArea(props: IProps): JSX.Element {
+function TextArea(props: IProps): React.JSX.Element {
   const { error, id, name, register, rules } = props;
 
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown

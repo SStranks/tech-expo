@@ -15,7 +15,7 @@ interface IProps {
   taskStatus?: 'won' | 'lost';
 }
 
-function ScrumBoardPipelineCard({ columnId, index, task, taskStatus }: IProps): JSX.Element {
+function ScrumBoardPipelineCard({ columnId, index, task, taskStatus }: IProps): React.JSX.Element {
   const navigate = useNavigate();
 
   const onDoubleClickHandler = () => {

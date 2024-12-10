@@ -21,7 +21,7 @@ const subTotal = '$2,700';
 const salesTax = '16%';
 const grandTotal = '$4,000';
 
-function QuoteReadPage(): JSX.Element {
+function QuoteReadPage(): React.JSX.Element {
   return (
     <div className={styles.quoteReadPage}>
       <div className={styles.header}>

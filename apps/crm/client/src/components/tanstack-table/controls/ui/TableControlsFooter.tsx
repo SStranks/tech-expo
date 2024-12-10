@@ -14,7 +14,7 @@ interface IProps {
   setPageSize: (updater: Updater<number>) => void;
 }
 
-function TableControlsFooter(props: IProps): JSX.Element {
+function TableControlsFooter(props: IProps): React.JSX.Element {
   const { entriesName, entriesTotal, getPageCount, pageIndex, setPageIndex, setPageSize } = props;
 
   return (

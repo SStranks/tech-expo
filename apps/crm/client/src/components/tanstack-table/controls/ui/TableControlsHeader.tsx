@@ -26,7 +26,7 @@ interface IProps {
   };
 }
 
-function TableControlsHeader(props: IProps): JSX.Element {
+function TableControlsHeader(props: IProps): React.JSX.Element {
   const { createEntryBtn, globalFilter, listGridToggle } = props;
 
   return (

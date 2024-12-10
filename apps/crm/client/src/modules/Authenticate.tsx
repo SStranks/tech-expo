@@ -4,10 +4,10 @@ import type { PropsWithChildren } from 'react';
 import { useReduxSelector } from '@Redux/hooks';
 
 interface IProps {
-  fallback: JSX.Element;
+  fallback: React.JSX.Element;
 }
 
-function Authenticate({ children = undefined, fallback }: PropsWithChildren<IProps>): JSX.Element | undefined {
+function Authenticate({ children = undefined, fallback }: PropsWithChildren<IProps>): React.JSX.Element | undefined {
   const auth = useReduxSelector((store) => store.auth);
   // const location = useLocation();
 

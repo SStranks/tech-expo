@@ -4,7 +4,7 @@ import ViewportLayout from '@Layouts/ViewportLayout';
 
 import styles from './QuotesRoute.module.scss';
 
-function QuotesRoute(): JSX.Element {
+function QuotesRoute(): React.JSX.Element {
   return (
     <ViewportLayout>
       <div className={styles.quotesRouteLayout}>

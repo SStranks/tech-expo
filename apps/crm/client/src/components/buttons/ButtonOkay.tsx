@@ -4,7 +4,7 @@ interface IProps {
   onClick: () => void;
 }
 
-function ButtonOkay({ onClick }: IProps): JSX.Element {
+function ButtonOkay({ onClick }: IProps): React.JSX.Element {
   return (
     <button type="button" onClick={onClick} className={styles.okayBtn}>
       OK

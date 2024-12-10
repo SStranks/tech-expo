@@ -15,7 +15,7 @@ interface IProps {
   resetColumnFilters: (defaultState?: boolean | undefined) => void;
 }
 
-function ListGridToggle(props: IProps): JSX.Element {
+function ListGridToggle(props: IProps): React.JSX.Element {
   const { columnFilters, resetColumnFilters, setColumnFilters, setTableView, tableView } = props;
   const [columnFiltersInternal, setColumnFiltersInternal] = useState<ColumnFiltersState>(columnFilters);
 

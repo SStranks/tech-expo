@@ -6,7 +6,7 @@ interface IProps {
   onClick?: (data?: unknown) => void;
 }
 
-function ButtonClose(props: IProps): JSX.Element {
+function ButtonClose(props: IProps): React.JSX.Element {
   const { onClick } = props;
 
   return (

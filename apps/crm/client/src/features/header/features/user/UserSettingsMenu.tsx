@@ -36,7 +36,7 @@ interface IProps {
   userName: string;
 }
 
-function UserSettingsMenu(props: IProps): JSX.Element {
+function UserSettingsMenu(props: IProps): React.JSX.Element {
   const { userName } = props;
   const reduxDispatch = useReduxDispatch();
   const [menuPortalActive, setMenuPortalActive] = useState<boolean>(false);

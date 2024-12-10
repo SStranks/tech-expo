@@ -2,7 +2,7 @@ import OutletPortalTransition from '@Components/react-transition-group/OutletPor
 import { TableContacts } from '@Components/tanstack-table/tables';
 import { tableDataContacts } from '@Data/MockData';
 
-function ContactsPage(): JSX.Element {
+function ContactsPage(): React.JSX.Element {
   return (
     <>
       <TableContacts tableData={tableDataContacts} />

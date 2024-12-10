@@ -16,7 +16,7 @@ interface IProps {
 }
 
 // Wrapper: UX presentation for state of input; valid, invalid, focused, etc
-function InputUx(props: PropsWithChildren<IProps>): JSX.Element {
+function InputUx(props: PropsWithChildren<IProps>): React.JSX.Element {
   const { children, defaultValue, error, id, invalid, isDirty, isRequired, isSubmitted, label, testId } = props;
   const inputValidated = !error && (defaultValue || (isDirty && !invalid));
   const showErrorState = error && isSubmitted;

@@ -8,7 +8,7 @@ import { GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules'
 // TEMP DEV: .
 const listItems = [{ name: 'Adam' }, { name: 'Bob' }, { name: 'Chuck' }, { name: 'Dave' }];
 
-function QuoteCreatePage(): JSX.Element {
+function QuoteCreatePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
   const navigate = useNavigate();
 

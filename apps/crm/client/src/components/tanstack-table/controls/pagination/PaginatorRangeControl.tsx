@@ -12,7 +12,7 @@ interface IProps {
   setPageIndex: (updater: Updater<number>) => void;
 }
 
-function PaginatorRangeControl(props: IProps): JSX.Element {
+function PaginatorRangeControl(props: IProps): React.JSX.Element {
   const { pageCount, pageIndex: pageIndexProp, setPageIndex: setPageIndexProp } = props;
   // Tanstack-Table; pagination is zero-based
   const pageIndex = pageIndexProp + 1;

@@ -32,7 +32,7 @@ interface IProps {
   userRole: ITableSettingsContacts['role'];
 }
 
-function SettingsRole(props: IProps): JSX.Element {
+function SettingsRole(props: IProps): React.JSX.Element {
   const { userRole } = props;
 
   return (

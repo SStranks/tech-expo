@@ -13,7 +13,7 @@ interface IProps {
   rowOriginal: CoreRow<ITableDataCompanies>['original'];
 }
 
-function TableCompaniesOptionBtn(props: IProps): JSX.Element {
+function TableCompaniesOptionBtn(props: IProps): React.JSX.Element {
   const { rowOriginal } = props;
   const navigate = useNavigate();
 

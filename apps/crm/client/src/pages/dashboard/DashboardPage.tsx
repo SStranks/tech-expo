@@ -1,6 +1,6 @@
 import OutletPortalTransition from '@Components/react-transition-group/OutletPortalTransition';
 
-function DashboardPage(): JSX.Element {
+function DashboardPage(): React.JSX.Element {
   return (
     <>
       <h1>Dashboard</h1>

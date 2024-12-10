@@ -10,7 +10,7 @@ interface IProps {
   taskStatus?: 'won' | 'lost';
 }
 
-function ScrumboardCardOptionsBtn({ columnId, taskId, taskStatus }: IProps): JSX.Element {
+function ScrumboardCardOptionsBtn({ columnId, taskId, taskStatus }: IProps): React.JSX.Element {
   return (
     <MenuTrigger>
       <Button

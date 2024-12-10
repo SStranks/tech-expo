@@ -8,7 +8,7 @@ interface IProps {
   label: string;
   rules?: RegisterOptions;
 }
-function FormProviderTextArea({ label, name, rules = {} }: IProps): JSX.Element {
+function FormProviderTextArea({ label, name, rules = {} }: IProps): React.JSX.Element {
   const {
     formState: { defaultValues, dirtyFields, errors, isSubmitted },
     getFieldState,

@@ -7,7 +7,7 @@ import { ScrumboardPipelineColumns } from './index';
 
 import styles from './Scrumboard.module.scss';
 
-function ScrumBoardPipeline(): JSX.Element {
+function ScrumBoardPipeline(): React.JSX.Element {
   const reduxDispatch = useReduxDispatch();
   const data = useReduxSelector((store) => store.scrumboardPipeline);
 

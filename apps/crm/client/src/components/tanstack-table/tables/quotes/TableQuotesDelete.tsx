@@ -12,7 +12,7 @@ interface IProps {
   tableData: ITableDataQuotes[];
 }
 
-function TableQuotesDelete(props: IProps): JSX.Element {
+function TableQuotesDelete(props: IProps): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableDataQuotes[]>(tableData);
 

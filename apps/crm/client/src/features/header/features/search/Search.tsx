@@ -16,7 +16,7 @@ interface IProps {
 
 // TODO:  Add in DEBOUNCE when the API is functional.
 // NOTE:  <search> contains 'is' attribute to satisfy RTL test - currently <search> is unknown tag/recently added.
-function Search(props: IProps): JSX.Element {
+function Search(props: IProps): React.JSX.Element {
   const { portalActive, setPortalActive } = props;
   const [searchInput, setSearchInput] = useState<string>('');
   const searchInputRef = useRef<HTMLInputElement>(null);

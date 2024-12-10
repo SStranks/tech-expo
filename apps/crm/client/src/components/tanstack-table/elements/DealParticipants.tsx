@@ -10,7 +10,7 @@ interface IProps {
 }
 
 // REFACTOR:  Same as QuoteParticipants generally
-function DealParticipants(props: IProps): JSX.Element {
+function DealParticipants(props: IProps): React.JSX.Element {
   const { dealContact, dealOwner } = props;
 
   return (

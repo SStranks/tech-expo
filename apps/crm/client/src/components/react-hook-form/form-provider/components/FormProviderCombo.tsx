@@ -21,7 +21,7 @@ function FormProviderCombo<T extends object>({
   name,
   rules = {},
   ...rest
-}: ComboBoxProps<T> & IProps): JSX.Element {
+}: ComboBoxProps<T> & IProps): React.JSX.Element {
   const {
     control,
     formState: { defaultValues, dirtyFields, isSubmitted },
