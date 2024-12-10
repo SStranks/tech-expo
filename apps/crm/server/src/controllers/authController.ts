@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 import type { NextFunction, Request, Response } from 'express';
 
 import validator from 'validator';
@@ -65,7 +66,7 @@ const confirmSignup = async (req: Request, res: Response, next: NextFunction) =>
   UserService.createAuthCookie(res, authToken);
   UserService.createRefreshCookie(res, refreshToken);
 
-  res.status(201).json({ message: 'Account verified', status: 'success' });
+  res.status(201).json({ message: 'Account verified', status: 'success', tokens: true });
 };
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
@@ -75,10 +76,20 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   const isEmailValid = validator.isEmail(email);
   if (!isEmailValid) return next(new BadRequestError({ code: 401, message: 'Invalid email address' }));
 
-  await UserService.loginAccount(res, email, password);
+  const user = await UserService.loginAccount(email, password);
+  if (user.accountFrozen && user.accountCreatedAt === user.accountFrozenAt)
+    return res.status(401).redirect('/verify-account');
+
+  const { authToken, refreshToken, refreshTokenPayload } = await UserService.generateClientTokens(user.id, user.role);
+  await UserService.insertRefreshToken(refreshTokenPayload);
+  await UserService.createAuthCookie(res, authToken);
+  await UserService.createRefreshCookie(res, refreshToken);
 
   // TODO:  Send client to dashboard on success
-  res.status(200).json({ message: 'Logged in to CRM', status: 'success' });
+  // TODO: . Amend DATA to send back actual details here.
+  res
+    .status(200)
+    .json({ message: 'Logged in to CRM', status: 'success', tokens: true, data: { user: 'A', roles: ['B'] } });
 };
 
 const logout = async (req: Request, res: Response) => {
@@ -143,6 +154,7 @@ const resetPassword = async (req: Request, res: Response, next: NextFunction) =>
   res.status(200).json({
     message: 'Password Reset Successful',
     status: 'success',
+    tokens: true,
   });
 };
 
@@ -176,7 +188,7 @@ const updatePassword = async (req: Request, res: Response, next: NextFunction) =
   UserService.createAuthCookie(res, authToken);
   UserService.createRefreshCookie(res, refreshToken);
 
-  res.status(200).json({ message: 'Password updated', status: 'success' });
+  res.status(200).json({ message: 'Password updated', status: 'success', tokens: true });
 };
 
 const freezeAccount = async (req: Request, res: Response, _next: NextFunction) => {
@@ -225,7 +237,7 @@ const deleteAccount = async (req: Request, res: Response, next: NextFunction) =>
   res.status(204).send();
 };
 
-const generateAuthToken = async (req: Request, res: Response, _next: NextFunction) => {
+const generateAuthToken = async (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie, [`${JWT_COOKIE_REFRESH_ID}`]: refreshCookie } = req.cookies;
 
@@ -235,16 +247,17 @@ const generateAuthToken = async (req: Request, res: Response, _next: NextFunctio
   } else if (refreshCookie) {
     JWT = refreshCookie;
   }
+  if (!JWT) return next(new BadRequestError({ code: 400, message: 'Unauthorized. Please login' }));
 
   const { acc, client_id, iat: oldIat, jti } = await UserService.verifyRefreshToken(JWT);
   await UserService.isTokenBlacklisted(JWT);
 
   let role;
   if (authCookie) {
-    const { role: userRole } = UserService.verifyAuthToken(authCookie);
+    const { role: userRole } = await UserService.decodeAuthToken(authCookie);
     role = userRole;
   } else {
-    // When Auth token expired and not provided
+    // When Auth token expired and/or not provided
     const { role: userRole } = await UserService.queryUserById(client_id);
     role = userRole;
   }
@@ -255,13 +268,13 @@ const generateAuthToken = async (req: Request, res: Response, _next: NextFunctio
 
   // Legitimate Request; push forward R token accumulator value
   if (refreshToken.acc === acc && refreshToken.activated) {
-    await UserService.updateRefreshToken(client_id, jti, iat, acc + 1, false);
+    await UserService.updateRefreshToken(client_id, jti, acc + 1, iat, false);
     const authToken = await UserService.signAuthToken(client_id, role, iat);
     const refreshToken = await UserService.advanceRefreshToken(JWT, iat);
 
     await UserService.createAuthCookie(res, authToken);
     await UserService.createRefreshCookie(res, refreshToken);
-    res.status(201).json({ message: 'Auth token generated', status: 'success' }); // TODO:  Return Expiry time
+    res.status(201).json({ message: 'Auth token generated', status: 'success', tokens: true }); // TODO:  Return Expiry time
     return;
   }
 
@@ -311,6 +324,13 @@ const activateRefreshToken = async (req: Request, res: Response, _next: NextFunc
   await UserService.activateRefreshToken(client_id, iat);
 
   res.status(204).send();
+};
+
+const identify = async (_req: Request, res: Response, _next: NextFunction) => {
+  // TODO:  Query profile table for user information.
+  const user = await UserService.queryUserById(res.locals.user.client_id);
+  // TEMP: . Need to add in user name, role title, minor details - information to hydrate FE on initial load.
+  res.status(200).json({ status: 'success', message: 'Account identified', user: { role: user.role } });
 };
 
 const protectedRoute = async (req: Request, res: Response, next: NextFunction) => {
@@ -366,6 +386,7 @@ const controller = {
   forgotPassword,
   freezeAccount,
   generateAuthToken,
+  identify,
   login,
   logout,
   protectedRoute,

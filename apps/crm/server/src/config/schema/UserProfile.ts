@@ -1,7 +1,9 @@
+/* eslint-disable perfectionist/sort-objects */
 import type { UUID } from 'node:crypto';
+
 import { relations } from 'drizzle-orm';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
 import { UserTable } from './User';
@@ -12,13 +14,17 @@ export const UserProfileTable = pgTable('userProfile', {
   userId: uuid('userId')
     .references(() => UserTable.id)
     .notNull(),
-  fullName: varchar('fullName', { length: 255 }).notNull(),
+  firstName: varchar('firstName', { length: 255 }).notNull(),
+  lastName: varchar('lastName', { length: 255 }).notNull(),
+  email: varchar('email', { length: 255 }).notNull(), // TODO:  Option to sync with account email, or use separate one.
+  mobile: varchar('mobile', { length: 255 }),
+  telephone: varchar('telephone', { length: 255 }),
+  // timezone: , // TODO:  New Table
+  // country: , // TODO:  New Table
+  company: varchar('company', { length: 255 }).notNull(),
+  companyRole: varchar('companyRole', { length: 255 }),
+
   // image
-  // phoneOffice,
-  // phoneMobile,
-  // email,
-  // timeZone,
-  // organisationRole,
 });
 
 // Relations

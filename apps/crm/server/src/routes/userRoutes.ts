@@ -19,6 +19,7 @@ router.patch('/updatePassword', authController.updatePassword);
 router.patch('/freezeAccount', authController.freezeAccount);
 router.patch('/deleteAccount', authController.deleteAccount);
 router.get('/activateRefreshToken', authController.activateRefreshToken);
+router.get('/identify', authController.identify);
 
 // Restricted
 router.use(authController.restrictedRoute('ROOT', 'ADMIN'));

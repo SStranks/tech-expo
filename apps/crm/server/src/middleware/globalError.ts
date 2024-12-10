@@ -11,7 +11,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
       const { errors, message, stack, statusCode } = err;
 
       pinoLogger.error(err, `GlobalErrorHandler: ${message}`);
-      res.status(statusCode).json({ errors, stack, statusCode });
+      res.status(statusCode).json({ errors, message, stack, statusCode });
       return;
     }
 

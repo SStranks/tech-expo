@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 import type { Response } from 'express';
 import type { JwtPayload } from 'jsonwebtoken';
 
@@ -5,13 +6,14 @@ import argon2 from 'argon2';
 import { and, eq } from 'drizzle-orm/expressions';
 import jwt from 'jsonwebtoken';
 import ms from 'ms';
-import crypto, { type UUID } from 'node:crypto';
 
 import { postgresDB } from '#Config/dbPostgres';
 import { redisClient } from '#Config/dbRedis';
 import { TUserRoles, UserRefreshTokensTable, UserTable } from '#Config/schema/index';
 import { TSelectUserSchema } from '#Config/schema/User';
 import { AppError, BadRequestError, PostgresError } from '#Utils/errors';
+
+import crypto, { type UUID } from 'node:crypto';
 
 const {
   JWT_AUTH_EXPIRES,
@@ -86,10 +88,10 @@ class User {
       return { client_id, exp, iat, jti, role };
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
-        throw new BadRequestError({ message: 'Invalid JWT' });
+        throw new BadRequestError({ code: 401, message: 'Invalid JWT' });
       }
       if (error instanceof jwt.TokenExpiredError) {
-        throw new BadRequestError({ message: 'Expired JWT' });
+        throw new BadRequestError({ code: 401, message: 'Expired JWT' });
       }
       throw new AppError({ context: { error }, logging: true });
     }
@@ -104,10 +106,10 @@ class User {
       return { acc, client_id, exp, iat, jti };
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
-        throw new BadRequestError({ message: 'Invalid JWT' });
+        throw new BadRequestError({ code: 401, message: 'Invalid JWT' });
       }
       if (error instanceof jwt.TokenExpiredError) {
-        throw new BadRequestError({ message: 'Expired JWT' });
+        throw new BadRequestError({ code: 401, message: 'Expired JWT' });
       }
       throw new AppError({ context: { error, logging: true } });
     }
@@ -195,13 +197,13 @@ class User {
     // Cookie options object structure must be identical to overwrite
     res.cookie(JWT_COOKIE_AUTH_ID as string, 'loggedOut', {
       httpOnly: true,
-      maxAge: ms('10000'),
+      maxAge: ms('1000'),
       sameSite: 'strict',
       secure: NODE_ENV === 'production',
     });
     res.cookie(JWT_COOKIE_REFRESH_ID as string, 'loggedOut', {
       httpOnly: true,
-      maxAge: ms('10000'),
+      maxAge: ms('1000'),
       path: '/api/users/generateAuthToken',
       sameSite: 'strict',
       secure: NODE_ENV === 'production',
@@ -315,7 +317,7 @@ class User {
     return user;
   }
 
-  async loginAccount(res: Response, email: string, password: string) {
+  async loginAccount(email: string, password: string) {
     const user = await postgresDB.query.UserTable.findFirst({
       columns: {
         accountActive: true,
@@ -333,16 +335,12 @@ class User {
     });
 
     if (!user || !user.accountActive) throw new BadRequestError({ code: 401, message: 'Invalid account' });
-    if (user.accountFrozen && user.accountCreatedAt === user.accountFrozenAt)
-      return res.status(401).redirect('/verify-account');
+    await this.isPasswordValid(user.password, password);
+
     // TODO:  Maximum login sessions is 5; offer modal to force logout all sessions.
     // if (user.refreshTokens.length >= 5) res.status(400?)
 
-    await this.isPasswordValid(user.password, password);
-    const { authToken, refreshToken, refreshTokenPayload } = await this.generateClientTokens(user.id, user.role);
-    await this.insertRefreshToken(refreshTokenPayload);
-    await this.createAuthCookie(res, authToken);
-    await this.createRefreshCookie(res, refreshToken);
+    return user;
   }
 
   async logoutAccount(authTokenJWT: string) {
