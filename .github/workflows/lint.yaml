@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: 20
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         with:
           version: 8
           run_install: false
@@ -35,7 +35,7 @@ jobs:
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}
@@ -54,10 +54,10 @@ jobs:
 
       # // NOTE:  Megalinter; various linters don't support eslint.config.js yet.
       - name: MegaLinter
-        uses: oxsecurity/megalinter@v7
+        uses: oxsecurity/megalinter@v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FILTER_REGEX_EXCLUDE: (pnpm-lock.yaml|node_modules/)
           ENABLE: ENV,GRAPHQL,HTML,JSON,MARKDOWN,YAML,ACTION,REPOSITORY
           DISABLE_LINTERS: JSON_JSONLINT,JSON_ESLINT_PLUGIN_JSONC,REPOSITORY_CHECKOV,REPOSITORY_GRYPE,REPOSITORY_TRIVY,REPOSITORY_KICS,REPOSITORY_DEVSKIM
-          JSON_PRETTIER_CONFIG_FILE: /packages/prettier-config/prettier.config.js
+          JSON_PRETTIER_CONFIG_FILE: ./packages/prettier-config/prettier.config.js
