@@ -17,6 +17,7 @@ import {
   PageContactsCreate,
   PageContactsDelete,
   PageContactsRead,
+  PageDashboard,
   PageForgotPassword,
   PageKanban,
   PageLogin,
@@ -57,10 +58,9 @@ declare module 'react-aria-components' {
   }
 }
 
-function App(): JSX.Element {
+function App(): React.JSX.Element {
   // NOTE:  RouterProvider: Integrates React-Aria-Components into React-Router
   const navigate = useNavigate();
-  console.log('APP');
 
   return (
     <RouterProvider navigate={navigate}>
@@ -73,7 +73,9 @@ function App(): JSX.Element {
               </LayoutDefault>
             </Authenticate>
           }>
-          <Route index path="/" element={<RouteDashboard />} />
+          <Route path="/" element={<RouteDashboard />}>
+            <Route index element={<PageDashboard />} />
+          </Route>
           <Route element={<RouteCalendar />}>
             <Route path="calendar" element={<PageCalendar />} />
           </Route>

@@ -7,7 +7,7 @@ import { IconLogout, IconSettings, IconUser } from '@Components/svg';
 import usePortalClose from '@Hooks/usePortalClose';
 import usePortalResizeEvent from '@Hooks/usePortalResizeEvent';
 import { useReduxDispatch } from '@Redux/hooks';
-import { clearAuthState } from '@Redux/reducers/authSlice';
+import { logout } from '@Redux/reducers/authSlice';
 import {
   CTG_ENTER_MODAL,
   CTG_EXIT_MODAL,
@@ -59,8 +59,8 @@ function UserSettingsMenu(props: IProps): JSX.Element {
 
   const logoutBtnClickHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
-    reduxDispatch(clearAuthState());
-    navigate('/login');
+    reduxDispatch(logout());
+    navigate('/');
   };
 
   return (

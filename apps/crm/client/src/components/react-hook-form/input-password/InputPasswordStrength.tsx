@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 import type { ZxcvbnResult } from '@zxcvbn-ts/core';
 
 import { useEffect, useId, useState } from 'react';
@@ -32,6 +33,7 @@ const screenReaderText = (result: ZxcvbnResult | null) => {
   if (result) {
     return ARIA_LIVE[result.score];
   }
+
   return false;
 };
 
@@ -40,6 +42,7 @@ interface IProps<T extends FieldValues> {
   control: Control<T>;
   trigger: UseFormTrigger<T>;
   inputName: Path<T>;
+  defaultValue: string | undefined;
   isDirty: boolean | undefined;
   invalid: boolean;
   isRequired: string | ValidationRule<boolean> | undefined;
@@ -51,8 +54,20 @@ interface IProps<T extends FieldValues> {
 
 // TODO:  Style and reformat password information text
 function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Element {
-  const { control, error, inputName, invalid, isDirty, isRequired, isSubmitted, label, register, reveal, trigger } =
-    props;
+  const {
+    control,
+    error,
+    inputName,
+    defaultValue,
+    invalid,
+    isDirty,
+    isRequired,
+    isSubmitted,
+    label,
+    register,
+    reveal,
+    trigger,
+  } = props;
   const [passwordReveal, setPasswordReveal] = useState<boolean>(reveal);
   const [informationPanel, setInformationPanel] = useState<boolean>(false);
   const passwordValue = useWatch({ name: inputName, control });
@@ -82,6 +97,7 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): JSX.Ele
       <InputUx
         label={label}
         id={passwordId}
+        defaultValue={defaultValue}
         isDirty={isDirty}
         invalid={invalid}
         isRequired={VALIDATION_RULES.required}

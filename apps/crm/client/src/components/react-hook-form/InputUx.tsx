@@ -12,11 +12,12 @@ interface IProps {
   isRequired?: string | ValidationRule<boolean> | undefined;
   invalid: boolean;
   isSubmitted: boolean;
+  testId?: string;
 }
 
 // Wrapper: UX presentation for state of input; valid, invalid, focused, etc
 function InputUx(props: PropsWithChildren<IProps>): JSX.Element {
-  const { children, defaultValue, error, id, invalid, isDirty, isRequired, isSubmitted, label } = props;
+  const { children, defaultValue, error, id, invalid, isDirty, isRequired, isSubmitted, label, testId } = props;
   const inputValidated = !error && (defaultValue || (isDirty && !invalid));
   const showErrorState = error && isSubmitted;
   const inputRequired = isRequired && invalid;
@@ -25,7 +26,8 @@ function InputUx(props: PropsWithChildren<IProps>): JSX.Element {
 
   return (
     <div
-      className={`${styles.inputUX} ${inputValidated ? styles.success : ''} ${inputRequired ? styles.inputUX__required : ''} ${showErrorState ? styles.error : ''}`}>
+      className={`${styles.inputUX} ${inputValidated ? styles.success : ''} ${inputRequired ? styles.inputUX__required : ''} ${showErrorState ? styles.error : ''}`}
+      data-testid={testId}>
       {children}
       <label htmlFor={id} className={styles.inputUX__label} data-is-dirty={isDirty}>
         {label}

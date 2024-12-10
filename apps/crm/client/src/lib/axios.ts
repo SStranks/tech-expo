@@ -12,6 +12,7 @@ export interface IAxiosClient {
   clientInstance: AxiosInstance;
   requestInterceptor(): AxiosInterceptorManager<InternalAxiosRequestConfig<any>>;
   responseInterceptor(): AxiosInterceptorManager<AxiosResponse<any, any>>;
+  responseData(response: AxiosResponse): AxiosResponse['data'] | undefined;
   retryRequest(
     config: AxiosRequestConfig<any>,
     retries?: number,
@@ -53,6 +54,11 @@ class axiosClient implements IAxiosClient {
 
   responseInterceptor() {
     return this.clientResponseInterceptor;
+  }
+
+  responseData(response: AxiosResponse): AxiosResponse['data'] | undefined {
+    if (!response.data) return;
+    return response.data;
   }
 
   async retryRequest(config: AxiosRequestConfig<any>, retries: number = 1, delay: number = 600) {

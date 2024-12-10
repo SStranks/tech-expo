@@ -11,7 +11,7 @@ interface IProps {
   label: string;
 }
 
-function InputPasswordSkeleton(props: IProps): JSX.Element {
+function InputPasswordSkeleton(props: IProps): React.JSX.Element {
   const { label } = props;
   const passwordId = useId();
 
