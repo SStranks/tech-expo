@@ -47,17 +47,17 @@ jobs:
         run: pnpm install
 
       - name: ESLint Check
-        run: pnpm --filter "@apps/*" --filter "!./apps/temp" eslint:lint
+        run: pnpm --filter "@apps/*" eslint:lint
 
       - name: Stylelint Check
-        run: pnpm --filter "@apps/*" --filter "!./apps/temp" stylelint:lint
+        run: pnpm --filter "@apps/*" stylelint:lint
 
       # // NOTE:  Megalinter; various linters don't support eslint.config.js yet.
       - name: MegaLinter
         uses: oxsecurity/megalinter@v7
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FILTER_REGEX_EXCLUDE: (apps/temp|pnpm-lock.yaml|node_modules/)
+          FILTER_REGEX_EXCLUDE: (pnpm-lock.yaml|node_modules/)
           ENABLE: ENV,GRAPHQL,HTML,JSON,MARKDOWN,YAML,ACTION,REPOSITORY
           DISABLE_LINTERS: JSON_JSONLINT,JSON_ESLINT_PLUGIN_JSONC,REPOSITORY_CHECKOV,REPOSITORY_GRYPE,REPOSITORY_TRIVY,REPOSITORY_KICS,REPOSITORY_DEVSKIM
           JSON_PRETTIER_CONFIG_FILE: /packages/prettier-config/prettier.config.js
