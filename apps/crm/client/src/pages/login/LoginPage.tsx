@@ -6,8 +6,7 @@ import { Input } from '@Components/react-hook-form';
 import InputUx from '@Components/react-hook-form/InputUx';
 import { EMAIL_RULES, PASSWORD_RULES } from '@Components/react-hook-form/validationRules';
 import { useReduxDispatch } from '@Redux/hooks';
-import { authenticateUser } from '@Redux/reducers/authSlice';
-import { serviceAuth, serviceHttp } from '@Services/index';
+import { login } from '@Redux/reducers/authSlice';
 
 import styles from './LoginPage.module.scss';
 
@@ -17,18 +16,18 @@ interface IInputs {
 }
 
 // TODO:  Think about security; remembering credentials?
-function LoginPage(): JSX.Element {
+function LoginPage(): React.JSX.Element {
   const {
     formState,
     formState: { defaultValues, dirtyFields, errors, isSubmitted, isSubmitting },
     getFieldState,
     handleSubmit,
     register,
-  } = useForm<IInputs>({ defaultValues: { email: 'user@email.com', password: 'password' }, mode: 'onChange' });
+  } = useForm<IInputs>({ defaultValues: { email: '', password: '' }, mode: 'onChange' });
+  // } = useForm<IInputs>({ defaultValues: { email: 'user@email.com', password: 'crmuser' }, mode: 'onChange' });
   // DANGER: // TEMP DEV:  Remove email and password default values
   const { invalid: emailInvalid } = getFieldState('email', formState);
   const { invalid: passwordInvalid } = getFieldState('password', formState);
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
   const emailId = useId();
@@ -39,19 +38,13 @@ function LoginPage(): JSX.Element {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      // setIsLoading(true);
       // TODO:  Get back user details and store in redux
-      await serviceHttp.login({ email: data.email, password: data.password });
-      // Successful login; returns Auth and Refresh http-cookie JWTs
-      serviceAuth.activateRefreshToken();
+      await reduxDispatch(login({ email: data.email, password: data.password }));
       // Send user to requested protected route, or default to homepage
       navigate(fromURL, { replace: true });
     } catch (error) {
       // TODO:  Toast Notification
       console.log('ERROR*******', error);
-    } finally {
-      // setIsLoading(false);
-      reduxDispatch(authenticateUser(true));
     }
   });
 
@@ -67,7 +60,8 @@ function LoginPage(): JSX.Element {
           isDirty={dirtyFields['email']}
           invalid={emailInvalid}
           isRequired={EMAIL_RULES?.required}
-          isSubmitted={isSubmitted}>
+          isSubmitted={isSubmitted}
+          testId="email address">
           <Input
             id={emailId}
             type="email"
@@ -84,7 +78,8 @@ function LoginPage(): JSX.Element {
           isDirty={dirtyFields['password']}
           invalid={passwordInvalid}
           isRequired={PASSWORD_RULES?.required}
-          isSubmitted={isSubmitted}>
+          isSubmitted={isSubmitted}
+          testId="password">
           <Input
             id={passwordId}
             type="password"

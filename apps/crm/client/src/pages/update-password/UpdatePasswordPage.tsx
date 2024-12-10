@@ -24,7 +24,7 @@ interface IInputs {
 function UpdatePasswordPage(): JSX.Element {
   const {
     control,
-    formState: { dirtyFields, errors, isSubmitted },
+    formState: { defaultValues, dirtyFields, errors, isSubmitted },
     formState,
     getFieldState,
     getValues,
@@ -57,6 +57,7 @@ function UpdatePasswordPage(): JSX.Element {
             control={control}
             trigger={trigger}
             inputName="newPassword"
+            defaultValue={defaultValues?.newPassword}
             error={errors.newPassword}
             isRequired
             isDirty={dirtyFields.newPassword}
@@ -69,6 +70,7 @@ function UpdatePasswordPage(): JSX.Element {
         <InputUx
           id={confirmPasswordId}
           label="Confirm Password"
+          defaultValue={defaultValues?.confirmPassword}
           error={errors['confirmPassword']}
           isDirty={dirtyFields['confirmPassword']}
           invalid={confirmPasswordInvalid}
