@@ -47,10 +47,10 @@ jobs:
         run: pnpm install
 
       - name: ESLint Check
-        run: pnpm --filter "@apps/*" --filter "!@apps/temp" eslint:lint
+        run: pnpm --filter "@apps/*" --filter "!./apps/temp" eslint:lint
 
       - name: Stylelint Check
-        run: pnpm --filter "@apps/*" --filter "!@apps/temp" stylelint:lint
+        run: pnpm --filter "@apps/*" --filter "!./apps/temp" stylelint:lint
 
       # // NOTE:  Megalinter; various linters don't support eslint.config.js yet.
       - name: MegaLinter
