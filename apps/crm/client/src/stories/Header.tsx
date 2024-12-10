@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Button } from './Button';
+
 import './header.css';
 
 type User = {
@@ -14,6 +13,7 @@ export interface HeaderProps {
   onCreateAccount?: () => void;
 }
 
+// eslint-disable-next-line perfectionist/sort-objects
 export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => (
   <header>
     <div className="storybook-header">

@@ -1,6 +1,7 @@
 /* eslint-disable perfectionist/sort-objects */
 // @ts-check
 import ESLintPlugin from 'eslint-webpack-plugin';
+
 import path from 'node:path';
 // import url from 'node:url';
 

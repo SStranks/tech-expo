@@ -1,4 +1,6 @@
+/* eslint-disable perfectionist/sort-objects */
 import type { Meta, StoryObj } from '@storybook/react';
+
 import { fn } from '@storybook/test';
 
 import { Header } from './Header';

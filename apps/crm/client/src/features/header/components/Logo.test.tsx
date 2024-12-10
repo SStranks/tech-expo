@@ -20,18 +20,8 @@ describe('Initialization', () => {
   });
 });
 
-/* eslint-disable jest/no-commented-out-tests */
-// describe('Functionality', () => {
-//   test('If user is admin; clicking logo or title navigates to settings page', () => {
-//     render(<Logo title="" logoUrl="" />);
-//   });
-//   test('Loading state; If app data pending, loading animation class is present', () => {
-//     render(<Logo title="" logoUrl="" />);
-//   });
-//   test('Success state; If app data success, success animation class is present', () => {
-//     render(<Logo title="" logoUrl="" />);
-//   });
-//   test('Failure state; If app data failure, failure animation class is present', () => {
-//     render(<Logo title="" logoUrl="" />);
-//   });
-// });
+// TODO: .
+// If 'user is admin; clicking logo or title navigates to settings page'
+// If 'Loading state; If app data pending, loading animation class is present'
+// If 'Success state; If app data success, success animation class is present'
+// If 'Failure state; If app data failure, failure animation class is present'
