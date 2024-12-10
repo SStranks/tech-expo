@@ -1,3 +1,4 @@
+---
 name: Dependencies
 # Checks the entire repository for outdated packages (latest) and prints output to .txt
 
@@ -27,9 +28,8 @@ jobs:
         with:
           node-version: 20
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         with:
-          version: 8
           run_install: false
 
       - name: Get pnpm store directory
@@ -37,7 +37,7 @@ jobs:
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}

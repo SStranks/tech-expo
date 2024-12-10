@@ -1,3 +1,4 @@
+---
 name: 'pnpm outdated dependencies'
 description: 'Runs the command `pnpm outdated -r`, generates markdown, and outputs to a github-summary'
 runs:
