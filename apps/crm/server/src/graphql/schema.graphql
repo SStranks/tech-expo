@@ -1,4 +1,7 @@
+# Query
 type Query {
+  # Greeting
   greeting: String
+  # Sheeting
   sheeting: String
 }
