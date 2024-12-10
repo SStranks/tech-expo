@@ -62,4 +62,4 @@ jobs:
           DISABLE_LINTERS: JSON_JSONLINT,JSON_ESLINT_PLUGIN_JSONC,REPOSITORY_CHECKOV,REPOSITORY_GRYPE,REPOSITORY_TRIVY,REPOSITORY_KICS,REPOSITORY_DEVSKIM
           JSON_PRETTIER_CONFIG_FILE: ./packages/prettier-config/prettier.config.js
           REPOSITORY_SECRETLINT_CONFIG_FILE: ./secretlintrc.js
-          HTML_FILTER_REGEX_EXCLUDE: (**/cypress|**/nodemailer/templates)
+          HTML_FILTER_REGEX_EXCLUDE: (cypress/|nodemailer/templates/)
