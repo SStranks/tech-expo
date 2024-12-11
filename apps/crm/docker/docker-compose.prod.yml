@@ -64,8 +64,8 @@ services:
     security_opt:
       - no-new-privileges
     command: mongod --auth
-  # // DANGER:  Password in .conf file - need to explore options for transferring from secret/env.
-  # redis:
+# // DANGER:  Password in .conf file - need to explore options for transferring from secret/env.
+# redis:
 
 volumes:
   mongodb-prod-data:

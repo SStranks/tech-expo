@@ -1,9 +1,12 @@
 ---
 name: Test
 
-on:
+on: # yamllint disable-line rule:truthy
   push:
     branches: [main]
+    paths:
+      - '**/*.test.[jt]sx?'
+      - '**/*.spec.[jt]sx?'
   pull_request:
     branches: [main]
 

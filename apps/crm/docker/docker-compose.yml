@@ -1,8 +1,7 @@
 ---
-name: "tech-expo-crm"
-version: "3.7"
+name: 'tech-expo-crm'
+version: '3.7'
 services:
-
   # Backend: NodeJS Express
   node-api:
     build:
@@ -12,4 +11,4 @@ services:
   react-app:
     build:
       context: ../client
-    profiles: [ "prod" ]
+    profiles: [prod]

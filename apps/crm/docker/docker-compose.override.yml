@@ -4,7 +4,7 @@ services:
   # Client: React App
   # Use 'npm start' from ./client to init webpack-dev-server
 
-  # Server: NodeJS Express  
+  # Server: NodeJS Express
   node-api:
     container_name: techexpo-express
     image: node:18-alpine3.17

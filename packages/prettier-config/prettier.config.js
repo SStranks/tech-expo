@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 export default {
   printWidth: 120,
   tabWidth: 2,
@@ -8,4 +9,12 @@ export default {
   bracketSameLine: true,
   arrowParens: 'always',
   trailingComma: 'es5',
+  overrides: [
+    {
+      files: ['*.yml', '*.yaml'],
+      options: {
+        bracketSpacing: false,
+      },
+    },
+  ],
 };
