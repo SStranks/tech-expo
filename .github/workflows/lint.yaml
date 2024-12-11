@@ -57,4 +57,4 @@ jobs:
         uses: oxsecurity/megalinter/flavors/javascript@v8.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          EXTENDS: ${{ github.workspace }}/.github/configs/mega-linter.yaml
+          EXTENDS: ./.github/configs/mega-linter.yaml
