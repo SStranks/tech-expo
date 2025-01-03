@@ -8,14 +8,12 @@
   "type": "module",
   "exports": {
     ".": "./eslint.config.js",
-    "./react": {
-      "default": "./react/eslint.config.js"
-    },
-    "./nodejs": {
-      "default": "./nodejs/eslint.config.js"
+    "./rules": {
+      "default": "./rules.js"
     }
   },
   "devDependencies": {
-    "@graphql-eslint/eslint-plugin": "^3.20.1"
+    "@graphql-eslint/eslint-plugin": "^4.3.0",
+    "graphql": "^16.9.0"
   }
 }

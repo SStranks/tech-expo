@@ -1,6 +1,20 @@
 # lint-disable-line relay-page-info-spec
 # lint-disable types-have-descriptions, fields-have-descriptions
+
+"""
+Query
+"""
 type Query {
-  greeting: String
-  sheeting: String
+  """
+  books
+  """
+  books: [Book]
+}
+
+"""
+Book
+"""
+type Book {
+  id: ID!
+  title: String
 }

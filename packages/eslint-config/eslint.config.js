@@ -62,6 +62,14 @@ export const EslintConfig = {
     'perfectionist/sort-objects': [
       'error',
       {
+        // Ignore objects passed to fn calls; regexp name
+        type: 'unsorted',
+        useConfigurationIf: {
+          callingFunctionNamePattern: '^createSlice$',
+        },
+      },
+      {
+        // Default/Fallback Configuration
         destructuredObjects: { groups: false },
         groups: ['top', ['multiline', 'method'], ['unknown'], 'bottom'],
         customGroups: {

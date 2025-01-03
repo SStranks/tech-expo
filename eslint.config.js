@@ -1,13 +1,13 @@
 /* eslint-disable perfectionist/sort-objects */
+// import { EslintConfigReactJest } from '@packages/eslint-config-react-jest';
 import { ConfigPrettier, EslintConfig } from '@packages/eslint-config';
 import { EslintConfigCypress } from '@packages/eslint-config-cypress';
 import { EslintConfigExpress } from '@packages/eslint-config-express';
-// import { EslintConfigReactJest } from '@packages/eslint-config-react-jest';
+import { EslintConfigGraphQL } from '@packages/eslint-config-graphql';
+import EslintConfigGraphQLRules from '@packages/eslint-config-graphql/rules';
 import { EslintConfigReactVitest } from '@packages/eslint-config-react-vitest';
 import { EslintConfigReact as EslintConfigReact_18p2 } from '@packages/eslint-config-react/react-18.2';
 import { EslintConfigStorybook } from '@packages/eslint-config-storybook';
-// NOTE:  GraphQL; waiting for v4 for flat-config support
-// import { EslintConfigGraphQLReact, EslintConfigGraphQLNode } from '@packages/eslint-config-graphql';
 
 export default [
   {
@@ -32,9 +32,9 @@ export default [
   },
   // === INDIVIDUAL PROJECTS ===
   {
-    name: 'CRM: Client; React + TypeScript + GraphQL',
+    name: 'CRM: Client; React + TypeScript',
     files: ['apps/crm/client/src/**/*.[jt]s?(x)', 'apps/pnpm-outdated/client/src/*.ts'],
-    // processor: EslintConfigGraphQLReact.processor,
+    processor: EslintConfigGraphQL.processor,
     languageOptions: {
       parserOptions: { project: ['./apps/crm/client/tsconfig.json'] },
       ...EslintConfigReact_18p2.languageOptions,
@@ -42,6 +42,15 @@ export default [
     plugins: { ...EslintConfigReact_18p2.plugins },
     rules: { ...EslintConfigReact_18p2.rules },
     settings: { ...EslintConfigReact_18p2.settings },
+  },
+  {
+    name: 'CRM: Client; GraphQL',
+    files: ['apps/crm/client/src/**/*.graphql'],
+    languageOptions: {
+      ...EslintConfigGraphQL.languageOptions,
+    },
+    plugins: { ...EslintConfigGraphQL.plugins },
+    rules: { ...EslintConfigGraphQLRules['flat/operations-recommended'] },
   },
   {
     name: 'CRM: Client; Storybook',
@@ -85,18 +94,20 @@ export default [
     rules: { ...EslintConfigExpress.rules },
     settings: { ...EslintConfigExpress.settings },
   },
-  // {
-  //   name: 'CRM: Server; GraphQL',
-  //   files: ['apps/crm/server/src/**/*.{graphql,gql}'],
-  //   languageOptions: {
-  //     ...EslintConfigGraphQLNode.languageOptions,
-  //     parserOptions: {
-  //       schema: 'apps/crm/server/src/graphql/schema.graphql',
-  //     },
-  //   },
-  //   plugins: { ...EslintConfigGraphQLNode.plugins },
-  //   rules: { ...EslintConfigGraphQLNode.rules },
-  // },
+  {
+    name: 'CRM: Server; GraphQL',
+    files: ['apps/crm/server/**/*.graphql'],
+    languageOptions: {
+      ...EslintConfigGraphQL.languageOptions,
+      parserOptions: {
+        graphqlConfig: {
+          schema: 'apps/crm/server/src/graphql/schema.graphql',
+        },
+      },
+    },
+    plugins: { ...EslintConfigGraphQL.plugins },
+    rules: { ...EslintConfigGraphQLRules['flat/schema-recommended'], 'prettier/prettier': 'error' },
+  },
   ConfigPrettier,
 ];
 

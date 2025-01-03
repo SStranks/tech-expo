@@ -13,7 +13,7 @@
 - eslint-config-airbnb-base // ✖ .
 - eslint-config-airbnb-typescript // ✖ .
 - eslint-import-resolver-typescript // ⬡ .
-- @graphql-eslint // ✖ .
+- @graphql-eslint // ✔ .
 - eslint-plugin-storybook // ✔ .
 - eslint-plugin-react-hooks // ✔ .
 - eslint-plugin-import // ✔ .
