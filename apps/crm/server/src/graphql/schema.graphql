@@ -6,15 +6,7 @@ Query
 """
 type Query {
   """
-  books
+  setup; to be removed
   """
-  books: [Book]
-}
-
-"""
-Book
-"""
-type Book {
-  id: ID!
-  title: String
+  helloWorld: String
 }

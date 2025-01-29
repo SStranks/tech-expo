@@ -26,6 +26,7 @@ const CommonConfig = {
       '@Context': path.resolve(CUR, 'src/context'),
       '@Data': path.resolve(CUR, 'src/data'),
       '@Features': path.resolve(CUR, 'src/features'),
+      '@Graphql': path.resolve(CUR, 'src/graphql'),
       '@Hooks': path.resolve(CUR, 'src/hooks'),
       '@Layouts': path.resolve(CUR, 'src/layouts'),
       '@Lib': path.resolve(CUR, 'src/lib'),

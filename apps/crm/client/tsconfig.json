@@ -11,6 +11,7 @@
       "@Context/*": ["src/context/*"],
       "@Data/*": ["src/data/*"],
       "@Features/*": ["src/features/*"],
+      "@Graphql/*": ["src/graphql/*"],
       "@Hooks/*": ["src/hooks/*"],
       "@Layouts/*": ["src/layouts/*"],
       "@Lib/*": ["src/lib/*"],

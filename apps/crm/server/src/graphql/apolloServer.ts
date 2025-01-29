@@ -1,20 +1,14 @@
 import { ApolloServer } from '@apollo/server';
-import { readFile } from 'node:fs/promises';
-import path from 'node:path';
-import url from 'node:url';
 
 import pinoLogger from '#Helpers/pinoLogger';
 import rollbar from '#Helpers/rollbar';
 
 import formatError from './errors';
-import { resolvers } from './resolvers';
-
-const CUR = path.dirname(url.fileURLToPath(import.meta.url));
-const typeDefs = await readFile(path.resolve(CUR, '../graphql/schema.graphql'), 'utf8');
+import schema from './schema';
 
 const introspection = process.env.NODE_ENV !== 'production';
 
-const apolloServer = new ApolloServer({ formatError, introspection, resolvers, typeDefs });
+const apolloServer = new ApolloServer({ formatError, introspection, schema });
 
 try {
   await apolloServer.start();
@@ -28,5 +22,6 @@ try {
     process.exit();
   });
 }
+pinoLogger.info('Connected to GraphQL ApolloServer');
 
 export { apolloServer };

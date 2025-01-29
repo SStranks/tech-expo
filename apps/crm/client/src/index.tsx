@@ -1,14 +1,16 @@
-/* eslint-disable perfectionist/sort-imports */
+/* eslint-disable perfectionist/sort-imports */ // NOTE:  Redux to initialize before App.
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
 
 import ReduxStore from '@Redux/store';
 import App from '@Components/App';
 
 import '@Sass/global-imports.scss';
 import { authInitialize } from '@Redux/reducers/authSlice';
+import ApolloClient from '@Graphql/ApolloClient';
 
 ReduxStore.dispatch(authInitialize());
 
@@ -33,7 +35,9 @@ root.render(
   <StrictMode>
     <BrowserRouter>
       <Provider store={ReduxStore}>
-        <App />
+        <ApolloProvider client={ApolloClient}>
+          <App />
+        </ApolloProvider>
       </Provider>
     </BrowserRouter>
   </StrictMode>
