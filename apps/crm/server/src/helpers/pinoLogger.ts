@@ -13,14 +13,14 @@ let transport;
 
 switch (true) {
   case NODE_ENV === 'test': {
-    config = { enabled: false, name: 'Pino-Test' };
+    config = { name: 'Pino-Test', enabled: false };
     transport = {};
     break;
   }
   case NODE_ENV === 'development' || NODE_ENV === undefined: {
     config = {
-      level: process.env.PINO_LOG_LEVEL || 'trace',
       name: 'Pino-Dev',
+      level: process.env.PINO_LOG_LEVEL || 'trace',
       timestamp: pino.stdTimeFunctions.isoTime,
     };
     transport = pino.transport({
@@ -51,26 +51,26 @@ switch (true) {
   }
   case NODE_ENV === 'production': {
     config = {
-      level: process.env.PINO_LOG_LEVEL_PROD || 'info',
       name: 'Pino-Prod',
+      level: process.env.PINO_LOG_LEVEL_PROD || 'info',
       timestamp: pino.stdTimeFunctions.isoTime,
     };
     transport = pino.transport({
       targets: [
         {
           level: 'error',
+          target: 'pino-mongodb',
           options: {
             collection: `logs-${YEAR}-${MONTH}-${DAY}`,
             database: process.env.MONGODB_DATABASE,
+            uri: `${process.env.MONGODB_PROTOCOL}://${process.env.MONGODB_HOST}/`,
             mongoOptions: {
               auth: {
                 password: process.env.MONGODB_PASSWORD,
                 username: process.env.MONGODB_USER,
               },
             },
-            uri: `${process.env.MONGODB_PROTOCOL}://${process.env.MONGODB_HOST}/`,
           },
-          target: 'pino-mongodb',
         },
       ],
     });

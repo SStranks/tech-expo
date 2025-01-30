@@ -29,11 +29,6 @@ function TableAuditLog(props: IProps): React.JSX.Element {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
-    state: {
-      columnFilters,
-      pagination,
-      sorting,
-    },
     columns: ColumnAuditLog,
     data,
     getCoreRowModel: getCoreRowModel(),
@@ -44,6 +39,11 @@ function TableAuditLog(props: IProps): React.JSX.Element {
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
+    state: {
+      columnFilters,
+      pagination,
+      sorting,
+    },
   });
 
   const { getPageCount, getRowCount, setPageIndex, setPageSize } = table;

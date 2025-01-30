@@ -27,12 +27,6 @@ function TableCompaniesDeals(props: IProps): React.JSX.Element {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
-    getRowId: (originalRow) => originalRow.id,
-    state: {
-      columnFilters,
-      pagination,
-      sorting,
-    },
     columns: ColumnCompaniesDeals,
     data,
     getCoreRowModel: getCoreRowModel(),
@@ -42,6 +36,12 @@ function TableCompaniesDeals(props: IProps): React.JSX.Element {
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
+    getRowId: (originalRow) => originalRow.id,
+    state: {
+      columnFilters,
+      pagination,
+      sorting,
+    },
   });
 
   const { getPageCount, setPageIndex } = table;

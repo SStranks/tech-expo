@@ -24,11 +24,6 @@ function TableCompaniesContacts(props: IProps): React.JSX.Element {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
-    getRowId: (originalRow) => originalRow.id,
-    state: {
-      columnFilters,
-      pagination,
-    },
     columns: ColumnCompaniesContacts,
     data,
     getCoreRowModel: getCoreRowModel(),
@@ -36,6 +31,11 @@ function TableCompaniesContacts(props: IProps): React.JSX.Element {
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
+    getRowId: (originalRow) => originalRow.id,
+    state: {
+      columnFilters,
+      pagination,
+    },
   });
 
   const { getPageCount, setPageIndex } = table;

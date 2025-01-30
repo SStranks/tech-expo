@@ -27,10 +27,6 @@ function TableSettingsContacts(props: IProps): React.JSX.Element {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
-    state: {
-      columnFilters,
-      pagination,
-    },
     columns: ColumnSettingsContacts,
     data,
     enableSorting: false,
@@ -40,6 +36,10 @@ function TableSettingsContacts(props: IProps): React.JSX.Element {
     meta: { tableName: 'settings-contacts' },
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
+    state: {
+      columnFilters,
+      pagination,
+    },
   });
 
   const { getPageCount, getRowCount, setPageIndex, setPageSize } = table;

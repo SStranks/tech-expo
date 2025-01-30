@@ -10,30 +10,30 @@ const columnHelper = createColumnHelper<ITableDataQuotes>();
 const columnCompaniesQuotesDef = [
   columnHelper.accessor('title', {
     id: 'Quote Title',
+    enableSorting: false,
     cell: (info) => <UserSingle userName={info.getValue()} />,
     header: ({ column }) => <span>{column.id}</span>,
-    enableSorting: false,
   }),
   columnHelper.accessor('total amount', {
     id: 'Total Amount',
+    enableSorting: false,
     cell: (info) => info.getValue(),
     header: ({ column }) => <span>{column.id}</span>,
-    enableSorting: false,
   }),
   columnHelper.accessor('stage', {
     id: 'Stage',
-    cell: (info) => <QuoteStage stage={info.getValue()} />,
-    header: ({ column }) => <span>{column.id}</span>,
     enableGlobalFilter: false,
     enableSorting: false,
+    cell: (info) => <QuoteStage stage={info.getValue()} />,
+    header: ({ column }) => <span>{column.id}</span>,
   }),
   columnHelper.accessor((row) => ({ preparedBy: row['prepared by'], preparedFor: row['prepared for'] }), {
     id: 'participants',
+    enableSorting: false,
     cell: (info) => (
       <QuoteParticipants participantBy={info.getValue().preparedBy} participantFor={info.getValue().preparedFor} />
     ),
     header: () => <span>Participants</span>,
-    enableSorting: false,
   }),
   columnHelper.display({
     id: 'Actions',

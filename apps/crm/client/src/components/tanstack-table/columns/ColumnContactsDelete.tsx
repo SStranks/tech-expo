@@ -13,10 +13,10 @@ const columnContactsDeleteDef = [
   }),
   columnHelper.accessor('company', { cell: (info) => info.getValue(), header: () => <span>Company</span> }),
   columnHelper.accessor('status', {
-    cell: (info) => <ContactStatus status={info.getValue()} />,
-    header: () => <span>Status</span>,
     enableColumnFilter: false,
     enableGlobalFilter: false,
+    cell: (info) => <ContactStatus status={info.getValue()} />,
+    header: () => <span>Status</span>,
   }),
 ];
 

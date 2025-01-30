@@ -10,21 +10,21 @@ const columnHelper = createColumnHelper<ITableDataContacts>();
 const columnCompaniesContactsDef = [
   columnHelper.accessor('name', {
     id: 'Name',
+    enableSorting: false,
     cell: (info) => <UserSingle userName={info.getValue()} />,
     header: ({ column }) => <span>{column.id}</span>,
-    enableSorting: false,
   }),
   columnHelper.accessor('title', {
     id: 'Title',
+    enableSorting: false,
     cell: (info) => info.getValue(),
     header: ({ column }) => <span>{column.id}</span>,
-    enableSorting: false,
   }),
   columnHelper.accessor('status', {
     id: 'Status',
+    enableSorting: false,
     cell: (info) => <ContactStatus status={info.getValue()} />,
     header: ({ column }) => <span>{column.id}</span>,
-    enableSorting: false,
   }),
   columnHelper.display({
     id: 'Actions',

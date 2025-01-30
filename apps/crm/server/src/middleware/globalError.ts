@@ -64,8 +64,8 @@ const globalErrorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   rollbar.error(errMsg, err);
 
   res.status(500).json({
-    message: `${errMsg}. Contact support`,
     status: 'Error',
+    message: `${errMsg}. Contact support`,
   });
 };
 

@@ -32,13 +32,6 @@ function TableQuotes(props: IProps): React.JSX.Element {
   const navigate = useNavigate();
 
   const table = useReactTable({
-    getRowId: (originalRow) => originalRow.id,
-    state: {
-      columnFilters,
-      globalFilter,
-      pagination,
-      sorting,
-    },
     columns: ColumnQuotes,
     data,
     getCoreRowModel: getCoreRowModel(),
@@ -50,6 +43,13 @@ function TableQuotes(props: IProps): React.JSX.Element {
     onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
+    getRowId: (originalRow) => originalRow.id,
+    state: {
+      columnFilters,
+      globalFilter,
+      pagination,
+      sorting,
+    },
   });
 
   const { getPageCount, getRowCount, options, setPageIndex, setPageSize } = table;

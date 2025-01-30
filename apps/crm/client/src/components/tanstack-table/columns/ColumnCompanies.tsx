@@ -21,16 +21,16 @@ const columnCompaniesDef = [
   }),
   columnHelper.accessor('openDealsAmount', {
     id: 'Open Deals Total',
-    cell: (info) => info.getValue(),
-    header: ({ column }) => <span>{column.id}</span>,
     enableColumnFilter: false,
     enableGlobalFilter: false,
+    cell: (info) => info.getValue(),
+    header: ({ column }) => <span>{column.id}</span>,
   }),
   columnHelper.accessor('relatedContacts', {
     id: 'Related Contacts',
+    enableSorting: false,
     cell: (info) => <RelatedContacts relatedContacts={info.getValue()} />,
     header: ({ column }) => <span>{column.id}</span>,
-    enableSorting: false,
   }),
   columnHelper.display({
     id: 'Actions',

@@ -35,13 +35,6 @@ function TableContacts(props: IProps): React.JSX.Element {
   const navigate = useNavigate();
 
   const table = useReactTable({
-    getRowId: (originalRow) => originalRow.id,
-    state: {
-      columnFilters,
-      globalFilter,
-      pagination,
-      sorting,
-    },
     columns: ColumnContacts,
     data,
     getCoreRowModel: getCoreRowModel(),
@@ -53,6 +46,13 @@ function TableContacts(props: IProps): React.JSX.Element {
     onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
+    getRowId: (originalRow) => originalRow.id,
+    state: {
+      columnFilters,
+      globalFilter,
+      pagination,
+      sorting,
+    },
   });
 
   const { getPageCount, getRowCount, options, resetColumnFilters, setPageIndex, setPageSize } = table;

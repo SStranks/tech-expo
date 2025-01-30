@@ -7,16 +7,16 @@ import { useDeferredValue, useEffect, useState } from 'react';
 
 const options = {
   // recommended
-  dictionary: {
-    ...zxcvbnCommonPackage.dictionary,
-    ...zxcvbnEnPackage.dictionary,
-  },
-  // recommended
   graphs: zxcvbnCommonPackage.adjacencyGraphs,
   // optional
   translations: zxcvbnEnPackage.translations,
   // recommended
   useLevenshteinDistance: true,
+  // recommended
+  dictionary: {
+    ...zxcvbnCommonPackage.dictionary,
+    ...zxcvbnEnPackage.dictionary,
+  },
 };
 zxcvbnOptions.setOptions(options);
 

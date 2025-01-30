@@ -17,15 +17,15 @@ const columnQuotesDef = [
     header: () => <span>Company</span>,
   }),
   columnHelper.accessor('total amount', {
-    cell: (info) => info.getValue(),
-    header: () => <span>Total Amount</span>,
     enableColumnFilter: false,
     enableGlobalFilter: false,
+    cell: (info) => info.getValue(),
+    header: () => <span>Total Amount</span>,
   }),
   columnHelper.accessor('stage', {
+    enableGlobalFilter: false,
     cell: (info) => <QuoteStage stage={info.getValue()} />,
     header: () => <span>Stage</span>,
-    enableGlobalFilter: false,
   }),
   columnHelper.accessor((row) => ({ preparedBy: row['prepared by'], preparedFor: row['prepared for'] }), {
     id: 'participants',
@@ -35,10 +35,10 @@ const columnQuotesDef = [
     header: () => <span>Participants</span>,
   }),
   columnHelper.accessor('created at', {
-    cell: (info) => info.getValue(),
-    header: () => <span>Created At</span>,
     enableColumnFilter: false,
     enableGlobalFilter: false,
+    cell: (info) => info.getValue(),
+    header: () => <span>Created At</span>,
   }),
   columnHelper.display({
     id: 'Actions',

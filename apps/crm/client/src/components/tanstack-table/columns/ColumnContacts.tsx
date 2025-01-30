@@ -16,10 +16,10 @@ const columnContactsDef = [
   columnHelper.accessor('company', { cell: (info) => info.getValue(), header: () => <span>Company</span> }),
   columnHelper.accessor('title', { cell: (info) => info.getValue(), header: () => <span>Title</span> }),
   columnHelper.accessor('status', {
-    cell: (info) => <ContactStatus status={info.getValue()} />,
-    header: () => <span>Status</span>,
     enableColumnFilter: false,
     enableGlobalFilter: false,
+    cell: (info) => <ContactStatus status={info.getValue()} />,
+    header: () => <span>Status</span>,
   }),
   columnHelper.display({
     id: 'Actions',

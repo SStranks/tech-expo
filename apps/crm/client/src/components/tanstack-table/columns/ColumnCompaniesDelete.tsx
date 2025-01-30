@@ -19,10 +19,10 @@ const columnCompaniesDeleteDef = [
   }),
   columnHelper.accessor('openDealsAmount', {
     id: 'Open Deals Total',
-    cell: (info) => info.getValue(),
-    header: ({ column }) => <span>{column.id}</span>,
     enableColumnFilter: false,
     enableGlobalFilter: false,
+    cell: (info) => info.getValue(),
+    header: ({ column }) => <span>{column.id}</span>,
   }),
 ];
 

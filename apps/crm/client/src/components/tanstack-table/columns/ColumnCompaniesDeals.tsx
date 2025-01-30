@@ -10,29 +10,29 @@ const columnHelper = createColumnHelper<ITableDataDeals>();
 const columnCompaniesDealssDef = [
   columnHelper.accessor('title', {
     id: 'Title',
+    enableSorting: false,
     cell: (info) => info.getValue(),
     header: ({ column }) => <span>{column.id}</span>,
-    enableSorting: false,
   }),
   columnHelper.accessor('amount', {
     id: 'Deal Amount',
+    enableColumnFilter: false,
     cell: (info) => info.getValue(),
     header: ({ column }) => <span>{column.id}</span>,
-    enableColumnFilter: false,
   }),
   columnHelper.accessor('stage', {
     id: 'Stage',
+    enableSorting: false,
     cell: (info) => info.getValue(),
     header: ({ column }) => <span>{column.id}</span>,
-    enableSorting: false,
   }),
   columnHelper.accessor((row) => ({ dealContact: row['dealContact'], dealOwner: row['dealOwner'] }), {
     id: 'Participants',
+    enableSorting: false,
     cell: (info) => (
       <DealParticipants dealOwner={info.getValue().dealOwner} dealContact={info.getValue().dealContact} />
     ),
     header: () => <span>Participants</span>,
-    enableSorting: false,
   }),
   columnHelper.display({
     id: 'Actions',

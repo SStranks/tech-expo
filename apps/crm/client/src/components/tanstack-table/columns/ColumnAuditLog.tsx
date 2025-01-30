@@ -14,23 +14,23 @@ const columnAuditLogDef = [
   }),
   columnHelper.accessor('action', {
     id: 'Action',
+    enableSorting: false,
     cell: (info) => <AuditAction action={info.getValue()} />,
     header: ({ column }) => <span>{column.id}</span>,
-    enableSorting: false,
   }),
   columnHelper.accessor('entity', {
     id: 'Entity',
-    cell: (info) => info.getValue(),
-    header: ({ column }) => <span>{column.id}</span>,
     enableColumnFilter: false,
     enableSorting: false,
+    cell: (info) => info.getValue(),
+    header: ({ column }) => <span>{column.id}</span>,
   }),
   columnHelper.accessor('entity_id', {
     id: 'Entity ID',
-    cell: (info) => info.getValue(),
-    header: ({ column }) => <span>{column.id}</span>,
     enableColumnFilter: false,
     enableSorting: false,
+    cell: (info) => info.getValue(),
+    header: ({ column }) => <span>{column.id}</span>,
   }),
   columnHelper.display({
     id: 'Changes',

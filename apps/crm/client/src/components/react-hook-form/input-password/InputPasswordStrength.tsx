@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { ZxcvbnResult } from '@zxcvbn-ts/core';
 
 import { useEffect, useId, useState } from 'react';
@@ -56,9 +55,9 @@ interface IProps<T extends FieldValues> {
 function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): React.JSX.Element {
   const {
     control,
+    defaultValue,
     error,
     inputName,
-    defaultValue,
     invalid,
     isDirty,
     isRequired,
@@ -88,8 +87,8 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): React.J
   };
 
   const VALIDATION_RULES = {
-    validate: () => result?.score === 4 || 'Password is insufficiently strong',
     required: { message: 'Please enter strong password', value: true },
+    validate: () => result?.score === 4 || 'Password is insufficiently strong',
   };
 
   return (
