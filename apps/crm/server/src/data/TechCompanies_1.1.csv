@@ -1,0 +1,701 @@
+companyName,companySize,totalRevenue,industry,businessType,country,website
+CodeCrafters,medium,13443863,Software Development,B2B,DK,https://codecrafters.com
+BinaryForge,large,55274435,Software Development,B2C,HK,https://binaryforge.com
+NextGenSoftworks,medium,39781934,Software Development,B2B,DE,https://nextgensoftworks.com
+PixelLogic,medium,5367836,Software Development,B2C,SG,https://pixellogic.com
+DevNexus,micro,447161,Software Development,B2C,NL,https://devnexus.com
+Syntax Innovations,medium,29919464,Software Development,B2B,CA,https://syntaxinnovations.com
+AgileMind Studios,large,214578133,Software Development,B2C,US,https://agilemindstudios.com
+QuantumCode Labs,small,4618696,Software Development,B2C,NL,https://quantumcodelabs.com
+Skyline Software Solutions,medium,34590944,Software Development,B2C,SG,https://skylinesoftwaresolutions.com
+EchoByte Technologies,small,3213529,Software Development,B2B,CZ,https://echobytetechnologies.com
+SiliconForge,micro,224133,Hardware & Semiconductor,B2B,EE,https://siliconforge.ee
+QuantumCircuits,small,2712771,Hardware & Semiconductor,B2B,DK,https://quantumcircuits.com
+NextGen Chips,small,2216830,Hardware & Semiconductor,B2C,KR,https://nextgenchips.com
+Precision Silicon,micro,143289,Hardware & Semiconductor,B2C,US,https://precisionsilicon.com
+NanoCore Technologies,small,1242685,Hardware & Semiconductor,B2B,CA,https://nanocoretechnologies.com
+Vortex Semiconductors,small,4162863,Hardware & Semiconductor,B2B,JP,https://vortexsemiconductors.com
+TitanChip Solutions,small,3634172,Hardware & Semiconductor,B2B,AT,https://titanchipsolutions.com
+HyperLogic Systems,medium,31131521,Hardware & Semiconductor,B2B,KR,https://hyperlogicsystems.com
+Vertex Microelectronics,micro,490663,Hardware & Semiconductor,B2B,NZ,https://vertexmicroelectronics.com
+Infinity Circuits,large,232209837,Hardware & Semiconductor,B2B,CN,https://infinitycircuits.com
+TechSavvy Solutions,large,313663286,IT Services & Consulting,B2B,SG,https://techsavvysolutions.com
+DigitalBridge Consulting,large,145215914,IT Services & Consulting,B2C,SE,https://digitalbridgeconsulting.se
+Nexus IT Services,small,858633,IT Services & Consulting,B2B,NL,https://nexusitservices.com
+CloudStride Consulting,medium,26879113,IT Services & Consulting,B2C,KR,https://cloudstrideconsulting.com
+ByteLogic Advisors,large,130207034,IT Services & Consulting,B2B,FR,https://bytelogicadvisors.com
+FuturePath IT,medium,40393597,IT Services & Consulting,B2C,IL,https://futurepathit.com
+InfiniTech Solutions,large,194303952,IT Services & Consulting,B2C,NL,https://infinitechsolutions.nl
+Apex IT Consulting,micro,36972,IT Services & Consulting,B2C,IL,https://apexitconsulting.com
+Synergy Systems,small,3507322,IT Services & Consulting,B2B,DK,https://synergysystems.com
+Quantum IT Group,large,84915450,IT Services & Consulting,B2B,IL,https://quantumitgroup.com
+ShieldGuard Security,micro,457555,Cybersecurity,B2B,IS,https://shieldguardsecurity.com
+CyberSentinel Solutions,large,250679110,Cybersecurity,B2B,AT,https://cybersentinelsolutions.com
+Fortress Cyber Defense,medium,19756355,Cybersecurity,B2B,SE,https://fortresscyberdefense.com
+IronWall Security,large,66531098,Cybersecurity,B2B,SE,https://ironwallsecurity.com
+DarkNet Defenders,micro,269380,Cybersecurity,B2C,IL,https://darknetdefenders.com
+Phantom Shield,small,920356,Cybersecurity,B2B,KR,https://phantomshield.com
+NextGen Cyber Armor,micro,302380,Cybersecurity,B2C,FI,https://nextgencyberarmor.com
+ByteSafe Technologies,micro,220637,Cybersecurity,B2B,HK,https://bytesafetechnologies.com
+SentinelX Security,small,2219074,Cybersecurity,B2B,CH,https://sentinelxsecurity.com
+Quantum Shield Systems,medium,29229311,Cybersecurity,B2C,SE,https://quantumshieldsystems.com
+ConnectWave Networks,large,69043889,Telecommunications,B2C,NZ,https://connectwavenetworks.com
+InfinityTel Solutions,large,67998527,Telecommunications,B2B,GB,https://infinitytelsolutions.com
+SkyBridge Communications,small,3181068,Telecommunications,B2C,AT,https://skybridgecommunications.com
+QuantumTel Systems,large,121756595,Telecommunications,B2C,PT,https://quantumtelsystems.com
+GlobalLink Telecom,small,829416,Telecommunications,B2C,AU,https://globallinktelecom.au
+Vertex Connect,small,1345317,Telecommunications,B2C,IS,https://vertexconnect.com
+BlueSignal Networks,medium,45909564,Telecommunications,B2C,CH,https://bluesignalnetworks.com
+NexusCom Solutions,large,431819400,Telecommunications,B2B,SE,https://nexuscomsolutions.se
+HyperNet Communications,micro,47110,Telecommunications,B2B,GB,https://hypernetcommunications.com
+OmniWave Telecom,small,1878904,Telecommunications,B2B,IL,https://omniwavetelecom.com
+Nimbus Cloud Solutions,micro,145727,Cloud Computing,B2B,NL,https://nimbuscloudsolutions.com
+SkyScale Computing,medium,23825054,Cloud Computing,B2C,CH,https://skyscalecomputing.com
+QuantumCloud Systems,small,3395323,Cloud Computing,B2B,KR,https://quantumcloudsystems.com
+CloudMatrix Technologies,small,1043091,Cloud Computing,B2B,SG,https://cloudmatrixtechnologies.com
+StratusNet Services,small,1529947,Cloud Computing,B2C,NO,https://stratusnetservices.com
+Vertex Cloud Solutions,medium,12101881,Cloud Computing,B2C,IS,https://vertexcloudsolutions.com
+HyperCloud Dynamics,medium,34161026,Cloud Computing,B2C,CN,https://hyperclouddynamics.com
+OmniCloud Innovations,small,596144,Cloud Computing,B2C,US,https://omnicloudinnovations.us
+Elevate Cloud Services,micro,240736,Cloud Computing,B2C,KR,https://elevatecloudservices.com
+BlueHorizon Cloud,small,2366449,Cloud Computing,B2B,HK,https://bluehorizoncloud.hk
+InsightSphere Analytics,medium,18968838,Data & Analytics,B2B,SE,https://insightsphereanalytics.com
+DataVista Solutions,small,4417515,Data & Analytics,B2B,GB,https://datavistasolutions.com
+Quantum Data Insights,medium,20219108,Data & Analytics,B2C,SE,https://quantumdatainsights.com
+Nexus Analytics,micro,393408,Data & Analytics,B2C,IL,https://nexusanalytics.com
+BrightMetrics,small,690654,Data & Analytics,B2C,SE,https://brightmetrics.com
+DataPulse Technologies,large,178084609,Data & Analytics,B2B,SE,https://datapulsetechnologies.com
+InfoGenius Analytics,small,3791940,Data & Analytics,B2B,US,https://infogeniusanalytics.com
+OmniData Systems,medium,45570159,Data & Analytics,B2C,NZ,https://omnidatasystems.com
+NextGen Insights,medium,22598843,Data & Analytics,B2B,KR,https://nextgeninsights.com
+Precision Analytics Group,medium,47271724,Data & Analytics,B2C,JP,https://precisionanalyticsgroup.com
+NeuralEdge AI,large,342777598,Artificial Intelligence & Machine Learning,B2B,SG,https://neuraledgeai.com
+Synapse AI Systems,large,194959841,Artificial Intelligence & Machine Learning,B2B,PT,https://synapseaisystems.com
+CognitiveWave Solutions,medium,21222577,Artificial Intelligence & Machine Learning,B2B,SG,https://cognitivewavesolutions.com
+QuantumMind AI,micro,360645,Artificial Intelligence & Machine Learning,B2B,SG,https://quantummindai.com
+DeepLogic Innovations,small,2373580,Artificial Intelligence & Machine Learning,B2C,FR,https://deeplogicinnovations.com
+Apex Machine Learning,small,2942498,Artificial Intelligence & Machine Learning,B2C,US,https://apexmachinelearning.com
+OmniBrain Technologies,small,2533474,Artificial Intelligence & Machine Learning,B2B,HK,https://omnibraintechnologies.com
+SentientAI Labs,large,450212715,Artificial Intelligence & Machine Learning,B2C,KR,https://sentientailabs.com
+Nexus Neural Networks,medium,13554013,Artificial Intelligence & Machine Learning,B2C,IT,https://nexusneuralnetworks.com
+Infinity AI Solutions,micro,314921,Artificial Intelligence & Machine Learning,B2B,CN,https://infinityaisolutions.com
+CryptoForge Solutions,micro,440830,Blockchain & Cryptocurrency,B2B,SE,https://cryptoforgesolutions.com
+NexusChain Technologies,large,454105772,Blockchain & Cryptocurrency,B2C,US,https://nexuschaintechnologies.com
+Quantum Ledger Systems,small,4292248,Blockchain & Cryptocurrency,B2C,IE,https://quantumledgersystems.com
+BlockHorizon,small,3437957,Blockchain & Cryptocurrency,B2B,IL,https://blockhorizon.com
+OmniChain Innovations,large,312155031,Blockchain & Cryptocurrency,B2B,HK,https://omnichaininnovations.com
+Vertex Blockchain,small,2183581,Blockchain & Cryptocurrency,B2B,AT,https://vertexblockchain.com
+SecureLedger Tech,micro,446482,Blockchain & Cryptocurrency,B2C,KR,https://secureledgertech.kr
+Infinity Crypto Solutions,small,4046484,Blockchain & Cryptocurrency,B2B,CH,https://infinitycryptosolutions.com
+HyperChain Systems,medium,11965277,Blockchain & Cryptocurrency,B2B,CH,https://hyperchainsystems.com
+Sentinel Blockchain Security,small,4507728,Blockchain & Cryptocurrency,B2C,SG,https://sentinelblockchainsecurity.com
+IoT Nexus,micro,268680,Internet of Things,B2C,SE,https://iotnexus.com
+SmartMesh Solutions,large,116619840,Internet of Things,B2C,IL,https://smartmeshsolutions.com
+Connected Wave,large,112406801,Internet of Things,B2C,FR,https://connectedwave.com
+IoT Synergy,medium,48803909,Internet of Things,B2B,NL,https://iotsynergy.com
+Quantum Link,medium,42339123,Internet of Things,B2C,FR,https://quantumlink.com
+SensorSphere,micro,370663,Internet of Things,B2C,KR,https://sensorsphere.com
+NextGen IoT,large,168299443,Internet of Things,B2B,HK,https://nextgeniot.com
+OmniLink Networks,large,125317209,Internet of Things,B2B,NZ,https://omnilinknetworks.com
+EdgeSync,medium,29476066,Internet of Things,B2C,CA,https://edgesync.com
+NeuraConnect,medium,21859915,Internet of Things,B2B,CA,https://neuraconnect.com
+AdVantage Digital,medium,13185314,Digital Marketing & Advertising,B2B,FR,https://advantagedigital.com
+MarTech Wizards,medium,44358810,Digital Marketing & Advertising,B2C,DE,https://martechwizards.com
+ClickCraft,medium,32661136,Digital Marketing & Advertising,B2C,KR,https://clickcraft.com
+AdElevate,micro,409108,Digital Marketing & Advertising,B2B,US,https://adelevate.com
+BrandBoost Media,micro,388922,Digital Marketing & Advertising,B2B,US,https://brandboostmedia.com
+ViralEdge,large,122827579,Digital Marketing & Advertising,B2B,DE,https://viraledge.de
+OmniReach Ads,large,299206958,Digital Marketing & Advertising,B2B,SG,https://omnireachads.com
+Engage360,medium,40392224,Digital Marketing & Advertising,B2B,US,https://engage360.com
+Visionary Clicks,micro,123310,Digital Marketing & Advertising,B2B,EE,https://visionaryclicks.com
+Momentum Marketing,micro,224707,Digital Marketing & Advertising,B2C,JP,https://momentummarketing.jp
+ShopSphere,micro,320815,E-commerce & Online Marketplaces,B2B,DK,https://shopsphere.com
+TradeHorizon,micro,26739,E-commerce & Online Marketplaces,B2C,AT,https://tradehorizon.com
+E-Market Innovators,micro,144269,E-commerce & Online Marketplaces,B2C,CH,https://e-marketinnovators.com
+BuySmart,micro,471301,E-commerce & Online Marketplaces,B2C,US,https://buysmart.us
+OmniCart Solutions,medium,49548878,E-commerce & Online Marketplaces,B2C,FI,https://omnicartsolutions.com
+QuickCommerce,small,2775328,E-commerce & Online Marketplaces,B2B,SG,https://quickcommerce.com
+Global Bazaar,small,2432618,E-commerce & Online Marketplaces,B2B,NL,https://globalbazaar.com
+TrendHaven,medium,13265155,E-commerce & Online Marketplaces,B2C,US,https://trendhaven.com
+WebCart Express,micro,35809,E-commerce & Online Marketplaces,B2C,US,https://webcartexpress.com
+NextGen Marketplace,micro,387442,E-commerce & Online Marketplaces,B2C,NL,https://nextgenmarketplace.com
+NextPlay Edge,micro,298299,Gaming & Interactive Entertainment,B2B,IL,https://nextplayedge.com
+Epic Labs,micro,231083,Gaming & Interactive Entertainment,B2B,NL,https://epiclabs.com
+Glitch Edge,small,2126780,Gaming & Interactive Entertainment,B2B,DE,https://glitchedge.com
+Neon Hub,large,60363174,Gaming & Interactive Entertainment,B2B,DK,https://neonhub.com
+Glitch Networks,small,1374689,Gaming & Interactive Entertainment,B2C,CH,https://glitchnetworks.ch
+Quantum Edge,small,2729351,Gaming & Interactive Entertainment,B2B,NL,https://quantumedge.com
+PlayVerse Tech,micro,307690,Gaming & Interactive Entertainment,B2B,CH,https://playversetech.com
+GameX Ventures,micro,319874,Gaming & Interactive Entertainment,B2B,HK,https://gamexventures.hk
+ZPT Games,large,393424316,Gaming & Interactive Entertainment,B2B,KR,https://zptgames.com
+Quantum Systems,micro,229491,Gaming & Interactive Entertainment,B2B,FI,https://quantumsystems.com
+FinNova Ventures,micro,17647,Fintech,B2C,SE,https://finnovaventures.com
+PaySync Edge,small,4361419,Fintech,B2B,NZ,https://paysyncedge.com
+QuantumBank Edge,large,334499388,Fintech,B2B,KR,https://quantumbankedge.com
+BlockWealth Systems,small,576038,Fintech,B2B,CA,https://blockwealthsystems.com
+SwiftFund Tech,large,121848435,Fintech,B2B,IL,https://swiftfundtech.com
+PaySync Networks,micro,201999,Fintech,B2B,LU,https://paysyncnetworks.com
+BlockWealth Networks,micro,97624,Fintech,B2B,KR,https://blockwealthnetworks.kr
+QuantumBank Solutions,large,150058409,Fintech,B2B,EE,https://quantumbanksolutions.com
+CrediFlow Solutions,small,2696319,Fintech,B2B,CA,https://crediflowsolutions.com
+WealthTech Ventures,medium,41779627,Fintech,B2B,SE,https://wealthtechventures.se
+SmartScholars Innovations,small,3054965,EdTech,B2C,CH,https://smartscholarsinnovations.com
+EduVerse Hub,medium,32093482,EdTech,B2B,DK,https://eduversehub.com
+Brainz,large,393668114,EdTech,B2B,IE,https://brainz.com
+SmartScholars Networks,medium,23749744,EdTech,B2B,LU,https://smartscholarsnetworks.com
+NeoLearn Edge,medium,5586055,EdTech,B2B,AT,https://neolearnedge.com
+NextGenEdu Edge,large,156568142,EdTech,B2B,FR,https://nextgeneduedge.com
+SmartScholars Systems,small,4582073,EdTech,B2B,SE,https://smartscholarssystems.com
+SmartScholars Solutions,medium,35968587,EdTech,B2C,SE,https://smartscholarssolutions.com
+LearnSync Hub,medium,26159277,EdTech,B2C,IL,https://learnsynchub.com
+Academix Solutions,small,1435593,EdTech,B2B,DK,https://academixsolutions.com
+VitalEdge Ventures,medium,21881597,HealthTech,B2C,IL,https://vitaledgeventures.com
+WellnessAI Ventures,small,3538619,HealthTech,B2B,SE,https://wellnessaiventures.com
+SmartCare Systems,micro,208212,HealthTech,B2B,IL,https://smartcaresystems.com
+BioNext Tech,medium,18895103,HealthTech,B2C,CA,https://bionexttech.com
+WellnessAI Solutions,small,4816537,HealthTech,B2B,SG,https://wellnessaisolutions.com
+NeoHealth Hub,large,452137575,HealthTech,B2B,US,https://neohealthhub.us
+MedSphere Networks,medium,42056527,HealthTech,B2B,CH,https://medspherenetworks.com
+BioNext Solutions,medium,43858016,HealthTech,B2C,SG,https://bionextsolutions.com
+HealthNova Ventures,large,227031051,HealthTech,B2C,FR,https://healthnovaventures.com
+SmartCare Networks,small,3910188,HealthTech,B2B,IS,https://smartcarenetworks.com
+ContentEdge Networks,micro,100884,Media & Content Streaming,B2B,GB,https://contentedgenetworks.com
+ContentEdge Solutions,medium,42711342,Media & Content Streaming,B2C,CN,https://contentedgesolutions.cn
+StreamX Edge,large,167027099,Media & Content Streaming,B2B,NO,https://streamxedge.com
+MediaFlow Hub,micro,283048,Media & Content Streaming,B2C,US,https://mediaflowhub.com
+CineVerse Hub,medium,22720988,Media & Content Streaming,B2B,CA,https://cineversehub.ca
+EpicStream Tech,large,368717745,Media & Content Streaming,B2B,KR,https://epicstreamtech.com
+CineVerse Tech,medium,37083185,Media & Content Streaming,B2C,LU,https://cineversetech.lu
+StreamX Networks,micro,445489,Media & Content Streaming,B2C,DE,https://streamxnetworks.com
+NextCast Edge,large,295453227,Media & Content Streaming,B2B,DE,https://nextcastedge.com
+NovaMedia Dynamics,small,4762851,Media & Content Streaming,B2C,US,https://novamediadynamics.com
+NeonXR Networks,micro,305759,Augmented Reality & Virtual Reality,B2B,IS,https://neonxrnetworks.com
+Augmenta Tech,micro,359803,Augmented Reality & Virtual Reality,B2B,FR,https://augmentatech.com
+NextReality Innovations,medium,39422059,Augmented Reality & Virtual Reality,B2B,US,https://nextrealityinnovations.com
+HoloSync Ventures,medium,31176618,Augmented Reality & Virtual Reality,B2B,CZ,https://holosyncventures.com
+CyberVerse Networks,small,2886322,Augmented Reality & Virtual Reality,B2C,NL,https://cyberversenetworks.com
+ARFusion Ventures,large,81811868,Augmented Reality & Virtual Reality,B2C,GB,https://arfusionventures.com
+DreamXR Hub,small,635740,Augmented Reality & Virtual Reality,B2C,SG,https://dreamxrhub.sg
+NeonXR Innovations,small,822507,Augmented Reality & Virtual Reality,B2B,DE,https://neonxrinnovations.com
+CypherVille,micro,418132,Augmented Reality & Virtual Reality,B2C,SG,https://cypherville.com
+CyberVerse Edge,large,458029345,Augmented Reality & Virtual Reality,B2C,DK,https://cyberverseedge.dk
+CitySphere Labs,small,4016158,Smart Infrastructure & Smart Cities,B2C,NL,https://cityspherelabs.com
+NextGenSmart Hub,micro,219643,Smart Infrastructure & Smart Cities,B2C,SE,https://nextgensmarthub.com
+SmartGrid Solutions,medium,12025595,Smart Infrastructure & Smart Cities,B2B,NO,https://smartgridsolutions.com
+MetroTech Ventures,micro,478248,Smart Infrastructure & Smart Cities,B2B,FR,https://metrotechventures.com
+UrbanEdge Solutions,large,113843873,Smart Infrastructure & Smart Cities,B2B,KR,https://urbanedgesolutions.com
+NextGenSmart Edge,small,812767,Smart Infrastructure & Smart Cities,B2C,SE,https://nextgensmartedge.com
+MetroTech Systems,large,167132315,Smart Infrastructure & Smart Cities,B2B,SE,https://metrotechsystems.se
+MetroTech Innovations,micro,380943,Smart Infrastructure & Smart Cities,B2B,NZ,https://metrotechinnovations.nz
+CitySphere Solutions,small,4482944,Smart Infrastructure & Smart Cities,B2B,DK,https://cityspheresolutions.com
+SmartGrid Systems,micro,329788,Smart Infrastructure & Smart Cities,B2C,IE,https://smartgridsystems.com
+SmartMachines Systems,small,1084601,Automation & Robotics,B2B,CH,https://smartmachinessystems.com
+FutureBots Networks,medium,14909656,Automation & Robotics,B2C,LU,https://futurebotsnetworks.lu
+IRobotics,large,245917696,Automation & Robotics,B2C,NL,https://irobotics.com
+MechaSync Innovations,small,3499310,Automation & Robotics,B2C,DK,https://mechasyncinnovations.com
+RoboSphere Tech,small,2161513,Automation & Robotics,B2C,FR,https://robospheretech.com
+FutureBots Systems,micro,274843,Automation & Robotics,B2C,KR,https://futurebotssystems.com
+RoboLink Systems,small,862423,Automation & Robotics,B2C,FI,https://robolinksystems.fi
+AI-Mech Networks,micro,133460,Automation & Robotics,B2B,DE,https://ai-mechnetworks.com
+RoboNext Edge,medium,17590217,Automation & Robotics,B2C,CN,https://robonextedge.com
+SmartMachines Edge,micro,342536,Automation & Robotics,B2C,FR,https://smartmachinesedge.com
+QubitEdge Solutions,small,4317548,Quantum Computing,B2B,CH,https://qubitedgesolutions.com
+NextQubit Innovations,large,163222246,Quantum Computing,B2B,EE,https://nextqubitinnovations.com
+QWave Ventures,medium,15721029,Quantum Computing,B2C,IL,https://qwaveventures.com
+QuantumLogic Hub,micro,231004,Quantum Computing,B2C,CN,https://quantumlogichub.com
+QuantumCore Dynamics,medium,20080281,Quantum Computing,B2C,CH,https://quantumcoredynamics.com
+NextQubit Dynamics,large,364408502,Quantum Computing,B2B,CA,https://nextqubitdynamics.com
+QubitTech Tech,medium,38203048,Quantum Computing,B2B,CA,https://qubittechtech.com
+QuantumCore Systems,large,366367206,Quantum Computing,B2C,DE,https://quantumcoresystems.com
+HyperQ Ventures,micro,498772,Quantum Computing,B2B,AU,https://hyperqventures.au
+QuantumComputingNexus,large,321410593,Quantum Computing,B2B,FR,https://quantumcomputingnexus.com
+Radiant 5G,medium,34451669,5G & Next-Gen Wireless Technology,B2B,HK,http://radiant5g.com
+RapidLink,medium,39753264,5G & Next-Gen Wireless Technology,B2B,FR,https://rapidlink.com
+AerialNet,micro,399786,5G & Next-Gen Wireless Technology,B2B,GB,https://aerialnet.com
+EvoNext,large,244613234,5G & Next-Gen Wireless Technology,B2C,NL,https://evonext.com
+SwiftConnect,micro,416121,5G & Next-Gen Wireless Technology,B2C,KR,https://swiftconnect.com
+Connectera,medium,17088033,5G & Next-Gen Wireless Technology,B2C,AU,https://connectera.com
+InfinitiWave,large,489032531,5G & Next-Gen Wireless Technology,B2B,GB,https://infinitiwave.com
+TerraBeam,medium,9691818,5G & Next-Gen Wireless Technology,B2C,US,https://terrabeam.com
+SpectraLink,large,343315252,5G & Next-Gen Wireless Technology,B2B,IL,https://spectralink.com
+Skywire,small,4546588,5G & Next-Gen Wireless Technology,B2B,AT,https://skywire.com
+AutoZen,small,2763574,Autonomous Vehicles & Mobility Technology,B2C,NL,https://autozen.com
+Fluicity,large,78559753,Autonomous Vehicles & Mobility Technology,B2B,KR,https://fluicity.com
+Robotaxi,small,2847889,Autonomous Vehicles & Mobility Technology,B2C,LU,https://robotaxi.com
+Commutus,small,1596040,Autonomous Vehicles & Mobility Technology,B2C,SG,https://commutus.com
+Vexel,large,100538368,Autonomous Vehicles & Mobility Technology,B2B,BE,https://vexel.com
+BetterWay,medium,31256316,Autonomous Vehicles & Mobility Technology,B2B,NL,https://betterway.com
+Zubigo,micro,179893,Autonomous Vehicles & Mobility Technology,B2C,CN,https://zubigo.com
+RevolveDrive,small,3103327,Autonomous Vehicles & Mobility Technology,B2B,NO,https://revolvedrive.com
+BlueMove,medium,18325444,Autonomous Vehicles & Mobility Technology,B2C,NL,https://bluemove.com
+AetherRoad,medium,17039450,Autonomous Vehicles & Mobility Technology,B2B,GB,https://aetherroad.gb
+Digiversal,small,2667490,Digital Twin Technology,B2B,NO,https://digiversal.no
+Virtudata,medium,19663148,Digital Twin Technology,B2C,BE,https://virtudata.com
+Novascape,large,160801176,Digital Twin Technology,B2C,NO,https://novascape.com
+Simulos,large,322125955,Digital Twin Technology,B2C,DE,https://simulos.com
+TwinData,small,3368303,Digital Twin Technology,B2B,CN,https://twindata.com
+DataMI,medium,47162241,Digital Twin Technology,B2C,AU,https://datami.com
+Digitex,small,3183586,Digital Twin Technology,B2B,NZ,https://digitex.com
+Innoverse,medium,5938902,Digital Twin Technology,B2B,KR,https://innoverse.com
+NearReality,medium,25393697,Digital Twin Technology,B2C,NL,https://nearreality.com
+Syntelligence,small,2871216,Digital Twin Technology,B2B,CH,https://syntelligence.com
+DataDynamix,large,157112926,MarTech,B2C,EE,https://datadynamix.com
+CollectiveAI,large,226212220,MarTech,B2C,IE,https://collectiveai.ie
+SignalAI,large,138822417,MarTech,B2B,GB,https://signalai.com
+AudiencePlus,small,1447881,MarTech,B2C,FR,https://audienceplus.com
+PulseAnalytics,large,233477570,MarTech,B2C,IL,https://pulseanalytics.il
+SocialMP,medium,17519598,MarTech,B2B,GB,https://socialmp.com
+Personalytix,small,4143830,MarTech,B2B,CA,https://personalytix.com
+SocialPilot,small,3230439,MarTech,B2C,CA,https://socialpilot.com
+Cliklytics,medium,25622722,MarTech,B2C,HK,https://cliklytics.hk
+Valence Marketing,large,420637042,MarTech,B2B,FI,https://valencemarketing.com
+Estatelens,large,299500000,PropTech,B2C,CH,https://estatelens.com
+TrueTours,medium,33001606,PropTech,B2B,BE,https://truetours.be
+VirtualRez,large,203859509,PropTech,B2C,SG,https://virtualrez.com
+Virtutour,large,463897036,PropTech,B2B,DK,https://virtutour.com
+VPMBase,small,868861,PropTech,B2C,FI,https://vpmbase.com
+Propello,micro,102159,PropTech,B2C,NO,https://propello.com
+Dwellio,micro,491684,PropTech,B2C,CH,https://dwellio.com
+Landscribe,small,1412702,PropTech,B2B,NL,https://landscribe.com
+Verisage,medium,23013426,PropTech,B2C,LU,https://verisage.com
+CloudRE,medium,20162254,PropTech,B2C,GB,https://cloudre.gb
+Insurify,small,3936978,InsurTech,B2B,NZ,https://insurify.com
+Botsure,large,114151503,InsurTech,B2B,AT,https://botsure.at
+Diaware,large,249481797,InsurTech,B2B,JP,https://diaware.com
+Assureware,small,1566500,InsurTech,B2C,CA,https://assureware.ca
+Axiomatical,small,1589373,InsurTech,B2C,SE,https://axiomatical.com
+Aifinity,large,305935618,InsurTech,B2C,CN,https://aifinity.cn
+Insuravision,large,145410301,InsurTech,B2B,FI,https://insuravision.com
+PolicyLens,micro,306693,InsurTech,B2B,GB,https://policylens.com
+Intellrisk,small,1546788,InsurTech,B2B,US,https://intellrisk.com
+InsurAnalytics,micro,408180,InsurTech,B2C,SG,https://insuranalytics.com
+ClearCheck,micro,77454,RegTech,B2C,CH,https://clearcheck.com
+SafeKey,micro,173825,RegTech,B2B,IT,https://safekey.com
+SecureScan,large,91123658,RegTech,B2B,SE,https://securescan.com
+ProofStack,medium,49487273,RegTech,B2B,IE,https://proofstack.ie
+RiskID,medium,21727316,RegTech,B2C,JP,https://riskid.jp
+Regassured,medium,31013455,RegTech,B2B,IS,https://regassured.com
+CorrectCase,large,221994232,RegTech,B2C,US,https://correctcase.com
+Validify,medium,30326472,RegTech,B2C,CN,https://validify.com
+Verifai,large,353630394,RegTech,B2C,CA,https://verifai.com
+RegAssist,micro,270565,RegTech,B2C,NO,https://regassist.com
+GovTalk,large,356760858,GovTech,B2B,DE,https://govtalk.de
+CivicHub,medium,5769631,GovTech,B2C,CZ,https://civichub.com
+CitizenAI,large,56973721,GovTech,B2B,FR,https://citizenai.com
+IntelliGov,large,353876383,GovTech,B2C,BE,https://intelligov.com
+OpenDataPublic,micro,66292,GovTech,B2B,FI,https://opendatapublic.com
+Civitize,micro,252170,GovTech,B2B,IT,https://civitize.com
+Communify,small,1220662,GovTech,B2C,JP,https://communify.com
+PublicLink,small,2757714,GovTech,B2C,GB,https://publiclink.com
+DigiCivics,small,937191,GovTech,B2B,AT,https://digicivics.com
+VoxCities,small,2150434,GovTech,B2B,IE,https://voxcities.com
+EcoNova Solutions,large,399231329,Greentech & Sustainable Technology,B2C,CN,https://econovasolutions.cn
+VerdeTech Innovations,micro,332838,Greentech & Sustainable Technology,B2C,DE,https://verdetech.com
+SustainaGen,small,1254345,Greentech & Sustainable Technology,B2C,AT,https://sustainagen.com
+GreenPulse Energy,small,734643,Greentech & Sustainable Technology,B2C,NL,https://greenpulse.com
+RenewEarth Systems,medium,48665876,Greentech & Sustainable Technology,B2C,DE,https://renewearth.de
+BluePlanet Renewables,medium,33800491,Greentech & Sustainable Technology,B2C,SE,https://blueplanet.com
+NextGen EcoTech,small,1468691,Greentech & Sustainable Technology,B2B,IL,https://nextgenecotech.com
+Solaris Future,large,231476140,Greentech & Sustainable Technology,B2B,SE,https://solarisfuture.com
+EnviroWave Tech,large,94082476,Greentech & Sustainable Technology,B2C,AU,https://envirowave.com
+ZeroCarbon Dynamics,medium,6789932,Greentech & Sustainable Technology,B2B,NL,https://zerocarbon.com
+AgriNext Solutions,micro,62935,Agritech,B2B,NZ,https://agrinext.com
+FarmTech Dynamics,small,1544213,Agritech,B2C,SE,https://farmtech.com
+CropGenius AI,micro,454960,Agritech,B2C,US,https://cropgenius.com
+HarvestIQ,large,329087306,Agritech,B2C,IE,https://harvestiq.com
+SoilSense Analytics,medium,39812053,Agritech,B2B,US,https://soilsense.us
+SmartFarm Innovations,large,361229839,Agritech,B2C,JP,https://smartfarm.com
+AgroVision Labs,small,620922,Agritech,B2C,US,https://agrovision.com
+FutureYield Technologies,medium,38560220,Agritech,B2B,FI,https://futureyield.com
+BioGrow Systems,medium,35354029,Agritech,B2B,NO,https://biogrow.com
+PrecisionAg AI,medium,17920633,Agritech,B2C,IE,https://precisionag.ie
+LexiTech Solutions,large,178230764,LegalTech,B2B,CH,https://lexitech.com
+JurisAI,medium,17379191,LegalTech,B2C,JP,https://jurisai.com
+LawBotics,micro,157541,LegalTech,B2C,DE,https://lawbotics.de
+RegulaTech,small,3686346,LegalTech,B2B,AT,https://regulatech.com
+LegalEase AI,small,537086,LegalTech,B2C,FR,https://legalease.fr
+CaseSmart Analytics,medium,34018781,LegalTech,B2B,IE,https://casesmart.com
+Veridoc Systems,large,90435106,LegalTech,B2B,DK,https://veridoc.com
+CourtFlow Technologies,medium,42151256,LegalTech,B2C,HK,https://courtflow.com
+ComplianceHub,small,3463319,LegalTech,B2C,US,https://compliancehub.com
+LawSync Innovations,medium,43073785,LegalTech,B2C,SG,https://lawsync.sg
+BioNext Genomics,medium,10315750,Biotech & Bioinformatics,B2C,FR,https://bionextgenomics.com
+GenomeTech Innovations,micro,90128,Biotech & Bioinformatics,B2B,IL,https://genometech.com
+LifeCode Analytics,micro,191341,Biotech & Bioinformatics,B2B,GB,https://lifecode.com
+NanoMed Systems,small,1501702,Biotech & Bioinformatics,B2B,US,https://nanomed.com
+BioInformatica Labs,medium,26355591,Biotech & Bioinformatics,B2C,US,https://bioinformatica.com
+PrecisionBio AI,medium,20605830,Biotech & Bioinformatics,B2C,US,https://precisionbio.com
+NextGen Biotech,micro,484933,Biotech & Bioinformatics,B2B,DE,https://nextgenbiotech.com
+MediGenome Solutions,micro,27356,Biotech & Bioinformatics,B2B,SG,https://medigenome.com
+GeneticInsight AI,medium,16071859,Biotech & Bioinformatics,B2C,GB,https://geneticinsight.com
+OmicsData Systems,small,2138153,Biotech & Bioinformatics,B2B,US,https://omicsdata.com
+MetaSphere Labs,medium,43578478,Metaverse & Web3,B2C,AU,https://metasphere.com
+Web3 Nexus,medium,7463117,Metaverse & Web3,B2C,AU,https://web3nexus.com
+VirtuaWorlds,micro,145819,Metaverse & Web3,B2B,ES,https://virtuaworlds.com
+DecentralGrid,medium,10077353,Metaverse & Web3,B2B,KR,https://decentralgrid.com
+HorizonVerse,large,353349134,Metaverse & Web3,B2C,CH,https://horizonverse.com
+NFTGalaxy,micro,431946,Metaverse & Web3,B2C,CA,https://nftgalaxy.ca
+MetaFusion Studios,micro,233451,Metaverse & Web3,B2C,NL,https://metafusion.com
+ImmersiTech Labs,micro,45579,Metaverse & Web3,B2C,KR,https://immersitech.com
+VRX Dynamics,small,4120177,Metaverse & Web3,B2C,NL,https://vrxdynamics.com
+ChainReality,medium,43116859,Metaverse & Web3,B2C,CN,https://chainreality.com
+HyperCompute Solutions,medium,35642008,High-Performance Computing,B2C,FI,https://hypercompute.com
+ExaScale Systems,small,1954508,High-Performance Computing,B2C,IL,https://exascale.com
+QuantumCore AI,small,1316392,High-Performance Computing,B2B,NZ,https://quantumcore.com
+ComputeGrid Networks,small,1458282,High-Performance Computing,B2B,US,https://computegrid.us
+PetaFlop Dynamics,large,99641203,High-Performance Computing,B2B,SE,https://petaflop.com
+NeuralSpeed Technologies,large,497032354,High-Performance Computing,B2B,FR,https://neuralspeed.com
+AccelCompute Labs,medium,47327344,High-Performance Computing,B2C,NL,https://accelcompute.com
+NextGen HPC,micro,349087,High-Performance Computing,B2B,DK,https://nextgenhpc.com
+MaxFlow Computing,small,1230932,High-Performance Computing,B2C,DK,https://maxflow.com
+InfinityCore Systems,large,130832480,High-Performance Computing,B2B,GB,https://infinitycore.com
+GigSphere Networks,small,3137831,Crowdsourcing & Gig Economy Platforms,B2C,CA,https://gigsphere.com
+TaskHive Solutions,small,2773115,Crowdsourcing & Gig Economy Platforms,B2C,NL,https://taskhive.nl
+FreelanceFusion,medium,19550122,Crowdsourcing & Gig Economy Platforms,B2B,NL,https://freelancefusion.com
+CrowdTask Pro,medium,12837185,Crowdsourcing & Gig Economy Platforms,B2C,CH,https://crowdtask.com
+CollabNation,micro,451357,Crowdsourcing & Gig Economy Platforms,B2B,FR,https://collabnation.com
+WorkWave Hub,medium,12462177,Crowdsourcing & Gig Economy Platforms,B2B,IL,https://workwave.com
+TalentMesh,large,272412619,Crowdsourcing & Gig Economy Platforms,B2B,CA,https://talentmesh.com
+GigConnect,large,268606979,Crowdsourcing & Gig Economy Platforms,B2C,HK,https://gigconnect.com
+SkillLink,small,3386827,Crowdsourcing & Gig Economy Platforms,B2B,FR,https://skilllink.com
+MicroTaskX,large,263208561,Crowdsourcing & Gig Economy Platforms,B2B,GB,https://microtaskx.com
+PrecisionMed AI,micro,463365,Personalized & Precision Medicine,B2C,FR,https://precisionmed.com
+GenomicHealth Labs,small,2953186,Personalized & Precision Medicine,B2B,BE,https://genomichealth.com
+TailorCare Solutions,large,334570008,Personalized & Precision Medicine,B2B,AT,https://tailorcare.com
+PersonalizedMedTech,micro,470343,Personalized & Precision Medicine,B2B,KR,https://personalizedmed.com
+BioFit Analytics,micro,129783,Personalized & Precision Medicine,B2C,IT,https://biofit.com
+NanoCure Systems,micro,47098,Personalized & Precision Medicine,B2B,CH,https://nanocure.com
+MediSync Precision,medium,21234471,Personalized & Precision Medicine,B2C,KR,https://medisync.kr
+GenomeCare Tech,medium,26810140,Personalized & Precision Medicine,B2C,IS,https://genomecare.is
+WellnessPath AI,medium,7945448,Personalized & Precision Medicine,B2B,DE,https://wellnesspath.com
+TheraGenX,micro,255876,Personalized & Precision Medicine,B2C,SE,https://theragenx.com
+NeuroWear Innovations,micro,54626,Human Augmentation & Wearable Implants,B2C,DK,https://neurowear.com
+AugmentX Labs,micro,412861,Human Augmentation & Wearable Implants,B2B,DE,https://augmentx.com
+CyberLimb Systems,large,257337591,Human Augmentation & Wearable Implants,B2B,CA,https://cyberlimb.com
+BioEnhance Tech,small,2359370,Human Augmentation & Wearable Implants,B2B,CA,https://bioenhance.com
+WearableX,medium,9692921,Human Augmentation & Wearable Implants,B2B,SG,https://wearablex.com
+NeuralSync Technologies,small,4909507,Human Augmentation & Wearable Implants,B2B,LU,https://neuralsync.com
+BionicFuture,large,317195279,Human Augmentation & Wearable Implants,B2B,AU,https://bionicfuture.au
+BodySync Augmentations,micro,470640,Human Augmentation & Wearable Implants,B2B,NZ,https://bodysync.com
+NextGen Wearables,medium,27102361,Human Augmentation & Wearable Implants,B2C,HK,https://nextgenwearables.com
+SensoryBoost,micro,398784,Human Augmentation & Wearable Implants,B2C,NL,https://sensoryboost.com
+CyberPhys Dynamics,micro,266501,Cyber-Physical Systems,B2C,CA,https://cyberphys.ca
+MechaMind Systems,medium,18223233,Cyber-Physical Systems,B2B,CN,https://mechamind.com
+PhysicalNet AI,micro,489040,Cyber-Physical Systems,B2B,KR,https://physicalnet.com
+NeuralMech Solutions,micro,65889,Cyber-Physical Systems,B2C,SE,https://neuralmech.com
+IntegratedCyberTech,large,305045216,Cyber-Physical Systems,B2C,FR,https://integratedcyber.fr
+RoboticNexus,medium,40717593,Cyber-Physical Systems,B2C,SE,https://roboticnexus.com
+CyberMechanica,small,4607507,Cyber-Physical Systems,B2B,SG,https://cybermechanica.sg
+IoT-Physical Grid,micro,436301,Cyber-Physical Systems,B2B,SG,https://iotphysicalgrid.com
+PhysioSync AI,small,1046469,Cyber-Physical Systems,B2C,NO,https://physiosync.com
+MechaLink Solutions,micro,144644,Cyber-Physical Systems,B2B,JP,https://mechalink.com
+OrbitalLink Systems,small,3319841,Space Technology & Satellite Communications,B2C,AT,https://orbitallink.com
+StellarCom Networks,large,345633792,Space Technology & Satellite Communications,B2C,SG,https://stellarcom.sg
+SatNet Global,small,2947743,Space Technology & Satellite Communications,B2C,SE,https://satnet.com
+GalacticData Solutions,micro,381228,Space Technology & Satellite Communications,B2B,GB,https://galacticdata.com
+QuantumSat Labs,medium,18229617,Space Technology & Satellite Communications,B2C,NZ,https://quantumsat.com
+DeepSpaceCom,micro,120869,Space Technology & Satellite Communications,B2B,SE,https://deepspacecom.com
+SatelliteSync Tech,micro,132635,Space Technology & Satellite Communications,B2B,CH,https://satellitesync.com
+AstroWave Communications,large,153251737,Space Technology & Satellite Communications,B2B,IL,https://astrowave.com
+LunarLink Technologies,large,450327971,Space Technology & Satellite Communications,B2C,DE,https://lunarlink.com
+CosmosNet AI,large,270403049,Space Technology & Satellite Communications,B2B,DE,https://cosmosnet.com
+EdgeFlow Systems,medium,6566214,Edge Computing,B2B,CN,https://edgeflowsys.com
+NextGen EdgeTech,micro,437112,Edge Computing,B2C,FR,https://nextgenedge.com
+Peripheral Compute,small,3271736,Edge Computing,B2C,GB,https://peripheralcompute.gb
+EdgeSpeed Solutions,medium,49982892,Edge Computing,B2B,NO,https://edgespeed.com
+Cloud Periphery,medium,14866338,Edge Computing,B2B,SE,https://cloudperiphery.com
+Borderline AI,large,319868346,Edge Computing,B2C,NL,https://borderlineai.com
+Edge Matrix,large,147476836,Edge Computing,B2C,KR,https://edgematrix.com
+Frontline Compute,large,417103556,Edge Computing,B2B,CA,https://frontlinecompute.com
+NanoEdge Tech,micro,200690,Edge Computing,B2C,US,https://nanoedge.com
+HyperEdge Systems,large,209432213,Edge Computing,B2B,GB,https://hyperedge.gb
+FogNet Solutions,medium,43283232,Fog Computing,B2C,DE,https://fognet.com
+MistCloud Technologies,small,1648952,Fog Computing,B2C,KR,https://mistcloud.com
+Nebula Compute,micro,195421,Fog Computing,B2C,IL,https://nebulacompute.com
+Distributed Fog Systems,small,1583311,Fog Computing,B2C,NL,https://distfogsys.com
+Low-Latency Cloud,medium,24873141,Fog Computing,B2B,JP,https://lowlatcloud.com
+Horizon Fog Tech,large,131265241,Fog Computing,B2B,IL,https://horizonfog.com
+MicroFog Solutions,medium,24727377,Fog Computing,B2C,AU,https://microfog.com
+Stratus Computing,large,268306862,Fog Computing,B2B,BE,https://stratuscompute.com
+CloudMist Systems,medium,13087414,Fog Computing,B2C,US,https://cloudmist.com
+AeroFog Networks,medium,5304390,Fog Computing,B2C,KR,https://aerofog.com
+SenseTouch Labs,micro,80404,Haptic Technology,B2C,DE,https://sensetouch.com
+HapticXperience,micro,487050,Haptic Technology,B2C,HK,https://hapticxperience.hk
+FeelTech Systems,micro,158506,Haptic Technology,B2C,GB,https://feeltech.com
+Tactile Innovations,micro,207161,Haptic Technology,B2C,US,https://tactileinnovations.com
+NeuroHaptics,small,1021028,Haptic Technology,B2B,US,https://neurohaptics.com
+ImmersiTouch,small,2099308,Haptic Technology,B2C,JP,https://immersitouch.com
+VirtualSense Tech,micro,294182,Haptic Technology,B2B,BE,https://virtualsense.com
+Haptic Pulse,large,246021906,Haptic Technology,B2C,CA,https://hapticpulse.com
+TactaTech,small,4116276,Haptic Technology,B2C,AT,https://tactatech.com
+RealTouch Solutions,large,223613456,Haptic Technology,B2C,HK,https://realtouch.hk
+CyberTrace Labs,medium,36702767,Digital Forensics & Ethical Hacking,B2C,NL,https://cybertrace.com
+ForensiTech Solutions,large,335542944,Digital Forensics & Ethical Hacking,B2B,IT,https://forensitech.it
+HackDefend Systems,medium,42153502,Digital Forensics & Ethical Hacking,B2C,US,https://hackdefend.us
+TraceIntel,medium,40414434,Digital Forensics & Ethical Hacking,B2B,GB,https://traceintel.com
+Ethical CyberSec,medium,42340016,Digital Forensics & Ethical Hacking,B2B,NZ,https://ethicalcybersec.com
+DigitalCrackdown,micro,262827,Digital Forensics & Ethical Hacking,B2C,SE,https://digitalcrackdown.com
+SecuForensics,large,62100264,Digital Forensics & Ethical Hacking,B2B,CH,https://secuforensics.com
+ThreatZero Solutions,small,1549852,Digital Forensics & Ethical Hacking,B2C,NL,https://threatzero.com
+Pentest Innovations,large,113974606,Digital Forensics & Ethical Hacking,B2C,CA,https://pentestinnovations.com
+DarkNet Insights,small,2242060,Digital Forensics & Ethical Hacking,B2C,CH,https://darknetinsights.com
+NeuroLink Systems,medium,31743492,Neurotechnology & Brain-Computer Interfaces,B2B,IL,https://neurolink.com
+MindWave Tech,small,3963214,Neurotechnology & Brain-Computer Interfaces,B2C,FI,https://mindwave.com
+BrainSync Innovations,large,174208868,Neurotechnology & Brain-Computer Interfaces,B2B,AE,https://brainsync.com
+CerebraConnect,medium,43647009,Neurotechnology & Brain-Computer Interfaces,B2B,KR,https://cerebraconnect.com
+Cognisense Labs,medium,41321182,Neurotechnology & Brain-Computer Interfaces,B2B,JP,https://cognisense.jp
+NeuroPulse Technologies,small,916299,Neurotechnology & Brain-Computer Interfaces,B2C,GB,https://neuropulse.com
+Synapse AI,small,4545836,Neurotechnology & Brain-Computer Interfaces,B2C,NL,https://synapseai.nl
+NeuroSync Systems,large,59210495,Neurotechnology & Brain-Computer Interfaces,B2B,DK,https://neurosync.com
+CortexLink,medium,49206337,Neurotechnology & Brain-Computer Interfaces,B2C,IE,https://cortexlink.com
+MindMesh Technologies,micro,126193,Neurotechnology & Brain-Computer Interfaces,B2B,SE,https://mindmesh.se
+DeepFakery Labs,micro,334325,Synthetic Media & Deepfake Technology,B2B,SE,https://deepfakerylabs.com
+SynthVision,medium,35787809,Synthetic Media & Deepfake Technology,B2B,GB,https://synthvision.com
+AI Mirage Studios,medium,32882048,Synthetic Media & Deepfake Technology,B2B,US,https://aimiragestudios.com
+RealSynth AI,small,2234487,Synthetic Media & Deepfake Technology,B2C,SE,https://realsynth.se
+HyperClone Media,micro,318417,Synthetic Media & Deepfake Technology,B2C,NL,https://hyperclonemedia.nl
+DeepEcho Productions,large,128044221,Synthetic Media & Deepfake Technology,B2B,CH,https://deepecho.com
+SyntheticFrames,micro,409810,Synthetic Media & Deepfake Technology,B2C,ES,https://syntheticframes.com
+IlluSynth Creations,small,1260324,Synthetic Media & Deepfake Technology,B2B,US,https://illusynth.com
+FauxReality Labs,medium,30155226,Synthetic Media & Deepfake Technology,B2B,FR,https://fauxrealitylabs.com
+NeuralReplica,micro,301243,Synthetic Media & Deepfake Technology,B2C,IE,https://neuralreplica.com
+AutoML Innovate,micro,77860,Automated Machine Learning,B2C,CN,https://automlinnovate.com
+Machine Learning Forge,micro,85908,Automated Machine Learning,B2C,SE,https://mlforge.com
+NeuralAutomate,small,2832711,Automated Machine Learning,B2C,FI,https://neuralautomate.com
+RapidAI Modelers,medium,12636239,Automated Machine Learning,B2B,DE,https://rapidaimodelers.com
+SmartTrain AI,small,3230137,Automated Machine Learning,B2B,US,https://smarttrain.com
+DeepFlow Automate,micro,232854,Automated Machine Learning,B2C,NL,https://deepflowautomate.com
+AI ModelSmiths,large,258076263,Automated Machine Learning,B2C,NL,https://aimodelsmiths.nl
+AutoTrain Systems,large,97542929,Automated Machine Learning,B2B,CN,https://autotrainsystems.cn
+NeuroTune AI,small,1938294,Automated Machine Learning,B2C,NO,https://neurotune.com
+SwiftML Labs,small,3270530,Automated Machine Learning,B2B,KR,https://swiftmllabs.kr
+ExplainAI Insights,large,437495913,Explainable AI,B2C,LU,https://explainai.lu
+AI Transparency Hub,micro,383990,Explainable AI,B2B,IL,https://aitransparencyhub.com
+NeuroExplain Labs,large,288866657,Explainable AI,B2C,NL,https://neuroexplainlabs.nl
+GlassBox AI,large,53150832,Explainable AI,B2B,JP,https://glassboxai.com
+WhiteBox Neural,small,4368433,Explainable AI,B2C,US,https://whiteboxneural.com
+Interpreto AI,large,177531357,Explainable AI,B2B,SE,https://interpreto.com
+ClearMind AI,small,753147,Explainable AI,B2C,IE,https://clearmindai.com
+AI Rationale,large,78944178,Explainable AI,B2B,FI,https://airationale.com
+CognExplain Systems,medium,35210959,Explainable AI,B2B,US,https://cognexplain.com
+LogicLayer AI,small,2048346,Explainable AI,B2C,DK,https://logiclayerai.com
+HiveMind Technologies,medium,43206780,Swarm Intelligence & Collective Computing,B2C,CN,https://hivemindtech.com
+SwarmLogic Systems,medium,5400662,Swarm Intelligence & Collective Computing,B2C,US,https://swarmlogicsys.com
+ColonyCompute,large,102817196,Swarm Intelligence & Collective Computing,B2B,SG,https://colonycompute.com
+NeuroSwarm AI,small,1310369,Swarm Intelligence & Collective Computing,B2C,DK,https://neuroswarm.com
+Synaptic Hive,micro,65046,Swarm Intelligence & Collective Computing,B2C,SE,https://synaptichive.com
+ClusterBrain Analytics,small,1511559,Swarm Intelligence & Collective Computing,B2B,NZ,https://clusterbrain.com
+Cooperative AI Labs,medium,26359227,Swarm Intelligence & Collective Computing,B2C,LU,https://coopailabs.com
+SwarmNet Innovations,large,495217516,Swarm Intelligence & Collective Computing,B2B,GB,https://swarmnetinnovations.com
+IntelliSwarm Solutions,large,323795912,Swarm Intelligence & Collective Computing,B2C,US,https://intelliswarm.com
+CollectiveIQ AI,large,195944414,Swarm Intelligence & Collective Computing,B2B,NL,https://collectiveiq.com
+CloudFusion Networks,large,250345629,Hybrid Cloud & Multi-Cloud Solutions,B2B,DK,https://cloudfusionnet.com
+StratoSync Solutions,micro,453572,Hybrid Cloud & Multi-Cloud Solutions,B2B,HK,https://stratosyncsolutions.com
+NimbusGrid Technologies,micro,411216,Hybrid Cloud & Multi-Cloud Solutions,B2C,NL,https://nimbusgridtech.com
+OmniCloud Systems,micro,199873,Hybrid Cloud & Multi-Cloud Solutions,B2C,CN,https://omnicloudsys.com
+SkyBridge MultiCloud,large,461987453,Hybrid Cloud & Multi-Cloud Solutions,B2C,AT,https://skybridgemc.at
+HyperScale Cloudworks,medium,26216069,Hybrid Cloud & Multi-Cloud Solutions,B2B,CN,https://hyperscalecloud.com
+AgileCloud Nexus,micro,469901,Hybrid Cloud & Multi-Cloud Solutions,B2B,SE,https://agilecloudnexus.com
+MetaSphere Computing,large,146504975,Hybrid Cloud & Multi-Cloud Solutions,B2C,DE,https://metaspherecomputing.com
+PolyCloud Connect,small,1133181,Hybrid Cloud & Multi-Cloud Solutions,B2C,CH,https://polycloudconnect.com
+FusionEdge Cloud Services,large,123270633,Hybrid Cloud & Multi-Cloud Solutions,B2B,SG,https://fusionedgecloud.com
+LambdaScale,medium,39967702,Serverless Computing,B2B,FI,https://lambdascale.com
+NanoCloudOps,large,239199492,Serverless Computing,B2B,BE,https://nanocloudops.be
+StatelessRun,small,4496901,Serverless Computing,B2B,CH,https://statelessrun.com
+InstantLambda,micro,213585,Serverless Computing,B2B,SE,https://instantlambda.com
+AutoScaleX,small,3706797,Serverless Computing,B2B,LU,https://autoscalex.com
+ZeroInfra,small,2603986,Serverless Computing,B2B,SG,https://zeroinfra.com
+EdgeFunctions,large,341249773,Serverless Computing,B2C,NO,https://edgefunctions.com
+CloudlessTech,medium,7462103,Serverless Computing,B2C,AT,https://cloudlesstech.com
+MicroserviceHub,small,3168211,Serverless Computing,B2C,DE,https://microservicehub.com
+EventDrivenSys,micro,106580,Serverless Computing,B2C,CH,https://eventdrivensys.com
+CyberShield360,small,3407954,Cyber-Resilience & Digital Risk Management,B2C,AT,https://cybershield360.com
+FortiDefend,micro,212295,Cyber-Resilience & Digital Risk Management,B2B,CN,https://fortidefend.com
+ResilientSec,micro,435985,Cyber-Resilience & Digital Risk Management,B2C,DE,https://resilientsec.de
+DigitalFortress,small,1955845,Cyber-Resilience & Digital Risk Management,B2C,SG,https://digitalfortress.com
+PermaSecure,small,3304086,Cyber-Resilience & Digital Risk Management,B2C,CH,https://permasecure.com
+ThreatAdapt,small,3294713,Cyber-Resilience & Digital Risk Management,B2C,CN,https://threatadapt.cn
+AdaptiveRisk,micro,67946,Cyber-Resilience & Digital Risk Management,B2B,DK,https://adaptiverisk.com
+CyberArmor,large,438900780,Cyber-Resilience & Digital Risk Management,B2C,DK,https://cyberarmor.com
+SecureContinuum,large,459934807,Cyber-Resilience & Digital Risk Management,B2B,CA,https://securecontinuum.com
+SafeHorizon,large,327974615,Cyber-Resilience & Digital Risk Management,B2B,IL,https://safehorizon.com
+AccessSentinel,small,3582220,Identity & Access Management,B2C,CN,https://accesssentinel.com
+AuthSync,small,3812275,Identity & Access Management,B2C,SE,https://authsync.com
+KeyFort,medium,17641789,Identity & Access Management,B2C,SE,https://keyfort.com
+ZeroTrustID,small,564965,Identity & Access Management,B2B,SE,https://zerotrustid.com
+IdentityVault,medium,6342275,Identity & Access Management,B2C,EE,https://identityvault.com
+IAMShield,large,267762370,Identity & Access Management,B2B,CA,https://iamshield.com
+KeyGuardX,large,181280350,Identity & Access Management,B2C,KR,https://keyguardx.com
+SecureAuthen,small,4714992,Identity & Access Management,B2B,IE,https://secureauthen.com
+TrustBridge,micro,472973,Identity & Access Management,B2C,NL,https://trustbridge.com
+BioAccessX,micro,245518,Identity & Access Management,B2B,CA,https://bioaccessx.com
+XRVerse,micro,163282,Extended Reality Ecosystems,B2C,US,https://xrverse.com
+ImmersiTech,micro,271119,Extended Reality Ecosystems,B2C,DE,https://immersitech.de
+HoloHorizon,small,3665108,Extended Reality Ecosystems,B2C,KR,https://holohorizon.com
+Augmenta,small,3173311,Extended Reality Ecosystems,B2C,JP,https://augmenta.jp
+VisionSphere,small,2315203,Extended Reality Ecosystems,B2B,US,https://visionsphere.com
+MetaScape,small,1694445,Extended Reality Ecosystems,B2B,PT,https://metascape.com
+VividReality,micro,414084,Extended Reality Ecosystems,B2B,HK,https://vividreality.com
+NeoSim,micro,491735,Extended Reality Ecosystems,B2C,GB,https://neosim.com
+InfiniteXR,small,1612332,Extended Reality Ecosystems,B2B,SE,https://infinitexr.com
+SensoryLink,micro,270923,Extended Reality Ecosystems,B2C,JP,https://sensorylink.com
+ChatNova,micro,454558,Conversational AI & Chatbots,B2B,CN,https://chatnova.com
+AIChatter,medium,27482985,Conversational AI & Chatbots,B2B,US,https://aichatter.com
+BotFlow,medium,46908915,Conversational AI & Chatbots,B2C,DK,https://botflow.com
+TalkSync,micro,467317,Conversational AI & Chatbots,B2C,DE,https://talksync.com
+ConversoAI,micro,61476,Conversational AI & Chatbots,B2C,FR,https://conversoai.com
+VocalBotics,small,1119893,Conversational AI & Chatbots,B2C,SG,https://vocalbotics.com
+LinguaAI,medium,35226415,Conversational AI & Chatbots,B2C,CA,https://linguaai.com
+EchoMind,micro,114844,Conversational AI & Chatbots,B2C,FI,https://echomind.com
+Dialogix,medium,9696267,Conversational AI & Chatbots,B2C,FR,https://dialogix.com
+AIParley,medium,32415644,Conversational AI & Chatbots,B2B,US,https://aiparley.us
+DecentraMind,micro,163520,Federated Learning & Decentralized AI,B2C,IT,https://decentramind.it
+AICollective,large,268812073,Federated Learning & Decentralized AI,B2B,NL,https://aicollective.com
+FederAI,small,1402470,Federated Learning & Decentralized AI,B2B,KR,https://federai.com
+SynapNet,micro,190680,Federated Learning & Decentralized AI,B2B,IS,https://synapnet.is
+Cognichain,micro,430546,Federated Learning & Decentralized AI,B2C,CN,https://cognichain.com
+NeuroMesh,medium,37427554,Federated Learning & Decentralized AI,B2B,FI,https://neuromesh.com
+AIConsensus,small,3164070,Federated Learning & Decentralized AI,B2B,JP,https://aiconsensus.jp
+PrivAI,medium,10079841,Federated Learning & Decentralized AI,B2C,CA,https://privai.ca
+DistributedGenius,small,2492394,Federated Learning & Decentralized AI,B2C,AU,https://distributedgenius.au
+EdgeMind,medium,32449199,Federated Learning & Decentralized AI,B2C,KR,https://edgemind.com
+SovereignID Systems,large,479323474,Data Sovereignty & Digital Identity Solutions,B2B,GB,https://sovereignid.gb
+DigiLock Identity,micro,147784,Data Sovereignty & Digital Identity Solutions,B2B,FR,https://digilockidentity.com
+TrustVault Solutions,micro,348923,Data Sovereignty & Digital Identity Solutions,B2C,GB,https://trustvault.com
+PrivacyChain Labs,large,128274987,Data Sovereignty & Digital Identity Solutions,B2C,DK,https://privacychain.com
+IdentityShield AI,small,2548123,Data Sovereignty & Digital Identity Solutions,B2C,AU,https://identityshield.au
+BlockAuth Technologies,large,174225371,Data Sovereignty & Digital Identity Solutions,B2B,FI,https://blockauth.com
+VeriPersona,micro,308908,Data Sovereignty & Digital Identity Solutions,B2C,JP,https://veripersona.com
+SecuraID Solutions,small,1855343,Data Sovereignty & Digital Identity Solutions,B2B,HK,https://securaid.com
+DigitalTrust Gateway,medium,21602705,Data Sovereignty & Digital Identity Solutions,B2C,DE,https://digitaltrustgateway.com
+SafeKey Digital,large,60184887,Data Sovereignty & Digital Identity Solutions,B2C,US,https://safekey.com
+DeFi Nexus,small,2915091,Smart Contracts & Decentralized Finance,B2C,IE,https://definexus.ie
+SmartLedger Systems,medium,13005085,Smart Contracts & Decentralized Finance,B2C,US,https://smartledger.us
+ChainFund Solutions,small,3216749,Smart Contracts & Decentralized Finance,B2C,KR,https://chainfund.kr
+CryptoYield Strategies,micro,350413,Smart Contracts & Decentralized Finance,B2B,US,https://cryptoyield.com
+TokenTrust Finance,large,256933729,Smart Contracts & Decentralized Finance,B2C,CH,https://tokentrust.com
+AutoSwap Protocol,medium,16318877,Smart Contracts & Decentralized Finance,B2B,DK,https://autoswap.dk
+DeFiFortress,micro,136340,Smart Contracts & Decentralized Finance,B2C,CN,https://defifortress.com
+EthTrust Smart,micro,422385,Smart Contracts & Decentralized Finance,B2B,FR,https://ethtrust.com
+SecureDeFi Network,small,594036,Smart Contracts & Decentralized Finance,B2B,IE,https://securedefi.com
+BlockWealth Solutions,micro,223756,Smart Contracts & Decentralized Finance,B2C,IL,https://blockwealth.com
+ZeroShield Security,medium,6448407,Zero Trust Architecture,B2B,EE,https://zeroshield.com
+TrustlessGate,micro,45695,Zero Trust Architecture,B2B,JP,https://trustlessgate.com
+PerimeterZero,large,462203275,Zero Trust Architecture,B2B,AT,https://perimeterzero.com
+ZTrust Tech,micro,121644,Zero Trust Architecture,B2C,GB,https://ztrust.com
+ZeroPerimeter Systems,large,310391304,Zero Trust Architecture,B2C,GB,https://zeroperimeter.com
+AuthZero Solutions,large,68792842,Zero Trust Architecture,B2B,IS,https://authzero.com
+SecureAccess AI,large,213607628,Zero Trust Architecture,B2B,CN,https://secureaccess.com
+BeyondWall Security,micro,318998,Zero Trust Architecture,B2B,LU,https://beyondwall.com
+VerifyFirst Technologies,small,1705305,Zero Trust Architecture,B2C,SE,https://verifyfirst.com
+TrustZero Cyber,medium,23699169,Zero Trust Architecture,B2C,CH,https://trustzero.ch
+FundHive,medium,34433917,Crowdfunding & Tokenization Platforms,B2C,CN,https://fundhive.com
+TokenSpring,large,370588567,Crowdfunding & Tokenization Platforms,B2B,SE,https://tokenspring.se
+CrowdNest,medium,45967485,Crowdfunding & Tokenization Platforms,B2C,KR,https://crowdnest.com
+RaiseSphere,medium,37097639,Crowdfunding & Tokenization Platforms,B2B,FR,https://raisesphere.com
+CryptoPatron,medium,48781380,Crowdfunding & Tokenization Platforms,B2C,GB,https://cryptopatron.com
+FundMosaic,large,247791333,Crowdfunding & Tokenization Platforms,B2B,DE,https://fundmosaic.com
+BlockBoost,medium,23390235,Crowdfunding & Tokenization Platforms,B2B,CH,https://blockboost.com
+InvestWave,micro,12934,Crowdfunding & Tokenization Platforms,B2C,GB,https://investwave.com
+CrowdCatalyst,large,111780981,Crowdfunding & Tokenization Platforms,B2C,AT,https://crowdcatalyst.com
+TokenElevate,small,4355449,Crowdfunding & Tokenization Platforms,B2C,GB,https://tokenelevate.com
+RoboSynch,medium,24833951,AI-Driven Robotics & Collaborative Robots,B2B,US,https://robosynch.com
+MechaFlow,large,390734689,AI-Driven Robotics & Collaborative Robots,B2C,DK,https://mechaflow.com
+AutoColab,large,410571795,AI-Driven Robotics & Collaborative Robots,B2C,GB,https://autocolab.com
+RoboUnity,large,469680983,AI-Driven Robotics & Collaborative Robots,B2B,NL,https://robounity.nl
+NeuroBotix,large,442245318,AI-Driven Robotics & Collaborative Robots,B2C,IL,https://neurobotix.com
+MachinaEdge,micro,65207,AI-Driven Robotics & Collaborative Robots,B2B,GB,https://machinaedge.com
+CogniMech,medium,6505812,AI-Driven Robotics & Collaborative Robots,B2B,NL,https://cognimech.com
+SynerBot,micro,171253,AI-Driven Robotics & Collaborative Robots,B2B,IS,https://synerbot.com
+Colabotics,micro,68551,AI-Driven Robotics & Collaborative Robots,B2B,FR,https://colabotics.com
+AutoSynergy,medium,23494264,AI-Driven Robotics & Collaborative Robots,B2B,FR,https://autosynergy.fr
+GenAIStudio,medium,35241836,Generative AI & AI-Generated Content,B2C,NO,https://genaistudio.com
+DeepCreate,micro,215728,Generative AI & AI-Generated Content,B2C,CH,https://deepcreate.com
+AIArtisan,medium,25955802,Generative AI & AI-Generated Content,B2B,CH,https://aiartisan.com
+SynthWorks,micro,475656,Generative AI & AI-Generated Content,B2B,DE,https://synthworks.com
+NeuralMosaic,medium,7260473,Generative AI & AI-Generated Content,B2B,FR,https://neuralmosaic.com
+DreamWeaveAI,micro,275512,Generative AI & AI-Generated Content,B2B,LU,https://dreamweave.com
+AutoNarrate,medium,32072285,Generative AI & AI-Generated Content,B2C,NO,https://autonarrate.com
+ImagineBot,small,4621158,Generative AI & AI-Generated Content,B2B,CA,https://imaginebot.com
+AIVisions,micro,465613,Generative AI & AI-Generated Content,B2C,NL,https://aivisions.com
+HyperGen,small,2036513,Generative AI & AI-Generated Content,B2C,CZ,https://hypergen.com
+AutoMend AI,small,4111008,Self-Healing Systems & Predictive Maintenance,B2C,NZ,https://automendai.nz
+RepairSense,medium,10046747,Self-Healing Systems & Predictive Maintenance,B2C,LU,https://repairsense.com
+SelfFix Systems,micro,186318,Self-Healing Systems & Predictive Maintenance,B2C,IS,https://selffixsystems.com
+PredictiCore,large,271894235,Self-Healing Systems & Predictive Maintenance,B2B,JP,https://predicticore.jp
+SmartHeal Analytics,small,4803245,Self-Healing Systems & Predictive Maintenance,B2B,LU,https://smarthealanalytics.com
+FixGenius,large,169419640,Self-Healing Systems & Predictive Maintenance,B2B,SG,https://fixgenius.com
+AutoCure AI,micro,189506,Self-Healing Systems & Predictive Maintenance,B2C,DE,https://autocureai.com
+RegenTech Solutions,medium,28396071,Self-Healing Systems & Predictive Maintenance,B2B,US,https://regentech.com
+MendAI Labs,small,2783261,Self-Healing Systems & Predictive Maintenance,B2B,CN,https://mendailabs.com
+NeuroFix Systems,micro,417850,Self-Healing Systems & Predictive Maintenance,B2C,CN,https://neurofixsystems.com
+AutoThink AI,large,276989648,Hyperautomation & Cognitive Automation,B2B,IE,https://autothink.ie
+HyperBotics,large,459201847,Hyperautomation & Cognitive Automation,B2C,JP,https://hyperbotics.com
+CogniFlow,large,480297044,Hyperautomation & Cognitive Automation,B2B,JP,https://cogniflow.com
+Infinite Automate,micro,434336,Hyperautomation & Cognitive Automation,B2B,CA,https://infiniteautomate.com
+NeuroFIbres,medium,49477146,Hyperautomation & Cognitive Automation,B2B,CH,https://neurofibres.com
+AIOrchestrate,small,2871898,Hyperautomation & Cognitive Automation,B2C,DE,https://aiorchestrate.com
+SynaptiFlow,micro,262220,Hyperautomation & Cognitive Automation,B2B,SG,https://synaptiflow.com
+AutoMinds,small,3825260,Hyperautomation & Cognitive Automation,B2B,IS,https://autominds.com
+MindMesh Automation,medium,48691317,Hyperautomation & Cognitive Automation,B2B,LU,https://mindmesh.com
+Cognitive Ops,large,353922972,Hyperautomation & Cognitive Automation,B2C,AU,https://cognitiveops.au
+MediAI Health,small,1949016,Digital Therapeutics & Telemedicine AI,B2C,NL,https://mediaihealth.com
+TheraBotix,small,2640339,Digital Therapeutics & Telemedicine AI,B2C,IE,https://therabotix.com
+CuraSense,small,3501830,Digital Therapeutics & Telemedicine AI,B2B,NZ,https://curasense.com
+NeuroMedix,micro,352590,Digital Therapeutics & Telemedicine AI,B2C,SG,https://neuromedix.com
+AI WellCare,large,469765559,Digital Therapeutics & Telemedicine AI,B2C,FI,https://aiwellcare.com
+TeleCure AI,large,62610097,Digital Therapeutics & Telemedicine AI,B2B,CA,https://telecure.ca
+DigiThera Health,micro,264499,Digital Therapeutics & Telemedicine AI,B2C,DK,https://digitherahealth.com
+MindHeal Tech,large,81499737,Digital Therapeutics & Telemedicine AI,B2B,DK,https://mindhealtech.com
+SympTrack AI,small,3076101,Digital Therapeutics & Telemedicine AI,B2C,DE,https://symptrack.com
+WellBot TeleHealth,micro,274340,Digital Therapeutics & Telemedicine AI,B2C,DE,https://wellbottelehealth.com
+SkyNet Drones,large,242397031,Autonomous Drone Technology,B2C,CA,https://skynetdrones.com
+AeroVision AI,medium,20450605,Autonomous Drone Technology,B2B,SG,https://aerovision.com
+HoverTech Systems,medium,31927958,Autonomous Drone Technology,B2B,KR,https://hovertechsystems.com
+QuantumFlight Robotics,large,94181377,Autonomous Drone Technology,B2B,JP,https://quantumflight.com
+Nimbus Aerial,medium,17541680,Autonomous Drone Technology,B2C,FR,https://nimbusaerial.com
+HawkEye UAV,small,2597522,Autonomous Drone Technology,B2B,SE,https://hawkeye-uav.com
+Aether DroneTech,small,2483671,Autonomous Drone Technology,B2C,IL,https://aetherdronetech.com
+FalconFly AI,medium,21395150,Autonomous Drone Technology,B2B,CA,https://falconfly.ca
+CloudWing Systems,medium,40475191,Autonomous Drone Technology,B2C,JP,https://cloudwing.jp
+OrbitX Robotics,small,630720,Autonomous Drone Technology,B2C,JP,https://orbitxrobotics.com
+NextGen Automation,large,321776016,Smart Factories & Industry 4.0,B2C,CH,https://nextgenautomation.com
+FactoryMind AI,medium,32407356,Smart Factories & Industry 4.0,B2B,CA,https://factorymind.com
+CyberFab Systems,micro,407185,Smart Factories & Industry 4.0,B2C,CA,https://cyberfab.com
+SmartForge Technologies,large,62281609,Smart Factories & Industry 4.0,B2B,DK,https://smartforge.dk
+PrecisionAI Manufacturing,medium,31209661,Smart Factories & Industry 4.0,B2B,GB,https://precisionai.com
+AutoFab Solutions,small,3515384,Smart Factories & Industry 4.0,B2B,US,https://autofabsolutions.com
+MechaSync Robotics,small,2037815,Smart Factories & Industry 4.0,B2B,HK,https://mechasyncrobotics.com
+HyperFlow Automation,small,4617025,Smart Factories & Industry 4.0,B2B,DK,https://hyperflowautomation.dk
+IndustriEdge AI,micro,237934,Smart Factories & Industry 4.0,B2B,US,https://industriege.com
+NeuroFab Labs,large,314397630,Smart Factories & Industry 4.0,B2B,CN,https://neurofablabs.com
+HyperTarget AI,small,2437158,AI-Powered Personalization & Recommendation Systems,B2B,CH,https://hypertarget.com
+RecomGenie,medium,28515330,AI-Powered Personalization & Recommendation Systems,B2B,KR,https://recomgenie.com
+NeuralChoice Systems,micro,449697,AI-Powered Personalization & Recommendation Systems,B2C,CH,https://neuralchoice.com
+PerceptiveAI,small,4189162,AI-Powered Personalization & Recommendation Systems,B2B,AU,https://perceptive.com
+InsightX Personalization,micro,439950,AI-Powered Personalization & Recommendation Systems,B2C,IL,https://insightxpersonalization.il
+SmartSuggest AI,large,193343859,AI-Powered Personalization & Recommendation Systems,B2C,DE,https://smartsuggest.com
+DeepAffinity Tech,large,444798313,AI-Powered Personalization & Recommendation Systems,B2C,AT,https://deepaffinity.com
+TailorMade AI,micro,340511,AI-Powered Personalization & Recommendation Systems,B2B,NL,https://tailormade.nl
+PersonaCraft,large,99799496,AI-Powered Personalization & Recommendation Systems,B2C,KR,https://personacraft.com
+SynapseRecs,large,460639408,AI-Powered Personalization & Recommendation Systems,B2C,AU,https://synapserecs.com
+OrbitalLink,medium,32395468,Satellite-Based Internet & Global Connectivity,B2B,AT,https://orbitallink.com
+CelestiaNet,medium,49293175,Satellite-Based Internet & Global Connectivity,B2C,SG,https://celestianet.com
+StarWave Broadband,small,943772,Satellite-Based Internet & Global Connectivity,B2C,CH,https://starwave.com
+SkyBridge Connect,micro,476463,Satellite-Based Internet & Global Connectivity,B2C,NL,https://skybridgeconnect.com
+ExoComm Networks,micro,280484,Satellite-Based Internet & Global Connectivity,B2B,IT,https://exocomm.com
+AetherLink Systems,large,488004345,Satellite-Based Internet & Global Connectivity,B2B,JP,https://aetherlink.com
+NovaBeam Communications,micro,422862,Satellite-Based Internet & Global Connectivity,B2C,KR,https://novabeam.com
+StratosSync,medium,14150088,Satellite-Based Internet & Global Connectivity,B2B,DE,https://stratossync.com
+AstroGrid Internet,micro,450786,Satellite-Based Internet & Global Connectivity,B2C,NL,https://astrogrid.com
+GalactiNet Solutions,large,422216635,Satellite-Based Internet & Global Connectivity,B2B,NO,https://galactinet.no
+BioSecureID,micro,47302,Biometric Security & Behavioral Authentication,B2C,DE,https://biosecureid.de
+NeuroPass Systems,large,409471714,Biometric Security & Behavioral Authentication,B2C,LU,https://neuropass.com
+VeriPalm Tech,medium,33907802,Biometric Security & Behavioral Authentication,B2C,BE,https://veripalm.com
+IrisTrust Security,large,160243172,Biometric Security & Behavioral Authentication,B2C,JP,https://iristrust.com
+PrintLock Solutions,medium,41203116,Biometric Security & Behavioral Authentication,B2B,CH,https://printlock.com
+VoiceKey Auth,micro,91985,Biometric Security & Behavioral Authentication,B2C,JP,https://voicekey.com
+GaitGuard Technologies,medium,13185921,Biometric Security & Behavioral Authentication,B2B,AU,https://gaitguard.com
+EchoVerify Security,medium,46326385,Biometric Security & Behavioral Authentication,B2B,EE,https://echoverify.com
+SynapseScan ID,small,2061823,Biometric Security & Behavioral Authentication,B2C,NO,https://synapsescan.com
+PulseCode Access,large,240934928,Biometric Security & Behavioral Authentication,B2B,SG,https://pulsecode.com

@@ -566,6 +566,9 @@ importers:
       '@types/nodemailer':
         specifier: ^6.4.17
         version: 6.4.17
+      '@types/papaparse':
+        specifier: ^5.3.15
+        version: 5.3.15
       '@types/supertest':
         specifier: 6.0.2
         version: 6.0.2
@@ -578,6 +581,9 @@ importers:
       drizzle-kit:
         specifier: ^0.30.3
         version: 0.30.3
+      drizzle-seed:
+        specifier: ^0.3.1
+        version: 0.3.1(drizzle-orm@0.39.0(@libsql/client-wasm@0.14.0)(@types/react@19.0.8)(postgres@3.4.5)(react@19.0.0))
       drizzle-zod:
         specifier: ^0.7.0
         version: 0.7.0(drizzle-orm@0.39.0(@libsql/client-wasm@0.14.0)(@types/react@19.0.8)(postgres@3.4.5)(react@19.0.0))(zod@3.24.1)
@@ -590,6 +596,9 @@ importers:
       nodemon:
         specifier: ^3.1.9
         version: 3.1.9
+      papaparse:
+        specifier: ^5.5.2
+        version: 5.5.2
       pino-pretty:
         specifier: ^13.0.0
         version: 13.0.0
@@ -5841,6 +5850,9 @@ packages:
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
 
+  '@types/papaparse@5.3.15':
+    resolution: {integrity: sha512-JHe6vF6x/8Z85nCX4yFdDslN11d+1pr12E526X8WAfhadOeaOTx5AuIkvDKIBopfvlzpzkdMx4YyvSKCM9oqtw==}
+
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
 
@@ -8316,6 +8328,14 @@ packages:
       sql.js:
         optional: true
       sqlite3:
+        optional: true
+
+  drizzle-seed@0.3.1:
+    resolution: {integrity: sha512-F/0lgvfOAsqlYoHM/QAGut4xXIOXoE5VoAdv2FIl7DpGYVXlAzKuJO+IphkKUFK3Dz+rFlOsQLnMNrvoQ0cx7g==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.4'
+    peerDependenciesMeta:
+      drizzle-orm:
         optional: true
 
   drizzle-zod@0.7.0:
@@ -12271,6 +12291,9 @@ packages:
     resolution: {integrity: sha512-+eK3G27SMwsB8kLIuj4h1FUhHtwiEUo21Tw8wNjmvdlpOEr613edv+8FUsTj/4F/VN5ywGE19X18N7CC2EJk6A==}
     engines: {node: ^16.14.0 || >=18.0.0}
     hasBin: true
+
+  papaparse@5.5.2:
+    resolution: {integrity: sha512-PZXg8UuAc4PcVwLosEEDYjPyfWnTEhOrUfdv+3Bx+NuAb+5NhDmXzg5fHWmdCh1mP5p7JAZfFr3IMQfcntNAdA==}
 
   param-case@2.1.1:
     resolution: {integrity: sha512-eQE845L6ot89sk2N8liD8HAuH4ca6Vvr7VWAWwt7+kvvG5aBcPmmphQ68JsEG2qa9n1TykS2DLeMt363AAH8/w==}
@@ -22727,6 +22750,10 @@ snapshots:
 
   '@types/normalize-package-data@2.4.4': {}
 
+  '@types/papaparse@5.3.15':
+    dependencies:
+      '@types/node': 22.10.10
+
   '@types/parse-json@4.0.2': {}
 
   '@types/prismjs@1.26.4': {}
@@ -25688,6 +25715,12 @@ snapshots:
       '@types/react': 19.0.8
       postgres: 3.4.5
       react: 19.0.0
+
+  drizzle-seed@0.3.1(drizzle-orm@0.39.0(@libsql/client-wasm@0.14.0)(@types/react@19.0.8)(postgres@3.4.5)(react@19.0.0)):
+    dependencies:
+      pure-rand: 6.1.0
+    optionalDependencies:
+      drizzle-orm: 0.39.0(@libsql/client-wasm@0.14.0)(@types/react@19.0.8)(postgres@3.4.5)(react@19.0.0)
 
   drizzle-zod@0.7.0(drizzle-orm@0.39.0(@libsql/client-wasm@0.14.0)(@types/react@19.0.8)(postgres@3.4.5)(react@19.0.0))(zod@3.24.1):
     dependencies:
@@ -31190,6 +31223,8 @@ snapshots:
     transitivePeerDependencies:
       - bluebird
       - supports-color
+
+  papaparse@5.5.2: {}
 
   param-case@2.1.1:
     dependencies:
