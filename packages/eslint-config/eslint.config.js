@@ -62,23 +62,41 @@ export const EslintConfig = {
     'perfectionist/sort-objects': [
       'error',
       {
+        groups: ['status', 'message', 'data'],
+        customGroups: {
+          message: '^message$',
+          status: '^status$',
+          data: '^data$',
+        },
+        useConfigurationIf: {
+          // Utilized in http response objects
+          allNamesMatchPattern: '^(message|status|data)$',
+        },
+      },
+      {
         // Ignore objects passed to fn calls; regexp name
         type: 'unsorted',
         useConfigurationIf: {
-          callingFunctionNamePattern: '^createSlice$',
+          callingFunctionNamePattern: '^(createSlice|pgTable|findFirst|postgresDB|relations)$',
         },
+        destructuredObjects: false,
       },
       {
         // Default/Fallback Configuration
         destructuredObjects: { groups: false },
-        groups: ['top', ['multiline', 'method'], ['unknown'], 'bottom'],
+        groups: ['top', 'unknown', ['multiline', 'method'], 'bottom'],
         customGroups: {
           top: ['^id$', '^name$'],
           bottom: '.+_metadata$',
         },
       },
     ],
-    'perfectionist/sort-exports': 'error',
+    'perfectionist/sort-exports': [
+      'error',
+      {
+        groupKind: 'types-first',
+      },
+    ],
     'perfectionist/sort-named-imports': 'error',
     'perfectionist/sort-imports': [
       'error',
