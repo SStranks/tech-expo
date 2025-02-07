@@ -1,6 +1,8 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { Response } from 'express';
 import type { JwtPayload } from 'jsonwebtoken';
+
+import type { TUserRoles } from '#Config/schema';
+import type { TSelectUserSchema } from '#Config/schema/user/User';
 
 import argon2 from 'argon2';
 import { and, eq } from 'drizzle-orm/expressions';
@@ -9,8 +11,7 @@ import ms from 'ms';
 
 import { postgresDB } from '#Config/dbPostgres';
 import { redisClient } from '#Config/dbRedis';
-import { TUserRoles, UserRefreshTokensTable, UserTable } from '#Config/schema/index';
-import { TSelectUserSchema } from '#Config/schema/User';
+import { UserRefreshTokensTable, UserTable } from '#Config/schema';
 import { AppError, BadRequestError, PostgresError } from '#Utils/errors';
 
 import crypto, { type UUID } from 'node:crypto';
@@ -61,7 +62,7 @@ class User {
 
   signRefreshTokenPayload = (client_id: UUID, iat: number) => {
     const jti = crypto.randomUUID();
-    const exp = Math.floor((Date.now() + ms(JWT_REFRESH_EXPIRES as string)) / 1000);
+    const exp = Math.floor((Date.now() + ms(JWT_REFRESH_EXPIRES as ms.StringValue)) / 1000);
     const acc = 0; // Incrementer; Parent-Child token chain
 
     return { acc, client_id, exp, iat, jti };
@@ -177,7 +178,7 @@ class User {
   createAuthCookie = (res: Response, authToken: string) => {
     res.cookie(JWT_COOKIE_AUTH_ID as string, authToken, {
       httpOnly: true,
-      maxAge: ms(JWT_COOKIE_AUTH_EXPIRES as string),
+      maxAge: ms(JWT_COOKIE_AUTH_EXPIRES as ms.StringValue),
       sameSite: 'strict',
       secure: NODE_ENV === 'production',
     });
@@ -186,7 +187,7 @@ class User {
   createRefreshCookie = (res: Response, refreshToken: string) => {
     res.cookie(JWT_COOKIE_REFRESH_ID as string, refreshToken, {
       httpOnly: true,
-      maxAge: ms(JWT_COOKIE_REFRESH_EXPIRES as string),
+      maxAge: ms(JWT_COOKIE_REFRESH_EXPIRES as ms.StringValue),
       path: '/api/users/generateAuthToken',
       sameSite: 'strict',
       secure: NODE_ENV === 'production',
@@ -320,11 +321,11 @@ class User {
   async loginAccount(email: string, password: string) {
     const user = await postgresDB.query.UserTable.findFirst({
       columns: {
+        id: true,
         accountActive: true,
         accountCreatedAt: true,
         accountFrozen: true,
         accountFrozenAt: true,
-        id: true,
         password: true,
         role: true,
       },
@@ -402,7 +403,7 @@ class User {
     // Generate reset token
     const resetToken = crypto.randomBytes(64).toString('hex');
     const hashedResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-    const resetTokenCreatedAt = new Date(Date.now() + ms(PASSWORD_RESET_EXPIRES as string));
+    const resetTokenCreatedAt = new Date(Date.now() + ms(PASSWORD_RESET_EXPIRES as ms.StringValue));
 
     // Update user entry
     const TIMESTAMP = new Date(Date.now());

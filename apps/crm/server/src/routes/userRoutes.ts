@@ -24,7 +24,7 @@ router.get('/identify', authController.identify);
 // Restricted
 router.use(authController.restrictedRoute('ROOT', 'ADMIN'));
 router.get('/restricted', (_req: Request, res: Response, _next: NextFunction) => {
-  res.status(200).json({ message: 'Restricted Route Accessed', status: 'success' });
+  res.status(200).json({ status: 'success', message: 'Restricted Route Accessed' });
 });
 // router
 //   .route('/:id')
