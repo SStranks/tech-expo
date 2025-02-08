@@ -24,7 +24,8 @@
       "#Views/*": ["views/*"]
     },
     // "typeRoots": ["node_modules/@types", "node_modules/@testing-library"],
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "rootDir": "./"
   },
 
   "ts-node": {

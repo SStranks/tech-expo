@@ -1,6 +1,5 @@
 ---
 services:
-
   # Client: React App
   # Use 'npm start' from ./client to init webpack-dev-server
 
@@ -12,7 +11,7 @@ services:
     command: npm start
     ports:
       - ${NODE_LOCAL_PORT:?error}:${NODE_DOCKER_PORT:?error}
-      - "9229:9229"
+      - '9229:9229'
     volumes:
       - ../shared:/app/shared:ro
       - ../server:/app/server:ro
@@ -27,8 +26,12 @@ services:
       - ../server/.env.dev
       - ./.env.dev
     depends_on:
-      - mongodb
-      - postgres
+      mongodb:
+        condition: 'service_started'
+        required: false
+      postgres:
+        condition: 'service_started'
+        required: false
     security_opt:
       - no-new-privileges
 
@@ -53,6 +56,7 @@ services:
     secrets:
       - mongodb_root_user
       - mongodb_root_password
+    profiles: [mongo]
 
   # DB: MongoDB Express
   mongo-express:
@@ -81,6 +85,7 @@ services:
       - mongoexpress_password
       - mongodb_user
       - mongodb_password
+    profiles: [mongo]
 
   # DB: Postgres
   postgres:
@@ -101,6 +106,7 @@ services:
     secrets:
       - postgres_user
       - postgres_password
+    profiles: [postgres]
 
   redis:
     container_name: ${REDIS_CONTAINER}
@@ -113,6 +119,7 @@ services:
       - redis-techexpo:/data
     networks:
       - crm-backend
+    profiles: [redis]
 
   redisinsight:
     container_name: ${REDISINSIGHT_CONTAINER}
@@ -122,6 +129,7 @@ services:
       - ${REDISINSIGHT_LOCAL_PORT:?error}:${REDISINSIGHT_DOCKER_PORT:?error}
     networks:
       - crm-backend
+    profiles: [redis]
 
 volumes:
   mongodb-data:
