@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 
-import { authController } from '#Controllers/index';
+import { authController } from '#Controllers/index.js';
 
 const router = express.Router();
 

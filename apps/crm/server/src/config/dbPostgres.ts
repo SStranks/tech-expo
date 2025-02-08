@@ -1,9 +1,9 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
-import * as schema from '#Config/schema';
-import { pinoLogger, rollbar } from '#Helpers/index';
-import DrizzleLogger from '#Lib/drizzleLogger';
+import * as schema from '#Config/schema/index.js';
+import { pinoLogger, rollbar } from '#Helpers/index.js';
+import DrizzleLogger from '#Lib/drizzleLogger.js';
 
 const { DRIZZLE, NODE_ENV, POSTGRES_DB, POSTGRES_HOST, POSTGRES_LOCAL_PORT, POSTGRES_PASSWORD, POSTGRES_USER } =
   process.env;

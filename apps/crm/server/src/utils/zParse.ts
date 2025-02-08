@@ -1,6 +1,7 @@
-import { AnyZodObject, ZodError, z } from 'zod';
-import ZodValidationError from './errors/ZodValidationError';
-import { BadRequestError } from './errors';
+import { AnyZodObject, z, ZodError } from 'zod';
+
+import { BadRequestError } from './errors/index.js';
+import ZodValidationError from './errors/ZodValidationError.js';
 
 // NOTE:  Change 'any' back to request when finished experimenting.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -9,7 +10,7 @@ export async function zParse<T extends AnyZodObject>(schema: T, req: any): Promi
     return await schema.parseAsync(req);
   } catch (error) {
     if (error instanceof ZodError) {
-      throw new ZodValidationError({ zod: { error }, context: { error }, logging: true });
+      throw new ZodValidationError({ context: { error }, logging: true, zod: { error } });
     }
     throw new BadRequestError({ code: 404, context: { error }, logging: true });
   }

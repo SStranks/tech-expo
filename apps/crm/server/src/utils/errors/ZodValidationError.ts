@@ -1,5 +1,6 @@
 import { ZodError } from 'zod';
-import { CustomError } from './CustomError';
+
+import { CustomError } from './CustomError.js';
 
 export default class ZodValidationError extends CustomError {
   private static readonly _statusCode = 400;
@@ -15,7 +16,7 @@ export default class ZodValidationError extends CustomError {
     context?: { [key: string]: unknown };
     zod: { error: ZodError };
   }) {
-    const { code, message, logging } = params || {};
+    const { code, logging, message } = params || {};
 
     super(message || 'Validation Error');
     this._code = code || ZodValidationError._statusCode;
@@ -32,7 +33,7 @@ export default class ZodValidationError extends CustomError {
   }
 
   get errors() {
-    return [{ message: this.message, context: this._context }];
+    return [{ context: this._context, message: this.message }];
   }
 
   get statusCode() {

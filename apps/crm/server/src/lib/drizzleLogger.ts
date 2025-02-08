@@ -1,6 +1,6 @@
 import { Logger } from 'drizzle-orm/logger';
 
-import pinoLogger from '#Helpers/pinoLogger';
+import pinoLogger from '#Helpers/pinoLogger.js';
 
 class DrizzleLogger implements Logger {
   logQuery(query: string, params: unknown[]): void {

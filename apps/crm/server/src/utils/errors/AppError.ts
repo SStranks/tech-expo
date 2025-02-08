@@ -1,4 +1,4 @@
-import { CustomError } from './CustomError';
+import { CustomError } from './CustomError.js';
 
 export default class AppError extends CustomError {
   private static readonly _statusCode = 500;
@@ -7,7 +7,7 @@ export default class AppError extends CustomError {
   private readonly _context: { [key: string]: unknown };
 
   constructor(params?: { code?: number; message?: string; logging?: boolean; context?: { [key: string]: unknown } }) {
-    const { code, message, logging } = params || {};
+    const { code, logging, message } = params || {};
 
     super(message || 'Internal Server Error');
     this._code = code || AppError._statusCode;
@@ -19,7 +19,7 @@ export default class AppError extends CustomError {
   }
 
   get errors() {
-    return [{ message: this.message, context: this._context }];
+    return [{ context: this._context, message: this.message }];
   }
 
   get statusCode() {

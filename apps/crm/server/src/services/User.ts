@@ -1,18 +1,18 @@
 import type { Response } from 'express';
 import type { JwtPayload } from 'jsonwebtoken';
 
-import type { TUserRoles } from '#Config/schema';
-import type { TSelectUserSchema } from '#Config/schema/user/User';
+import type { TUserRoles } from '#Config/schema/index.ts';
+import type { TSelectUserSchema } from '#Config/schema/user/User.ts';
 
 import argon2 from 'argon2';
 import { and, eq } from 'drizzle-orm/expressions';
 import jwt from 'jsonwebtoken';
 import ms from 'ms';
 
-import { postgresDB } from '#Config/dbPostgres';
-import { redisClient } from '#Config/dbRedis';
-import { UserRefreshTokensTable, UserTable } from '#Config/schema';
-import { AppError, BadRequestError, PostgresError } from '#Utils/errors';
+import { postgresDB } from '#Config/dbPostgres.js';
+import { redisClient } from '#Config/dbRedis.js';
+import { UserRefreshTokensTable, UserTable } from '#Config/schema/index.js';
+import { AppError, BadRequestError, PostgresError } from '#Utils/errors/index.js';
 
 import crypto, { type UUID } from 'node:crypto';
 

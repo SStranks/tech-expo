@@ -1,5 +1,5 @@
-export { default as AppError } from './AppError';
-export { default as BadRequestError } from './BadRequestError';
-export { CustomError } from './CustomError';
-export { default as PostgresError } from './PostgresError';
-export { default as ZodValidationError } from './ZodValidationError';
+export { default as AppError } from './AppError.js';
+export { default as BadRequestError } from './BadRequestError.js';
+export { CustomError } from './CustomError.js';
+export { default as PostgresError } from './PostgresError.js';
+export { default as ZodValidationError } from './ZodValidationError.js';

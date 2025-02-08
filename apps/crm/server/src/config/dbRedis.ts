@@ -1,6 +1,6 @@
 import { createClient } from 'redis';
 
-import { pinoLogger, rollbar } from '#Helpers/index';
+import { pinoLogger, rollbar } from '#Helpers/index.js';
 
 const { REDIS_HOST, REDIS_LOCAL_PORT, REDIS_PASSWORD, REDIS_USERNAME } = process.env;
 const REDIS_URL = `redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_LOCAL_PORT}`;

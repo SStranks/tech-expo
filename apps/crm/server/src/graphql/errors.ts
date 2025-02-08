@@ -2,8 +2,8 @@ import type { GraphQLFormattedError } from 'graphql';
 
 import { ApolloServerErrorCode } from '@apollo/server/errors';
 
-import pinoLogger from '#Helpers/pinoLogger';
-import { PostgresError } from '#Utils/errors';
+import pinoLogger from '#Helpers/pinoLogger.js';
+import { PostgresError } from '#Utils/errors/index.js';
 
 const formatError = (formattedError: GraphQLFormattedError, error: unknown): GraphQLFormattedError => {
   if (formattedError.extensions?.code === ApolloServerErrorCode.INTERNAL_SERVER_ERROR) {

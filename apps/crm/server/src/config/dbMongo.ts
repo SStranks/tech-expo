@@ -1,8 +1,9 @@
 import { MongoClient, type TopologyEvents } from 'mongodb';
-import pinoLogger from '#Helpers/pinoLogger';
-import rollbar from '#Helpers/rollbar';
 
-const { MONGODB_PROTOCOL, MONGODB_USER, MONGODB_PASSWORD, MONGODB_HOST, MONGODB_PORT, MONGODB_DATABASE, MONGODB_ARGS } =
+import pinoLogger from '#Helpers/pinoLogger.js';
+import rollbar from '#Helpers/rollbar.js';
+
+const { MONGODB_ARGS, MONGODB_DATABASE, MONGODB_HOST, MONGODB_PASSWORD, MONGODB_PORT, MONGODB_PROTOCOL, MONGODB_USER } =
   process.env;
 
 const MONGO_URI = `${MONGODB_PROTOCOL}://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}${MONGODB_ARGS}`;
@@ -33,11 +34,11 @@ class ServerEventsLogger {
 }
 
 new ServerEventsLogger(mongoClient, {
-  serverOpening: true,
-  serverClosed: true,
-  connectionCreated: true,
   connectionClosed: true,
+  connectionCreated: true,
   error: true,
+  serverClosed: true,
+  serverOpening: true,
   timeout: true,
 });
 

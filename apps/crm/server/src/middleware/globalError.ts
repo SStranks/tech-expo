@@ -2,8 +2,8 @@ import type { ErrorRequestHandler } from 'express';
 
 import { ZodError } from 'zod';
 
-import { pinoLogger, rollbar } from '#Helpers/index';
-import { CustomError, PostgresError, ZodValidationError } from '#Utils/errors';
+import { pinoLogger, rollbar } from '#Helpers/index.js';
+import { CustomError, PostgresError, ZodValidationError } from '#Utils/errors/index.js';
 
 const globalErrorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
