@@ -1,14 +1,15 @@
 import type { UUID } from 'node:crypto';
 
-import { InferInsertModel, relations } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { boolean, integer, pgTable, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { UserTable } from './User';
+import { UserTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TUserRefreshTokensTable = InferInsertModel<typeof UserRefreshTokensTable>;
+export type TUserRefreshTokensTableInsert = InferInsertModel<typeof UserRefreshTokensTable>;
+export type TUserRefreshTokensTableSelect = InferSelectModel<typeof UserRefreshTokensTable>;
 export const UserRefreshTokensTable = pgTable('user_tokens', {
   jti: uuid('jti').primaryKey().notNull().$type<UUID>(),
   iat: integer('iat').notNull(),
@@ -17,7 +18,8 @@ export const UserRefreshTokensTable = pgTable('user_tokens', {
   activated: boolean('activated').notNull().default(false),
   userId: uuid('user_id')
     .references(() => UserTable.id)
-    .notNull(),
+    .notNull()
+    .$type<UUID>(),
 });
 
 // -------- RELATIONS ------- //

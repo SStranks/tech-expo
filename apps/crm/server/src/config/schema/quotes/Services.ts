@@ -1,14 +1,15 @@
 import type { UUID } from 'node:crypto';
 
-import { InferInsertModel, relations } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { integer, numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { QuotesTable } from './Quotes';
+import { QuotesTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TQuoteServicesTable = InferInsertModel<typeof QuoteServicesTable>;
+export type TQuoteServicesTableInsert = InferInsertModel<typeof QuoteServicesTable>;
+export type TQuoteServicesTableSelect = InferSelectModel<typeof QuoteServicesTable>;
 export const QuoteServicesTable = pgTable('quote_services', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull(),
@@ -18,7 +19,8 @@ export const QuoteServicesTable = pgTable('quote_services', {
   total: numeric('total', { precision: 14, scale: 2 }).default('0.00').notNull(),
   quoteId: uuid('quote_id')
     .references(() => QuotesTable.id)
-    .notNull(),
+    .notNull()
+    .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
@@ -37,3 +39,5 @@ export const insertQuoteServicesSchema = createInsertSchema(QuoteServicesTable);
 export const selectQuoteServicesSchema = createSelectSchema(QuoteServicesTable);
 export type TInsertQuoteServicesSchema = z.infer<typeof insertQuoteServicesSchema>;
 export type TSelectQuoteServicesSchema = z.infer<typeof selectQuoteServicesSchema>;
+
+export default QuoteServicesTable;

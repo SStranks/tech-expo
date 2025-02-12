@@ -1,15 +1,16 @@
 import type { UUID } from 'node:crypto';
 
-import { InferInsertModel, relations } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { pgTable, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CalendarTable } from './Calendar';
-import { CalendarEventsTable } from './Events';
+import { CalendarTable } from './Calendar.js';
+import { CalendarEventsTable } from './Events.js';
 
 // ---------- TABLES -------- //
-export type TCalendarCategoriesTable = InferInsertModel<typeof CalendarCategoriesTable>;
+export type TCalendarCategoriesTableInsert = InferInsertModel<typeof CalendarCategoriesTable>;
+export type TCalendarCategoriesTableSelect = InferSelectModel<typeof CalendarCategoriesTable>;
 export const CalendarCategoriesTable = pgTable(
   'calendar_event_categories',
   {
@@ -17,7 +18,8 @@ export const CalendarCategoriesTable = pgTable(
     title: varchar('title', { length: 255 }).notNull(),
     calendarId: uuid('calendar_id')
       .references(() => CalendarTable.id)
-      .notNull(),
+      .notNull()
+      .$type<UUID>(),
   },
   // Prevent duplicate category titles per calendar table
   (table) => [unique().on(table.title, table.calendarId)]
@@ -39,3 +41,5 @@ export const insertCalendarCategoriesSchema = createInsertSchema(CalendarCategor
 export const selectCalendarCategoriesSchema = createSelectSchema(CalendarCategoriesTable);
 export type TInsertCalendarCategoriesSchema = z.infer<typeof insertCalendarCategoriesSchema>;
 export type TSelectCalendarCategoriesSchema = z.infer<typeof selectCalendarCategoriesSchema>;
+
+export default CalendarCategoriesTable;

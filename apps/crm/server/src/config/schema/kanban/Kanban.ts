@@ -1,21 +1,21 @@
 import type { UUID } from 'node:crypto';
 
-import { InferInsertModel, relations } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable } from '../companies/Companies';
-import { KanbanStagesTable } from './Stages';
-import { TasksTable } from './Tasks';
+import { CompaniesTable, KanbanStagesTable, TasksTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TKanbanTable = InferInsertModel<typeof KanbanTable>;
+export type TKanbanTableInsert = InferInsertModel<typeof KanbanTable>;
+export type TKanbanTableSelect = InferSelectModel<typeof KanbanTable>;
 export const KanbanTable = pgTable('kanban', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id)
-    .notNull(),
+    .notNull()
+    .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
@@ -36,3 +36,5 @@ export const insertKanbanSchema = createInsertSchema(KanbanTable);
 export const selectKanbanSchema = createSelectSchema(KanbanTable);
 export type TInsertKanbanSchema = z.infer<typeof insertKanbanSchema>;
 export type TSelectKanbanSchema = z.infer<typeof selectKanbanSchema>;
+
+export default KanbanTable;

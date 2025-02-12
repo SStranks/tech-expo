@@ -1,25 +1,27 @@
 import type { UUID } from 'node:crypto';
 
-import { InferInsertModel, relations } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { UserProfileTable } from '../user/UserProfile';
-import { CompaniesTable } from './Companies';
+import { CompaniesTable, UserProfileTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TCompaniesNotesTable = InferInsertModel<typeof CompaniesNotesTable>;
+export type TCompaniesNotesTableInsert = InferInsertModel<typeof CompaniesNotesTable>;
+export type TCompaniesNotesTableSelect = InferSelectModel<typeof CompaniesNotesTable>;
 export const CompaniesNotesTable = pgTable('companies_notes', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   note: text('note_text').notNull(),
   company: uuid('company_id')
     .references(() => CompaniesTable.id)
-    .notNull(),
+    .notNull()
+    .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   createdBy: uuid('created_by_user_id')
     .references(() => UserProfileTable.id)
-    .notNull(),
+    .notNull()
+    .$type<UUID>(),
 });
 
 // -------- RELATIONS ------- //
@@ -41,3 +43,5 @@ export const insertCompaniesNotesSchema = createInsertSchema(CompaniesNotesTable
 export const selectCompaniesNotesSchema = createSelectSchema(CompaniesNotesTable);
 export type TInsertCompaniesNotesSchema = z.infer<typeof insertCompaniesNotesSchema>;
 export type TSelectCompaniesNotesSchema = z.infer<typeof selectCompaniesNotesSchema>;
+
+export default CompaniesNotesTable;

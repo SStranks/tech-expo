@@ -1,36 +1,102 @@
-import type { TPostgresDB } from '#Config/dbPostgres';
+import type { TPostgresDB } from '#Config/dbPostgres.ts';
+import type {
+  TCalendarCategoriesTableInsert,
+  TCalendarCategoriesTableSelect,
+  TCalendarEventsParticipantsTableInsert,
+  TCalendarEventsTableInsert,
+  TCalendarEventsTableSelect,
+  TCalendarTableInsert,
+} from '#Config/schema/index.ts';
 
-import { sql } from 'drizzle-orm';
-import { seed } from 'drizzle-seed';
+import { faker } from '@faker-js/faker';
+import { eq } from 'drizzle-orm';
 
-import { CalendarTable, CompaniesTable } from '#Config/schema';
+import {
+  CalendarCategoriesTable,
+  CalendarEventsParticipantsTable,
+  CalendarEventsTable,
+  CalendarTable,
+  CompaniesTable,
+} from '#Config/schema/index.js';
+import { seedSettings } from '#Config/seedSettings.js';
+import CalendarEventsJSON from '#Data/CalendarEvents.json';
+
+const { COMPANY_NAME, USER_ENTRY_COUNT } = seedSettings;
 
 export default async function seedCalendar(db: TPostgresDB) {
-  const ENTRY_COUNT = 5;
+  // Get primary company ID
+  const primaryCompany = await db.query.CompaniesTable.findFirst({
+    columns: { id: true },
+    where: eq(CompaniesTable.companyName, COMPANY_NAME),
+  });
 
-  const companyIds = await db
-    .select({ id: CompaniesTable.id })
-    .from(CompaniesTable)
-    .orderBy(sql`random()`)
-    .limit(ENTRY_COUNT);
+  if (!primaryCompany) throw new Error(`Error: Could not source ${COMPANY_NAME} from company table`);
 
-  if (companyIds.length !== ENTRY_COUNT)
-    throw new Error(`Error: Could not source ${ENTRY_COUNT} companies from company table`);
+  // ------------ CALENDAR ----------- //
+  const calendarData: TCalendarTableInsert[] = [{ companyId: primaryCompany.id }];
 
-  const values = companyIds.map(({ id }) => id);
+  const calendarReturnData = await db
+    .insert(CalendarTable)
+    .values(calendarData)
+    .returning({ calendarId: CalendarTable.id });
 
-  await seed(db, { CalendarTable }, { seed: 1, version: '2' }).refine((f) => ({
-    CalendarTable: {
-      count: ENTRY_COUNT,
-      columns: {
-        createdAt: f.default({ defaultValue: undefined }),
-        companyId: f.valuesFromArray({
-          isUnique: true,
-          values,
-        }),
-      },
-    },
-  }));
+  const calendarId = calendarReturnData[0].calendarId;
 
-  console.log('Seed Successful: Calendar.ts');
+  // ------ CALENDAR CATEGORIES ------ //
+  const calendarCategoriesData: TCalendarCategoriesTableInsert[] = [];
+
+  // Generate 3-5 event categories; sourced from JSON
+  const insertCategories = faker.helpers.arrayElements(CalendarEventsJSON.categories, { max: 6, min: 4 });
+  insertCategories.forEach((category) => {
+    calendarCategoriesData.push({ calendarId, title: category });
+  });
+
+  const calendarCategoriesReturnData: TCalendarCategoriesTableSelect[] = await db
+    .insert(CalendarCategoriesTable)
+    .values(calendarCategoriesData)
+    .returning();
+
+  // -------- CALENDAR EVENTS -------- //
+  const calendarEventsData: TCalendarEventsTableInsert[] = [];
+
+  // For each type of calendar event category; insert the 5 events listed in JSON data
+  calendarCategoriesReturnData.forEach(({ calendarId, id: categoryId, title }) => {
+    const eventsOfCategory = CalendarEventsJSON.categoryTitles[title as keyof typeof CalendarEventsJSON.categoryTitles];
+    eventsOfCategory.forEach((event) => {
+      calendarEventsData.push({
+        calendarId,
+        categoryId,
+        description: event.description,
+        eventEnd: new Date(event.end_timestamp),
+        eventStart: new Date(event.start_timestamp),
+        title: event.title,
+      });
+    });
+  });
+
+  const calendarEventsReturnData: Pick<TCalendarEventsTableSelect, 'id'>[] = await db
+    .insert(CalendarEventsTable)
+    .values(calendarEventsData)
+    .returning({ id: CalendarEventsTable.id });
+
+  // -- CALENDAR EVENT-PARTICIPANTS -- //
+  const CalendarEventsParticipantsData: TCalendarEventsParticipantsTableInsert[] = [];
+
+  // Get all users for the primary company
+  const userIds = await db.query.UserProfileTable.findMany({ columns: { id: true } });
+  if (userIds.length === USER_ENTRY_COUNT)
+    throw new Error(`Error: Could not source the ${USER_ENTRY_COUNT} users of ${COMPANY_NAME}`);
+
+  // For each event; gather 2-6 random User ID's; create an entry per user per event
+  calendarEventsReturnData.forEach((event) => {
+    const randUserIds = faker.helpers.arrayElements(userIds, { max: 6, min: 2 });
+    randUserIds.forEach(({ id }) => {
+      CalendarEventsParticipantsData.push({ eventId: event.id, userId: id });
+    });
+  });
+
+  await db.insert(CalendarEventsParticipantsTable).values(CalendarEventsParticipantsData);
+
+  // --------- END OF SEEDING -------- //
+  console.log('Seed Successful: Calendar.ts, Categories.ts, Events.ts, EventsParticipants.ts');
 }

@@ -1,21 +1,21 @@
 import type { UUID } from 'node:crypto';
 
-import { InferInsertModel, relations } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable } from '../companies/Companies';
-import { DealsTable } from './Deals';
-import { StagesTable } from './Stages';
+import { CompaniesTable, DealsTable, PipelineStagesTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TPipelineTable = InferInsertModel<typeof PipelineTable>;
+export type TPipelineTableInsert = InferInsertModel<typeof PipelineTable>;
+export type TPipelineTableSelect = InferSelectModel<typeof PipelineTable>;
 export const PipelineTable = pgTable('pipeline', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id)
-    .notNull(),
+    .notNull()
+    .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
@@ -23,7 +23,7 @@ export const PipelineTable = pgTable('pipeline', {
 export const PipelineTableRelations = relations(PipelineTable, ({ many, one }) => {
   return {
     deals: many(DealsTable),
-    stages: many(StagesTable),
+    stages: many(PipelineStagesTable),
     company: one(CompaniesTable, {
       fields: [PipelineTable.companyId],
       references: [CompaniesTable.id],
@@ -36,3 +36,5 @@ export const insertPipelineSchema = createInsertSchema(PipelineTable);
 export const selectPipelineSchema = createSelectSchema(PipelineTable);
 export type TInsertPipelineSchema = z.infer<typeof insertPipelineSchema>;
 export type TSelectPipelineSchema = z.infer<typeof selectPipelineSchema>;
+
+export default PipelineTable;

@@ -1,12 +1,11 @@
 import type { UUID } from 'node:crypto';
 
-import { InferInsertModel, relations } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { boolean, pgEnum, pgTable, timestamp, uniqueIndex, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { UserProfileTable } from './UserProfile';
-import { UserRefreshTokensTable } from './UserRefreshTokens';
+import { UserProfileTable, UserRefreshTokensTable } from '../index.js';
 
 // ---------- ENUMS --------- //
 export type TUserRoles = (typeof USER_ROLES)[number];
@@ -14,7 +13,8 @@ export const USER_ROLES = ['ROOT', 'ADMIN', 'MODERATOR', 'USER'] as const;
 export const UserRolesEnum = pgEnum('user_role', USER_ROLES);
 
 // ---------- TABLES -------- //
-export type TUserTable = InferInsertModel<typeof UserTable>;
+export type TUserTableInsert = InferInsertModel<typeof UserTable>;
+export type TUserTableSelect = InferSelectModel<typeof UserTable>;
 export const UserTable = pgTable(
   'user',
   {

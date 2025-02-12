@@ -3,7 +3,7 @@ import type { UUID } from 'node:crypto';
 import { relations } from 'drizzle-orm';
 import { char, jsonb, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 
-import { UserTable } from './user/User';
+import { UserTable } from './index.js';
 
 // ---------- ENUMS --------- //
 export type TEntityAction = (typeof ENTITY_ACTION)[number];
@@ -19,7 +19,8 @@ export const AuditLogTable = pgTable('audit_log', {
   changedAt: timestamp('entity_timestamp', { mode: 'date' }).defaultNow().notNull(),
   changedBy: uuid('user_id')
     .references(() => UserTable.id)
-    .notNull(),
+    .notNull()
+    .$type<UUID>(),
   originalValues: jsonb('values_original'),
   newValues: jsonb('values_new').notNull(),
 });
@@ -35,3 +36,5 @@ export const AuditLogTableRelations = relations(AuditLogTable, ({ one }) => {
 });
 
 // ----------- ZOD ---------- //
+
+export default AuditLogTable;

@@ -1,22 +1,22 @@
 import type { UUID } from 'node:crypto';
 
-import { InferInsertModel, relations } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import CompaniesTable from '../companies/Companies';
-import { CalendarCategoriesTable } from './Categories';
-import { CalendarEventsTable } from './Events';
+import { CalendarCategoriesTable, CalendarEventsTable, CompaniesTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TCalendarTable = InferInsertModel<typeof CalendarTable>;
+export type TCalendarTableInsert = InferInsertModel<typeof CalendarTable>;
+export type TCalendarTableSelect = InferSelectModel<typeof CalendarTable>;
 export const CalendarTable = pgTable('calendar', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id)
     .notNull()
-    .unique(),
+    .unique()
+    .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 

@@ -1,23 +1,26 @@
 import type { UUID } from 'node:crypto';
 
-import { InferInsertModel, relations } from 'drizzle-orm';
-import { char, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
+import { char, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { ContactsNotesTable } from '../contacts/ContactsNotes';
-import { CountriesTable } from '../Countries';
-import { QuotesTable } from '../quotes/Quotes';
-import { TimeZoneTable } from '../TimeZones';
-import { UserTable } from './User';
+import { CompaniesTable, ContactsNotesTable, CountriesTable, QuotesTable, TimeZoneTable, UserTable } from '../index.js';
+
+// ---------- ENUMS --------- //
+export type TCompanyRoles = (typeof COMPANY_ROLES)[number];
+export const COMPANY_ROLES = ['ADMIN', 'SALES MANAGER', 'SALES PERSON', 'SALES INTERN'] as const;
+export const CompanyRolesEnum = pgEnum('company_role', COMPANY_ROLES);
 
 // ---------- TABLES -------- //
-export type TUserProfileTable = InferInsertModel<typeof UserProfileTable>;
+export type TUserProfileTableInsert = InferInsertModel<typeof UserProfileTable>;
+export type TUserProfileTableSelect = InferSelectModel<typeof UserProfileTable>;
 export const UserProfileTable = pgTable('user_profile', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   userId: uuid('user_id')
     .references(() => UserTable.id)
-    .notNull(),
+    .notNull()
+    .$type<UUID>(),
   firstName: varchar('first_name', { length: 255 }).notNull(),
   lastName: varchar('last_name', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull(), // TODO:  Option to sync with account email, or use separate one.
@@ -26,9 +29,13 @@ export const UserProfileTable = pgTable('user_profile', {
   timezone: uuid('timezone_id').references(() => TimeZoneTable.id),
   country: uuid('country_id')
     .references(() => CountriesTable.id)
-    .notNull(),
-  company: varchar('company', { length: 255 }).notNull(),
-  companyRole: varchar('company_role', { length: 255 }),
+    .notNull()
+    .$type<UUID>(),
+  company: uuid('company_id')
+    .references(() => CompaniesTable.id)
+    .notNull()
+    .$type<UUID>(),
+  companyRole: CompanyRolesEnum('company_role').notNull(),
   image: char('profile_image', { length: 32 }), // MD5 hash of UUID (used as image name)
   updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
 });
@@ -38,6 +45,10 @@ export const UserProfileTableRelations = relations(UserProfileTable, ({ many, on
   return {
     contactsNotes: many(ContactsNotesTable),
     quote: many(QuotesTable),
+    company: one(CompaniesTable, {
+      fields: [UserProfileTable.company],
+      references: [CompaniesTable.id],
+    }),
     country: one(CountriesTable, {
       fields: [UserProfileTable.country],
       references: [CountriesTable.id],
@@ -58,3 +69,5 @@ export const insertUserProfileSchema = createInsertSchema(UserProfileTable);
 export const selectUserProfileSchema = createSelectSchema(UserProfileTable);
 export type TInsertUserProfileSchema = z.infer<typeof insertUserProfileSchema>;
 export type TSelectUserProfileSchema = z.infer<typeof selectUserProfileSchema>;
+
+export default UserProfileTable;

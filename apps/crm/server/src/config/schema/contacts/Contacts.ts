@@ -1,14 +1,11 @@
 import type { UUID } from 'node:crypto';
 
-import { InferInsertModel, relations } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable } from '../companies/Companies';
-import { QuotesTable } from '../quotes/Quotes';
-import { TimeZoneTable } from '../TimeZones';
-import { ContactsNotesTable } from './ContactsNotes';
+import { CompaniesTable, ContactsNotesTable, QuotesTable, TimeZoneTable } from '../index.js';
 
 // ---------- ENUMS --------- //
 export type TContactStage = (typeof CONTACT_STAGE)[number];
@@ -26,7 +23,8 @@ export const CONTACT_STAGE = [
 export const ContactStageEnum = pgEnum('contact_stage', CONTACT_STAGE);
 
 // ---------- TABLES -------- //
-export type TContactsTable = InferInsertModel<typeof ContactsTable>;
+export type TContactsTableInsert = InferInsertModel<typeof ContactsTable>;
+export type TContactsTableSelect = InferSelectModel<typeof ContactsTable>;
 export const ContactsTable = pgTable('contacts', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   name: varchar('name', { length: 255 }).notNull(),
@@ -34,10 +32,13 @@ export const ContactsTable = pgTable('contacts', {
   phone: varchar('telephone', { length: 255 }).notNull(),
   company: uuid('company_id')
     .references(() => CompaniesTable.id)
-    .notNull(),
+    .notNull()
+    .$type<UUID>(),
   jobTitle: varchar('job_title', { length: 255 }).notNull(),
   stage: ContactStageEnum('stage').notNull(),
-  timezone: uuid('timezone_id').references(() => TimeZoneTable.id),
+  timezone: uuid('timezone_id')
+    .references(() => TimeZoneTable.id)
+    .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
@@ -62,3 +63,5 @@ export const insertContactsSchema = createInsertSchema(ContactsTable);
 export const selectContactsSchema = createSelectSchema(ContactsTable);
 export type TInsertContactsSchema = z.infer<typeof insertContactsSchema>;
 export type TSelectContactsSchema = z.infer<typeof selectContactsSchema>;
+
+export default ContactsTable;

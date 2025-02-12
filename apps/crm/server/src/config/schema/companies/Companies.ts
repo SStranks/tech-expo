@@ -1,17 +1,20 @@
 import type { UUID } from 'node:crypto';
 
-import { InferInsertModel, relations } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { numeric, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CalendarTable } from '../calendar/Calendar';
-import { ContactsTable } from '../contacts/Contacts';
-import { CountriesTable } from '../Countries';
-import { KanbanTable } from '../kanban/Kanban';
-import { DealsTable } from '../pipeline/Deals';
-import { QuotesTable } from '../quotes/Quotes';
-import { CompaniesNotesTable } from './CompanyNotes';
+import {
+  CalendarTable,
+  CompaniesNotesTable,
+  ContactsTable,
+  CountriesTable,
+  DealsTable,
+  KanbanTable,
+  QuotesTable,
+  UserProfileTable,
+} from '../index.js';
 
 // ---------- ENUMS --------- //
 export type TCompanySize = (typeof COMPANY_SIZE)[number];
@@ -23,7 +26,8 @@ export const BUSINESS_TYPE = ['B2B', 'B2C'] as const;
 export const BusinessTypeEnum = pgEnum('business_type', BUSINESS_TYPE);
 
 // ---------- TABLES -------- //
-export type TCompaniesTable = InferInsertModel<typeof CompaniesTable>;
+export type TCompaniesTableInsert = InferInsertModel<typeof CompaniesTable>;
+export type TCompaniesTableSelect = InferSelectModel<typeof CompaniesTable>;
 export const CompaniesTable = pgTable('companies', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   companyName: varchar('company_name', { length: 255 }).notNull().unique(),
@@ -48,6 +52,7 @@ export const CompaniesTableRelations = relations(CompaniesTable, ({ many, one })
     kanban: one(KanbanTable),
     notes: many(CompaniesNotesTable),
     quotes: many(QuotesTable),
+    users: many(UserProfileTable),
     country: one(CountriesTable, {
       fields: [CompaniesTable.country],
       references: [CountriesTable.id],

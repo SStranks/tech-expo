@@ -1,15 +1,15 @@
 import type { UUID } from 'node:crypto';
 
-import { InferInsertModel, relations } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable } from './companies/Companies';
-import { UserProfileTable } from './user/UserProfile';
+import { CompaniesTable, TimeZoneTable, UserProfileTable } from './index.js';
 
 // ---------- TABLES -------- //
-export type TCountriesTable = InferInsertModel<typeof CountriesTable>;
+export type TCountriesTableInsert = InferInsertModel<typeof CountriesTable>;
+export type TCountriesTableSelect = InferSelectModel<typeof CountriesTable>;
 export const CountriesTable = pgTable('countries', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   numCode: integer('num_code').unique().notNull(),
@@ -22,7 +22,8 @@ export const CountriesTable = pgTable('countries', {
 // -------- RELATIONS ------- //
 export const CountriesTablerelations = relations(CountriesTable, ({ many }) => {
   return {
-    country: many(CompaniesTable),
+    company: many(CompaniesTable),
+    timezone: many(TimeZoneTable),
     user: many(UserProfileTable),
   };
 });
