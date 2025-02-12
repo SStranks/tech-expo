@@ -1,4 +1,8 @@
-import pino, { type LoggerOptions } from 'pino';
+import type { LoggerOptions } from 'pino';
+
+import { pino as pinoLib } from 'pino';
+// NOTE:  Rebinding pino due to library v9.6 exports error
+const pino = pinoLib;
 
 // NOTE:  Logger levels: trace, debug, info, warn, error, and fatal.
 
