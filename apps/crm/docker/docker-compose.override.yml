@@ -12,10 +12,12 @@ services:
     ports:
       - ${NODE_LOCAL_PORT:?error}:${NODE_DOCKER_PORT:?error}
       - '9229:9229'
+      - '9230:9230'
     volumes:
       - ../shared:/app/shared:ro
       - ../server:/app/server:ro
       - ../../../node_modules:/node_modules:ro
+      - ../server/src/temp:/app/server/src/temp
     networks:
       - crm-backend
     environment:

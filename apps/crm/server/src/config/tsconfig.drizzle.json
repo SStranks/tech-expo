@@ -4,7 +4,7 @@
   // "extends": "./tsconfig.node.json",
   "extends": "@packages/typescript-config/nodejs",
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": "../../src",
     "paths": {
       "#App/*": ["app/*"],
       "#Config/*": ["config/*"],
@@ -23,9 +23,9 @@
       "#Utils/*": ["utils/*"],
       "#Views/*": ["views/*"]
     },
-    // "typeRoots": ["node_modules/@types", "node_modules/@testing-library"],
-    "outDir": "./dist",
-    "rootDir": "./"
+    "outDir": "./schema/_dist",
+    "rootDir": "./schema",
+    "sourceMap": false
   },
 
   "ts-node": {
@@ -39,6 +39,6 @@
     "resolveFullPaths": true
   },
 
-  "include": ["src/**/*.ts", "src/app/app.ts"],
-  "exclude": ["node_modules", "dist", "./src/config/schema"]
+  "include": ["./schema/*.ts"],
+  "exclude": ["node_modules"]
 }

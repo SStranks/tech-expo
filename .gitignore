@@ -11,6 +11,7 @@
 # Public
 **/public
 **/dist
+**/_dist
 
 # Logs
 **/*.log
@@ -24,6 +25,7 @@
 # Private Files
 **/private.*
 **/private
+**/temp
 
 # FrontEndMentor
 *.sketch
