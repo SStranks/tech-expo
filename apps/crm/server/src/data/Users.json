@@ -1,5 +1,8 @@
 {
   "_README": {
     "_comment": "Need to include seed accounts; root, admin(demo), moderator(demo), user(demo)"
-  }
+  },
+  "title": "User Information; UserId and UserProfile Information",
+  "createdBy": "Simon Stranks",
+  "users": [{}]
 }
