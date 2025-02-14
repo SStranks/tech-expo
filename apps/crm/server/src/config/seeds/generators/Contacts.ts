@@ -21,10 +21,11 @@ export function generateContact(company: ICompanyObject): TContactsTableInsert {
     throw new Error(`Error: Data mismatch; check JSON structure and companies seeding; industry: ${industry}`);
 
   return {
-    name: `${firstName} ${lastName}`,
     company: company.id,
     email: faker.internet.email({ firstName, lastName, provider }),
+    firstName,
     jobTitle: faker.helpers.arrayElement(jobTitles[industry as keyof TJobTitles]),
+    lastName,
     phone: faker.phone.number({ style: 'international' }),
     stage,
     timezone: company.timezone,

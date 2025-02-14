@@ -27,7 +27,8 @@ export type TContactsTableInsert = InferInsertModel<typeof ContactsTable>;
 export type TContactsTableSelect = InferSelectModel<typeof ContactsTable>;
 export const ContactsTable = pgTable('contacts', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  name: varchar('name', { length: 255 }).notNull(),
+  firstName: varchar('first_name', { length: 255 }).notNull(),
+  lastName: varchar('last_name', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull(),
   phone: varchar('telephone', { length: 255 }).notNull(),
   company: uuid('company_id')
