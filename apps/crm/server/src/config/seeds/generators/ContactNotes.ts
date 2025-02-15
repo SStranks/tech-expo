@@ -10,8 +10,7 @@ import { faker } from '@faker-js/faker';
 
 import ContactsNotes from '#Data/ContactsNotes.json';
 
-const DATE_NOW = new Date();
-const DATE_3_DAYS_AGO = new Date(new Date().setDate(new Date().getDate() - 3));
+import { generateCommentDates, replaceCommentPlaceholders } from './utils.js';
 
 const { chain_notes: CHAIN_NOTES, non_chain_notes: NON_CHAIN_NOTES } = ContactsNotes;
 
@@ -49,21 +48,20 @@ export function generateContactNotes(
   const totalComments = randChainNotesArray.push({ comment: finalComment });
 
   // Gather random users and randomize dates for the comments 'createdAt'
-  const userIds = faker.helpers.arrayElements(allUsers, totalComments);
-  const recentPastDate = faker.date.recent({ days: 27, refDate: DATE_3_DAYS_AGO });
-  const commentsCreatedAt = faker.date.betweens({ count: totalComments, from: recentPastDate, to: DATE_NOW });
+  const users = faker.helpers.arrayElements(allUsers, totalComments);
+  const commentsCreatedAt = generateCommentDates(totalComments);
 
   for (let [i, { comment }] of randChainNotesArray.entries()) {
     // Replace any placeholders in the comment
-    // {USER_NAME} - insert previous comment users first name
-    if (comment.includes('{USER_NAME}')) comment = comment.replace('{USER_NAME}', userIds[i - 1].firstName);
-    if (comment.includes('{CONTACT_NAME}')) comment = comment.replace('{CONTACT_NAME}', contact.firstName);
-    if (comment.includes('{COMPANY_NAME}')) comment = comment.replace('{COMPANY_NAME}', contact.company.companyName);
+    const companyName = contact.company.companyName;
+    const contactName = contact.firstName;
+    const userName = users[i - 1]?.firstName;
+    comment = replaceCommentPlaceholders(comment, { companyName, contactName, industry, userName });
 
     const contactNote: TContactsNotesTableInsert = {
       contactId: contact.id,
       createdAt: commentsCreatedAt[i],
-      createdBy: userIds[i].id,
+      createdBy: users[i].id,
       note: comment,
     };
 
