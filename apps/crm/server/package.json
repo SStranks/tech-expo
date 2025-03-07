@@ -38,7 +38,7 @@
     "docker:postbuild": "docker image tag $npm_package_config_dockerImageRepo:$npm_package_version $npm_package_config_dockerImageRepo:latest",
     "docker:run": "docker run --name $npm_package_config_dockerImageName -d -p $npm_package_config_dockerImagePort:$npm_package_config_dockerInternalContainerPort $npm_package_config_dockerImageRepo",
     "docker:clean": "docker rm -f $npm_package_config_imageName",
-    "drizzle:generate": "pnpm tsc --project ./src/config/tsconfig.drizzle.json && drizzle-kit generate",
+    "drizzle:generate": "NODE_OPTIONS='--import tsx' drizzle-kit generate",
     "drizzle:migrate": "DRIZZLE=migrate tsx ./src/config/migrate.ts",
     "drizzle:seed": "DRIZZLE=seed tsx --inspect=0.0.0.0:9230 ./src/config/seed.ts",
     "drizzle:drop": "pnpm drizzle-kit drop"
