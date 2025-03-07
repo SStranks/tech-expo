@@ -71,7 +71,8 @@ CREATE TABLE "companies_notes" (
 --> statement-breakpoint
 CREATE TABLE "contacts" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"name" varchar(255) NOT NULL,
+	"first_name" varchar(255) NOT NULL,
+	"last_name" varchar(255) NOT NULL,
 	"email" varchar(255) NOT NULL,
 	"telephone" varchar(255) NOT NULL,
 	"company_id" uuid NOT NULL,
