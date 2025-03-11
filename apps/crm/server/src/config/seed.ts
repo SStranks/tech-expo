@@ -24,6 +24,9 @@ const seedDB = async () => {
   await seeds.Calendar(postgresDB);
   await seeds.Contacts(postgresDB);
   await seeds.ContactsNotes(postgresDB);
+  await seeds.Quotes(postgresDB);
+  await seeds.QuotesServices(postgresDB);
+  await seeds.QuotesNotes(postgresDB);
   console.log('Database seeding completed.');
 };
 

@@ -19,6 +19,7 @@ export type { TDealsTableInsert, TDealsTableSelect } from './pipeline/Deals.ts';
 export type { TPipelineTableInsert, TPipelineTableSelect } from './pipeline/Pipeline.ts';
 export type { TPipelineStagesTableInsert, TPipelineStagesTableSelect } from './pipeline/Stages.ts';
 export type { TQuotesTableInsert, TQuotesTableSelect } from './quotes/Quotes.ts';
+export type { TQuotesNotesTableInsert, TQuotesNotesTableSelect } from './quotes/QuotesNotes.ts';
 export type { TQuoteServicesTableInsert, TQuoteServicesTableSelect } from './quotes/Services.ts';
 export type { TTimeZoneTableInsert, TTimeZoneTableSelect } from './TimeZones.ts';
 export type { TUserTableInsert, TUserTableSelect, TUserRoles } from './user/User.ts';
@@ -47,6 +48,7 @@ export { default as DealsTable, DealsTableRelations } from './pipeline/Deals.js'
 export { default as PipelineTable, PipelineTableRelations } from './pipeline/Pipeline.js';
 export { default as PipelineStagesTable, PipelineStagesTableRelations } from './pipeline/Stages.js';
 export { default as QuotesTable, QuotesTableRelations } from './quotes/Quotes.js';
+export { default as QuotesNotesTable, QuotesNotesTableRelations } from './quotes/QuotesNotes.js';
 export { default as QuoteServicesTable, QuoteServicesTableRelations } from './quotes/Services.js';
 export { default as TimeZoneTable, TimeZoneTableRelations } from './TimeZones.js';
 export { default as UserTable, UserTableRelations } from './user/User.js';

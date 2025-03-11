@@ -4,4 +4,7 @@ export { default as CompaniesNotes } from './CompaniesNotes.js';
 export { default as Contacts } from './Contacts.js';
 export { default as ContactsNotes } from './ContactsNotes.js';
 export { default as Countries } from './Countries.js';
+export { default as Quotes } from './Quotes.js';
+export { default as QuotesNotes } from './QuotesNotes.js';
+export { default as QuotesServices } from './QuotesServices.js';
 export { default as Users } from './User.js';
