@@ -151,17 +151,26 @@ CREATE TABLE "quote_services" (
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "quotes_notes" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"note_text" text NOT NULL,
+	"quote_id" uuid,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"created_by_user_id" uuid NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "quotes" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"title" varchar(255) NOT NULL,
 	"company_id" uuid NOT NULL,
 	"total" numeric(14, 2) DEFAULT '0.00' NOT NULL,
-	"sales_tax" numeric(4, 2) DEFAULT '0.00' NOT NULL,
+	"sales_tax" numeric(4, 2) DEFAULT '20.00' NOT NULL,
 	"quote_stage" "quote_stage" NOT NULL,
-	"prepared_for_contact_id" uuid,
-	"prepared_by_user_id" uuid,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"notes" text DEFAULT ''
+	"prepared_for_contact_id" uuid NOT NULL,
+	"prepared_by_user_id" uuid NOT NULL,
+	"issued_at" timestamp,
+	"due_at" timestamp,
+	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "task_checklist_item" (
@@ -262,6 +271,8 @@ ALTER TABLE "kanban" ADD CONSTRAINT "kanban_company_id_companies_id_fk" FOREIGN 
 ALTER TABLE "pipeline_stages" ADD CONSTRAINT "pipeline_stages_pipeline_table_id_pipeline_id_fk" FOREIGN KEY ("pipeline_table_id") REFERENCES "public"."pipeline"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "pipeline" ADD CONSTRAINT "pipeline_company_id_companies_id_fk" FOREIGN KEY ("company_id") REFERENCES "public"."companies"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "quote_services" ADD CONSTRAINT "quote_services_quote_id_quotes_id_fk" FOREIGN KEY ("quote_id") REFERENCES "public"."quotes"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "quotes_notes" ADD CONSTRAINT "quotes_notes_quote_id_quotes_id_fk" FOREIGN KEY ("quote_id") REFERENCES "public"."quotes"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "quotes_notes" ADD CONSTRAINT "quotes_notes_created_by_user_id_user_profile_id_fk" FOREIGN KEY ("created_by_user_id") REFERENCES "public"."user_profile"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "quotes" ADD CONSTRAINT "quotes_company_id_companies_id_fk" FOREIGN KEY ("company_id") REFERENCES "public"."companies"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "quotes" ADD CONSTRAINT "quotes_prepared_for_contact_id_contacts_id_fk" FOREIGN KEY ("prepared_for_contact_id") REFERENCES "public"."contacts"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "quotes" ADD CONSTRAINT "quotes_prepared_by_user_id_user_profile_id_fk" FOREIGN KEY ("prepared_by_user_id") REFERENCES "public"."user_profile"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint

@@ -1,6 +1,6 @@
 {
-  "id": "82ecb504-446d-4571-86cd-e30b86de38c8",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "35f093c3-8d9d-4575-81d0-4cfb4ffc7e44",
+  "prevId": "80c4a667-8538-488c-b6d7-cc4a8c024c2b",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -1166,7 +1166,7 @@
           "name": "quote_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -1336,7 +1336,15 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "quotes_title_unique": {
+          "name": "quotes_title_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "title"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

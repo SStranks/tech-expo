@@ -12,7 +12,6 @@ const resetDB = async () => {
   console.log('Database cleared successfully.');
 };
 
-// TODO:  Could separate out the non-related and relational seeds; promise.allSettled and promise.all
 const seedDB = async () => {
   console.log('Seeding database...');
   console.log('Seeding non-relational data...');
