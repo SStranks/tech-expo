@@ -3,6 +3,7 @@ import type { TQuotesTableInsert } from '#Config/schema/index.js';
 import type { TSeedQuoteCompany, TSeedQuoteUser } from '../Quotes.js';
 
 import { faker } from '@faker-js/faker';
+import { nanoid } from 'nanoid';
 
 import { QUOTE_STAGE } from '#Config/schema/quotes/Quotes.js';
 
@@ -11,7 +12,7 @@ const NEW_DATE = new Date();
 export function generateQuote(company: TSeedQuoteCompany, user: TSeedQuoteUser): TQuotesTableInsert {
   let dueAt: Date | null = null,
     issuedAt: Date | null = null;
-  const title = `TE25-${faker.string.alphanumeric({ casing: 'mixed', length: 7 })}`;
+  const title = `TE25-${nanoid(10)}`;
   const preparedFor = faker.helpers.arrayElement(company.contacts).id;
   const stage = faker.helpers.arrayElement(QUOTE_STAGE);
 

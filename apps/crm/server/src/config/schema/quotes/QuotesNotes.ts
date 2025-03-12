@@ -15,6 +15,7 @@ export const QuotesNotesTable = pgTable('quotes_notes', {
   note: text('note_text').notNull(),
   quote: uuid('quote_id')
     .references(() => QuotesTable.id)
+    .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   createdBy: uuid('created_by_user_id')

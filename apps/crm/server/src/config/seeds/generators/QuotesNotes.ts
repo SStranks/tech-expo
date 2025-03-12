@@ -15,7 +15,7 @@ export function generateQuoteNote(quote: TSeedQuoteNotesQuotes) {
   const formalNotesKeys = faker.helpers.arrayElements(FORMAL_NOTES, 4);
   formalNotesKeys.forEach((key) => {
     const formalNote = faker.helpers.arrayElement(QuotesNotes.formal_notes[`${key}`]);
-    note.concat(`${formalNote.title} - ${formalNote.description} \n`);
+    note += `${formalNote.title} - ${formalNote.description} \n`;
   });
   const informalNote = faker.helpers
     .arrayElement(QuotesNotes.informal_notes)
@@ -23,7 +23,7 @@ export function generateQuoteNote(quote: TSeedQuoteNotesQuotes) {
     .replaceAll('{USER_NAME}', quote.preparedFor.firstName)
     .replaceAll('{DUE_DATE}', quote.dueAt?.toLocaleDateString() ?? '{DUE_DATE}');
 
-  note.concat(informalNote).trimEnd();
+  note += informalNote.trimEnd();
 
   const quoteNote: TQuotesNotesTableInsert = {
     createdBy: quote.preparedBy,

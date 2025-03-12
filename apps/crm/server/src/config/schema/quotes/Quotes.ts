@@ -17,7 +17,7 @@ export type TQuotesTableInsert = InferInsertModel<typeof QuotesTable>;
 export type TQuotesTableSelect = InferSelectModel<typeof QuotesTable>;
 export const QuotesTable = pgTable('quotes', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  title: varchar('title', { length: 255 }).notNull(),
+  title: varchar('title', { length: 255 }).notNull().unique(),
   company: uuid('company_id')
     .references(() => CompaniesTable.id)
     .notNull(),
