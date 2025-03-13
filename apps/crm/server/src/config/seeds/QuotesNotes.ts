@@ -15,16 +15,16 @@ const getQuotes = async (db: TPostgresDB) => {
 };
 
 export default async function seedQuotesServices(db: TPostgresDB) {
-  const quotesNotesData: TQuotesNotesTableInsert[] = [];
+  const quotesNotesInsertionData: TQuotesNotesTableInsert[] = [];
   const quotes = await getQuotes(db);
 
   // ---------- QUOTES NOTES --------- //
   quotes.forEach(async (quote) => {
     const note = generateQuoteNote(quote);
-    quotesNotesData.push(note);
+    quotesNotesInsertionData.push(note);
   });
 
-  await db.insert(QuotesNotesTable).values(quotesNotesData);
+  await db.insert(QuotesNotesTable).values(quotesNotesInsertionData);
 
   // --------- END OF SEEDING -------- //
   console.log('Seed Successful: QuotesNotes.ts');

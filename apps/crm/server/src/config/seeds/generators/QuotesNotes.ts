@@ -9,14 +9,15 @@ import QuotesNotes from '#Data/QuotesNotes.json';
 const FORMAL_NOTES = Object.keys(QuotesNotes.formal_notes) as [keyof (typeof QuotesNotes)['formal_notes']];
 
 export function generateQuoteNote(quote: TSeedQuoteNotesQuotes) {
+  // Pick one formal note from 4 categories. Pick one informal note to add to end
   let note = '';
-  // Pick one formal note from 4 categories
-  // Pick one informal note to add to end; replace placeholders
   const formalNotesKeys = faker.helpers.arrayElements(FORMAL_NOTES, 4);
+
   formalNotesKeys.forEach((key) => {
     const formalNote = faker.helpers.arrayElement(QuotesNotes.formal_notes[`${key}`]);
     note += `${formalNote.title} - ${formalNote.description} \n`;
   });
+
   const informalNote = faker.helpers
     .arrayElement(QuotesNotes.informal_notes)
     .replaceAll('{COMPANY_NAME}', quote.company.companyName)

@@ -1,4 +1,3 @@
-/* eslint-disable security/detect-object-injection */
 import type { TPostgresDB } from '#Config/dbPostgres.js';
 import type { TUserProfileTableInsert, TUserTableInsert } from '#Config/schema/index.js';
 
@@ -9,73 +8,85 @@ import { seedSettings } from '#Config/seedSettings.js';
 
 import { generateDemoUsers, generateUsers } from './generators/Users.js';
 
-const { COMPANY_NAME, USER_ENTRY_COUNT } = seedSettings;
+const { COMPANY_NAME } = seedSettings;
 
-// TODO:  Make JSON file with UserProfile image addresses; URL should then be MD5 hashed here.
-export default async function seedUsers(db: TPostgresDB) {
-  const USERS_ARRAY = generateUsers();
-  const USERS_DEMO_ARRAY = generateDemoUsers();
-
-  // Establish primary company utilizing our CRM application
-  const COMPANY = await db.query.CompaniesTable.findFirst({
+// The primary company is the one utilizing the application
+async function getPrimaryCompany(db: TPostgresDB) {
+  return await db.query.CompaniesTable.findFirst({
     where: eq(CompaniesTable.companyName, COMPANY_NAME),
     with: { country: { with: { timezone: { columns: { id: true } } } } },
   });
-  if (!COMPANY) throw new Error(`Error: Could not find company ${COMPANY_NAME}.`);
+}
 
-  // -------------- USER ------------- //
-  const userData: TUserTableInsert[] = Array.from({ length: USER_ENTRY_COUNT }, (_, i) => {
-    return {
-      id: USERS_ARRAY[i].userId,
-      email: USERS_ARRAY[i].personalEmail,
-      password: USERS_ARRAY[i].hashedPassword,
+// TODO:  Make JSON file with UserProfile image addresses; URL should then be MD5 hashed here.
+export default async function seedUsers(db: TPostgresDB) {
+  const primaryCompany = await getPrimaryCompany(db);
+  if (!primaryCompany) throw new Error(`Could not find primary company ${COMPANY_NAME}`);
+
+  // -------------- USER TABLE ------------- //
+  const userInsertionData: TUserTableInsert[] = [];
+  const demoUserInsertionData: TUserTableInsert[] = [];
+
+  const generatedUsers = generateUsers();
+  const generatedDemoUsers = generateDemoUsers();
+
+  generatedUsers.forEach((user) => {
+    userInsertionData.push({
+      id: user.userId,
+      email: user.personalEmail,
+      password: user.hashedPassword,
       role: 'USER',
-    };
+    });
   });
 
-  await db.insert(UserTable).values(userData);
-
-  const demoUserData: TUserTableInsert[] = Array.from({ length: 3 }, (_, i) => {
-    return {
-      id: USERS_DEMO_ARRAY[i].userId,
-      email: USERS_DEMO_ARRAY[i].personalEmail,
-      password: USERS_DEMO_ARRAY[i].hashedPassword,
-      role: USERS_DEMO_ARRAY[i].userRole,
-    };
+  generatedDemoUsers.forEach((user) => {
+    demoUserInsertionData.push({
+      id: user.userId,
+      email: user.personalEmail,
+      password: user.hashedPassword,
+      role: user.userRole,
+    });
   });
 
-  await db.insert(UserTable).values(demoUserData);
+  await db.insert(UserTable).values(userInsertionData);
+  await db.insert(UserTable).values(demoUserInsertionData);
 
-  // ---------- USER-PROFILE --------- //
-  const userProfileData: TUserProfileTableInsert[] = Array.from({ length: USER_ENTRY_COUNT }, (_, i) => ({
-    company: COMPANY.id,
-    companyRole: USERS_ARRAY[i].companyRole,
-    country: COMPANY.country.id,
-    email: USERS_ARRAY[i].companyEmail,
-    firstName: USERS_ARRAY[i].firstName,
-    lastName: USERS_ARRAY[i].lastName,
-    mobile: USERS_ARRAY[i].mobile,
-    telephone: USERS_ARRAY[i].telephone,
-    timezone: COMPANY.country.timezone[0].id,
-    userId: USERS_ARRAY[i].userId,
-  }));
+  // ---------- USER-PROFILE TABLE --------- //
+  const userProfileInsertionData: TUserProfileTableInsert[] = [];
+  const demoUserProfileInsertionData: TUserProfileTableInsert[] = [];
 
-  await db.insert(UserProfileTable).values(userProfileData);
+  generatedUsers.forEach((user) => {
+    userProfileInsertionData.push({
+      company: primaryCompany.id,
+      companyRole: user.companyRole,
+      country: primaryCompany.country.id,
+      email: user.companyEmail,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      mobile: user.mobile,
+      telephone: user.telephone,
+      timezone: primaryCompany.country.timezone[0].id,
+      userId: user.userId,
+    });
+  });
 
-  const demoUserProfileData: TUserProfileTableInsert[] = Array.from({ length: USERS_DEMO_ARRAY.length }, (_, i) => ({
-    company: COMPANY.id,
-    companyRole: USERS_DEMO_ARRAY[i].companyRole,
-    country: COMPANY.country.id,
-    email: USERS_DEMO_ARRAY[i].companyEmail,
-    firstName: USERS_DEMO_ARRAY[i].firstName,
-    lastName: USERS_DEMO_ARRAY[i].lastName,
-    mobile: USERS_DEMO_ARRAY[i].mobile,
-    telephone: USERS_DEMO_ARRAY[i].telephone,
-    timezone: COMPANY.country.timezone[0].id,
-    userId: USERS_DEMO_ARRAY[i].userId,
-  }));
+  generatedDemoUsers.forEach((user) => {
+    demoUserProfileInsertionData.push({
+      company: primaryCompany.id,
+      companyRole: user.companyRole,
+      country: primaryCompany.country.id,
+      email: user.companyEmail,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      mobile: user.mobile,
+      telephone: user.telephone,
+      timezone: primaryCompany.country.timezone[0].id,
+      userId: user.userId,
+    });
+  });
 
-  await db.insert(UserProfileTable).values(demoUserProfileData);
+  await db.insert(UserProfileTable).values(demoUserProfileInsertionData);
+  await db.insert(UserProfileTable).values(userProfileInsertionData);
 
   // --------- END OF SEEDING -------- //
   console.log('Seed Successful: Users.ts, UserProfile.ts');

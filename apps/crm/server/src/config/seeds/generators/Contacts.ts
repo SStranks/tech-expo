@@ -1,6 +1,6 @@
 import type { TContactsTableInsert } from '#Config/schema/index.js';
 
-import type { ICompanyObject } from '../Contacts.js';
+import type { TSeedContactCompanies } from '../Contacts.js';
 
 import { faker } from '@faker-js/faker';
 
@@ -10,7 +10,7 @@ import DigitalIndustryJson from '#Data/DigitalIndustry.json';
 const { jobTitles } = DigitalIndustryJson;
 type TJobTitles = typeof jobTitles;
 
-export function generateContact(company: ICompanyObject): TContactsTableInsert {
+export function generateContact(company: TSeedContactCompanies): TContactsTableInsert {
   const firstName = faker.person.firstName();
   const lastName = faker.person.lastName();
   const provider = company.website?.split('//')[1];
@@ -18,7 +18,7 @@ export function generateContact(company: ICompanyObject): TContactsTableInsert {
   const { industry } = company;
 
   if (!(industry in jobTitles))
-    throw new Error(`Error: Data mismatch; check JSON structure and companies seeding; industry: ${industry}`);
+    throw new Error(`Data mismatch; check JSON structure and companies seeding; industry: ${industry}`);
 
   return {
     company: company.id,

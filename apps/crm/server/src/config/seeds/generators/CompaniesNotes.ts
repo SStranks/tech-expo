@@ -1,9 +1,7 @@
 /* eslint-disable security/detect-object-injection */
-import type { UUID } from 'node:crypto';
-
 import type { TCompaniesNotesTableInsert } from '#Config/schema/index.js';
 
-import type { TCompaniesQueryCompaniesNotes } from '../CompaniesNotes.js';
+import type { TCompaniesQueryCompaniesNotes, TSeedCompaniesNotesAllUsers } from '../CompaniesNotes.js';
 
 import { faker } from '@faker-js/faker';
 
@@ -15,9 +13,9 @@ const { chain_notes: CHAIN_NOTES, non_chain_notes: NON_CHAIN_NOTES } = Companies
 
 export function generateCompaniesNotes(
   company: TCompaniesQueryCompaniesNotes,
-  allUsers: { id: UUID; firstName: string }[]
+  allUsers: TSeedCompaniesNotesAllUsers[]
 ) {
-  const returnNotes: TCompaniesNotesTableInsert[] = [];
+  const returnCompaniesNotes: TCompaniesNotesTableInsert[] = [];
   const { companyName, industry } = company;
 
   // Pick a random chain-notes array and userIDs for each comment
@@ -32,7 +30,6 @@ export function generateCompaniesNotes(
   const commentsCreatedAt = generateCommentDates(totalComments);
 
   for (let [i, { comment }] of randChainNotesArray.entries()) {
-    // Replace any placeholders in the comment
     const userName = userIds[i - 1]?.firstName;
     comment = replaceCommentPlaceholders(comment, { companyName, industry, userName });
 
@@ -43,8 +40,8 @@ export function generateCompaniesNotes(
       note: comment,
     };
 
-    returnNotes.push(companyNote);
+    returnCompaniesNotes.push(companyNote);
   }
 
-  return returnNotes;
+  return returnCompaniesNotes;
 }

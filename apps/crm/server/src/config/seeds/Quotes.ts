@@ -28,7 +28,7 @@ const getUsers = async (db: TPostgresDB) => {
 };
 
 export default async function seedQuotes(db: TPostgresDB) {
-  const quotesData: TQuotesTableInsert[] = [];
+  const quotesInsertionData: TQuotesTableInsert[] = [];
   const companies = await getCompanies(db);
   const users = await getUsers(db);
 
@@ -39,11 +39,11 @@ export default async function seedQuotes(db: TPostgresDB) {
 
     for (let i = 0; i < randNumOfQuotes; i++) {
       const quotePreparedBy = faker.helpers.arrayElement(users);
-      quotesData.push(generateQuote(company, quotePreparedBy));
+      quotesInsertionData.push(generateQuote(company, quotePreparedBy));
     }
   });
 
-  await db.insert(QuotesTable).values(quotesData);
+  await db.insert(QuotesTable).values(quotesInsertionData);
 
   // --------- END OF SEEDING -------- //
   console.log('Seed Successful: Quotes.ts');

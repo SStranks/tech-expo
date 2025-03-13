@@ -31,49 +31,48 @@ const {
 } = seedSettings;
 
 export default async function seedCalendar(db: TPostgresDB) {
-  // Get primary company ID
   const primaryCompany = await db.query.CompaniesTable.findFirst({
     columns: { id: true },
     where: eq(CompaniesTable.companyName, COMPANY_NAME),
   });
-
   if (!primaryCompany) throw new Error(`Error: Could not source ${COMPANY_NAME} from company table`);
 
-  // ------------ CALENDAR ----------- //
-  const calendarData: TCalendarTableInsert[] = [{ companyId: primaryCompany.id }];
+  // ------------ CALENDAR TABLE ----------- //
+  const calendarInsertionData: TCalendarTableInsert[] = [];
+  calendarInsertionData.push({ companyId: primaryCompany.id });
 
   const calendarReturnData = await db
     .insert(CalendarTable)
-    .values(calendarData)
+    .values(calendarInsertionData)
     .returning({ calendarId: CalendarTable.id });
 
-  const calendarId = calendarReturnData[0].calendarId;
+  const PRIMARY_COMPANY_CALENDAR_ID = calendarReturnData[0].calendarId;
 
-  // ------ CALENDAR CATEGORIES ------ //
-  const calendarCategoriesData: TCalendarCategoriesTableInsert[] = [];
+  // ------ CALENDAR CATEGORIES TABLE ------ //
+  const calendarCategoriesInsertionData: TCalendarCategoriesTableInsert[] = [];
 
   // Generate 4 - 6 event categories; sourced from JSON
-  const insertCategories = faker.helpers.arrayElements(CalendarEventsJSON.categories, {
+  const calendarCategories = faker.helpers.arrayElements(CalendarEventsJSON.categories, {
     max: CALENDAR_EVENTS_MAX,
     min: CALENDAR_EVENTS_MIN,
   });
-  insertCategories.forEach((category) => {
-    calendarCategoriesData.push({ calendarId, title: category });
+  calendarCategories.forEach((category) => {
+    calendarCategoriesInsertionData.push({ calendarId: PRIMARY_COMPANY_CALENDAR_ID, title: category });
   });
 
   const calendarCategoriesReturnData: TCalendarCategoriesTableSelect[] = await db
     .insert(CalendarCategoriesTable)
-    .values(calendarCategoriesData)
+    .values(calendarCategoriesInsertionData)
     .returning();
 
-  // -------- CALENDAR EVENTS -------- //
-  const calendarEventsData: TCalendarEventsTableInsert[] = [];
+  // -------- CALENDAR EVENTS TABLE -------- //
+  const calendarEventsInsertionData: TCalendarEventsTableInsert[] = [];
 
   // For each type of calendar event category; insert the 5 events listed in JSON data
   calendarCategoriesReturnData.forEach(({ calendarId, id: categoryId, title }) => {
     const eventsOfCategory = CalendarEventsJSON.categoryTitles[title as keyof typeof CalendarEventsJSON.categoryTitles];
     eventsOfCategory.forEach((event) => {
-      calendarEventsData.push({
+      calendarEventsInsertionData.push({
         calendarId,
         categoryId,
         description: event.description,
@@ -86,29 +85,29 @@ export default async function seedCalendar(db: TPostgresDB) {
 
   const calendarEventsReturnData: Pick<TCalendarEventsTableSelect, 'id'>[] = await db
     .insert(CalendarEventsTable)
-    .values(calendarEventsData)
+    .values(calendarEventsInsertionData)
     .returning({ id: CalendarEventsTable.id });
 
-  // -- CALENDAR EVENT-PARTICIPANTS -- //
-  const CalendarEventsParticipantsData: TCalendarEventsParticipantsTableInsert[] = [];
+  // -- CALENDAR EVENT-PARTICIPANTS TABLE -- //
+  const CalendarEventsParticipantsInsertionData: TCalendarEventsParticipantsTableInsert[] = [];
 
   // Get all users for the primary company
-  const userIds = await db.query.UserProfileTable.findMany({ columns: { id: true } });
-  if (userIds.length === USER_ENTRY_COUNT)
-    throw new Error(`Error: Could not source the ${USER_ENTRY_COUNT} users of ${COMPANY_NAME}`);
+  const primaryCompanyUserIds = await db.query.UserProfileTable.findMany({ columns: { id: true } });
+  if (primaryCompanyUserIds.length === USER_ENTRY_COUNT)
+    throw new Error(`Mismatch in data: Returned length of primary company users != USER_ENTRY_COUNT`);
 
   // For each event; gather 2 - 6 random User ID's; create an entry per user per event
   calendarEventsReturnData.forEach((event) => {
-    const randUserIds = faker.helpers.arrayElements(userIds, {
+    const randUserIds = faker.helpers.arrayElements(primaryCompanyUserIds, {
       max: CALENDAR_EVENT_PARTICIPANTS_MAX,
       min: CALENDAR_EVENT_PARTICIPANTS_MIN,
     });
     randUserIds.forEach(({ id }) => {
-      CalendarEventsParticipantsData.push({ eventId: event.id, userId: id });
+      CalendarEventsParticipantsInsertionData.push({ eventId: event.id, userId: id });
     });
   });
 
-  await db.insert(CalendarEventsParticipantsTable).values(CalendarEventsParticipantsData);
+  await db.insert(CalendarEventsParticipantsTable).values(CalendarEventsParticipantsInsertionData);
 
   // --------- END OF SEEDING -------- //
   console.log('Seed Successful: Calendar.ts, Categories.ts, Events.ts, EventsParticipants.ts');

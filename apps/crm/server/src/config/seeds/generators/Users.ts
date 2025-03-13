@@ -11,9 +11,9 @@ const { COMPANY_EMAIL_DOMAIN, USER_ENTRY_COUNT } = seedSettings;
 
 import argon2 from 'argon2';
 
-// Generate password for all non-demo 'USER ROLE'-only accounts
+// Generate single password for all non-demo 'USER ROLE'-only accounts
 let hashedPassword: string;
-async function getPasswordHash() {
+async function generatePasswordHash() {
   hashedPassword = await argon2
     .hash(process.env.DEMO_ACC_GENERIC_NON_USER_PASSWORD as string, {
       secret: Buffer.from(process.env.POSTGRES_PEPPER as string),
@@ -22,9 +22,9 @@ async function getPasswordHash() {
       throw new Error(`Error hashing password: ${error}`);
     });
 }
-await getPasswordHash();
+await generatePasswordHash();
 
-function userBase() {
+function generateUserBase() {
   const userId = randomUUID();
   const firstName = faker.person.firstName();
   const lastName = faker.person.lastName();
@@ -40,7 +40,7 @@ function userBase() {
 
 export function generateUsers() {
   return Array.from({ length: USER_ENTRY_COUNT }, () => {
-    const userBaseData = userBase();
+    const userBaseData = generateUserBase();
     const companyRole = faker.helpers.weightedArrayElement<TCompanyRoles>([
       { value: 'SALES MANAGER', weight: 2 },
       { value: 'SALES PERSON', weight: 5 },
@@ -58,8 +58,9 @@ export function generateUsers() {
 export function generateDemoUsers() {
   const USER_ROLES: TUserRoles[] = ['ADMIN', 'MODERATOR', 'USER'];
   const COMPANY_ROLES: TCompanyRoles[] = ['ADMIN', 'SALES MANAGER', 'SALES PERSON'];
-  const demoUsers = Array.from({ length: 3 }, (_, i) => {
-    const userBaseData = userBase();
+
+  const demoUsers = Array.from({ length: USER_ROLES.length }, (_, i) => {
+    const userBaseData = generateUserBase();
     const userRole = USER_ROLES[i];
     const companyRole = COMPANY_ROLES[i];
 

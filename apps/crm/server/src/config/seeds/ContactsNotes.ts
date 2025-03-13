@@ -1,17 +1,15 @@
 import type { TPostgresDB } from '#Config/dbPostgres.js';
-import type { TContactsTableSelect } from '#Config/schema/contacts/Contacts.js';
-import type { TCompaniesTableSelect, TContactsNotesTableInsert } from '#Config/schema/index.js';
+import type { TContactsNotesTableInsert } from '#Config/schema/index.js';
 
 import { ContactsNotesTable } from '#Config/schema/index.js';
 
 import { generateContactNotes } from './generators/ContactNotes.js';
 
-export type TContactsQueryContactsNotes = Pick<TContactsTableSelect, 'id' | 'stage' | 'firstName' | 'lastName'> & {
-  company: Pick<TCompaniesTableSelect, 'companyName' | 'industry'>;
-};
+export type TSeedContactNotesContact = Awaited<ReturnType<typeof getAllContacts>>[number];
+export type TSeedContactNotesUsers = Awaited<ReturnType<typeof getAllUsers>>;
 
-export default async function seedContactsNotes(db: TPostgresDB) {
-  const allContacts: TContactsQueryContactsNotes[] = await db.query.ContactsTable.findMany({
+const getAllContacts = async (db: TPostgresDB) => {
+  return await db.query.ContactsTable.findMany({
     columns: { id: true, firstName: true, lastName: true, stage: true },
     with: {
       company: {
@@ -19,17 +17,25 @@ export default async function seedContactsNotes(db: TPostgresDB) {
       },
     },
   });
-  const allUsers = await db.query.UserProfileTable.findMany({ columns: { id: true, firstName: true } });
+};
 
-  // --------- CONTACTS NOTES --------- //
-  const contactsNotesData: TContactsNotesTableInsert[] = [];
+const getAllUsers = async (db: TPostgresDB) => {
+  return await db.query.UserProfileTable.findMany({ columns: { id: true, firstName: true } });
+};
 
-  allContacts.forEach((contact: TContactsQueryContactsNotes) => {
+export default async function seedContactsNotes(db: TPostgresDB) {
+  const allContacts = await getAllContacts(db);
+  const allUsers = await getAllUsers(db);
+
+  // --------- CONTACTS NOTES TABLE --------- //
+  const contactsNotesInsertionData: TContactsNotesTableInsert[] = [];
+
+  allContacts.forEach((contact: TSeedContactNotesContact) => {
     const notes = generateContactNotes(contact, allUsers);
-    contactsNotesData.push(...notes);
+    contactsNotesInsertionData.push(...notes);
   });
 
-  await db.insert(ContactsNotesTable).values(contactsNotesData);
+  await db.insert(ContactsNotesTable).values(contactsNotesInsertionData);
 
   // --------- END OF SEEDING -------- //
   console.log('Seed Successful: ContactsNotes.ts');

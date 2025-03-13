@@ -1,10 +1,8 @@
 /* eslint-disable perfectionist/sort-objects */
 /* eslint-disable security/detect-object-injection */
-import type { UUID } from 'node:crypto';
-
 import type { TContactsNotesTableInsert } from '#Config/schema/index.js';
 
-import type { TContactsQueryContactsNotes } from '../ContactsNotes.js';
+import type { TSeedContactNotesContact, TSeedContactNotesUsers } from '../ContactsNotes.js';
 
 import { faker } from '@faker-js/faker';
 
@@ -29,10 +27,10 @@ const CHAIN_NOTES_MAP = {
 
 // Take chain-notes from previous stage and push on a non-chain-note from current stage.
 export function generateContactNotes(
-  contact: TContactsQueryContactsNotes,
-  allUsers: { id: UUID; firstName: string }[]
+  contact: TSeedContactNotesContact,
+  allUsers: TSeedContactNotesUsers
 ): TContactsNotesTableInsert[] {
-  const returnNotes: TContactsNotesTableInsert[] = [];
+  const returnContactNotes: TContactsNotesTableInsert[] = [];
   const {
     stage,
     company: { industry },
@@ -52,7 +50,6 @@ export function generateContactNotes(
   const commentsCreatedAt = generateCommentDates(totalComments);
 
   for (let [i, { comment }] of randChainNotesArray.entries()) {
-    // Replace any placeholders in the comment
     const companyName = contact.company.companyName;
     const contactName = contact.firstName;
     const userName = users[i - 1]?.firstName;
@@ -65,8 +62,8 @@ export function generateContactNotes(
       note: comment,
     };
 
-    returnNotes.push(contactNote);
+    returnContactNotes.push(contactNote);
   }
 
-  return returnNotes;
+  return returnContactNotes;
 }
