@@ -1,7 +1,14 @@
-/* eslint-disable perfectionist/sort-objects */
 export const seedSettings = {
-  COMPANY_NAME: 'BinaryForge Corporation',
+  CALENDAR_EVENT_PARTICIPANTS_MAX: 6,
+  CALENDAR_EVENT_PARTICIPANTS_MIN: 2,
+  CALENDAR_EVENTS_MAX: 6,
+  CALENDAR_EVENTS_MIN: 4,
+  COMPANY_CONTACTS_MAX: 6,
+  COMPANY_CONTACTS_MIN: 2,
   COMPANY_EMAIL_DOMAIN: 'binaryforge.com',
-  USER_ENTRY_COUNT: 200,
+  COMPANY_NAME: 'BinaryForge Corporation',
+  COMPANY_QUOTES_MAX: 3,
+  COMPANY_QUOTES_MIN: 0,
   CONTACTS_ENTRY_COUNT: 500,
+  USER_ENTRY_COUNT: 200,
 };

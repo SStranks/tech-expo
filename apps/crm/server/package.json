@@ -41,7 +41,8 @@
     "drizzle:generate": "NODE_OPTIONS='--import tsx' drizzle-kit generate",
     "drizzle:migrate": "DRIZZLE=migrate tsx ./src/config/migrate.ts",
     "drizzle:seed": "DRIZZLE=seed tsx --inspect=0.0.0.0:9230 ./src/config/seed.ts",
-    "drizzle:drop": "pnpm drizzle-kit drop"
+    "drizzle:drop": "pnpm drizzle-kit drop",
+    "drizzle:push": "NODE_OPTIONS='--import tsx' drizzle-kit push"
   },
   "config": {
     "dockerImageRepo": "techexpo/server",

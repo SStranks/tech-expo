@@ -16,7 +16,7 @@ import { seedSettings } from '#Config/seedSettings.js';
 
 import { generateContact } from './generators/Contacts.js';
 
-const { COMPANY_NAME } = seedSettings;
+const { COMPANY_CONTACTS_MAX, COMPANY_CONTACTS_MIN, COMPANY_NAME } = seedSettings;
 
 export interface ICompanyObject {
   id: UUID;
@@ -51,7 +51,7 @@ export default async function seedContacts(db: TPostgresDB) {
 
   // Generate between 2 - 6 contacts per company
   companies.forEach((company: ICompanyObject) => {
-    const randNumOfContacts = faker.number.int({ max: 6, min: 2 });
+    const randNumOfContacts = faker.number.int({ max: COMPANY_CONTACTS_MAX, min: COMPANY_CONTACTS_MIN });
 
     for (let i = 0; i < randNumOfContacts; i++) {
       contactsData.push(generateContact(company));

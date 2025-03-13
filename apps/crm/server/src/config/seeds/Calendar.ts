@@ -21,7 +21,14 @@ import {
 import { seedSettings } from '#Config/seedSettings.js';
 import CalendarEventsJSON from '#Data/CalendarEvents.json';
 
-const { COMPANY_NAME, USER_ENTRY_COUNT } = seedSettings;
+const {
+  CALENDAR_EVENT_PARTICIPANTS_MAX,
+  CALENDAR_EVENT_PARTICIPANTS_MIN,
+  CALENDAR_EVENTS_MAX,
+  CALENDAR_EVENTS_MIN,
+  COMPANY_NAME,
+  USER_ENTRY_COUNT,
+} = seedSettings;
 
 export default async function seedCalendar(db: TPostgresDB) {
   // Get primary company ID
@@ -45,8 +52,11 @@ export default async function seedCalendar(db: TPostgresDB) {
   // ------ CALENDAR CATEGORIES ------ //
   const calendarCategoriesData: TCalendarCategoriesTableInsert[] = [];
 
-  // Generate 3-5 event categories; sourced from JSON
-  const insertCategories = faker.helpers.arrayElements(CalendarEventsJSON.categories, { max: 6, min: 4 });
+  // Generate 4 - 6 event categories; sourced from JSON
+  const insertCategories = faker.helpers.arrayElements(CalendarEventsJSON.categories, {
+    max: CALENDAR_EVENTS_MAX,
+    min: CALENDAR_EVENTS_MIN,
+  });
   insertCategories.forEach((category) => {
     calendarCategoriesData.push({ calendarId, title: category });
   });
@@ -87,9 +97,12 @@ export default async function seedCalendar(db: TPostgresDB) {
   if (userIds.length === USER_ENTRY_COUNT)
     throw new Error(`Error: Could not source the ${USER_ENTRY_COUNT} users of ${COMPANY_NAME}`);
 
-  // For each event; gather 2-6 random User ID's; create an entry per user per event
+  // For each event; gather 2 - 6 random User ID's; create an entry per user per event
   calendarEventsReturnData.forEach((event) => {
-    const randUserIds = faker.helpers.arrayElements(userIds, { max: 6, min: 2 });
+    const randUserIds = faker.helpers.arrayElements(userIds, {
+      max: CALENDAR_EVENT_PARTICIPANTS_MAX,
+      min: CALENDAR_EVENT_PARTICIPANTS_MIN,
+    });
     randUserIds.forEach(({ id }) => {
       CalendarEventsParticipantsData.push({ eventId: event.id, userId: id });
     });

@@ -11,7 +11,7 @@ import { generateQuote } from './generators/Quotes.js';
 export type TSeedQuoteCompany = Awaited<ReturnType<typeof getCompanies>>[number];
 export type TSeedQuoteUser = Awaited<ReturnType<typeof getUsers>>[number];
 
-const { COMPANY_NAME } = seedSettings;
+const { COMPANY_NAME, COMPANY_QUOTES_MAX, COMPANY_QUOTES_MIN } = seedSettings;
 
 const getCompanies = async (db: TPostgresDB) => {
   return await db.query.CompaniesTable.findMany({
@@ -35,7 +35,7 @@ export default async function seedQuotes(db: TPostgresDB) {
   // ------------- QUOTES ------------ //
   // Generate between 0 - 3 quotes per company
   companies.forEach((company) => {
-    const randNumOfQuotes = faker.number.int({ max: 3, min: 0 });
+    const randNumOfQuotes = faker.number.int({ max: COMPANY_QUOTES_MAX, min: COMPANY_QUOTES_MIN });
 
     for (let i = 0; i < randNumOfQuotes; i++) {
       const quotePreparedBy = faker.helpers.arrayElement(users);

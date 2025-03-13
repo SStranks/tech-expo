@@ -15,31 +15,37 @@ const timeZoneCSV = path.resolve(CUR, '../../data/Countries with UTC Offset.csv'
 
 export default async function seedCountries(db: TPostgresDB) {
   // ----------- COUNTRIES ----------- //
-  const countriesData = importCSVFile<TCountriesTableInsert>(countriesCSV);
+  const countriesInsertionData: TCountriesTableInsert[] = importCSVFile<TCountriesTableInsert>(countriesCSV);
 
-  const countriesReturnData = await db
+  const countriesInsertReturnData = await db
     .insert(CountriesTable)
-    .values(countriesData)
+    .values(countriesInsertionData)
     .returning({ id: CountriesTable.id, alpha2code: CountriesTable.alpha2Code });
 
   // ------ COUNTRIES-TIMEZONES ------ //
+  const timeZonesInsertionData: TTimeZoneTableInsert[] = [];
+
   type TTimeZonesCSV = Omit<TTimeZoneTableInsert, 'id' | 'countryId'>;
-  interface ICountriesObj {
-    [key: string]: UUID;
-  }
+  const timeZonesCSVData = importCSVFile<TTimeZonesCSV>(timeZoneCSV);
 
-  const timezones = importCSVFile<TTimeZonesCSV>(timeZoneCSV);
-  const countriesObj = countriesReturnData.reduce((acc, cur) => {
-    acc[cur.alpha2code] = cur.id;
-    return acc;
-  }, {} as ICountriesObj);
+  // Create dictionary of alpha-2 codes and country IDs
+  const countriesDict = countriesInsertReturnData.reduce(
+    (acc, cur) => {
+      acc[cur.alpha2code] = cur.id;
+      return acc;
+    },
+    {} as { [key: string]: UUID }
+  );
 
-  const timezonesData = timezones.map((entry) => ({
-    ...entry,
-    countryId: countriesObj[`${entry.alpha2Code}`],
-  }));
+  // NOTE:  Countries can have more than one time-zone; separated tables for countries and time-zones.
+  timeZonesCSVData.forEach((entry) => {
+    timeZonesInsertionData.push({
+      ...entry,
+      countryId: countriesDict[`${entry.alpha2Code}`],
+    });
+  });
 
-  await db.insert(TimeZoneTable).values(timezonesData);
+  await db.insert(TimeZoneTable).values(timeZonesInsertionData);
 
   // --------- END OF SEEDING -------- //
   console.log('Seed Successful: Countries.ts, TimeZones.ts');
