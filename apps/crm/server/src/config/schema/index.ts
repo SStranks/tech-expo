@@ -15,7 +15,9 @@ export type { TKanbanTableInsert, TKanbanTableSelect } from './kanban/Kanban.ts'
 export type { TKanbanStagesTableInsert, TKanbanStagesTableSelect } from './kanban/Stages.ts';
 export type { TTasksTableInsert, TTasksTableSelect } from './kanban/Tasks.ts';
 export type { TTaskCommentsTableInsert, TTaskCommentsTableSelect } from './kanban/TasksComments.ts';
+export type { TTasksOrderTableInsert, TTasksOrderTableSelect } from './kanban/TasksOrder.ts';
 export type { TDealsTableInsert, TDealsTableSelect } from './pipeline/Deals.ts';
+export type { TDealsOrderTableInsert, TDealsOrderTableSelect } from './pipeline/DealsOrder.ts';
 export type { TPipelineTableInsert, TPipelineTableSelect } from './pipeline/Pipeline.ts';
 export type { TPipelineStagesTableInsert, TPipelineStagesTableSelect } from './pipeline/Stages.ts';
 export type { TQuotesTableInsert, TQuotesTableSelect } from './quotes/Quotes.ts';
@@ -44,7 +46,9 @@ export { default as KanbanTable, KanbanTableRelations } from './kanban/Kanban.js
 export { default as KanbanStagesTable, KanbanStagesTableRelations } from './kanban/Stages.js';
 export { default as TasksTable, TaskTableRelations } from './kanban/Tasks.js';
 export { default as TaskCommentsTable, TaskCommentsTableRelations } from './kanban/TasksComments.js';
+export { default as TasksOrderTable, TaskOrderTableRelations } from './kanban/TasksOrder.js';
 export { default as DealsTable, DealsTableRelations } from './pipeline/Deals.js';
+export { default as DealsOrderTable, DealOrderTableRelations } from './pipeline/DealsOrder.js';
 export { default as PipelineTable, PipelineTableRelations } from './pipeline/Pipeline.js';
 export { default as PipelineStagesTable, PipelineStagesTableRelations } from './pipeline/Stages.js';
 export { default as QuotesTable, QuotesTableRelations } from './quotes/Quotes.js';

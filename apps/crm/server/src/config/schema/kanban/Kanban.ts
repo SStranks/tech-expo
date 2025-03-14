@@ -5,7 +5,7 @@ import { pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable, KanbanStagesTable, TasksTable } from '../index.js';
+import { CompaniesTable, KanbanStagesTable, TasksOrderTable, TasksTable } from '../index.js';
 
 // ---------- TABLES -------- //
 export type TKanbanTableInsert = InferInsertModel<typeof KanbanTable>;
@@ -23,6 +23,7 @@ export const KanbanTable = pgTable('kanban', {
 export const KanbanTableRelations = relations(KanbanTable, ({ many, one }) => {
   return {
     stages: many(KanbanStagesTable),
+    taskOrder: many(TasksOrderTable),
     tasks: many(TasksTable),
     company: one(CompaniesTable, {
       fields: [KanbanTable.companyId],

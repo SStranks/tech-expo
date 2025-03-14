@@ -3,6 +3,7 @@ import type { UUID } from 'node:crypto';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { boolean, pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 import { KanbanStagesTable, TaskChecklistItemTable, TaskCommentsTable, UserProfileTable } from '../index.js';
@@ -12,6 +13,9 @@ export type TTasksTableInsert = InferInsertModel<typeof TasksTable>;
 export type TTasksTableSelect = InferSelectModel<typeof TasksTable>;
 export const TasksTable = pgTable('kanban_tasks', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
+  serial: varchar({ length: 6 })
+    .notNull()
+    .$defaultFn(() => nanoid(6)),
   title: varchar('title', { length: 255 }).notNull(),
   completed: boolean('completed').default(false),
   stage: uuid('stage')
