@@ -5,7 +5,7 @@ import type { TUserRoles } from '#Config/schema/index.ts';
 import type { TSelectUserSchema } from '#Config/schema/user/User.ts';
 
 import argon2 from 'argon2';
-import { and, eq } from 'drizzle-orm/expressions';
+import { and, eq } from 'drizzle-orm/pg-core/expressions';
 import jwt from 'jsonwebtoken';
 import ms from 'ms';
 
@@ -124,13 +124,13 @@ class User {
     return jwt.decode(token) as IRefreshTokenPayload;
   };
 
-  activateRefreshToken = async (userId: string, iat: number) => {
+  activateRefreshToken = async (client_id: UUID, iat: number) => {
     const user = await postgresDB
       .update(UserRefreshTokensTable)
       .set({ activated: true })
       .where(
         and(
-          eq(UserRefreshTokensTable.userId, userId),
+          eq(UserRefreshTokensTable.userId, client_id),
           eq(UserRefreshTokensTable.iat, iat),
           eq(UserRefreshTokensTable.activated, false)
         )
@@ -149,14 +149,14 @@ class User {
     return jwt.sign({ acc, client_id, exp, iat, jti }, JWT_REFRESH_SECRET as string);
   };
 
-  deleteAllRefreshTokens = async (userId: string) => {
+  deleteAllRefreshTokens = async (client_id: UUID) => {
     return await postgresDB
       .delete(UserRefreshTokensTable)
-      .where(eq(UserRefreshTokensTable.userId, userId))
+      .where(eq(UserRefreshTokensTable.userId, client_id))
       .returning({ exp: UserRefreshTokensTable.exp, jti: UserRefreshTokensTable.jti });
   };
 
-  queryRefreshToken = async (client_id: string, jti: UUID) => {
+  queryRefreshToken = async (client_id: UUID, jti: UUID) => {
     return await postgresDB.query.UserRefreshTokensTable.findFirst({
       columns: { acc: true, activated: true, exp: true, iat: true, jti: true },
       where: (table, { and, eq }) => and(eq(table.userId, client_id), eq(table.jti, jti)),
