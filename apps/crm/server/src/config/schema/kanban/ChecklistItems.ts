@@ -5,36 +5,36 @@ import { boolean, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { TasksTable } from '../index.js';
+import { KanbanTasksTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TTaskChecklistItemTableInsert = InferInsertModel<typeof TaskChecklistItemTable>;
-export type TTaskChecklistItemTableSelect = InferSelectModel<typeof TaskChecklistItemTable>;
-export const TaskChecklistItemTable = pgTable('task_checklist_item', {
+export type TKanbanTaskChecklistItemTableInsert = InferInsertModel<typeof KanbanTaskChecklistItemTable>;
+export type TKanbanTaskChecklistItemTableSelect = InferSelectModel<typeof KanbanTaskChecklistItemTable>;
+export const KanbanTaskChecklistItemTable = pgTable('kanban_task_checklist', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull(),
   completed: boolean('completed').default(false).notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   taskId: uuid('task_id')
-    .references(() => TasksTable.id)
+    .references(() => KanbanTasksTable.id)
     .notNull()
     .$type<UUID>(),
 });
 
 // ---------- RELATIONS -------- //
-export const TaskChecklistItemRelations = relations(TaskChecklistItemTable, ({ one }) => {
+export const KanbanTaskChecklistItemRelations = relations(KanbanTaskChecklistItemTable, ({ one }) => {
   return {
-    task: one(TasksTable, {
-      fields: [TaskChecklistItemTable.taskId],
-      references: [TasksTable.id],
+    task: one(KanbanTasksTable, {
+      fields: [KanbanTaskChecklistItemTable.taskId],
+      references: [KanbanTasksTable.id],
     }),
   };
 });
 
 // ----------- ZOD ---------- //
-export const insertTaskChecklistItemsSchema = createInsertSchema(TaskChecklistItemTable);
-export const selectTaskChecklistItemsSchema = createSelectSchema(TaskChecklistItemTable);
-export type TInsertTaskChecklistItemsSchema = z.infer<typeof insertTaskChecklistItemsSchema>;
-export type TSelectTaskChecklistItemsSchema = z.infer<typeof selectTaskChecklistItemsSchema>;
+export const insertKanbanTaskChecklistItemsSchema = createInsertSchema(KanbanTaskChecklistItemTable);
+export const selectKanbanTaskChecklistItemsSchema = createSelectSchema(KanbanTaskChecklistItemTable);
+export type TInsertKanbanTaskChecklistItemsSchema = z.infer<typeof insertKanbanTaskChecklistItemsSchema>;
+export type TSelectKanbanTaskChecklistItemsSchema = z.infer<typeof selectKanbanTaskChecklistItemsSchema>;
 
-export default TaskChecklistItemTable;
+export default KanbanTaskChecklistItemTable;

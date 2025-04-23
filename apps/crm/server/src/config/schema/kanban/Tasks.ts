@@ -6,12 +6,17 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
-import { KanbanStagesTable, TaskChecklistItemTable, TaskCommentsTable, UserProfileTable } from '../index.js';
+import {
+  KanbanStagesTable,
+  KanbanTaskChecklistItemTable,
+  KanbanTaskCommentsTable,
+  UserProfileTable,
+} from '../index.js';
 
 // ---------- TABLES -------- //
-export type TTasksTableInsert = InferInsertModel<typeof TasksTable>;
-export type TTasksTableSelect = InferSelectModel<typeof TasksTable>;
-export const TasksTable = pgTable('kanban_tasks', {
+export type TKanbanTasksTableInsert = InferInsertModel<typeof KanbanTasksTable>;
+export type TKanbanTasksTableSelect = InferSelectModel<typeof KanbanTasksTable>;
+export const KanbanTasksTable = pgTable('kanban_tasks', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   serial: varchar({ length: 6 })
     .notNull()
@@ -31,25 +36,25 @@ export const TasksTable = pgTable('kanban_tasks', {
 });
 
 // ---------- RELATIONS -------- //
-export const TaskTableRelations = relations(TasksTable, ({ many, one }) => {
+export const KanbanTaskTableRelations = relations(KanbanTasksTable, ({ many, one }) => {
   return {
-    checklistItems: many(TaskChecklistItemTable),
-    comments: many(TaskCommentsTable),
+    checklistItems: many(KanbanTaskChecklistItemTable),
+    comments: many(KanbanTaskCommentsTable),
     assignedUser: one(UserProfileTable, {
-      fields: [TasksTable.assignedUser],
+      fields: [KanbanTasksTable.assignedUser],
       references: [UserProfileTable.id],
     }),
     taskStage: one(KanbanStagesTable, {
-      fields: [TasksTable.stage],
+      fields: [KanbanTasksTable.stage],
       references: [KanbanStagesTable.id],
     }),
   };
 });
 
 // ----------- ZOD ---------- //
-export const insertTasksSchema = createInsertSchema(TasksTable);
-export const selectTasksSchema = createSelectSchema(TasksTable);
-export type TInsertTasksSchema = z.infer<typeof insertTasksSchema>;
-export type TSelectTasksSchema = z.infer<typeof selectTasksSchema>;
+export const insertKanbanTasksSchema = createInsertSchema(KanbanTasksTable);
+export const selectKanbanTasksSchema = createSelectSchema(KanbanTasksTable);
+export type TInsertKanbanTasksSchema = z.infer<typeof insertKanbanTasksSchema>;
+export type TSelectKanbanTasksSchema = z.infer<typeof selectKanbanTasksSchema>;
 
-export default TasksTable;
+export default KanbanTasksTable;

@@ -10,8 +10,8 @@ import {
   CompaniesNotesTable,
   ContactsTable,
   CountriesTable,
-  DealsTable,
   KanbanTable,
+  PipelineDealsTable,
   QuotesTable,
   UserProfileTable,
 } from '../index.js';
@@ -48,7 +48,7 @@ export const CompaniesTableRelations = relations(CompaniesTable, ({ many, one })
   return {
     calendar: one(CalendarTable),
     contacts: many(ContactsTable),
-    deals: many(DealsTable),
+    deals: many(PipelineDealsTable),
     kanban: one(KanbanTable),
     notes: many(CompaniesNotesTable),
     quotes: many(QuotesTable),

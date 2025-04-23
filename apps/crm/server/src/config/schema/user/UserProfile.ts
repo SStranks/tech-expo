@@ -5,7 +5,15 @@ import { char, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable, ContactsNotesTable, CountriesTable, QuotesTable, TimeZoneTable, UserTable } from '../index.js';
+import {
+  CompaniesTable,
+  ContactsNotesTable,
+  CountriesTable,
+  PipelineDealsTable,
+  QuotesTable,
+  TimeZoneTable,
+  UserTable,
+} from '../index.js';
 
 // ---------- ENUMS --------- //
 export type TCompanyRoles = (typeof COMPANY_ROLES)[number];
@@ -44,6 +52,7 @@ export const UserProfileTable = pgTable('user_profile', {
 export const UserProfileTableRelations = relations(UserProfileTable, ({ many, one }) => {
   return {
     contactsNotes: many(ContactsNotesTable),
+    pipelineDeals: many(PipelineDealsTable),
     quote: many(QuotesTable),
     company: one(CompaniesTable, {
       fields: [UserProfileTable.company],

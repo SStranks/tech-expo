@@ -5,7 +5,7 @@ import { pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable, ContactsNotesTable, QuotesTable, TimeZoneTable } from '../index.js';
+import { CompaniesTable, ContactsNotesTable, PipelineDealsTable, QuotesTable, TimeZoneTable } from '../index.js';
 
 // ---------- ENUMS --------- //
 export type TContactStage = (typeof CONTACT_STAGE)[number];
@@ -47,6 +47,7 @@ export const ContactsTable = pgTable('contacts', {
 export const ContactsTableRelations = relations(ContactsTable, ({ many, one }) => {
   return {
     notes: many(ContactsNotesTable),
+    pipelineDeals: many(PipelineDealsTable),
     quote: many(QuotesTable),
     company: one(CompaniesTable, {
       fields: [ContactsTable.company],

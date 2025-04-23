@@ -1,32 +1,30 @@
 import type { UUID } from 'node:crypto';
 
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
-import { numeric, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
-import { CompaniesTable, ContactsTable, UserProfileTable } from '../index.js';
-
-// ---------- ENUMS --------- //
-export type TDealStage = (typeof DEAL_STAGE)[number];
-export const DEAL_STAGE = ['new', 'follow-up', 'under review', 'won', 'lost', 'unassigned'] as const;
-export const DealStageEnum = pgEnum('deal_stage', DEAL_STAGE);
+import { CompaniesTable, ContactsTable, PipelineStagesTable, UserProfileTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TDealsTableInsert = InferInsertModel<typeof DealsTable>;
-export type TDealsTableSelect = InferSelectModel<typeof DealsTable>;
-export const DealsTable = pgTable('deals', {
+export type TPipelineDealsTableInsert = InferInsertModel<typeof PipelineDealsTable>;
+export type TPipelineDealsTableSelect = InferSelectModel<typeof PipelineDealsTable>;
+export const PipelineDealsTable = pgTable('pipeline_deals', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   serial: varchar({ length: 6 })
     .notNull()
     .$defaultFn(() => nanoid(6)),
-  title: varchar('title', { length: 255 }),
+  title: varchar('title', { length: 255 }).notNull(),
   company: uuid('company_name')
     .references(() => CompaniesTable.id, { onDelete: 'no action' })
     .notNull()
     .$type<UUID>(),
-  stage: DealStageEnum('deal_stage').notNull(),
+  stage: uuid('pipeline_stage')
+    .references(() => PipelineStagesTable.id, { onDelete: 'no action' })
+    .notNull()
+    .$type<UUID>(),
   value: numeric('total_revenue', { precision: 14, scale: 2 }).default('0.00').notNull(),
   dealOwner: uuid('deal_owner')
     .references(() => UserProfileTable.id, { onDelete: 'no action' })
@@ -40,27 +38,31 @@ export const DealsTable = pgTable('deals', {
 });
 
 // -------- RELATIONS ------- //
-export const DealsTableRelations = relations(DealsTable, ({ one }) => {
+export const PipelineDealsTableRelations = relations(PipelineDealsTable, ({ one }) => {
   return {
     company: one(CompaniesTable, {
-      fields: [DealsTable.company],
+      fields: [PipelineDealsTable.company],
       references: [CompaniesTable.id],
     }),
     dealContact: one(ContactsTable, {
-      fields: [DealsTable.dealContact],
+      fields: [PipelineDealsTable.dealContact],
       references: [ContactsTable.id],
     }),
     dealOwner: one(UserProfileTable, {
-      fields: [DealsTable.dealOwner],
+      fields: [PipelineDealsTable.dealOwner],
       references: [UserProfileTable.id],
+    }),
+    stage: one(PipelineStagesTable, {
+      fields: [PipelineDealsTable.stage],
+      references: [PipelineStagesTable.id],
     }),
   };
 });
 
 // ----------- ZOD ---------- //
-export const insertDealsSchema = createInsertSchema(DealsTable);
-export const selectDealsSchema = createSelectSchema(DealsTable);
-export type TInsertDealsSchema = z.infer<typeof insertDealsSchema>;
-export type TSelectDealsSchema = z.infer<typeof selectDealsSchema>;
+export const insertPipelineDealsSchema = createInsertSchema(PipelineDealsTable);
+export const selectPipelineDealsSchema = createSelectSchema(PipelineDealsTable);
+export type TInsertPipelineDealsSchema = z.infer<typeof insertPipelineDealsSchema>;
+export type TSelectPipelineDealsSchema = z.infer<typeof selectPipelineDealsSchema>;
 
-export default DealsTable;
+export default PipelineDealsTable;

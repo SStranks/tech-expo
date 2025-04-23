@@ -9,9 +9,9 @@ import KanbanTable from './Kanban.js';
 import KanbanStagesTable from './Stages.js';
 
 // ---------- TABLES -------- //
-export type TTasksOrderTableInsert = InferInsertModel<typeof TasksOrderTable>;
-export type TTasksOrderTableSelect = InferSelectModel<typeof TasksOrderTable>;
-export const TasksOrderTable = pgTable('kanban_tasks_order', {
+export type TKanbanTasksOrderTableInsert = InferInsertModel<typeof KanbanTasksOrderTable>;
+export type TKanbanTasksOrderTableSelect = InferSelectModel<typeof KanbanTasksOrderTable>;
+export const KanbanTasksOrderTable = pgTable('kanban_tasks_order', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   taskOrder: text('task_order')
     .array()
@@ -26,27 +26,27 @@ export const TasksOrderTable = pgTable('kanban_tasks_order', {
     .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
-  updatedAt: timestamp('created_at', { mode: 'date' }),
+  updatedAt: timestamp('updated_at', { mode: 'date' }),
 });
 
 // ---------- RELATIONS -------- //
-export const TaskOrderTableRelations = relations(TasksOrderTable, ({ one }) => {
+export const KanbanTaskOrderTableRelations = relations(KanbanTasksOrderTable, ({ one }) => {
   return {
     kanban: one(KanbanTable, {
-      fields: [TasksOrderTable.kanbanId],
+      fields: [KanbanTasksOrderTable.kanbanId],
       references: [KanbanTable.id],
     }),
     stage: one(KanbanStagesTable, {
-      fields: [TasksOrderTable.columnId],
+      fields: [KanbanTasksOrderTable.columnId],
       references: [KanbanStagesTable.id],
     }),
   };
 });
 
 // ----------- ZOD ---------- //
-export const insertTasksOrderSchema = createInsertSchema(TasksOrderTable);
-export const selectTasksOrderSchema = createSelectSchema(TasksOrderTable);
+export const insertTasksOrderSchema = createInsertSchema(KanbanTasksOrderTable);
+export const selectTasksOrderSchema = createSelectSchema(KanbanTasksOrderTable);
 export type TInsertTasksOrderSchema = z.infer<typeof insertTasksOrderSchema>;
 export type TSelectTasksOrderSchema = z.infer<typeof selectTasksOrderSchema>;
 
-export default TasksOrderTable;
+export default KanbanTasksOrderTable;

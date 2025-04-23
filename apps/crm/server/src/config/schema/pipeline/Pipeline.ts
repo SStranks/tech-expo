@@ -5,7 +5,7 @@ import { pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable, DealsTable, PipelineStagesTable } from '../index.js';
+import { CompaniesTable, PipelineDealsOrderTable, PipelineDealsTable, PipelineStagesTable } from '../index.js';
 
 // ---------- TABLES -------- //
 export type TPipelineTableInsert = InferInsertModel<typeof PipelineTable>;
@@ -22,7 +22,8 @@ export const PipelineTable = pgTable('pipeline', {
 // -------- RELATIONS ------- //
 export const PipelineTableRelations = relations(PipelineTable, ({ many, one }) => {
   return {
-    deals: many(DealsTable),
+    deals: many(PipelineDealsTable),
+    dealsOrder: many(PipelineDealsOrderTable),
     stages: many(PipelineStagesTable),
     company: one(CompaniesTable, {
       fields: [PipelineTable.companyId],

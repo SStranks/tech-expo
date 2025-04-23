@@ -8,9 +8,9 @@ import { z } from 'zod';
 import { PipelineStagesTable, PipelineTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TDealsOrderTableInsert = InferInsertModel<typeof DealsOrderTable>;
-export type TDealsOrderTableSelect = InferSelectModel<typeof DealsOrderTable>;
-export const DealsOrderTable = pgTable('pipeline_deals_order', {
+export type TPipelineDealsOrderTableInsert = InferInsertModel<typeof PipelineDealsOrderTable>;
+export type TPipelineDealsOrderTableSelect = InferSelectModel<typeof PipelineDealsOrderTable>;
+export const PipelineDealsOrderTable = pgTable('pipeline_deals_order', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   dealOrder: text('deal_order')
     .array()
@@ -25,27 +25,27 @@ export const DealsOrderTable = pgTable('pipeline_deals_order', {
     .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
-  updatedAt: timestamp('created_at', { mode: 'date' }),
+  updatedAt: timestamp('updated_at', { mode: 'date' }),
 });
 
 // ---------- RELATIONS -------- //
-export const DealOrderTableRelations = relations(DealsOrderTable, ({ one }) => {
+export const PipelineDealOrderTableRelations = relations(PipelineDealsOrderTable, ({ one }) => {
   return {
     pipeline: one(PipelineTable, {
-      fields: [DealsOrderTable.pipelineId],
+      fields: [PipelineDealsOrderTable.pipelineId],
       references: [PipelineTable.id],
     }),
     stage: one(PipelineStagesTable, {
-      fields: [DealsOrderTable.columnId],
+      fields: [PipelineDealsOrderTable.columnId],
       references: [PipelineStagesTable.id],
     }),
   };
 });
 
 // ----------- ZOD ---------- //
-export const insertDealsOrderSchema = createInsertSchema(DealsOrderTable);
-export const selectDealsOrderSchema = createSelectSchema(DealsOrderTable);
-export type TInsertDealsOrderSchema = z.infer<typeof insertDealsOrderSchema>;
-export type TSelectDealsOrderSchema = z.infer<typeof selectDealsOrderSchema>;
+export const insertPipelineDealsOrderSchema = createInsertSchema(PipelineDealsOrderTable);
+export const selectPipelineDealsOrderSchema = createSelectSchema(PipelineDealsOrderTable);
+export type TInsertPipelineDealsOrderSchema = z.infer<typeof insertPipelineDealsOrderSchema>;
+export type TSelectPipelineDealsOrderSchema = z.infer<typeof selectPipelineDealsOrderSchema>;
 
-export default DealsOrderTable;
+export default PipelineDealsOrderTable;

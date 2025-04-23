@@ -5,15 +5,15 @@ import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { TasksTable, UserProfileTable } from '../index.js';
+import { KanbanTasksTable, UserProfileTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TTaskCommentsTableInsert = InferInsertModel<typeof TaskCommentsTable>;
-export type TTaskCommentsTableSelect = InferSelectModel<typeof TaskCommentsTable>;
-export const TaskCommentsTable = pgTable('task_comments', {
+export type TKanbanTaskCommentsTableInsert = InferInsertModel<typeof KanbanTaskCommentsTable>;
+export type TKanbanTaskCommentsTableSelect = InferSelectModel<typeof KanbanTaskCommentsTable>;
+export const KanbanTaskCommentsTable = pgTable('kanban_task_comments', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   taskId: uuid('task_id')
-    .references(() => TasksTable.id)
+    .references(() => KanbanTasksTable.id)
     .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -25,23 +25,23 @@ export const TaskCommentsTable = pgTable('task_comments', {
 });
 
 // ---------- RELATIONS -------- //
-export const TaskCommentsTableRelations = relations(TaskCommentsTable, ({ one }) => {
+export const KanbanTaskCommentsTableRelations = relations(KanbanTaskCommentsTable, ({ one }) => {
   return {
-    task: one(TasksTable, {
-      fields: [TaskCommentsTable.taskId],
-      references: [TasksTable.id],
+    task: one(KanbanTasksTable, {
+      fields: [KanbanTaskCommentsTable.taskId],
+      references: [KanbanTasksTable.id],
     }),
     user: one(UserProfileTable, {
-      fields: [TaskCommentsTable.createdBy],
+      fields: [KanbanTaskCommentsTable.createdBy],
       references: [UserProfileTable.id],
     }),
   };
 });
 
 // ----------- ZOD ---------- //
-export const insertTaskCommentsSchema = createInsertSchema(TaskCommentsTable);
-export const selectTaskCommentsSchema = createSelectSchema(TaskCommentsTable);
-export type TInsertTaskCommentsSchema = z.infer<typeof insertTaskCommentsSchema>;
-export type TSelectTaskCommentsSchema = z.infer<typeof selectTaskCommentsSchema>;
+export const insertKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskCommentsTable);
+export const selectKanbanTaskCommentsSchema = createSelectSchema(KanbanTaskCommentsTable);
+export type TInsertKanbanTaskCommentsSchema = z.infer<typeof insertKanbanTaskCommentsSchema>;
+export type TSelectKanbanTaskCommentsSchema = z.infer<typeof selectKanbanTaskCommentsSchema>;
 
-export default TaskCommentsTable;
+export default KanbanTaskCommentsTable;
