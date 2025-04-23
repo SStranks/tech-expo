@@ -26,6 +26,8 @@ const seedDB = async () => {
   await seeds.Quotes(postgresDB);
   await seeds.QuotesServices(postgresDB);
   await seeds.QuotesNotes(postgresDB);
+  await seeds.Pipeline(postgresDB);
+  await seeds.Kanban(postgresDB);
   console.log('Database seeding completed.');
 };
 
