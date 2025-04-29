@@ -5,7 +5,7 @@ import { boolean, pgEnum, pgTable, timestamp, uniqueIndex, uuid, varchar } from 
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { UserProfileTable, UserRefreshTokensTable } from '../index.js';
+import { AuditLogTable, UserProfileTable, UserRefreshTokensTable } from '../index.js';
 
 // ---------- ENUMS --------- //
 export type TUserRoles = (typeof USER_ROLES)[number];
@@ -39,6 +39,7 @@ export const UserTable = pgTable(
 // -------- RELATIONS ------- //
 export const UserTableRelations = relations(UserTable, ({ many, one }) => {
   return {
+    audit: many(AuditLogTable),
     profile: one(UserProfileTable),
     refreshTokens: many(UserRefreshTokensTable),
   };
