@@ -4,7 +4,6 @@ import { BadRequestError } from './errors/index.js';
 import ZodValidationError from './errors/ZodValidationError.js';
 
 // NOTE:  Change 'any' back to request when finished experimenting.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function zParse<T extends AnyZodObject>(schema: T, req: any): Promise<z.infer<T>> {
   try {
     return await schema.parseAsync(req);

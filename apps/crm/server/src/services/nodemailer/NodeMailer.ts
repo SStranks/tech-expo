@@ -1,6 +1,7 @@
+import type { SendMailOptions } from 'nodemailer';
+import type SMTPTransport from 'nodemailer/lib/smtp-transport/index.js';
+
 import nodemailer from 'nodemailer';
-import Mail from 'nodemailer/lib/mailer';
-import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 import { BadRequestError } from '#Utils/errors/index.js';
 
@@ -35,8 +36,8 @@ class NodeMailer {
     this.sender = NODE_ENV === 'development' ? senderDev : senderProd;
   }
 
-  sendMail(mailOptions: Mail.Options) {
-    const defaultOptions: Mail.Options = {
+  sendMail(mailOptions: SendMailOptions) {
+    const defaultOptions: SendMailOptions = {
       from: this.sender,
       sender: this.sender,
       subject: 'Default Subject',
