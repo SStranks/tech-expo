@@ -1,0 +1,15 @@
+{
+  // https://www.npmjs.com/package/@tsconfig/node18
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "moduleResolution": "node16",
+    "target": "ES2022",
+    "module": "Node16",
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src"]
+}
