@@ -47,7 +47,7 @@ export const EslintConfig = {
     'no-use-before-define': 'off',
     'import/no-unresolved': 'error',
     'prettier/prettier': ['error'],
-    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '(_req|_res|_next)' }],
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-use-before-define': 'error',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-require-imports': 'error',
