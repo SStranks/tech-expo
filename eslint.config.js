@@ -4,7 +4,6 @@ import { ConfigPrettier, EslintConfig } from '@packages/eslint-config';
 import { EslintConfigCypress } from '@packages/eslint-config-cypress';
 import { EslintConfigExpress } from '@packages/eslint-config-express';
 import { EslintConfigGraphQL } from '@packages/eslint-config-graphql';
-import EslintConfigGraphQLRules from '@packages/eslint-config-graphql/rules';
 import { EslintConfigReactVitest } from '@packages/eslint-config-react-vitest';
 import { EslintConfigReact as EslintConfigReact_18p2 } from '@packages/eslint-config-react/react-18.2';
 import { EslintConfigStorybook } from '@packages/eslint-config-storybook';
@@ -20,6 +19,7 @@ export default [
       '**/mocks/',
       '**/coverage/',
       '**/.sassdoc/',
+      '**/*.gen.*',
       '!**/.storybook/',
     ],
   },
@@ -50,7 +50,7 @@ export default [
       ...EslintConfigGraphQL.languageOptions,
     },
     plugins: { ...EslintConfigGraphQL.plugins },
-    rules: { ...EslintConfigGraphQLRules['flat/operations-recommended'] },
+    rules: { ...EslintConfigGraphQL.rules.client },
   },
   {
     name: 'CRM: Client; Storybook',
@@ -106,7 +106,7 @@ export default [
       },
     },
     plugins: { ...EslintConfigGraphQL.plugins },
-    rules: { ...EslintConfigGraphQLRules['flat/schema-recommended'], 'prettier/prettier': 'error' },
+    rules: { ...EslintConfigGraphQL.rules.server, 'prettier/prettier': 'error' },
   },
   ConfigPrettier,
 ];

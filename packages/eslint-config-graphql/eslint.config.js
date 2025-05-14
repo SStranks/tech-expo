@@ -8,6 +8,13 @@ export const EslintConfigGraphQL = {
     parser: PluginGraphQL.parser,
   },
   plugins: { '@graphql-eslint': PluginGraphQL },
+  rules: {
+    client: { ...PluginGraphQL.configs['flat/operations-recommended'].rules },
+    server: {
+      ...PluginGraphQL.configs['flat/schema-recommended'].rules,
+      '@graphql-eslint/strict-id-in-types': ['error', { acceptedIdTypes: ['ID', 'UUID'] }],
+    },
+  },
 };
 
 export default [];
