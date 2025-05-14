@@ -14,12 +14,15 @@ jest.unstable_mockModule('#Graphql/apolloServer.ts', () => ({
   __esModule: true,
   apolloServer: jest.fn(),
 }));
-jest.unstable_mockModule('#Services/index', () => ({
+jest.unstable_mockModule('#Lib/index', () => ({
   __esModule: true,
   NodeMailerService: {
     sendAccountVerificationEmail: jest.fn(),
     sendPasswordResetEmail: jest.fn(),
   },
+}));
+jest.unstable_mockModule('#Services/index', () => ({
+  __esModule: true,
   UserService: {
     activateRefreshToken: jest.fn(),
     advanceRefreshToken: jest.fn(),
@@ -55,7 +58,7 @@ jest.unstable_mockModule('#Services/index', () => ({
   },
 }));
 
-const { default: app } = await import('#App/app');
+const { default: app } = await import('#App/app.js');
 
 const VALID_EMAIL = 'valid@email.com';
 const INVALID_EMAIL = 'invalid@email';

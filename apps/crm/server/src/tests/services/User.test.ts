@@ -1,5 +1,6 @@
-import type { IRefreshTokenPayload } from '#Services/User';
 import type { UUID } from 'node:crypto';
+
+import type { IRefreshTokenPayload } from '#Services/User.ts';
 
 import { describe, jest, test } from '@jest/globals';
 import jwt, { JwtPayload } from 'jsonwebtoken';
@@ -13,7 +14,7 @@ jest.unstable_mockModule('node:crypto', () => ({
   },
 }));
 
-const { UserService } = await import('#Services/index');
+const { UserService } = await import('#Services/index.js');
 
 describe('Signing Tokens: Auth Token', () => {
   const userId = 'user';
