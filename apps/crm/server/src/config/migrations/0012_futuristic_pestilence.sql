@@ -1,0 +1,1 @@
+ALTER TABLE "companies" ALTER COLUMN "total_revenue" SET DATA TYPE double precision;
