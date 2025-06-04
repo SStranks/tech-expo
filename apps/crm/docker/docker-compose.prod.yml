@@ -1,6 +1,6 @@
 ---
+# // NOTE:  Use Docker Swarm for production; more secure for secrets.
 services:
-
   # Server: NodeJS Express
   node-api:
     container_name: techexpo-node-api-prod

@@ -1,0 +1,38 @@
+#!/bin/bash
+set -euo pipefail
+
+# Directory variables
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SECRETS_DIR="$SCRIPT_DIR/secrets"
+SECRETS_FILE="$SECRETS_DIR/.secret.json"
+
+# Cleanup function for secret files
+cleanup() {
+  echo "Cleaning up secret files..."
+  find "$SECRETS_DIR" -type f -name '.secret.*.txt'
+  
+  # For secure deletion invoke shred; still not guaranteed in case of SSDs; causes wear
+  # find "$SECRETS_DIR" -type f -name '.secret.*.txt' -exec shred -u {} +
+}
+trap cleanup EXIT
+
+# Decrypt secrets json; output each value in own .txt with key as filename
+sops exec-file "$SECRETS_FILE" 'bash -c "
+  SECRETS_DIR=\"'"$SECRETS_DIR"'\"
+
+  while IFS= read -r line; do
+    clean_line=\$(echo \"\$line\" | sed -e '\''s/[\",]//g'\'')
+    [ -z \"\$clean_line\" ] && continue
+
+    key=\$(echo \"\${clean_line%%:*}\" | xargs)
+    val=\$(echo \"\${clean_line#*:}\" | xargs)
+
+    echo -n \"\$val\" > \"\$SECRETS_DIR/.secret.\${key}.txt\"
+  done < <(grep -v '\''^{\|^}'\'' \"{}\" | tr \",\" \"\n\")
+"'
+
+# Run Docker compose outside of SOPS context
+# Running inside interferes with docket rootless and breaks
+# docker compose -f "$SCRIPT_DIR/docker-compose.override.yml" \
+#   --env-file "$SCRIPT_DIR/.env.dev" \
+#   --profile postgres --profile redis up

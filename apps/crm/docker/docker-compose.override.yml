@@ -8,7 +8,6 @@ services:
     container_name: techexpo-express
     image: node:18-alpine3.17
     working_dir: /app/server
-    command: npm start
     ports:
       - ${NODE_LOCAL_PORT:?error}:${NODE_DOCKER_PORT:?error}
       - '9229:9229'
@@ -36,12 +35,20 @@ services:
         required: false
     security_opt:
       - no-new-privileges
+    command: ['npm', 'start']
 
   # DB: MongoDB
   mongodb:
     container_name: ${MONGODB_CONTAINER}
     image: mongo:7.0.4
     restart: on-failure
+    healthcheck:
+      test: ['CMD', '/bin/bash', '/usr/local/bin/mongo-healthcheck.sh']
+      interval: 60s
+      timeout: 5s
+      retries: 5
+      start_interval: 3s
+      start_period: 15s
     environment:
       MONGO_INITDB_ROOT_USERNAME_FILE: /run/secrets/mongodb_root_user
       MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongodb_root_password
@@ -50,55 +57,77 @@ services:
     volumes:
       - mongodb-data:/data/db
       - ../server/mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+      - ./mongo-healthcheck.sh:/usr/local/bin/mongo-healthcheck.sh:ro
     networks:
       - crm-backend
     security_opt:
       - no-new-privileges
-    command: mongod --auth
     secrets:
       - mongodb_root_user
       - mongodb_root_password
     profiles: [mongo]
+    command: ['mongod', '--auth', '--quiet']
 
   # DB: MongoDB Express
   mongo-express:
-    container_name: techexpo-mongo-express
+    container_name: ${MONGOEXP_CONTAINER}
     image: mongo-express:1.0.2
+    restart: on-failure
+    healthcheck:
+      test: ['CMD', '/bin/bash', '/usr/local/bin/mongo-express-healthcheck.sh']
+      interval: 2m
+      timeout: 30s
+      retries: 5
+      start_interval: 3s
+      start_period: 15s
     depends_on:
       - mongodb
-    restart: unless-stopped
     ports:
       - ${MONGOEXP_LOCAL_PORT:?error}:${MONGOEXP_DOCKER_PORT:?error}
     environment:
-      # // NOTE:  v1.0.3 will allow URL_FILE.
-      ME_CONFIG_MONGODB_URL: ${MONGODB_PROTOCOL}://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_CONTAINER}:${MONGODB_PORT}/${MONGODB_DATABASE}${MONGODB_ARGS}
+      # // NOTE:  v1.0.3 will allow ME_CONFIG_MONGODB_URL_FILE.
       ME_CONFIG_MONGODB_ENABLE_ADMIN: ${ME_CONFIG_MONGODB_ENABLE_ADMIN}
       ME_CONFIG_MONGODB_AUTH_USERNAME_FILE: /run/secrets/mongodb_user
       ME_CONFIG_MONGODB_AUTH_PASSWORD_FILE: /run/secrets/mongodb_password
       ME_CONFIG_BASICAUTH_USERNAME_FILE: /run/secrets/mongoexpress_user
       ME_CONFIG_BASICAUTH_PASSWORD_FILE: /run/secrets/mongoexpress_password
+    volumes:
+      - ./mongo-express-healthcheck.sh:/usr/local/bin/mongo-express-healthcheck.sh:ro
     networks:
       - crm-backend
     security_opt:
       - no-new-privileges
     secrets:
-      - mongoexpress_url
       - mongoexpress_user
       - mongoexpress_password
       - mongodb_user
       - mongodb_password
     profiles: [mongo]
+    entrypoint: ['/bin/sh', '-c']
+    command: >
+      'MONGODB_USER=$(cat /run/secrets/mongodb_user) &&
+      MONGODB_PASSWORD=$(cat /run/secrets/mongodb_password) &&
+      export ME_CONFIG_MONGODB_URL="${MONGODB_PROTOCOL}://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_CONTAINER}:${MONGODB_PORT}/${MONGODB_DATABASE}${MONGODB_ARGS}" &&
+      exec node app'
 
   # DB: Postgres
   postgres:
     container_name: ${POSTGRES_CONTAINER}
     image: postgres:16.4
     restart: on-failure
+    healthcheck:
+      test: ['CMD', '/bin/bash', '/usr/local/bin/postgres-healthcheck.sh']
+      interval: 60s
+      timeout: 5s
+      retries: 5
+      start_interval: 3s
+      start_period: 15s
     ports:
       - ${POSTGRES_LOCAL_PORT:?error}:${POSTGRES_DOCKER_PORT:?error}
     shm_size: 128mb
     volumes:
       - postgres-techexpo:/var/lib/postgresql/data
+      - ./postgres-healthcheck.sh:/usr/local/bin/postgres-healthcheck.sh
     environment:
       POSTGRES_USER_FILE: /run/secrets/postgres_user
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
@@ -114,21 +143,43 @@ services:
     container_name: ${REDIS_CONTAINER}
     image: redis:7.4-alpine
     restart: on-failure
+    healthcheck:
+      test: ['CMD', '/bin/sh', '/usr/local/bin/redis-healthcheck.sh']
+      interval: 60s
+      timeout: 5s
+      retries: 5
+      start_interval: 3s
+      start_period: 15s
     ports:
       - ${REDIS_LOCAL_PORT:?error}:${REDIS_DOCKER_PORT:?error}
-    command: /bin/sh -c "redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD:?error}"
     volumes:
       - redis-techexpo:/data
+      - ./redis-healthcheck.sh:/usr/local/bin/redis-healthcheck.sh:ro
     networks:
       - crm-backend
+    secrets:
+      - redis_password
     profiles: [redis]
+    entrypoint: ['/bin/sh', '-c']
+    command: >
+      'REDIS_PASSWORD=$(cat /run/secrets/redis_password) &&
+      exec docker-entrypoint.sh redis-server --save 20 1 --loglevel warning --requirepass "$REDIS_PASSWORD"'
 
   redisinsight:
     container_name: ${REDISINSIGHT_CONTAINER}
     image: redis/redisinsight:2.54
     restart: on-failure
+    healthcheck:
+      test: ['CMD', '/bin/sh', '/usr/local/bin/redisinsight-healthcheck.sh']
+      interval: 2m
+      timeout: 30s
+      retries: 5
+      start_interval: 3s
+      start_period: 15s
     ports:
       - ${REDISINSIGHT_LOCAL_PORT:?error}:${REDISINSIGHT_DOCKER_PORT:?error}
+    volumes:
+      - ./redisinsight-healthcheck.sh:/usr/local/bin/redisinsight-healthcheck.sh:ro
     networks:
       - crm-backend
     profiles: [redis]
@@ -157,8 +208,6 @@ secrets:
     file: ./secrets/.secret.mongodb_root_user.txt
   mongodb_root_password:
     file: ./secrets/.secret.mongodb_root_password.txt
-  mongoexpress_url:
-    file: ./secrets/.secret.mongoexpress_url.txt
   mongoexpress_user:
     file: ./secrets/.secret.mongoexpress_user.txt
   mongoexpress_password:
@@ -167,5 +216,5 @@ secrets:
     file: ./secrets/.secret.postgres_user.txt
   postgres_password:
     file: ./secrets/.secret.postgres_password.txt
-  postgres_url:
-    file: ./secrets/.secret.postgres_url.txt
+  redis_password:
+    file: ./secrets/.secret.redis_password.txt
