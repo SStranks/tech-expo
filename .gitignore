@@ -1,9 +1,8 @@
 # Secrets
-**/.secret.*
+**/.secret*
 
 # Env files
-**/.env
-**/.env.*
+**/.env*
 
 # Dependencies
 **/node_modules
