@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 CONTAINER="${MONGOEXP_CONTAINER:-mongo-express}"

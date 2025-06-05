@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
-HOST="localhost:${MONGODB_DOCKER_PORT:-27017}"
-DB="${MONGODB_DATABASE:-admin}"
-USER="$(cat /run/secrets/mongodb_root_user)"
-PASS="$(cat /run/secrets/mongodb_root_password)"
+HOST="localhost:${MONGO_DOCKER_PORT:-27017}"
+DB="$(cat /run/secrets/mongo_database)"
+USER="$(cat /run/secrets/mongo_root_user)"
+PASS="$(cat /run/secrets/mongo_root_password)"
 
 mongosh "$HOST/$DB" \
   --username "$USER" \

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 set -euo pipefail
 
 PASS="$(cat /run/secrets/redis_password)"

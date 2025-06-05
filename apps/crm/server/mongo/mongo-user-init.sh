@@ -1,13 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Script to generate a new user on a new mongodb instance
 
 echo "*** Preparing MongoDB User Configuration ***"
 sleep 3
 echo "*** Initializing MongoDB User Configuration ***"
-mongosh --username $MONGODB_INITDB_ROOT_USERNAME --password $MONGODB_INITDB_ROOT_PASSWORD << EOF
+mongosh --username $MONGO_INITDB_ROOT_USERNAME --password $MONGO_INITDB_ROOT_PASSWORD << EOF
 use admin
-db.createUser({ user: $MONGODB_USER, pwd: $MONGODB_PASSWORD, roles: [{ role: 'readWrite', db: $MONGODB_DATABASE }] })
+db.createUser({ user: $MONGO_USER, pwd: $MONGO_PASSWORD, roles: [{ role: 'readWrite', db: $MONGO_DATABASE }] })
 quit()
 EOF
 

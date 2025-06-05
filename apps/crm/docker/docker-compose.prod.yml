@@ -52,10 +52,10 @@ services:
     image: mongo:6.0.6-custom
     restart: on-failure
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_INITDB_ROOT_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_INITDB_ROOT_PASSWORD
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_INITDB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_INITDB_ROOT_PASSWORD
     ports:
-      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT # // NOTE:  Is this required; don't expose to public
+      - $MONGO_LOCAL_PORT:$MONGO_DOCKER_PORT # // NOTE:  Is this required; don't expose to public
     volumes:
       - mongodb-prod-data:/data/db
       - ../server/mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro

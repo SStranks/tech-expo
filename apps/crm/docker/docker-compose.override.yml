@@ -17,17 +17,18 @@ services:
       - ../server:/app/server:ro
       - ../../../node_modules:/node_modules:ro
       - ../server/src/temp:/app/server/src/temp
+      - ./node-express-init.sh:/usr/local/bin/node-express-init.sh:ro
     networks:
       - crm-backend
     environment:
-      - MONGODB_HOST=${MONGODB_CONTAINER}
-      - POSTGRES_HOST=${POSTGRES_CONTAINER}
-      - REDIS_HOST=${REDIS_CONTAINER}
+      MONGO_HOST: ${MONGO_CONTAINER}
+      POSTGRES_HOST: ${POSTGRES_CONTAINER}
+      REDIS_HOST: ${REDIS_CONTAINER}
     env_file:
       - ../server/.env.dev
       - ./.env.dev
     depends_on:
-      mongodb:
+      mongo:
         condition: 'service_started'
         required: false
       postgres:
@@ -35,11 +36,27 @@ services:
         required: false
     security_opt:
       - no-new-privileges
-    command: ['npm', 'start']
+    secrets:
+      - demo_acc_generic_non_user_password
+      - graphql_introspect_auth
+      - jwt_auth_secret
+      - jwt_refresh_secret
+      - mongo_user
+      - mongo_password
+      - mongo_database
+      - nodemailer_username
+      - nodemailer_password
+      - nodemailer_dev_email
+      - postgres_user
+      - postgres_password
+      - postgres_pepper
+      - postgres_database
+      - redis_password
+    entrypoint: ['/usr/local/bin/node-express-init.sh']
 
-  # DB: MongoDB
-  mongodb:
-    container_name: ${MONGODB_CONTAINER}
+  # DB: Mongo
+  mongo:
+    container_name: ${MONGO_CONTAINER}
     image: mongo:7.0.4
     restart: on-failure
     healthcheck:
@@ -50,12 +67,15 @@ services:
       start_interval: 3s
       start_period: 15s
     environment:
-      MONGO_INITDB_ROOT_USERNAME_FILE: /run/secrets/mongodb_root_user
-      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongodb_root_password
+      MONGO_USER: /run/secrets/mongo_user
+      MONGO_PASSWORD: /run/secrets/mongo_password
+      MONGO_DATABASE: /run/secrets/mongo_root_user
+      MONGO_INITDB_ROOT_USERNAME_FILE: /run/secrets/mongo_root_user
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongo_root_password
     ports:
-      - ${MONGODB_LOCAL_PORT:?error}:${MONGODB_DOCKER_PORT:?error}
+      - ${MONGO_LOCAL_PORT:?error}:${MONGO_DOCKER_PORT:?error}
     volumes:
-      - mongodb-data:/data/db
+      - mongo-data:/data/db
       - ../server/mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
       - ./mongo-healthcheck.sh:/usr/local/bin/mongo-healthcheck.sh:ro
     networks:
@@ -63,14 +83,17 @@ services:
     security_opt:
       - no-new-privileges
     secrets:
-      - mongodb_root_user
-      - mongodb_root_password
+      - mongo_database
+      - mongo_user
+      - mongo_password
+      - mongo_root_user
+      - mongo_root_password
     profiles: [mongo]
     command: ['mongod', '--auth', '--quiet']
 
-  # DB: MongoDB Express
+  # DB: Mongo Express
   mongo-express:
-    container_name: ${MONGOEXP_CONTAINER}
+    container_name: ${MONGO_EXPRESS_CONTAINER}
     image: mongo-express:1.0.2
     restart: on-failure
     healthcheck:
@@ -81,18 +104,23 @@ services:
       start_interval: 3s
       start_period: 15s
     depends_on:
-      - mongodb
+      - mongo
     ports:
-      - ${MONGOEXP_LOCAL_PORT:?error}:${MONGOEXP_DOCKER_PORT:?error}
+      - ${MONGOEXPRESS_LOCAL_PORT:?error}:${MONGOEXPRESS_DOCKER_PORT:?error}
     environment:
       # // NOTE:  v1.0.3 will allow ME_CONFIG_MONGODB_URL_FILE.
       ME_CONFIG_MONGODB_ENABLE_ADMIN: ${ME_CONFIG_MONGODB_ENABLE_ADMIN}
-      ME_CONFIG_MONGODB_AUTH_USERNAME_FILE: /run/secrets/mongodb_user
-      ME_CONFIG_MONGODB_AUTH_PASSWORD_FILE: /run/secrets/mongodb_password
+      ME_CONFIG_MONGODB_AUTH_USERNAME_FILE: /run/secrets/mongo_user
+      ME_CONFIG_MONGODB_AUTH_PASSWORD_FILE: /run/secrets/mongo_password
       ME_CONFIG_BASICAUTH_USERNAME_FILE: /run/secrets/mongoexpress_user
       ME_CONFIG_BASICAUTH_PASSWORD_FILE: /run/secrets/mongoexpress_password
+      MONGO_CONTAINER: ${MONGO_CONTAINER}
+      MONGO_PROTOCOL: ${MONGO_PROTOCOL}
+      MONGO_PORT: ${MONGO_PORT}
+      MONGO_ARGS: ${MONGO_ARGS}
     volumes:
       - ./mongo-express-healthcheck.sh:/usr/local/bin/mongo-express-healthcheck.sh:ro
+      - ./mongo-express-init.sh:/usr/local/bin/mongo-express-init.sh:ro
     networks:
       - crm-backend
     security_opt:
@@ -100,15 +128,11 @@ services:
     secrets:
       - mongoexpress_user
       - mongoexpress_password
-      - mongodb_user
-      - mongodb_password
+      - mongo_user
+      - mongo_password
+      - mongo_database
     profiles: [mongo]
-    entrypoint: ['/bin/sh', '-c']
-    command: >
-      'MONGODB_USER=$(cat /run/secrets/mongodb_user) &&
-      MONGODB_PASSWORD=$(cat /run/secrets/mongodb_password) &&
-      export ME_CONFIG_MONGODB_URL="${MONGODB_PROTOCOL}://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_CONTAINER}:${MONGODB_PORT}/${MONGODB_DATABASE}${MONGODB_ARGS}" &&
-      exec node app'
+    entrypoint: ['/usr/local/bin/mongo-express-init.sh']
 
   # DB: Postgres
   postgres:
@@ -131,12 +155,13 @@ services:
     environment:
       POSTGRES_USER_FILE: /run/secrets/postgres_user
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_DB: /run/secrets/postgres_database
     networks:
       - crm-backend
     secrets:
       - postgres_user
       - postgres_password
+      - postgres_database
     profiles: [postgres]
 
   redis:
@@ -155,15 +180,13 @@ services:
     volumes:
       - redis-techexpo:/data
       - ./redis-healthcheck.sh:/usr/local/bin/redis-healthcheck.sh:ro
+      - ./redis-init.sh:/usr/local/bin/redis-init.sh:ro
     networks:
       - crm-backend
     secrets:
       - redis_password
     profiles: [redis]
-    entrypoint: ['/bin/sh', '-c']
-    command: >
-      'REDIS_PASSWORD=$(cat /run/secrets/redis_password) &&
-      exec docker-entrypoint.sh redis-server --save 20 1 --loglevel warning --requirepass "$REDIS_PASSWORD"'
+    entrypoint: ['/usr/local/bin/redis-init.sh']
 
   redisinsight:
     container_name: ${REDISINSIGHT_CONTAINER}
@@ -185,7 +208,7 @@ services:
     profiles: [redis]
 
 volumes:
-  mongodb-data:
+  mongo-data:
     name: mongodb-data
     external: true
   postgres-techexpo:
@@ -200,21 +223,41 @@ networks:
     driver: bridge
 
 secrets:
-  mongodb_user:
-    file: ./secrets/.secret.mongodb_user.txt
-  mongodb_password:
-    file: ./secrets/.secret.mongodb_password.txt
-  mongodb_root_user:
-    file: ./secrets/.secret.mongodb_root_user.txt
-  mongodb_root_password:
-    file: ./secrets/.secret.mongodb_root_password.txt
+  mongo_user:
+    file: ${SECRET_PATH}/.secret.mongo_user.txt
+  mongo_password:
+    file: ${SECRET_PATH}/.secret.mongo_password.txt
+  mongo_root_user:
+    file: ${SECRET_PATH}/.secret.mongo_root_user.txt
+  mongo_root_password:
+    file: ${SECRET_PATH}/.secret.mongo_root_password.txt
+  mongo_database:
+    file: ${SECRET_PATH}/.secret.mongo_database.txt
   mongoexpress_user:
-    file: ./secrets/.secret.mongoexpress_user.txt
+    file: ${SECRET_PATH}/.secret.mongoexpress_user.txt
   mongoexpress_password:
-    file: ./secrets/.secret.mongoexpress_password.txt
+    file: ${SECRET_PATH}/.secret.mongoexpress_password.txt
   postgres_user:
-    file: ./secrets/.secret.postgres_user.txt
+    file: ${SECRET_PATH}/.secret.postgres_user.txt
   postgres_password:
-    file: ./secrets/.secret.postgres_password.txt
+    file: ${SECRET_PATH}/.secret.postgres_password.txt
+  postgres_database:
+    file: ${SECRET_PATH}/.secret.postgres_database.txt
+  postgres_pepper:
+    file: ${SECRET_PATH}/.secret.postgres_pepper.txt
   redis_password:
-    file: ./secrets/.secret.redis_password.txt
+    file: ${SECRET_PATH}/.secret.redis_password.txt
+  nodemailer_username:
+    file: ${SECRET_PATH}/.secret.nodemailer_username.txt
+  nodemailer_password:
+    file: ${SECRET_PATH}/.secret.nodemailer_password.txt
+  nodemailer_dev_email:
+    file: ${SECRET_PATH}/.secret.nodemailer_dev_email.txt
+  jwt_auth_secret:
+    file: ${SECRET_PATH}/.secret.jwt_auth_secret.txt
+  jwt_refresh_secret:
+    file: ${SECRET_PATH}/.secret.jwt_refresh_secret.txt
+  graphql_introspect_auth:
+    file: ${SECRET_PATH}/.secret.graphql_introspect_auth.txt
+  demo_acc_generic_non_user_password:
+    file: ${SECRET_PATH}/.secret.demo_acc_generic_non_user_password.txt
