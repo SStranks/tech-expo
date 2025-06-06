@@ -13,6 +13,15 @@ export const EslintConfigGraphQL = {
     server: {
       ...PluginGraphQL.configs['flat/schema-recommended'].rules,
       '@graphql-eslint/strict-id-in-types': ['error', { acceptedIdTypes: ['ID', 'UUID'] }],
+      '@graphql-eslint/require-description': [
+        'error',
+        {
+          types: true,
+          DirectiveDefinition: true,
+          rootField: true,
+          ignoredSelectors: ['[type=ObjectTypeDefinition][name.value=/(Query|Mutation|Subscription)$/]'],
+        },
+      ],
     },
   },
 };

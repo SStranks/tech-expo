@@ -4,6 +4,8 @@
   // "extends": "./tsconfig.node.json",
   "extends": "@packages/typescript-config/nodejs",
   "compilerOptions": {
+    // "declaration": true,
+    // "declarationDir": "./src/types",
     "baseUrl": "./src",
     "paths": {
       "#App/*": ["app/*"],
@@ -24,6 +26,7 @@
       "#Views/*": ["views/*"]
     },
     // "typeRoots": ["node_modules/@types", "node_modules/@testing-library"],
+    // "typeRoots": ["src/types/**/*.ts", "node_modules/@types"],
     "outDir": "./dist",
     "rootDir": "./"
   },
@@ -40,5 +43,5 @@
   },
 
   "include": ["src/**/*.ts", "src/app/app.ts"],
-  "exclude": ["node_modules", "dist", "./src/config/schema"]
+  "exclude": ["./node_modules", "./dist", "./src/types", "./src/config/schema", "./**/private.*"]
 }

@@ -20,6 +20,7 @@ export default [
       '**/coverage/',
       '**/.sassdoc/',
       '**/*.gen.*',
+      '**/graphql/generated/',
       '!**/.storybook/',
     ],
   },

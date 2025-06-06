@@ -24,7 +24,14 @@
       "@Types/*": ["src/types/*"],
       "@Utils/*": ["src/utils/*"]
     },
-    "typeRoots": ["node_modules/@types", "node_modules/@testing-library"]
+    "typeRoots": ["node_modules/@types", "node_modules/@testing-library"],
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        // NOTE:  Plugin can't handle multiple schemas; using codegen hooks to generate merged schema
+        "schema": "src/graphql/generated/schema.graphql"
+      }
+    ]
   },
   "include": ["src/**/*", "webpack/*", "../shared/*", "global.d.ts", "jest.config.ts"],
   "exclude": ["node_modules", "public", "dist", "cypress.config.ts", "cypress"]

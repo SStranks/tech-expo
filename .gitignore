@@ -15,8 +15,9 @@
 # Logs
 **/*.log
 
-# Generated Files
+# Codegen Generated Files
 **/*.gen.*
+**/graphql/generated/*
 
 # Drizzle 
 **/drizzle/migrations
