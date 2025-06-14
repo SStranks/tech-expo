@@ -1,14 +1,9 @@
-import { gql } from '@apollo/client';
+import { graphql } from './generated/gql';
 
-import ApolloClient from './ApolloClient';
-
-export async function testQuery() {
-  const query = gql`
-    query HelloWorld {
-      helloWorld
+export const query = graphql(`
+  query CompanyById($id: UUID!) {
+    company(id: $id) {
+      id
     }
-  `;
-
-  const { data } = await ApolloClient.query({ query });
-  return data;
-}
+  }
+`);
