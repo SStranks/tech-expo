@@ -33,13 +33,13 @@ switch (true) {
         //   target: 'pino-mongodb',
         //   level: 'info',
         //   options: {
-        //     uri: `${process.env.MONGODB_PROTOCOL}://${process.env.MONGODB_HOST}/`,
-        //     database: process.env.MONGODB_DATABASE,
+        //     uri: `${process.env.MONGO_PROTOCOL}://${process.env.MONGO_HOST}/`,
+        //     database: process.env.MONGO_DATABASE,
         //     collection: `logs-${YEAR}-${MONTH}-${DAY}`,
         //     mongoOptions: {
         //       auth: {
-        //         username: process.env.MONGODB_USER,
-        //         password: process.env.MONGODB_PASSWORD,
+        //         username: process.env.MONGO_USER,
+        //         password: process.env.MONGO_PASSWORD,
         //       },
         //     },
         //   },
@@ -66,12 +66,12 @@ switch (true) {
           target: 'pino-mongodb',
           options: {
             collection: `logs-${YEAR}-${MONTH}-${DAY}`,
-            database: process.env.MONGODB_DATABASE,
-            uri: `${process.env.MONGODB_PROTOCOL}://${process.env.MONGODB_HOST}/`,
+            database: process.env.MONGO_DATABASE,
+            uri: `${process.env.MONGO_PROTOCOL}://${process.env.MONGO_HOST}/`,
             mongoOptions: {
               auth: {
-                password: process.env.MONGODB_PASSWORD,
-                username: process.env.MONGODB_USER,
+                password: process.env.MONGO_PASSWORD,
+                username: process.env.MONGO_USER,
               },
             },
           },
