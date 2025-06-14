@@ -1,7 +1,7 @@
 import { replaceTscAliasPaths } from 'tsc-alias';
 
-import validateEnvironmentVariables from '#Config/env';
-import { pinoLogger, rollbar } from '#Helpers/index';
+import validateEnvironmentVariables from '#Config/env.js';
+import { pinoLogger, rollbar } from '#Lib/index.js';
 
 validateEnvironmentVariables();
 
@@ -27,20 +27,22 @@ process.on('uncaughtException', (err: Error) => {
 
 // ------------------------------------------------------------------------
 
-import { mongoClient } from '#Config/dbMongo';
-import { connectPostgresDB, postgresClient } from '#Config/dbPostgres';
-import { connectRedisDB, redisClient } from '#Config/dbRedis';
+import { mongoClient } from '#Config/dbMongo.js';
+import { connectPostgresDB, postgresClient } from '#Config/dbPostgres.js';
+import { connectRedisDB, redisClient } from '#Config/dbRedis.js';
 
 // Database Connections
 // await connectMongoDB();
 await connectPostgresDB();
 await connectRedisDB();
+
 // ------------------------------------------------------------------------
 
-import app from '#App/app';
-import { apolloServer } from '#Graphql/apolloServer';
+import httpServer from '#App/httpServer.js';
+import '#App/app';
+import { apolloServer } from '#Graphql/apolloServer.js';
 
-const server = app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   pinoLogger.info(`Server running successfuly in ${process.env.NODE_ENV} mode on Port ${PORT}`);
 });
 
@@ -52,11 +54,11 @@ process.on('unhandledRejection', async (err: Error) => {
   await apolloServer.stop();
   await mongoClient.close();
   await postgresClient.end();
-  await redisClient.disconnect();
+  await redisClient.destroy();
 
   pinoLogger.fatal(err, exitMsg);
   rollbar.critical(exitMsg, err, () => {
-    server.close(() => {
+    httpServer.close(() => {
       // eslint-disable-next-line n/no-process-exit
       process.exit();
     });
@@ -70,10 +72,10 @@ process.on('SIGTERM', async () => {
   await apolloServer.stop();
   await mongoClient.close();
   await postgresClient.end();
-  await redisClient.disconnect();
+  await redisClient.destroy();
 
   pinoLogger.info(exitMsg);
-  server.close(() => {
+  httpServer.close(() => {
     console.log('Server terminated');
   });
 });
@@ -85,10 +87,10 @@ process.on('SIGINT', async () => {
   await apolloServer.stop();
   await mongoClient.close();
   await postgresClient.end();
-  await redisClient.disconnect();
+  await redisClient.destroy();
 
   pinoLogger.info(exitMsg);
-  server.close(() => {
+  httpServer.close(() => {
     console.log('Server terminated');
   });
 });
