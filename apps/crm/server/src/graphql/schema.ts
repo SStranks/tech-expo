@@ -1,20 +1,29 @@
 import type { GraphQLSchema } from 'graphql';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
+import {
+  DateTimeTypeDefinition,
+  EmailAddressTypeDefinition,
+  HexColorCodeDefinition,
+  JSONDefinition,
+  UUIDDefinition,
+} from 'graphql-scalars';
 
-import pinoLogger from '#Helpers/pinoLogger';
-import rollbar from '#Helpers/rollbar';
+import pinoLogger from '#Lib/pinoLogger.js';
+import rollbar from '#Lib/rollbar.js';
 
-import { readFile } from 'node:fs/promises';
-import path from 'node:path';
-import url from 'node:url';
-
-import { resolvers } from './resolvers';
+import resolvers from './resolvers.js';
+import schemaTypeDefs from './typedefs.js';
 
 // NOTE:  ApolloServer utilizes makeExecutableSchema under the hood but does not catch its errors/propagate into the available error handling API.
-
-const CUR = path.dirname(url.fileURLToPath(import.meta.url));
-const typeDefs = await readFile(path.resolve(CUR, '../graphql/schema.graphql'), 'utf8');
+const customTypeDefs = [
+  DateTimeTypeDefinition,
+  HexColorCodeDefinition,
+  EmailAddressTypeDefinition,
+  JSONDefinition,
+  UUIDDefinition,
+];
+const typeDefs = [...customTypeDefs, schemaTypeDefs];
 
 let schema;
 try {

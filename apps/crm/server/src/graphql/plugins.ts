@@ -1,5 +1,6 @@
 import { BaseContext, GraphQLRequestContext } from '@apollo/server';
-import pinoLogger from '#Helpers/pinoLogger';
+
+import pinoLogger from '#Lib/pinoLogger.js';
 
 type WithRequired<T, K extends keyof T> = T & Required<Pick<T, K>>;
 
