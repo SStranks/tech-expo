@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { DraggableLocation } from 'react-beautiful-dnd';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -57,19 +56,30 @@ const kanbanSlice = createSlice({
   name: 'scrumboardKanban',
   initialState: initialData,
   reducers: {
-    moveTaskVertical(state, action: PayloadAction<Omit<IMoveTaskPayload, 'columnEnd'>>) {
-      // Re-order task in a column based upon user drag-drop
-      const { columnStart, source, destination, draggableId } = action.payload;
+    createStage(state, action: PayloadAction<ICreateStagePayload>) {
+      // Add new column to scrumboard
+      const { title } = action.payload;
 
-      state.columns[columnStart.id].taskIds.splice(source.index, 1);
-      state.columns[columnStart.id].taskIds.splice(destination.index, 0, draggableId);
+      // Check if column name already exists
+      if (title in state.columns) return;
+
+      // Add new column and push ID to columnOrder
+      const id = `column-${title}`;
+      const newColumn = { id, taskIds: [], title };
+      state.columns[id] = newColumn;
+      state.columnOrder.push(id);
     },
-    moveTaskHorizontal(state, action: PayloadAction<IMoveTaskPayload>) {
-      // Move a task across columns based upon user drag-drop
-      const { columnStart, columnEnd, source, destination, draggableId } = action.payload;
+    deleteStage(state, action: PayloadAction<IDeleteStagePayload>) {
+      const { columnId } = action.payload;
 
-      state.columns[columnStart.id].taskIds.splice(source.index, 1);
-      state.columns[columnEnd.id].taskIds.splice(destination.index, 0, draggableId);
+      // Remove ID from columnOrder
+      state.columnOrder = state.columnOrder.filter((column_Id) => column_Id !== columnId);
+
+      // Remove all column tasks by ID
+      state.columns[columnId].taskIds.forEach((taskId) => delete state.tasks[taskId]);
+
+      // Delete the column entity
+      delete state.columns[columnId];
     },
     // createTask(state, action: PayloadAction<ICreateDealPayload>) {
     //   // NOTE:  Deal owner is currently hardcoded in PipelineDeal[Create/Update]Page.
@@ -121,34 +131,23 @@ const kanbanSlice = createSlice({
       // Delete task IDs from column
       state.columns[columnId].taskIds = [];
     },
-    createStage(state, action: PayloadAction<ICreateStagePayload>) {
-      // Add new column to scrumboard
-      const { title } = action.payload;
+    moveTaskHorizontal(state, action: PayloadAction<IMoveTaskPayload>) {
+      // Move a task across columns based upon user drag-drop
+      const { columnEnd, columnStart, destination, draggableId, source } = action.payload;
 
-      // Check if column name already exists
-      if (title in state.columns) return;
+      state.columns[columnStart.id].taskIds.splice(source.index, 1);
+      state.columns[columnEnd.id].taskIds.splice(destination.index, 0, draggableId);
+    },
+    moveTaskVertical(state, action: PayloadAction<Omit<IMoveTaskPayload, 'columnEnd'>>) {
+      // Re-order task in a column based upon user drag-drop
+      const { columnStart, destination, draggableId, source } = action.payload;
 
-      // Add new column and push ID to columnOrder
-      const id = `column-${title}`;
-      const newColumn = { id, title, taskIds: [] };
-      state.columns[id] = newColumn;
-      state.columnOrder.push(id);
+      state.columns[columnStart.id].taskIds.splice(source.index, 1);
+      state.columns[columnStart.id].taskIds.splice(destination.index, 0, draggableId);
     },
     updateStage(state, action: PayloadAction<IUpdateStagePayload>) {
       const { columnId, stageTitle } = action.payload;
       state.columns[columnId].title = stageTitle;
-    },
-    deleteStage(state, action: PayloadAction<IDeleteStagePayload>) {
-      const { columnId } = action.payload;
-
-      // Remove ID from columnOrder
-      state.columnOrder = state.columnOrder.filter((column_Id) => column_Id !== columnId);
-
-      // Remove all column tasks by ID
-      state.columns[columnId].taskIds.forEach((taskId) => delete state.tasks[taskId]);
-
-      // Delete the column entity
-      delete state.columns[columnId];
     },
   },
 });
@@ -157,11 +156,11 @@ export const {
   // createTask,
   // updateTask,
   createStage,
-  moveTaskVertical,
-  moveTaskHorizontal,
-  updateStage,
   deleteStage,
-  deleteTasksAll,
   deleteTask,
+  deleteTasksAll,
+  moveTaskHorizontal,
+  moveTaskVertical,
+  updateStage,
 } = kanbanSlice.actions;
 export default kanbanSlice.reducer;

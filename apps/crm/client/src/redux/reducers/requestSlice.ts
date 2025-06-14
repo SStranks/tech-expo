@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // TODO:  Check auth flow - what is IRequest supposed to be?

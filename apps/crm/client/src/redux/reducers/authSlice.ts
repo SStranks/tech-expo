@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { serviceHttp } from '@Services/index';
@@ -24,8 +23,8 @@ export const initialState: IAuth = {
   refreshTokenActivated: false,
   refreshTokenPending: false,
   roles: [],
-  user: null,
   status: 'idle',
+  user: null,
 };
 
 export const authInitialize = createAsyncThunk('auth/initialize', async () => {
@@ -67,8 +66,9 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setUser(state, action) {
-      state.user = action.payload;
+    authenticateUser(state, action: PayloadAction<IAuth['isAuthenticated']>) {
+      state.isAuthenticated = action.payload;
+      state.status = 'idle';
     },
     clearAuthState(state) {
       state.status = 'idle';
@@ -80,10 +80,6 @@ export const authSlice = createSlice({
       state.refreshTokenActivated = false;
       state.refreshTokenPending = false;
     },
-    authenticateUser(state, action: PayloadAction<IAuth['isAuthenticated']>) {
-      state.isAuthenticated = action.payload;
-      state.status = 'idle';
-    },
     setAuthTokenPending(state, action: PayloadAction<IAuth['authTokenPending']>) {
       state.authTokenPending = action.payload;
     },
@@ -93,6 +89,9 @@ export const authSlice = createSlice({
     },
     setRefreshTokenPending(state, action: PayloadAction<IAuth['refreshTokenPending']>) {
       state.refreshTokenPending = action.payload;
+    },
+    setUser(state, action) {
+      state.user = action.payload;
     },
   },
   extraReducers: (builder) => {
