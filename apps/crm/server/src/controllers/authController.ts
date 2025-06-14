@@ -1,12 +1,21 @@
-/* eslint-disable perfectionist/sort-objects */
+import type {
+  ApiResponse,
+  AuthConfirmSignup,
+  AuthGenerateAuthToken,
+  AuthLoginResponse,
+  AuthResetPassword,
+  AuthUpdatePassword,
+} from '@apps/crm-shared';
 import type { NextFunction, Request, Response } from 'express';
+
+import type { TUserRoles } from '#Config/schema/index.ts';
 
 import validator from 'validator';
 
-import { TUserRoles } from '#Config/schema';
-import { NodeMailerService, UserService } from '#Services/index';
-import { BadRequestError } from '#Utils/errors';
-import { utilMath, utilTime } from '#Utils/index';
+import { NodeMailerService } from '#Lib/index.js';
+import { UserService } from '#Services/index.js';
+import { BadRequestError } from '#Utils/errors/index.js';
+import { utilMath, utilTime } from '#Utils/index.js';
 
 // NOTE:  Generate JWT Secret: node -e "crypto.randomBytes(64).toString('hex')"
 
@@ -26,7 +35,7 @@ import { utilMath, utilTime } from '#Utils/index';
 const { JWT_COOKIE_AUTH_ID, JWT_COOKIE_REFRESH_ID } = process.env;
 
 // TODO:  Make verification page on client; redirect to this page at end of THIS signup process.
-const signup = async (req: Request, res: Response, next: NextFunction) => {
+const signup = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   const { email } = req.body;
   if (!email) return next(new BadRequestError({ message: 'Provide all required fields' }));
 
@@ -41,12 +50,13 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
   await UserService.insertUser(email, verificationCode, verificationExpiry);
 
   res.status(200).json({
-    message: 'Signup email with verification code sent',
     status: 'success',
+    message: 'Signup email with verification code sent',
+    data: null,
   });
 };
 
-const confirmSignup = async (req: Request, res: Response, next: NextFunction) => {
+const confirmSignup = async (req: Request, res: Response<ApiResponse<AuthConfirmSignup>>, next: NextFunction) => {
   const { email, password, passwordConfirm, verificationCode } = req.body;
   if (!email || !password || !passwordConfirm || !verificationCode)
     return next(new BadRequestError({ message: 'Provide all required fields' }));
@@ -66,10 +76,10 @@ const confirmSignup = async (req: Request, res: Response, next: NextFunction) =>
   UserService.createAuthCookie(res, authToken);
   UserService.createRefreshCookie(res, refreshToken);
 
-  res.status(201).json({ message: 'Account verified', status: 'success', tokens: true });
+  res.status(201).json({ status: 'success', message: 'Account verified', data: { tokens: true } });
 };
 
-const login = async (req: Request, res: Response, next: NextFunction) => {
+const login = async (req: Request, res: Response<ApiResponse<AuthLoginResponse>>, next: NextFunction) => {
   const { email, password } = req.body;
   if (!email || !password) return next(new BadRequestError({ message: 'Provide all required fields' }));
 
@@ -89,10 +99,10 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   // TODO: . Amend DATA to send back actual details here.
   res
     .status(200)
-    .json({ message: 'Logged in to CRM', status: 'success', tokens: true, data: { user: 'A', roles: ['B'] } });
+    .json({ status: 'success', message: 'Logged in to CRM', data: { roles: ['B'], tokens: true, user: 'A' } });
 };
 
-const logout = async (req: Request, res: Response) => {
+const logout = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 
@@ -106,19 +116,21 @@ const logout = async (req: Request, res: Response) => {
   await UserService.blacklistToken(jti, exp);
   UserService.clearCookies(res);
   // TODO:  Redirect client to home
-  await UserService.logoutAccount(JWT)
-    .catch((error) => {
-      throw new BadRequestError({
+  await UserService.logoutAccount(JWT).catch((error) =>
+    next(
+      new BadRequestError({
         code: 500,
         context: { error },
         logging: true,
         message: 'Error occured during logout',
-      });
-    })
-    .finally(() => res.status(200).json({ message: 'Logged out', status: 'success' }));
+      })
+    )
+  );
+
+  res.status(200).json({ status: 'success', message: 'Logged out', data: null });
 };
 
-const forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
+const forgotPassword = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   const { email } = req.body;
   if (!email) return next(new BadRequestError({ message: 'Provide all required fields' }));
 
@@ -129,10 +141,11 @@ const forgotPassword = async (req: Request, res: Response, next: NextFunction) =
   const resetURL = `${req.protocol}://${req.get('host')}/api/users/resetPassword/${unhashedResetToken}`;
   await NodeMailerService.sendPasswordResetEmail(email, resetURL);
 
-  res.status(200).json({ message: 'Reset token sent to email', status: 'success' });
+  // TEST: .Testing types.
+  res.status(200).json({ status: 'success', message: 'Reset token sent to email', data: null });
 };
 
-const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
+const resetPassword = async (req: Request, res: Response<ApiResponse<AuthResetPassword>>, next: NextFunction) => {
   const { password, passwordConfirm } = req.body;
   const { token } = req.params;
   if (!password || !passwordConfirm) return next(new BadRequestError({ message: 'Provide all required fields' }));
@@ -152,13 +165,13 @@ const resetPassword = async (req: Request, res: Response, next: NextFunction) =>
   UserService.createRefreshCookie(res, refreshToken);
 
   res.status(200).json({
-    message: 'Password Reset Successful',
     status: 'success',
-    tokens: true,
+    message: 'Password Reset Successful',
+    data: { tokens: true },
   });
 };
 
-const updatePassword = async (req: Request, res: Response, next: NextFunction) => {
+const updatePassword = async (req: Request, res: Response<ApiResponse<AuthUpdatePassword>>, next: NextFunction) => {
   const { newPassword, newPasswordConfirm, oldPassword } = req.body;
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
@@ -188,10 +201,10 @@ const updatePassword = async (req: Request, res: Response, next: NextFunction) =
   UserService.createAuthCookie(res, authToken);
   UserService.createRefreshCookie(res, refreshToken);
 
-  res.status(200).json({ message: 'Password updated', status: 'success', tokens: true });
+  res.status(200).json({ status: 'success', message: 'Password updated', data: { tokens: true } });
 };
 
-const freezeAccount = async (req: Request, res: Response, _next: NextFunction) => {
+const freezeAccount = async (req: Request, res: Response<ApiResponse>, _next: NextFunction) => {
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 
@@ -213,7 +226,7 @@ const freezeAccount = async (req: Request, res: Response, _next: NextFunction) =
   res.status(204).send();
 };
 
-const deleteAccount = async (req: Request, res: Response, next: NextFunction) => {
+const deleteAccount = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   const { password } = req.body;
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
@@ -237,7 +250,11 @@ const deleteAccount = async (req: Request, res: Response, next: NextFunction) =>
   res.status(204).send();
 };
 
-const generateAuthToken = async (req: Request, res: Response, next: NextFunction) => {
+const generateAuthToken = async (
+  req: Request,
+  res: Response<ApiResponse<AuthGenerateAuthToken>>,
+  next: NextFunction
+) => {
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie, [`${JWT_COOKIE_REFRESH_ID}`]: refreshCookie } = req.cookies;
 
@@ -262,7 +279,7 @@ const generateAuthToken = async (req: Request, res: Response, next: NextFunction
     role = userRole;
   }
   const refreshToken = await UserService.queryRefreshToken(client_id, jti);
-  if (!refreshToken) throw new BadRequestError({ code: 500, message: 'Internal Error. Please login again' });
+  if (!refreshToken) return next(new BadRequestError({ code: 500, message: 'Internal Error. Please login again' }));
 
   const iat = Math.floor(Date.now() / 1000);
 
@@ -274,19 +291,18 @@ const generateAuthToken = async (req: Request, res: Response, next: NextFunction
 
     await UserService.createAuthCookie(res, authToken);
     await UserService.createRefreshCookie(res, refreshToken);
-    res.status(201).json({ message: 'Auth token generated', status: 'success', tokens: true }); // TODO:  Return Expiry time
+    res.status(201).json({ status: 'success', message: 'Auth token generated', data: { tokens: true } }); // TODO:  Return Expiry time
     return;
   }
 
   // Legitimate request; previous tokens not received by client; rollback optimistic DB update - allows client to resubmit their valid old refresh token again
   if (refreshToken.acc === acc + 1 && !refreshToken.activated) {
     await UserService.updateRefreshToken(client_id, jti, oldIat, acc, true);
-    res.status(401).json({ message: 'Resubmit refresh token', status: 'success' }).send();
-    return;
+    return next(new BadRequestError({ code: 401, message: 'Resubmit refresh token' }));
   }
 
   // Legitimate request; Client has not validated the R token yet.
-  if (!refreshToken.activated) throw new BadRequestError({ code: 401, message: 'Please verify Refresh Token' });
+  if (!refreshToken.activated) return next(new BadRequestError({ code: 401, message: 'Please verify Refresh Token' }));
 
   // Fraudulent request; R accumulator out-of-sync; freeze account
   if (refreshToken.acc !== acc && refreshToken.activated) {
@@ -294,16 +310,18 @@ const generateAuthToken = async (req: Request, res: Response, next: NextFunction
     const tokens = await UserService.deleteAllRefreshTokens(client_id);
     await UserService.blacklistAllRefreshTokens(tokens);
     UserService.clearCookies(res);
-    throw new BadRequestError({
-      code: 403,
-      context: { 'Fraudulent Refresh Token Access': { client_id: client_id } },
-      logging: true,
-      message: 'Account frozen',
-    });
+    return next(
+      new BadRequestError({
+        code: 403,
+        context: { 'Fraudulent Refresh Token Access': { client_id: client_id } },
+        logging: true,
+        message: 'Account frozen',
+      })
+    );
   }
 };
 
-const activateRefreshToken = async (req: Request, res: Response, _next: NextFunction) => {
+const activateRefreshToken = async (req: Request, res: Response<ApiResponse>, _next: NextFunction) => {
   // On receipt of AR tokens, send back A to /verifyToken - have setInterval on client to keep resending until 200 received.
   // Update R token active flag on DB
   const { authorization } = req.headers;
@@ -315,7 +333,7 @@ const activateRefreshToken = async (req: Request, res: Response, _next: NextFunc
   } else if (authCookie) {
     JWT = authCookie;
   } else {
-    res.status(401).json({ message: 'Unauthorized', status: 'failure' });
+    res.status(401).json({ errors: {}, message: 'Unauthorized', status: 'error' });
     return;
   }
 
@@ -326,14 +344,14 @@ const activateRefreshToken = async (req: Request, res: Response, _next: NextFunc
   res.status(204).send();
 };
 
-const identify = async (_req: Request, res: Response, _next: NextFunction) => {
+const identify = async (_req: Request, res: Response<ApiResponse>, _next: NextFunction) => {
   // TODO:  Query profile table for user information.
   const user = await UserService.queryUserById(res.locals.user.client_id);
   // TEMP: . Need to add in user name, role title, minor details - information to hydrate FE on initial load.
-  res.status(200).json({ status: 'success', message: 'Account identified', user: { role: user.role } });
+  res.status(200).json({ status: 'success', message: 'Account identified', data: { user: { role: user.role } } });
 };
 
-const protectedRoute = async (req: Request, res: Response, next: NextFunction) => {
+const protectedRoute = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 
@@ -353,7 +371,7 @@ const protectedRoute = async (req: Request, res: Response, next: NextFunction) =
 };
 
 const restrictedRoute = (...roles: TUserRoles[]) => {
-  return async (req: Request, _res: Response, next: NextFunction) => {
+  return async (req: Request, _res: Response<ApiResponse>, next: NextFunction) => {
     const { authorization } = req.headers;
     const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 

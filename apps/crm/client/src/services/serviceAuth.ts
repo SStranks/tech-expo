@@ -1,5 +1,7 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 
+import type { ApiResponseSuccess } from '@Shared/src';
+
 import axiosClient, { type IAxiosClient } from '@Lib/axios';
 import {
   clearAuthState,
@@ -21,6 +23,7 @@ class ServiceAuth {
   private MaxRequests: number;
   private MaxRetry = 5;
   private CurrentRetry = 0;
+  private Data: unknown;
 
   constructor(apiClient: IAxiosClient) {
     this.ApiClient = apiClient;
@@ -30,12 +33,16 @@ class ServiceAuth {
     this.MaxRequests = 5;
     this.MaxRetry = 4;
     this.CurrentRetry = 0;
+    this.Data = undefined;
   }
 
-  private authInterceptorSuccess = (response: AxiosResponse) => {
-    if (response?.data?.tokens) {
+  private authInterceptorSuccess = (response: AxiosResponse<ApiResponseSuccess>) => {
+    this.Data = this.ApiClient.responseData(response);
+
+    if (this.Data && typeof this.Data === 'object' && 'tokens' in this.Data) {
       this.activateRefreshToken();
     }
+
     return response;
   };
 

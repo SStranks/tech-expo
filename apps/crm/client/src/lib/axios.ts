@@ -7,12 +7,13 @@ import axios, {
 } from 'axios';
 
 import handleServiceError from '@Services/serviceHttpErrors';
+import { ApiResponseSuccess } from '@Shared/src';
 
 export interface IAxiosClient {
   clientInstance: AxiosInstance;
   requestInterceptor(): AxiosInterceptorManager<InternalAxiosRequestConfig<any>>;
   responseInterceptor(): AxiosInterceptorManager<AxiosResponse<any, any>>;
-  responseData(response: AxiosResponse): AxiosResponse['data'] | undefined;
+  responseData(response: AxiosResponse<ApiResponseSuccess>): ApiResponseSuccess | undefined;
   retryRequest(
     config: AxiosRequestConfig<any>,
     retries?: number,
@@ -56,7 +57,7 @@ class axiosClient implements IAxiosClient {
     return this.clientResponseInterceptor;
   }
 
-  responseData(response: AxiosResponse): AxiosResponse['data'] | undefined {
+  responseData<T>(response: AxiosResponse<T>): T | undefined {
     if (!response.data) return;
     return response.data;
   }
