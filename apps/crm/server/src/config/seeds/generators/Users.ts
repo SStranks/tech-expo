@@ -42,9 +42,9 @@ export function generateUsers() {
   return Array.from({ length: USER_ENTRY_COUNT }, () => {
     const userBaseData = generateUserBase();
     const companyRole = faker.helpers.weightedArrayElement<TCompanyRoles>([
-      { value: 'SALES MANAGER', weight: 2 },
-      { value: 'SALES PERSON', weight: 5 },
-      { value: 'SALES INTERN', weight: 3 },
+      { value: 'SALES_MANAGER', weight: 2 },
+      { value: 'SALES_PERSON', weight: 5 },
+      { value: 'SALES_INTERN', weight: 3 },
     ]);
 
     return {
@@ -57,7 +57,7 @@ export function generateUsers() {
 // TODO:  Substitute in known passwords and email addresses for demo-users to utilize;
 export function generateDemoUsers() {
   const USER_ROLES: TUserRoles[] = ['ADMIN', 'MODERATOR', 'USER'];
-  const COMPANY_ROLES: TCompanyRoles[] = ['ADMIN', 'SALES MANAGER', 'SALES PERSON'];
+  const COMPANY_ROLES: TCompanyRoles[] = ['ADMIN', 'SALES_MANAGER', 'SALES_PERSON'];
 
   const demoUsers = Array.from({ length: USER_ROLES.length }, (_, i) => {
     const userBaseData = generateUserBase();

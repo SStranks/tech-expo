@@ -1,7 +1,7 @@
 import type { UUID } from 'node:crypto';
 
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
-import { numeric, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { doublePrecision, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
@@ -18,7 +18,7 @@ import {
 
 // ---------- ENUMS --------- //
 export type TCompanySize = (typeof COMPANY_SIZE)[number];
-export const COMPANY_SIZE = ['micro', 'small', 'medium', 'large'] as const;
+export const COMPANY_SIZE = ['MICRO', 'SMALL', 'MEDIUM', 'LARGE'] as const;
 export const CompanySizeEnum = pgEnum('company_size', COMPANY_SIZE);
 
 export type TBusinessType = (typeof BUSINESS_TYPE)[number];
@@ -30,9 +30,9 @@ export type TCompaniesTableInsert = InferInsertModel<typeof CompaniesTable>;
 export type TCompaniesTableSelect = InferSelectModel<typeof CompaniesTable>;
 export const CompaniesTable = pgTable('companies', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  companyName: varchar('company_name', { length: 255 }).notNull().unique(),
-  companySize: CompanySizeEnum('company_size').notNull(),
-  totalRevenue: numeric('total_revenue', { precision: 14, scale: 2 }).notNull(),
+  name: varchar('company_name', { length: 255 }).notNull().unique(),
+  size: CompanySizeEnum('company_size').notNull(),
+  totalRevenue: doublePrecision('total_revenue').notNull(),
   industry: varchar('industry', { length: 100 }).notNull(),
   businessType: BusinessTypeEnum('business_type').notNull(),
   country: uuid('country_id')

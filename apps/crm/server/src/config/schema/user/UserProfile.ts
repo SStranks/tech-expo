@@ -17,7 +17,7 @@ import {
 
 // ---------- ENUMS --------- //
 export type TCompanyRoles = (typeof COMPANY_ROLES)[number];
-export const COMPANY_ROLES = ['ADMIN', 'SALES MANAGER', 'SALES PERSON', 'SALES INTERN'] as const;
+export const COMPANY_ROLES = ['ADMIN', 'SALES_MANAGER', 'SALES_PERSON', 'SALES_INTERN'] as const;
 export const CompanyRolesEnum = pgEnum('company_role', COMPANY_ROLES);
 
 // ---------- TABLES -------- //

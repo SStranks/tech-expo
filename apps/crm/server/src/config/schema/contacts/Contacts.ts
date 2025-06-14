@@ -10,15 +10,15 @@ import { CompaniesTable, ContactsNotesTable, PipelineDealsTable, QuotesTable, Ti
 // ---------- ENUMS --------- //
 export type TContactStage = (typeof CONTACT_STAGE)[number];
 export const CONTACT_STAGE = [
-  'new',
-  'contacted',
-  'interested',
-  'unqualified',
-  'qualified',
-  'negotiation',
-  'lost',
-  'won',
-  'churned',
+  'NEW',
+  'CONTACTED',
+  'INTERESTED',
+  'UNQUALIFIED',
+  'QUALIFIED',
+  'NEGOTIATION',
+  'LOST',
+  'WON',
+  'CHURNED',
 ] as const;
 export const ContactStageEnum = pgEnum('contact_stage', CONTACT_STAGE);
 

@@ -9,7 +9,7 @@ import { CompaniesTable, ContactsTable, QuoteServicesTable, QuotesNotesTable, Us
 
 // ---------- ENUMS --------- //
 export type TQuoteStage = (typeof QUOTE_STAGE)[number];
-export const QUOTE_STAGE = ['draft', 'sent', 'accepted'] as const;
+export const QUOTE_STAGE = ['DRAFT', 'SENT', 'ACCEPTED'] as const;
 export const QuoteStageEnum = pgEnum('quote_stage', QUOTE_STAGE);
 
 // ---------- TABLES -------- //

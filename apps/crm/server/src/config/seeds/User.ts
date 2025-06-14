@@ -13,7 +13,7 @@ const { COMPANY_NAME } = seedSettings;
 // The primary company is the one utilizing the application
 async function getPrimaryCompany(db: TPostgresDB) {
   return await db.query.CompaniesTable.findFirst({
-    where: eq(CompaniesTable.companyName, COMPANY_NAME),
+    where: eq(CompaniesTable.name, COMPANY_NAME),
     with: { country: { with: { timezone: { columns: { id: true } } } } },
   });
 }

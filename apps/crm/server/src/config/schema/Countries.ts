@@ -16,7 +16,7 @@ export const CountriesTable = pgTable('countries', {
   alpha2Code: varchar('alpha_2_code').unique().notNull(),
   alpha3Code: varchar('alpha_3_code').unique().notNull(),
   shortName: varchar('short_name', { length: 100 }).unique().notNull(),
-  nationality: varchar('nationality', { length: 100 }),
+  nationality: varchar('nationality', { length: 100 }).notNull(),
 });
 
 // -------- RELATIONS ------- //
