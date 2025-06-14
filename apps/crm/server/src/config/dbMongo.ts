@@ -1,12 +1,11 @@
 import { MongoClient, type TopologyEvents } from 'mongodb';
 
-import pinoLogger from '#Helpers/pinoLogger.js';
-import rollbar from '#Helpers/rollbar.js';
+import pinoLogger from '#Lib/pinoLogger.js';
+import rollbar from '#Lib/rollbar.js';
 
-const { MONGODB_ARGS, MONGODB_DATABASE, MONGODB_HOST, MONGODB_PASSWORD, MONGODB_PORT, MONGODB_PROTOCOL, MONGODB_USER } =
-  process.env;
+const { MONGO_ARGS, MONGO_DATABASE, MONGO_HOST, MONGO_PASSWORD, MONGO_PORT, MONGO_PROTOCOL, MONGO_USER } = process.env;
 
-const MONGO_URI = `${MONGODB_PROTOCOL}://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}${MONGODB_ARGS}`;
+const MONGO_URI = `${MONGO_PROTOCOL}://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}${MONGO_ARGS}`;
 
 // DANGER:  Ensure logger for current ENV is not storing credentials; level INFO or higher.
 pinoLogger.debug(MONGO_URI);
@@ -27,7 +26,7 @@ class ServerEventsLogger {
 
     Object.keys(this.eventNames).forEach((event) => {
       this.MongoClient.on(event, () => {
-        pinoLogger.info(`${event}: MongoDB: @${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DATABASE}`);
+        pinoLogger.info(`${event}: MongoDB: @${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}`);
       });
     });
   }
@@ -46,7 +45,7 @@ const connectMongoDB = async () => {
   try {
     await mongoClient.connect();
   } catch (error) {
-    const errMsg = `Cannot connect to Mongo: ${MONGODB_DATABASE} @ ${MONGODB_HOST}`;
+    const errMsg = `Cannot connect to Mongo: ${MONGO_DATABASE} @ ${MONGO_HOST}`;
     process.exitCode = 1;
 
     pinoLogger.fatal(error, errMsg);
@@ -57,6 +56,6 @@ const connectMongoDB = async () => {
   }
 };
 
-const mongoDB = mongoClient.db(`${MONGODB_DATABASE}`);
+const mongoDB = mongoClient.db(`${MONGO_DATABASE}`);
 
 export { mongoDB, connectMongoDB, mongoClient };

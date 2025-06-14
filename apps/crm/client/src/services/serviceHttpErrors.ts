@@ -6,7 +6,7 @@ export default function handleServiceError(error: unknown): AppError {
   if (axios.isAxiosError(error)) {
     if (error.response) {
       // The request was made and the server responded with a status code that falls out of the range of 2xx
-      const { data, status } = error.response;
+      const { status, data } = error.response;
       if (data?.message) {
         return new AppError({ code: status, message: data.message });
       }

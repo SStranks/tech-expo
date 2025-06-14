@@ -1,7 +1,7 @@
-import { defineConfig } from 'drizzle-kit';
-import dotenv from 'dotenv';
+/// <reference types="node" />
 
-dotenv.config();
+import { defineConfig } from 'drizzle-kit';
+import '@dotenvx/dotenvx/config';
 
 export default defineConfig({
   dialect: 'postgresql',
