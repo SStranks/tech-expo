@@ -1,0 +1,142 @@
+# lint-disable-line relay-page-info-spec
+# lint-disable types-have-descriptions, fields-have-descriptions
+
+type Query {
+  """
+  Retrieves the initial data needed to load the pipeline view for a given company,
+  including the pipeline, all stages, and ordered deals.
+  """
+  pipelineInitialData(companyId: UUID!): PipelineInitialData
+}
+
+"""
+Represents a sales or deal pipeline associated with a specific company.
+"""
+type Pipeline {
+  """
+  Unique identifier of the pipeline.
+  """
+  id: UUID!
+
+  """
+  Identifier of the company that owns this pipeline.
+  """
+  companyId: UUID!
+
+  """
+  All deals currently associated with this pipeline.
+  """
+  deals: [PipelineDeal!]!
+}
+
+"""
+Initial data payload returned when loading the pipeline view.
+Includes pipeline details, stages, and ordered deals.
+"""
+type PipelineInitialData {
+  """
+  Unique identifier of the pipeline initial data payload.
+  """
+  id: ID!
+
+  """
+  The pipeline associated with the given company.
+  """
+  pipeline: Pipeline!
+
+  """
+  Defines the order of deals within each stage of the pipeline.
+  """
+  dealsOrder: [PipelineDealOrder]
+
+  """
+  List of all stages in the pipeline.
+  """
+  stages: [PipelineStage!]!
+}
+
+"""
+Represents a deal within the pipeline, such as a potential sale or client opportunity.
+"""
+type PipelineDeal {
+  """
+  Unique identifier of the deal.
+  """
+  id: UUID!
+
+  """
+  A short, unique serial identifier (e.g., 6-character string) used to refer to the deal.
+  """
+  serial: String!
+
+  """
+  Title or name of the deal.
+  """
+  title: String!
+
+  """
+  The company associated with the deal.
+  """
+  company: Company!
+
+  """
+  The current stage the deal is in within the pipeline.
+  """
+  stage: PipelineStage!
+
+  """
+  The monetary value associated with the deal.
+  """
+  value: Float!
+
+  """
+  The user assigned as the primary owner or representative of the deal.
+  """
+  owner: UserProfile!
+
+  """
+  The contact person associated with the deal (e.g., client or lead).
+  """
+  contact: Contact!
+
+  """
+  Timestamp indicating when the deal was created.
+  """
+  createdAt: DateTime!
+}
+
+"""
+Represents the order of deals in a given pipeline stage.
+Used to preserve UI ordering.
+"""
+type PipelineDealOrder {
+  """
+  Unique identifier of the deal order entry.
+  """
+  id: UUID!
+
+  """
+  The stage associated with this deal order configuration.
+  """
+  stage: PipelineStage!
+
+  """
+  An ordered list of deal serial identifiers for this stage.
+  """
+  dealOrder: [String!]!
+}
+
+"""
+Represents a single stage within the pipeline (e.g., Prospecting, Negotiation, Closed).
+"""
+type PipelineStage {
+  """
+  Unique identifier of the stage.
+  """
+  id: UUID!
+
+  """
+  Descriptive title of the stage.
+  """
+  title: String!
+}

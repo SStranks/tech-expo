@@ -1,0 +1,115 @@
+# lint-disable-line relay-page-info-spec
+# lint-disable types-have-descriptions, fields-have-descriptions
+
+type Query {
+  """
+  Fetches a single contact by its UUID.
+  Returns `null` if the contact is not found.
+  """
+  contact(id: UUID!): Contact
+
+  """
+  Returns a list of all contacts in the system.
+  """
+  contacts: [Contact]
+}
+
+"""
+Represents a person associated with a company, typically a lead or client contact.
+"""
+type Contact {
+  """
+  Unique identifier for the contact (UUID format).
+  """
+  id: UUID!
+
+  """
+  Contact’s given name.
+  """
+  firstName: String!
+
+  """
+  Contact’s family or surname.
+  """
+  lastName: String!
+
+  """
+  Email address of the contact.
+  """
+  email: EmailAddress!
+
+  """
+  Phone number of the contact.
+  """
+  phone: String!
+
+  """
+  The company the contact is associated with.
+  """
+  company: Company!
+
+  """
+  Job title or role of the contact at the company.
+  """
+  jobTitle: String!
+
+  """
+  Current engagement stage of the contact in your workflow.
+  """
+  stage: ContactStage!
+
+  """
+  IANA timezone string representing the contact's local timezone.
+  """
+  timezone: TimeZone
+
+  """
+  A list of notes associated with this contact, typically used to record interactions, updates, or important information.
+  """
+  notes: [ContactNote!]!
+}
+
+"""
+Represents a note associated with a specific contact, used for tracking interactions or important details.
+"""
+type ContactNote {
+  """
+  Unique identifier for the contact note.
+  """
+  id: UUID!
+
+  """
+  The content or body of the note.
+  """
+  note: String!
+
+  """
+  The contact this note is associated with.
+  """
+  contact: Contact!
+
+  """
+  The timestamp of when the note was created.
+  """
+  createdAt: DateTime!
+
+  """
+  The user who created the note.
+  """
+  createdBy: UserProfile!
+}
+
+"""
+Describes the current status of a contact in the sales or client lifecycle.
+"""
+enum ContactStage {
+  NEW
+  CONTACTED
+  INTERESTED
+  UNQUALIFIED
+  QUALIFIED
+  NEGOTIATION
+  LOST
+  WON
+  CHURNED
+}

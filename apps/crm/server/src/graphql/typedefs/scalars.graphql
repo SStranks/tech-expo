@@ -1,0 +1,27 @@
+# lint-disable-line relay-page-info-spec
+# lint-disable types-have-descriptions, fields-have-descriptions
+
+"""
+Imported from 'graphql-scalars'
+"""
+scalar DateTime
+
+"""
+UImported from 'graphql-scalars'
+"""
+scalar EmailAddress
+
+"""
+Imported from 'graphql-scalars'
+"""
+scalar HexColorCode
+
+"""
+Imported from 'graphql-scalars'
+"""
+scalar JSON
+
+"""
+Imported from 'graphql-scalars'
+"""
+scalar UUID

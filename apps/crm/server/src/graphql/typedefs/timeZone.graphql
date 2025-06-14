@@ -1,0 +1,27 @@
+# lint-disable-line relay-page-info-spec
+# lint-disable types-have-descriptions, fields-have-descriptions
+
+"""
+Represents a time zone associated with a specific country, including the GMT offset and ISO country code.
+"""
+type TimeZone {
+  """
+  A unique identifier for the time zone entry.
+  """
+  id: UUID!
+
+  """
+  The two-letter ISO 3166-1 alpha-2 code for the country this time zone is associated with (e.g., "US").
+  """
+  alpha2Code: String!
+
+  """
+  The time zone's offset from GMT/UTC, typically formatted as "+HH:MM" or "-HH:MM" (e.g., "-05:00").
+  """
+  gmtOffset: String!
+
+  """
+  The country associated with this time zone.
+  """
+  country: Country!
+}
