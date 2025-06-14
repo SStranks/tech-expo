@@ -1,14 +1,19 @@
+import type { IGraphqlContext } from './index.js';
+
 import { ApolloServer } from '@apollo/server';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 
-import pinoLogger from '#Helpers/pinoLogger';
-import rollbar from '#Helpers/rollbar';
+import httpServer from '#App/httpServer.js';
+import pinoLogger from '#Lib/pinoLogger.js';
+import rollbar from '#Lib/rollbar.js';
 
-import formatError from './errors';
-import schema from './schema';
+import formatError from './errors.js';
+import schema from './schema.js';
 
 const introspection = process.env.NODE_ENV !== 'production';
+const plugins = [ApolloServerPluginDrainHttpServer({ httpServer })];
 
-const apolloServer = new ApolloServer({ formatError, introspection, schema });
+const apolloServer = new ApolloServer<IGraphqlContext>({ formatError, introspection, plugins, schema });
 
 try {
   await apolloServer.start();
