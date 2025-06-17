@@ -10,7 +10,7 @@
   "license": "ISC",
   "type": "module",
   "engines": {
-    "node": ">=20.9.0",
+    "node": ">=20.18.0",
     "pnpm": ">=10"
   },
   "prettier": "@packages/prettier-config",
@@ -19,7 +19,7 @@
     "commitlint": "commitlint",
     "lint": "eslint",
     "megalint": "mega-linter-runner -d oxsecurity/megalinter-javascript:v8 -e 'EXTENDS=./.github/configs/mega-linter.yaml' --container-name techexpo-lint --remove-container",
-    "prepare": "husky install",
+    "prepare": "husky",
     "secretlint": "secretlint --maskSecrets \"**/*\"",
     "test:client": "pnpm --filter './apps/**/+(client|frontend)' jest:test",
     "test:server": "pnpm --filter './apps/**/+(server|backend)' node:test"
@@ -44,15 +44,15 @@
     "@packages/vitest-config": "workspace:*"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.8.0",
-    "eslint": "^9.25.0",
-    "graphql-config": "^5.1.4",
+    "@commitlint/cli": "^19.8.1",
+    "eslint": "^9.29.0",
+    "graphql-config": "^5.1.5",
     "husky": "^9.1.7",
-    "lint-staged": "^15.5.1",
-    "mega-linter-runner": "^8.5.0",
+    "lint-staged": "^15.5.2",
+    "mega-linter-runner": "^8.8.0",
     "prettier": "^3.5.3",
-    "secretlint": "^9.3.1",
-    "stylelint": "^16.18.0",
+    "secretlint": "^10.1.0",
+    "stylelint": "^16.20.0",
     "typescript": "^5.8.3"
   }
 }

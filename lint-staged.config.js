@@ -3,5 +3,5 @@
 export default {
   '*.{js,jsx,ts,tsx}': 'eslint --no-warn-ignored',
   '*.{css,scss}': 'stylelint',
-  '*': 'secretlint --maskSecrets',
+  '*': 'secretlint',
 };
