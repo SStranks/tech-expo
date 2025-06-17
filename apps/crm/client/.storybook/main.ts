@@ -4,23 +4,24 @@ import CommonConfig from '../webpack/webpack.common.js';
 const config: StorybookConfig = {
   framework: '@storybook/react-webpack5',
   stories: ['../src/stories/*.mdx', '../src/stories/*.stories.@(js|jsx|mjs|ts|tsx)'],
+
   addons: [
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
     '@storybook/addon-links',
     '@storybook/addon-onboarding',
     '@storybook/addon-webpack5-compiler-babel',
+    '@storybook/addon-docs'
   ],
-  docs: {
-    autodocs: 'tag',
-  },
+
   staticDirs: ['../public'],
+
   core: {
     disableTelemetry: true,
   },
+
   babel: (config) => {
     return { ...config, rootMode: 'upward' };
   },
+
   webpackFinal: async (config) => {
     if (config.resolve) {
       config.resolve.alias = {
@@ -56,7 +57,7 @@ const config: StorybookConfig = {
     );
 
     return config;
-  },
+  }
 };
 
 export default config;
