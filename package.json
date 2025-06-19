@@ -38,6 +38,7 @@
     "@packages/jest-config": "workspace:*",
     "@packages/jest-config-node": "workspace:*",
     "@packages/jest-config-react": "workspace:*",
+    "@packages/prettier-config": "workspace:*",
     "@packages/secretlint-config": "workspace:*",
     "@packages/stylelint-config": "workspace:*",
     "@packages/typescript-config": "workspace:*",

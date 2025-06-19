@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 set -euo pipefail
 
-PASS="$(cat /run/secrets/redis_password)"
+PASSWORD="$(cat /run/secrets/redis_password)"
 
-echo -e "AUTH $PASS\nPING" | redis-cli --no-auth-warning --raw > /dev/null
+echo -e "AUTH $PASSWORD\nPING" | redis-cli --no-auth-warning --raw > /dev/null

@@ -47,6 +47,9 @@ importers:
       '@packages/jest-config-react':
         specifier: workspace:*
         version: link:packages/jest-config-react
+      '@packages/prettier-config':
+        specifier: workspace:*
+        version: link:packages/prettier-config
       '@packages/secretlint-config':
         specifier: workspace:*
         version: link:packages/secretlint-config

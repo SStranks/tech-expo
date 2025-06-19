@@ -60,6 +60,11 @@ sops exec-file "$SECRETS_FILE" 'bash -c "
 #   done < <(grep -v '\''^{\|^}'\'' \"{}\" | tr \",\" \"\n\")
 # "'
 
+# Create volumes if not present
+docker volume create techexpo-mongo
+docker volume create techexpo-redis
+docker volume create techexpo-postgres
+
 # Run Docker compose outside of SOPS context
 # Running inside interferes with docket rootless and breaks
 docker compose -f "$SCRIPT_DIR/docker-compose.override.yml" \
