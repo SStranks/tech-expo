@@ -22,6 +22,7 @@ export default [
       '**/*.gen.*',
       '**/graphql/generated/',
       '!**/.storybook/',
+      'pnpm-lock.yaml',
     ],
   },
   {
