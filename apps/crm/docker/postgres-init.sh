@@ -5,7 +5,6 @@ DB="$(cat /run/secrets/postgres_database)"
 USER_SUPER="$(cat /run/secrets/postgres_user_super)"
 USER_SERVICE="$(cat /run/secrets/postgres_user_service)"
 USER_MIGRATOR="$(cat /run/secrets/postgres_user_migrator)"
-PASSWORD_SUPER="$(cat /run/secrets/postgres_password_super)"
 PASSWORD_SERVICE="$(cat /run/secrets/postgres_password_service)"
 PASSWORD_MIGRATOR="$(cat /run/secrets/postgres_password_migrator)"
 

@@ -12,7 +12,7 @@ PASSWORD_SERVICE="$(cat /run/secrets/mongo_password_service)"
 echo "*** Preparing MongoDB User Configuration ***"
 sleep 3
 echo "*** Initializing MongoDB User Configuration ***"
-mongosh --username $MONGO_INITDB_ROOT_USERNAME --password $MONGO_INITDB_ROOT_PASSWORD << EOF
+mongosh --username "$MONGO_INITDB_ROOT_USERNAME" --password "$MONGO_INITDB_ROOT_PASSWORD" << EOF
 use admin
 db.createUser({ user: "$USER_SERVICE", pwd: "$PASSWORD_SERVICE", roles: [{ role: 'readWrite', db: "$DB" }] })
 quit()
@@ -21,7 +21,7 @@ echo "*** Completed MongoDB User Configuration ***"
 
 # Add dummy collection to initialize database
 echo "*** Preparing MongoDB Database Configuration ***"
-mongosh --username $MONGO_INITDB_ROOT_USERNAME --password $MONGO_INITDB_ROOT_PASSWORD << EOF
+mongosh --username "$MONGO_INITDB_ROOT_USERNAME" --password "$MONGO_INITDB_ROOT_PASSWORD" << EOF
 use $DB
 db.createCollection("init_collection")
 db.init_collection.insertOne({ initialized: true })
