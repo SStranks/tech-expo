@@ -5,7 +5,29 @@
   "description": "shared secretlint configuration",
   "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
   "license": "ISC",
+  "type": "module",
+  "main": ".secretlintrc.js",
   "devDependencies": {
-    "@secretlint/secretlint-rule-preset-recommend": "^10.1.0"
+    "@secretlint/secretlint-rule-1password": "^10.2.0",
+    "@secretlint/secretlint-rule-anthropic": "^10.2.0",
+    "@secretlint/secretlint-rule-aws": "^10.2.0",
+    "@secretlint/secretlint-rule-azure": "^10.2.0",
+    "@secretlint/secretlint-rule-basicauth": "^10.2.0",
+    "@secretlint/secretlint-rule-database-connection-string": "^10.2.0",
+    "@secretlint/secretlint-rule-filter-comments": "^10.2.0",
+    "@secretlint/secretlint-rule-gcp": "^10.2.0",
+    "@secretlint/secretlint-rule-github": "^10.2.0",
+    "@secretlint/secretlint-rule-linear": "^10.2.0",
+    "@secretlint/secretlint-rule-no-dotenv": "^10.2.0",
+    "@secretlint/secretlint-rule-no-homedir": "^10.2.0",
+    "@secretlint/secretlint-rule-no-k8s-kind-secret": "^10.2.0",
+    "@secretlint/secretlint-rule-npm": "^10.2.0",
+    "@secretlint/secretlint-rule-openai": "^10.2.0",
+    "@secretlint/secretlint-rule-pattern": "^10.2.0",
+    "@secretlint/secretlint-rule-privatekey": "^10.2.0",
+    "@secretlint/secretlint-rule-secp256k1-privatekey": "^10.2.0",
+    "@secretlint/secretlint-rule-sendgrid": "^10.2.0",
+    "@secretlint/secretlint-rule-shopify": "^10.2.0",
+    "@secretlint/secretlint-rule-slack": "^10.2.0"
   }
 }
