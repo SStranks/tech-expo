@@ -1,7 +1,10 @@
 /* eslint-disable unicorn/filename-case */
-/* eslint-disable perfectionist/sort-objects */
+
+/**
+ * @filename: lint-staged.config.js
+ * @type {import('lint-staged').Configuration}
+ */
+
 export default {
-  '*.{js,jsx,ts,tsx}': 'eslint --no-warn-ignored',
-  '*.{css,scss}': 'stylelint',
   '*': 'secretlint',
 };

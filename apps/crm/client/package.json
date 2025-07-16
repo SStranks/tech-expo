@@ -41,7 +41,8 @@
     "storybook": "storybook dev -p 6006 --disable-telemetry",
     "build-storybook": "storybook build --disable-telemetry",
     "sassdoc:build": "sassdoc ./src --dest ./.sassdoc",
-    "sassdoc:serve": "http-server ./.sassdoc"
+    "sassdoc:serve": "http-server ./.sassdoc",
+    "dotenv:lint": "docker run --rm -v \"$(pwd)\":/app -w /app dotenvlinter/dotenv-linter:3.3.0 dotenv-linter .env* -r"
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
@@ -141,14 +142,14 @@
     "sass-embedded": "^1.89.2",
     "sass-loader": "^16.0.5",
     "sassdoc": "^2.7.4",
-    "sharp": "^0.34.2",
+    "sharp": "^0.34.3",
     "start-server-and-test": "^2.0.12",
     "storybook": "^9.0.11",
     "style-loader": "^4.0.0",
-    "svgo": "^3.3.2",
+    "svgo": "^4.0.0",
     "terser-webpack-plugin": "^5.3.14",
     "ts-loader": "^9.5.2",
-    "vite": "^6.3.2",
+    "vite": "^7.0.4",
     "vitest": "^3.2.3",
     "webpack": "^5.99.9",
     "webpack-cli": "^6.0.1",
