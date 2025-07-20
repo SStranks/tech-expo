@@ -8,7 +8,7 @@
   "type": "module",
   "main": "eslint.config.js",
   "devDependencies": {
-    "@vitest/eslint-plugin": "^1.2.7",
-    "eslint-plugin-testing-library": "^7.5.3"
+    "@vitest/eslint-plugin": "^1.3.4",
+    "eslint-plugin-testing-library": "^7.6.0"
   }
 }
