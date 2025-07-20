@@ -6,7 +6,7 @@
   "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
   "license": "ISC",
   "type": "module",
-  "main": "eslint.config.js",
+  "main": "config.js",
   "devDependencies": {
     "@vitest/eslint-plugin": "^1.3.4",
     "eslint-plugin-testing-library": "^7.6.0"
