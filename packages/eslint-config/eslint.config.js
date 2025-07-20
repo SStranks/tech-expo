@@ -142,16 +142,9 @@ export const EslintConfig = {
     'import/parsers': {
       '@typescript-eslint/parser': ['*.ts', '*.tsx', '*.html'],
     },
-    // ...PluginImport.configs.typescript.settings,
     'import/resolver': {
-      // ...PluginImport.configs.typescript.settings['import/resolver'],
       typescript: {
         alwaysTryTypes: true,
-        project: [
-          'apps/**/+(client|frontend)/tsconfig.json',
-          'apps/**/+(server|backend)/tsconfig.json',
-          'tsconfig.json',
-        ],
       },
     },
   },

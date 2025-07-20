@@ -38,12 +38,20 @@ export default [
     files: ['apps/crm/client/src/**/*.[jt]s?(x)', 'apps/pnpm-outdated/client/src/*.ts'],
     processor: EslintConfigGraphQL.processor,
     languageOptions: {
-      parserOptions: { project: ['./apps/crm/client/tsconfig.json'] },
+      parserOptions: { projectService: true },
       ...EslintConfigReact_18p2.languageOptions,
     },
     plugins: { ...EslintConfigReact_18p2.plugins },
     rules: { ...EslintConfigReact_18p2.rules },
-    settings: { ...EslintConfigReact_18p2.settings },
+    settings: {
+      ...EslintConfigReact_18p2.settings,
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: ['apps/crm/client/tsconfig.json'],
+        },
+      },
+    },
   },
   {
     name: 'CRM: Client; GraphQL',
@@ -62,7 +70,15 @@ export default [
     // },
     plugins: { ...EslintConfigStorybook.plugins },
     rules: { ...EslintConfigStorybook.rules },
-    settings: { ...EslintConfigStorybook.settings },
+    settings: {
+      ...EslintConfigStorybook.settings,
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: ['apps/crm/client/tsconfig.json'],
+        },
+      },
+    },
   },
   // {
   //   name: 'CRM: Client; Testing (Jest + RTL)',
@@ -78,7 +94,15 @@ export default [
     languageOptions: { ...EslintConfigReact_18p2.languageOptions },
     plugins: { ...EslintConfigReact_18p2.plugins, ...EslintConfigReactVitest.plugins },
     rules: { ...EslintConfigReact_18p2.rules, ...EslintConfigReactVitest.rules },
-    settings: { ...EslintConfigReact_18p2.settings },
+    settings: {
+      ...EslintConfigReact_18p2.settings,
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: ['apps/crm/client/tsconfig.json'],
+        },
+      },
+    },
   },
   {
     name: 'CRM: Client; Testing (Cypress)',
@@ -91,10 +115,22 @@ export default [
   {
     name: 'CRM: Server; NodeJS Express + Testing (Node)',
     files: ['apps/crm/server/src/**/*.[jt]s'],
-    languageOptions: { ...EslintConfigExpress.languageOptions },
+    languageOptions: {
+      ...EslintConfigExpress.languageOptions,
+      // parserOptions: { project: 'apps/crm/server/tsconfig.json' },
+      parserOptions: { projectService: true },
+    },
     plugins: { ...EslintConfigExpress.plugins },
     rules: { ...EslintConfigExpress.rules },
-    settings: { ...EslintConfigExpress.settings },
+    settings: {
+      ...EslintConfigExpress.settings,
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: ['apps/crm/server/tsconfig.json'],
+        },
+      },
+    },
   },
   {
     name: 'CRM: Server; GraphQL',
