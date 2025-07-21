@@ -1,0 +1,14 @@
+{
+  "name": "@packages/megalinter-config",
+  "version": "1.0.0",
+  "private": true,
+  "description": "shared megalinter configuration",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "files": [
+    ".devskim.json",
+    ".secretlintrc.js",
+    ".grype.yaml",
+    ".checkov.yml"
+  ]
+}

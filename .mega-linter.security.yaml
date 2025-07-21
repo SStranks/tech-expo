@@ -1,0 +1,24 @@
+# MegaLinter: Security
+# See all available variables at https://megalinter.io/configuration/ and in linters documentation
+---
+ENABLE:
+  - REPOSITORY
+DISABLE_LINTERS:
+  - REPOSITORY_TRIVY
+  - REPOSITORY_TRIVY_SBOM
+  - REPOSITORY_GRYPE
+
+EXCLUDED_DIRECTORIES: ['node_modules', 'megalinter-reports', 'dist', 'build', 'public', 'private']
+FILTER_REGEX_EXCLUDE: '(pnpm-lock.yaml|pnpm-workspace.yaml)'
+
+REPOSITORY_CHECKOV_CONFIG_FILE: 'packages/megalinter-config/.checkov.yml'
+REPOSITORY_DEVSKIM_CONFIG_FILE: 'packages/megalinter-config/.devskim.json'
+REPOSITORY_GRYPE_CONFIG_FILE: 'packages/megalinter-config/.grype.yaml'
+REPOSITORY_KICS_ARGUMENTS: '--disable-full-descriptions'
+REPOSITORY_SECRETLINT_CONFIG_FILE: 'packages/megalinter-config/.secretlintrc.js'
+
+CLEAR_REPORT_FOLDER: true
+FLAVOR_SUGGESTIONS: false
+MARKDOWN_SUMMARY_REPORTER: true
+PRINT_ALL_FILES: false
+SHOW_ELAPSED_TIME: true

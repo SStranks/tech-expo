@@ -1,0 +1,13 @@
+{
+  "Globs": [
+    "**/.git/**",
+    "**/node_modules/**",
+    "**/megalinter-reports/**",
+    "**/pnpm-lock.yaml",
+    "**/*.lock",
+    "**/*.json",
+    "**/*.svg",
+    "**/*.png",
+    "**/*.jpg"
+  ]
+}

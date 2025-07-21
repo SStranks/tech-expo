@@ -1,0 +1,64 @@
+# MegaLinter: Commit
+# See all available variables at https://megalinter.io/configuration/ and in linters documentation
+---
+ENABLE:
+  - BASH
+  - DOCKERFILE
+  - EDITORCONFIG
+  - ENV
+  - HTML
+  - JAVASCRIPT
+  - JSON
+  - TSX
+  - MARKDOWN
+  - STYLELINT
+  - TYPESCRIPT
+  - YAML
+DISABLE_LINTERS:
+  - JAVASCRIPT_STANDARD
+  - TYPESCRIPT_STANDARD
+
+EXCLUDED_DIRECTORIES: ['node_modules', 'megalinter-reports', 'dist', 'build', 'public', 'private']
+FILTER_REGEX_EXCLUDE: '(pnpm-lock.yaml|pnpm-workspace.yaml)'
+
+BASH_SHELLCHECK_ARGUMENTS: '-S warning'
+BASH_SHFMT_ARGUMENTS: '--case-indent --indent 2 --space-redirects --language-dialect bash'
+
+CSS_STYLELINT_CONFIG_FILE: 'stylelint.config.js'
+
+JAVASCRIPT_DEFAULT_STYLE: 'prettier'
+JAVASCRIPT_ES_CLI_EXECUTABLE: ['node_modules/.bin/eslint']
+JAVASCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
+  - --no-eslintrc
+  - -c
+  - /tmp/lint/eslint.config.js
+  - --no-ignore
+JAVASCRIPT_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
+JAVASCRIPT_ES_CONFIG_FILE: 'eslint.config.js'
+
+JSON_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
+
+TYPESCRIPT_DEFAULT_STYLE: 'prettier'
+TYPESCRIPT_ES_CLI_EXECUTABLE: ['node_modules/.bin/eslint']
+TYPESCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
+  - --no-eslintrc
+  - -c
+  - /tmp/lint/eslint.config.js
+  - --no-ignore
+TYPESCRIPT_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
+TYPESCRIPT_ES_CONFIG_FILE: 'eslint.config.js'
+
+TSX_ES_CLI_EXECUTABLE: ['node_modules/.bin/eslint']
+TSX_ES_COMMAND_REMOVE_ARGUMENTS:
+  - --no-eslintrc
+  - -c
+  - /tmp/lint/eslint.config.js
+  - --no-ignore
+TSX_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
+TSX_ES_CONFIG_FILE: 'eslint.config.js'
+
+CLEAR_REPORT_FOLDER: true
+FLAVOR_SUGGESTIONS: false
+MARKDOWN_SUMMARY_REPORTER: true
+PRINT_ALL_FILES: false
+SHOW_ELAPSED_TIME: true
