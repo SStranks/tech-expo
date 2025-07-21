@@ -1,6 +1,6 @@
-﻿companyName,companySize,totalRevenue,industry,businessType,country,website
-CodeCrafters,MEDIUM,13443863,Software Development,B2B,DK,https://codecrafters.com
+﻿name,size,totalRevenue,industry,businessType,country,website
 BinaryForge,LARGE,55274435,Software Development,B2C,HK,https://binaryforge.com
+CodeCrafters,MEDIUM,13443863,Software Development,B2B,DK,https://codecrafters.com
 NextGenSoftworks,MEDIUM,39781934,Software Development,B2B,DE,https://nextgensoftworks.com
 PixelLogic,MEDIUM,5367836,Software Development,B2C,SG,https://pixellogic.com
 DevNexus,MICRO,447161,Software Development,B2C,NL,https://devnexus.com
