@@ -17,6 +17,13 @@ until psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" -c '\q' 2>
   sleep 1
 done
 
+### --------------- Create Drizzle Schema  --------------- ###
+echo "*** Postgres Initialization: Create drizzle schema ***"
+psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" <<-EOSQL
+  CREATE SCHEMA IF NOT EXISTS drizzle;
+EOSQL
+
+
 ### --------------- Create database users  --------------- ###
 
 echo "*** Postgres Initialization: Create service user ***"
@@ -37,14 +44,19 @@ echo "*** Postgres Initialization: Amend service user permissions ***"
 psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" <<-EOSQL
   GRANT USAGE ON SCHEMA public TO $USER_SERVICE;
   GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO $USER_SERVICE;
+  GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO $USER_SERVICE;
+  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $USER_SERVICE;
   ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO $USER_SERVICE;
 EOSQL
 
 echo "*** Postgres Initialization: Amend migrator user permissions ***"
 psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" <<-EOSQL
+  GRANT USAGE, CREATE ON SCHEMA drizzle TO $USER_MIGRATOR;
   GRANT USAGE, CREATE ON SCHEMA public TO $USER_MIGRATOR;
   GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO $USER_MIGRATOR;
   GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO $USER_MIGRATOR;
+  GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO $USER_MIGRATOR;
+  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON FUNCTIONS TO $USER_MIGRATOR;
   ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO $USER_MIGRATOR;
   ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO $USER_MIGRATOR;
 EOSQL
