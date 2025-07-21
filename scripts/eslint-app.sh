@@ -1,0 +1,32 @@
+#!/bin/env bash
+set -euo pipefail
+
+# -----------------------------------------------------------------------------
+# Script: eslint-app
+# Description: Runs eslint on a specific app folder in the monorepo,
+#              using the .eslint.config.js configuration file.
+# Usage: Root package.json: pnpm eslint:app <relative-path-to-app>
+# Example: pnpm -w eslint:app apps/crm/server
+# -----------------------------------------------------------------------------
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && readonly SCRIPT_DIR
+# shellcheck source=/dev/null
+source "$SCRIPT_DIR/dir-paths.sh"
+check_dirpath_vars || exit 1
+
+readonly TARGET_DIR_PATH="$1"
+readonly FULL_PATH="$ROOT_DIR_PATH/$TARGET_DIR_PATH"
+TIMESTAMP=$(date +%Y%m%d-%H%M%S) && readonly TIMESTAMP
+
+
+if [ -z "$TARGET_DIR_PATH" ]; then
+  echo "[SCRIPT: eslint-app] Usage: eslint-app.sh <relative-path-to-app>"
+  exit 1
+fi
+
+if [ ! -e "$FULL_PATH" ]; then
+  echo "[SCRIPT: eslint-app] Error: Path '$FULL_PATH' does not exist"
+  exit 1
+fi
+
+eslint --format html --output-file "$LOGS_DIR_PATH/eslint/$TARGET_DIR_PATH.$TIMESTAMP.html" "$FULL_PATH"
