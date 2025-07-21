@@ -50,7 +50,9 @@ services:
       - postgres_pepper
       - postgres_database
       - redis_password
+    user: 'node'
     entrypoint: ['/usr/local/bin/node-express-init.sh']
+    profiles: ['dev', 'node-api']
 
   # DB: Mongo
   mongo:
@@ -83,9 +85,9 @@ services:
       - mongo_user_service
       - mongo_password_root
       - mongo_password_service
-    profiles: [mongo]
     entrypoint: ['/usr/local/bin/docker-entrypoint.sh']
     command: ['mongod', '--auth', '--quiet']
+    profiles: ['dev', 'mongo']
 
   # DB: Mongo Express
   mongo-express:
@@ -127,8 +129,8 @@ services:
       - mongo_user_root
       - mongo_password_root
       - mongo_database
-    profiles: [mongo]
     entrypoint: ['/usr/local/bin/mongo-express-init.sh']
+    profiles: ['dev', 'mongo']
 
   # DB: Postgres
   postgres:
@@ -163,7 +165,41 @@ services:
       - postgres_password_migrator
       - postgres_password_service
       - postgres_database
-    profiles: [postgres]
+    profiles: ['dev', 'postgres', 'postgres-seeder']
+
+  postgres-seeder:
+    container_name: ${POSTGRES_SEEDER_CONTAINER}
+    image: node:22-alpine3.22
+    working_dir: /app/server
+    ports:
+      - ${NODE_LOCAL_PORT:?error}:${NODE_DOCKER_PORT:?error}
+      - '9230:9230'
+    volumes:
+      - ../server:/app/server:ro
+      - ../../../node_modules:/node_modules:ro
+      - ./postgres-seeder-init.sh:/usr/local/bin/postgres-seeder-init.sh:ro
+    networks:
+      - crm-backend
+    environment:
+      POSTGRES_HOST: ${POSTGRES_CONTAINER}
+    env_file:
+      - ../server/.env.dev
+      - ./.env.dev
+    depends_on:
+      postgres:
+        condition: 'service_healthy'
+    security_opt:
+      - no-new-privileges
+    secrets:
+      - postgres_user_migrator
+      - postgres_password_migrator
+      - postgres_database
+      - postgres_pepper
+      - demo_acc_generic_non_user_password
+    stdin_open: true
+    tty: true
+    entrypoint: ['/usr/local/bin/postgres-seeder-init.sh']
+    profiles: ['postgres-seeder']
 
   redis:
     container_name: ${REDIS_CONTAINER}
@@ -186,8 +222,8 @@ services:
       - crm-backend
     secrets:
       - redis_password
-    profiles: [redis]
     entrypoint: ['/usr/local/bin/redis-init.sh']
+    profiles: ['dev', 'redis']
 
   redisinsight:
     container_name: ${REDISINSIGHT_CONTAINER}
@@ -206,7 +242,7 @@ services:
       - ./redisinsight-healthcheck.sh:/usr/local/bin/redisinsight-healthcheck.sh:ro
     networks:
       - crm-backend
-    profiles: [redis]
+    profiles: ['dev', 'redis']
 
 volumes:
   volume-mongo:
