@@ -4,7 +4,7 @@ import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { boolean, pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { nanoid } from 'nanoid';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 import {
   KanbanStagesTable,

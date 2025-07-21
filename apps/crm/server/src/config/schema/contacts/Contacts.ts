@@ -3,7 +3,7 @@ import type { UUID } from 'node:crypto';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 import { CompaniesTable, ContactsNotesTable, PipelineDealsTable, QuotesTable, TimeZoneTable } from '../index.js';
 

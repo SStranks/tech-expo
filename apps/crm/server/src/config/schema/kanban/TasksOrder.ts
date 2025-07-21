@@ -3,7 +3,7 @@ import type { UUID } from 'node:crypto';
 import { InferInsertModel, InferSelectModel, relations, sql } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 import KanbanTable from './Kanban.js';
 import KanbanStagesTable from './Stages.js';
