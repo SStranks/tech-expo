@@ -30,7 +30,7 @@ const PIPELINE_DEAL_STAGES = ['unassigned', 'won', 'lost', 'new', 'follow-up', '
 const getPrimaryCompany = async (db: TPostgresDB) => {
   return await db.query.CompaniesTable.findFirst({
     columns: { id: true },
-    where: eq(CompaniesTable.companyName, COMPANY_NAME),
+    where: eq(CompaniesTable.name, COMPANY_NAME),
   });
 };
 

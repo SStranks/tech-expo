@@ -33,7 +33,7 @@ const {
 export default async function seedCalendar(db: TPostgresDB) {
   const primaryCompany = await db.query.CompaniesTable.findFirst({
     columns: { id: true },
-    where: eq(CompaniesTable.companyName, COMPANY_NAME),
+    where: eq(CompaniesTable.name, COMPANY_NAME),
   });
   if (!primaryCompany) throw new Error(`Error: Could not source ${COMPANY_NAME} from company table`);
 

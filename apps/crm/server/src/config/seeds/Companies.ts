@@ -8,7 +8,7 @@ import path from 'node:path';
 import url from 'node:url';
 
 const CUR_PATH = path.dirname(url.fileURLToPath(import.meta.url));
-const COMPANIES_CSV = path.resolve(CUR_PATH, '../../data/TechCompanies_1.1.csv');
+const COMPANIES_CSV = path.resolve(CUR_PATH, '../../data/TechCompanies_1.2.csv');
 
 export default async function seedCompanies(db: TPostgresDB) {
   // ----------- COMPANIES TABLE ----------- //

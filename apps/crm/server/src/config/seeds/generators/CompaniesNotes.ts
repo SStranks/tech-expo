@@ -16,7 +16,7 @@ export function generateCompaniesNotes(
   allUsers: TSeedCompaniesNotesAllUsers[]
 ) {
   const returnCompaniesNotes: TCompaniesNotesTableInsert[] = [];
-  const { companyName, industry } = company;
+  const { industry, name } = company;
 
   // Pick a random chain-notes array and userIDs for each comment
   const randChainNotesArray = [...faker.helpers.arrayElement(CHAIN_NOTES)];
@@ -31,7 +31,7 @@ export function generateCompaniesNotes(
 
   for (let [i, { comment }] of randChainNotesArray.entries()) {
     const userName = userIds[i - 1]?.firstName;
-    comment = replaceCommentPlaceholders(comment, { companyName, industry, userName });
+    comment = replaceCommentPlaceholders(comment, { companyName: name, industry, userName });
 
     const companyNote: TCompaniesNotesTableInsert = {
       company: company.id,

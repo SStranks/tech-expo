@@ -4,7 +4,7 @@ import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { nanoid } from 'nanoid';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
 import { CompaniesTable, ContactsTable, PipelineStagesTable, UserProfileTable } from '../index.js';
 

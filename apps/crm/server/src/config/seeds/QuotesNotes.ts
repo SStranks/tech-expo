@@ -10,7 +10,7 @@ export type TSeedQuoteNotesQuotes = Awaited<ReturnType<typeof getQuotes>>[number
 const getQuotes = async (db: TPostgresDB) => {
   return await db.query.QuotesTable.findMany({
     columns: { id: true, dueAt: true, preparedBy: true },
-    with: { company: { columns: { companyName: true } }, preparedFor: { columns: { firstName: true } } },
+    with: { company: { columns: { name: true } }, preparedFor: { columns: { firstName: true } } },
   });
 };
 

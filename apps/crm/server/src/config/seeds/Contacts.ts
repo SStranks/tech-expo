@@ -25,14 +25,14 @@ const getCompanies = async (db: TPostgresDB) => {
   return await db
     .selectDistinctOn([CompaniesTable.id], {
       id: CompaniesTable.id,
-      companyName: CompaniesTable.companyName,
+      companyName: CompaniesTable.name,
       countryAlpha2: CountriesTable.alpha2Code,
       industry: CompaniesTable.industry,
       timezone: TimeZoneTable.id,
       website: CompaniesTable.website,
     })
     .from(CompaniesTable)
-    .where(ne(CompaniesTable.companyName, COMPANY_NAME))
+    .where(ne(CompaniesTable.name, COMPANY_NAME))
     .leftJoin(CountriesTable, eq(CountriesTable.id, CompaniesTable.country))
     .leftJoin(TimeZoneTable, eq(TimeZoneTable.countryId, CountriesTable.id));
 };

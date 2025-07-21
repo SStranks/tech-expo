@@ -20,7 +20,7 @@ export function generateQuoteNote(quote: TSeedQuoteNotesQuotes) {
 
   const informalNote = faker.helpers
     .arrayElement(QuotesNotes.informal_notes)
-    .replaceAll('{COMPANY_NAME}', quote.company.companyName)
+    .replaceAll('{COMPANY_NAME}', quote.company.name)
     .replaceAll('{USER_NAME}', quote.preparedFor.firstName)
     .replaceAll('{DUE_DATE}', quote.dueAt?.toLocaleDateString() ?? '{DUE_DATE}');
 

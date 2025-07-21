@@ -13,7 +13,7 @@ const getAllContacts = async (db: TPostgresDB) => {
     columns: { id: true, firstName: true, lastName: true, stage: true },
     with: {
       company: {
-        columns: { companyName: true, industry: true },
+        columns: { name: true, industry: true },
       },
     },
   });

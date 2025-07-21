@@ -38,7 +38,7 @@ const KANBAN_TASKS_STAGES = ['unassigned', 'todo', 'in progress', 'in review', '
 const getPrimaryCompany = async (db: TPostgresDB) => {
   return await db.query.CompaniesTable.findFirst({
     columns: { id: true },
-    where: eq(CompaniesTable.companyName, COMPANY_NAME),
+    where: eq(CompaniesTable.name, COMPANY_NAME),
   });
 };
 

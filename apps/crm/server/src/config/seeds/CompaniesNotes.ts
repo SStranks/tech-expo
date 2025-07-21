@@ -8,7 +8,7 @@ import { generateCompaniesNotes } from './generators/CompaniesNotes.js';
 
 const { COMPANY_NAME } = seedSettings;
 
-export type TCompaniesQueryCompaniesNotes = Pick<TCompaniesTableSelect, 'id' | 'companyName' | 'industry'>;
+export type TCompaniesQueryCompaniesNotes = Pick<TCompaniesTableSelect, 'id' | 'name' | 'industry'>;
 export type TSeedCompaniesNotesAllUsers = Awaited<ReturnType<typeof getAllUsers>>[number];
 
 const getAllUsers = async (db: TPostgresDB) => {
@@ -17,8 +17,8 @@ const getAllUsers = async (db: TPostgresDB) => {
 
 export default async function seedCompaniesNotes(db: TPostgresDB) {
   const allCompanies = await db.query.CompaniesTable.findMany({
-    columns: { id: true, companyName: true, industry: true },
-    where: (companies, { ne }) => ne(companies.companyName, COMPANY_NAME),
+    columns: { id: true, name: true, industry: true },
+    where: (companies, { ne }) => ne(companies.name, COMPANY_NAME),
   });
   if (!allCompanies) throw new Error('Users table returned no entries');
 

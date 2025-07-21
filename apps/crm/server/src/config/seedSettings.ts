@@ -6,7 +6,7 @@ export const seedSettings = {
   COMPANY_CONTACTS_MAX: 6,
   COMPANY_CONTACTS_MIN: 2,
   COMPANY_EMAIL_DOMAIN: 'binaryforge.com',
-  COMPANY_NAME: 'BinaryForge Corporation',
+  COMPANY_NAME: 'BinaryForge',
   COMPANY_QUOTES_MAX: 3,
   COMPANY_QUOTES_MIN: 0,
   CONTACTS_ENTRY_COUNT: 500,

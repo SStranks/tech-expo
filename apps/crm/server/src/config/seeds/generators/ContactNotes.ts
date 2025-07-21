@@ -14,15 +14,15 @@ const { chain_notes: CHAIN_NOTES, non_chain_notes: NON_CHAIN_NOTES } = ContactsN
 
 // For the current 'contact stage' (key), appropriate previous 'contact stage' (value)
 const CHAIN_NOTES_MAP = {
-  new: 'new',
-  contacted: 'new',
-  interested: 'contacted',
-  unqualified: 'interested',
-  qualified: 'interested',
-  negotiation: 'qualified',
-  lost: 'negotiation',
-  won: 'negotiation',
-  churned: 'lost',
+  NEW: 'new',
+  CONTACTED: 'new',
+  INTERESTED: 'contacted',
+  UNQUALIFIED: 'interested',
+  QUALIFIED: 'interested',
+  NEGOTIATION: 'qualified',
+  LOST: 'negotiation',
+  WON: 'negotiation',
+  CHURNED: 'lost',
 } as const;
 
 // Take chain-notes from previous stage and push on a non-chain-note from current stage.
@@ -42,7 +42,8 @@ export function generateContactNotes(
   const randChainNotesArray = [...faker.helpers.arrayElement(allChainNotesFromStage)];
 
   // Push additional non-chain note from the appropriate industry for the current 'contact stage'
-  const finalComment = NON_CHAIN_NOTES[industry as keyof typeof NON_CHAIN_NOTES][stage];
+  const finalComment =
+    NON_CHAIN_NOTES[industry as keyof typeof NON_CHAIN_NOTES][stage.toLowerCase() as Lowercase<typeof stage>];
   const totalComments = randChainNotesArray.push({ comment: finalComment });
 
   // Gather random users and randomize dates for the comments 'createdAt'
@@ -50,7 +51,7 @@ export function generateContactNotes(
   const commentsCreatedAt = generateCommentDates(totalComments);
 
   for (let [i, { comment }] of randChainNotesArray.entries()) {
-    const companyName = contact.company.companyName;
+    const companyName = contact.company.name;
     const contactName = contact.firstName;
     const userName = users[i - 1]?.firstName;
     comment = replaceCommentPlaceholders(comment, { companyName, contactName, industry, userName });
