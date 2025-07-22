@@ -9,7 +9,7 @@
   },
   "license": "ISC",
   "type": "module",
-  "packageManager": "pnpm@10.12.1",
+  "packageManager": "pnpm@10.13.1",
   "engines": {
     "node": ">=20.18.0",
     "pnpm": ">=10"
@@ -66,7 +66,6 @@
     "graphql-config": "^5.1.5",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
-    "mega-linter-runner": "^8.8.0",
     "prettier": "^3.6.2",
     "secretlint": "^10.2.0",
     "stylelint": "^16.22.0",
