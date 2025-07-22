@@ -36,6 +36,7 @@
     "megalint:repo:security": "bash scripts/megalint-security.sh",
     "prepare": "husky",
     "secretlint:app": "bash scripts/secretlint-app.sh",
+    "stylelint:app": "bash scripts/stylelint-app.sh",
     "test:client": "pnpm --filter './apps/**/+(client|frontend)' jest:test",
     "test:server": "pnpm --filter './apps/**/+(server|backend)' node:test"
   },
