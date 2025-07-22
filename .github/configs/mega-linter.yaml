@@ -4,7 +4,6 @@
 # APPLY_FIXES: all
 ENABLE:
   - ENV
-  - GRAPHQL
   - HTML
   - JSON
   - MARKDOWN
@@ -19,14 +18,19 @@ DISABLE_LINTERS:
   - REPOSITORY_TRIVY
   - REPOSITORY_KICS
   - REPOSITORY_DEVSKIM
-PRINT_ALL_FILES: false
-FILTER_REGEX_EXCLUDE: '(pnpm-lock.yaml|node_modules/|megalinter-reports/)'
+
+EXCLUDED_DIRECTORIES: ['node_modules', 'megalinter-reports', 'dist', 'build', 'public', 'private', 'generated']
+FILTER_REGEX_EXCLUDE: '(pnpm-lock.yaml|pnpm-workspace.yaml)'
+
+# GRAPHQL_SCHEMA_LINTER_ARGUMENTS: '--config graphql.config.ts'
 HTML_FILTER_REGEX_EXCLUDE: '(cypress/|nodemailer/templates/|bundle-stats.html)'
-JSON_PRETTIER_CONFIG_FILE: './packages/prettier-config/prettier.config.js'
-REPOSITORY_SECRETLINT_CONFIG_FILE: './secretlintrc.js'
-SHOW_ELAPSED_TIME: true
-FLAVOR_SUGGESTIONS: false
+JSON_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
+REPOSITORY_SECRETLINT_CONFIG_FILE: 'packages/megalinter-config/.secretlintrc.js'
+
 EMAIL_REPORTER: false
 FILEIO_REPORTER: false
-JSON_REPORTER: true
+FLAVOR_SUGGESTIONS: false
 GITHUB_STATUS_REPORTER: false
+JSON_REPORTER: true
+PRINT_ALL_FILES: false
+SHOW_ELAPSED_TIME: true

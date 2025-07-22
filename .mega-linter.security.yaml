@@ -8,7 +8,7 @@ DISABLE_LINTERS:
   - REPOSITORY_TRIVY_SBOM
   - REPOSITORY_GRYPE
 
-EXCLUDED_DIRECTORIES: ['node_modules', 'megalinter-reports', 'dist', 'build', 'public', 'private']
+EXCLUDED_DIRECTORIES: ['node_modules', 'megalinter-reports', 'dist', 'build', 'public', 'private', 'generated']
 FILTER_REGEX_EXCLUDE: '(pnpm-lock.yaml|pnpm-workspace.yaml)'
 
 REPOSITORY_CHECKOV_CONFIG_FILE: 'packages/megalinter-config/.checkov.yml'
