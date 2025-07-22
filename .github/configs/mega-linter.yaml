@@ -25,7 +25,8 @@ FILTER_REGEX_EXCLUDE: '(pnpm-lock.yaml|pnpm-workspace.yaml)'
 # GRAPHQL_SCHEMA_LINTER_ARGUMENTS: '--config graphql.config.ts'
 HTML_FILTER_REGEX_EXCLUDE: '(cypress/|nodemailer/templates/|bundle-stats.html)'
 JSON_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
-REPOSITORY_SECRETLINT_CONFIG_FILE: 'packages/megalinter-config/.secretlintrc.js'
+REPOSITORY_SECRETLINT_CONFIG_FILE: '.secretlintrc.js'
+REPOSITORY_SECRETLINT_RULES_PATH: 'packages/megalinter-config'
 
 EMAIL_REPORTER: false
 FILEIO_REPORTER: false
