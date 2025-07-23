@@ -16,6 +16,7 @@ REPOSITORY_DEVSKIM_CONFIG_FILE: 'packages/megalinter-config/.devskim.json'
 REPOSITORY_GRYPE_CONFIG_FILE: 'packages/megalinter-config/.grype.yaml'
 REPOSITORY_KICS_ARGUMENTS: '--disable-full-descriptions'
 REPOSITORY_SECRETLINT_CONFIG_FILE: 'packages/megalinter-config/.secretlintrc.js'
+REPOSITORY_TRUFFLEHOG_ARGUMENTS: '--exclude-paths=packages/megalinter-config/trufflehog_exclude.txt'
 
 CLEAR_REPORT_FOLDER: true
 FLAVOR_SUGGESTIONS: false
