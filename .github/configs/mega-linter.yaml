@@ -11,20 +11,20 @@ ENABLE:
   - ACTION
   - REPOSITORY
 DISABLE_LINTERS:
-  - JSON_JSONLINT
-  - JSON_ESLINT_PLUGIN_JSONC
-  - REPOSITORY_CHECKOV
   - REPOSITORY_GRYPE
   - REPOSITORY_TRIVY
-  - REPOSITORY_KICS
-  - REPOSITORY_DEVSKIM
+  - REPOSITORY_TRIVY_SBOM
 
 EXCLUDED_DIRECTORIES: ['node_modules', 'megalinter-reports', 'dist', 'build', 'public', 'private', 'generated']
 FILTER_REGEX_EXCLUDE: '(pnpm-lock.yaml|pnpm-workspace.yaml)'
+HTML_FILTER_REGEX_EXCLUDE: '(cypress/|nodemailer/templates/|bundle-stats.html)'
+JSON_FILTER_REGEX_EXCLUDE: '/migrations/meta/'
 
 # GRAPHQL_SCHEMA_LINTER_ARGUMENTS: '--config graphql.config.ts'
-HTML_FILTER_REGEX_EXCLUDE: '(cypress/|nodemailer/templates/|bundle-stats.html)'
 JSON_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
+REPOSITORY_CHECKOV_CONFIG_FILE: 'packages/megalinter-config/.checkov.yml'
+REPOSITORY_DEVSKIM_CONFIG_FILE: 'packages/megalinter-config/.devskim.json'
+REPOSITORY_KICS_ARGUMENTS: '--disable-full-descriptions'
 REPOSITORY_SECRETLINT_CONFIG_FILE: 'packages/megalinter-config/.secretlintrc.js'
 REPOSITORY_TRUFFLEHOG_ARGUMENTS: '--exclude-paths=packages/megalinter-config/trufflehog_exclude.txt'
 

@@ -67,3 +67,4 @@ jobs:
           path: |
             megalinter-reports
             mega-linter.log
+          retention-days: 1

@@ -15,7 +15,7 @@ source "$SCRIPT_DIR/dir-paths.sh"
 check_dirpath_vars || exit 1
 
 readonly TARGET_DIR="$1"
-readonly FULL_PATH="$ROOT_DIR/$TARGET_DIR"
+readonly FULL_PATH="$ROOT_DIR_PATH/$TARGET_DIR"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S) && readonly TIMESTAMP
 
 
@@ -32,6 +32,6 @@ fi
 docker run --rm \
   -e MEGALINTER_CONFIG="/tmp/lint/.mega-linter.lint.yaml" \
   -e REPORT_OUTPUT_FOLDER="/tmp/lint/logs/megalinter/${TARGET_DIR}_${TIMESTAMP}" \
-  -v "$ROOT_DIR":/tmp/lint \
+  -v "$ROOT_DIR_PATH":/tmp/lint \
   -w "/tmp/lint/$TARGET_DIR" \
   oxsecurity/megalinter:v8
