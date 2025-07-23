@@ -21,6 +21,7 @@ HTML_FILTER_REGEX_EXCLUDE: '(cypress/|nodemailer/templates/|bundle-stats.html)'
 JSON_FILTER_REGEX_EXCLUDE: '/migrations/meta/'
 
 # GRAPHQL_SCHEMA_LINTER_ARGUMENTS: '--config graphql.config.ts'
+JSON_JSONLINT_ARGUMENTS: '--comments'
 JSON_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
 REPOSITORY_CHECKOV_CONFIG_FILE: 'packages/megalinter-config/.checkov.yml'
 REPOSITORY_DEVSKIM_CONFIG_FILE: 'packages/megalinter-config/.devskim.json'

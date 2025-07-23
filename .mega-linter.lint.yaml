@@ -36,6 +36,7 @@ JAVASCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
 JAVASCRIPT_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
 JAVASCRIPT_ES_CONFIG_FILE: 'eslint.config.js'
 
+JSON_JSONLINT_ARGUMENTS: '--comments'
 JSON_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
 
 TYPESCRIPT_DEFAULT_STYLE: 'prettier'
