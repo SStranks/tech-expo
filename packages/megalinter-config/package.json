@@ -9,6 +9,7 @@
     ".devskim.json",
     ".secretlintrc.js",
     ".grype.yaml",
-    ".checkov.yml"
+    ".checkov.yml",
+    "trufflehog_exclude.txt"
   ]
 }
