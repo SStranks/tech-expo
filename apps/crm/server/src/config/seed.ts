@@ -1,10 +1,28 @@
 import { reset } from 'drizzle-seed';
+import { z, ZodError } from 'zod';
 
 import { postgresClient, postgresDB } from './dbPostgres.js';
 import * as schema from './schema/index.js';
 import * as seeds from './seeds/index.js';
 
-if (process.env.DRIZZLE !== 'seed') throw new Error('DRIZZLE Environment Variable not set');
+const ENV_SCHEMA = z.object({
+  DEMO_ACC_GENERIC_NON_USER_PASSWORD: z.string().min(1),
+  DRIZZLE: z.literal('seed'),
+  POSTGRES_DATABASE: z.string().min(1),
+  POSTGRES_HOST: z.string().min(1),
+  POSTGRES_LOCAL_PORT: z.string().min(1),
+  POSTGRES_PASSWORD: z.string().min(1),
+  POSTGRES_PEPPER: z.string().min(1),
+  POSTGRES_USER: z.string().min(1),
+});
+
+try {
+  ENV_SCHEMA.parse(process.env);
+} catch (error) {
+  if (error instanceof ZodError) {
+    console.log('ENVIRONMENTAL VARIABLES', error);
+  }
+}
 
 const resetDB = async () => {
   console.log('Clearing Database...');
