@@ -1,5 +1,6 @@
 /* eslint-disable perfectionist/sort-objects */
 import RecommendedEslint from '@eslint/js';
+import PluginStylistic from '@stylistic/eslint-plugin';
 import PluginTypescriptEslint from '@typescript-eslint/eslint-plugin';
 import ParserTypescriptEslint from '@typescript-eslint/parser';
 import PluginImport from 'eslint-plugin-import';
@@ -26,6 +27,7 @@ export const EslintConfig = {
     },
   },
   plugins: {
+    '@stylistic': PluginStylistic,
     '@typescript-eslint': PluginTypescriptEslint,
     unicorn: PluginUnicorn,
     prettier: PluginPrettier,
@@ -35,10 +37,10 @@ export const EslintConfig = {
   },
   rules: {
     ...RecommendedEslint.configs.recommended.rules,
+    ...PluginStylistic.configs.recommended.rules,
     ...PluginUnicorn.configs.recommended.rules,
     ...PluginRegexp.configs.recommended.rules,
     ...PluginImport.flatConfigs.recommended.rules,
-    // ...PluginPerfectionist.configs['recommended-line-length'].rules,
     'arrow-body-style': 'off',
     'no-unused-vars': 'off',
     'no-undef': 'off',
@@ -47,6 +49,7 @@ export const EslintConfig = {
     'no-use-before-define': 'off',
     'import/no-unresolved': 'error',
     'prettier/prettier': ['error'],
+    '@stylistic/multiline-comment-style': ['error', 'starred-block'],
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-use-before-define': 'error',
     '@typescript-eslint/no-var-requires': 'off',

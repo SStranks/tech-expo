@@ -17,8 +17,7 @@ import { StatsWriterPlugin } from 'webpack-stats-plugin';
 import path from 'node:path';
 import zlib from 'node:zlib';
 
-import filterWebpackStats2 from './filterWebpackStats.cjs';
-// import url from 'node:url';
+// import filterWebpackStats2 from './filterWebpackStats.cjs';
 import CommonConfig from './webpack.common.js';
 
 const CUR = './';
