@@ -26,6 +26,8 @@ BASH_SHFMT_ARGUMENTS: '--case-indent --indent 2 --space-redirects --language-dia
 
 CSS_STYLELINT_CONFIG_FILE: 'stylelint.config.js'
 
+EDITORCONFIG_EDITORCONFIG_CHECKER_CONFIG_FILE: 'packages/megalinter-config/.editorconfig-checker.json'
+
 JAVASCRIPT_DEFAULT_STYLE: 'prettier'
 JAVASCRIPT_ES_CLI_EXECUTABLE: ['node_modules/.bin/eslint']
 JAVASCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
