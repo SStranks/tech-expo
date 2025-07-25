@@ -65,9 +65,6 @@ export default [
   {
     name: 'CRM: Client; Storybook',
     files: ['apps/crm/client/src/stories/*.stories.[jt]s?(x)'],
-    // languageOptions: {
-    //   parserOptions: { project: ['tsconfig.json'] },
-    // },
     plugins: { ...EslintConfigStorybook.plugins },
     rules: { ...EslintConfigStorybook.rules },
     settings: {
@@ -147,47 +144,10 @@ export default [
     rules: { ...EslintConfigGraphQL.rules.server, 'prettier/prettier': 'error' },
   },
   ConfigPrettier,
+  {
+    name: 'ConfigPrettier Overrides',
+    rules: {
+      '@stylistic/lines-around-comment': ['error', { beforeBlockComment: true }],
+    },
+  },
 ];
-
-// === GENERALIZED CATCHALLS ===
-// {
-//   // Client; src folder. React framework.
-//   files: ['apps/*/+(frontend|client)/src/**/*.[jt]s?(x)'],
-//   languageOptions: { ...EslintConfigReact.languageOptions },
-//   plugins: { ...EslintConfigReact.plugins },
-//   rules: { ...EslintConfigReact.rules },
-//   settings: { ...EslintConfigReact.settings },
-// },
-// {
-//   // Server; src folder. NodeJS Express + Testing (Node)
-//   files: ['apps/*/+(backend|server)/server/**/*.[jt]s'],
-//   languageOptions: { ...EslintConfigExpress.languageOptions },
-//   plugins: { ...EslintConfigExpress.plugins },
-//   rules: { ...EslintConfigExpress.rules },
-//   settings: { ...EslintConfigExpress.settings },
-// },
-// {
-//   // Client; Testing (Jest + RTL)
-//   files: ['apps/*/+(frontend|client)/src/**/?(*.)+(spec|test).[jt]s?(x)'],
-//   languageOptions: { ...EslintConfigReact.languageOptions },
-//   plugins: { ...EslintConfigReact.plugins, ...EslintConfigReactJest.plugins },
-//   rules: { ...EslintConfigReact.rules, ...EslintConfigReactJest.rules },
-//   settings: { ...EslintConfigReact.settings },
-// },
-// {
-//   // Client; Testing (Cypress)
-//   files: ['apps/*/+(frontend|client)/cypress/**/?(*.)+(spec|test).[jt]s'],
-//   languageOptions: { ...EslintConfigCypress.languageOptions },
-//   plugins: { ...EslintConfigCypress.plugins },
-//   rules: { ...EslintConfigCypress.rules },
-//   settings: { ...EslintConfigCypress.settings },
-// },
-// {
-//   // Client; Testing (Storybook)
-//   files: ['apps/*/+(frontend|client)/.storybook/**/?(*.)+(story|stories).[jt]s?(x)'],
-//   // ignores: ['!.storybook', 'storybook-static'],
-//   languageOptions: { ...EslintConfigStorybook.languageOptions },
-//   plugins: { ...EslintConfigStorybook.plugins },
-//   rules: { ...EslintConfigStorybook.rules },
-//   settings: { ...EslintConfigStorybook.settings },
-// },

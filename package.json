@@ -28,6 +28,7 @@
   },
   "prettier": "@packages/prettier-config",
   "scripts": {
+    "commitlint": "commitlint",
     "outdated": "pnpm outdated -r > outdatedPackages.txt",
     "eslint:app": "bash scripts/eslint-app.sh",
     "eslint:repo": "eslint",

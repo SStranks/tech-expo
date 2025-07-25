@@ -6,4 +6,5 @@ onlyBuiltDependencies:
   - argon2
   - core-js
   - cypress
+  - esbuild
   - sharp
