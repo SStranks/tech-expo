@@ -1,5 +1,5 @@
-/* eslint-disable perfectionist/sort-objects */
 // @ts-check
+/* eslint-disable perfectionist/sort-objects */
 import 'webpack-dev-server';
 import CopyPlugin from 'copy-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
@@ -37,7 +37,12 @@ const DevConfig = {
       },
     ],
     historyApiFallback: true,
-    // NOTE:  Can't set 'open' to true; like Create-React-App, there is a bug with accessing the browser/ports from WSL2
+
+    /*
+     * NOTE:
+     * Can't use 'false' - dev-sever uses windows powershell to open browser
+     * Usage: manually open browser at localhost:port
+     */
     open: false,
     hot: true,
     liveReload: true,
@@ -117,9 +122,13 @@ const DevConfig = {
         generator: [
           {
             type: 'asset',
-            implementation: ImageMinimizerPlugin.imageminGenerate,
+            implementation: ImageMinimizerPlugin.sharpGenerate,
             options: {
-              plugins: ['imagemin-webp'],
+              encodeOptions: {
+                webp: {
+                  quality: 90,
+                },
+              },
             },
           },
         ],

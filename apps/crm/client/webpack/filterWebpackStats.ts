@@ -1,5 +1,7 @@
-// NOTE:  Source code modified, from; https://github.com/relative-ci/bundle-stats/blob/master/packages/plugin-webpack-filter/src/index.ts
-
+/*
+ * NOTE:  Source code modified, from:
+ * https://github.com/relative-ci/bundle-stats/blob/master/packages/plugin-webpack-filter/src/index.ts
+ */
 import { StatsCompilation } from 'webpack';
 
 const PATH_IGNORE_PATTERN = '.map$';
@@ -66,9 +68,11 @@ export default (source: StatsCompilation, options: BundleStatsOptions = {}): Web
         size: asset.size,
       });
 
-      // NOTE:  Modification; extract related assets (compressed assets)
-      // NOTE:  Array.isArray method used; found a bug in webpack source code;
-      // https://github.com/webpack/webpack/issues/18657
+      /*
+       * NOTE:  Modification; extract related assets (compressed assets)
+       * NOTE:  Array.isArray method used; found a bug in webpack source code;
+       * https://github.com/webpack/webpack/issues/18657
+       */
       if (Array.isArray(asset.related)) {
         asset.related?.forEach((asset) => {
           if (!asset.name || pathIgnorePattern.test(asset.name)) return;

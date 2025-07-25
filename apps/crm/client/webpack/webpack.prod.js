@@ -218,6 +218,7 @@ const ProdConfig = {
       },
       threshold: 10240,
       minRatio: 0.7,
+      deleteOriginalAssets: false,
     }),
     new CopyPlugin({
       patterns: [
@@ -247,6 +248,7 @@ const ProdConfig = {
       },
       transform: (/** @type {import('webpack').StatsCompilation} */ webpackStats) => {
         // const filteredSource = filterWebpackStats.default(webpackStats, {});
+
         // @ts-expect-error No type file
         const filteredSource = filterWebpackStats2.default(webpackStats, {});
         return JSON.stringify(filteredSource);

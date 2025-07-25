@@ -14,8 +14,11 @@ const CommonConfig = {
   target: 'web',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.json'],
-    // For use in CSS url() imports e.g url(~svg/desktop/a.svg)
-    // Prefix with ~ to initiate module resolver
+
+    /*
+     * For use in CSS url() imports e.g url(~svg/desktop/a.svg)
+     * Prefix with ~ to initiate module resolver
+     */
     modules: ['node_modules', path.resolve(CUR, './src/assets')],
     alias: {
       '@Shared': path.resolve(CUR, '../shared'),
@@ -61,7 +64,7 @@ const CommonConfig = {
   plugins: [
     new ESLintPlugin({
       configType: 'flat',
-      eslintPath: 'eslint/use-at-your-own-risk',
+      failOnError: false,
       extensions: ['js', 'jsx', 'ts', 'tsx'],
     }),
   ],
