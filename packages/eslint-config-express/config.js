@@ -1,12 +1,9 @@
 /* eslint-disable perfectionist/sort-objects */
 import PluginNode from 'eslint-plugin-n';
-// import PluginImport from 'eslint-plugin-import';
 import PluginSecurity from 'eslint-plugin-security';
 import globals from 'globals';
 
-// NOTE:  PluginImport currently not working with flat-config
-
-export const EslintConfigExpress = {
+const EslintConfigExpress = {
   languageOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
@@ -20,12 +17,10 @@ export const EslintConfigExpress = {
     },
   },
   plugins: {
-    // import: fixupPluginRules(PluginImport),
     n: PluginNode,
     security: PluginSecurity,
   },
   rules: {
-    // ...PluginImport.configs.recommended.rules,
     ...PluginSecurity.configs.recommended.rules,
     ...PluginNode.configs['flat/recommended-module'].rules,
     'arrow-body-style': 'off',
@@ -36,4 +31,4 @@ export const EslintConfigExpress = {
   },
 };
 
-export default [EslintConfigExpress];
+export default EslintConfigExpress;

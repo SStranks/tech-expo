@@ -7,9 +7,8 @@
   "license": "ISC",
   "type": "module",
   "exports": {
-    "./react-18.2": {
-      "default": "./react-18.2/config.js"
-    }
+    "./react-18.2": "./react-18.2/config.js",
+    "./react-18.2/config.js": "./react-18.2/config.js"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.81.2",

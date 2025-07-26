@@ -4,7 +4,7 @@ import PluginReact from 'eslint-plugin-react';
 import PluginReactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 
-export const EslintConfigReact = {
+const EslintConfigReact = {
   languageOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
@@ -53,4 +53,4 @@ export const EslintConfigReact = {
   },
 };
 
-export default [EslintConfigReact];
+export default EslintConfigReact;

@@ -1,67 +1,28 @@
 /* eslint-disable perfectionist/sort-objects */
-import RecommendedEslint from '@eslint/js';
-import PluginStylistic from '@stylistic/eslint-plugin';
-import PluginTypescriptEslint from '@typescript-eslint/eslint-plugin';
-import ParserTypescriptEslint from '@typescript-eslint/parser';
-import PluginImport from 'eslint-plugin-import';
 import PluginPerfectionist from 'eslint-plugin-perfectionist';
 import PluginPrettier from 'eslint-plugin-prettier';
 import PluginRegexp from 'eslint-plugin-regexp';
 import PluginUnicorn from 'eslint-plugin-unicorn';
-import globals from 'globals';
 
 export { default as ConfigPrettier } from 'eslint-config-prettier';
 
-export const EslintConfig = {
-  ...PluginTypescriptEslint.configs.recommended,
-  languageOptions: {
-    ecmaVersion: 2021,
-    sourceType: 'module',
-    globals: {
-      ...globals.es2021,
-    },
-    parser: ParserTypescriptEslint,
-    parserOptions: {
-      requireConfigFile: false,
-      ecmaVersion: 2021,
-    },
-  },
+export const EslintConfigGlobal = {
   plugins: {
-    '@stylistic': PluginStylistic,
-    '@typescript-eslint': PluginTypescriptEslint,
-    unicorn: PluginUnicorn,
+    perfectionist: PluginPerfectionist,
     prettier: PluginPrettier,
     regexp: PluginRegexp,
-    import: PluginImport,
-    perfectionist: PluginPerfectionist,
+    unicorn: PluginUnicorn,
   },
   rules: {
-    ...RecommendedEslint.configs.recommended.rules,
-    ...PluginStylistic.configs.recommended.rules,
     ...PluginUnicorn.configs.recommended.rules,
     ...PluginRegexp.configs.recommended.rules,
-    ...PluginImport.flatConfigs.recommended.rules,
     'arrow-body-style': 'off',
     'no-unused-vars': 'off',
     'no-undef': 'off',
     'no-console': 'off',
     'no-underscore-dangle': 'off',
     'no-use-before-define': 'off',
-    'import/no-unresolved': 'error',
     'prettier/prettier': ['error'],
-    '@stylistic/multiline-comment-style': ['error', 'starred-block'],
-    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-    '@typescript-eslint/no-use-before-define': 'error',
-    '@typescript-eslint/no-var-requires': 'off',
-    '@typescript-eslint/no-require-imports': 'error',
-    '@typescript-eslint/no-restricted-imports': [
-      'warn',
-      {
-        name: 'react-redux',
-        importNames: ['useSelector', 'useDispatch'],
-        message: 'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
-      },
-    ],
     'perfectionist/sort-objects': [
       'error',
       {
@@ -141,14 +102,5 @@ export const EslintConfig = {
       },
     ],
   },
-  settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': ['*.ts', '*.tsx', '*.html'],
-    },
-    'import/resolver': {
-      typescript: {
-        alwaysTryTypes: true,
-      },
-    },
-  },
+  settings: {},
 };

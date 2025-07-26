@@ -1,0 +1,14 @@
+{
+  "name": "@packages/eslint-config-html",
+  "version": "1.0.0",
+  "private": true,
+  "description": "html eslint configuration",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "type": "module",
+  "main": "config.js",
+  "devDependencies": {
+    "@html-eslint/eslint-plugin": "^0.43.1",
+    "@html-eslint/parser": "^0.43.0"
+  }
+}

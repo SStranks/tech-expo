@@ -1,6 +1,6 @@
 import PluginStorybook from 'eslint-plugin-storybook';
 
-export const EslintConfigStorybook = {
+const EslintConfigStorybook = {
   settings: {},
   plugins: {
     storybook: PluginStorybook,
@@ -10,4 +10,4 @@ export const EslintConfigStorybook = {
   },
 };
 
-export default [EslintConfigStorybook];
+export default EslintConfigStorybook;

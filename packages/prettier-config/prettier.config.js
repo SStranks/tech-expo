@@ -16,5 +16,16 @@ export default {
         bracketSpacing: false,
       },
     },
+    {
+      /*
+       * NOTE:
+       * jsonc-eslint-parser; errors for no trailing commas in jsonc
+       * https://github.com/prettier/prettier/issues/15956
+       */
+      files: ['*.jsonc'],
+      options: {
+        trailingComma: 'none',
+      },
+    },
   ],
 };

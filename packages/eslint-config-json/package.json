@@ -1,0 +1,14 @@
+{
+  "name": "@packages/eslint-config-json",
+  "version": "1.0.0",
+  "private": true,
+  "description": "json eslint configuration",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "type": "module",
+  "main": "config.js",
+  "devDependencies": {
+    "eslint-plugin-jsonc": "^2.20.1",
+    "jsonc-eslint-parser": "^2.4.0"
+  }
+}

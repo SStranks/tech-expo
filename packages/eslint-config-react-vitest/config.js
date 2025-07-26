@@ -1,7 +1,7 @@
 import PluginVitest from '@vitest/eslint-plugin';
 import PluginTestingLibrary from 'eslint-plugin-testing-library';
 
-export const EslintConfigReactVitest = {
+const EslintConfigReactVitest = {
   plugins: {
     'testing-library': PluginTestingLibrary,
     vitest: PluginVitest,
@@ -12,4 +12,4 @@ export const EslintConfigReactVitest = {
   },
 };
 
-export default [EslintConfigReactVitest];
+export default EslintConfigReactVitest;

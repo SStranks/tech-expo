@@ -2,7 +2,7 @@
 import PluginGraphQL from '@graphql-eslint/eslint-plugin';
 // https://github.com/dimaMachina/graphql-eslint/blob/master/examples/monorepo/eslint.config.js
 
-export const EslintConfigGraphQL = {
+const EslintConfigGraphQL = {
   processor: PluginGraphQL.processor,
   languageOptions: {
     parser: PluginGraphQL.parser,
@@ -26,4 +26,4 @@ export const EslintConfigGraphQL = {
   },
 };
 
-export default [];
+export default EslintConfigGraphQL;

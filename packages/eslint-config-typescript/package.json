@@ -1,24 +1,18 @@
 {
-  "name": "@packages/eslint-config",
+  "name": "@packages/eslint-config-typescript",
   "version": "1.0.0",
   "private": true,
-  "description": "shared eslint configuration",
+  "description": "typescript eslint configuration",
   "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
   "license": "ISC",
   "type": "module",
   "main": "config.js",
   "devDependencies": {
-    "@eslint/js": "^9.31.0",
     "@stylistic/eslint-plugin": "^5.2.2",
     "@typescript-eslint/eslint-plugin": "^8.37.0",
     "@typescript-eslint/parser": "^8.37.0",
-    "eslint-config-prettier": "^10.1.5",
     "eslint-import-resolver-typescript": "^4.4.3",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-perfectionist": "^4.15.0",
-    "eslint-plugin-prettier": "^5.5.0",
-    "eslint-plugin-regexp": "^2.9.0",
-    "eslint-plugin-unicorn": "^60.0.0",
+    "eslint-plugin-import-x": "^4.16.1",
     "globals": "^16.3.0"
   }
 }

@@ -1,12 +1,16 @@
 /* eslint-disable perfectionist/sort-objects */
-// import { EslintConfigReactJest } from '@packages/eslint-config-react-jest';
-import { ConfigPrettier, EslintConfig } from '@packages/eslint-config';
-import { EslintConfigCypress } from '@packages/eslint-config-cypress';
-import { EslintConfigExpress } from '@packages/eslint-config-express';
-import { EslintConfigGraphQL } from '@packages/eslint-config-graphql';
-import { EslintConfigReactVitest } from '@packages/eslint-config-react-vitest';
-import { EslintConfigReact as EslintConfigReact_18p2 } from '@packages/eslint-config-react/react-18.2';
-import { EslintConfigStorybook } from '@packages/eslint-config-storybook';
+import EslintConfigCypress from '@packages/eslint-config-cypress';
+import EslintConfigExpress from '@packages/eslint-config-express';
+import { ConfigPrettier, EslintConfigGlobal } from '@packages/eslint-config-global';
+import EslintConfigGraphQL from '@packages/eslint-config-graphql';
+import EslintConfigHTML from '@packages/eslint-config-html';
+import EslintConfigJavascript from '@packages/eslint-config-javascript';
+import { EslintConfigJSON, EslintConfigJSON5, EslintConfigJSONC } from '@packages/eslint-config-json';
+import EslintConfigReactVitest from '@packages/eslint-config-react-vitest';
+import EslintConfigReact_18p2 from '@packages/eslint-config-react/react-18.2/config.js';
+import EslintConfigStorybook from '@packages/eslint-config-storybook';
+import EslintConfigTypescript from '@packages/eslint-config-typescript';
+import EslintConfigYAML from '@packages/eslint-config-yaml';
 
 export default [
   {
@@ -27,10 +31,61 @@ export default [
   },
   {
     name: 'Global Configuration',
-    languageOptions: { ...EslintConfig.languageOptions },
-    plugins: { ...EslintConfig.plugins },
-    rules: { ...EslintConfig.rules },
-    settings: { ...EslintConfig.settings },
+    languageOptions: { ...EslintConfigGlobal.languageOptions },
+    plugins: { ...EslintConfigGlobal.plugins },
+    rules: { ...EslintConfigGlobal.rules },
+    settings: { ...EslintConfigGlobal.settings },
+  },
+  {
+    name: 'Javascript Configuration',
+    files: ['**/*.js?(x)'],
+    languageOptions: { ...EslintConfigJavascript.languageOptions },
+    plugins: { ...EslintConfigJavascript.plugins },
+    rules: { ...EslintConfigJavascript.rules },
+    settings: { ...EslintConfigJavascript.settings },
+  },
+  {
+    name: 'Typescript Configuration',
+    files: ['**/*.ts?(x)'],
+    languageOptions: { ...EslintConfigTypescript.languageOptions },
+    plugins: { ...EslintConfigTypescript.plugins },
+    rules: { ...EslintConfigTypescript.rules },
+    settings: { ...EslintConfigTypescript.settings },
+  },
+  {
+    name: 'HTML Configuration',
+    files: ['**/*.html'],
+    languageOptions: { ...EslintConfigHTML.languageOptions },
+    plugins: { ...EslintConfigHTML.plugins },
+    rules: { ...EslintConfigHTML.rules },
+  },
+  {
+    name: 'JSON Configuration',
+    files: ['**/*.json'],
+    languageOptions: { ...EslintConfigJSON.languageOptions },
+    plugins: { ...EslintConfigJSON.plugins },
+    rules: { ...EslintConfigJSON.rules },
+  },
+  {
+    name: 'JSONC Configuration',
+    files: ['**/*.jsonc'],
+    languageOptions: { ...EslintConfigJSONC.languageOptions },
+    plugins: { ...EslintConfigJSONC.plugins },
+    rules: { ...EslintConfigJSONC.rules },
+  },
+  {
+    name: 'JSON5 Configuration',
+    files: ['**/*.json5'],
+    languageOptions: { ...EslintConfigJSON5.languageOptions },
+    plugins: { ...EslintConfigJSON5.plugins },
+    rules: { ...EslintConfigJSON5.rules },
+  },
+  {
+    name: 'YAML Configuration',
+    files: ['**/*.yaml', '**/*.yml'],
+    languageOptions: { ...EslintConfigYAML.languageOptions },
+    plugins: { ...EslintConfigYAML.plugins },
+    rules: { ...EslintConfigYAML.rules },
   },
   // === INDIVIDUAL PROJECTS ===
   {
@@ -144,10 +199,4 @@ export default [
     rules: { ...EslintConfigGraphQL.rules.server, 'prettier/prettier': 'error' },
   },
   ConfigPrettier,
-  {
-    name: 'ConfigPrettier Overrides',
-    rules: {
-      '@stylistic/lines-around-comment': ['error', { beforeBlockComment: true }],
-    },
-  },
 ];
