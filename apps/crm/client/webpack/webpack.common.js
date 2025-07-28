@@ -3,10 +3,8 @@
 import ESLintPlugin from 'eslint-webpack-plugin';
 
 import path from 'node:path';
-// import url from 'node:url';
 
 const CUR = './';
-// const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 
 /** @type { import('webpack').Configuration } */
 const CommonConfig = {
@@ -65,6 +63,9 @@ const CommonConfig = {
     new ESLintPlugin({
       configType: 'flat',
       failOnError: false,
+      failOnWarning: false,
+      emitError: true,
+      emitWarning: true,
       extensions: ['js', 'jsx', 'ts', 'tsx'],
     }),
   ],

@@ -1,5 +1,4 @@
 /* eslint-disable perfectionist/sort-objects */
-// @ts-check
 /* eslint-disable unicorn/numeric-separators-style */
 import CompressionPlugin from 'compression-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
@@ -9,7 +8,6 @@ import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-// import filterWebpackStats from '@bundle-stats/plugin-webpack-filter';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { merge } from 'webpack-merge';
 import { StatsWriterPlugin } from 'webpack-stats-plugin';
@@ -17,11 +15,10 @@ import { StatsWriterPlugin } from 'webpack-stats-plugin';
 import path from 'node:path';
 import zlib from 'node:zlib';
 
-// import filterWebpackStats2 from './filterWebpackStats.cjs';
+import filterWebpackStats from './filter/filterWebpackStats.js';
 import CommonConfig from './webpack.common.js';
 
 const CUR = './';
-// const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 
 /** @type { import('webpack').Configuration } */
 const ProdConfig = {
@@ -193,6 +190,7 @@ const ProdConfig = {
       template: path.resolve(CUR, './src/index-template.html.ejs'),
       favicon: path.resolve(CUR, './src/favicon.ico'),
       templateParameters: {
+        // eslint-disable-next-line no-undef
         PUBLIC_URL: process.env.PUBLIC_URL,
       },
       minify: {
@@ -205,6 +203,7 @@ const ProdConfig = {
       filename: '[path][base].gz',
       algorithm: 'gzip',
       test: /\.(js|css|html|svg)$/,
+      exclude: /bundle-stats\.html/,
       threshold: 10240,
       minRatio: 0.7,
     }),
@@ -212,6 +211,7 @@ const ProdConfig = {
       filename: '[path][base].br',
       algorithm: 'brotliCompress',
       test: /\.(js|css|html|svg)$/,
+      exclude: /bundle-stats\.html/,
       compressionOptions: {
         [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
       },
@@ -239,17 +239,14 @@ const ProdConfig = {
     new Dotenv({ path: path.resolve(CUR, './.env.prod') }),
     new WebpackManifestPlugin({}),
     new StatsWriterPlugin({
-      filename: '../webpack/build-stats.json',
+      filename: '../webpack/stats/build-stats.json',
       stats: {
         assets: true,
         chunks: true,
         modules: true,
       },
       transform: (/** @type {import('webpack').StatsCompilation} */ webpackStats) => {
-        // const filteredSource = filterWebpackStats.default(webpackStats, {});
-
-        // @ts-expect-error No type file
-        const filteredSource = filterWebpackStats2.default(webpackStats, {});
+        const filteredSource = filterWebpackStats(webpackStats);
         return JSON.stringify(filteredSource);
       },
     }),

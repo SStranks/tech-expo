@@ -49,7 +49,7 @@ export interface WebpackStatsFiltered {
 /**
  * Filter webpack stats data
  */
-export default (source: StatsCompilation, options: BundleStatsOptions = {}): WebpackStatsFiltered => {
+const filterWebpackStats = (source: StatsCompilation, options: BundleStatsOptions = {}): WebpackStatsFiltered => {
   const pathIgnorePattern = new RegExp(options.pathIgnorePattern || PATH_IGNORE_PATTERN);
 
   // meta
@@ -89,15 +89,15 @@ export default (source: StatsCompilation, options: BundleStatsOptions = {}): Web
   const chunks =
     source.chunks?.reduce((agg, chunk) => {
       // Skip chunks with empty ids
-      if (typeof chunk.id === 'undefined' || chunk.id === null) {
+      if (chunk.id === undefined || chunk.id === null) {
         return agg;
       }
 
       agg.push({
         id: chunk.id,
         entry: chunk.entry,
-        initial: chunk.initial,
         files: chunk.files,
+        initial: chunk.initial,
         names: chunk.names,
       });
 
@@ -111,8 +111,7 @@ export default (source: StatsCompilation, options: BundleStatsOptions = {}): Web
         return agg;
       }
 
-      const moduleChunks =
-        moduleStats.chunks?.filter((chunkId) => chunkId !== null && typeof chunkId !== 'undefined') || [];
+      const moduleChunks = moduleStats.chunks?.filter((chunkId) => chunkId !== null && chunkId !== undefined) || [];
 
       // Skip modules that do not belong to any chunk
       if (moduleChunks.length === 0) {
@@ -134,8 +133,8 @@ export default (source: StatsCompilation, options: BundleStatsOptions = {}): Web
 
       agg.push({
         name: moduleStats.name,
-        size: moduleStats.size,
         chunks: moduleChunks,
+        size: moduleStats.size,
         ...(concatenatedModules && { modules: concatenatedModules }),
       });
 
@@ -143,10 +142,11 @@ export default (source: StatsCompilation, options: BundleStatsOptions = {}): Web
     }, [] as Array<WebpackStatsFilteredRootModule>) || [];
 
   return {
-    builtAt,
-    hash,
     assets,
+    builtAt,
     chunks,
+    hash,
     modules,
   };
 };
+export default filterWebpackStats;

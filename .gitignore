@@ -16,6 +16,7 @@
 # Logs
 logs/
 **/*.log
+**/webpack/stats/
 
 # Drizzle 
 **/drizzle/migrations
