@@ -10,6 +10,7 @@ export default {
   rules: {
     '@stylistic/string-quotes': 'single',
     '@stylistic/indentation': null,
+    '@stylistic/block-closing-brace-newline-after': ['always', { ignoreAtRules: ['if', 'else'] }],
     '@stylistic/declaration-colon-newline-after': null,
     'comment-empty-line-before': ['always', { ignore: ['after-comment', 'stylelint-commands'] }],
     'declaration-empty-line-before': null,

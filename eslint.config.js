@@ -100,7 +100,7 @@ export default [
     rules: { ...EslintConfigReact_18p2.rules },
     settings: {
       ...EslintConfigReact_18p2.settings,
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
           project: ['apps/crm/client/tsconfig.json'],
@@ -124,7 +124,7 @@ export default [
     rules: { ...EslintConfigStorybook.rules },
     settings: {
       ...EslintConfigStorybook.settings,
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
           project: ['apps/crm/client/tsconfig.json'],
@@ -148,7 +148,7 @@ export default [
     rules: { ...EslintConfigReact_18p2.rules, ...EslintConfigReactVitest.rules },
     settings: {
       ...EslintConfigReact_18p2.settings,
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
           project: ['apps/crm/client/tsconfig.json'],
@@ -176,7 +176,7 @@ export default [
     rules: { ...EslintConfigExpress.rules },
     settings: {
       ...EslintConfigExpress.settings,
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
           project: ['apps/crm/server/tsconfig.json'],
