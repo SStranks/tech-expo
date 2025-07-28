@@ -40,8 +40,8 @@ function ButtonToday(): React.JSX.Element {
       className={styles.calendar__buttonToday}
       aria-label="Todays date"
       onPress={() => {
-        state.setValue(DATE_TODAY);
-        state.close();
+        state?.setValue(DATE_TODAY);
+        state?.close();
       }}>
       Today
     </Button>
@@ -63,7 +63,7 @@ function ButtonYear({ className = undefined, operation }: IButtonYearProps): Rea
       className={`${styles.calendar__buttonYear} ${className}`}
       aria-label={`${operation === 'add' ? 'Next Year' : 'Previous Year'}`}
       onPress={() => {
-        state.setFocusedDate(state.focusedDate[`${operation}`]({ years: 1 }));
+        state?.setFocusedDate(state.focusedDate[`${operation}`]({ years: 1 }));
       }}>
       <IconArrowLeftDoubleAlt mirror={operation === 'add'} svgClass={styles.icon} />
     </Button>
@@ -112,7 +112,7 @@ function InputDatePicker<T extends DateValue>({ description, errorMessage, label
               </Button>
               <ButtonYear operation="add" />
             </header>
-            <CalendarGrid weekdayStyle={'narrow'} className={styles.calendarGrid}>
+            <CalendarGrid weekdayStyle="narrow" className={styles.calendarGrid}>
               <CalendarGridHeader className={styles.calendarGrid__header}>
                 {(day) => <CalendarHeaderCell className={styles.calendarGrid__header__cell}>{day}</CalendarHeaderCell>}
               </CalendarGridHeader>
@@ -120,7 +120,10 @@ function InputDatePicker<T extends DateValue>({ description, errorMessage, label
                 {(date) => (
                   <CalendarCell
                     date={date}
-                    className={`${styles.calendarGrid__cell} ${date.compare(DATE_TODAY) === 0 ? `${styles.calendarGrid__cell__today}` : ''}`}
+                    className={`
+                      ${styles.calendarGrid__cell}
+                      ${date.compare(DATE_TODAY) === 0 ? `${styles.calendarGrid__cell__today}` : ''}
+                    `}
                   />
                 )}
               </CalendarGridBody>

@@ -21,8 +21,11 @@ class ServiceHttp implements IServiceHttp {
     this.ApiServiceClient = apiClient;
   }
 
-  // TODO:  Return user and roles from API as response?
-  // TODO:  'throw errors' - tidy up; graceful error UI required. // NOTE:  Throw is necessary to propagate into redux authSlice.
+  /*
+   * TODO: eturn user and roles from API as response?
+   * TODO: 'throw errors' - tidy up; graceful error UI required.
+   * NOTE: Throw is necessary to propagate into redux authSlice.
+   */
   async accountLogin(body: TBody) {
     try {
       const response = await this.ApiServiceClient.post<TBody>('/api/users/login', body, { withCredentials: true });

@@ -9,7 +9,11 @@ import FormModal from '@Components/modal/FormModal';
 import { FormProvider } from '@Components/react-hook-form';
 import { GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
 
-// TEMP DEV: // TODO:  Need to get dynamic lists: sales owner = users in settings list; quote contact = user from contacts list; company = company from companies list
+/*
+// TEMP DEV: // TODO: .
+  Need to get dynamic lists: sales owner = users in settings list; quote contact = user from contacts list;
+  company = company from companies list
+*/
 const listItems = [{ name: 'Adam' }, { name: 'Bob' }, { name: 'Chuck' }, { name: 'Dave' }];
 
 function QuoteUpdatePage(): React.JSX.Element {

@@ -16,7 +16,10 @@ function usePortalClose(
     const closePortal = (e: KeyboardEvent | MouseEvent) => {
       if (portalContentRef === null || portalContentRef.current === null) return;
 
-      // Abort if an input element or textarea is in focus elsewhere in the document; used in conjunction with 'mousedown' to allow input to be unfocused without triggering eventhandler.
+      /*
+        Abort if an input element or textarea is in focus elsewhere in the document; used in conjunction with
+        'mousedown' to allow input to be unfocused without triggering eventhandler.
+      */
       if (document.activeElement instanceof HTMLInputElement || document.activeElement instanceof HTMLTextAreaElement)
         return;
 

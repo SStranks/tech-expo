@@ -10,6 +10,8 @@ const EslintConfigHTML = {
   },
   rules: {
     ...PluginHTML.configs['flat/recommended'].rules,
+    '@html-eslint/indent': ['error', 2],
+    'prettier/prettier': 'off',
   },
 };
 

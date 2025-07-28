@@ -35,7 +35,7 @@
     $zero-safe-rem: if($pixel == 0, 0, $rem-value);
     @return $zero-safe-rem;
   } @else {
-    @error "Do not use units when using the rem() function";
+    @error 'Do not use units when using the rem() function';
   }
 }
 
@@ -48,7 +48,7 @@
     $zero-safe-em: if($pixel == 0, 0, $em-value);
     @return $zero-safe-em;
   } @else {
-    @error "Do not use units when using the em() function";
+    @error 'Do not use units when using the em() function';
   }
 }
 
@@ -91,7 +91,7 @@
 /// @example
 ///   .component {
 ///     z-index: z('Modal')
-///   }
+/// z-index   }
 @function z($name, $z-indexes-list: $z-indexes) {
   @if list.index($z-indexes-list, $name) {
     @return (list.length($z-indexes-list) - list.index($z-indexes-list, $name)) + 1;

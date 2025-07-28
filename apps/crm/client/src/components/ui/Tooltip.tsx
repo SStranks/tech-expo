@@ -6,7 +6,8 @@ import { ReactPortal } from '@Components/index';
 import styles from './ToolTip.module.scss';
 
 /**
- * Determine the positional coordinates for the tooltip, utilizing the DOMRect coordinates of the associated element. Tooltip utilizes a portal, with absolute positioning.
+ * Determine the positional coordinates for the tooltip, utilizing the DOMRect coordinates of the associated element.
+ * Tooltip utilizes a portal, with absolute positioning.
  * @param  {[ICoords | undefined]} childCoords The DOM coordinates of the element the tooltip is to be associated with
  * @param  {[TPosition]} position Which side of the element the tooltip should appear on
  * @return {[number]} Pixel offset of the tooltip from the edge of the associated element
@@ -66,24 +67,32 @@ function ToolTip({ children = undefined, offset, position, text }: PropsWithChil
   const [childCoords, setChildCoords] = useState<ICoords>();
   const [active, setActive] = useState<boolean>();
   const nodeRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout>(null);
 
   const finalPosition = calculateFinalPosition(childCoords, position, offset);
 
   useEffect(() => {
-    return () => clearTimeout(timeoutRef?.current);
+    return () => {
+      if (timeoutRef?.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   });
 
   // Invokes the exit transition animation
   const onMouseLeaveHandler = () => {
-    clearTimeout(timeoutRef?.current);
+    if (timeoutRef?.current) {
+      clearTimeout(timeoutRef.current);
+    }
     setActive(false);
   };
 
   // Mouse must be stationary within the target element for 500ms before tooltip is triggered
   const onMouseMoveHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     const { height, left, top, width } = e.currentTarget.getBoundingClientRect();
-    clearTimeout(timeoutRef?.current);
+    if (timeoutRef?.current) {
+      clearTimeout(timeoutRef.current);
+    }
     timeoutRef.current = setTimeout(() => {
       setChildCoords({ height, left, top, width });
       setActive(true);

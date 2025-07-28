@@ -19,8 +19,10 @@ interface IProps {
 function TableCompaniesCardLower(props: IProps): React.JSX.Element {
   const { rowOriginal } = props;
 
-  /* // TODO:  Add another component that takes userName initials and makes coloured circle with abbrv, if userImage not available */
-
+  /*
+   * TODO: Add another component that takes userName initials and makes coloured circle with abbrv,
+   * if userImage not available
+   */
   return (
     <div className={styles.companiesCardLower}>
       <span className={styles.companiesCardLower__relatedContacts}>Related Contacts</span>

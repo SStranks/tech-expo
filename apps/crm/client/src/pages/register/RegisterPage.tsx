@@ -86,7 +86,7 @@ function RegisterPage(): React.JSX.Element {
         </button>
         <p>
           Already have an account?
-          <Link to={'/login'}>
+          <Link to="/login">
             <span className={styles.registerForm__loginLink}>Login</span>
           </Link>
         </p>

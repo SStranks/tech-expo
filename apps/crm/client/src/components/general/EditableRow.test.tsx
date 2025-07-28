@@ -8,7 +8,7 @@ import EditableRow from './EditableRow';
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
-    render(<EditableRow IconSvg={IconAdministration} title={'title'} description={'description'} />);
+    render(<EditableRow IconSvg={IconAdministration} title="title" description="description" />);
 
     const displayIcon = screen.getByTitle(/icon administration/i);
     const settingTitle = screen.getByText('title');
@@ -29,7 +29,7 @@ describe('Initialization', () => {
   });
 
   test('Component should render correctly; edit button click reveals conditional components', async () => {
-    render(<EditableRow IconSvg={IconAdministration} title={'title'} description={'description'} />);
+    render(<EditableRow IconSvg={IconAdministration} title="title" description="description" />);
     const user = userEvent.setup();
 
     const editButton = screen.getByRole('button', { name: /^show edit title input$/i });
@@ -46,7 +46,7 @@ describe('Initialization', () => {
 
 describe('Functionality', () => {
   test('Revealed cancel button; should revert component to original state', async () => {
-    render(<EditableRow IconSvg={IconAdministration} title={'title'} description={'description'} />);
+    render(<EditableRow IconSvg={IconAdministration} title="title" description="description" />);
     const user = userEvent.setup();
 
     let editButton = screen.getByRole('button', { name: /^show edit title input$/i });
@@ -62,7 +62,7 @@ describe('Functionality', () => {
   });
 
   test('Revealed save button; should submit input value and revert component to original state', async () => {
-    render(<EditableRow IconSvg={IconAdministration} title={'title'} description={'description'} />);
+    render(<EditableRow IconSvg={IconAdministration} title="title" description="description" />);
     const user = userEvent.setup();
     const submitSpy = vi.spyOn(console, 'log');
 

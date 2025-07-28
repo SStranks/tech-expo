@@ -25,20 +25,13 @@ function ASD(): React.JSX.Element {
         errors={undefined}
         ariaLabel={''}
       /> */}
-      <Input
-        register={register}
-        rules={{}}
-        inputName={'password'}
-        inputType={'number'}
-        error={undefined}
-        ariaLabel={''}
-      />
+      <Input register={register} rules={{}} inputName="password" inputType="number" error={undefined} ariaLabel="" />
       <InputPasswordStrength
         register={register}
         trigger={trigger}
         setFocus={setFocus}
-        inputName={'email'}
-        placeholder={''}
+        inputName="email"
+        placeholder=""
         error={undefined}
         reveal={false}
       />
@@ -46,8 +39,8 @@ function ASD(): React.JSX.Element {
         register={register}
         trigger={trigger}
         setFocus={setFocus}
-        inputName={'password'}
-        placeholder={''}
+        inputName="password"
+        placeholder=""
         error={undefined}
         reveal={false}
       />

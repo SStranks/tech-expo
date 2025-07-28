@@ -1,3 +1,4 @@
+// editorconfig-checker-disable
 import { useState } from 'react';
 
 import FormModal from '@Components/modal/FormModal';
@@ -14,14 +15,17 @@ let listItems: IListItem[] = [
   { id: 'd', name: 'Biomedical' },
   { id: 'e', name: 'Nuclear' },
   { id: 'f', name: 'Industrial' },
-  // { id: 'g', name: 'Chemical' },
-  // { id: 'h', name: 'Agricultural' },
-  // { id: 'i', name: 'Electrical' },
+
+  /*
+   * { id: 'g', name: 'Chemical' },
+   * { id: 'h', name: 'Agricultural' },
+   * { id: 'i', name: 'Electrical' },
+   */
 ];
 
-// console.log(listItems);
-
-// NOTE:  // TEMP DEV:  This component is a sandbox for testing various sub-components
+/*
+ * NOTE:TEMP DEV: This component is a sandbox for testing various sub-components
+ */
 function TempButton(): React.JSX.Element {
   const [portalActive, setPortalActive] = useState<boolean>(true);
 
@@ -54,7 +58,7 @@ function TempButton(): React.JSX.Element {
       <FormModal
         onSubmit={onSubmit}
         defaultValues={defaultValues}
-        modalTitle={'Form Modal'}
+        modalTitle="Form Modal"
         portalActive={portalActive}
         setPortalActive={setPortalActive}>
         <FormModal.Input name="input" type="text" label="Text Input" rules={{ required: true }} />

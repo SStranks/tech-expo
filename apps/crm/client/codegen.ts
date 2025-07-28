@@ -1,9 +1,23 @@
+/* eslint-disable perfectionist/sort-objects */
 /// <reference types="node" />
 import type { CodegenConfig } from '@graphql-codegen/cli';
+
+import fs from 'node:fs';
+import path from 'node:path';
+
 import { mergedSchema } from '../server/src/graphql/typedefs';
 
-import path from 'node:path';
-import fs from 'node:fs';
+/*
+// NOTE: .
+This hook is required because @0no-go/graphqlsp plugin can't handle multiple schema files.
+Merges all .graphql schema files from server into single schema file in Client.
+*/
+function writeMergedSchema() {
+  const outputPath = path.resolve(__dirname, './src/graphql/generated/schema.graphql');
+  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+  fs.writeFileSync(outputPath, mergedSchema);
+  console.log(`[codegen] Wrote merged schema to ${outputPath}`);
+}
 
 const config: CodegenConfig = {
   overwrite: true,
@@ -24,13 +38,5 @@ const config: CodegenConfig = {
   },
   hooks: { afterStart: [writeMergedSchema] },
 };
-
-// NOTE:  This hook is required because @0no-go/graphqlsp plugin can't handle multiple schema files. Merges all .graphql schema files from server into single schema file in Client.
-function writeMergedSchema() {
-  const outputPath = path.resolve(__dirname, './src/graphql/generated/schema.graphql');
-  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-  fs.writeFileSync(outputPath, mergedSchema);
-  console.log(`[codegen] Wrote merged schema to ${outputPath}`);
-}
 
 export default config;

@@ -59,7 +59,7 @@ function ForgotPasswordPage(): React.JSX.Element {
         </button>
         <p>
           Already have an account?
-          <Link to={'/login'} className={styles.resetPasswordForm__link}>
+          <Link to="/login" className={styles.resetPasswordForm__link}>
             <span>Login</span>
           </Link>
         </p>

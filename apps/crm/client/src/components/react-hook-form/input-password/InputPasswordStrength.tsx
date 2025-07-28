@@ -138,7 +138,7 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): React.J
             </p>
             <p className={styles.infoPanel__content__body}>
               Password entropy is calculated via the{' '}
-              <Link to={'https://zxcvbn-ts.github.io/zxcvbn/guide/'} target="_blank">
+              <Link to="https://zxcvbn-ts.github.io/zxcvbn/guide/" target="_blank">
                 <span className={styles.infoPanel__content__link}>zxcvbn</span>
               </Link>{' '}
               library. This ensures provided passwords are more secure than following typical password guidelines.

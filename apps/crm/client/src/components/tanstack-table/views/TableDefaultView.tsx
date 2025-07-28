@@ -9,6 +9,9 @@ interface IProps<T> {
   table: Table<T>;
 }
 
+/*
+ * NOTE: <tr />; prevents rows from expanding to fill table when total rows height is less than the table height
+ */
 function TableDefaultView<T>(props: IProps<T>): React.JSX.Element {
   const { table } = props;
   const tableContainerRef = useRef<HTMLDivElement>(null);
@@ -87,7 +90,7 @@ function TableDefaultView<T>(props: IProps<T>): React.JSX.Element {
               ))}
             </tr>
           ))}
-          {/* Empty <tr>; prevents rows from expanding to fill table when total rows height is less than the table height */}
+          {/* Empty <tr>: see comment above function def */}
           <tr />
         </tbody>
       </table>

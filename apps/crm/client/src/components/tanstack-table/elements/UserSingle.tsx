@@ -9,13 +9,18 @@ interface IProps {
   userName: string;
 }
 
+/*
+ * TODO:
+ * Add another component that takes companyName initials and makes coloured circle with abbrv,
+ * if userImage not available
+ */
 function UserSingle(props: IProps): React.JSX.Element {
   const { userName } = props;
 
   return (
     <div className={styles.userSingle}>
       <div className={styles.userSingle__img}>
-        {/* // TODO:  Add another component that takes userName initials and makes coloured circle with abbrv, if userImage not available */}
+        {/* TODO: */}
         <img src={USER_IMAGE} alt={userName} />
       </div>
       <span className={styles.userSingle__userName}>{userName}</span>

@@ -12,7 +12,7 @@ interface IProps {
 function ScrumboardColumnAddBtn({ columnId, columnStyle }: IProps): React.JSX.Element {
   return (
     <Link
-      to={'deal/create'}
+      to="deal/create"
       state={{ columnId }}
       className={`${styles.addCardBtn} ${columnStyle ? styles[`addCardBtn--${columnStyle}`] : ''}`}>
       <IconOperatorPlus svgClass={styles.addCardBtn__svg} />

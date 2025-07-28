@@ -31,7 +31,10 @@ function ScrumBoardKanbanCard({ columnId, index, task, taskStatus }: IProps): Re
           {...provided.dragHandleProps}
           onDoubleClick={onDoubleClickHandler}
           ref={provided.innerRef}
-          className={`${styles.card} ${taskStatus ? styles[`card--${taskStatus}`] : ''} ${snapshot.isDragging ? styles['card--dragging'] : ''}`}>
+          className={`
+            ${styles.card}
+            ${taskStatus ? styles[`card--${taskStatus}`] : ''}
+            ${snapshot.isDragging ? styles['card--dragging'] : ''}`}>
           <div className={styles.card__upper}>
             <span className={styles.dealInfo__company}>{task.title}</span>
             <ScrumboardCardOptionsBtn taskId={task.id} columnId={columnId} taskStatus={taskStatus} />

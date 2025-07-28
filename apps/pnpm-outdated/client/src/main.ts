@@ -1,13 +1,17 @@
 import * as core from '@actions/core';
-import semver from 'semver';
 import { SummaryTableRow } from '@actions/core/lib/summary';
+import semver from 'semver';
+
 import { spawnSync } from 'node:child_process';
+
 // import { existsSync, unlinkSync, writeFileSync } from 'node:fs';
 // import path from 'node:path';
 // import url from 'node:url';
 import { markdownTableFormatter } from './util.js';
 
-// TEMP DEV: .
+/*
+ * TEMP DEV:
+ */
 // const CUR = path.dirname(url.fileURLToPath(import.meta.url));
 // const SUMMARY_FILE = path.join(CUR, 'output.md');
 // if (existsSync(SUMMARY_FILE)) {
@@ -15,7 +19,6 @@ import { markdownTableFormatter } from './util.js';
 // }
 // writeFileSync(SUMMARY_FILE, '', 'utf8');
 // process.env.GITHUB_STEP_SUMMARY = SUMMARY_FILE;
-// TEMP DEV: .
 
 interface IPnpmRecursiveOutdated {
   current: string;
@@ -62,7 +65,7 @@ const summaryOutdated = (input: string) => {
 
 const main = async () => {
   try {
-    const { stderr, stdout, status } = spawnSync('pnpm', ['outdated', '--format=json', '-r'], { cwd: process.cwd() });
+    const { status, stderr, stdout } = spawnSync('pnpm', ['outdated', '--format=json', '-r'], { cwd: process.cwd() });
 
     // Process completed; packages are all up-to-date
     if (status === 0) return summaryNoOutdated();
