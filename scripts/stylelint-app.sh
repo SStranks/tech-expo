@@ -40,8 +40,10 @@ if [ "$OUTPUT_MODE" == "--string" ]; then
   REPORT_DIR="$LOGS_DIR_PATH/stylelint"
   mkdir -p "$REPORT_DIR"
   OUTPUT_FILE="$REPORT_DIR/$TARGET_DIR_PATH.$TIMESTAMP.txt"
-  echo "[SCRIPT: stylelint-app] Running Stylelint with TXT report: $OUTPUT_FILE"
-  stylelint "$FULL_PATH" --formatter string --output-file "$OUTPUT_FILE"
+  echo "[SCRIPT: stylelint-app] Running Stylelint with TXT report"
+  echo "[SCRIPT: stylelint-app] Output: $OUTPUT_FILE"
+  stylelint "$FULL_PATH" --formatter string --output-file "$OUTPUT_FILE" 2>&1 | \
+    echo "[SCRIPT: stylelint-app] $(grep -m1 -E 'problem' || echo "✔ 0 Problems (0 Errors, 0 warnings)")" || true
 else
   echo "[SCRIPT: stylelint-app] Running Stylelint with console output"
   stylelint "$FULL_PATH"

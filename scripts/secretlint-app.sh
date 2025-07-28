@@ -29,4 +29,9 @@ if [ ! -e "$FULL_PATH" ]; then
   exit 1
 fi
 
-secretlint --secretlintignore "$ROOT_DIR_PATH/.gitignore" --format=stylish --no-color --output="$LOGS_DIR_PATH/secretlint/log.$TIMESTAMP.txt" "$FULL_PATH"
+echo "[SCRIPT: secretlint-app] Running Secretlint with stylish report"
+OUTPUT_FILE="$LOGS_DIR_PATH/secretlint/log.$TIMESTAMP.txt"
+echo "[SCRIPT: secretlint-app] Output: $OUTPUT_FILE"
+
+secretlint --secretlintignore "$ROOT_DIR_PATH/.gitignore" \
+  --format=stylish --no-color --output="$OUTPUT_FILE" "$FULL_PATH"

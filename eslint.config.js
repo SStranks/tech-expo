@@ -14,7 +14,7 @@ import EslintConfigYAML from '@packages/eslint-config-yaml';
 
 export default [
   {
-    // --- Global Ignores
+    name: 'Global Ignores',
     ignores: [
       '**/node_modules/',
       '**/dist/',

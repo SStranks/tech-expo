@@ -35,10 +35,14 @@ fi
 if [ "$OUTPUT_MODE" == "--html" ]; then
   REPORT_DIR="$LOGS_DIR_PATH/eslint"
   mkdir -p "$REPORT_DIR"
-  OUTPUT_FILE="$REPORT_DIR/$TARGET_DIR_PATH.$TIMESTAMP.html"
-  echo "[SCRIPT: eslint-app] Running ESLint with HTML report: $OUTPUT_FILE"
+  OUTPUT_FILE="$REPORT_DIR/$TARGET_DIR_PATH/$TIMESTAMP.html"
+  echo "[SCRIPT: eslint-app] Running ESLint with HTML report"
+  echo "[SCRIPT: eslint-app] Output: $OUTPUT_FILE"
   eslint --format html --output-file "$OUTPUT_FILE" "$FULL_PATH"
+  SUMMARY=$(awk '/<div id="overview"/,/<\/div>/' "$OUTPUT_FILE" | sed -e 's/<[^>]*>//g' | xargs)
+  echo "[SCRIPT: eslint-app] $SUMMARY"
 else
   echo "[SCRIPT: eslint-app] Running ESLint with console output"
+  echo "$FULL_PATH"
   eslint "$FULL_PATH"
 fi
