@@ -31,7 +31,7 @@ const columnCompaniesContactsDef = [
     cell: ({ row }) => (
       <RowActionsControl>
         <RowActionsControl.EmailControl entryId={row.id} />
-        <RowActionsControl.CallControl entryId={row.id} />
+        <RowActionsControl.CallControl phone={row.id} />
         <RowActionsControl.ViewControl entryId={row.id} />
       </RowActionsControl>
     ),

@@ -23,7 +23,7 @@ interface IProps {
 function ButtonPaginatorRowLimit(props: IProps): React.JSX.Element {
   const { setPageSize } = props;
 
-  const onSelectionChange = (key: Key) => {
+  const onSelectionChange = (key: Key | null) => {
     setPageSize(key as number);
   };
 

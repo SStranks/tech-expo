@@ -62,13 +62,14 @@ export default [
   {
     name: 'JSON Configuration',
     files: ['**/*.json'],
+    ignores: ['**/tsconfig.json'],
     languageOptions: { ...EslintConfigJSON.languageOptions },
     plugins: { ...EslintConfigJSON.plugins },
     rules: { ...EslintConfigJSON.rules },
   },
   {
     name: 'JSONC Configuration',
-    files: ['**/*.jsonc'],
+    files: ['**/*.jsonc', '**/tsconfig.json'],
     languageOptions: { ...EslintConfigJSONC.languageOptions },
     plugins: { ...EslintConfigJSONC.plugins },
     rules: { ...EslintConfigJSONC.rules },

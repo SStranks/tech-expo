@@ -22,7 +22,7 @@ function FormModal({
   setPortalActive: setPortalActiveProp,
 }: PropsWithChildren<IProps>): React.JSX.Element {
   const modalContentRef = useRef<HTMLDivElement>(null);
-  usePortalClose(portalActive, setPortalActiveProp, modalContentRef, null);
+  usePortalClose(portalActive, setPortalActiveProp, modalContentRef);
 
   const setPortalActive = useMemo(() => setPortalActiveProp, [setPortalActiveProp]);
 

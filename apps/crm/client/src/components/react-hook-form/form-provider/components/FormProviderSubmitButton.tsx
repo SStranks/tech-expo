@@ -7,7 +7,8 @@ function FormProviderSubmitButton(): React.JSX.Element {
     formState: { isSubmitting },
   } = useFormContext();
 
-  return <ButtonSave disabled={isSubmitting} />;
+  // TODO: OnClick needs to trigger submit
+  return <ButtonSave onClick={() => null} disabled={isSubmitting} />;
 }
 
 export default FormProviderSubmitButton;

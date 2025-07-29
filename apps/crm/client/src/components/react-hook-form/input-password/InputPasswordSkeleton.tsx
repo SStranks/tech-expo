@@ -18,7 +18,14 @@ function InputPasswordSkeleton(props: IProps): React.JSX.Element {
   return (
     <div className={`${styles.container} ${skeleton.container}`}>
       <div className={skeleton.wrapper}>
-        <InputUx label={label} id={passwordId} isDirty={false} invalid={false} error={undefined} isSubmitted={false}>
+        <InputUx
+          label={label}
+          id={passwordId}
+          defaultValue={undefined}
+          isDirty={false}
+          invalid={false}
+          error={undefined}
+          isSubmitted={false}>
           <input
             type="password"
             id={passwordId}

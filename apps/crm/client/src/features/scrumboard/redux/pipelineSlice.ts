@@ -26,6 +26,7 @@ interface ICreateDealPayload {
   dealStage: string;
   dealTotal: number;
   dealOwner: string;
+  dealValue: number;
 }
 
 interface IUpdateDealPayload extends Omit<ICreateDealPayload, 'columnId'> {
@@ -57,7 +58,7 @@ const pipelineSlice = createSlice({
   reducers: {
     createDeal(state, action: PayloadAction<ICreateDealPayload>) {
       // NOTE:  Deal owner is currently hardcoded in PipelineDeal[Create/Update]Page.
-      const { columnId, companyTitle, dealOwner, dealStage, dealTitle, dealTotal } = action.payload;
+      const { columnId, companyTitle, dealOwner, dealStage, dealTitle, dealTotal, dealValue } = action.payload;
 
       const newTaskId = `task-${Math.floor(Math.random() * 100_000)}`; // TEMP DEV:  Need to make ID system.
       const newTask = {
@@ -68,6 +69,7 @@ const pipelineSlice = createSlice({
         dealOwner,
         dealTitle,
         dealTotal,
+        dealValue,
         userImage: UserImage,
       };
 

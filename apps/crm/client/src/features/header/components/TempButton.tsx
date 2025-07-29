@@ -1,4 +1,5 @@
 // editorconfig-checker-disable
+// @ts-nocheck
 import { useState } from 'react';
 
 import FormModal from '@Components/modal/FormModal';

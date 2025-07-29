@@ -1,9 +1,9 @@
-export { Response as ApiResponse } from './base.ts';
-export { ResponseSuccess as ApiResponseSuccess } from './base.ts';
-export { ResponseError as ApiResponseError } from './base.ts';
-export { LoginResponse as AuthLoginResponse } from './auth.ts';
-export { ConfirmSignup as AuthConfirmSignup } from './auth.ts';
-export { UpdatePassword as AuthUpdatePassword } from './auth.ts';
-export { ResetPassword as AuthResetPassword } from './auth.ts';
-export { GenerateAuthToken as AuthGenerateAuthToken } from './auth.ts';
-export { Response as AuthResponse } from './auth.ts';
+export type { LoginResponse as AuthLoginResponse } from './auth.ts';
+export type { ConfirmSignup as AuthConfirmSignup } from './auth.ts';
+export type { UpdatePassword as AuthUpdatePassword } from './auth.ts';
+export type { ResetPassword as AuthResetPassword } from './auth.ts';
+export type { GenerateAuthToken as AuthGenerateAuthToken } from './auth.ts';
+export type { Response as AuthResponse } from './auth.ts';
+export type { Response as ApiResponse } from './base.ts';
+export type { ResponseSuccess as ApiResponseSuccess } from './base.ts';
+export type { ResponseError as ApiResponseError } from './base.ts';

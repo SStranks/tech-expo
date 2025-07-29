@@ -22,11 +22,11 @@ import styles from './UserSettingsMenu.module.scss';
 // Defined at top of 'styles' scss; used to offset portal from window edge
 const CSS_ROOT_PROPERTY = '--user-settings-menu-offset-x';
 
-const GET_MENU_PORTAL_BTN_RECT = (menuPortalButtonRef: React.RefObject<HTMLButtonElement>) => {
+const GET_MENU_PORTAL_BTN_RECT = (menuPortalButtonRef: React.RefObject<HTMLButtonElement | null>) => {
   return `${menuPortalButtonRef.current?.getBoundingClientRect().right}px`;
 };
 
-const PORTAL_ONRESIZE = (menuPortalButtonRef: React.RefObject<HTMLButtonElement>) => {
+const PORTAL_ONRESIZE = (menuPortalButtonRef: React.RefObject<HTMLButtonElement | null>) => {
   const CSS_ROOT = document.querySelector(':root') as HTMLElement;
   const cssValue = GET_MENU_PORTAL_BTN_RECT(menuPortalButtonRef);
   CSS_ROOT?.style.setProperty(CSS_ROOT_PROPERTY, cssValue);

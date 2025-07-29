@@ -21,7 +21,7 @@ function Calendar(): React.JSX.Element {
     views: [createViewDay(), createViewWeek(), createViewMonthGrid(), createViewMonthAgenda()],
   });
 
-  calendar.setTheme(reduxState ? 'dark' : 'light');
+  calendar?.setTheme(reduxState ? 'dark' : 'light');
 
   return (
     <div>

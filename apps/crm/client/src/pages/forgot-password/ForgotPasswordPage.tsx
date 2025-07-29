@@ -41,6 +41,7 @@ function ForgotPasswordPage(): React.JSX.Element {
         <InputUx
           id={id}
           label="Email address"
+          defaultValue={undefined}
           error={errors['email']}
           isDirty={dirtyFields['email']}
           invalid={emailInvalid}
