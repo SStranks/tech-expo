@@ -1,6 +1,6 @@
 {
-  "id": "39576521-1269-4ddd-ad35-c6eea1b20d8e",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "645bf583-81ad-4793-bb6d-ad622d506c39",
+  "prevId": "39576521-1269-4ddd-ad35-c6eea1b20d8e",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -65,11 +65,11 @@
         "audit_log_user_id_user_id_fk": {
           "name": "audit_log_user_id_user_id_fk",
           "tableFrom": "audit_log",
-          "tableTo": "user",
           "columnsFrom": ["user_id"],
+          "tableTo": "user",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -108,19 +108,19 @@
         "calendar_company_id_companies_id_fk": {
           "name": "calendar_company_id_companies_id_fk",
           "tableFrom": "calendar",
-          "tableTo": "companies",
           "columnsFrom": ["company_id"],
+          "tableTo": "companies",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "calendar_company_id_unique": {
           "name": "calendar_company_id_unique",
-          "nullsNotDistinct": false,
-          "columns": ["company_id"]
+          "columns": ["company_id"],
+          "nullsNotDistinct": false
         }
       },
       "policies": {},
@@ -156,19 +156,19 @@
         "calendar_event_categories_calendar_id_calendar_id_fk": {
           "name": "calendar_event_categories_calendar_id_calendar_id_fk",
           "tableFrom": "calendar_event_categories",
-          "tableTo": "calendar",
           "columnsFrom": ["calendar_id"],
+          "tableTo": "calendar",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "calendar_event_categories_title_calendar_id_unique": {
           "name": "calendar_event_categories_title_calendar_id_unique",
-          "nullsNotDistinct": false,
-          "columns": ["title", "calendar_id"]
+          "columns": ["title", "calendar_id"],
+          "nullsNotDistinct": false
         }
       },
       "policies": {},
@@ -241,20 +241,20 @@
         "calendar_events_calendar_id_calendar_id_fk": {
           "name": "calendar_events_calendar_id_calendar_id_fk",
           "tableFrom": "calendar_events",
-          "tableTo": "calendar",
           "columnsFrom": ["calendar_id"],
+          "tableTo": "calendar",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "calendar_events_category_id_calendar_event_categories_id_fk": {
           "name": "calendar_events_category_id_calendar_event_categories_id_fk",
           "tableFrom": "calendar_events",
-          "tableTo": "calendar_event_categories",
           "columnsFrom": ["category_id"],
+          "tableTo": "calendar_event_categories",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -285,20 +285,20 @@
         "calendar_event_participants_event_id_calendar_events_id_fk": {
           "name": "calendar_event_participants_event_id_calendar_events_id_fk",
           "tableFrom": "calendar_event_participants",
-          "tableTo": "calendar_events",
           "columnsFrom": ["event_id"],
+          "tableTo": "calendar_events",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "calendar_event_participants_user_id_user_profile_id_fk": {
           "name": "calendar_event_participants_user_id_user_profile_id_fk",
           "tableFrom": "calendar_event_participants",
-          "tableTo": "user_profile",
           "columnsFrom": ["user_id"],
+          "tableTo": "user_profile",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -375,19 +375,19 @@
         "companies_country_id_countries_id_fk": {
           "name": "companies_country_id_countries_id_fk",
           "tableFrom": "companies",
-          "tableTo": "countries",
           "columnsFrom": ["country_id"],
+          "tableTo": "countries",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "companies_company_name_unique": {
           "name": "companies_company_name_unique",
-          "nullsNotDistinct": false,
-          "columns": ["company_name"]
+          "columns": ["company_name"],
+          "nullsNotDistinct": false
         }
       },
       "policies": {},
@@ -436,20 +436,20 @@
         "companies_notes_company_id_companies_id_fk": {
           "name": "companies_notes_company_id_companies_id_fk",
           "tableFrom": "companies_notes",
-          "tableTo": "companies",
           "columnsFrom": ["company_id"],
+          "tableTo": "companies",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "companies_notes_created_by_user_id_user_profile_id_fk": {
           "name": "companies_notes_created_by_user_id_user_profile_id_fk",
           "tableFrom": "companies_notes",
-          "tableTo": "user_profile",
           "columnsFrom": ["created_by_user_id"],
+          "tableTo": "user_profile",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -531,20 +531,20 @@
         "contacts_company_id_companies_id_fk": {
           "name": "contacts_company_id_companies_id_fk",
           "tableFrom": "contacts",
-          "tableTo": "companies",
           "columnsFrom": ["company_id"],
+          "tableTo": "companies",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "contacts_timezone_id_time_zones_utc_id_fk": {
           "name": "contacts_timezone_id_time_zones_utc_id_fk",
           "tableFrom": "contacts",
-          "tableTo": "time_zones_utc",
           "columnsFrom": ["timezone_id"],
+          "tableTo": "time_zones_utc",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -595,20 +595,20 @@
         "contacts_notes_contact_id_contacts_id_fk": {
           "name": "contacts_notes_contact_id_contacts_id_fk",
           "tableFrom": "contacts_notes",
-          "tableTo": "contacts",
           "columnsFrom": ["contact_id"],
+          "tableTo": "contacts",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "contacts_notes_created_by_user_id_user_profile_id_fk": {
           "name": "contacts_notes_created_by_user_id_user_profile_id_fk",
           "tableFrom": "contacts_notes",
-          "tableTo": "user_profile",
           "columnsFrom": ["created_by_user_id"],
+          "tableTo": "user_profile",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -665,23 +665,23 @@
       "uniqueConstraints": {
         "countries_num_code_unique": {
           "name": "countries_num_code_unique",
-          "nullsNotDistinct": false,
-          "columns": ["num_code"]
+          "columns": ["num_code"],
+          "nullsNotDistinct": false
         },
         "countries_alpha_2_code_unique": {
           "name": "countries_alpha_2_code_unique",
-          "nullsNotDistinct": false,
-          "columns": ["alpha_2_code"]
+          "columns": ["alpha_2_code"],
+          "nullsNotDistinct": false
         },
         "countries_alpha_3_code_unique": {
           "name": "countries_alpha_3_code_unique",
-          "nullsNotDistinct": false,
-          "columns": ["alpha_3_code"]
+          "columns": ["alpha_3_code"],
+          "nullsNotDistinct": false
         },
         "countries_short_name_unique": {
           "name": "countries_short_name_unique",
-          "nullsNotDistinct": false,
-          "columns": ["short_name"]
+          "columns": ["short_name"],
+          "nullsNotDistinct": false
         }
       },
       "policies": {},
@@ -724,11 +724,11 @@
         "kanban_stages_kanban_table_id_kanban_id_fk": {
           "name": "kanban_stages_kanban_table_id_kanban_id_fk",
           "tableFrom": "kanban_stages",
-          "tableTo": "kanban",
           "columnsFrom": ["kanban_table_id"],
+          "tableTo": "kanban",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -767,11 +767,11 @@
         "kanban_company_id_companies_id_fk": {
           "name": "kanban_company_id_companies_id_fk",
           "tableFrom": "kanban",
-          "tableTo": "companies",
           "columnsFrom": ["company_id"],
+          "tableTo": "companies",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -823,11 +823,11 @@
         "kanban_task_checklist_task_id_kanban_tasks_id_fk": {
           "name": "kanban_task_checklist_task_id_kanban_tasks_id_fk",
           "tableFrom": "kanban_task_checklist",
-          "tableTo": "kanban_tasks",
           "columnsFrom": ["task_id"],
+          "tableTo": "kanban_tasks",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -884,20 +884,20 @@
         "kanban_task_comments_task_id_kanban_tasks_id_fk": {
           "name": "kanban_task_comments_task_id_kanban_tasks_id_fk",
           "tableFrom": "kanban_task_comments",
-          "tableTo": "kanban_tasks",
           "columnsFrom": ["task_id"],
+          "tableTo": "kanban_tasks",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "kanban_task_comments_created_by_user_id_user_profile_id_fk": {
           "name": "kanban_task_comments_created_by_user_id_user_profile_id_fk",
           "tableFrom": "kanban_task_comments",
-          "tableTo": "user_profile",
           "columnsFrom": ["created_by_user_id"],
+          "tableTo": "user_profile",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -955,20 +955,20 @@
         "kanban_tasks_order_column_id_kanban_stages_id_fk": {
           "name": "kanban_tasks_order_column_id_kanban_stages_id_fk",
           "tableFrom": "kanban_tasks_order",
-          "tableTo": "kanban_stages",
           "columnsFrom": ["column_id"],
+          "tableTo": "kanban_stages",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "kanban_tasks_order_kanban_id_kanban_id_fk": {
           "name": "kanban_tasks_order_kanban_id_kanban_id_fk",
           "tableFrom": "kanban_tasks_order",
-          "tableTo": "kanban",
           "columnsFrom": ["kanban_id"],
+          "tableTo": "kanban",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1044,20 +1044,20 @@
         "kanban_tasks_stage_kanban_stages_id_fk": {
           "name": "kanban_tasks_stage_kanban_stages_id_fk",
           "tableFrom": "kanban_tasks",
-          "tableTo": "kanban_stages",
           "columnsFrom": ["stage"],
+          "tableTo": "kanban_stages",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "kanban_tasks_assigned_user_id_user_profile_id_fk": {
           "name": "kanban_tasks_assigned_user_id_user_profile_id_fk",
           "tableFrom": "kanban_tasks",
-          "tableTo": "user_profile",
           "columnsFrom": ["assigned_user_id"],
+          "tableTo": "user_profile",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1115,20 +1115,20 @@
         "pipeline_deals_order_column_id_pipeline_stages_id_fk": {
           "name": "pipeline_deals_order_column_id_pipeline_stages_id_fk",
           "tableFrom": "pipeline_deals_order",
-          "tableTo": "pipeline_stages",
           "columnsFrom": ["column_id"],
+          "tableTo": "pipeline_stages",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "pipeline_deals_order_pipeline_id_pipeline_id_fk": {
           "name": "pipeline_deals_order_pipeline_id_pipeline_id_fk",
           "tableFrom": "pipeline_deals_order",
-          "tableTo": "pipeline",
           "columnsFrom": ["pipeline_id"],
+          "tableTo": "pipeline",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1204,38 +1204,38 @@
         "pipeline_deals_company_name_companies_id_fk": {
           "name": "pipeline_deals_company_name_companies_id_fk",
           "tableFrom": "pipeline_deals",
-          "tableTo": "companies",
           "columnsFrom": ["company_name"],
+          "tableTo": "companies",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "pipeline_deals_pipeline_stage_pipeline_stages_id_fk": {
           "name": "pipeline_deals_pipeline_stage_pipeline_stages_id_fk",
           "tableFrom": "pipeline_deals",
-          "tableTo": "pipeline_stages",
           "columnsFrom": ["pipeline_stage"],
+          "tableTo": "pipeline_stages",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "pipeline_deals_deal_owner_user_profile_id_fk": {
           "name": "pipeline_deals_deal_owner_user_profile_id_fk",
           "tableFrom": "pipeline_deals",
-          "tableTo": "user_profile",
           "columnsFrom": ["deal_owner"],
+          "tableTo": "user_profile",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "pipeline_deals_deal_contact_contacts_id_fk": {
           "name": "pipeline_deals_deal_contact_contacts_id_fk",
           "tableFrom": "pipeline_deals",
-          "tableTo": "contacts",
           "columnsFrom": ["deal_contact"],
+          "tableTo": "contacts",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1280,11 +1280,11 @@
         "pipeline_stages_pipeline_table_id_pipeline_id_fk": {
           "name": "pipeline_stages_pipeline_table_id_pipeline_id_fk",
           "tableFrom": "pipeline_stages",
-          "tableTo": "pipeline",
           "columnsFrom": ["pipeline_table_id"],
+          "tableTo": "pipeline",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1323,11 +1323,11 @@
         "pipeline_company_id_companies_id_fk": {
           "name": "pipeline_company_id_companies_id_fk",
           "tableFrom": "pipeline",
-          "tableTo": "companies",
           "columnsFrom": ["company_id"],
+          "tableTo": "companies",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1400,11 +1400,11 @@
         "quotes_services_quote_id_quotes_id_fk": {
           "name": "quotes_services_quote_id_quotes_id_fk",
           "tableFrom": "quotes_services",
-          "tableTo": "quotes",
           "columnsFrom": ["quote_id"],
+          "tableTo": "quotes",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1455,20 +1455,20 @@
         "quotes_notes_quote_id_quotes_id_fk": {
           "name": "quotes_notes_quote_id_quotes_id_fk",
           "tableFrom": "quotes_notes",
-          "tableTo": "quotes",
           "columnsFrom": ["quote_id"],
+          "tableTo": "quotes",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "quotes_notes_created_by_user_id_user_profile_id_fk": {
           "name": "quotes_notes_created_by_user_id_user_profile_id_fk",
           "tableFrom": "quotes_notes",
-          "tableTo": "user_profile",
           "columnsFrom": ["created_by_user_id"],
+          "tableTo": "user_profile",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1558,37 +1558,37 @@
         "quotes_company_id_companies_id_fk": {
           "name": "quotes_company_id_companies_id_fk",
           "tableFrom": "quotes",
-          "tableTo": "companies",
           "columnsFrom": ["company_id"],
+          "tableTo": "companies",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "quotes_prepared_for_contact_id_contacts_id_fk": {
           "name": "quotes_prepared_for_contact_id_contacts_id_fk",
           "tableFrom": "quotes",
-          "tableTo": "contacts",
           "columnsFrom": ["prepared_for_contact_id"],
+          "tableTo": "contacts",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "quotes_prepared_by_user_id_user_profile_id_fk": {
           "name": "quotes_prepared_by_user_id_user_profile_id_fk",
           "tableFrom": "quotes",
-          "tableTo": "user_profile",
           "columnsFrom": ["prepared_by_user_id"],
+          "tableTo": "user_profile",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "quotes_title_unique": {
           "name": "quotes_title_unique",
-          "nullsNotDistinct": false,
-          "columns": ["title"]
+          "columns": ["title"],
+          "nullsNotDistinct": false
         }
       },
       "policies": {},
@@ -1630,11 +1630,11 @@
         "time_zones_utc_country_id_countries_id_fk": {
           "name": "time_zones_utc_country_id_countries_id_fk",
           "tableFrom": "time_zones_utc",
-          "tableTo": "countries",
           "columnsFrom": ["country_id"],
+          "tableTo": "countries",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1734,38 +1734,38 @@
         "user_profile_user_id_user_id_fk": {
           "name": "user_profile_user_id_user_id_fk",
           "tableFrom": "user_profile",
-          "tableTo": "user",
           "columnsFrom": ["user_id"],
+          "tableTo": "user",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "user_profile_timezone_id_time_zones_utc_id_fk": {
           "name": "user_profile_timezone_id_time_zones_utc_id_fk",
           "tableFrom": "user_profile",
-          "tableTo": "time_zones_utc",
           "columnsFrom": ["timezone_id"],
+          "tableTo": "time_zones_utc",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "user_profile_country_id_countries_id_fk": {
           "name": "user_profile_country_id_countries_id_fk",
           "tableFrom": "user_profile",
-          "tableTo": "countries",
           "columnsFrom": ["country_id"],
+          "tableTo": "countries",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "user_profile_company_id_companies_id_fk": {
           "name": "user_profile_company_id_companies_id_fk",
           "tableFrom": "user_profile",
-          "tableTo": "companies",
           "columnsFrom": ["company_id"],
+          "tableTo": "companies",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1822,11 +1822,11 @@
         "user_tokens_user_id_user_id_fk": {
           "name": "user_tokens_user_id_user_id_fk",
           "tableFrom": "user_tokens",
-          "tableTo": "user",
           "columnsFrom": ["user_id"],
+          "tableTo": "user",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1934,9 +1934,9 @@
             }
           ],
           "isUnique": true,
-          "concurrently": false,
+          "with": {},
           "method": "btree",
-          "with": {}
+          "concurrently": false
         }
       },
       "foreignKeys": {},
@@ -1944,8 +1944,8 @@
       "uniqueConstraints": {
         "user_email_unique": {
           "name": "user_email_unique",
-          "nullsNotDistinct": false,
-          "columns": ["email"]
+          "columns": ["email"],
+          "nullsNotDistinct": false
         }
       },
       "policies": {},
@@ -1991,10 +1991,10 @@
     }
   },
   "schemas": {},
+  "views": {},
   "sequences": {},
   "roles": {},
   "policies": {},
-  "views": {},
   "_meta": {
     "columns": {},
     "schemas": {},

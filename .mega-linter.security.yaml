@@ -1,3 +1,4 @@
+# eslint-disable yml/plain-scalar
 # MegaLinter: Security
 # See all available variables at https://megalinter.io/configuration/ and in linters documentation
 ---

@@ -10,7 +10,7 @@ import { QuotesTable } from '../index.js';
 // ---------- TABLES -------- //
 export type TQuoteServicesTableInsert = InferInsertModel<typeof QuoteServicesTable>;
 export type TQuoteServicesTableSelect = InferSelectModel<typeof QuoteServicesTable>;
-export const QuoteServicesTable = pgTable('quote_services', {
+export const QuoteServicesTable = pgTable('quotes_services', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull(),
   price: numeric('price', { precision: 14, scale: 2 }).default('0.00').notNull(),
