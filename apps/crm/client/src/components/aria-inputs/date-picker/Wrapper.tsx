@@ -1,4 +1,5 @@
 import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
+import clsx from 'clsx';
 import { ValidationResult } from 'react-aria-components';
 import { DeepRequired, FieldErrorsImpl, FieldValues, Merge, FieldError as TFieldError } from 'react-hook-form';
 
@@ -33,11 +34,11 @@ function Wrapper({ error, isDirty, isRequired, onChangeRHF, valueRHF, ...props }
 
   return (
     <div
-      className={`
-        ${styles.wrapper}
-        ${inputValidated ? styles.success : ''}
-        ${isRequired ? styles.wrapper__required : ''}
-      `}>
+      className={clsx(
+        `${styles.wrapper}`,
+        `${inputValidated ? styles.success : ''}`,
+        `${isRequired ? styles.wrapper__required : ''}`
+      )}>
       <InputDatePicker placeholderValue={DATE_TODAY} {...{ onChange, props, value }} />
     </div>
   );

@@ -140,6 +140,7 @@ const DevConfig = {
       template: path.resolve(CUR, './src/index-template.html.ejs'),
       favicon: path.resolve(CUR, './src/favicon.ico'),
       templateParameters: {
+        // eslint-disable-next-line no-undef
         PUBLIC_URL: process.env.PUBLIC_URL,
       },
     }),

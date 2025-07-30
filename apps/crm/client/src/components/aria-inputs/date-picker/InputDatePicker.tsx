@@ -1,6 +1,7 @@
 import type { DatePickerProps, DateValue, ValidationResult } from 'react-aria-components';
 
 import { getLocalTimeZone, today } from '@internationalized/date';
+import clsx from 'clsx';
 import { useContext } from 'react';
 import {
   Button,
@@ -120,10 +121,10 @@ function InputDatePicker<T extends DateValue>({ description, errorMessage, label
                 {(date) => (
                   <CalendarCell
                     date={date}
-                    className={`
-                      ${styles.calendarGrid__cell}
-                      ${date.compare(DATE_TODAY) === 0 ? `${styles.calendarGrid__cell__today}` : ''}
-                    `}
+                    className={clsx(
+                      `${styles.calendarGrid__cell}`,
+                      `${date.compare(DATE_TODAY) === 0 ? `${styles.calendarGrid__cell__today}` : ''}`
+                    )}
                   />
                 )}
               </CalendarGridBody>
