@@ -1,4 +1,4 @@
-import type { Resolvers } from '#Types/graphql/graphql.gen.js';
+import type { Resolvers } from '#Graphql/generated/graphql.gen.js';
 
 import { DateTimeResolver, HexColorCodeResolver, JSONResolver, UUIDResolver } from 'graphql-scalars';
 

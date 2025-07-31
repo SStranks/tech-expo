@@ -10,6 +10,10 @@ Encapsulates summarized metrics and location data used for the dashboard.
 """
 type DashboardSummary {
   """
+  Unique identifier of the dashboard summary.
+  """
+  id: UUID!
+  """
   Total number of companies associated with the given company ID.
   """
   totalCompanies: Int!

@@ -11,17 +11,17 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: `${CUR}/src/graphql/typedefs/*.graphql`,
   generates: {
-    './src/types/graphql/graphql.gen.ts': {
+    './src/graphql/generated/graphql.gen.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
       config: {
         contextType: '../../graphql/context.ts#IGraphqlContext',
+        skipTypename: true,
+        useIndexSignature: true,
+        useTypeImports: true,
         mappers: {
           Company: '../../models/company/Company.ts#TCompanyDTO',
           Country: '../../models/country/Country.ts#TCountryDTO',
         },
-        skipTypename: true,
-        useIndexSignature: true,
-        useTypeImports: true,
         scalars: {
           UUID: 'import("crypto").UUID',
         },

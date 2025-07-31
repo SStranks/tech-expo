@@ -1,6 +1,6 @@
 /* eslint-disable perfectionist/sort-objects */
+import type { Resolvers } from '#Graphql/generated/graphql.gen.js';
 import type { TCompanyDTO } from '#Models/company/Company.js';
-import type { Resolvers } from '#Types/graphql/graphql.gen.ts';
 
 import { z } from 'zod';
 
