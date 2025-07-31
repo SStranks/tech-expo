@@ -3,7 +3,12 @@
 
 $padding: 16px;
 
-// NOTE:  This component relies on inheriting the background-color of the parent component; if that is transparent it will break the effect - the label element intersects the border on focus/success and creates the illusion of a break in it by having the same background-color as the surrounding context.
+/*
+  * NOTE:
+  * This component relies on inheriting the background-color of the parent component; if that is transparent it will
+  * break the effect - the label element intersects the border on focus/success and creates the illusion of a break
+  * in it by having the same background-color as the surrounding context.
+*/
 .inputUX {
   @include form.input-container;
   position: relative;

@@ -11,6 +11,12 @@ export default {
   trailingComma: 'es5',
   overrides: [
     {
+      files: ['*.html'],
+      options: {
+        options: { parser: 'html', htmlWhitespaceSensitivity: 'ignore', xhtml: false },
+      },
+    },
+    {
       files: ['*.yml', '*.yaml'],
       options: {
         bracketSpacing: false,

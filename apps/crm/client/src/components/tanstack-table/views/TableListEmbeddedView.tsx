@@ -12,7 +12,10 @@ interface IProps<T> {
   setPageIndex: (updater: Updater<number>) => void;
 }
 
-// TODO: // REFACTOR:  99% idential to TableListView; styles and paginator control different.
+/*
+ * TODO: REFACTOR: 99% idential to TableListView; styles and paginator control different.
+ * NOTE: <tr />; prevents rows from expanding to fill table when total rows height is less than the table height
+ */
 function TableListEmbeddedView<T>(props: IProps<T>): React.JSX.Element {
   const { pageCount, pageIndex, setPageIndex, table } = props;
   const tableContainerRef = useRef<HTMLDivElement>(null);
@@ -92,7 +95,7 @@ function TableListEmbeddedView<T>(props: IProps<T>): React.JSX.Element {
                 ))}
               </tr>
             ))}
-            {/* Empty <tr>; prevents rows from expanding to fill table when total rows height is less than the table height */}
+            {/* Empty <tr>: see comment above function def */}
             <tr />
           </tbody>
         </table>

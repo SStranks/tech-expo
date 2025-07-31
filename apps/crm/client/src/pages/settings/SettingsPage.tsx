@@ -4,9 +4,14 @@ import { tableDataSettingsCompanyInfo, tableDataSettingsContacts } from '@Data/M
 
 import styles from './SettingsPage.module.scss';
 
-// TEMP DEV: // NOTE:  Make dynamic
+/*
+ * TEMP DEV: NOTE: Make dynamic
+ */
 const COMPANY_INFO = tableDataSettingsCompanyInfo;
 
+/*
+ * NOTE: <tr />; prevents rows from expanding to fill table when total rows height is less than the table height
+ */
 function SettingsPage(): React.JSX.Element {
   return (
     <div className={styles.settingsPage}>
@@ -59,7 +64,7 @@ function SettingsPage(): React.JSX.Element {
                 </div>
               </td>
             </tr>
-            {/* Empty <tr>; prevents rows from expanding to fill table when total rows height is less than the table height */}
+            {/* Empty <tr>: see comment above function def */}
             <tr />
           </tbody>
         </table>

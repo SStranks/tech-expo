@@ -4,7 +4,7 @@
 
 // Utilized in the React component as dynamic variable; for placement of portal relative to window
 :root {
-  --user-settings-menu-offset-x: ;
+  --user-settings-menu-offset-x: initial;
 }
 
 .userIcon {

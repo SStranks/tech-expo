@@ -7,8 +7,11 @@ import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '@Utils/cssTransitionGroup';
 
 import styles from './reactTransitionGroup.module.scss';
 
-// Wrapper component that adds a CSSTransition effect to React Portals.
-// Example: Companies Page; clicking 'Create Company' changes route to /companies/create - this page is an outlet within the companies page.
+/*
+ * Wrapper component that adds a CSSTransition effect to React Portals.
+ * Example: Companies Page; clicking 'Create Company' changes route to /companies/create;
+ * this page is an outlet within the companies page.
+ */
 function OutletPortalTransition(): React.JSX.Element {
   const location = useLocation();
   const currentOutlet = useOutlet();

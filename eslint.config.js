@@ -19,6 +19,7 @@ export default [
       '**/node_modules/',
       '**/dist/',
       '**/build/',
+      '**/logs/',
       '**/__snapshots__/',
       '**/mocks/',
       '**/coverage/',
@@ -26,6 +27,8 @@ export default [
       '**/*.gen.*',
       '**/graphql/generated/',
       '!**/.storybook/',
+      '**/private.*',
+      '**/migrations/meta/',
       'pnpm-lock.yaml',
     ],
   },
@@ -55,6 +58,7 @@ export default [
   {
     name: 'HTML Configuration',
     files: ['**/*.html'],
+    ignores: ['**/*EmailTemplate.html'],
     languageOptions: { ...EslintConfigHTML.languageOptions },
     plugins: { ...EslintConfigHTML.plugins },
     rules: { ...EslintConfigHTML.rules },
@@ -62,13 +66,14 @@ export default [
   {
     name: 'JSON Configuration',
     files: ['**/*.json'],
+    ignores: ['**/tsconfig.json'],
     languageOptions: { ...EslintConfigJSON.languageOptions },
     plugins: { ...EslintConfigJSON.plugins },
     rules: { ...EslintConfigJSON.rules },
   },
   {
     name: 'JSONC Configuration',
-    files: ['**/*.jsonc'],
+    files: ['**/*.jsonc', '**/tsconfig.json'],
     languageOptions: { ...EslintConfigJSONC.languageOptions },
     plugins: { ...EslintConfigJSONC.plugins },
     rules: { ...EslintConfigJSONC.rules },
@@ -100,7 +105,7 @@ export default [
     rules: { ...EslintConfigReact_18p2.rules },
     settings: {
       ...EslintConfigReact_18p2.settings,
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
           project: ['apps/crm/client/tsconfig.json'],
@@ -124,7 +129,7 @@ export default [
     rules: { ...EslintConfigStorybook.rules },
     settings: {
       ...EslintConfigStorybook.settings,
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
           project: ['apps/crm/client/tsconfig.json'],
@@ -148,7 +153,7 @@ export default [
     rules: { ...EslintConfigReact_18p2.rules, ...EslintConfigReactVitest.rules },
     settings: {
       ...EslintConfigReact_18p2.settings,
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
           project: ['apps/crm/client/tsconfig.json'],
@@ -176,7 +181,7 @@ export default [
     rules: { ...EslintConfigExpress.rules },
     settings: {
       ...EslintConfigExpress.settings,
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
           project: ['apps/crm/server/tsconfig.json'],

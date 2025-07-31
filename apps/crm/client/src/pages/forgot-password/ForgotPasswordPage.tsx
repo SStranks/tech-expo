@@ -41,6 +41,7 @@ function ForgotPasswordPage(): React.JSX.Element {
         <InputUx
           id={id}
           label="Email address"
+          defaultValue={undefined}
           error={errors['email']}
           isDirty={dirtyFields['email']}
           invalid={emailInvalid}
@@ -59,7 +60,7 @@ function ForgotPasswordPage(): React.JSX.Element {
         </button>
         <p>
           Already have an account?
-          <Link to={'/login'} className={styles.resetPasswordForm__link}>
+          <Link to="/login" className={styles.resetPasswordForm__link}>
             <span>Login</span>
           </Link>
         </p>

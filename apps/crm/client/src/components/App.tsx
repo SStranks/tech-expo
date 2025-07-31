@@ -67,7 +67,7 @@ function App(): React.JSX.Element {
       <Routes>
         <Route
           element={
-            <Authenticate fallback={<Navigate to={'/login'} />}>
+            <Authenticate fallback={<Navigate to="/login" />}>
               <LayoutDefault aside={<Aside />} header={<Header />}>
                 <Outlet />
               </LayoutDefault>

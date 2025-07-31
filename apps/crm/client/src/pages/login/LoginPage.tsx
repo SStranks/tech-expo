@@ -93,7 +93,7 @@ function LoginPage(): React.JSX.Element {
             <input type="checkbox" />
             Remember Credentials?
           </label>
-          <Link to={'/forgot-password'}>
+          <Link to="/forgot-password">
             <span className={styles.loginForm__link}>Forgot Password</span>
           </Link>
         </div>
@@ -103,7 +103,7 @@ function LoginPage(): React.JSX.Element {
         </button>
         <p>
           Don&#39;t have an account?
-          <Link to={'/register'}>
+          <Link to="/register">
             <span className={styles.loginForm__link}>Sign up here</span>
           </Link>
         </p>

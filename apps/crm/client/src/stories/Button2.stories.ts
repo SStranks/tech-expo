@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import ButtonDelete from '@Components/buttons/ButtonDelete';
 
-//👇 This default export determines where your story goes in the story list
+// 👇 This default export determines where your story goes in the story list
 const meta: Meta<typeof ButtonDelete> = {
   component: ButtonDelete,
 };

@@ -20,11 +20,11 @@ import styles from './Notifications.module.scss';
 // Defined at top of 'styles' scss; used to offset portal from window edge
 const CSS_ROOT_PROPERTY = '--notifications-menu-offset-x';
 
-const GET_MENU_PORTAL_BTN_RECT = (portalButtonRef: React.RefObject<HTMLButtonElement>) => {
+const GET_MENU_PORTAL_BTN_RECT = (portalButtonRef: React.RefObject<HTMLButtonElement | null>) => {
   return `${portalButtonRef.current?.getBoundingClientRect().right}px`;
 };
 
-const PORTAL_ONRESIZE = (portalButtonRef: React.RefObject<HTMLButtonElement>) => {
+const PORTAL_ONRESIZE = (portalButtonRef: React.RefObject<HTMLButtonElement | null>) => {
   const CSS_ROOT = document.querySelector(':root') as HTMLElement;
   const cssValue = GET_MENU_PORTAL_BTN_RECT(portalButtonRef);
   console.log(cssValue);

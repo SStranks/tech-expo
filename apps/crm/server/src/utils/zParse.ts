@@ -1,10 +1,10 @@
-import { AnyZodObject, z, ZodError } from 'zod';
+import { z, ZodError, ZodObject } from 'zod';
 
 import { BadRequestError } from './errors/index.js';
 import ZodValidationError from './errors/ZodValidationError.js';
 
 // NOTE:  Change 'any' back to request when finished experimenting.
-export async function zParse<T extends AnyZodObject>(schema: T, req: any): Promise<z.infer<T>> {
+export async function zParse<T extends ZodObject>(schema: T, req: any): Promise<z.infer<T>> {
   try {
     return await schema.parseAsync(req);
   } catch (error) {
@@ -41,5 +41,3 @@ export async function zParse<T extends AnyZodObject>(schema: T, req: any): Promi
 //   const { params, query: {page, pageSize}, body } = await zParse(mySchema, req);
 //   await myHandler({token, page, pageSize})
 // }
-
-export {};

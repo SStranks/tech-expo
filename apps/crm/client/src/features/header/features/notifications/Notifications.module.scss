@@ -4,7 +4,7 @@
 
 // Utilized in the React component as dynamic variable; for placement of portal relative to window
 :root {
-  --notifications-menu-offset-x: ;
+  --notifications-menu-offset-x: initial;
 }
 
 .notificationIcon {

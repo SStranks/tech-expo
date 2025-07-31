@@ -24,6 +24,9 @@ logs/
 # Testing
 **/coverage
 
+# Generated Files
+**/generated/
+
 # Private Files
 **/private.*
 **/private

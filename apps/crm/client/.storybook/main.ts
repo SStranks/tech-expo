@@ -1,4 +1,6 @@
+/* eslint-disable perfectionist/sort-objects */
 import type { StorybookConfig } from '@storybook/react-webpack5';
+
 import CommonConfig from '../webpack/webpack.common.js';
 
 const config: StorybookConfig = {
@@ -9,7 +11,7 @@ const config: StorybookConfig = {
     '@storybook/addon-links',
     '@storybook/addon-onboarding',
     '@storybook/addon-webpack5-compiler-babel',
-    '@storybook/addon-docs'
+    '@storybook/addon-docs',
   ],
 
   staticDirs: ['../public'],
@@ -30,7 +32,10 @@ const config: StorybookConfig = {
       };
     }
 
-    // NOTE:  Storybook contains CSS rule already; can't merge its rule object and my webpack one, leads to duplicate rules and breaks storybook.
+    /*
+     * NOTE: Storybook contains CSS rule already; can't merge its rule object and my webpack one,
+     * leads to duplicate rules and breaks storybook.
+     */
     config.module?.rules?.push(
       {
         test: /\.module\.scss$/,
@@ -57,7 +62,7 @@ const config: StorybookConfig = {
     );
 
     return config;
-  }
+  },
 };
 
 export default config;

@@ -25,7 +25,13 @@ export const LoggedIn: Story = {
     const canvas = within(canvasElement);
     const loginButton = canvas.getByRole('button', { name: /log in/i });
     await expect(loginButton).toBeInTheDocument();
-    await userEvent.click(loginButton); // TEST:  Eslint-storybook - should error without await keyword; known bug: https://github.com/storybookjs/eslint-plugin-storybook/issues/168
+
+    /*
+     * TEST:  Eslint-storybook - should error without await keyword; known bug:
+     * https://github.com/storybookjs/eslint-plugin-storybook/issues/168
+     */
+    await userEvent.click(loginButton);
+
     await expect(loginButton).not.toBeInTheDocument();
 
     const logoutButton = canvas.getByRole('button', { name: /log out/i });

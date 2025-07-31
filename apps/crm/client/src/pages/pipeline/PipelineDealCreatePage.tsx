@@ -45,7 +45,17 @@ function PipelineDealCreatePage(): React.JSX.Element {
   const onSubmit: SubmitHandler<IFormData> = (data) => {
     const { companyTitle, dealOwner, dealStage, dealTitle, dealValue } = data;
     const { columnId } = locationState;
-    reduxDispatch(createDeal({ columnId, companyTitle, dealOwner, dealStage, dealTitle, dealValue }));
+    reduxDispatch(
+      createDeal({
+        columnId,
+        companyTitle,
+        dealOwner,
+        dealStage,
+        dealTitle,
+        dealTotal: 0,
+        dealValue,
+      })
+    );
     setPortalActiveInternal(false);
     navigate(-1);
   };

@@ -7,7 +7,7 @@ import QuoteFinancialsItem from './QuoteFinancialsItem';
 import styles from './QuoteFinancials.module.scss';
 
 function QuoteFinancials(): React.JSX.Element {
-  const [serviceItems, setServiceItems] = useState<JSX.Element[]>([]);
+  const [serviceItems, setServiceItems] = useState<React.JSX.Element[]>([]);
   const id = useId();
 
   const addServiceBtnClickHandler = () => {

@@ -2,7 +2,10 @@
 
 $height: 44px;
 
-// TODO:  Theme colors for dark/light - currently hardcoding the colors from the table-elements (also need to extract the colors into themes there too)
+/*
+ * TODO: Theme colors for dark/light - currently hardcoding the colors from the table-elements (also need to extract the
+ * colors into themes there too)
+*/
 .quoteStatusUpdater {
   display: flex;
   height: $height;

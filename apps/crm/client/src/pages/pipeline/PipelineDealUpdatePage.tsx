@@ -46,7 +46,17 @@ function PipelineDealUpdatePage(): React.JSX.Element {
     const { companyTitle, dealOwner, dealStage, dealTitle, dealTotal } = data;
     const taskId = task.id;
 
-    reduxDispatch(updateDeal({ companyTitle, dealOwner, dealStage, dealTitle, dealTotal, taskId }));
+    reduxDispatch(
+      updateDeal({
+        companyTitle,
+        dealOwner,
+        dealStage,
+        dealTitle,
+        dealTotal,
+        dealValue: 0,
+        taskId,
+      })
+    );
     setPortalActiveInternal(false);
     navigate(-1);
   };

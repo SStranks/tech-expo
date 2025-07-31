@@ -55,7 +55,7 @@ function PaginatorRangeControl(props: IProps): React.JSX.Element {
     if (pageIndex > 4)
       jsxElements.push(
         <ButtonPaginatorPages
-          key={'prev'}
+          key="prev"
           direction="previous"
           title="Previous 5 Pages"
           onClick={() => shiftPages('previous', 5)}
@@ -82,12 +82,7 @@ function PaginatorRangeControl(props: IProps): React.JSX.Element {
 
     if (pageIndex < pageCount - 3)
       jsxElements.push(
-        <ButtonPaginatorPages
-          key={'next'}
-          direction="next"
-          title="Next 5 Pages"
-          onClick={() => shiftPages('next', 5)}
-        />
+        <ButtonPaginatorPages key="next" direction="next" title="Next 5 Pages" onClick={() => shiftPages('next', 5)} />
       );
 
     if (pageCount > 1) jsxElements.push(createButtonPaginatorNumber(pageCount));

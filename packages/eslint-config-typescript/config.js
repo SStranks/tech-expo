@@ -28,6 +28,7 @@ const EslintConfigTypescript = {
     ...PluginImportXConfigs.recommended.rules,
     ...PluginStylistic.configs.recommended.rules,
     'import-x/no-unresolved': 'error',
+    '@stylistic/jsx-curly-brace-presence': ['error', { propElementValues: 'always' }],
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-use-before-define': 'error',
     '@typescript-eslint/no-var-requires': 'off',

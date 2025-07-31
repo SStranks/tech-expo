@@ -21,7 +21,7 @@ function Search(props: IProps): React.JSX.Element {
   const [searchInput, setSearchInput] = useState<string>('');
   const searchInputRef = useRef<HTMLInputElement>(null);
   const portalContentRef = useRef<HTMLDivElement>(null);
-  usePortalClose(portalActive, setPortalActive, portalContentRef, null);
+  usePortalClose(portalActive, setPortalActive, portalContentRef);
   usePortalFocusTrap(portalActive);
 
   const closeModal = () => {

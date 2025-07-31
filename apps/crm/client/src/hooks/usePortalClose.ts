@@ -3,20 +3,23 @@ import { useEffect } from 'react';
 type TParam1 = boolean;
 type TParam2 = React.Dispatch<React.SetStateAction<boolean>>;
 type TParam3 = React.RefObject<HTMLDivElement | null>;
-type TParam4 = React.RefObject<HTMLButtonElement> | null;
+type TParam4 = React.RefObject<HTMLButtonElement | null>;
 
 // Closes portal/modal content; when ESC key or click outside of modal content
 function usePortalClose(
   portalActive: TParam1,
   setPortalActive: TParam2,
   portalContentRef: TParam3,
-  openPortalContentBtnRef: TParam4
+  openPortalContentBtnRef?: TParam4
 ): void {
   return useEffect(() => {
     const closePortal = (e: KeyboardEvent | MouseEvent) => {
       if (portalContentRef === null || portalContentRef.current === null) return;
 
-      // Abort if an input element or textarea is in focus elsewhere in the document; used in conjunction with 'mousedown' to allow input to be unfocused without triggering eventhandler.
+      /*
+        Abort if an input element or textarea is in focus elsewhere in the document; used in conjunction with
+        'mousedown' to allow input to be unfocused without triggering eventhandler.
+      */
       if (document.activeElement instanceof HTMLInputElement || document.activeElement instanceof HTMLTextAreaElement)
         return;
 

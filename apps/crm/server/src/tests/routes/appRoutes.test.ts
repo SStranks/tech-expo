@@ -24,7 +24,7 @@ jest.unstable_mockModule('#Routes/index', () => {
   };
 });
 
-const { default: app } = await import('#App/app');
+const { default: app } = await import('#App/app.js');
 
 describe('PUBLIC Routes', () => {
   test('favicon.ico; should return 204', () => {

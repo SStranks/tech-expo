@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { Draggable } from 'react-beautiful-dnd';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,7 +31,11 @@ function ScrumBoardPipelineCard({ columnId, index, task, taskStatus }: IProps): 
           {...provided.dragHandleProps}
           onDoubleClick={onDoubleClickHandler}
           ref={provided.innerRef}
-          className={`${styles.card} ${taskStatus ? styles[`card--${taskStatus}`] : ''} ${snapshot.isDragging ? styles['card--dragging'] : ''}`}>
+          className={clsx(
+            `${styles.card}`,
+            `${taskStatus ? styles[`card--${taskStatus}`] : ''}`,
+            `${snapshot.isDragging ? styles['card--dragging'] : ''}`
+          )}>
           <div className={styles.card__upper}>
             <img src={task.companyLogo} alt="" className={styles.companyLogo} />
             <div className={styles.dealInfo}>

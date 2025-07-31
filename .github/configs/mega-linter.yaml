@@ -1,3 +1,5 @@
+# eslint-disable unicorn/filename-case
+# eslint-disable yml/plain-scalar
 # Configuration file for MegaLinter
 # See all available variables at https://megalinter.io/configuration/ and in linters documentation
 ---
@@ -21,6 +23,7 @@ HTML_FILTER_REGEX_EXCLUDE: '(cypress/|nodemailer/templates/|bundle-stats.html)'
 JSON_FILTER_REGEX_EXCLUDE: '/migrations/meta/'
 
 # GRAPHQL_SCHEMA_LINTER_ARGUMENTS: '--config graphql.config.ts'
+EDITORCONFIG_EDITORCONFIG_CHECKER_CONFIG_FILE: 'packages/megalinter-config/.editorconfig-checker.json'
 JSON_JSONLINT_ARGUMENTS: '--comments'
 JSON_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
 REPOSITORY_CHECKOV_CONFIG_FILE: 'packages/megalinter-config/.checkov.yml'

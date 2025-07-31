@@ -1,5 +1,6 @@
 import type { ITask } from '@Data/MockScrumboardKanban';
 
+import clsx from 'clsx';
 import { Draggable } from 'react-beautiful-dnd';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,7 +32,11 @@ function ScrumBoardKanbanCard({ columnId, index, task, taskStatus }: IProps): Re
           {...provided.dragHandleProps}
           onDoubleClick={onDoubleClickHandler}
           ref={provided.innerRef}
-          className={`${styles.card} ${taskStatus ? styles[`card--${taskStatus}`] : ''} ${snapshot.isDragging ? styles['card--dragging'] : ''}`}>
+          className={clsx(
+            `${styles.card}`,
+            `${taskStatus ? styles[`card--${taskStatus}`] : ''}`,
+            `${snapshot.isDragging ? styles['card--dragging'] : ''}`
+          )}>
           <div className={styles.card__upper}>
             <span className={styles.dealInfo__company}>{task.title}</span>
             <ScrumboardCardOptionsBtn taskId={task.id} columnId={columnId} taskStatus={taskStatus} />

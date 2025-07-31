@@ -21,7 +21,7 @@ function ContactLifecycle(): React.JSX.Element {
         <div className={styles.header}>
           <IconCircleTriangleRight svgClass={styles.header__svg} />
           <span className={styles.header__title}>Lifecycle Stage: </span>
-          <ContactStatus status={'contacted'} />
+          <ContactStatus status="contacted" />
         </div>
       </TableSingleColumn.Header>
       <TableSingleColumn.Row>

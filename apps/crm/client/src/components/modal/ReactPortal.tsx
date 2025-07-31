@@ -1,8 +1,10 @@
 import { useLayoutEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-// Creates a flexible ReactPortal component. Will insert DOM element if no wrappedId exists.
-// https://github.com/KRRISH96/react-portal-overlay/blob/main/src/components/ReactPortal.js
+/*
+ * Creates a flexible ReactPortal component. Will insert DOM element if no wrappedId exists.
+ * https://github.com/KRRISH96/react-portal-overlay/blob/main/src/components/ReactPortal.js
+ */
 
 type PortalChildren = {
   children: React.JSX.Element | React.JSX.Element[];
@@ -26,8 +28,11 @@ function ReactPortal({ children, wrapperId = 'react-portal-wrapper' }: PortalChi
     // let element = document.querySelector('#wrapperId');
     let element = document.querySelector(`#${wrapperId}`);
     let systemCreated = false;
-    // if element is not found with wrapperId or wrapperId is not provided,
-    // create and append to body
+
+    /*
+     * if element is not found with wrapperId or wrapperId is not provided,
+     * create and append to body
+     */
     if (!element) {
       systemCreated = true;
       element = createWrapperAndAppendToBody(wrapperId);

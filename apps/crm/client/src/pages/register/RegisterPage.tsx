@@ -52,6 +52,7 @@ function RegisterPage(): React.JSX.Element {
         <InputUx
           id={emailId}
           label="Email address"
+          defaultValue={undefined}
           error={errors['email']}
           isDirty={dirtyFields['email']}
           invalid={emailInvalid}
@@ -67,6 +68,7 @@ function RegisterPage(): React.JSX.Element {
         </InputUx>
         <Suspense fallback={<InputPasswordSkeleton label="Password" />}>
           <InputPasswordStrength
+            defaultValue={undefined}
             register={register}
             control={control}
             trigger={trigger}
@@ -86,7 +88,7 @@ function RegisterPage(): React.JSX.Element {
         </button>
         <p>
           Already have an account?
-          <Link to={'/login'}>
+          <Link to="/login">
             <span className={styles.registerForm__loginLink}>Login</span>
           </Link>
         </p>

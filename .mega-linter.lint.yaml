@@ -1,3 +1,4 @@
+# eslint-disable yml/plain-scalar
 # MegaLinter: Commit
 # See all available variables at https://megalinter.io/configuration/ and in linters documentation
 ---
@@ -18,7 +19,7 @@ DISABLE_LINTERS:
   - JAVASCRIPT_STANDARD
   - TYPESCRIPT_STANDARD
 
-EXCLUDED_DIRECTORIES: ['node_modules', 'megalinter-reports', 'dist', 'build', 'public', 'private', 'generated']
+EXCLUDED_DIRECTORIES: ['node_modules', 'megalinter-reports', 'dist', 'build', 'public', 'private', 'generated', 'meta']
 FILTER_REGEX_EXCLUDE: '(pnpm-lock.yaml|pnpm-workspace.yaml)'
 
 BASH_SHELLCHECK_ARGUMENTS: '-S warning'
@@ -27,6 +28,8 @@ BASH_SHFMT_ARGUMENTS: '--case-indent --indent 2 --space-redirects --language-dia
 CSS_STYLELINT_CONFIG_FILE: 'stylelint.config.js'
 
 EDITORCONFIG_EDITORCONFIG_CHECKER_CONFIG_FILE: 'packages/megalinter-config/.editorconfig-checker.json'
+
+HTML_DJLINT_FILTER_REGEX_EXCLUDE: '(?i)emailtemplate.*\.html$'
 
 JAVASCRIPT_DEFAULT_STYLE: 'prettier'
 JAVASCRIPT_ES_CLI_EXECUTABLE: ['node_modules/.bin/eslint']

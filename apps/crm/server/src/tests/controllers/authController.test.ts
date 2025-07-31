@@ -13,7 +13,7 @@ jest.unstable_mockModule('#Config/dbRedis', () => ({
   redisClient: jest.fn(),
 }));
 
-const { default: ServiceUser } = await import('#Services/User');
+const { default: ServiceUser } = await import('#Services/User.js');
 
 const MOCK_BADREQUESTERROR = jest.fn((_: any) => _);
 const MOCK_QUERYUSERBYID = jest.fn();
@@ -31,7 +31,7 @@ jest.unstable_mockModule('#Services/User', () => ({
   },
 }));
 
-const { default: authController } = await import('#Controllers/authController');
+const { default: authController } = await import('#Controllers/authController.js');
 
 const { JWT_COOKIE_AUTH_ID } = process.env;
 const IAT = Math.floor(Date.now() / 1000);
