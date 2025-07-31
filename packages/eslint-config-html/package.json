@@ -6,6 +6,7 @@
   "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
   "license": "ISC",
   "type": "module",
+  "types": "index.d.ts",
   "main": "config.js",
   "devDependencies": {
     "@html-eslint/eslint-plugin": "^0.43.1",
