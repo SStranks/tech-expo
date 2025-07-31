@@ -1,11 +1,12 @@
 // @types/webpack-stats-plugin currently stuck at @types/webpack@4
 declare module 'webpack-stats-plugin' {
-  declare class StatsWriterPlugin {
+  import type { Compilation, Compiler } from 'webpack';
+  class StatsWriterPlugin {
     constructor(options?: StatsWriterPlugin.Options);
     apply(compiler: Compiler): void;
   }
 
-  declare namespace StatsWriterPlugin {
+  namespace StatsWriterPlugin {
     /**
      * transform function
      */
@@ -20,7 +21,7 @@ declare module 'webpack-stats-plugin' {
 
     interface TransformOptions {
       /** Current compiler instance */
-      compiler: webpack.compilation.Compilation;
+      compiler: Compilation;
     }
 
     interface Options {
@@ -51,6 +52,6 @@ declare module 'webpack-stats-plugin' {
 }
 
 declare module '@bundle-stats/plugin-webpack-filter' {
-  declare const _default: { default: import('@bundle-stats/plugin-webpack-filter') };
+  const _default: { default: typeof import('@bundle-stats/plugin-webpack-filter') };
   export default _default;
 }

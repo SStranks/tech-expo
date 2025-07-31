@@ -5,6 +5,8 @@ import ParserTypescriptEslint from '@typescript-eslint/parser';
 import PluginImportX, { flatConfigs as PluginImportXConfigs } from 'eslint-plugin-import-x';
 import globals from 'globals';
 
+export { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
+
 const EslintConfigTypescript = {
   ...PluginTypescriptEslint.configs.recommended,
   languageOptions: {
@@ -46,11 +48,6 @@ const EslintConfigTypescript = {
     'import-x/ignore': ['node_modules'],
     'import-x/parsers': {
       '@typescript-eslint/parser': ['*.ts', '*.tsx', '*.html'],
-    },
-    'import-x/resolver': {
-      typescript: {
-        alwaysTryTypes: true,
-      },
     },
   },
 };

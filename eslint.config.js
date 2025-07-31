@@ -9,7 +9,7 @@ import { EslintConfigJSON, EslintConfigJSON5, EslintConfigJSONC } from '@package
 import EslintConfigReactVitest from '@packages/eslint-config-react-vitest';
 import EslintConfigReact_18p2 from '@packages/eslint-config-react/react-18.2/config.js';
 import EslintConfigStorybook from '@packages/eslint-config-storybook';
-import EslintConfigTypescript from '@packages/eslint-config-typescript';
+import EslintConfigTypescript, { createTypeScriptImportResolver } from '@packages/eslint-config-typescript';
 import EslintConfigYAML from '@packages/eslint-config-yaml';
 
 export default [
@@ -95,7 +95,11 @@ export default [
   // === INDIVIDUAL PROJECTS ===
   {
     name: 'CRM: Client; React + TypeScript',
-    files: ['apps/crm/client/src/**/*.[jt]s?(x)', 'apps/pnpm-outdated/client/src/*.ts'],
+    files: [
+      'apps/crm/client/src/**/*.[jt]s?(x)',
+      'apps/crm/client/.storybook/**/*.[jt]s?(x)',
+      'apps/pnpm-outdated/client/src/*.ts',
+    ],
     processor: EslintConfigGraphQL.processor,
     languageOptions: {
       parserOptions: { projectService: true },
@@ -105,12 +109,12 @@ export default [
     rules: { ...EslintConfigReact_18p2.rules },
     settings: {
       ...EslintConfigReact_18p2.settings,
-      'import-x/resolver': {
-        typescript: {
+      'import-x/resolver-next': [
+        createTypeScriptImportResolver({
           alwaysTryTypes: true,
           project: ['apps/crm/client/tsconfig.json'],
-        },
-      },
+        }),
+      ],
     },
   },
   {
@@ -129,12 +133,12 @@ export default [
     rules: { ...EslintConfigStorybook.rules },
     settings: {
       ...EslintConfigStorybook.settings,
-      'import-x/resolver': {
-        typescript: {
+      'import-x/resolver-next': [
+        createTypeScriptImportResolver({
           alwaysTryTypes: true,
           project: ['apps/crm/client/tsconfig.json'],
-        },
-      },
+        }),
+      ],
     },
   },
   // {
@@ -153,21 +157,29 @@ export default [
     rules: { ...EslintConfigReact_18p2.rules, ...EslintConfigReactVitest.rules },
     settings: {
       ...EslintConfigReact_18p2.settings,
-      'import-x/resolver': {
-        typescript: {
+      'import-x/resolver-next': [
+        createTypeScriptImportResolver({
           alwaysTryTypes: true,
           project: ['apps/crm/client/tsconfig.json'],
-        },
-      },
+        }),
+      ],
     },
   },
   {
     name: 'CRM: Client; Testing (Cypress)',
-    files: ['apps/crm/client/cypress/**/*.cy.[jt]s?(x)'],
+    files: ['apps/crm/client/cypress/**/*.[jt]s?(x)'],
     languageOptions: { ...EslintConfigCypress.languageOptions },
     plugins: { ...EslintConfigCypress.plugins },
     rules: { ...EslintConfigCypress.rules },
-    settings: { ...EslintConfigCypress.settings },
+    settings: {
+      ...EslintConfigCypress.settings,
+      'import-x/resolver-next': [
+        createTypeScriptImportResolver({
+          alwaysTryTypes: true,
+          project: ['apps/crm/client/cypress/tsconfig.json'],
+        }),
+      ],
+    },
   },
   {
     name: 'CRM: Server; NodeJS Express + Testing (Node)',

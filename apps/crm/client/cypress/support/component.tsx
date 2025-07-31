@@ -1,9 +1,9 @@
 // Import Cypress commands
-import './commands';
+import './commands.ts';
 
 // Import required dependencies for components
-import '#Sass/global-imports.scss';
-import { mount } from 'cypress/react18';
+import '@Sass/global-imports.scss';
+import { mount } from 'cypress/react';
 import { MemoryRouter } from 'react-router-dom';
 // import { EnhancedStore } from '@reduxjs/toolkit'
 // import { RootState } from './src/StoreState'
