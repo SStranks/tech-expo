@@ -98,6 +98,7 @@ export default [
     files: [
       'apps/crm/client/src/**/*.[jt]s?(x)',
       'apps/crm/client/.storybook/**/*.[jt]s?(x)',
+      'apps/crm/client/codegen.ts',
       'apps/pnpm-outdated/client/src/*.ts',
     ],
     processor: EslintConfigGraphQL.processor,

@@ -1,5 +1,4 @@
 /* eslint-disable perfectionist/sort-objects */
-/// <reference types="node" />
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 import fs from 'node:fs';

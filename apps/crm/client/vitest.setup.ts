@@ -1,17 +1,17 @@
 import '@testing-library/jest-dom/vitest';
 import { vi } from 'vitest';
 
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(globalThis, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
+    addEventListener: vi.fn(),
+    addListener: vi.fn(), // Deprecated
+    dispatchEvent: vi.fn(),
     matches: false,
     media: query,
     onchange: null,
-    addListener: vi.fn(), // Deprecated
-    removeListener: vi.fn(), // Deprecated
-    addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
+    removeListener: vi.fn(), // Deprecated
   })),
 });
 
@@ -19,21 +19,21 @@ const localStorageMock = (function () {
   let store = {};
 
   return {
+    clear: function () {
+      store = {};
+    },
     getItem: function (key) {
       return store[key] || null;
-    },
-    setItem: function (key, value) {
-      store[key] = value.toString();
     },
     removeItem: function (key) {
       delete store[key];
     },
-    clear: function () {
-      store = {};
+    setItem: function (key, value) {
+      store[key] = value.toString();
     },
   };
 })();
 
-Object.defineProperty(window, 'localStorage', {
+Object.defineProperty(globalThis, 'localStorage', {
   value: localStorageMock,
 });
