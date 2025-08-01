@@ -27,7 +27,8 @@ DISABLE_LINTERS:
   - REPOSITORY_TRIVY
   - REPOSITORY_TRIVY_SBOM
 
-EXCLUDED_DIRECTORIES: ['node_modules', 'megalinter-reports', 'dist', 'build', 'public', 'private', 'generated', 'meta']
+EXCLUDED_DIRECTORIES:
+  ['.git', 'node_modules', 'megalinter-reports', 'dist', 'build', 'public', 'private', 'generated', 'meta']
 FILTER_REGEX_EXCLUDE: '(pnpm-lock.yaml|pnpm-workspace.yaml)'
 HTML_FILTER_REGEX_EXCLUDE: '(cypress/|nodemailer/templates/|bundle-stats.html)'
 JSON_FILTER_REGEX_EXCLUDE: '/migrations/meta/'
@@ -36,6 +37,7 @@ BASH_SHELLCHECK_ARGUMENTS: '-S warning'
 BASH_SHFMT_ARGUMENTS: '--case-indent --indent 2 --space-redirects --language-dialect bash'
 
 CSS_STYLELINT_ARGUMENTS: '--config-basedir=./node_modules'
+CSS_STYLELINT_CLI_EXECUTABLE: ['node_modules/.bin/stylelint']
 CSS_STYLELINT_CONFIG_FILE: 'stylelint.config.js'
 
 EDITORCONFIG_EDITORCONFIG_CHECKER_CONFIG_FILE: 'packages/megalinter-config/.editorconfig-checker.json'
