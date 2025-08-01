@@ -8,7 +8,7 @@ import helmet from 'helmet';
 
 import { apolloServer, graphqlContext } from '#Graphql/index.js';
 import { globalErrorHandler } from '#Middleware/index.js';
-import { testRouter, userRouter } from '#Routes/index.js';
+import { userRouter } from '#Routes/index.js';
 import { BadRequestError } from '#Utils/errors/index.js';
 
 import expressApp from './express.js';
@@ -43,7 +43,6 @@ app.use('/graphql', apolloMiddleware(apolloServer, { context: graphqlContext }))
 
 // Routes
 app.use('/api/users', userRouter);
-app.use('/api/test', testRouter);
 
 // Favicon
 app.get('/favicon.ico', (_req, res) => {

@@ -1,4 +1,5 @@
 // NOTE:  MegaLinter v8 only uses '@secretlint/secretlint-rule-preset-recommend'.
+// eslint-disable-next-line no-undef -- megalinter requires cjs; secretlint config .js
 module.exports = {
   rules: [
     {

@@ -5,10 +5,11 @@
   "description": "shared vitest configuration",
   "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
   "license": "ISC",
-  "files": [
-    "vitest.ts",
-    "setup.ts"
-  ],
+  "exports": {
+    ".": {
+      "import": "./vitest.ts"
+    }
+  },
   "devDependencies": {
     "vitest": "^3.2.3"
   }

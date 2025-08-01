@@ -24,6 +24,7 @@ export default [
       '**/mocks/',
       '**/coverage/',
       '**/.sassdoc/',
+      '**/webpack/stats/',
       '**/*.gen.*',
       '**/graphql/generated/',
       '!**/.storybook/',

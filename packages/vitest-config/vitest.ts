@@ -1,1 +1,1 @@
-export { defineWorkspace } from 'vitest/config';
+export { defineConfig } from 'vitest/config';
