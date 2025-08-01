@@ -1,7 +1,16 @@
 **/node_modules
 **/public
+**/build
+**/logs
 **/dist
 **/coverage
+**/mocks
+**/__snapshots__
+**/migrations/meta
 **/.sassdoc
+**/*.gen.*
+**/graphql/generated/
 pnpm-lock.yaml
-megalinter-reports/
+
+
+

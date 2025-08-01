@@ -1,5 +1,6 @@
 {
   "Exclude": ["Icon.*\\.tsx$"],
+  "IgnoreDefaults": false,
   "AllowedContentTypes": [],
   "PassedFiles": [],
   "Disable": {

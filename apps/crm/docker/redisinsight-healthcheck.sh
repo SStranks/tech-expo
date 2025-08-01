@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -euo pipefail
+set -euo
 
 CONTAINER="${REDISINSIGHT_CONTAINER:-redisinsight}"
 PORT="${REDISINSIGHT_DOCKER_PORT:-5540}"

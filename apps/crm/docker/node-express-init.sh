@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -euo pipefail
+set -euo
 
 DEMO_ACC_GENERIC_NON_USER_PASSWORD=$(cat /run/secrets/demo_acc_generic_non_user_password)
 GRAPHQL_INTROSPECT_AUTH=$(cat /run/secrets/graphql_introspect_auth)

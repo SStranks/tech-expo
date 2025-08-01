@@ -22,6 +22,7 @@ ENABLE:
 DISABLE_LINTERS:
   - JAVASCRIPT_STANDARD
   - TYPESCRIPT_STANDARD
+  - CSS_SCSS_LINT
   - REPOSITORY_GRYPE
   - REPOSITORY_TRIVY
   - REPOSITORY_TRIVY_SBOM
@@ -34,6 +35,7 @@ JSON_FILTER_REGEX_EXCLUDE: '/migrations/meta/'
 BASH_SHELLCHECK_ARGUMENTS: '-S warning'
 BASH_SHFMT_ARGUMENTS: '--case-indent --indent 2 --space-redirects --language-dialect bash'
 
+CSS_STYLELINT_ARGUMENTS: '--config-basedir=./node_modules'
 CSS_STYLELINT_CONFIG_FILE: 'stylelint.config.js'
 
 EDITORCONFIG_EDITORCONFIG_CHECKER_CONFIG_FILE: 'packages/megalinter-config/.editorconfig-checker.json'

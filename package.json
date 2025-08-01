@@ -31,7 +31,7 @@
     "commitlint": "commitlint",
     "outdated": "pnpm outdated -r > outdatedPackages.txt",
     "eslint:app": "bash scripts/eslint-app.sh",
-    "eslint:repo": "eslint",
+    "eslint:repo": "eslint apps/**/src/**/*.{js,ts,jsx,tsx}",
     "eslint:config": "bash scripts/eslint-config.sh",
     "megalint:app:lint": "bash scripts/megalint-app-lint.sh",
     "megalint:repo:security": "bash scripts/megalint-security.sh",

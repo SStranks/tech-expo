@@ -25,7 +25,7 @@ logs/
 **/coverage
 
 # Generated Files
-**/generated/
+**/graphql/generated/
 
 # Private Files
 **/private.*
