@@ -37,8 +37,6 @@
     "cypress:ui": "start-server-and-test start http://localhost:3000 cypress:run",
     "cypress:e2e": "cypress run",
     "cypress:component": "cypress run --component",
-    "eslint:lint": "pnpm eslint ./**/*.{js,jsx,ts,tsx}",
-    "stylelint:lint": "pnpm stylelint ./**/*.{css,scss}",
     "storybook": "storybook dev -p 6006 --disable-telemetry",
     "build-storybook": "storybook build --disable-telemetry",
     "sassdoc:build": "sassdoc ./src --dest ./.sassdoc",

@@ -11,8 +11,8 @@ on: # yamllint disable-line rule:truthy
     branches: [main]
 
 jobs:
-  build:
-    name: Test
+  test:
+    name: test
     runs-on: ubuntu-latest
 
     permissions:
