@@ -12,7 +12,8 @@ RUN apk add --no-cache \
   zlib-dev \
   openssl-dev \
   wget \
-  git
+  git \
+  brotli-dev
 
 WORKDIR /app
 
@@ -31,6 +32,17 @@ FROM nginx:${NGINX_TAG} AS runtime
 RUN apk add --no-cache brotli-libs
 COPY --from=nginx-builder /app/nginx/objs/ngx_http_brotli_static_module.so /etc/nginx/modules/
 COPY --from=nginx-builder /app/nginx/objs/ngx_http_brotli_filter_module.so /etc/nginx/modules/
+
+RUN mkdir -p \
+  /run \
+  /var/run \
+  /var/cache/nginx \
+  /var/log/nginx \
+  && chown -R nginx:nginx \
+  /run \
+  /var/run \
+  /var/cache/nginx \
+  /var/log/nginx
 
 USER nginx
 EXPOSE 80
