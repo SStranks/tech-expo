@@ -1,5 +1,6 @@
 ---
 name: Dependencies
+permissions: read-all
 # Checks the entire repository for outdated packages (latest) and prints output to .txt
 
 on: # yamllint disable-line rule:truthy
