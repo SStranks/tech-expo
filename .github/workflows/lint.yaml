@@ -48,7 +48,7 @@ jobs:
         run: pnpm install
 
       - name: Generate graphql codegen files
-        run: pnpm --filter "@apps/crm/server" --filter "@apps/crm/client" codegen
+        run: pnpm --filter "@apps/crm-client" --filter "@apps/crm-server" codegen
 
       - name: MegaLinter
         uses: oxsecurity/megalinter/flavors/javascript@v8.3.0
