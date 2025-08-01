@@ -47,11 +47,11 @@ HTML_DJLINT_FILTER_REGEX_EXCLUDE: '(?i)emailtemplate.*\.html$'
 
 JAVASCRIPT_DEFAULT_STYLE: 'prettier'
 JAVASCRIPT_ES_CLI_EXECUTABLE: ['node_modules/.bin/eslint']
-JAVASCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
-  - --no-eslintrc
-  - -c
-  - /tmp/lint/eslint.config.js
-  - --no-ignore
+# JAVASCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
+#   - --no-eslintrc
+#   - -c
+#   - /tmp/lint/eslint.config.js
+#   - --no-ignore
 JAVASCRIPT_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
 JAVASCRIPT_ES_CONFIG_FILE: 'eslint.config.js'
 
@@ -65,21 +65,21 @@ REPOSITORY_SECRETLINT_CONFIG_FILE: 'packages/megalinter-config/.secretlintrc.js'
 REPOSITORY_TRUFFLEHOG_ARGUMENTS: '--exclude-paths=packages/megalinter-config/trufflehog_exclude.txt'
 
 TSX_ES_CLI_EXECUTABLE: ['node_modules/.bin/eslint']
-TSX_ES_COMMAND_REMOVE_ARGUMENTS:
-  - --no-eslintrc
-  - -c
-  - /tmp/lint/eslint.config.js
-  - --no-ignore
+# TSX_ES_COMMAND_REMOVE_ARGUMENTS:
+#   - --no-eslintrc
+#   - -c
+#   - /tmp/lint/eslint.config.js
+#   - --no-ignore
 TSX_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
 TSX_ES_CONFIG_FILE: 'eslint.config.js'
 
 TYPESCRIPT_DEFAULT_STYLE: 'prettier'
 TYPESCRIPT_ES_CLI_EXECUTABLE: ['node_modules/.bin/eslint']
-TYPESCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
-  - --no-eslintrc
-  - -c
-  - /tmp/lint/eslint.config.js
-  - --no-ignore
+# TYPESCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
+#   - --no-eslintrc
+#   - -c
+#   - /tmp/lint/eslint.config.js
+#   - --no-ignore
 TYPESCRIPT_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
 TYPESCRIPT_ES_CONFIG_FILE: 'eslint.config.js'
 
