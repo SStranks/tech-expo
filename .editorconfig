@@ -37,11 +37,19 @@ indent_size = 2
 max_line_length = unset
 indent_style = space
 
+[*.conf]
+max_line_length = unset
+
 [*.svg]
 max_line_length = unset
 
 [*.txt]
 max_line_length = unset
+
+[*.csv]
+trim_trailing_whitespace = false
+max_line_length = unset
+indent_size = 0
 
 [{.env,.env.*}]
 trim_trailing_whitespace = false

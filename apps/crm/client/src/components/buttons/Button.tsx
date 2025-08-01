@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import { IIcon } from '@Components/svg';
 
 import styles from './Button.module.scss';
@@ -34,7 +36,13 @@ function Button({
   const text = buttonText ? <span className={styles.button__text}>{buttonText}</span> : false;
   const icon = ButtonIcon ? <ButtonIcon /> : false;
   const iconOnly = !!(!buttonText && ButtonIcon);
-  const classes = `${styles.button} ${styles[`type--${buttonStyle}`]} ${styles[`size--${buttonSize}`]} ${styles[`shape--${buttonShape}`]} ${iconOnly ? styles.iconOnly : ''}`;
+  const classes = clsx(
+    `${styles.button}`,
+    `${styles[`type--${buttonStyle}`]}`,
+    `${styles[`size--${buttonSize}`]}`,
+    `${styles[`shape--${buttonShape}`]}`,
+    `${iconOnly ? styles.iconOnly : ''}`
+  );
 
   return (
     <button type={type} form={form} onClick={clickHandler} disabled={buttonDisabled} className={classes}>

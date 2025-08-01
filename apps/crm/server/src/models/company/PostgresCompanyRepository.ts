@@ -12,8 +12,11 @@ const PostgresCompanyRepository: ICompanyRepository = {
     });
   },
 
-  // NOTE:  For implementation reference only.
-  // NOTE:  Setting 'columns-country-false' narrows the drizzle return type; otherwise it would be a country object with an intersection with its foreign-key.
+  /*
+   * NOTE: For implementation reference only.
+   * NOTE: Setting 'columns-country-false' narrows the drizzle return type;
+   * otherwise it would be a country object with an intersection with its foreign-key.
+   */
   async findAllWithCountry(): Promise<TCompanyDTOWithCountry[]> {
     return await postgresDB.query.CompaniesTable.findMany({
       columns: { country: false },

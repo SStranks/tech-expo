@@ -1,35 +1,29 @@
 # Primary Stage: Build NodeJS Express Image
-FROM node:18-alpine3.17 as primary
+FROM node:22-alpine3.22 AS primary
 
 WORKDIR /server
 COPY package*.json /server/
 RUN npm install && npm cache clean --force
-
-# // NOTE:  Still trying to ascertain uid/gid best practices; taken from fem-kanban dockerfile.
-# WORKDIR /app/backend
-# COPY ./package.json .
-# USER root
-# RUN addgroup -S devApp && adduser -S devApp -G devApp
-# USER devApp
-# EXPOSE 4000
-
-COPY . /server/
+COPY . ./
 RUN npm run compile
 
-
 # Secondary Stage: Build NodeJS Express Image
-FROM node:18-alpine3.17
+FROM node:22-alpine3.22
 
-WORKDIR /server
 ENV NODE_ENV=production
+WORKDIR /server
 
 LABEL version="1.0"
 LABEL description="Image: CRM App: Server: NodeJS Express"
 
-COPY --from=primary /server/package*.json /server/
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+COPY --chown=node:node package*.json ./
 RUN npm install --omit=dev && npm cache clean --force
 
-COPY --from=primary /server/dist/ /server/dist/
+COPY --chown=node:node --from=primary /server/dist/ ./dist/
+
+USER node
 
 EXPOSE 4000
 CMD ["npm", "run", "prod"]

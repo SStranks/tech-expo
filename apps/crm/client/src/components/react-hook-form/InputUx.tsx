@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 import { FieldError, FieldErrorsImpl, Merge, ValidationRule } from 'react-hook-form';
 
@@ -26,7 +27,12 @@ function InputUx(props: PropsWithChildren<IProps>): React.JSX.Element {
 
   return (
     <div
-      className={`${styles.inputUX} ${inputValidated ? styles.success : ''} ${inputRequired ? styles.inputUX__required : ''} ${showErrorState ? styles.error : ''}`}
+      className={clsx(
+        `${styles.inputUX}`,
+        `${inputValidated ? styles.success : ''}`,
+        `${inputRequired ? styles.inputUX__required : ''}`,
+        `${showErrorState ? styles.error : ''}`
+      )}
       data-testid={testId}>
       {children}
       <label htmlFor={id} className={styles.inputUX__label} data-is-dirty={isDirty}>

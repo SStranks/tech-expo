@@ -28,9 +28,16 @@ function generateUserBase() {
   const userId = randomUUID();
   const firstName = faker.person.firstName();
   const lastName = faker.person.lastName();
-  // NOTE:  Bcrypt failed; required binaries must be build on respective CPU architecture; windows != docker linux-alpine; currently using volumes; would need to re-build docker alpine image with prebuilt binaries.
+
+  /*
+   * NOTE: Bcrypt failed; required binaries must be build on respective CPU architecture;
+   * windows != docker linux-alpine;
+   * currently using volumes;
+   * would need to re-build docker alpine image with prebuilt binaries.
+   * */
   // const password = faker.internet.password({ length: 20 });
   // const hashedPassword = bcrypt.hashSync(password, 1);
+
   const companyEmail = faker.internet.email({ firstName, lastName, provider: COMPANY_EMAIL_DOMAIN });
   const personalEmail = faker.internet.email({ firstName, lastName });
   const mobile = faker.phone.number({ style: 'international' });

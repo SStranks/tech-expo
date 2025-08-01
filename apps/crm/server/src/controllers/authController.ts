@@ -19,18 +19,22 @@ import { utilMath, utilTime } from '#Utils/index.js';
 
 // NOTE:  Generate JWT Secret: node -e "crypto.randomBytes(64).toString('hex')"
 
-// README:  AUTH FLOW:
-// Signup: Creates account (inactive). Send client email with code; expires in 24h
-// SignupVerify: Set account password. Send Auth (A) and Refresh (R) tokens to client as cookies. Add R to DB.
-// Login: Send Auth (A) and Refresh (R) tokens to client as cookies. Add R to DB.
-// Logout: Client sends A; match R on DB by jwt_iat and remove. Clear client cookies.
-// Forgot Password: Generate 64-str; send reset link to client with unhashed 64, store hashed 64 on DB.
-// Reset Password: Check reset token. Update password. Delete all R from DB and blacklist. Send new A+R to client.
-// Update password: Client sends A. Update password, delete all R from DB and blacklist. Send new A+R to client.
-// Freeze: Client sends A. Update DB to frozen. Delete all R from DB and blacklist (A + all R).
-// Delete: Client sends A and password. Update user on DB to inactive and frozen. Delete all R from DB, blacklist R's and A. Clear client cookies.
-// Generate A: Client sends R - is it blacklisted? Create new A and R; R token is reconstructed with new expiry minus time elapsed and accumulator +1; DB R updated.
-// Activate R: Client sends A. Find R on DB using payload of A, and set to active.
+/*
+ * README: AUTH FLOW:
+ * Signup: Creates account (inactive). Send client email with code; expires in 24h
+ * SignupVerify: Set account password. Send Auth (A) and Refresh (R) tokens to client as cookies. Add R to DB.
+ * Login: Send Auth (A) and Refresh (R) tokens to client as cookies. Add R to DB.
+ * Logout: Client sends A; match R on DB by jwt_iat and remove. Clear client cookies.
+ * Forgot Password: Generate 64-str; send reset link to client with unhashed 64, store hashed 64 on DB.
+ * Reset Password: Check reset token. Update password. Delete all R from DB and blacklist. Send new A+R to client.
+ * Update password: Client sends A. Update password, delete all R from DB and blacklist. Send new A+R to client.
+ * Freeze: Client sends A. Update DB to frozen. Delete all R from DB and blacklist (A + all R).
+ * Delete: Client sends A and password. Update user on DB to inactive and frozen;
+ *   delete all R from DB, blacklist R's and A. Clear client cookies.
+ * Generate A: Client sends R - is it blacklisted? Create new A and R;
+ *   R token is reconstructed with new expiry minus time elapsed and accumulator +1; DB R updated.
+ * Activate R: Client sends A. Find R on DB using payload of A, and set to active.
+ */
 
 const { JWT_COOKIE_AUTH_ID, JWT_COOKIE_REFRESH_ID } = process.env;
 
@@ -295,7 +299,10 @@ const generateAuthToken = async (
     return;
   }
 
-  // Legitimate request; previous tokens not received by client; rollback optimistic DB update - allows client to resubmit their valid old refresh token again
+  /*
+   * Legitimate request; previous tokens not received by client;
+   * rollback optimistic DB update - allows client to resubmit their valid old refresh token again
+   */
   if (refreshToken.acc === acc + 1 && !refreshToken.activated) {
     await UserService.updateRefreshToken(client_id, jti, oldIat, acc, true);
     return next(new BadRequestError({ code: 401, message: 'Resubmit refresh token' }));

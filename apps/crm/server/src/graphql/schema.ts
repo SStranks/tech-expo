@@ -15,7 +15,10 @@ import rollbar from '#Lib/rollbar.js';
 import resolvers from './resolvers.js';
 import schemaTypeDefs from './typedefs.js';
 
-// NOTE:  ApolloServer utilizes makeExecutableSchema under the hood but does not catch its errors/propagate into the available error handling API.
+/*
+ * NOTE: ApolloServer utilizes makeExecutableSchema under the hood;
+ * but does not catch its errors/propagate into the available error handling API.
+ */
 const customTypeDefs = [
   DateTimeTypeDefinition,
   HexColorCodeDefinition,

@@ -166,6 +166,7 @@ services:
       - postgres_password_service
       - postgres_database
     profiles: ['dev', 'postgres', 'postgres-seeder']
+    user: 'postgres'
 
   postgres-seeder:
     container_name: ${POSTGRES_SEEDER_CONTAINER}
