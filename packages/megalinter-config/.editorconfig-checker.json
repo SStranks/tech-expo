@@ -1,5 +1,5 @@
 {
-  "Exclude": ["Icon.*\\.tsx$", "**/migrations/*.sql"],
+  "Exclude": ["Icon.*\\.tsx$", "**/migrations/*.sql", "**/graphql/generated/**"],
   "IgnoreDefaults": false,
   "AllowedContentTypes": [],
   "PassedFiles": [],

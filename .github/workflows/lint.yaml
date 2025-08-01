@@ -47,6 +47,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Generate graphql codegen files
+        run: pnpm --filter "@apps/crm/server" --filter "@apps/crm/client" codegen
+
       - name: MegaLinter
         uses: oxsecurity/megalinter/flavors/javascript@v8.3.0
         env:

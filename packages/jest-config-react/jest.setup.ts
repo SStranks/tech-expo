@@ -1,21 +1,23 @@
 import '@testing-library/jest-dom';
+import { fn } from 'jest-mock';
+
 import { TextDecoder, TextEncoder } from 'node:util';
 
 // @ts-expect-error
 globalThis.TextDecoder = TextDecoder;
 globalThis.TextEncoder = TextEncoder;
 
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(globalThis, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation((query) => ({
+  value: fn().mockImplementation((query) => ({
+    addEventListener: fn(),
+    addListener: fn(), // Deprecated
+    dispatchEvent: fn(),
     matches: false,
     media: query,
     onchange: null,
-    addListener: jest.fn(), // Deprecated
-    removeListener: jest.fn(), // Deprecated
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
+    removeEventListener: fn(),
+    removeListener: fn(), // Deprecated
   })),
 });
 
@@ -23,22 +25,22 @@ const localStorageMock = (function () {
   let store = {};
 
   return {
+    clear: function () {
+      store = {};
+    },
     getItem: function (key) {
       return store[key] || null;
-    },
-    setItem: function (key, value) {
-      store[key] = value.toString();
     },
     removeItem: function (key) {
       delete store[key];
     },
-    clear: function () {
-      store = {};
+    setItem: function (key, value) {
+      store[key] = value.toString();
     },
   };
 })();
 
-Object.defineProperty(window, 'localStorage', {
+Object.defineProperty(globalThis, 'localStorage', {
   value: localStorageMock,
 });
 
