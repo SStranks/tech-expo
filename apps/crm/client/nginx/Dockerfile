@@ -16,14 +16,13 @@ RUN apk add --no-cache \
   brotli-dev
 
 WORKDIR /app
-
 RUN echo "Building nginx version: $NGINX_VERSION" \
-  && wget "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" \
+  && wget -q "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" \
   && tar -zxf "nginx-${NGINX_VERSION}.tar.gz" \
   && ln -s "nginx-${NGINX_VERSION}" nginx \
-  && git clone --recurse-submodules -j8 https://github.com/google/ngx_brotli \
-  && cd nginx \
-  && ./configure --with-compat --add-dynamic-module=../ngx_brotli \
+  && git clone --recurse-submodules -j8 https://github.com/google/ngx_brotli
+WORKDIR /app/nginx
+RUN ./configure --with-compat --add-dynamic-module=../ngx_brotli \
   && make modules
 
 FROM nginx:${NGINX_TAG} AS runtime
