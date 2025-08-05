@@ -24,6 +24,7 @@ services:
       MONGO_HOST: ${MONGO_CONTAINER}
       POSTGRES_HOST: ${POSTGRES_CONTAINER}
       REDIS_HOST: ${REDIS_CONTAINER}
+      NODEMAILER_HOST: ${MAILPIT_CONTAINER}
     env_file:
       - ../server/.env.dev
       - ./.env.dev
@@ -245,6 +246,29 @@ services:
       - techexpo-crm-backend
     profiles: ['dev', 'redis']
 
+  mailpit:
+    image: axllent/mailpit:v1.27
+    container_name: ${MAILPIT_CONTAINER}
+    restart: unless-stopped
+    volumes:
+      - volume-mailpit:/data
+    ports:
+      - ${MAILPIT_WEBUI_LOCAL_PORT:?error}:${MAILPIT_WEBUI_DOCKER_PORT:?error}
+      - ${MAILPIT_SMTP_LOCAL_PORT:?error}:${MAILPIT_SMTP_DOCKER_PORT:?error}
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_ENABLE_PROMETHEUS: 0.0.0.0:9091
+      MP_UI_AUTH_FILE: /run/secrets/mailpit_ui_auth
+      MP_SMTP_AUTH_FILE: /run/secrets/mailpit_smtp_auth
+      MP_SMTP_AUTH_ALLOW_INSECURE: true
+    networks:
+      - techexpo-crm-backend
+    secrets:
+      - mailpit_ui_auth
+      - mailpit_smtp_auth
+    profiles: [dev]
+
 volumes:
   volume-mongo:
     name: techexpo-mongo
@@ -255,12 +279,27 @@ volumes:
   volume-redis:
     name: techexpo-redis
     external: true
+  volume-mailpit:
+    name: techexpo-mailpit
+    external: true
 
 networks:
   techexpo-crm-backend:
     driver: bridge
 
 secrets:
+  demo_acc_generic_non_user_password:
+    file: ${SECRET_PATH}/.secret.demo_acc_generic_non_user_password.txt
+  graphql_introspect_auth:
+    file: ${SECRET_PATH}/.secret.graphql_introspect_auth.txt
+  jwt_auth_secret:
+    file: ${SECRET_PATH}/.secret.jwt_auth_secret.txt
+  jwt_refresh_secret:
+    file: ${SECRET_PATH}/.secret.jwt_refresh_secret.txt
+  mailpit_ui_auth:
+    file: ${SECRET_PATH}/.secret.mailpit_ui_auth.txt
+  mailpit_smtp_auth:
+    file: ${SECRET_PATH}/.secret.mailpit_smtp_auth.txt
   mongo_user:
     file: ${SECRET_PATH}/.secret.mongo_user.txt
   mongo_password:
@@ -279,6 +318,12 @@ secrets:
     file: ${SECRET_PATH}/.secret.mongoexpress_user.txt
   mongoexpress_password:
     file: ${SECRET_PATH}/.secret.mongoexpress_password.txt
+  nodemailer_username:
+    file: ${SECRET_PATH}/.secret.nodemailer_username.txt
+  nodemailer_password:
+    file: ${SECRET_PATH}/.secret.nodemailer_password.txt
+  nodemailer_dev_email:
+    file: ${SECRET_PATH}/.secret.nodemailer_dev_email.txt
   postgres_user_super:
     file: ${SECRET_PATH}/.secret.postgres_user_super.txt
   postgres_user_migrator:
@@ -297,17 +342,3 @@ secrets:
     file: ${SECRET_PATH}/.secret.postgres_pepper.txt
   redis_password:
     file: ${SECRET_PATH}/.secret.redis_password.txt
-  nodemailer_username:
-    file: ${SECRET_PATH}/.secret.nodemailer_username.txt
-  nodemailer_password:
-    file: ${SECRET_PATH}/.secret.nodemailer_password.txt
-  nodemailer_dev_email:
-    file: ${SECRET_PATH}/.secret.nodemailer_dev_email.txt
-  jwt_auth_secret:
-    file: ${SECRET_PATH}/.secret.jwt_auth_secret.txt
-  jwt_refresh_secret:
-    file: ${SECRET_PATH}/.secret.jwt_refresh_secret.txt
-  graphql_introspect_auth:
-    file: ${SECRET_PATH}/.secret.graphql_introspect_auth.txt
-  demo_acc_generic_non_user_password:
-    file: ${SECRET_PATH}/.secret.demo_acc_generic_non_user_password.txt

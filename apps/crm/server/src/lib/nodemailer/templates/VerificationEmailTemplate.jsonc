@@ -24,7 +24,7 @@
     "type": "Heading",
     "data": {
       "props": {
-        "text": "012345",
+        "text": "{VERIFICATION_CODE}",
         "level": "h1"
       },
       "style": {

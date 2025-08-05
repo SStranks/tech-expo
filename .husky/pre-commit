@@ -1,6 +1,7 @@
 # shellcheck disable=SC2148
 STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
 STAGED_FILES_CSV=$(echo "$STAGED_FILES" | tr '\n' ',' | sed 's/,$//')
+TIMESTAMP=$(date +%Y%m%d-%H%M%S) && readonly TIMESTAMP
 
 if [ -z "$STAGED_FILES" ]; then
   echo "[HUSKY: PRE-COMMIT] No staged files to lint"
@@ -15,7 +16,7 @@ docker run --rm \
   -v "$(pwd)":/tmp/lint \
   -e MEGALINTER_FILES_TO_LINT="$STAGED_FILES_CSV" \
   -e MEGALINTER_CONFIG=.mega-linter.lint.yaml \
-  -e REPORT_OUTPUT_FOLDER="/tmp/lint/logs/commit/megalinter/${TARGET_DIR}_${TIMESTAMP}" \
+  -e REPORT_OUTPUT_FOLDER="/tmp/lint/logs/commit/megalinter/${TIMESTAMP}" \
   oxsecurity/megalinter:v8
 
 echo "[HUSKY: PRE-COMMIT] Linting successful"

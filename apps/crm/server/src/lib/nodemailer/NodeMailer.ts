@@ -8,8 +8,15 @@ import { BadRequestError } from '#Utils/errors/index.js';
 import { EMAIL_TEMPLATE_PASSWORD_RESET } from './templates/PasswordResetEmailTemplate.js';
 import { EMAIL_TEMPLATE_VERIFICATION } from './templates/VerificationEmailTemplate.js';
 
-const { NODE_ENV, NODEMAILER_DEV_EMAIL, NODEMAILER_HOST, NODEMAILER_PASSWORD, NODEMAILER_PORT, NODEMAILER_USERNAME } =
-  process.env;
+const {
+  NODE_ENV,
+  NODEMAILER_DEV_EMAIL,
+  NODEMAILER_HOST,
+  NODEMAILER_PASSWORD,
+  NODEMAILER_PORT,
+  NODEMAILER_SECURE,
+  NODEMAILER_USERNAME,
+} = process.env;
 
 const senderDev = { name: 'CRM Server: Development', address: 'mailtrap@demomailtrap.com' };
 const senderProd = { name: 'CRM Server: Development', address: 'mailtrap@demomailtrap.com' };
@@ -18,6 +25,7 @@ const SMTPDefaultConfig: SMTPTransport.Options = {
   authMethod: 'PLAIN',
   host: NODEMAILER_HOST,
   port: Number(NODEMAILER_PORT),
+  secure: NODEMAILER_SECURE === 'true',
   auth: {
     pass: NODEMAILER_PASSWORD as string,
     type: 'login',
