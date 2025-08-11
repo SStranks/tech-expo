@@ -8,13 +8,16 @@ set -euo pipefail
 DB="$(cat /run/secrets/mongo_database)"
 USER_SERVICE="$(cat /run/secrets/mongo_user_service)"
 PASSWORD_SERVICE="$(cat /run/secrets/mongo_password_service)"
+USER_METRICS="$(cat /run/secrets/mongo_user_metrics)"
+PASSWORD_METRICS="$(cat /run/secrets/mongo_password_metrics)"
 
 echo "*** Preparing MongoDB User Configuration ***"
-sleep 3
+sleep 1
 echo "*** Initializing MongoDB User Configuration ***"
 mongosh --username "$MONGO_INITDB_ROOT_USERNAME" --password "$MONGO_INITDB_ROOT_PASSWORD" << EOF
 use admin
 db.createUser({ user: "$USER_SERVICE", pwd: "$PASSWORD_SERVICE", roles: [{ role: 'readWrite', db: "$DB" }] })
+db.createUser({ user: "$USER_METRICS", pwd: "$PASSWORD_METRICS", roles: [{ role: 'clusterAdmin', db: 'admin' }, { role: 'clusterMonitor', db: 'admin' }, { role: 'read', db: 'local' }] })
 quit()
 EOF
 echo "*** Completed MongoDB User Configuration ***"

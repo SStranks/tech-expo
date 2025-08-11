@@ -3,7 +3,9 @@ set -euo pipefail
 
 # Directory variables
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SECRETS_FILE="$SCRIPT_DIR/.secret.yaml"
+SECRETS_FILE_0="$SCRIPT_DIR/.secret.yaml"
+SECRETS_FILE_1="$SCRIPT_DIR/.secret.redisExporter.json"
+SECRETS_FILE_2="$SCRIPT_DIR/.secret.mongoExporter.txt"
 SECRETS_RAM_DIR="/run/user/$(id -u)/secrets"
 ENV_FILE="$SCRIPT_DIR/.env.dev"
 
@@ -29,7 +31,7 @@ trap cleanup EXIT
 
 # Decrypt secrets json; output each value in own .txt with key as filename
 # YAML Version
-sops exec-file "$SECRETS_FILE" 'bash -c "
+sops exec-file "$SECRETS_FILE_0" 'bash -c "
   SECRETS_RAM_DIR=\"'"$SECRETS_RAM_DIR"'\"
 
   while IFS= read -r line; do
@@ -43,6 +45,12 @@ sops exec-file "$SECRETS_FILE" 'bash -c "
     echo -n \"\$val\" > \"\$SECRETS_RAM_DIR/.secret.\${key}.txt\"
   done < \"{}\"
 "'
+
+# Redit-exporter requires JSON of URIs
+sops exec-file "$SECRETS_FILE_1" "cat {} > $SECRETS_RAM_DIR/.secret.redis_uri.json"
+
+# Mongo-exporter requires ENV file URI
+sops exec-file "$SECRETS_FILE_2" "cat {} > $SECRETS_RAM_DIR/.secret.mongo_uri.txt"
 
 
 # JSON Version
