@@ -9,6 +9,7 @@ import helmet from 'helmet';
 import { apolloServer, graphqlContext } from '#Graphql/index.js';
 import { globalErrorHandler } from '#Middleware/index.js';
 import { userRouter } from '#Routes/index.js';
+import { httpRequestCounter, httpRequestDurationSeconds, prometheusMetricsHandler } from '#Services/index.js';
 import { BadRequestError } from '#Utils/errors/index.js';
 
 import expressApp from './express.js';
@@ -37,6 +38,18 @@ app.use(
     crossOriginEmbedderPolicy: !(process.env.NODE_ENV === 'development'),
   })
 );
+
+// Metrics
+app.use((req, res, next) => {
+  httpRequestCounter.labels({ method: req.method, route: req.originalUrl, statusCode: res.statusCode }).inc();
+  const end = httpRequestDurationSeconds.startTimer();
+
+  res.on('finish', () => {
+    end({ code: res.statusCode, method: req.method, route: req.path });
+  });
+  next();
+});
+app.get('/metrics', prometheusMetricsHandler);
 
 // GraphQL
 app.use('/graphql', apolloMiddleware(apolloServer, { context: graphqlContext }));
