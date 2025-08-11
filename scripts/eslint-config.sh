@@ -29,4 +29,4 @@ if [ ! -e "$FULL_PATH" ]; then
   exit 1
 fi
 
-eslint --print-config "$FULL_PATH" > "$LOGS_DIR_PATH/logs/eslint/$TARGET_FILE.$TIMESTAMP.txt"
+eslint --print-config "$FULL_PATH" > "$LOGS_DIR_PATH/eslint/$TARGET_FILE.$TIMESTAMP.txt"

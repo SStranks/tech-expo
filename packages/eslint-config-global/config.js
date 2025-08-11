@@ -61,6 +61,7 @@ export const EslintConfigGlobal = {
         groupKind: 'types-first',
       },
     ],
+    'perfectionist/sort-named-exports': 'error',
     'perfectionist/sort-named-imports': 'error',
     'perfectionist/sort-imports': [
       'error',

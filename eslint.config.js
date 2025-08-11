@@ -11,8 +11,9 @@ import EslintConfigReact_18p2 from '@packages/eslint-config-react/react-18.2/con
 import EslintConfigStorybook from '@packages/eslint-config-storybook';
 import EslintConfigTypescript, { createTypeScriptImportResolver } from '@packages/eslint-config-typescript';
 import EslintConfigYAML from '@packages/eslint-config-yaml';
+import { defineConfig } from 'eslint/config';
 
-export default [
+export default defineConfig([
   {
     name: 'Global Ignores',
     ignores: [
@@ -218,4 +219,4 @@ export default [
     rules: { ...EslintConfigGraphQL.rules.server, 'prettier/prettier': 'error' },
   },
   ConfigPrettier,
-];
+]);

@@ -32,7 +32,8 @@
     "outdated": "pnpm outdated -r > outdatedPackages.txt",
     "eslint:app": "bash scripts/eslint-app.sh",
     "eslint:repo": "eslint apps/**/src/**/*.{js,ts,jsx,tsx}",
-    "eslint:config": "bash scripts/eslint-config.sh",
+    "eslint:config:print": "bash scripts/eslint-config.sh",
+    "eslint:config:inspect": "pnpx @eslint/config-inspector@latest build --outDir logs/eslint-config",
     "megalint:app:lint": "bash scripts/megalint-app-lint.sh",
     "megalint:repo:security": "bash scripts/megalint-security.sh",
     "prepare": "husky",
@@ -69,12 +70,13 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
-    "eslint": "^9.31.0",
+    "eslint": "^9.32.0",
     "graphql-config": "^5.1.5",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
     "secretlint": "^10.2.0",
+    "serve": "^14.2.4",
     "stylelint": "^16.22.0",
     "typescript": "^5.8.3"
   }
