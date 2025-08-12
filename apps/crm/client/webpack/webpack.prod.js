@@ -236,7 +236,7 @@ const ProdConfig = {
         { from: path.resolve(CUR, 'public/sitemap.xml'), noErrorOnMissing: true },
       ],
     }),
-    new Dotenv({ path: path.resolve(CUR, './.env.prod') }),
+    new Dotenv({ path: path.resolve(CUR, './.env.prod.client') }),
     new WebpackManifestPlugin({}),
     new StatsWriterPlugin({
       filename: '../webpack/stats/build-stats.json',

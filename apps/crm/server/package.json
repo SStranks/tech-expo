@@ -18,7 +18,7 @@
     "watch": [
       "src"
     ],
-    "exec": "dotenvx run -f ./.env.dev -- node --inspect=0.0.0.0:9229 --import tsx --inspect --no-lazy ./src/server.ts",
+    "exec": "dotenvx run -f ./.env.dev.server -- node --inspect=0.0.0.0:9229 --import tsx --inspect --no-lazy ./src/server.ts",
     "ext": "ts, js"
   },
   "scripts": {
@@ -30,10 +30,10 @@
     "prebuild": "pnpm run generate-types && pnpm run codegen",
     "build": "npm run clean && tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
     "start": "nodemon . | pino-pretty",
-    "start:dist": "nodemon --exec 'dotenvx run -f ./.env.dev -- node .'",
+    "start:dist": "nodemon --exec 'dotenvx run -f ./.env.prod.server -- node .'",
     "prod": "NODE_ENV=production node .",
-    "prod:dist": "dotenvx run -f ./.env.dev -- node .",
-    "test": "dotenvx run --env-file .env.dev -- NODE_ENV=test NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --config ../../../jest.config.js",
+    "prod:dist": "dotenvx run -f ./.env.prod.server -- node .",
+    "test": "dotenvx run --env-file .env.dev.server -- NODE_ENV=test NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --config ../../../jest.config.js",
     "test:all": "NODE_ENV=test NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --config ../../../jest.config.js --selectProjects CRM-Server",
     "test:coverage": "jest --coverage --config ../../../jest.config.js --selectProjects CRM-Server",
     "test:watch": "NODE_ENV=test NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --config ../../../jest.config.js --watch",

@@ -1,6 +1,7 @@
 # Secrets
 **/.secret.*
 **/*.secret.*
+**/.htpasswd
 
 # Env files
 **/.env

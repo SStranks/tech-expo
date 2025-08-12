@@ -145,7 +145,7 @@ const DevConfig = {
       },
     }),
     new CopyPlugin({ patterns: [{ from: path.resolve(CUR, './public'), noErrorOnMissing: true }] }),
-    new Dotenv({ path: path.resolve(CUR, './.env.dev') }),
+    new Dotenv({ path: path.resolve(CUR, './.env.dev.client') }),
   ],
 };
 
