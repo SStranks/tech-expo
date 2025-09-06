@@ -3,6 +3,19 @@
 **/*.secret.*
 **/.htpasswd
 
+# Certs
+**/certs/prod/**
+**/*.key
+**/*.pem
+**/*.crt
+**/*.csr
+**/*.srl
+**/*.ext
+**/*.cnf
+!**/certs/**/
+!**/certs/**/example.*
+!**/certs/**/README.md
+
 # Env files
 **/.env
 **/.env.*
