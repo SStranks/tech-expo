@@ -16,7 +16,8 @@
       "node_modules"
     ],
     "watch": [
-      "src"
+      "src",
+      "dist"
     ],
     "exec": "dotenvx run -f ./.env.dev.server -- node --inspect=0.0.0.0:9229 --import tsx --inspect --no-lazy ./src/server.ts",
     "ext": "ts, js"
@@ -24,11 +25,12 @@
   "scripts": {
     "clean": "rm -rf dist",
     "codegen": "graphql-codegen --config codegen.ts",
-    "generate-types": "tsc --emitDeclarationOnly && cp dist/types/*.d.ts ../shared/src/types/generated/",
+    "generate-types": "rm -rf dist/types && tsc -p tsconfig.types.json && cp dist/types ../shared/src/types/generated/server",
     "watch": "tsc -w",
     "db-import": "ts-node ./src/config/dbImportData.ts --import",
-    "prebuild": "pnpm run generate-types && pnpm run codegen",
+    "compile": "npm run clean && tsc -p tsconfig.json --sourceMap true && tsc-alias -p tsconfig.json",
     "build": "npm run clean && tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
+    "build:types": "pnpm run generate-types && pnpm run codegen",
     "start": "nodemon . | pino-pretty",
     "start:dist": "nodemon --exec 'dotenvx run -f ./.env.prod.server -- node .'",
     "prod": "NODE_ENV=production node .",

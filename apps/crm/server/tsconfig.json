@@ -4,8 +4,6 @@
   // "extends": "./tsconfig.node.json",
   "extends": "@packages/typescript-config/nodejs",
   "compilerOptions": {
-    // "declaration": true,
-    // "declarationDir": "./src/types",
     "baseUrl": "./src",
     "paths": {
       "#App/*": ["app/*"],
@@ -28,7 +26,7 @@
     // "typeRoots": ["node_modules/@types", "node_modules/@testing-library"],
     // "typeRoots": ["src/types/**/*.ts", "node_modules/@types"],
     "outDir": "./dist",
-    "rootDir": "./"
+    "rootDir": "./src"
   },
 
   "ts-node": {
