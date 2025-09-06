@@ -39,8 +39,10 @@ app.use(
   })
 );
 
-// Metrics
-app.use((req, res, next) => {
+/*
+ * PRIVATE ROUTES - Not specified in Nginx reverse proxy-passing
+ */
+app.use((req: Request, res: Response, next: NextFunction) => {
   httpRequestCounter.labels({ method: req.method, route: req.originalUrl, statusCode: res.statusCode }).inc();
   const end = httpRequestDurationSeconds.startTimer();
 
@@ -50,19 +52,18 @@ app.use((req, res, next) => {
   next();
 });
 app.get('/metrics', prometheusMetricsHandler);
+app.get('/health', (_req, res: Response) => res.sendStatus(200));
 
-// GraphQL
+/*
+ * PUBLIC ROUTES
+ */
 app.use('/graphql', apolloMiddleware(apolloServer, { context: graphqlContext }));
-
-// Routes
 app.use('/api/users', userRouter);
 
-// Favicon
 app.get('/favicon.ico', (_req, res) => {
   res.status(204).end();
 });
 
-// Error Handler
 app.all(/(.*)/, (req: Request, _res: Response, next: NextFunction) => {
   next(
     new BadRequestError({ code: 404, logging: true, message: `Can't find route ${req.originalUrl} on this server!` })

@@ -1,15 +1,9 @@
-import { replaceTscAliasPaths } from 'tsc-alias';
-
 import validateEnvironmentVariables from '#Config/env.js';
 import { pinoLogger, rollbar } from '#Lib/index.js';
 
 validateEnvironmentVariables();
 
-if (process.env.NODE_ENV === 'production') {
-  replaceTscAliasPaths();
-}
-
-const PORT = process.env.NODE_DOCKER_PORT || process.env.NODE_LOCAL_PORT || 4000;
+const PORT = process.env.EXPRESS_DOCKER_PORT || process.env.EXPRESS_LOCAL_PORT || 4000;
 
 // ------------------------------------------------------------------------
 
@@ -27,12 +21,12 @@ process.on('uncaughtException', (err: Error) => {
 
 // ------------------------------------------------------------------------
 
-import { mongoClient } from '#Config/dbMongo.js';
+import { connectMongoDB, mongoClient } from '#Config/dbMongo.js';
 import { connectPostgresDB, postgresClient } from '#Config/dbPostgres.js';
 import { connectRedisDB, redisClient } from '#Config/dbRedis.js';
 
 // Database Connections
-// await connectMongoDB();
+await connectMongoDB();
 await connectPostgresDB();
 await connectRedisDB();
 
