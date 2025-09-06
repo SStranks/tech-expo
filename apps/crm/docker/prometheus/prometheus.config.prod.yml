@@ -1,0 +1,44 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: cadvisor
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  - job_name: techexpo-express
+    scheme: https
+    tls_config:
+      ca_file: /etc/prometheus/certs/prometheus-ca.crt
+      cert_file: /etc/prometheus/certs/prometheus-expressjs.crt
+      key_file: /etc/prometheus/certs/prometheus-expressjs.key
+    static_configs:
+      - targets: ['express-api:4000']
+
+  - job_name: prometheus
+    scheme: https
+    tls_config:
+      ca_file: /etc/prometheus/certs/prometheus-ca.crt
+      cert_file: /etc/prometheus/certs/prometheus-prometheusexporter.crt
+      key_file: /etc/prometheus/certs/prometheus-prometheusexporter.key
+    static_configs:
+      - targets: ['prometheus:9090']
+    basic_auth:
+      username_file: /run/secrets/prometheus_username
+      password_file: /run/secrets/prometheus_password
+
+  - job_name: postgres
+    scheme: http
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+
+  - job_name: mongo
+    scheme: http
+    static_configs:
+      - targets: ['mongo-exporter:9216']
+
+  - job_name: redis
+    scheme: http
+    static_configs:
+      - targets: ['redis-exporter:9121']
