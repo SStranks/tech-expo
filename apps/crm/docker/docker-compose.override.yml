@@ -1,65 +1,57 @@
 ---
 services:
-  # Client: React App
-  # Use 'npm start' from ./client to init webpack-dev-server
-
-  # Server: NodeJS Express
-  node-api:
-    container_name: techexpo-express
+  express-api:
     image: node:22-alpine3.22
-    working_dir: /app/server
-    ports:
-      - ${NODE_LOCAL_PORT:?error}:${NODE_DOCKER_PORT:?error}
-      - '9229:9229'
-      - '9230:9230'
-    volumes:
-      - ../shared:/app/shared:ro
-      - ../server:/app/server:ro
-      - ../../../node_modules:/node_modules:ro
-      - ../server/src/temp:/app/server/src/temp
-      - ./node-express-init.sh:/usr/local/bin/node-express-init.sh:ro
-    networks:
-      - techexpo-crm-backend
-    environment:
-      MONGO_HOST: ${MONGO_CONTAINER}
-      POSTGRES_HOST: ${POSTGRES_CONTAINER}
-      REDIS_HOST: ${REDIS_CONTAINER}
-      NODEMAILER_HOST: ${MAILPIT_CONTAINER}
-    env_file:
-      - ../server/.env.dev
-      - ./.env.dev
+    profiles: ['dev', 'express-api']
+    restart: on-failure:3
     depends_on:
+      certs:
+        condition: 'service_healthy'
       mongo:
         condition: 'service_healthy'
       postgres:
         condition: 'service_healthy'
-    security_opt:
-      - no-new-privileges
-    secrets:
-      - demo_acc_generic_non_user_password
-      - graphql_introspect_auth
-      - jwt_auth_secret
-      - jwt_refresh_secret
-      - mongo_user_service
-      - mongo_password_service
-      - mongo_database
-      - nodemailer_username
-      - nodemailer_password
-      - nodemailer_dev_email
-      - postgres_user_service
-      - postgres_password_service
-      - postgres_pepper
-      - postgres_database
-      - redis_password
-    user: 'node'
+      redis:
+        condition: 'service_healthy'
+    env_file:
+      - ../server/.env.dev.server
+      - ./.env.dev
+    ports:
+      - 127.0.0.1:${EXPRESS_LOCAL_PORT:?error}:${EXPRESS_DOCKER_PORT:?error}
+      - 127.0.0.1:9229:9229
+      - 127.0.0.1:9230:9230
+    volumes:
+      - tmpfs-certs:/etc/expressjs/certs:ro
+      - ../shared:/app/shared:ro
+      - ../server:/app/server:ro
+      - ../../../node_modules:/node_modules:ro
+      - ../server/src/temp:/app/server/src/temp
+      - ./nodejs/node-express-init.sh:/usr/local/bin/node-express-init.sh:ro
+      - ./nodejs/node-express-healthcheck.sh:/usr/local/bin/node-express-healthcheck.sh:ro
     entrypoint: ['/usr/local/bin/node-express-init.sh']
-    profiles: ['dev', 'node-api']
+    healthcheck:
+      test: ['CMD', '/bin/sh', '/usr/local/bin/node-express-healthcheck.sh']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_interval: 3s
+      start_period: 30s
+    user: 'node'
 
-  # DB: Mongo
   mongo:
-    container_name: ${MONGO_CONTAINER}
     image: mongo:8.0.10
-    restart: on-failure
+    command: ['mongod', '--auth', '--quiet', '--config', '/etc/mongod.conf']
+    profiles: ['dev', 'mongo']
+    restart: on-failure:3
+    volumes:
+      - tmpfs-certs:/etc/mongo/certs:ro
+      - volume-mongo:/data/db
+      - ./mongo/mongod.conf:/etc/mongod.conf:ro
+      - ./mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+      - ./mongo/mongo-healthcheck.sh:/usr/local/bin/mongo-healthcheck.sh:ro
+    depends_on:
+      certs:
+        condition: 'service_healthy'
     healthcheck:
       test: ['CMD', '/bin/bash', '/usr/local/bin/mongo-healthcheck.sh']
       interval: 60s
@@ -67,146 +59,133 @@ services:
       retries: 5
       start_interval: 3s
       start_period: 15s
+
+  mongo-express:
+    container_name: ${MONGOEXPRESS_CONTAINER:?error}
+    image: mongo-express:1.1.0-rc-3 # Built from source
+    profiles: ['dev', 'mongo']
+    restart: on-failure:3
     environment:
-      MONGO_INITDB_ROOT_USERNAME_FILE: /run/secrets/mongo_user_root
-      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongo_password_root
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: true
+      ME_CONFIG_BASICAUTH: true
+      ME_CONFIG_BASICAUTH_USERNAME_FILE: /run/secrets/mongoexpress_user
+      ME_CONFIG_BASICAUTH_PASSWORD_FILE: /run/secrets/mongoexpress_password
+      ME_CONFIG_SITE_SESSIONSECRET: /run/secrets/mongoexpress_sessionsecret
+      ME_CONFIG_SITE_COOKIESECRET: /run/secrets/mongoexpress_cookiesecret
+      ME_CONFIG_MONGODB_URL_FILE: /run/secrets/mongoexpress_url
+      ME_CONFIG_MONGODB_TLS: true
+      ME_CONFIG_MONGODB_TLS_ALLOW_CERTS: true
+      ME_CONFIG_MONGODB_TLS_CA_FILE: /etc/mongoexpress/certs/mongoexpress-ca.pem
+      ME_CONFIG_MONGODB_TLS_CERT_KEY_FILE: /etc/mongoexpress/certs/mongoexpress.pem
+      MONGOEXPRESS_CONTAINER: ${MONGOEXPRESS_CONTAINER:?error}
+      MONGOEXPRESS_DOCKER_PORT: ${MONGOEXPRESS_DOCKER_PORT:?error}
+      MONGO_CONTAINER: ${MONGO_CONTAINER:?error}
+      MONGO_PROTOCOL: ${MONGO_PROTOCOL:?error}
+      MONGO_PORT: ${MONGO_PORT:?error}
+      MONGO_ARGS: ${ME_MONGO_ARGS:?error}
     ports:
-      - ${MONGO_LOCAL_PORT:?error}:${MONGO_DOCKER_PORT:?error}
+      - 127.0.0.1:${MONGOEXPRESS_LOCAL_PORT:?error}:${MONGOEXPRESS_DOCKER_PORT:?error}
     volumes:
-      - volume-mongo:/data/db
-      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
-      - ./mongo-healthcheck.sh:/usr/local/bin/mongo-healthcheck.sh:ro
+      - tmpfs-certs:/etc/mongoexpress/certs:ro
+      - ./mongoexpress/mongo-express-healthcheck.sh:/usr/local/bin/mongo-express-healthcheck.sh:ro
+      - ./mongoexpress/mongo-express-init.sh:/usr/local/bin/mongo-express-init.sh:ro
     networks:
       - techexpo-crm-backend
     security_opt:
       - no-new-privileges
-    secrets:
-      - mongo_database
-      - mongo_user_root
-      - mongo_user_service
-      - mongo_password_root
-      - mongo_password_service
-    entrypoint: ['/usr/local/bin/docker-entrypoint.sh']
-    command: ['mongod', '--auth', '--quiet']
-    profiles: ['dev', 'mongo']
-
-  # DB: Mongo Express
-  mongo-express:
-    container_name: ${MONGO_EXPRESS_CONTAINER}
-    image: mongo-express:1.0.2
-    restart: on-failure
+    depends_on:
+      mongo:
+        condition: 'service_healthy'
+      certs:
+        condition: 'service_healthy'
     healthcheck:
       test: ['CMD', '/bin/bash', '/usr/local/bin/mongo-express-healthcheck.sh']
       interval: 2m
-      timeout: 30s
+      timeout: 5s
       retries: 5
       start_interval: 3s
       start_period: 15s
-    depends_on:
-      - mongo
-    ports:
-      - ${MONGOEXPRESS_LOCAL_PORT:?error}:${MONGOEXPRESS_DOCKER_PORT:?error}
-    environment:
-      # // NOTE:  v1.0.3 will allow ME_CONFIG_MONGODB_URL_FILE.
-      ME_CONFIG_MONGODB_ENABLE_ADMIN: ${ME_CONFIG_MONGODB_ENABLE_ADMIN}
-      ME_CONFIG_MONGODB_AUTH_USERNAME_FILE: /run/secrets/mongo_user_root
-      ME_CONFIG_MONGODB_AUTH_PASSWORD_FILE: /run/secrets/mongo_password_root
-      ME_CONFIG_BASICAUTH_USERNAME_FILE: /run/secrets/mongoexpress_user
-      ME_CONFIG_BASICAUTH_PASSWORD_FILE: /run/secrets/mongoexpress_password
-      MONGO_CONTAINER: ${MONGO_CONTAINER}
-      MONGO_PROTOCOL: ${MONGO_PROTOCOL}
-      MONGO_PORT: ${MONGO_PORT}
-      MONGO_ARGS: ${MONGO_ARGS}
-    volumes:
-      - ./mongo-express-healthcheck.sh:/usr/local/bin/mongo-express-healthcheck.sh:ro
-      - ./mongo-express-init.sh:/usr/local/bin/mongo-express-init.sh:ro
-    networks:
-      - techexpo-crm-backend
-    security_opt:
-      - no-new-privileges
     secrets:
       - mongoexpress_user
       - mongoexpress_password
-      - mongo_user_root
-      - mongo_password_root
-      - mongo_database
-    entrypoint: ['/usr/local/bin/mongo-express-init.sh']
-    profiles: ['dev', 'mongo']
+      - mongoexpress_url
+      - mongoexpress_cookiesecret
+      - mongoexpress_sessionsecret
 
-  # DB: Postgres
   postgres:
-    container_name: ${POSTGRES_CONTAINER}
     image: postgres:17.5
-    restart: on-failure
+    profiles: ['dev', 'postgres', 'postgres-seeder']
+    shm_size: 128mb
+    restart: on-failure:3
+    ports:
+      - 127.0.0.1:${POSTGRES_LOCAL_PORT:?error}:${POSTGRES_DOCKER_PORT:?error}
+    volumes:
+      - tmpfs-certs:/etc/postgres/certs:ro
+      - volume-postgres:/var/lib/postgresql/data
+      - ./postgres/initdb:/docker-entrypoint-initdb.d:ro
+      - ./postgres/scripts:/usr/local/bin/scripts:ro
+    depends_on:
+      certs:
+        condition: 'service_healthy'
     healthcheck:
-      test: ['CMD', '/bin/bash', '/usr/local/bin/postgres-healthcheck.sh']
+      test: ['CMD', '/bin/bash', '/usr/local/bin/scripts/postgres-healthcheck.sh']
       interval: 60s
       timeout: 5s
       retries: 5
       start_interval: 3s
       start_period: 15s
-    ports:
-      - ${POSTGRES_LOCAL_PORT:?error}:${POSTGRES_DOCKER_PORT:?error}
-    shm_size: 128mb
-    volumes:
-      - volume-postgres:/var/lib/postgresql/data
-      - ./postgres-init.sh:/docker-entrypoint-initdb.d/postgres-init.sh:ro
-      - ./postgres-healthcheck.sh:/usr/local/bin/postgres-healthcheck.sh
-    environment:
-      POSTGRES_USER_FILE: /run/secrets/postgres_user_super
-      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password_super
-      POSTGRES_DB_FILE: /run/secrets/postgres_database
-    networks:
-      - techexpo-crm-backend
+    user: 'root'
+    # entrypoint: ['/usr/local/bin/scripts/postgres-entrypoint.sh']
     secrets:
-      - postgres_user_super
-      - postgres_user_migrator
-      - postgres_user_service
-      - postgres_password_super
-      - postgres_password_migrator
-      - postgres_password_service
-      - postgres_database
-    profiles: ['dev', 'postgres', 'postgres-seeder']
-    user: 'postgres'
+      - postgres_ssl_key
+      - postgres_pg_hba
 
   postgres-seeder:
-    container_name: ${POSTGRES_SEEDER_CONTAINER}
+    container_name: ${POSTGRES_SEEDER_CONTAINER:?error}
     image: node:22-alpine3.22
+    profiles: ['postgres-seeder']
     working_dir: /app/server
-    ports:
-      - ${NODE_LOCAL_PORT:?error}:${NODE_DOCKER_PORT:?error}
-      - '9230:9230'
-    volumes:
-      - ../server:/app/server:ro
-      - ../../../node_modules:/node_modules:ro
-      - ./postgres-seeder-init.sh:/usr/local/bin/postgres-seeder-init.sh:ro
-    networks:
-      - techexpo-crm-backend
-    environment:
-      POSTGRES_HOST: ${POSTGRES_CONTAINER}
-    env_file:
-      - ../server/.env.dev
-      - ./.env.dev
     depends_on:
       postgres:
         condition: 'service_healthy'
+    environment:
+      POSTGRES_HOST: ${POSTGRES_CONTAINER:?error}
+    env_file:
+      - ../server/.env.dev.server
+      - ./.env.dev
+    ports:
+      - 127.0.0.1:9230:9230
+    volumes:
+      - tmpfs-certs:/certs:ro
+      - ../server:/app/server:ro
+      - ../../../node_modules:/node_modules:ro
+      - ./postgres/postgres-seeder-init.sh:/usr/local/bin/postgres-seeder-init.sh:ro
+    networks:
+      - techexpo-crm-backend
     security_opt:
       - no-new-privileges
+    stdin_open: true
+    tty: true
+    entrypoint: ['/usr/local/bin/postgres-seeder-init.sh']
     secrets:
       - postgres_user_migrator
       - postgres_password_migrator
       - postgres_database
       - postgres_pepper
       - demo_acc_generic_non_user_password
-    stdin_open: true
-    tty: true
-    entrypoint: ['/usr/local/bin/postgres-seeder-init.sh']
-    profiles: ['postgres-seeder']
 
   redis:
-    container_name: ${REDIS_CONTAINER}
     image: redis:8.0-alpine
-    restart: on-failure
+    profiles: ['dev', 'redis']
+    restart: on-failure:3
+    volumes:
+      - tmpfs-certs:/etc/redis/certs:ro
+      - volume-redis:/data
+      - ./redis/redis-healthcheck.sh:/usr/local/bin/redis-healthcheck.sh:ro
+      - ./redis/redis-init.sh:/usr/local/bin/redis-init.sh:ro
+    depends_on:
+      certs:
+        condition: 'service_healthy'
     healthcheck:
       test: ['CMD', '/bin/sh', '/usr/local/bin/redis-healthcheck.sh']
       interval: 60s
@@ -214,23 +193,33 @@ services:
       retries: 5
       start_interval: 3s
       start_period: 15s
-    ports:
-      - ${REDIS_LOCAL_PORT:?error}:${REDIS_DOCKER_PORT:?error}
-    volumes:
-      - volume-redis:/data
-      - ./redis-healthcheck.sh:/usr/local/bin/redis-healthcheck.sh:ro
-      - ./redis-init.sh:/usr/local/bin/redis-init.sh:ro
-    networks:
-      - techexpo-crm-backend
-    secrets:
-      - redis_password
     entrypoint: ['/usr/local/bin/redis-init.sh']
-    profiles: ['dev', 'redis']
 
   redisinsight:
-    container_name: ${REDISINSIGHT_CONTAINER}
+    container_name: ${REDISINSIGHT_CONTAINER:?error}
     image: redis/redisinsight:2.70
-    restart: on-failure
+    profiles: ['dev', 'redis']
+    restart: on-failure:3
+    environment:
+      - REDIS_CONTAINER=${REDIS_CONTAINER:?error}
+      - REDIS_DOCKER_PORT=${REDIS_DOCKER_PORT:?error}
+      - REDISINSIGHT_CONTAINER=${REDISINSIGHT_CONTAINER:?error}
+      - REDISINSIGHT_DOCKER_PORT=${REDISINSIGHT_DOCKER_PORT:?error}
+    ports:
+      - 127.0.0.1:${REDISINSIGHT_LOCAL_PORT:?error}:${REDISINSIGHT_DOCKER_PORT:?error}
+    volumes:
+      - tmpfs-certs:/etc/redisinsight/certs:ro
+      - ./redisinsight/redisinsight-init.sh:/usr/local/bin/redisinsight-init.sh:ro
+      - ./redisinsight/redisinsight-healthcheck.sh:/usr/local/bin/redisinsight-healthcheck.sh:ro
+    networks:
+      - techexpo-crm-backend
+      - techexpo-crm-redisinsight
+    depends_on:
+      certs:
+        condition: 'service_healthy'
+      redis:
+        condition: 'service_healthy'
+    entrypoint: ['/usr/local/bin/redisinsight-init.sh']
     healthcheck:
       test: ['CMD', '/bin/sh', '/usr/local/bin/redisinsight-healthcheck.sh']
       interval: 2m
@@ -238,38 +227,72 @@ services:
       retries: 5
       start_interval: 3s
       start_period: 15s
-    ports:
-      - ${REDISINSIGHT_LOCAL_PORT:?error}:${REDISINSIGHT_DOCKER_PORT:?error}
-    volumes:
-      - ./redisinsight-healthcheck.sh:/usr/local/bin/redisinsight-healthcheck.sh:ro
-    networks:
-      - techexpo-crm-backend
-    profiles: ['dev', 'redis']
+    secrets:
+      - redis_password
 
   mailpit:
+    container_name: ${MAILPIT_CONTAINER:?error}
     image: axllent/mailpit:v1.27
-    container_name: ${MAILPIT_CONTAINER}
-    restart: unless-stopped
-    volumes:
-      - volume-mailpit:/data
-    ports:
-      - ${MAILPIT_WEBUI_LOCAL_PORT:?error}:${MAILPIT_WEBUI_DOCKER_PORT:?error}
-      - ${MAILPIT_SMTP_LOCAL_PORT:?error}:${MAILPIT_SMTP_DOCKER_PORT:?error}
+    profiles: [dev]
+    restart: on-failure:3
+    depends_on:
+      certs:
+        condition: 'service_healthy'
     environment:
       MP_MAX_MESSAGES: 5000
       MP_DATABASE: /data/mailpit.db
-      MP_ENABLE_PROMETHEUS: 0.0.0.0:9091
+      MP_ENABLE_PROMETHEUS: 0.0.0.0:${MAILPIT_PROMETHEUS_PORT:?error}
       MP_UI_AUTH_FILE: /run/secrets/mailpit_ui_auth
       MP_SMTP_AUTH_FILE: /run/secrets/mailpit_smtp_auth
       MP_SMTP_AUTH_ALLOW_INSECURE: true
+      MP_SMTP_TLS_CERT: /etc/mailpit/certs/mailpit.crt
+      MP_SMTP_TLS_KEY: /etc/mailpit/certs/mailpit.pem
+    expose:
+      - ${MAILPIT_SMTP_DOCKER_PORT:?error}
+    ports:
+      - 127.0.0.1:${MAILPIT_WEBUI_LOCAL_PORT:?error}:${MAILPIT_WEBUI_DOCKER_PORT:?error}
+    volumes:
+      - tmpfs-certs:/etc/mailpit/certs:ro
+      - volume-mailpit:/data
     networks:
       - techexpo-crm-backend
+      - techexpo-crm-metrics
     secrets:
       - mailpit_ui_auth
       - mailpit_smtp_auth
-    profiles: [dev]
+
+  certs:
+    container_name: ${CERTS_CONTAINER:?error}
+    image: node:22-alpine3.22
+    restart: no
+    volumes:
+      - tmpfs-certs:/certs:rw
+      - ./certs/dev:/src:ro
+      - ./certs/certs-init.sh:/usr/local/bin/certs-init.sh:ro
+    entrypoint: ['/usr/local/bin/certs-init.sh']
+    healthcheck:
+      test: ['CMD', 'test', '-f', '/certs/.ready']
+      interval: 2s
+      timeout: 2s
+      retries: 5
+      start_period: 10s
+      start_interval: 2s
+
+  react-app:
+    # Use 'npm start' from ./client to init webpack-dev-server
+    image: alpine:3.22
+    profiles: [unused]
 
 volumes:
+  tmpfs-certs:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: 'uid=1001,gid=1001,mode=705'
+  volume-mailpit:
+    name: techexpo-mailpit
+    external: true
   volume-mongo:
     name: techexpo-mongo
     external: true
@@ -279,66 +302,33 @@ volumes:
   volume-redis:
     name: techexpo-redis
     external: true
-  volume-mailpit:
-    name: techexpo-mailpit
-    external: true
 
 networks:
-  techexpo-crm-backend:
+  techexpo-crm-redisinsight:
     driver: bridge
 
 secrets:
-  demo_acc_generic_non_user_password:
-    file: ${SECRET_PATH}/.secret.demo_acc_generic_non_user_password.txt
-  graphql_introspect_auth:
-    file: ${SECRET_PATH}/.secret.graphql_introspect_auth.txt
-  jwt_auth_secret:
-    file: ${SECRET_PATH}/.secret.jwt_auth_secret.txt
-  jwt_refresh_secret:
-    file: ${SECRET_PATH}/.secret.jwt_refresh_secret.txt
   mailpit_ui_auth:
     file: ${SECRET_PATH}/.secret.mailpit_ui_auth.txt
   mailpit_smtp_auth:
     file: ${SECRET_PATH}/.secret.mailpit_smtp_auth.txt
-  mongo_user:
-    file: ${SECRET_PATH}/.secret.mongo_user.txt
-  mongo_password:
-    file: ${SECRET_PATH}/.secret.mongo_password.txt
-  mongo_user_root:
-    file: ${SECRET_PATH}/.secret.mongo_user_root.txt
-  mongo_user_service:
-    file: ${SECRET_PATH}/.secret.mongo_user_service.txt
-  mongo_password_root:
-    file: ${SECRET_PATH}/.secret.mongo_password_root.txt
-  mongo_password_service:
-    file: ${SECRET_PATH}/.secret.mongo_password_service.txt
-  mongo_database:
-    file: ${SECRET_PATH}/.secret.mongo_database.txt
   mongoexpress_user:
     file: ${SECRET_PATH}/.secret.mongoexpress_user.txt
   mongoexpress_password:
     file: ${SECRET_PATH}/.secret.mongoexpress_password.txt
+  mongoexpress_url:
+    file: ${SECRET_PATH}/.secret.mongoexpress_url.txt
+  mongoexpress_cookiesecret:
+    file: ${SECRET_PATH}/.secret.mongoexpress_cookiesecret.txt
+  mongoexpress_sessionsecret:
+    file: ${SECRET_PATH}/.secret.mongoexpress_sessionsecret.txt
   nodemailer_username:
     file: ${SECRET_PATH}/.secret.nodemailer_username.txt
   nodemailer_password:
     file: ${SECRET_PATH}/.secret.nodemailer_password.txt
   nodemailer_dev_email:
     file: ${SECRET_PATH}/.secret.nodemailer_dev_email.txt
-  postgres_user_super:
-    file: ${SECRET_PATH}/.secret.postgres_user_super.txt
-  postgres_user_migrator:
-    file: ${SECRET_PATH}/.secret.postgres_user_migrator.txt
-  postgres_user_service:
-    file: ${SECRET_PATH}/.secret.postgres_user_service.txt
-  postgres_password_super:
-    file: ${SECRET_PATH}/.secret.postgres_password_super.txt
-  postgres_password_migrator:
-    file: ${SECRET_PATH}/.secret.postgres_password_migrator.txt
-  postgres_password_service:
-    file: ${SECRET_PATH}/.secret.postgres_password_service.txt
-  postgres_database:
-    file: ${SECRET_PATH}/.secret.postgres_database.txt
-  postgres_pepper:
-    file: ${SECRET_PATH}/.secret.postgres_pepper.txt
-  redis_password:
-    file: ${SECRET_PATH}/.secret.redis_password.txt
+  postgres_ssl_key:
+    file: ./certs/dev/postgres/postgres.key
+  postgres_pg_hba:
+    file: ./postgres/conf/.secret.pg_hba.conf

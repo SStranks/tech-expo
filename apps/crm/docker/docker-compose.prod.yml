@@ -1,77 +1,217 @@
 ---
-# // NOTE:  Use Docker Swarm for production; more secure for secrets.
 services:
-  # Server: NodeJS Express
-  node-api:
-    container_name: techexpo-node-api-prod
-    build:
-      dockerfile: ./Dockerfile
-    image: techexpo-nodejs-express-api
-    env_file:
-      - ../server/.env.prod
-    networks:
-      - crm-backend
-    security_opt:
-      - no-new-privileges
-
-  # Client: Nginx-React
-  react-app:
-    container_name: techexpo-react-app-prod
-    build:
-      dockerfile: ./Dockerfile
-    image: techexpo-react-app
-    env_file:
-      - ../client/.env.prod
-    depends_on:
-      - node-api
-    networks:
-      - techexpo
-    security_opt:
-      - no-new-privileges
-
-  # NGINX
   nginx:
-    container_name: techexpo-nginx-prod
-    restart: on-failure
-    build:
-      context: ../nginx
-      dockerfile: Dockerfile
+    # NGINX Reverse Proxy
+    container_name: ${NGINX_PROXY_0_CONTAINER:?error}
+    image: nginx:1.29-alpine
+    restart: unless-stopped
     depends_on:
-      - node-api
-      - react-app
-    ports:
-      - 8080:80
-    networks:
-      - techexpo
-    security_opt:
-      - no-new-privileges
-
-  # DB: MongoDB
-  mongodb:
-    container_name: techexpo-mongodb
-    image: mongo:6.0.6-custom
-    restart: on-failure
+      node-api:
+        condition: 'service_healthy'
+      react-app:
+        condition: 'service_healthy'
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=$MONGO_INITDB_ROOT_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_INITDB_ROOT_PASSWORD
+      - NGINX_PROXY_0_DOCKER_PORT_HTTP: ${NGINX_PROXY_0_DOCKER_PORT_HTTP:?error}
+      - NGINX_PROXY_0_DOCKER_PORT_TLS: ${NGINX_PROXY_0_DOCKER_PORT_TLS:?error}
+      - REACT_CONTAINER: ${REACT_CONTAINER:?error}
+      - REACT_DOCKER_PORT: ${REACT_DOCKER_PORT:?error}
+      - EXPRESS_CONTAINER: ${EXPRESS_CONTAINER:?error}
+      - EXPRESS_DOCKER_PORT: ${EXPRESS_DOCKER_PORT:?error}
     ports:
-      - $MONGO_LOCAL_PORT:$MONGO_DOCKER_PORT # // NOTE:  Is this required; don't expose to public
+      - 127.0.0.1:${NGINX_PROXY_0_LOCAL_PORT_HTTP}:${NGINX_PROXY_0_DOCKER_PORT_HTTP}
+      - 127.0.0.1:${NGINX_PROXY_0_LOCAL_PORT_TLS}:${NGINX_PROXY_0_DOCKER_PORT_TLS}
     volumes:
-      - mongodb-prod-data:/data/db
-      - ../server/mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+      - tmpfs-certs:/etc/nginx/certs:ro
+      - ./nginx/templates:/etc/nginx/templates:ro
+      - ./nginx/.htpasswd:/etc/nginx/.htpasswd:ro
     networks:
-      - crm-backend
+      - techexpo-crm-backend
     security_opt:
       - no-new-privileges
+    healthcheck:
+      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PROXY_0_DOCKER_PORT_HTTP/health']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+      start_interval: 2s
+
+  express-api:
+    build:
+      context: .
+      dockerfile: apps/crm/docker/nodejs/Dockerfile
+      args:
+        EXPRESS_EXPOSE_PORT: ${EXPRESS_EXPOSE_PORT:?error}
+        NODE_VERSION: ${NODE_VERSION:?error}
+        IMAGE_VERSION: ${NODE_CUSTOM_IMAGE_VERSION:?error}
+        IMAGE_AUTHOR: ${IMAGE_AUTHOR:?error}
+    image: techexpo-crm/express-api:latest
+    restart: unless-stopped
+    env_file:
+      - ../server/.env.prod.server
+      - ./.env.prod
+    volumes:
+      - tmpfs-certs:/etc/expressjs/certs:ro
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'wget',
+          '--ca-certificate=/certs/expressjs-ca.crt',
+          '--certificate=/certs/client-expressjs-healthcheck.crt',
+          '--private-key=/certs/client-expressjs-healthcheck.key',
+          '--spider',
+          '-q',
+          'https://localhost:${EXPRESS_EXPOSE_PORT}/health',
+        ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 30s
+      start_interval: 5s
+
+  react-app:
+    build:
+      context: .
+      dockerfile: ../client/nginx/Dockerfile
+      args:
+        REACT_VERSION: ${REACT_VERSION:?error}
+        IMAGE_VERSION: ${REACT_CUSTOM_IMAGE_VERSION:?error}
+        IMAGE_AUTHOR: ${IMAGE_AUTHOR:?error}
+    image: techexpo-crm/nginx-react:latest
+    restart: unless-stopped
+    env_file:
+      - ../client/.env.prod.client
+    expose:
+      - '443'
+    volumes:
+      - tmpfs-certs:/etc/nginx-react/certs:ro
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'wget',
+          '--ca-certificate=/certs/nginxreact-ca.crt',
+          '--certificate=/certs/client-nginxreact-healthcheck.crt',
+          '--private-key=/certs/client-nginxreact-healthcheck.key',
+          '--spider',
+          '-q',
+          'https://localhost:${REACT_EXPOSE_PORT}/health',
+        ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 30s
+      start_interval: 5s
+
+  mongo:
+    build:
+      context: ./mongo
+      dockerfile: Dockerfile
+      args:
+        MONGO_VERSION: ${MONGO_VERSION:?error}
+        IMAGE_VERSION: ${MONGO_CUSTOM_IMAGE_VERSION:?error}
+        IMAGE_AUTHOR: ${IMAGE_AUTHOR:?error}
+    image: techexpo-crm/mongo:latest
     command: mongod --auth
-# // DANGER:  Password in .conf file - need to explore options for transferring from secret/env.
-# redis:
+    restart: unless-stopped
+    ports: []
+    volumes:
+      - tmpfs-certs:/etc/mongo/certs:ro
+      - volume-mongo:/data/db
+
+  postgres:
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+      args:
+        POSTGRES_VERSION: ${POSTGRES_VERSION:?error}
+        IMAGE_VERSION: ${POSTGRES_CUSTOM_IMAGE_VERSION:?error}
+        IMAGE_AUTHOR: ${IMAGE_AUTHOR:?error}
+    image: techexpo-crm/postgres:latest
+    restart: unless-stopped
+    shm_size: 128mb
+    ports: []
+    volumes:
+      - tmpfs-certs:/etc/postgres/certs:ro
+      - volume-postgres:/var/lib/postgresql/data
+    user: 'postgres'
+
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+      args:
+        REDIS_VERSION: ${REDIS_VERSION:?error}
+        IMAGE_VERSION: ${REDIS_CUSTOM_IMAGE_VERSION:?error}
+        IMAGE_AUTHOR: ${IMAGE_AUTHOR:?error}
+    image: techexpo-crm/redis:latest
+    restart: unless-stopped
+    ports: []
+    volumes:
+      - tmpfs-certs:/etc/redis/certs:ro
+      - volume-redis:/data
+
+  prometheus:
+    image: prometheus:latest
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.config.file=/etc/prometheus/auth.yml'
+      - '--log.level=error'
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:${PROMETHEUS_LOCAL_PORT:?error}:${PROMETHEUS_DOCKER_PORT:?error}'
+    volumes:
+      - tmpfs-certs:/etc/prometheus/certs:ro
+      - volume-prometheus:/prometheus
+
+  grafana:
+    image: grafana/grafana:12.0.2
+    restart: unless-stopped
+    environment:
+      GF_LOG_LEVEL: error
+    ports:
+      - '127.0.0.1:${GRAFANA_LOCAL_PORT:?error}:${GRAFANA_DOCKER_PORT:?error}'
+    volumes:
+      - tmpfs-certs:/etc/grafana/certs:ro
+      - volume-grafana:/var/lib/grafana
+
+  certs:
+    container_name: ${CERTS_CONTAINER:?error}
+    image: node:22-alpine3.22
+    restart: no
+    volumes:
+      - tmpfs-certs:/certs:rw
+      - ./certs/dev:/src:ro
+      - ./certs/certs-init.sh:/usr/local/bin/certs-init.sh:ro
+    entrypoint: ['/usr/local/bin/certs-init.sh']
+    healthcheck:
+      test: ['CMD', 'test', '-f', '/certs/.ready']
+      interval: 2s
+      timeout: 2s
+      retries: 5
+      start_period: 10s
+      start_interval: 2s
 
 volumes:
-  mongodb-prod-data:
-    name: mongodb-prod-data
+  tmpfs-certs:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: 'uid=1001,gid=1001,mode=705'
+  volume-mongo:
+    name: techexpo-mongo-prod
     external: true
-
-networks:
-  crm-backend:
-    driver: bridge
+  volume-postgres:
+    name: techexpo-postgres-prod
+    external: true
+  volume-redis:
+    name: techexpo-redis-prod
+    external: true
+  volume-grafana:
+    name: techexpo-grafana-prod
+    external: true
+  volume-prometheus:
+    name: techexpo-prometheus-prod
+    external: true

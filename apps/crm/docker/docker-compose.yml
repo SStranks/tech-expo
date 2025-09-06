@@ -1,14 +1,148 @@
 ---
 name: 'tech-expo-crm'
-version: '3.7'
 services:
-  # Backend: NodeJS Express
-  node-api:
-    build:
-      context: ../server
+  express-api:
+    container_name: ${EXPRESS_CONTAINER:?error}
+    working_dir: /app/server
+    environment:
+      EXPRESS_CONTAINER: ${EXPRESS_CONTAINER:?error}
+      EXPRESS_DOCKER_PORT: ${EXPRESS_DOCKER_PORT:?error}
+      MONGO_HOST: ${MONGO_CONTAINER:?error}
+      POSTGRES_HOST: ${POSTGRES_CONTAINER:?error}
+      REDIS_HOST: ${REDIS_CONTAINER:?error}
+      NODEMAILER_HOST: ${MAILPIT_CONTAINER:?error}
+    security_opt:
+      - no-new-privileges
+    networks:
+      - techexpo-crm-backend
+      - techexpo-crm-metrics
+    secrets:
+      - demo_acc_generic_non_user_password
+      - graphql_introspect_auth
+      - jwt_auth_secret
+      - jwt_refresh_secret
+      - mongo_user_service
+      - mongo_password_service
+      - mongo_database
+      - nodemailer_username
+      - nodemailer_password
+      - nodemailer_dev_email
+      - postgres_user_service
+      - postgres_password_service
+      - postgres_pepper
+      - postgres_database
+      - redis_password
 
-  # Frontend: React
   react-app:
-    build:
-      context: ../client
-    profiles: [prod]
+    container_name: ${REACT_CONTAINER:?error}
+    security_opt:
+      - no-new-privileges
+    networks:
+      - techexpo-crm-backend
+
+  mongo:
+    container_name: ${MONGO_CONTAINER:?error}
+    environment:
+      MONGO_INITDB_ROOT_USERNAME_FILE: /run/secrets/mongo_user_root
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongo_password_root
+      MONGO_DOCKER_PORT: ${MONGO_DOCKER_PORT:?error}
+      MONGO_CONTAINER: ${MONGO_CONTAINER:?error}
+    security_opt:
+      - no-new-privileges
+    networks:
+      - techexpo-crm-backend
+      - techexpo-crm-metrics
+    secrets:
+      - mongo_database
+      - mongo_user_root
+      - mongo_user_service
+      - mongo_user_metrics
+      - mongo_password_root
+      - mongo_password_service
+      - mongo_password_metrics
+
+  postgres:
+    container_name: ${POSTGRES_CONTAINER:?error}
+    environment:
+      POSTGRES_USER_FILE: /run/secrets/postgres_user_super
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password_super
+      POSTGRES_DB_FILE: /run/secrets/postgres_database
+      POSTGRES_CONTAINER: ${POSTGRES_CONTAINER:?error}
+      POSTGRES_DOCKER_PORT: ${POSTGRES_DOCKER_PORT:?error}
+    security_opt:
+      - no-new-privileges
+    networks:
+      - techexpo-crm-backend
+      - techexpo-crm-metrics
+    secrets:
+      - postgres_user_super
+      - postgres_user_migrator
+      - postgres_user_service
+      - postgres_user_metrics
+      - postgres_password_super
+      - postgres_password_migrator
+      - postgres_password_service
+      - postgres_password_metrics
+      - postgres_database
+
+  redis:
+    container_name: ${REDIS_CONTAINER:?error}
+    security_opt:
+      - no-new-privileges
+    networks:
+      - techexpo-crm-backend
+      - techexpo-crm-metrics
+    secrets:
+      - redis_password
+
+networks:
+  techexpo-crm-backend:
+    driver: bridge
+  techexpo-crm-metrics:
+    driver: bridge
+
+secrets:
+  demo_acc_generic_non_user_password:
+    file: ${SECRET_PATH}/.secret.demo_acc_generic_non_user_password.txt
+  graphql_introspect_auth:
+    file: ${SECRET_PATH}/.secret.graphql_introspect_auth.txt
+  jwt_auth_secret:
+    file: ${SECRET_PATH}/.secret.jwt_auth_secret.txt
+  jwt_refresh_secret:
+    file: ${SECRET_PATH}/.secret.jwt_refresh_secret.txt
+  mongo_user_root:
+    file: ${SECRET_PATH}/.secret.mongo_user_root.txt
+  mongo_user_service:
+    file: ${SECRET_PATH}/.secret.mongo_user_service.txt
+  mongo_user_metrics:
+    file: ${SECRET_PATH}/.secret.mongo_user_metrics.txt
+  mongo_password_root:
+    file: ${SECRET_PATH}/.secret.mongo_password_root.txt
+  mongo_password_service:
+    file: ${SECRET_PATH}/.secret.mongo_password_service.txt
+  mongo_password_metrics:
+    file: ${SECRET_PATH}/.secret.mongo_password_metrics.txt
+  mongo_database:
+    file: ${SECRET_PATH}/.secret.mongo_database.txt
+  postgres_user_super:
+    file: ${SECRET_PATH}/.secret.postgres_user_super.txt
+  postgres_user_metrics:
+    file: ${SECRET_PATH}/.secret.postgres_user_metrics.txt
+  postgres_user_migrator:
+    file: ${SECRET_PATH}/.secret.postgres_user_migrator.txt
+  postgres_user_service:
+    file: ${SECRET_PATH}/.secret.postgres_user_service.txt
+  postgres_password_super:
+    file: ${SECRET_PATH}/.secret.postgres_password_super.txt
+  postgres_password_metrics:
+    file: ${SECRET_PATH}/.secret.postgres_password_metrics.txt
+  postgres_password_migrator:
+    file: ${SECRET_PATH}/.secret.postgres_password_migrator.txt
+  postgres_password_service:
+    file: ${SECRET_PATH}/.secret.postgres_password_service.txt
+  postgres_database:
+    file: ${SECRET_PATH}/.secret.postgres_database.txt
+  postgres_pepper:
+    file: ${SECRET_PATH}/.secret.postgres_pepper.txt
+  redis_password:
+    file: ${SECRET_PATH}/.secret.redis_password.txt

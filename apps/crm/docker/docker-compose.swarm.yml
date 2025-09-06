@@ -1,0 +1,197 @@
+---
+name: 'tech-expo-crm'
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx:1.29-alpine
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 2s
+        max_attempts: 5
+        window: 60s
+    environment:
+      - REACT_CONTAINER: ${REACT_CONTAINER:?error}
+      - REACT_DOCKER_PORT: ${REACT_DOCKER_PORT:?error}
+      - EXPRESS_CONTAINER: ${EXPRESS_CONTAINER:?error}
+      - EXPRESS_DOCKER_PORT: ${EXPRESS_DOCKER_PORT:?error}
+    ports:
+      - ${NGINX_LOCAL_PORT:?error}:${NGINX_DOCKER_PORT:?error}
+    networks:
+      - techexpo-crm-backend
+    security_opt:
+      - no-new-privileges
+    configs:
+      - source: nginx_public-proxy_conf_default
+        target: /etc/nginx/templates/default.conf.template
+    secrets:
+      - source: nginx_public-proxy_htpasswd
+        target: /etc/nginx/.htpasswd
+
+  nginx-metrics:
+    volumes: []
+
+  express-api:
+    image: ${IMAGE_REPO:-docker.io/}techexpo-crm/express-api:latest
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 5
+        window: 120s
+    env_file:
+      - ../server/.env.prod.server
+      - ./.env.prod
+    volumes: []
+
+  react-app:
+    image: ${IMAGE_REPO:-docker.io/}techexpo-crm/nginx-react:latest
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 3
+        window: 60s
+    env_file:
+      - ../client/.env.prod.client
+    ports: []
+    expose:
+      - '443'
+    configs:
+      - source: nginx-react-proxy_conf_default
+        target: /etc/nginx/conf.d/default.conf
+      - source: nginx-react-proxy_conf_nginx
+        target: /etc/nginx/nginx.conf
+      - source: nginx-react-proxy_conf_security
+        target: /etc/nginx/conf.d/security-headers.conf
+
+  mongo:
+    image: ${IMAGE_REPO:-docker.io/}techexpo-crm/mongo:latest
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 30s
+        max_attempts: 3
+        window: 300s
+    ports: []
+    volumes:
+      - volume-mongo:/data/db
+    command: mongod --auth
+
+  postgres:
+    image: ${IMAGE_REPO:-docker.io/}techexpo-crm/postgres:latest
+    shm_size: 128mb
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 30s
+        max_attempts: 3
+        window: 300s
+    ports: []
+    volumes:
+      - volume-postgres:/var/lib/postgresql/data
+    user: 'postgres'
+    # Need to mount postgres-ca.crt --> root-ca.crt (see postgres init file)
+
+  redis:
+    image: ${IMAGE_REPO:-docker.io/}techexpo-crm/redis:latest
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 20s
+        max_attempts: 3
+        window: 300s
+    ports: []
+    volumes:
+      - volume-redis:/data
+
+  prometheus:
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.config.file=/etc/prometheus/auth.yml'
+      - '--log.level=error'
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 120s
+    environment:
+      PROMETHEUS_DOCKER_PORT: ${PROMETHEUS_DOCKER_PORT:?error}
+      PROMETHEUS_CONTAINER: ${PROMETHEUS_CONTAINER:?error}
+    ports:
+      - '127.0.0.1:${PROMETHEUS_LOCAL_PORT:?error}:${PROMETHEUS_DOCKER_PORT:?error}'
+    volumes:
+      - volume-prometheus:/prometheus
+    configs:
+      - source: prometheus_conf
+        target: /etc/prometheus/prometheus.yml
+    secrets:
+      - source: prometheus_auth
+        target: /etc/prometheus/auth.yml
+
+  grafana:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 120s
+    environment:
+      GF_LOG_LEVEL: error
+      GRAFANA_PROVISION_DATASOURCE_CA_CERT: /certs/grafana-ca.crt
+    ports:
+      - '127.0.0.1:${GRAFANA_LOCAL_PORT:?error}:${GRAFANA_DOCKER_PORT:?error}'
+    volumes:
+      - volume-grafana:/var/lib/grafana
+
+  redis-exporter:
+    volumes: []
+
+  mongo-exporter:
+    volumes: []
+
+  postgres-exporter:
+    volumes: []
+
+configs:
+  nginx_public-proxy_conf_default:
+    file: ./nginx/templates/default.conf.template
+  nginx_react-proxy_conf_default:
+    file: ../client/nginx/default.conf
+  nginx_react-proxy_conf_nginx:
+    file: ../client/nginx/nginx.conf
+  nginx_react-proxy_conf_security:
+    file: ../client/nginx/security-headers.conf
+  prometheus_conf:
+    file: ./prometheus/prometheus.config.prod.yml
+
+secrets:
+  nginx_publicproxy_htpasswd:
+    file: ./nginx/.htpasswd
+  prometheus_auth:
+    file: ./prometheus/prometheus.secret.prod.yml
+
+networks:
+  techexpo-crm-backend:
+    driver: overlay
+  techexpo-crm-metrics:
+    driver: overlay
+
+volumes:
+  volume-mongo:
+    name: techexpo-mongo-prod
+    external: true
+  volume-postgres:
+    name: techexpo-postgres-prod
+    external: true
+  volume-redis:
+    name: techexpo-redis-prod
+    external: true
+  volume-prometheus:
+    name: techexpo-prometheus-prod
+    external: true
+  volume-grafana:
+    name: techexpo-grafana-prod
+    external: true

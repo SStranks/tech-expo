@@ -1,0 +1,260 @@
+services:
+  nginx-metrics:
+    container_name: ${NGINX_PROXY_1_CONTAINER:?error}
+    image: nginx:1.29-alpine
+    restart: on-failure:3
+    environment:
+      NGINX_PROXY_1_DOCKER_PORT_HTTP: ${NGINX_PROXY_1_DOCKER_PORT_HTTP:?error}
+      NGINX_PROXY_1_DOCKER_PORT_TLS: ${NGINX_PROXY_1_DOCKER_PORT_TLS:?error}
+      GRAFANA_CONTAINER: ${GRAFANA_CONTAINER:?error}
+      GRAFANA_DOCKER_PORT: ${GRAFANA_DOCKER_PORT:?error}
+      PROMETHEUS_CONTAINER: ${PROMETHEUS_CONTAINER:?error}
+      PROMETHEUS_DOCKER_PORT: ${PROMETHEUS_DOCKER_PORT:?error}
+    ports:
+      - 127.0.0.1:${NGINX_PROXY_1_LOCAL_PORT_HTTP}:${NGINX_PROXY_1_DOCKER_PORT_HTTP}
+      - 127.0.0.1:${NGINX_PROXY_1_LOCAL_PORT_TLS}:${NGINX_PROXY_1_DOCKER_PORT_TLS}
+    volumes:
+      - tmpfs-certs:/etc/nginx/certs:ro
+      - ./nginx-metrics/templates:/etc/nginx/templates:ro
+    networks:
+      - techexpo-crm-metrics
+    security_opt:
+      - no-new-privileges
+    healthcheck:
+      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PROXY_1_DOCKER_PORT_HTTP/health']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 25s
+      start_interval: 5s
+
+  prometheus:
+    container_name: ${PROMETHEUS_CONTAINER:?error}
+    image: prom/prometheus:v3.5.0
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.config.file=/etc/prometheus/auth.yml'
+      - '--log.level=warn'
+    restart: on-failure:3
+    depends_on:
+      certs:
+        condition: 'service_healthy'
+    environment:
+      NGINX_PROXY_1_CONTAINER: ${NGINX_PROXY_1_CONTAINER:?error}
+      NGINX_PROXY_1_DOCKER_PORT_HTTP: ${NGINX_PROXY_1_DOCKER_PORT_HTTP:?error}
+      PROMETHEUS_DOCKER_PORT: ${PROMETHEUS_DOCKER_PORT:?error}
+      PROMETHEUS_CONTAINER: ${PROMETHEUS_CONTAINER:?error}
+    expose:
+      - ${PROMETHEUS_DOCKER_PORT}
+    volumes:
+      - tmpfs-certs:/etc/prometheus/certs:ro
+      - volume-prometheus:/prometheus
+      - ./prometheus/prometheus-healthcheck.sh:/usr/local/bin/prometheus-healthcheck.sh:ro
+      - ./prometheus/prometheus.config.dev.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/prometheus.secret.yml:/etc/prometheus/auth.yml:ro
+    networks:
+      - techexpo-crm-metrics
+    healthcheck:
+      test: ['CMD', '/bin/sh', '/usr/local/bin/prometheus-healthcheck.sh']
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    secrets:
+      - prometheus_username
+      - prometheus_password
+
+  grafana:
+    container_name: ${GRAFANA_CONTAINER:?error}
+    image: grafana/grafana:12.0.2
+    restart: on-failure:3
+    depends_on:
+      certs:
+        condition: 'service_healthy'
+    environment:
+      GF_SMTP_HOST: ${MAILPIT_CONTAINER}:${MAILPIT_SMTP_DOCKER_PORT}
+      GF_SMTP_FROM_ADDRESS: ${GF_SMTP_FROM_ADDRESS}
+      PROMETHEUS_CONTAINER: ${PROMETHEUS_CONTAINER}
+      PROMETHEUS_DOCKER_PORT: ${PROMETHEUS_DOCKER_PORT}
+      NGINX_PROXY_1_CONTAINER: ${NGINX_PROXY_1_CONTAINER:?error}
+      NGINX_PROXY_1_DOCKER_PORT_HTTP: ${NGINX_PROXY_1_DOCKER_PORT_HTTP:?error}
+    ports:
+      - '127.0.0.1:6666:3000'
+    expose:
+      - ${GRAFANA_DOCKER_PORT}
+    volumes:
+      - tmpfs-certs:/etc/grafana/certs:ro
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
+      - ./grafana/grafana-init.sh:/usr/local/bin/grafana-init.sh:ro
+      - ./grafana/grafana-healthcheck.sh:/usr/local/bin/grafana-healthcheck.sh:ro
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/provisioning/folders:/etc/grafana/provisioning/folders:ro
+      - ./grafana/provisioning/alerting:/etc/grafana/provisioning/alerting:ro
+      - ./grafana/provisioning/access-control:/etc/grafana/provisioning/access-control:ro
+      # - volume-grafana:/var/lib/grafana
+    networks:
+      - techexpo-crm-metrics
+    healthcheck:
+      test: ['CMD', '/bin/sh', '/usr/local/bin/grafana-healthcheck.sh']
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    entrypoint: ['/usr/local/bin/grafana-init.sh']
+    secrets:
+      - grafana_admin_username
+      - grafana_admin_password
+      - grafana_smtp_username
+      - grafana_smtp_password
+      - grafana_user1_username
+      - grafana_user1_password
+      - prometheus_username
+      - prometheus_password
+
+  cadvisor:
+    container_name: ${CADVISOR_CONTAINER:?error}
+    image: gcr.io/cadvisor/cadvisor:v0.52.0
+    restart: on-failure:3
+    depends_on:
+      express-api:
+        condition: 'service_healthy'
+      # - react
+      redis:
+        condition: 'service_healthy'
+      postgres:
+        condition: 'service_healthy'
+      mongo:
+        condition: 'service_healthy'
+    ports:
+      - 8080:8080
+    volumes:
+      # --- ROOTFUL Docker Volumes ---
+      # - /:/rootfs:ro
+      # - /var/run:/var/run:rw
+      # - /sys:/sys:ro
+      # - /var/lib/docker/:/var/lib/docker:ro
+      # --- ROOTFUL Docker Volumes ---
+      # --- ROOTLESS Docker Volumes ---
+      - /:/rootfs:ro
+      - /run/user/1001/docker.sock:/var/run/docker.sock:ro
+      - /sys:/sys:ro
+      - ~/.local/share/docker/:/var/lib/docker:ro
+      # --- ROOTLESS Docker Volumes ---
+    networks:
+      - techexpo-crm-metrics
+
+  postgres-exporter:
+    container_name: ${POSTGRES_EXPORTER_CONTAINER:?error}
+    image: prometheuscommunity/postgres-exporter:v0.17.1
+    restart: on-failure:3
+    depends_on:
+      postgres:
+        condition: 'service_healthy'
+    environment:
+      DATA_SOURCE_URI_FILE: /run/secrets/postgres_exporter_uri
+      DATA_SOURCE_USER_FILE: /run/secrets/postgres_user_metrics
+      DATA_SOURCE_PASS_FILE: /run/secrets/postgres_password_metrics
+    networks:
+      - techexpo-crm-metrics
+    volumes:
+      - tmpfs-certs:/etc/prometheus/certs:ro
+    healthcheck:
+      test: ['CMD', '/bin/postgres_exporter', '--version']
+      interval: 60s
+      timeout: 5s
+      retries: 5
+      start_interval: 3s
+      start_period: 15s
+    secrets:
+      - postgres_exporter_uri
+      - postgres_user_metrics
+      - postgres_password_metrics
+
+  mongo-exporter:
+    container_name: ${MONGO_EXPORTER_CONTAINER:?error}
+    image: percona/mongodb_exporter:0.44
+    command:
+      - --no-discovering-mode
+      - --collector.dbstats
+      - --collector.dbstatsfreestorage
+      - --collector.fcv
+      - --collector.diagnosticdata
+    restart: on-failure:3
+    depends_on:
+      mongo:
+        condition: 'service_healthy'
+    env_file:
+      - ${SECRET_PATH}/.secret.mongo_uri.txt
+    networks:
+      - techexpo-crm-metrics
+    volumes:
+      - tmpfs-certs:/etc/prometheus/certs:ro
+    healthcheck:
+      test: ['CMD', '/mongodb_exporter', '--version']
+      interval: 60s
+      timeout: 5s
+      retries: 5
+      start_interval: 3s
+      start_period: 15s
+
+  redis-exporter:
+    container_name: ${REDIS_EXPORTER_CONTAINER:?error}
+    image: oliver006/redis_exporter:v1.74.0
+    restart: on-failure:3
+    depends_on:
+      redis:
+        condition: 'service_healthy'
+    environment:
+      REDIS_ADDR: rediss://${REDIS_CONTAINER:?error}:${REDIS_DOCKER_PORT:?error}
+      REDIS_PASSWORD_FILE: /run/secrets/redis_uri
+      REDIS_EXPORTER_TLS_CA_CERT_FILE: /etc/prometheus/certs/prometheus-ca.crt
+      REDIS_EXPORTER_TLS_CLIENT_CERT_FILE: /etc/prometheus/certs/prometheus-redisexporter.crt
+      REDIS_EXPORTER_TLS_CLIENT_KEY_FILE: /etc/prometheus/certs/prometheus-redisexporter.key
+    networks:
+      - techexpo-crm-metrics
+    volumes:
+      - tmpfs-certs:/etc/prometheus/certs:ro
+    healthcheck:
+      test: ['CMD', '/redis_exporter', '--version']
+      interval: 60s
+      timeout: 5s
+      retries: 5
+      start_interval: 3s
+      start_period: 15s
+    secrets:
+      - redis_uri
+
+volumes:
+  volume-grafana:
+    name: techexpo-grafana
+    external: true
+  volume-prometheus:
+    name: techexpo-prometheus
+    external: true
+
+secrets:
+  grafana_admin_username:
+    file: ${SECRET_PATH}/.secret.grafana_admin_username.txt
+  grafana_admin_password:
+    file: ${SECRET_PATH}/.secret.grafana_admin_password.txt
+  grafana_smtp_username:
+    file: ${SECRET_PATH}/.secret.mailpit_smtp_auth_username.txt
+  grafana_smtp_password:
+    file: ${SECRET_PATH}/.secret.mailpit_smtp_auth_password.txt
+  grafana_user1_username:
+    file: ${SECRET_PATH}/.secret.grafana_user1_username.txt
+  grafana_user1_password:
+    file: ${SECRET_PATH}/.secret.grafana_user1_password.txt
+  postgres_exporter_uri:
+    file: ${SECRET_PATH}/.secret.postgres_exporter_uri.txt
+  postgres_user_metrics:
+    file: ${SECRET_PATH}/.secret.postgres_user_metrics.txt
+  postgres_password_metrics:
+    file: ${SECRET_PATH}/.secret.postgres_password_metrics.txt
+  prometheus_username:
+    file: ${SECRET_PATH}/.secret.prometheus_username.txt
+  prometheus_password:
+    file: ${SECRET_PATH}/.secret.prometheus_password.txt
+  redis_uri:
+    file: ${SECRET_PATH}/.secret.redis_uri.json
