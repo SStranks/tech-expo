@@ -11,6 +11,12 @@ PASSWORD_SERVICE="$(cat /run/secrets/mongo_password_service)"
 USER_METRICS="$(cat /run/secrets/mongo_user_metrics)"
 PASSWORD_METRICS="$(cat /run/secrets/mongo_password_metrics)"
 
+: "${DB:?mongo_database is empty}"
+: "${USER_SERVICE:?mongo_user_service is empty}"
+: "${PASSWORD_SERVICE:?mongo_password_service is empty}"
+: "${USER_METRICS:?mongo_user_metrics is empty}"
+: "${PASSWORD_METRICS:?mongo_password_metrics is empty}"
+
 echo "*** Preparing MongoDB User Configuration ***"
 sleep 1
 echo "*** Initializing MongoDB User Configuration ***"
