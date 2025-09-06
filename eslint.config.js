@@ -32,6 +32,7 @@ export default defineConfig([
       '**/private.*',
       '**/migrations/meta/',
       'pnpm-lock.yaml',
+      'pnpm-workspace.yaml',
     ],
   },
   {
