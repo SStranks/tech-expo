@@ -18,8 +18,8 @@ const {
   NODEMAILER_USERNAME,
 } = process.env;
 
-const senderDev = { name: 'CRM Server: Development', address: 'mailtrap@demomailtrap.com' };
-const senderProd = { name: 'CRM Server: Development', address: 'mailtrap@demomailtrap.com' };
+const senderDev = { name: 'CRM Server: Development', address: 'admin@techexpo-crm.org' };
+const senderProd = { name: 'CRM Server: Production', address: 'admin@techexpo-crm.org' };
 
 const SMTPDefaultConfig: SMTPTransport.Options = {
   authMethod: 'PLAIN',

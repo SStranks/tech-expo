@@ -2,11 +2,36 @@ import { createClient } from 'redis';
 
 import { pinoLogger, rollbar } from '#Lib/index.js';
 
-const { REDIS_HOST, REDIS_LOCAL_PORT, REDIS_PASSWORD, REDIS_USERNAME } = process.env;
-const REDIS_URL = `redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_LOCAL_PORT}`;
+import fs from 'node:fs';
+import { createSecureContext } from 'node:tls';
+
+const { NODE_ENV, REDIS_DOCKER_PORT, REDIS_HOST, REDIS_PASSWORD, REDIS_USERNAME } = process.env;
+const REDIS_URL = `redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_DOCKER_PORT}`;
+
+let secureContext;
+try {
+  secureContext = createSecureContext({
+    cert: fs.readFileSync('/etc/expressjs/certs/expressjs-redis.crt'),
+    key: fs.readFileSync('/etc/expressjs/certs/expressjs-redis.key'),
+    ca:
+      NODE_ENV === 'development'
+        ? fs.readFileSync('/etc/expressjs/certs/expressjs-ca.crt')
+        : fs.readFileSync('/etc/expressjs/certs/redis-ca.crt'),
+  });
+  console.log('[dbRedis] Secure context created');
+} catch (error) {
+  console.error('[dbRedis] Failed to create secure context:', error);
+}
 
 const redisClient = createClient({
-  url: `${REDIS_URL}`,
+  // url: `${REDIS_URL}`,
+  socket: {
+    host: `${REDIS_HOST}`,
+    port: Number(`${REDIS_DOCKER_PORT}`),
+    rejectUnauthorized: true,
+    secureContext,
+    tls: true,
+  },
 });
 
 // DANGER:  Ensure logger for current ENV is not storing credentials; level INFO or higher.
@@ -27,7 +52,7 @@ class ServerEventsLogger {
 
     Object.keys(this.eventNames).forEach((event) => {
       this.RedisClient.on(event, () => {
-        pinoLogger.info(`${event}: RedisDB: @${REDIS_HOST}:${REDIS_LOCAL_PORT}`);
+        pinoLogger.info(`${event}: RedisDB: @${REDIS_HOST}:${REDIS_DOCKER_PORT}`);
       });
     });
   }
@@ -47,7 +72,7 @@ const connectRedisDB = async () => {
   try {
     await redisClient.connect();
   } catch (error) {
-    const errMsg = `Cannot connect to Redis: ${REDIS_HOST}:${REDIS_LOCAL_PORT}`;
+    const errMsg = `Cannot connect to Redis: ${REDIS_HOST}:${REDIS_DOCKER_PORT}`;
     process.exitCode = 1;
 
     pinoLogger.fatal(error, errMsg);
@@ -56,7 +81,7 @@ const connectRedisDB = async () => {
       process.exit();
     });
   }
-  pinoLogger.info(`Connected to Redis: ${REDIS_HOST}:${REDIS_LOCAL_PORT}`);
+  pinoLogger.info(`Connected to Redis: ${REDIS_HOST}:${REDIS_DOCKER_PORT}`);
 };
 
-export { redisClient, connectRedisDB };
+export { connectRedisDB, redisClient };

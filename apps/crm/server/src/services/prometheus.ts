@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 
 import prometheusClient from 'prom-client';
 
-const PREFIX = 'express1_';
+const PREFIX = 'express_';
 
 const collectDefaultMetrics = prometheusClient.collectDefaultMetrics;
 const Registry = prometheusClient.Registry;

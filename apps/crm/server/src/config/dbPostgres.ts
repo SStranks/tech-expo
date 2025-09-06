@@ -5,17 +5,39 @@ import * as schema from '#Config/schema/index.js';
 import { DrizzleLogger, pinoLogger, rollbar } from '#Lib/index.js';
 import { AppError, PostgresError } from '#Utils/errors/index.js';
 
-const { DRIZZLE, NODE_ENV, POSTGRES_DATABASE, POSTGRES_HOST, POSTGRES_LOCAL_PORT, POSTGRES_PASSWORD, POSTGRES_USER } =
+import fs from 'node:fs';
+import { createSecureContext } from 'node:tls';
+
+const { DRIZZLE, NODE_ENV, POSTGRES_DATABASE, POSTGRES_DOCKER_PORT, POSTGRES_HOST, POSTGRES_PASSWORD, POSTGRES_USER } =
   process.env;
-const POSTGRES_URL = `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_LOCAL_PORT}/${POSTGRES_DATABASE}`;
+const POSTGRES_URL = `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_DOCKER_PORT}/${POSTGRES_DATABASE}`;
 
 // DANGER:  Ensure logger for current ENV is not storing credentials; level INFO or higher.
 pinoLogger.debug(POSTGRES_URL);
+
+let secureContext;
+try {
+  secureContext = createSecureContext({
+    cert: fs.readFileSync('/etc/expressjs/certs/expressjs-postgres.crt'),
+    key: fs.readFileSync('/etc/expressjs/certs/expressjs-postgres.key'),
+    ca:
+      NODE_ENV === 'development'
+        ? fs.readFileSync('/etc/expressjs/certs/expressjs-ca.crt')
+        : fs.readFileSync('/etc/expressjs/certs/postgres-ca.crt'),
+  });
+  console.log('[dbPostgres] Secure context created');
+} catch (error) {
+  console.error('[dbPostgres] Failed to create secure context:', error);
+}
 
 // Query Client
 const options: postgres.Options<Record<string, postgres.PostgresType>> = {
   debug: NODE_ENV === 'development',
   max: DRIZZLE === 'migrate' || DRIZZLE === 'seed' ? 1 : undefined,
+  ssl: {
+    rejectUnauthorized: true,
+    secureContext,
+  },
 };
 const logger = DRIZZLE === 'migrate' || DRIZZLE === 'seed' ? false : new DrizzleLogger();
 
@@ -27,7 +49,7 @@ const connectPostgresDB = async () => {
   try {
     await postgresClient`SELECT 1`;
   } catch (error) {
-    const errMsg = `Cannot connect to Postgres: ${POSTGRES_HOST}:${POSTGRES_LOCAL_PORT}/${POSTGRES_DATABASE}`;
+    const errMsg = `Cannot connect to Postgres: ${POSTGRES_HOST}:${POSTGRES_DOCKER_PORT}/${POSTGRES_DATABASE}`;
     process.exitCode = 1;
 
     pinoLogger.fatal(error, errMsg);
@@ -36,7 +58,7 @@ const connectPostgresDB = async () => {
       process.exit();
     });
   }
-  pinoLogger.info(`Connected to Postgres: ${POSTGRES_HOST}:${POSTGRES_LOCAL_PORT}/${POSTGRES_DATABASE}`);
+  pinoLogger.info(`Connected to Postgres: ${POSTGRES_HOST}:${POSTGRES_DOCKER_PORT}/${POSTGRES_DATABASE}`);
 };
 
 type TPostgresHTTPError = { httpCode: number; message: string };

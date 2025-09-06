@@ -3,14 +3,45 @@ import { MongoClient, type TopologyEvents } from 'mongodb';
 import pinoLogger from '#Lib/pinoLogger.js';
 import rollbar from '#Lib/rollbar.js';
 
-const { MONGO_ARGS, MONGO_DATABASE, MONGO_HOST, MONGO_PASSWORD, MONGO_PORT, MONGO_PROTOCOL, MONGO_USER } = process.env;
+import fs from 'node:fs';
+import { createSecureContext } from 'node:tls';
 
-const MONGO_URI = `${MONGO_PROTOCOL}://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}${MONGO_ARGS}`;
+const {
+  MONGO_ARGS,
+  MONGO_DATABASE,
+  MONGO_DOCKER_PORT,
+  MONGO_HOST,
+  MONGO_PASSWORD,
+  MONGO_PROTOCOL,
+  MONGO_USER,
+  NODE_ENV,
+} = process.env;
+
+const MONGO_URI = `${MONGO_PROTOCOL}://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_DOCKER_PORT}/${MONGO_DATABASE}${MONGO_ARGS}`;
 
 // DANGER:  Ensure logger for current ENV is not storing credentials; level INFO or higher.
 pinoLogger.debug(MONGO_URI);
 
-const mongoClient = new MongoClient(MONGO_URI);
+let secureContext;
+try {
+  secureContext = createSecureContext({
+    cert: fs.readFileSync('/etc/expressjs/certs/expressjs-mongo.crt'),
+    key: fs.readFileSync('/etc/expressjs/certs/expressjs-mongo.key'),
+    ca:
+      NODE_ENV === 'development'
+        ? fs.readFileSync('/etc/expressjs/certs/expressjs-ca.crt')
+        : fs.readFileSync('/etc/expressjs/certs/mongo-ca.crt'),
+  });
+  console.log('[dbMongo] Secure context created');
+} catch (error) {
+  console.error('[dbMongo] Failed to create secure context:', error);
+}
+
+const mongoClient = new MongoClient(MONGO_URI, {
+  rejectUnauthorized: true,
+  secureContext,
+  tls: true,
+});
 
 type TMongoServerEvents = {
   [Key in keyof TopologyEvents]?: boolean;
@@ -26,7 +57,7 @@ class ServerEventsLogger {
 
     Object.keys(this.eventNames).forEach((event) => {
       this.MongoClient.on(event, () => {
-        pinoLogger.info(`${event}: MongoDB: @${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}`);
+        pinoLogger.info(`${event}: MongoDB: @${MONGO_HOST}:${MONGO_DOCKER_PORT}/${MONGO_DATABASE}`);
       });
     });
   }
@@ -58,4 +89,4 @@ const connectMongoDB = async () => {
 
 const mongoDB = mongoClient.db(`${MONGO_DATABASE}`);
 
-export { mongoDB, connectMongoDB, mongoClient };
+export { connectMongoDB, mongoClient, mongoDB };
