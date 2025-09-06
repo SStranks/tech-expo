@@ -1,0 +1,28 @@
+---
+# https://grafana.com/docs/grafana/latest/datasources/prometheus/configure/
+# NOTE: Export current datasources: http://grafana:port/api/datasources
+apiVersion: 1
+
+datasources:
+  - name: prometheus
+    type: prometheus
+    version: 1
+    access: proxy
+    orgId: 1
+    uid: aeu6v9m8uadc0f
+    url: https://${PROMETHEUS_CONTAINER}:${PROMETHEUS_DOCKER_PORT}
+    isDefault: true
+    editable: false
+    jsonData:
+      httpMethod: POST
+      oauthPassThru: false
+      sigV4Auth: false
+      tlsAuth: true
+      tlsAuthWithCACert: true
+    basicAuth: true
+    basicAuthUser: $__file{/run/secrets/prometheus_username}
+    secureJsonData:
+      basicAuthPassword: $__file{/run/secrets/prometheus_password}
+      tlsClientCert: $__file{/etc/grafana/certs/grafana-prometheus.crt}
+      tlsClientKey: $__file{/etc/grafana/certs/grafana-prometheus.key}
+      tlsCACert: $__file{/etc/grafana/certs/grafana-ca.crt}

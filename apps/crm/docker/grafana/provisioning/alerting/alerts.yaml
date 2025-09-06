@@ -1,0 +1,279 @@
+---
+apiVersion: 1
+
+groups:
+  - orgId: 1
+    name: techexpo-crm_API-req
+    folder: techexpo-crm:alerts
+    interval: 1m
+    rules:
+      - uid: fewaagktx05c0b
+        title: API_5xx > 5 [5m]
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: aeu6v9m8uadc0f
+            model:
+              editorMode: code
+              expr: sum(rate(express_http_request_count{statusCode=~"5.."}[5m])) > 5
+              instant: true
+              intervalMs: 1000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: false
+              refId: A
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 5
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: C
+              type: threshold
+        noDataState: OK
+        execErrState: Error
+        annotations:
+          summary: sum(rate(http_requests_total{status=~"5.."}[5m])) > 5
+        isPaused: false
+        notification_settings:
+          receiver: Techexpo-CRM Contact Point
+  - orgId: 1
+    name: techexpo-crm_DB-evaluation
+    folder: techexpo-crm:alerts
+    interval: 30s
+    rules:
+      - uid: aew9wsb88f8cgc
+        title: Postgres_down
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: aeu6v9m8uadc0f
+            model:
+              datasource:
+                type: prometheus
+                uid: aeu6v9m8uadc0f
+              editorMode: code
+              expr: absent(pg_up{job="postgres"}) OR pg_up{job="postgres"} == bool 0
+              instant: true
+              intervalMs: 1000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: false
+              refId: A
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: eq
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: C
+              type: threshold
+        noDataState: NoData
+        execErrState: Error
+        annotations:
+          summary: absent(pg_up{job="postgres"}) OR pg_up{job="postgres"} == bool 0
+        isPaused: false
+        notification_settings:
+          receiver: Techexpo-CRM Contact Point
+      - uid: dew9x4h6qiv40b
+        title: Redis_down
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: aeu6v9m8uadc0f
+            model:
+              datasource:
+                type: prometheus
+                uid: aeu6v9m8uadc0f
+              editorMode: code
+              expr: absent(redis_up{job="redis"}) OR redis_up{job="redis"} == bool 0
+              instant: true
+              intervalMs: 1000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: false
+              refId: A
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: eq
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: C
+              type: threshold
+        noDataState: NoData
+        execErrState: Error
+        annotations:
+          summary: absent(redis_up{job="redis"}) OR redis_up{job="redis"} == bool 0
+        isPaused: false
+        notification_settings:
+          receiver: Techexpo-CRM Contact Point
+      - uid: bewa7merue96od
+        title: Mongo_down
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: aeu6v9m8uadc0f
+            model:
+              datasource:
+                type: prometheus
+                uid: aeu6v9m8uadc0f
+              editorMode: code
+              expr: absent(mongodb_up{job="mongo"}) OR mongodb_up{job="mongo"} == bool 0
+              instant: true
+              intervalMs: 1000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: false
+              refId: A
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: eq
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: C
+              type: threshold
+        noDataState: NoData
+        execErrState: Error
+        annotations:
+          summary: absent(mongodb_up{job="mongo"}) OR mongodb_up{job="mongo"} == bool 0
+        isPaused: false
+        notification_settings:
+          receiver: Techexpo-CRM Contact Point
+  - orgId: 1
+    name: techexpo-crm_memory-max
+    folder: techexpo-crm:alerts
+    interval: 30s
+    rules:
+      - uid: bewa9pn9xbwu8d
+        title: Redis_max-memory
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: aeu6v9m8uadc0f
+            model:
+              editorMode: code
+              expr: redis_memory_used_bytes
+              instant: true
+              intervalMs: 1000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: false
+              refId: A
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1.073741824e+09
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: C
+              type: threshold
+        noDataState: NoData
+        execErrState: Error
+        for: 1m
+        annotations:
+          summary: redis_memory_used_bytes
+        isPaused: false
+        notification_settings:
+          receiver: Techexpo-CRM Contact Point

@@ -1,0 +1,29 @@
+---
+apiVersion: 2
+
+roles:
+  - name: 'custom:project-viewer'
+    uid: projectviewer
+    orgId: 1
+    description: Minimal access for project team members
+    version: 2
+    permissions:
+      - action: 'dashboards:read'
+        scope: 'folder:*'
+      - action: 'datasources:read'
+        scope: global
+
+teams:
+  - name: CRM Project
+    orgId: 1
+    roles:
+      - uid: projectviewer
+
+users:
+  - name: crm-user
+    login: ${GF_SECURITY_RBAC_USERS_USER1}
+    email: crm-user1@techexpo-crm.org
+    password: ${GF_SECURITY_RBAC_USERS_USER1_PASSWORD}
+    isGrafanaAdmin: false
+    teams:
+      - CRM Project
