@@ -17,7 +17,8 @@ services:
       - EXPRESS_CONTAINER: ${EXPRESS_CONTAINER:?error}
       - EXPRESS_DOCKER_PORT: ${EXPRESS_DOCKER_PORT:?error}
     ports:
-      - ${NGINX_LOCAL_PORT:?error}:${NGINX_DOCKER_PORT:?error}
+      - 127.0.0.1:${NGINX_PROXY_0_LOCAL_PORT_HTTP}:${NGINX_PROXY_0_DOCKER_PORT_HTTP}
+      - ${NGINX_PROXY_0_LOCAL_PORT_TLS}:${NGINX_PROXY_0_DOCKER_PORT_TLS}
     networks:
       - techexpo-crm-backend
     security_opt:
@@ -67,7 +68,8 @@ services:
         target: /etc/nginx/conf.d/security-headers.conf
 
   mongo:
-    image: ${IMAGE_REPO:-docker.io/}techexpo-crm/mongo:latest
+    image: mongo:8.0.10
+    command: ['mongod', '--auth', '--quiet', '--config', '/etc/mongod.conf']
     deploy:
       restart_policy:
         condition: any
@@ -77,10 +79,23 @@ services:
     ports: []
     volumes:
       - volume-mongo:/data/db
-    command: mongod --auth
+    healthcheck:
+      test: ['CMD', '/bin/bash', '/usr/local/bin/mongo-healthcheck.sh']
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+      start_period: 30s
+      configs:
+        - source: mongo_mongod-conf
+          target: /etc/mongod.conf
+        - source: mongo_init
+          target: /docker-entrypoint-initdb.d/mongo-init.sh
+        - source: mongo_healthcheck
+          target: /usr/local/bin/mongo-healthcheck.sh
 
   postgres:
-    image: ${IMAGE_REPO:-docker.io/}techexpo-crm/postgres:latest
+    image: postgres:17.5
     shm_size: 128mb
     deploy:
       restart_policy:
@@ -92,10 +107,24 @@ services:
     volumes:
       - volume-postgres:/var/lib/postgresql/data
     user: 'postgres'
-    # Need to mount postgres-ca.crt --> root-ca.crt (see postgres init file)
+    healthcheck:
+      test: ['CMD', '/bin/bash', '/usr/local/bin/scripts/postgres-healthcheck.sh']
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+      start_period: 30s
+    configs:
+      - source: postgres_init
+        target: /docker-entrypoint-initdb.d
+      - source: postgres_healthcheck
+        target: /usr/local/bin/scripts
+    secrets:
+      - source: postgres_pg_hba
+        target: /run/secrets/postgres_pg_hba
 
   redis:
-    image: ${IMAGE_REPO:-docker.io/}techexpo-crm/redis:latest
+    image: redis:8.0-alpine
     deploy:
       restart_policy:
         condition: any
@@ -105,6 +134,19 @@ services:
     ports: []
     volumes:
       - volume-redis:/data
+    healthcheck:
+      test: ['CMD', '/bin/sh', '/usr/local/bin/redis-healthcheck.sh']
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+      start_period: 15s
+    entrypoint: ['/usr/local/bin/redis-init.sh']
+    configs:
+      - source: redis_init
+        target: /usr/local/bin/redis-init.sh
+      - source: redis_healthcheck
+        target: /usr/local/bin/redis-healthcheck.sh
 
   prometheus:
     command:
@@ -166,6 +208,20 @@ configs:
     file: ../client/nginx/security-headers.conf
   prometheus_conf:
     file: ./prometheus/prometheus.config.prod.yml
+  mongo_mongod-conf:
+    file: ./mongo/mongod.conf
+  mongo_init:
+    file: ./mongo/mongo-init.sh
+  mongo_healthcheck:
+    file: ./mongo/mongo-healthcheck.sh
+  postgres_init:
+    file: ./postgres/initdb/postgres-init.sh
+  postgres_healthcheck:
+    file: ./postgres/scripts/postgres-healthcheck.sh
+  redis_init:
+    file: ./redis/redis-init.sh
+  redis_healthcheck:
+    file: ./redis/redis-healthcheck.sh
 
 secrets:
   nginx_publicproxy_htpasswd:

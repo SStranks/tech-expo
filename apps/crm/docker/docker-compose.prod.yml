@@ -105,52 +105,71 @@ services:
       start_interval: 5s
 
   mongo:
-    build:
-      context: ./mongo
-      dockerfile: Dockerfile
-      args:
-        MONGO_VERSION: ${MONGO_VERSION:?error}
-        IMAGE_VERSION: ${MONGO_CUSTOM_IMAGE_VERSION:?error}
-        IMAGE_AUTHOR: ${IMAGE_AUTHOR:?error}
-    image: techexpo-crm/mongo:latest
-    command: mongod --auth
+    image: mongo:8.0.10
+    command: ['mongod', '--auth', '--quiet', '--config', '/etc/mongod.conf']
     restart: unless-stopped
     ports: []
     volumes:
       - tmpfs-certs:/etc/mongo/certs:ro
       - volume-mongo:/data/db
+      - ./mongo/mongod.conf:/etc/mongod.conf:ro
+      - ./mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+      - ./mongo/mongo-healthcheck.sh:/usr/local/bin/mongo-healthcheck.sh:ro
+    depends_on:
+      certs:
+        condition: 'service_healthy'
+    healthcheck:
+      test: ['CMD', '/bin/bash', '/usr/local/bin/mongo-healthcheck.sh']
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+      start_period: 30s
 
   postgres:
-    build:
-      context: ./postgres
-      dockerfile: Dockerfile
-      args:
-        POSTGRES_VERSION: ${POSTGRES_VERSION:?error}
-        IMAGE_VERSION: ${POSTGRES_CUSTOM_IMAGE_VERSION:?error}
-        IMAGE_AUTHOR: ${IMAGE_AUTHOR:?error}
-    image: techexpo-crm/postgres:latest
+    image: postgres:17.5
     restart: unless-stopped
     shm_size: 128mb
     ports: []
     volumes:
       - tmpfs-certs:/etc/postgres/certs:ro
       - volume-postgres:/var/lib/postgresql/data
+      - ./postgres/initdb:/docker-entrypoint-initdb.d:ro
+      - ./postgres/scripts:/usr/local/bin/scripts:ro
+    depends_on:
+      certs:
+        condition: 'service_healthy'
+    healthcheck:
+      test: ['CMD', '/bin/bash', '/usr/local/bin/scripts/postgres-healthcheck.sh']
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+      start_period: 30s
     user: 'postgres'
+    secrets:
+      - postgres_pg_hba
 
   redis:
-    build:
-      context: ./redis
-      dockerfile: Dockerfile
-      args:
-        REDIS_VERSION: ${REDIS_VERSION:?error}
-        IMAGE_VERSION: ${REDIS_CUSTOM_IMAGE_VERSION:?error}
-        IMAGE_AUTHOR: ${IMAGE_AUTHOR:?error}
-    image: techexpo-crm/redis:latest
+    image: redis:8.0-alpine
     restart: unless-stopped
     ports: []
     volumes:
       - tmpfs-certs:/etc/redis/certs:ro
       - volume-redis:/data
+      - ./redis/redis-healthcheck.sh:/usr/local/bin/redis-healthcheck.sh:ro
+      - ./redis/redis-init.sh:/usr/local/bin/redis-init.sh:ro
+    depends_on:
+      certs:
+        condition: 'service_healthy'
+    healthcheck:
+      test: ['CMD', '/bin/sh', '/usr/local/bin/redis-healthcheck.sh']
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+      start_period: 15s
+    entrypoint: ['/usr/local/bin/redis-init.sh']
 
   prometheus:
     image: prometheus:latest
@@ -215,3 +234,7 @@ volumes:
   volume-prometheus:
     name: techexpo-prometheus-prod
     external: true
+
+secrets:
+  postgres_pg_hba:
+    file: ./postgres/conf/.secret.pg_hba.conf

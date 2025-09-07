@@ -134,10 +134,8 @@ services:
       retries: 5
       start_interval: 3s
       start_period: 15s
-    user: 'root'
-    # entrypoint: ['/usr/local/bin/scripts/postgres-entrypoint.sh']
+    user: 'postgres'
     secrets:
-      - postgres_ssl_key
       - postgres_pg_hba
 
   postgres-seeder:
@@ -328,7 +326,5 @@ secrets:
     file: ${SECRET_PATH}/.secret.nodemailer_password.txt
   nodemailer_dev_email:
     file: ${SECRET_PATH}/.secret.nodemailer_dev_email.txt
-  postgres_ssl_key:
-    file: ./certs/dev/postgres/postgres.key
   postgres_pg_hba:
     file: ./postgres/conf/.secret.pg_hba.conf
