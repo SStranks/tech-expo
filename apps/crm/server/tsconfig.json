@@ -24,7 +24,7 @@
       "#Views/*": ["views/*"]
     },
     // "typeRoots": ["node_modules/@types", "node_modules/@testing-library"],
-    // "typeRoots": ["src/types/**/*.ts", "node_modules/@types"],
+    "typeRoots": ["src/types", "node_modules/@types"],
     "outDir": "./dist",
     "rootDir": "./src"
   },
@@ -37,9 +37,14 @@
 
   "tsc-alias": {
     "verbose": true,
-    "resolveFullPaths": true
+    "resolveFullPaths": true,
+    "replacers": {
+      "base-url": {
+        "enabled": false
+      }
+    }
   },
 
-  "include": ["src/**/*.ts", "src/app/app.ts"],
-  "exclude": ["./node_modules", "./dist", "./src/types", "./src/config/schema", "./**/private.*"]
+  "include": ["./src/**/*.ts"],
+  "exclude": ["./node_modules", "./dist", "./src/config/schema", "./**/private.*"]
 }
