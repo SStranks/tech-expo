@@ -6,7 +6,7 @@ upstream grafana {
 }
 
 server {
-  listen ${NGINX_PROXY_1_DOCKER_PORT_HTTP};
+  listen ${NGINX_METRICS_DOCKER_PORT_HTTP};
 
   location = /health {
     default_type application/json;
@@ -23,7 +23,7 @@ server {
     proxy_ssl_server_name on;
     proxy_ssl_certificate /etc/nginx/certs/nginxmetrics-client.crt;
     proxy_ssl_certificate_key /etc/nginx/certs/nginxmetrics-client.key;
-    proxy_ssl_trusted_certificate /etc/nginx/certs/nginx-metrics-ca.crt;
+    proxy_ssl_trusted_certificate /etc/nginx/certs/nginxmetrics-ca.crt;
   }
 
   location = /grafana/healthcheck {
@@ -36,23 +36,23 @@ server {
     proxy_ssl_server_name on;
     proxy_ssl_certificate /etc/nginx/certs/nginxmetrics-client.crt;
     proxy_ssl_certificate_key /etc/nginx/certs/nginxmetrics-client.key;
-    proxy_ssl_trusted_certificate /etc/nginx/certs/nginx-metrics-ca.crt;
+    proxy_ssl_trusted_certificate /etc/nginx/certs/nginxmetrics-ca.crt;
   }
 }
 
 server {
-  listen ${NGINX_PROXY_1_DOCKER_PORT_TLS} ssl;
+  listen ${NGINX_METRICS_DOCKER_PORT_TLS} ssl;
 
   ssl_certificate /etc/nginx/certs/nginxmetrics.crt;
   ssl_certificate_key /etc/nginx/certs/nginxmetrics.key;
-  ssl_client_certificate /etc/nginx/certs/nginx-metrics-ca.crt;
+  ssl_client_certificate /etc/nginx/certs/nginxmetrics-ca.crt;
   # TODO:
   # ssl_verify_client on;
   # ssl_verify_depth 2;
 
   proxy_ssl_certificate /etc/nginx/certs/nginxmetrics-client.crt;
   proxy_ssl_certificate_key /etc/nginx/certs/nginxmetrics-client.key;
-  proxy_ssl_trusted_certificate /etc/nginx/certs/nginx-metrics-ca.crt;
+  proxy_ssl_trusted_certificate /etc/nginx/certs/nginxmetrics-ca.crt;
   proxy_ssl_verify on;
   proxy_ssl_verify_depth 2;
   proxy_ssl_server_name on;

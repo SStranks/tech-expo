@@ -1,6 +1,6 @@
 # Upstream referencing service container_name in docker-compose file
 upstream react-app-prod {
-  server ${REACT_CONTAINER}:${REACT_DOCKER_PORT};
+  server ${NGINX_REACT_CONTAINER}:${NGINX_REACT_DOCKER_PORT_TLS};
 }
 
 upstream node-api-prod {
@@ -8,7 +8,7 @@ upstream node-api-prod {
 }
 
 server {
-  listen ${NGINX_PROXY_0_DOCKER_PORT_HTTP};
+  listen ${NGINX_PUBLIC_DOCKER_PORT_HTTP};
 
   location = /health {
     return 200 "ok\n";
@@ -16,7 +16,7 @@ server {
 }
 
 server {
-  listen ${NGINX_PROXY_0_DOCKER_PORT_TLS} ssl;
+  listen ${NGINX_PUBLIC_DOCKER_PORT_TLS} ssl;
 
   # Public facing certification
   ssl_certificate /etc/nginx/certs/nginx.crt;

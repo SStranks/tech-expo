@@ -125,16 +125,16 @@ copy_service_certs_to_tmp nginx
 process_cert_files nginx 101 101
 
 # # Nginx-metrics 101:101
-mkdir -p "/tmp/nginx-metrics"
-copy_root_ca_certs_to_tmp nginx-metrics
-copy_service_certs_to_tmp nginx-metrics
-process_cert_files nginx-metrics 101 101
+mkdir -p "/tmp/nginxmetrics"
+copy_root_ca_certs_to_tmp nginxmetrics
+copy_service_certs_to_tmp nginxmetrics
+process_cert_files nginxmetrics 101 101
 
 # # Nginx-react 101:101
-mkdir -p "/tmp/nginx-react"
-copy_root_ca_certs_to_tmp nginx-react
-copy_service_certs_to_tmp nginx-react
-process_cert_files nginx-react 101 101
+mkdir -p "/tmp/nginxreact"
+copy_root_ca_certs_to_tmp nginxreact
+copy_service_certs_to_tmp nginxreact
+process_cert_files nginxreact 101 101
 
 # # Grafana 472:472
 mkdir -p "/tmp/grafana"

@@ -18,12 +18,9 @@ pinoLogger.debug(POSTGRES_URL);
 let secureContext;
 try {
   secureContext = createSecureContext({
+    ca: fs.readFileSync('/etc/expressjs/certs/expressjs-ca.crt'),
     cert: fs.readFileSync('/etc/expressjs/certs/expressjs-postgres.crt'),
     key: fs.readFileSync('/etc/expressjs/certs/expressjs-postgres.key'),
-    ca:
-      NODE_ENV === 'development'
-        ? fs.readFileSync('/etc/expressjs/certs/expressjs-ca.crt')
-        : fs.readFileSync('/etc/expressjs/certs/postgres-ca.crt'),
   });
   console.log('[dbPostgres] Secure context created');
 } catch (error) {

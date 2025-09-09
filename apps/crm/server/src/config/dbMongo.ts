@@ -6,16 +6,8 @@ import rollbar from '#Lib/rollbar.js';
 import fs from 'node:fs';
 import { createSecureContext } from 'node:tls';
 
-const {
-  MONGO_ARGS,
-  MONGO_DATABASE,
-  MONGO_DOCKER_PORT,
-  MONGO_HOST,
-  MONGO_PASSWORD,
-  MONGO_PROTOCOL,
-  MONGO_USER,
-  NODE_ENV,
-} = process.env;
+const { MONGO_ARGS, MONGO_DATABASE, MONGO_DOCKER_PORT, MONGO_HOST, MONGO_PASSWORD, MONGO_PROTOCOL, MONGO_USER } =
+  process.env;
 
 const MONGO_URI = `${MONGO_PROTOCOL}://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_DOCKER_PORT}/${MONGO_DATABASE}${MONGO_ARGS}`;
 
@@ -25,12 +17,9 @@ pinoLogger.debug(MONGO_URI);
 let secureContext;
 try {
   secureContext = createSecureContext({
+    ca: fs.readFileSync('/etc/expressjs/certs/expressjs-ca.crt'),
     cert: fs.readFileSync('/etc/expressjs/certs/expressjs-mongo.crt'),
     key: fs.readFileSync('/etc/expressjs/certs/expressjs-mongo.key'),
-    ca:
-      NODE_ENV === 'development'
-        ? fs.readFileSync('/etc/expressjs/certs/expressjs-ca.crt')
-        : fs.readFileSync('/etc/expressjs/certs/mongo-ca.crt'),
   });
   console.log('[dbMongo] Secure context created');
 } catch (error) {

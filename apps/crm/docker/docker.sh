@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# TODO: Need to make prod version of script; target .env.prod file
+# NODE_ENV="${1:-dev}"
+
 # Directory variables
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SECRETS_FILE_0="$SCRIPT_DIR/.secret.yaml"

@@ -5,18 +5,15 @@ import { pinoLogger, rollbar } from '#Lib/index.js';
 import fs from 'node:fs';
 import { createSecureContext } from 'node:tls';
 
-const { NODE_ENV, REDIS_DOCKER_PORT, REDIS_HOST, REDIS_PASSWORD, REDIS_USERNAME } = process.env;
+const { REDIS_DOCKER_PORT, REDIS_HOST, REDIS_PASSWORD, REDIS_USERNAME } = process.env;
 const REDIS_URL = `redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_DOCKER_PORT}`;
 
 let secureContext;
 try {
   secureContext = createSecureContext({
+    ca: fs.readFileSync('/etc/expressjs/certs/expressjs-ca.crt'),
     cert: fs.readFileSync('/etc/expressjs/certs/expressjs-redis.crt'),
     key: fs.readFileSync('/etc/expressjs/certs/expressjs-redis.key'),
-    ca:
-      NODE_ENV === 'development'
-        ? fs.readFileSync('/etc/expressjs/certs/expressjs-ca.crt')
-        : fs.readFileSync('/etc/expressjs/certs/redis-ca.crt'),
   });
   console.log('[dbRedis] Secure context created');
 } catch (error) {

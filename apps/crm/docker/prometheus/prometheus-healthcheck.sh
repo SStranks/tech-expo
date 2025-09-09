@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 set -eu
 
-PORT="${NGINX_PROXY_1_DOCKER_PORT_HTTP}"
-HOST="${NGINX_PROXY_1_CONTAINER}"
+PORT="${NGINX_METRICS_DOCKER_PORT_HTTP}"
+HOST="${NGINX_METRICS_CONTAINER}"
 USER="$(cat /run/secrets/prometheus_username)"
 PASSWORD="$(cat /run/secrets/prometheus_password)"
 
