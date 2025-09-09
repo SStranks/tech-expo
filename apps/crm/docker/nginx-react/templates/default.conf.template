@@ -7,8 +7,17 @@ map $uri $new_uri {
 }
 
 server {
+  listen ${NGINX_PROXY_2_DOCKER_PORT_HTTP};
+
+  location = /health {
+    default_type application/json;
+    return 200 '{"status":"ok"}';
+  }
+}
+
+server {
   include conf.d/security-headers.conf;
-  listen 443 ssl;
+  listen ${NGINX_PROXY_2_DOCKER_PORT_TLS} ssl;
 
   ssl_certificate /etc/nginx/certs/nginxreact.crt;
   ssl_certificate_key /etc/nginx/certs/nginxreact.key;
