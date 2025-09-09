@@ -58,8 +58,8 @@ services:
           'CMD',
           'wget',
           '--ca-certificate=/certs/expressjs-ca.crt',
-          '--certificate=/certs/client-expressjs-healthcheck.crt',
-          '--private-key=/certs/client-expressjs-healthcheck.key',
+          '--certificate=/certs/expressjs-healthcheck.crt',
+          '--private-key=/certs/expressjs-healthcheck.key',
           '--spider',
           '-q',
           'https://localhost:${EXPRESS_EXPOSE_PORT}/health',
@@ -92,8 +92,8 @@ services:
           'CMD',
           'wget',
           '--ca-certificate=/certs/nginxreact-ca.crt',
-          '--certificate=/certs/client-nginxreact-healthcheck.crt',
-          '--private-key=/certs/client-nginxreact-healthcheck.key',
+          '--certificate=/certs/nginxreact-healthcheck.crt',
+          '--private-key=/certs/nginxreact-healthcheck.key',
           '--spider',
           '-q',
           'https://localhost:${REACT_EXPOSE_PORT}/health',
@@ -171,6 +171,24 @@ services:
       start_period: 15s
     entrypoint: ['/usr/local/bin/redis-init.sh']
 
+  grafana:
+    image: grafana/grafana:12.0.2
+    restart: unless-stopped
+    environment:
+      GF_LOG_LEVEL: error
+    ports:
+      - '127.0.0.1:${GRAFANA_LOCAL_PORT:?error}:${GRAFANA_DOCKER_PORT:?error}'
+    volumes:
+      - tmpfs-certs:/etc/grafana/certs:ro
+      - volume-grafana:/var/lib/grafana
+    healthcheck:
+      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PROXY_1_DOCKER_PORT_HTTP/grafana/healthcheck']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+      start_interval: 2s
+
   prometheus:
     image: prometheus:latest
     command:
@@ -183,17 +201,13 @@ services:
     volumes:
       - tmpfs-certs:/etc/prometheus/certs:ro
       - volume-prometheus:/prometheus
-
-  grafana:
-    image: grafana/grafana:12.0.2
-    restart: unless-stopped
-    environment:
-      GF_LOG_LEVEL: error
-    ports:
-      - '127.0.0.1:${GRAFANA_LOCAL_PORT:?error}:${GRAFANA_DOCKER_PORT:?error}'
-    volumes:
-      - tmpfs-certs:/etc/grafana/certs:ro
-      - volume-grafana:/var/lib/grafana
+    healthcheck:
+      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PROXY_1_DOCKER_PORT_HTTP/prometheus/healthcheck']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+      start_interval: 2s
 
   certs:
     container_name: ${CERTS_CONTAINER:?error}
