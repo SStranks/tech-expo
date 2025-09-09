@@ -374,13 +374,15 @@ openssl x509 -in prod/client/certs/server.crt -noout -text
 
 #### Client Certification
 
+The following example shows client certification of the grafana service for connecting to the prometheus service. To see the required client certification for a service refer to the documentation in the respective production folder e.g. [`certs/prod/grafana/README.md`](./prod/grafana/README.md).
+
+- One client .cnf file can be reused across multiple client certificates issued for that service.
+- Generated .key/.csr/.crt files follow the naming convention &lt;SERVICE&gt;-&lt;CLIENT&gt; e.g. `grafana-prometheus`
+
 ###### Create Client .cnf
 
-- Each client certification will have a unique `.cnf` to account for `[alt_names]` and `CN` fields.
-- Filename convention: `<SERVICE>-<RECIPIENT>.cnf`
-
 ```ini
-# cert/prod/client/cnf/grafana-prometheus.cnf
+# cert/prod/client/cnf/grafana-client.cnf
 
 [ req ]
 default_bits       = 2048
@@ -402,7 +404,9 @@ extendedKeyUsage = clientAuth
 subjectAltName = @alt_names
 
 [ alt_names ]
-DNS.1 = grafana-client.internal                             # Grafana service
+DNS.1 = grafana                                             # Grafana service
+DNS.2 = techexpo-grafana                                    # Grafana service
+DNS.3 = grafana-client.internal                             # Grafana service
 ```
 
 ###### Generate Client Key and CSR
@@ -410,9 +414,9 @@ DNS.1 = grafana-client.internal                             # Grafana service
 ```ini
 openssl req -new -nodes \
   -newkey rsa:2048 \
-  -keyout prod/client/private/grafana-prometheus.key \      # Grafana-Prometheus
+  -keyout prod/client/private/grafana-prometheus.key \          # Grafana-Prometheus
   -out prod/client/csr/grafana-prometheus.csr \                 # Grafana-Prometheus
-  -config prod/client/cnf/grafana-prometheus.cnf                # Grafana-Prometheus
+  -config prod/client/cnf/grafana-client.cnf
 ```
 
 ###### Sign CSR with Client Intermediate
@@ -420,9 +424,9 @@ openssl req -new -nodes \
 ```ini
 openssl ca -config prod/client/cnf/openssl.cnf \                # Grafana-Prometheus
   -in prod/client/csr/grafana-prometheus.csr \                  # Grafana-Prometheus
-  -out prod/client/certs/grafana-prometheus.crt \           # Grafana-Prometheus
+  -out prod/client/certs/grafana-prometheus.crt \               # Grafana-Prometheus
   -extensions v3_client \
-  -extfile prod/client/cnf/grafana-prometheus.cnf \             # Grafana-Prometheus
+  -extfile prod/client/cnf/grafana-client.cnf \
   -batch
 ```
 
