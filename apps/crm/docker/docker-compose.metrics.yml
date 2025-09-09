@@ -1,18 +1,18 @@
 services:
   nginx-metrics:
-    container_name: ${NGINX_PROXY_1_CONTAINER:?error}
+    container_name: ${NGINX_METRICS_CONTAINER:?error}
     image: nginx:1.29-alpine
     restart: on-failure:3
     environment:
-      NGINX_PROXY_1_DOCKER_PORT_HTTP: ${NGINX_PROXY_1_DOCKER_PORT_HTTP:?error}
-      NGINX_PROXY_1_DOCKER_PORT_TLS: ${NGINX_PROXY_1_DOCKER_PORT_TLS:?error}
+      NGINX_METRICS_DOCKER_PORT_HTTP: ${NGINX_METRICS_DOCKER_PORT_HTTP:?error}
+      NGINX_METRICS_DOCKER_PORT_TLS: ${NGINX_METRICS_DOCKER_PORT_TLS:?error}
       GRAFANA_CONTAINER: ${GRAFANA_CONTAINER:?error}
       GRAFANA_DOCKER_PORT: ${GRAFANA_DOCKER_PORT:?error}
       PROMETHEUS_CONTAINER: ${PROMETHEUS_CONTAINER:?error}
       PROMETHEUS_DOCKER_PORT: ${PROMETHEUS_DOCKER_PORT:?error}
     ports:
-      - 127.0.0.1:${NGINX_PROXY_1_LOCAL_PORT_HTTP}:${NGINX_PROXY_1_DOCKER_PORT_HTTP}
-      - 127.0.0.1:${NGINX_PROXY_1_LOCAL_PORT_TLS}:${NGINX_PROXY_1_DOCKER_PORT_TLS}
+      - 127.0.0.1:${NGINX_METRICS_LOCAL_PORT_HTTP}:${NGINX_METRICS_DOCKER_PORT_HTTP}
+      - 127.0.0.1:${NGINX_METRICS_LOCAL_PORT_TLS}:${NGINX_METRICS_DOCKER_PORT_TLS}
     volumes:
       - tmpfs-certs:/etc/nginx/certs:ro
       - ./nginx-metrics/templates:/etc/nginx/templates:ro
@@ -21,7 +21,7 @@ services:
     security_opt:
       - no-new-privileges
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PROXY_1_DOCKER_PORT_HTTP/health']
+      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/health']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -40,8 +40,8 @@ services:
       certs:
         condition: 'service_healthy'
     environment:
-      NGINX_PROXY_1_CONTAINER: ${NGINX_PROXY_1_CONTAINER:?error}
-      NGINX_PROXY_1_DOCKER_PORT_HTTP: ${NGINX_PROXY_1_DOCKER_PORT_HTTP:?error}
+      NGINX_METRICS_CONTAINER: ${NGINX_METRICS_CONTAINER:?error}
+      NGINX_METRICS_DOCKER_PORT_HTTP: ${NGINX_METRICS_DOCKER_PORT_HTTP:?error}
       PROMETHEUS_DOCKER_PORT: ${PROMETHEUS_DOCKER_PORT:?error}
       PROMETHEUS_CONTAINER: ${PROMETHEUS_CONTAINER:?error}
     expose:
@@ -76,8 +76,8 @@ services:
       GF_SMTP_FROM_ADDRESS: ${GF_SMTP_FROM_ADDRESS}
       PROMETHEUS_CONTAINER: ${PROMETHEUS_CONTAINER}
       PROMETHEUS_DOCKER_PORT: ${PROMETHEUS_DOCKER_PORT}
-      NGINX_PROXY_1_CONTAINER: ${NGINX_PROXY_1_CONTAINER:?error}
-      NGINX_PROXY_1_DOCKER_PORT_HTTP: ${NGINX_PROXY_1_DOCKER_PORT_HTTP:?error}
+      NGINX_METRICS_CONTAINER: ${NGINX_METRICS_CONTAINER:?error}
+      NGINX_METRICS_DOCKER_PORT_HTTP: ${NGINX_METRICS_DOCKER_PORT_HTTP:?error}
     ports:
       - '127.0.0.1:6666:3000'
     expose:

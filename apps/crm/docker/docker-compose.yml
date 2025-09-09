@@ -33,8 +33,8 @@ services:
       - postgres_database
       - redis_password
 
-  react-app:
-    container_name: ${REACT_CONTAINER:?error}
+  nginx-react:
+    container_name: ${NGINX_REACT_CONTAINER:?error}
     security_opt:
       - no-new-privileges
     networks:
@@ -124,6 +124,12 @@ secrets:
     file: ${SECRET_PATH}/.secret.mongo_password_metrics.txt
   mongo_database:
     file: ${SECRET_PATH}/.secret.mongo_database.txt
+  nodemailer_username:
+    file: ${SECRET_PATH}/.secret.nodemailer_username.txt
+  nodemailer_password:
+    file: ${SECRET_PATH}/.secret.nodemailer_password.txt
+  nodemailer_dev_email:
+    file: ${SECRET_PATH}/.secret.nodemailer_dev_email.txt
   postgres_user_super:
     file: ${SECRET_PATH}/.secret.postgres_user_super.txt
   postgres_user_metrics:

@@ -2,24 +2,24 @@
 services:
   nginx:
     # NGINX Reverse Proxy
-    container_name: ${NGINX_PROXY_0_CONTAINER:?error}
+    container_name: ${NGINX_PUBLIC_CONTAINER:?error}
     image: nginx:1.29-alpine
     restart: unless-stopped
     depends_on:
       node-api:
         condition: 'service_healthy'
-      react-app:
+      nginx-react:
         condition: 'service_healthy'
     environment:
-      - NGINX_PROXY_0_DOCKER_PORT_HTTP: ${NGINX_PROXY_0_DOCKER_PORT_HTTP:?error}
-      - NGINX_PROXY_0_DOCKER_PORT_TLS: ${NGINX_PROXY_0_DOCKER_PORT_TLS:?error}
-      - REACT_CONTAINER: ${REACT_CONTAINER:?error}
-      - REACT_DOCKER_PORT: ${REACT_DOCKER_PORT:?error}
+      - NGINX_PUBLIC_DOCKER_PORT_HTTP: ${NGINX_PUBLIC_DOCKER_PORT_HTTP:?error}
+      - NGINX_PUBLIC_DOCKER_PORT_TLS: ${NGINX_PUBLIC_DOCKER_PORT_TLS:?error}
+      - NGINX_REACT_CONTAINER: ${NGINX_REACT_CONTAINER:?error}
+      - NGINX_REACT_DOCKER_PORT_TLS: ${NGINX_REACT_DOCKER_PORT_TLS:?error}
       - EXPRESS_CONTAINER: ${EXPRESS_CONTAINER:?error}
       - EXPRESS_DOCKER_PORT: ${EXPRESS_DOCKER_PORT:?error}
     ports:
-      - 127.0.0.1:${NGINX_PROXY_0_LOCAL_PORT_HTTP}:${NGINX_PROXY_0_DOCKER_PORT_HTTP}
-      - 127.0.0.1:${NGINX_PROXY_0_LOCAL_PORT_TLS}:${NGINX_PROXY_0_DOCKER_PORT_TLS}
+      - 127.0.0.1:${NGINX_PUBLIC_LOCAL_PORT_HTTP}:${NGINX_PUBLIC_DOCKER_PORT_HTTP}
+      - 127.0.0.1:${NGINX_PUBLIC_LOCAL_PORT_TLS}:${NGINX_PUBLIC_DOCKER_PORT_TLS}
     volumes:
       - tmpfs-certs:/etc/nginx/certs:ro
       - ./nginx/templates:/etc/nginx/templates:ro
@@ -29,7 +29,7 @@ services:
     security_opt:
       - no-new-privileges
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PROXY_0_DOCKER_PORT_HTTP/health']
+      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PUBLIC_DOCKER_PORT_HTTP/health']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -70,7 +70,7 @@ services:
       start_period: 30s
       start_interval: 5s
 
-  react-app:
+  nginx-react:
     build:
       context: .
       dockerfile: ../client/nginx/Dockerfile
@@ -96,7 +96,7 @@ services:
           '--private-key=/certs/nginxreact-healthcheck.key',
           '--spider',
           '-q',
-          'https://localhost:${REACT_EXPOSE_PORT}/health',
+          'https://localhost:${NGINX_REACT_EXPOSE_PORT}/health',
         ]
       interval: 30s
       timeout: 30s
@@ -182,7 +182,7 @@ services:
       - tmpfs-certs:/etc/grafana/certs:ro
       - volume-grafana:/var/lib/grafana
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PROXY_1_DOCKER_PORT_HTTP/grafana/healthcheck']
+      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/grafana/healthcheck']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -202,7 +202,7 @@ services:
       - tmpfs-certs:/etc/prometheus/certs:ro
       - volume-prometheus:/prometheus
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PROXY_1_DOCKER_PORT_HTTP/prometheus/healthcheck']
+      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/prometheus/healthcheck']
       interval: 30s
       timeout: 10s
       retries: 5

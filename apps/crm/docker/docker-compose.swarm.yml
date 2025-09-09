@@ -12,43 +12,83 @@ services:
         max_attempts: 5
         window: 60s
     environment:
-      - REACT_CONTAINER: ${REACT_CONTAINER:?error}
-      - REACT_DOCKER_PORT: ${REACT_DOCKER_PORT:?error}
+      - NGINX_REACT_CONTAINER: ${NGINX_REACT_CONTAINER:?error}
+      - NGINX_REACT_DOCKER_PORT_TLS: ${NGINX_REACT_DOCKER_PORT_TLS:?error}
       - EXPRESS_CONTAINER: ${EXPRESS_CONTAINER:?error}
       - EXPRESS_DOCKER_PORT: ${EXPRESS_DOCKER_PORT:?error}
     ports:
-      - 127.0.0.1:${NGINX_PROXY_0_LOCAL_PORT_HTTP}:${NGINX_PROXY_0_DOCKER_PORT_HTTP}
-      - ${NGINX_PROXY_0_LOCAL_PORT_TLS}:${NGINX_PROXY_0_DOCKER_PORT_TLS}
+      - 127.0.0.1:${NGINX_PUBLIC_LOCAL_PORT_HTTP}:${NGINX_PUBLIC_DOCKER_PORT_HTTP}
+      - ${NGINX_PUBLIC_LOCAL_PORT_TLS}:${NGINX_PUBLIC_DOCKER_PORT_TLS}
     networks:
       - techexpo-crm-backend
     security_opt:
       - no-new-privileges
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PROXY_0_DOCKER_PORT_HTTP/health']
+      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PUBLIC_DOCKER_PORT_HTTP/health']
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 10s
       start_interval: 2s
     configs:
-      - source: nginx_public-proxy_conf_default
+      - source: nginx_public_default.conf
         target: /etc/nginx/templates/default.conf.template
+      - source: nginx_public_nginx-ca.crt
+        target: /etc/nginx/certs/nginx-ca.crt
+        mode: 0o444
+      - source: nginx_public_nginx.crt
+        target: /etc/nginx/certs/nginx.crt
+        mode: 0o444
+      - source: nginx_public_nginx-client.crt
+        target: /etc/nginx/certs/nginx-client.crt
+        mode: 0o444
     secrets:
-      - source: nginx_public-proxy_htpasswd
-        target: /etc/nginx/.htpasswd
+      - source: nginx_public_nginx.key
+        target: /etc/nginx/certs/nginx.key
+        mode: 0o400
+        uid: 101
+        gid: 101
+      - source: nginx_public_nginx-client.key
+        target: /etc/nginx/certs/nginx-client.key
+        mode: 0o400
+        uid: 101
+        gid: 101
 
   nginx-metrics:
     volumes: []
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PROXY_1_DOCKER_PORT_HTTP/health']
+      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/health']
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 10s
       start_interval: 2s
+    configs:
+      - source: nginx_metrics_default.conf
+        target: /etc/nginx/templates/default.conf.template
+      - source: nginx_metrics_nginx-ca.crt
+        target: /etc/nginx/certs/nginxmetrics-ca.crt
+        mode: 0o444
+      - source: nginx_metrics_nginx.crt
+        target: /etc/nginx/certs/nginxmetrics.crt
+        mode: 0o444
+      - source: nginx_metrics_nginx-client.crt
+        target: /etc/nginx/certs/nginxmetrics-client.crt
+        mode: 0o444
+    secrets:
+      - source: nginx_metrics_nginx.key
+        target: /etc/nginx/certs/nginxmetrics.key
+        mode: 0o400
+        uid: 101
+        gid: 101
+      - source: nginx_metrics_nginx-client.key
+        target: /etc/nginx/certs/nginxmetrics-client.key
+        mode: 0o400
+        uid: 101
+        gid: 101
 
   express-api:
-    image: ${IMAGE_REPO:-docker.io/}techexpo-crm/express-api:latest
+    image: node:22-alpine3.22
     deploy:
       restart_policy:
         condition: on-failure
@@ -59,6 +99,7 @@ services:
       - ../server/.env.prod.server
       - ./.env.prod
     volumes: []
+    entrypoint: ['/usr/local/bin/node-express-init.sh']
     healthcheck:
       test:
         - CMD-SHELL
@@ -72,9 +113,60 @@ services:
       retries: 3
       start_period: 30s
       start_interval: 5s
+    configs:
+      - source: expressjs_init.sh
+        target: /usr/local/bin/node-express-init
+      - source: expressjs_expressjs-ca.crt
+        target: /etc/expressjs/certs/expressjs-ca.crt
+        mode: 0o444
+      - source: expressjs_expressjs-mongo.crt
+        target: /etc/expressjs/certs/expressjs-mongo.crt
+        mode: 0o444
+      - source: expressjs_expressjs-postgres.crt
+        target: /etc/expressjs/certs/expressjs-postgres.crt
+        mode: 0o444
+      - source: expressjs_expressjs-redis.crt
+        target: /etc/expressjs/certs/expressjs-redis.crt
+        mode: 0o444
+    secrets:
+      - demo_acc_generic_non_user_password
+      - graphql_introspect_auth
+      - jwt_auth_secret
+      - jwt_refresh_secret
+      - mongo_user_service
+      - mongo_password_service
+      - mongo_database
+      - nodemailer_username
+      - nodemailer_password
+      - nodemailer_dev_email
+      - postgres_user_service
+      - postgres_password_service
+      - postgres_pepper
+      - postgres_database
+      - redis_password
+      - source: expressjs_expressjs-ca.key
+        target: /etc/expressjs/certs/expressjs-ca.key
+        mode: 0o400
+        uid: 1000
+        gid: 1000
+      - source: expressjs_expressjs-mongo.key
+        target: /etc/expressjs/certs/expressjs-mongo.key
+        mode: 0o400
+        uid: 1000
+        gid: 1000
+      - source: expressjs_expressjs-postgres.key
+        target: /etc/expressjs/certs/expressjs-postgres.key
+        mode: 0o400
+        uid: 1000
+        gid: 1000
+      - source: expressjs_expressjs-redis.key
+        target: /etc/expressjs/certs/expressjs-redis.key
+        mode: 0o400
+        uid: 1000
+        gid: 1000
 
-  react-app:
-    image: ${IMAGE_REPO:-docker.io/}techexpo-crm/nginx-react:latest
+  nginx-react:
+    image: nginx:1.29-alpine
     deploy:
       restart_policy:
         condition: any
@@ -87,19 +179,31 @@ services:
     expose:
       - '443'
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PROXY_2_DOCKER_PORT_HTTP/health']
+      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_REACT_DOCKER_PORT_HTTP/health']
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 10s
       start_interval: 2s
     configs:
-      - source: nginx-react-proxy_conf_default
-        target: /etc/nginx/conf.d/default.conf
-      - source: nginx-react-proxy_conf_nginx
-        target: /etc/nginx/nginx.conf
-      - source: nginx-react-proxy_conf_security
-        target: /etc/nginx/conf.d/security-headers.conf
+      - source: nginx_react_default.conf
+        target: /etc/nginx/templates/default.conf.template
+      - source: nginx_react_nginx.conf
+        target: /etc/nginx/templates/nginx.conf.template
+      - source: nginx_react_security.conf
+        target: /etc/nginx/templates/security-headers.conf.template
+      - source: nginx_react_nginxreact-ca.crt
+        target: /etc/nginx/certs/nginxreact-ca.crt
+        mode: 0o444
+      - source: nginx_react_nginxreact.crt
+        target: /etc/nginx/certs/nginxreact.crt
+        mode: 0o444
+    secrets:
+      - source: nginx_react_nginxreact.key
+        target: /etc/nginx/certs/nginxreact.key
+        mode: 0o400
+        uid: 101
+        gid: 101
 
   mongo:
     image: mongo:8.0.10
@@ -120,13 +224,29 @@ services:
       retries: 5
       start_interval: 5s
       start_period: 30s
-      configs:
-        - source: mongo_mongod-conf
-          target: /etc/mongod.conf
-        - source: mongo_init
-          target: /docker-entrypoint-initdb.d/mongo-init.sh
-        - source: mongo_healthcheck
-          target: /usr/local/bin/mongo-healthcheck.sh
+    configs:
+      - source: mongo_mongod.conf
+        target: /etc/mongod.conf
+      - source: mongo_init.sh
+        target: /docker-entrypoint-initdb.d/mongo-init.sh
+      - source: mongo_healthcheck.sh
+        target: /usr/local/bin/mongo-healthcheck.sh
+      - source: mongo_mongo-ca.crt
+        target: /etc/mongo/certs/mongo-ca.crt
+        mode: 0o444
+    secrets:
+      - mongo_database
+      - mongo_user_root
+      - mongo_user_service
+      - mongo_user_metrics
+      - mongo_password_root
+      - mongo_password_service
+      - mongo_password_metrics
+      - source: mongo_mongo-healthcheck.pem
+        target: /etc/mongo/certs/mongo-healthcheck.pem
+        mode: 0o400
+        uid: 999
+        gid: 999
 
   postgres:
     image: postgres:17.5
@@ -154,8 +274,16 @@ services:
       - source: postgres_healthcheck
         target: /usr/local/bin/scripts
     secrets:
-      - source: postgres_pg_hba
-        target: /run/secrets/postgres_pg_hba
+      - postgres_pg_hba
+      - postgres_user_super
+      - postgres_user_migrator
+      - postgres_user_service
+      - postgres_user_metrics
+      - postgres_password_super
+      - postgres_password_migrator
+      - postgres_password_service
+      - postgres_password_metrics
+      - postgres_database
 
   redis:
     image: redis:8.0-alpine
@@ -181,6 +309,17 @@ services:
         target: /usr/local/bin/redis-init.sh
       - source: redis_healthcheck
         target: /usr/local/bin/redis-healthcheck.sh
+      - source: redis_redis-healthcheck.crt
+        target: /etc/redis/certs/redis-healthcheck.crt
+        mode: 0o444
+    secrets:
+      - source: redis_password
+        target: /run/secrets/redis_password
+      - source: redis_redis-healthcheck.key
+        target: /etc/redis/certs/redis-healthcheck.key
+        mode: 0o444
+        uid: 999
+        gid: 1000
 
   grafana:
     deploy:
@@ -191,18 +330,62 @@ services:
         window: 120s
     environment:
       GF_LOG_LEVEL: error
-      GRAFANA_PROVISION_DATASOURCE_CA_CERT: /certs/grafana-ca.crt
     ports:
       - '127.0.0.1:${GRAFANA_LOCAL_PORT:?error}:${GRAFANA_DOCKER_PORT:?error}'
     volumes:
       - volume-grafana:/var/lib/grafana
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PROXY_1_DOCKER_PORT_HTTP/grafana/healthcheck']
+      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/grafana/healthcheck']
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 10s
       start_interval: 2s
+    configs:
+      - source: grafana_ini
+        target: /etc/grafana/grafana.ini
+      - source: grafana_init.sh
+        target: /usr/local/bin/grafana-init.sh
+      - source: grafana_provision_dashboard
+        target: /etc/grafana/provisioning/dashboards/dashboard.yaml
+      - source: grafana_provision_datasource
+        target: /etc/grafana/provisioning/datasources/datasource.yaml
+      - source: grafana_provision_folder
+        target: /etc/grafana/provisioning/folders/folders.yaml
+      - source: grafana_provision_alerting_alerts
+        target: /etc/grafana/provisioning/alerting/alerts.yaml
+      - source: grafana_provision_alerting_notifier
+        target: /etc/grafana/provisioning/alerting/notifier.yaml
+      - source: grafana_provision_access-control
+        target: /etc/grafana/provisioning/access-control/access-control.yaml
+      - source: grafana_grafana-ca.crt
+        target: /etc/grafana/certs/grafana-ca.crt
+        mode: 0o444
+      - source: grafana_grafana.crt
+        target: /etc/grafana/certs/grafana.crt
+        mode: 0o444
+      - source: grafana_grafana-prometheus.crt
+        target: /etc/grafana/certs/grafana-prometheus.crt
+        mode: 0o444
+    secrets:
+      - grafana_admin_username
+      - grafana_admin_password
+      - grafana_smtp_username
+      - grafana_smtp_password
+      - grafana_user1_username
+      - grafana_user1_password
+      - prometheus_username
+      - prometheus_password
+      - source: grafana_grafana.key
+        target: /etc/grafana/certs/grafana.key
+        mode: 0o400
+        uid: 472
+        gid: 472
+      - source: grafana_grafana-prometheus.key
+        target: /etc/grafana/certs/grafana-prometheus.key
+        mode: 0o400
+        uid: 472
+        gid: 472
 
   prometheus:
     command:
@@ -223,7 +406,7 @@ services:
     volumes:
       - volume-prometheus:/prometheus
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PROXY_1_DOCKER_PORT_HTTP/prometheus/healthcheck']
+      test: ['CMD', '/bin/sh', '/usr/local/bin/prometheus-healthcheck.sh']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -232,36 +415,167 @@ services:
     configs:
       - source: prometheus_conf
         target: /etc/prometheus/prometheus.yml
+      - source: prometheus_healthcheck.sh
+        target: /usr/local/bin/prometheus-healthcheck.sh
+      - source: prometheus_prometheus-ca.crt
+        target: /etc/prometheus/certs/prometheus-ca.crt
+        mode: 0o444
+      - source: prometheus_prometheus.crt
+        target: /etc/prometheus/certs/prometheus.crt
+        mode: 0o444
+      - source: prometheus_prometheus-expressjs.crt
+        target: /etc/prometheus/certs/prometheus-expressjs.crt
+        mode: 0o444
     secrets:
+      - prometheus_username
+      - prometheus_password
       - source: prometheus_auth
         target: /etc/prometheus/auth.yml
+      - source: prometheus_prometheus-ca.key
+        target: /etc/prometheus/certs/prometheus-ca.key
+        mode: 0o400
+        uid: 65534
+        gid: 65534
+      - source: prometheus_prometheus.key
+        target: /etc/prometheus/certs/prometheus.key
+        mode: 0o400
+        uid: 65534
+        gid: 65534
+      - source: prometheus_prometheus-expressjs.key
+        target: /etc/prometheus/certs/prometheus-expressjs.key
+        mode: 0o400
+        uid: 65534
+        gid: 65534
 
   redis-exporter:
     volumes: []
+    configs:
+      - source: redis-exporter_prometheus-ca.crt
+        target: /etc/prometheus/certs/prometheus-ca.crt
+        mode: 0o444
+      - source: redis-exporter_prometheus-redisexporter.crt
+        target: /etc/prometheus/certs/prometheus-redisexporter.crt
+        mode: 0o444
+    secrets:
+      - source: redis_uri
+        target: /run/secrets/redis_uri
+      - source: redis-exporter_prometheus-redisexporter.key
+        target: /etc/prometheus/certs/prometheus-redisexporter.key
+        mode: 0o400
+        uid: 59000
+        gid: 59000
 
   mongo-exporter:
     volumes: []
+    configs:
+      - source: mongo-exporter_prometheus-ca.crt
+        target: /etc/prometheus/certs/prometheus-ca.crt
+        mode: 0o444
+    secrets:
+      - source: mongo-exporter_prometheus-mongoexporter.pem
+        target: /etc/prometheus/certs/prometheus-mongoexporter.pem
+        mode: 0o400
+        uid: 65535
+        gid: 65535
 
   postgres-exporter:
     volumes: []
+    configs:
+      - source: postgres-exporter_prometheus-ca.crt
+        target: /etc/prometheus/certs/prometheus-ca.crt
+        mode: 0o444
+      - source: postgres-exporter_prometheus-postgresexporter.crt
+        target: /etc/prometheus/certs/prometheus-postgresexporter.crt
+        mode: 0o444
+    secrets:
+      - postgres_exporter_uri
+      - postgres_user_metrics
+      - postgres_password_metrics
+      - source: postgres-exporter_prometheus-postgresexporter.key
+        target: /etc/prometheus/certs/prometheus-postgresexporter.key
+        mode: 0o400
+        uid: 65534
+        gid: 65534
 
 configs:
-  nginx_public-proxy_conf_default:
+  expressjs_init.sh:
+    file: ./nodejs/node-express-init.sh
+  expressjs_expressjs-ca:
+    file: ./certs/prod/expressjs/expressjs-ca.crt
+  expressjs_expressjs-mongo:
+    file: ./certs/prod/expressjs/expressjs-mongo.crt
+  expressjs_expressjs-postgres:
+    file: ./certs/prod/expressjs/expressjs-postgres.crt
+  expressjs_expressjs-redis:
+    file: ./certs/prod/expressjs/expressjs-redis.crt
+  grafana_grafana-ca.crt:
+    file: ./certs/prod/grafana/certs/grafana-ca.crt
+  grafana_grafana.crt:
+    file: ./certs/prod/grafana/certs/grafana.crt
+  grafana_grafana-prometheus.crt:
+    file: ./certs/prod/grafana/certs/grafana-prometheus.crt
+  grafana_ini:
+    file: ./grafana/grafana.ini
+  grafana_init.sh:
+    file: ./grafana/grafana-init.sh
+  grafana_provision_dashboard:
+    file: ./grafana/provisioning/dashboards/dashboard.yaml
+  grafana_provision_datasource:
+    file: ./grafana/provisioning/datasources/datasource.yaml
+  grafana_provision_folder:
+    file: ./grafana/provisioning/folders/folders.yaml
+  grafana_provision_alerting_alerts:
+    file: ./grafana/provisioning/alerting/alerts.yaml
+  grafana_provision_alerting_notifier:
+    file: ./grafana/provisioning/alerting/notifier.yaml
+  grafana_provision_access-control:
+    file: ./grafana/provisioning/access-control/access-control.yaml
+  nginx_public_default.conf:
     file: ./nginx/templates/default.conf.template
-  nginx_react-proxy_conf_default:
-    file: ../client/nginx/default.conf
-  nginx_react-proxy_conf_nginx:
-    file: ../client/nginx/nginx.conf
-  nginx_react-proxy_conf_security:
-    file: ../client/nginx/security-headers.conf
+  nginx_public_nginx-ca.crt:
+    file: ./certs/prod/nginx/certs/nginx-ca.crt
+  nginx_public_nginx-client.crt:
+    file: ./certs/prod/nginx/certs/nginx-client.crt
+  nginx_public_nginx.crt:
+    file: ./certs/prod/nginx/certs/nginx.crt
+  nginx_metrics_default.conf:
+    file: ./nginx-metrics/templates/default.conf.template
+  nginx_metrics_nginxmetrics-ca.crt:
+    file: ./certs/prod/nginxmetrics/certs/nginxmetrics-ca.crt
+  nginx_metrics_nginxmetrics-client.crt:
+    file: ./certs/prod/nginxmetrics/certs/nginxmetrics-client.crt
+  nginx_metrics_nginxmetrics.crt:
+    file: ./certs/prod/nginxmetrics/certs/nginxmetrics.crt
+  nginx_react_default.conf:
+    file: ./nginx-react/templates/default.conf.template
+  nginx_react_nginx.conf:
+    file: ./nginx-react/templates/nginx.conf.template
+  nginx_react_security.conf:
+    file: ./nginx-react/templates/security-headers.conf.template
+  nginx_react_nginxreact-ca.crt:
+    file: ./certs/prod/nginxreact/certs/nginxreact-ca.crt
+  nginx_react_nginxreact.crt:
+    file: ./certs/prod/nginxreact/certs/nginxreact.crt
   prometheus_conf:
     file: ./prometheus/prometheus.config.prod.yml
-  mongo_mongod-conf:
+  prometheus_healtcheck.sh:
+    file: ./prometheus/prometheus-healthcheck.sh
+  prometheus_prometheus-ca.crt:
+    file: ./certs/prod/prometheus/certs/prometheus-ca.crt
+  prometheus_prometheus.crt:
+    file: ./certs/prod/prometheus/certs/prometheus.crt
+  prometheus_prometheus-expressjs.crt:
+    file: ./certs/prod/prometheus/certs/prometheus-expressjs.crt
+  mongo_mongod.conf:
     file: ./mongo/mongod.conf
-  mongo_init:
+  mongo_init.sh:
     file: ./mongo/mongo-init.sh
-  mongo_healthcheck:
+  mongo_healthcheck.sh:
     file: ./mongo/mongo-healthcheck.sh
+  mongo_mongo-ca.crt:
+    file: ./certs/prod/mongo/certs/mongo-ca.crt
+  mongo-exporter_prometheus-ca.crt:
+    file: ./certs/prod/prometheus/certs/prometheus-ca.crt
   postgres_init:
     file: ./postgres/initdb/postgres-init.sh
   postgres_healthcheck:
@@ -270,12 +584,72 @@ configs:
     file: ./redis/redis-init.sh
   redis_healthcheck:
     file: ./redis/redis-healthcheck.sh
+  redis_redis-healthcheck.crt:
+    file: ./certs/prod/redis/certs/redis_redis-healthcheck.crt
+  redis-exporter_prometheus-ca.crt:
+    file: ./certs/prod/prometheus/certs/prometheus-ca.crt
+  redis-exporter_prometheus-redisexporter.crt:
+    file: ./certs/prod/prometheus/certs/prometheus-redisexporter.crt
 
 secrets:
-  nginx_publicproxy_htpasswd:
-    file: ./nginx/.htpasswd
+  expressjs_expressjs-ca:
+    file: ./certs/prod/expressjs/expressjs-ca.key
+  expressjs_expressjs-mongo:
+    file: ./certs/prod/expressjs/expressjs-mongo.key
+  expressjs_expressjs-postgres:
+    file: ./certs/prod/expressjs/expressjs-postgres.key
+  expressjs_expressjs-redis:
+    file: ./certs/prod/expressjs/expressjs-redis.key
+  grafana_grafana.key:
+    file: ./certs/prod/grafana/certs/grafana.key
+  grafana_grafana-prometheus.key:
+    file: ./certs/prod/grafana/certs/grafana-prometheus.key
+  grafana_admin_username:
+    file: ${SECRET_PATH}/.secret.grafana_admin_username.txt
+  grafana_admin_password:
+    file: ${SECRET_PATH}/.secret.grafana_admin_password.txt
+  grafana_smtp_username:
+    file: ${SECRET_PATH}/.secret.mailpit_smtp_auth_username.txt
+  grafana_smtp_password:
+    file: ${SECRET_PATH}/.secret.mailpit_smtp_auth_password.txt
+  grafana_user1_username:
+    file: ${SECRET_PATH}/.secret.grafana_user1_username.txt
+  grafana_user1_password:
+    file: ${SECRET_PATH}/.secret.grafana_user1_password.txt
+  nginx_public_nginx.key:
+    file: ./certs/prod/nginx/certs/nginx.key
+  nginx_public_nginx-client.key:
+    file: ./certs/prod/nginx/certs/nginx-client.key
+  nginx_metrics_nginxmetrics.key:
+    file: ./certs/prod/nginxmetrics/certs/nginxmetrics.key
+  nginx_metrics_nginxmetrics-client.key:
+    file: ./certs/prod/nginxmetrics/certs/nginxmetrics-client.key
+  nginx_react_nginxreact.key:
+    file: ./certs/prod/nginxreact/certs/nginxreact.key
+  mongo_mongo-healthcheck.pem:
+    file: ./certs/prod/mongo/certs/mongo-healthcheck.pem
+  mongo-exporter_prometheus-mongoexporter.pem:
+    file: ./certs/prod/prometheus/certs/prometheus-mongoexporter.pem
+  postgres_exporter_uri:
+    file: ${SECRET_PATH}/.secret.postgres_exporter_uri.txt
   prometheus_auth:
     file: ./prometheus/prometheus.secret.prod.yml
+  prometheus_username:
+    file: ${SECRET_PATH}/.secret.prometheus_username.txt
+  prometheus_password:
+    file: ${SECRET_PATH}/.secret.prometheus_password.txt
+  prometheus_prometheus-ca.key:
+    file: ./certs/prod/prometheus/prometheus-ca.key
+  prometheus_prometheus.key:
+    file: ./certs/prod/prometheus/prometheus.key
+  prometheus_prometheus-expressjs.key:
+    file: ./certs/prod/prometheus/prometheus-expressjs.key
+  redis_uri:
+    file: ${SECRET_PATH}/.secret.redis_uri.json
+  redis_redis-healthcheck.key:
+    file: ./certs/prod/redis/certs/redis_redis-healthcheck.key
+  redis-exporter_prometheus-redisexporter.key:
+    file: ./certs/prod/prometheus/certs/prometheus-redisexporter.key
 
 networks:
   techexpo-crm-backend:

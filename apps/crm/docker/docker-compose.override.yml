@@ -276,7 +276,7 @@ services:
       start_period: 10s
       start_interval: 2s
 
-  react-app:
+  nginx-react:
     # Use 'npm start' from ./client to init webpack-dev-server
     image: alpine:3.22
     profiles: [unused]
@@ -320,11 +320,5 @@ secrets:
     file: ${SECRET_PATH}/.secret.mongoexpress_cookiesecret.txt
   mongoexpress_sessionsecret:
     file: ${SECRET_PATH}/.secret.mongoexpress_sessionsecret.txt
-  nodemailer_username:
-    file: ${SECRET_PATH}/.secret.nodemailer_username.txt
-  nodemailer_password:
-    file: ${SECRET_PATH}/.secret.nodemailer_password.txt
-  nodemailer_dev_email:
-    file: ${SECRET_PATH}/.secret.nodemailer_dev_email.txt
   postgres_pg_hba:
     file: ./postgres/conf/.secret.pg_hba.conf
