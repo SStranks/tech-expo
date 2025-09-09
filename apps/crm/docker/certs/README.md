@@ -374,7 +374,7 @@ openssl x509 -in prod/client/certs/server.crt -noout -text
 
 #### Client Certification
 
-The following example shows client certification of the grafana service for connecting to the prometheus service. To see the required client certification for a service refer to the documentation in the respective production folder e.g. [`certs/prod/grafana/README.md`](./prod/grafana/README.md).
+The following example shows client certification of the grafana service for connecting to the prometheus service. To see the required client certification for a service and for its `.cnf`, refer to the documentation in the respective production folder e.g. [`certs/prod/grafana/README.md`](./prod/grafana/README.md).
 
 - One client .cnf file can be reused across multiple client certificates issued for that service.
 - Generated .key/.csr/.crt files follow the naming convention &lt;SERVICE&gt;-&lt;CLIENT&gt; e.g. `grafana-prometheus`
@@ -394,8 +394,8 @@ C  = GB
 ST = London
 L  = Production
 O  = techexpo_crm
-OU = grafana_client                                          # Grafana service
-CN = grafana.internal.client                                 # Grafana service
+OU = grafana_client                                             # Grafana service
+CN = grafana.internal.client                                    # Grafana service
 
 [ v3_client ]
 basicConstraints = CA:FALSE
@@ -404,9 +404,9 @@ extendedKeyUsage = clientAuth
 subjectAltName = @alt_names
 
 [ alt_names ]
-DNS.1 = grafana                                             # Grafana service
-DNS.2 = techexpo-grafana                                    # Grafana service
-DNS.3 = grafana-client.internal                             # Grafana service
+DNS.1 = grafana                                                 # Grafana service
+DNS.2 = techexpo-grafana                                        # Grafana service
+DNS.3 = grafana-client.internal                                 # Grafana service
 ```
 
 ###### Generate Client Key and CSR
