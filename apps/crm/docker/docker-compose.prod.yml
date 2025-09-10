@@ -1,7 +1,6 @@
 ---
 services:
   nginx:
-    # NGINX Reverse Proxy
     container_name: ${NGINX_PUBLIC_CONTAINER:?error}
     image: nginx:1.29-alpine
     restart: unless-stopped
@@ -54,16 +53,12 @@ services:
       - tmpfs-certs:/etc/expressjs/certs:ro
     healthcheck:
       test:
-        [
-          'CMD',
-          'wget',
-          '--ca-certificate=/certs/expressjs-ca.crt',
-          '--certificate=/certs/expressjs-healthcheck.crt',
-          '--private-key=/certs/expressjs-healthcheck.key',
-          '--spider',
-          '-q',
-          'https://localhost:${EXPRESS_EXPOSE_PORT}/health',
-        ]
+        - 'CMD-SHELL'
+        - >
+          wget --ca-certificate=/certs/expressjs-ca.crt
+          --certificate=/certs/expressjs-healthcheck.crt
+          --private-key=/certs/expressjs-healthcheck.key
+          --spider -q https://localhost:$EXPRESS_EXPOSE_PORT/health
       interval: 30s
       timeout: 30s
       retries: 3
@@ -88,16 +83,12 @@ services:
       - tmpfs-certs:/etc/nginx-react/certs:ro
     healthcheck:
       test:
-        [
-          'CMD',
-          'wget',
-          '--ca-certificate=/certs/nginxreact-ca.crt',
-          '--certificate=/certs/nginxreact-healthcheck.crt',
-          '--private-key=/certs/nginxreact-healthcheck.key',
-          '--spider',
-          '-q',
-          'https://localhost:${NGINX_REACT_EXPOSE_PORT}/health',
-        ]
+        - CMD-SHELL
+        - >
+          wget --ca-certificate=/certs/nginxreact-ca.crt
+          --certificate=/certs/nginxreact-healthcheck.crt
+          --private-key=/certs/nginxreact-healthcheck.key
+          --spider -q https://localhost:$NGINX_REACT_EXPOSE_PORT/health
       interval: 30s
       timeout: 30s
       retries: 3
@@ -147,8 +138,6 @@ services:
       start_interval: 5s
       start_period: 30s
     user: 'postgres'
-    secrets:
-      - postgres_pg_hba
 
   redis:
     image: redis:8.0-alpine
@@ -248,7 +237,3 @@ volumes:
   volume-prometheus:
     name: techexpo-prometheus-prod
     external: true
-
-secrets:
-  postgres_pg_hba:
-    file: ./postgres/conf/.secret.pg_hba.conf

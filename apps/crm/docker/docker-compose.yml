@@ -75,6 +75,7 @@ services:
       - techexpo-crm-backend
       - techexpo-crm-metrics
     secrets:
+      - postgres_pg_hba
       - postgres_user_super
       - postgres_user_migrator
       - postgres_user_service
@@ -130,6 +131,8 @@ secrets:
     file: ${SECRET_PATH}/.secret.nodemailer_password.txt
   nodemailer_dev_email:
     file: ${SECRET_PATH}/.secret.nodemailer_dev_email.txt
+  postgres_pg_hba:
+    file: ./postgres/conf/.secret.pg_hba.conf
   postgres_user_super:
     file: ${SECRET_PATH}/.secret.postgres_user_super.txt
   postgres_user_metrics:

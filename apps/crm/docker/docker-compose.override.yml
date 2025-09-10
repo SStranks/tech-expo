@@ -135,8 +135,6 @@ services:
       start_interval: 3s
       start_period: 15s
     user: 'postgres'
-    secrets:
-      - postgres_pg_hba
 
   postgres-seeder:
     container_name: ${POSTGRES_SEEDER_CONTAINER:?error}
@@ -320,5 +318,3 @@ secrets:
     file: ${SECRET_PATH}/.secret.mongoexpress_cookiesecret.txt
   mongoexpress_sessionsecret:
     file: ${SECRET_PATH}/.secret.mongoexpress_sessionsecret.txt
-  postgres_pg_hba:
-    file: ./postgres/conf/.secret.pg_hba.conf
