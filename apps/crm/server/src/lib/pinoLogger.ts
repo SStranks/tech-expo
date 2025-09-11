@@ -1,20 +1,18 @@
 import type { LoggerOptions } from 'pino';
 
-import { pino as pinoLib } from 'pino';
+import pino from 'pino';
 
 import { secrets } from '#Config/secrets.js';
 
 const { MONGO_DATABASE, MONGO_PASSWORD_SERVICE, MONGO_USER_SERVICE } = secrets;
 const { MONGO_HOST, MONGO_PROTOCOL, NODE_ENV, PINO_LOG_LEVEL, PINO_LOG_LEVEL_PROD } = process.env;
-// NOTE:  Rebinding pino due to library v9.6 exports error
-const pino = pinoLib;
 
-// NOTE:  Logger levels: trace, debug, info, warn, error, and fatal.
 const DATE = new Date();
 const YEAR = DATE.getFullYear();
 const MONTH = DATE.toLocaleString('default', { month: 'short' });
 const DAY = DATE.getDate();
 
+// NOTE:  Logger levels: trace, debug, info, warn, error, and fatal.
 let config: LoggerOptions = {};
 let transport;
 

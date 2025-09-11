@@ -27,7 +27,6 @@ services:
       - ../server:/app/server:ro
       - ../../../node_modules:/node_modules:ro
       - ../server/src/temp:/app/server/src/temp
-      - ./nodejs/node-express-init.sh:/usr/local/bin/node-express-init.sh:ro
       - ./nodejs/node-express-healthcheck.sh:/usr/local/bin/node-express-healthcheck.sh:ro
     healthcheck:
       test: ['CMD', '/bin/sh', '/usr/local/bin/node-express-healthcheck.sh']

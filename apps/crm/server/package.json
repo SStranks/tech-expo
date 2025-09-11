@@ -106,7 +106,7 @@
     "multer": "2.0.2",
     "nanoid": "^5.1.5",
     "nodemailer": "^7.0.3",
-    "pino": "^9.7.0",
+    "pino": "^9.9.5",
     "pino-http": "^10.5.0",
     "pino-mongodb": "^4.3.0",
     "postgres": "^3.4.7",
