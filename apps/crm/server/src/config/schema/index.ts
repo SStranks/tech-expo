@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-named-exports */
 export type { TCalendarTableInsert, TCalendarTableSelect } from './calendar/Calendar.ts';
 export type { TCalendarCategoriesTableInsert, TCalendarCategoriesTableSelect } from './calendar/Categories.ts';
 export type { TCalendarEventsTableInsert, TCalendarEventsTableSelect } from './calendar/Events.ts';

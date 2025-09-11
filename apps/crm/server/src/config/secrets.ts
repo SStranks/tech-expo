@@ -86,10 +86,4 @@ function initializeDockerSecrets() {
   console.log('[secrets.js] SUCCESS: docker secrets loaded');
 }
 
-// function initializeDockerSecrets() {
-//   validateDockerSecrets();
-//   assignDockerSecrets();
-//   console.log('[secrets.js] SUCCESS: docker secrets loaded');
-// }
-
 export { initializeDockerSecrets, secrets };
