@@ -14,10 +14,12 @@ import { BadRequestError } from '#Utils/errors/index.js';
 
 import expressApp from './express.js';
 
+const { NODE_ENV } = process.env;
+
 const corsOrigins = () => {
   const devOrigins = ['http://localhost:3000', 'https://studio.apollographql.com'];
   const prodOrigins = ['http://localhost:3000'];
-  return process.env.NODE_ENV === 'development' ? devOrigins : prodOrigins;
+  return NODE_ENV === 'development' ? devOrigins : prodOrigins;
 };
 
 const corsOptions = {
@@ -33,9 +35,9 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(
   helmet({
-    contentSecurityPolicy: !(process.env.NODE_ENV === 'development'),
+    contentSecurityPolicy: !(NODE_ENV === 'development'),
     // NOTE:  Allow Apolloserver Sandbox
-    crossOriginEmbedderPolicy: !(process.env.NODE_ENV === 'development'),
+    crossOriginEmbedderPolicy: !(NODE_ENV === 'development'),
   })
 );
 

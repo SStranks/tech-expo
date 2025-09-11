@@ -5,6 +5,8 @@ import type { IRefreshTokenPayload } from '#Services/User.ts';
 import { describe, jest, test } from '@jest/globals';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
+import { secrets } from '#Config/secrets.js';
+
 const MOCK_JWT_JTI = jest.fn();
 
 jest.unstable_mockModule('node:crypto', () => ({
@@ -14,6 +16,7 @@ jest.unstable_mockModule('node:crypto', () => ({
   },
 }));
 
+const { JWT_AUTH_SECRET, JWT_REFRESH_SECRET } = secrets;
 const { UserService } = await import('#Services/index.js');
 
 describe('Signing Tokens: Auth Token', () => {
@@ -48,7 +51,7 @@ describe('Signing Tokens: Auth Token', () => {
     const jwt_encoded = UserService.signAuthToken(userId, userRole, iat);
 
     try {
-      const jwt_decoded = jwt.verify(jwt_encoded, process.env.JWT_AUTH_SECRET as string, { complete: true });
+      const jwt_decoded = jwt.verify(jwt_encoded, JWT_AUTH_SECRET, { complete: true });
       expect((jwt_decoded?.payload as JwtPayload).jti).toEqual(jti);
     } catch {
       fail('JWT Signature Failure');
@@ -88,7 +91,7 @@ describe('Signing Tokens: Refresh Token', () => {
     const jwt_encoded = UserService.signRefreshToken(userId, iat, token_payload);
 
     try {
-      const jwt_decoded = jwt.verify(jwt_encoded, process.env.JWT_REFRESH_SECRET as string, { complete: true });
+      const jwt_decoded = jwt.verify(jwt_encoded, JWT_REFRESH_SECRET, { complete: true });
       expect((jwt_decoded?.payload as IRefreshTokenPayload).jti).toEqual(jti);
     } catch {
       throw new Error('JWT Signature Failure');

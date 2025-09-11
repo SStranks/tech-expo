@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
   "license": "ISC",
-  "main": "./dist/server.js",
+  "main": "./dist/main.js",
   "type": "module",
   "engines": {
     "node": ">=18.0.0"
@@ -19,7 +19,7 @@
       "src",
       "dist"
     ],
-    "exec": "dotenvx run -f ./.env.dev.server -- node --inspect=0.0.0.0:9229 --import tsx --inspect --no-lazy ./src/server.ts",
+    "exec": "dotenvx run -f ./.env.dev.server -- node --inspect=0.0.0.0:9229 --import tsx --inspect --no-lazy ./src/main.ts",
     "ext": "ts, js"
   },
   "scripts": {

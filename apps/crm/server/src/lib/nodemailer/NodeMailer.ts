@@ -3,20 +3,14 @@ import type SMTPTransport from 'nodemailer/lib/smtp-transport/index.js';
 
 import nodemailer from 'nodemailer';
 
+import { secrets } from '#Config/secrets.js';
 import { BadRequestError } from '#Utils/errors/index.js';
 
 import { EMAIL_TEMPLATE_PASSWORD_RESET } from './templates/PasswordResetEmailTemplate.js';
 import { EMAIL_TEMPLATE_VERIFICATION } from './templates/VerificationEmailTemplate.js';
 
-const {
-  NODE_ENV,
-  NODEMAILER_DEV_EMAIL,
-  NODEMAILER_HOST,
-  NODEMAILER_PASSWORD,
-  NODEMAILER_PORT,
-  NODEMAILER_SECURE,
-  NODEMAILER_USERNAME,
-} = process.env;
+const { NODEMAILER_DEV_EMAIL, NODEMAILER_PASSWORD, NODEMAILER_USERNAME } = secrets;
+const { NODE_ENV, NODEMAILER_HOST, NODEMAILER_PORT, NODEMAILER_SECURE } = process.env;
 
 const senderDev = { name: 'CRM Server: Development', address: 'admin@techexpo-crm.org' };
 const senderProd = { name: 'CRM Server: Production', address: 'admin@techexpo-crm.org' };

@@ -1,11 +1,13 @@
 import Rollbar from 'rollbar';
 
+const { NODE_ENV, ROLLBAR_ENABLED, ROLLBAR_POST_SERVER_ITEM } = process.env;
+
 const rollbarConfig: Rollbar.Configuration = {
-  accessToken: process.env.ROLLBAR_POST_SERVER_ITEM,
+  accessToken: ROLLBAR_POST_SERVER_ITEM,
   captureUncaught: true,
   captureUnhandledRejections: true,
-  enabled: process.env.ROLLBAR_ENABLED?.toLowerCase() === 'true',
-  environment: process.env.NODE_ENV,
+  enabled: ROLLBAR_ENABLED?.toLowerCase() === 'true',
+  environment: NODE_ENV,
 };
 
 const rollbar = new Rollbar(rollbarConfig);

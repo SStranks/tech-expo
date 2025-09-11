@@ -8,6 +8,7 @@ import type { TCountryDataLoader } from './loaders.ts';
 
 import { GraphQLError } from 'graphql';
 
+import { secrets } from '#Config/secrets.js';
 import { CompanyService, CountryService, UserService } from '#Services/index.js';
 
 import { createCountryLoader } from './loaders.js';
@@ -18,7 +19,8 @@ export interface IGraphqlContext {
   services: { Company: TCompanyService };
 }
 
-const { GRAPHQL_INTROSPECT_AUTH, JWT_COOKIE_AUTH_ID } = process.env;
+const { GRAPHQL_INTROSPECT_AUTH } = secrets;
+const { JWT_COOKIE_AUTH_ID } = process.env;
 
 const isIntrospectionQuery = (req: Request) => {
   const { authorization, origin, 'user-agent': userAgent } = req.headers;

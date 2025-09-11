@@ -11,12 +11,16 @@ const { COMPANY_EMAIL_DOMAIN, USER_ENTRY_COUNT } = seedSettings;
 
 import argon2 from 'argon2';
 
+import { secrets } from '#Config/secrets.js';
+
+const { DEMO_ACC_GENERIC_NON_USER_PASSWORD, POSTGRES_PEPPER } = secrets;
+
 // Generate single password for all non-demo 'USER ROLE'-only accounts
 let hashedPassword: string;
 async function generatePasswordHash() {
   hashedPassword = await argon2
-    .hash(process.env.DEMO_ACC_GENERIC_NON_USER_PASSWORD as string, {
-      secret: Buffer.from(process.env.POSTGRES_PEPPER as string),
+    .hash(DEMO_ACC_GENERIC_NON_USER_PASSWORD, {
+      secret: Buffer.from(POSTGRES_PEPPER),
     })
     .catch((error) => {
       throw new Error(`Error hashing password: ${error}`);

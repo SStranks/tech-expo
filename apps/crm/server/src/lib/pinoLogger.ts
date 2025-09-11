@@ -1,12 +1,15 @@
 import type { LoggerOptions } from 'pino';
 
 import { pino as pinoLib } from 'pino';
+
+import { secrets } from '#Config/secrets.js';
+
+const { MONGO_DATABASE, MONGO_PASSWORD_SERVICE, MONGO_USER_SERVICE } = secrets;
+const { MONGO_HOST, MONGO_PROTOCOL, NODE_ENV, PINO_LOG_LEVEL, PINO_LOG_LEVEL_PROD } = process.env;
 // NOTE:  Rebinding pino due to library v9.6 exports error
 const pino = pinoLib;
 
 // NOTE:  Logger levels: trace, debug, info, warn, error, and fatal.
-
-const NODE_ENV = process.env.NODE_ENV;
 const DATE = new Date();
 const YEAR = DATE.getFullYear();
 const MONTH = DATE.toLocaleString('default', { month: 'short' });
@@ -24,7 +27,7 @@ switch (true) {
   case NODE_ENV === 'development' || NODE_ENV === undefined: {
     config = {
       name: 'Pino-Dev',
-      level: process.env.PINO_LOG_LEVEL || 'trace',
+      level: PINO_LOG_LEVEL || 'trace',
       timestamp: pino.stdTimeFunctions.isoTime,
     };
     transport = pino.transport({
@@ -33,13 +36,13 @@ switch (true) {
         //   target: 'pino-mongodb',
         //   level: 'info',
         //   options: {
-        //     uri: `${process.env.MONGO_PROTOCOL}://${process.env.MONGO_HOST}/`,
-        //     database: process.env.MONGO_DATABASE,
+        //     uri: `${MONGO_PROTOCOL}://${MONGO_HOST}/`,
+        //     database: MONGO_DATABASE,
         //     collection: `logs-${YEAR}-${MONTH}-${DAY}`,
         //     mongoOptions: {
         //       auth: {
-        //         username: process.env.MONGO_USER,
-        //         password: process.env.MONGO_PASSWORD,
+        //         username: MONGO_USER_SERVICE,
+        //         password: MONGO_PASSWORD_SERVICE,
         //       },
         //     },
         //   },
@@ -56,7 +59,7 @@ switch (true) {
   case NODE_ENV === 'production': {
     config = {
       name: 'Pino-Prod',
-      level: process.env.PINO_LOG_LEVEL_PROD || 'info',
+      level: PINO_LOG_LEVEL_PROD || 'info',
       timestamp: pino.stdTimeFunctions.isoTime,
     };
     transport = pino.transport({
@@ -66,12 +69,12 @@ switch (true) {
           target: 'pino-mongodb',
           options: {
             collection: `logs-${YEAR}-${MONTH}-${DAY}`,
-            database: process.env.MONGO_DATABASE,
-            uri: `${process.env.MONGO_PROTOCOL}://${process.env.MONGO_HOST}/`,
+            database: MONGO_DATABASE,
+            uri: `${MONGO_PROTOCOL}://${MONGO_HOST}/`,
             mongoOptions: {
               auth: {
-                password: process.env.MONGO_PASSWORD,
-                username: process.env.MONGO_USER,
+                password: MONGO_PASSWORD_SERVICE,
+                username: MONGO_USER_SERVICE,
               },
             },
           },

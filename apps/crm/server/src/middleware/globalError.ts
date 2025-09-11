@@ -8,8 +8,10 @@ import { postgresErrorHTTPMapper } from '#Config/dbPostgres.js';
 import { pinoLogger, rollbar } from '#Lib/index.js';
 import { CustomError, PostgresError, ZodValidationError } from '#Utils/errors/index.js';
 
+const { NODE_ENV } = process.env;
+
 const globalErrorHandler: ErrorRequestHandler = (err, _req, res: Response<ApiResponseError>, _next) => {
-  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+  if (NODE_ENV === 'development' || NODE_ENV === 'test') {
     if (err instanceof CustomError) {
       const { errors, message, stack, status, statusCode } = err;
 

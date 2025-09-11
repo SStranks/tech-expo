@@ -2,6 +2,7 @@
 services:
   express-api:
     image: node:22-alpine3.22
+    command: ['sh', '-c', 'npx nodemon . | npx pino-pretty']
     profiles: ['dev', 'express-api']
     restart: on-failure:3
     depends_on:
@@ -28,7 +29,6 @@ services:
       - ../server/src/temp:/app/server/src/temp
       - ./nodejs/node-express-init.sh:/usr/local/bin/node-express-init.sh:ro
       - ./nodejs/node-express-healthcheck.sh:/usr/local/bin/node-express-healthcheck.sh:ro
-    entrypoint: ['/usr/local/bin/node-express-init.sh']
     healthcheck:
       test: ['CMD', '/bin/sh', '/usr/local/bin/node-express-healthcheck.sh']
       interval: 30s

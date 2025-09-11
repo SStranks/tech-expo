@@ -1,9 +1,7 @@
-import validateEnvironmentVariables from '#Config/env.js';
 import { pinoLogger, rollbar } from '#Lib/index.js';
 
-validateEnvironmentVariables();
-
-const PORT = process.env.EXPRESS_DOCKER_PORT || process.env.EXPRESS_LOCAL_PORT || 4000;
+const { EXPRESS_DOCKER_PORT, EXPRESS_LOCAL_PORT, NODE_ENV } = process.env;
+const PORT = EXPRESS_DOCKER_PORT || EXPRESS_LOCAL_PORT || 4000;
 
 // ------------------------------------------------------------------------
 
@@ -37,7 +35,7 @@ import '#App/app';
 import { apolloServer } from '#Graphql/apolloServer.js';
 
 httpServer.listen(PORT, () => {
-  pinoLogger.info(`Server running successfuly in ${process.env.NODE_ENV} mode on Port ${PORT}`);
+  pinoLogger.info(`Server running successfuly in ${NODE_ENV} mode on Port ${PORT}`);
 });
 
 // Unhandled Rejection Errors

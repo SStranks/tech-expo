@@ -5,7 +5,10 @@ import { pinoLogger, rollbar } from '#Lib/index.js';
 import fs from 'node:fs';
 import { createSecureContext } from 'node:tls';
 
-const { REDIS_DOCKER_PORT, REDIS_HOST, REDIS_PASSWORD, REDIS_USERNAME } = process.env;
+import { secrets } from './secrets.js';
+
+const { REDIS_PASSWORD, REDIS_USERNAME } = secrets;
+const { REDIS_DOCKER_PORT, REDIS_HOST } = process.env;
 const REDIS_URL = `redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_DOCKER_PORT}`;
 
 let secureContext;

@@ -31,6 +31,8 @@ services:
       - postgres_password_service
       - postgres_pepper
       - postgres_database
+      - postgres_url
+      - redis_username
       - redis_password
 
   nginx-react:
@@ -153,5 +155,9 @@ secrets:
     file: ${SECRET_PATH}/.secret.postgres_database.txt
   postgres_pepper:
     file: ${SECRET_PATH}/.secret.postgres_pepper.txt
+  postgres_url:
+    file: ${SECRET_PATH}/.secret.postgres_url.txt
   redis_password:
     file: ${SECRET_PATH}/.secret.redis_password.txt
+  redis_username:
+    file: ${SECRET_PATH}/.secret.redis_username.txt

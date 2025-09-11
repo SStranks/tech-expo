@@ -12,19 +12,20 @@ import ms from 'ms';
 import { postgresDB } from '#Config/dbPostgres.js';
 import { redisClient } from '#Config/dbRedis.js';
 import { UserRefreshTokensTable, UserTable } from '#Config/schema/index.js';
+import { secrets } from '#Config/secrets.js';
 import { AppError, BadRequestError, PostgresError } from '#Utils/errors/index.js';
 
 import crypto, { type UUID } from 'node:crypto';
 
+const { JWT_AUTH_SECRET, JWT_REFRESH_SECRET, POSTGRES_PEPPER } = secrets;
+
 const {
   JWT_AUTH_EXPIRES,
-  JWT_AUTH_SECRET,
   JWT_COOKIE_AUTH_EXPIRES,
   JWT_COOKIE_AUTH_ID,
   JWT_COOKIE_REFRESH_EXPIRES,
   JWT_COOKIE_REFRESH_ID,
   JWT_REFRESH_EXPIRES,
-  JWT_REFRESH_SECRET,
   NODE_ENV,
   PASSWORD_RESET_EXPIRES,
 } = process.env;
@@ -240,18 +241,16 @@ class User {
   }
 
   async getPasswordHash(password: string) {
-    const hashedPassword = await argon2
-      .hash(password, { secret: Buffer.from(process.env.POSTGRES_PEPPER as string) })
-      .catch((error) => {
-        throw new AppError({ context: { error }, logging: true });
-      });
+    const hashedPassword = await argon2.hash(password, { secret: Buffer.from(POSTGRES_PEPPER) }).catch((error) => {
+      throw new AppError({ context: { error }, logging: true });
+    });
 
     return hashedPassword;
   }
 
   async isPasswordValid(hashedPassword: string, password: string) {
     const isValid = await argon2.verify(hashedPassword, password, {
-      secret: Buffer.from(process.env.POSTGRES_PEPPER as string),
+      secret: Buffer.from(POSTGRES_PEPPER),
     });
 
     if (!isValid) throw new BadRequestError({ code: 401, message: 'Invalid password' });

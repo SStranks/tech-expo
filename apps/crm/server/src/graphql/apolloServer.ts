@@ -10,7 +10,9 @@ import rollbar from '#Lib/rollbar.js';
 import formatError from './errors.js';
 import schema from './schema.js';
 
-const introspection = process.env.NODE_ENV !== 'production';
+const { NODE_ENV } = process.env;
+
+const introspection = NODE_ENV !== 'production';
 const plugins = [ApolloServerPluginDrainHttpServer({ httpServer })];
 
 const apolloServer = new ApolloServer<IGraphqlContext>({ formatError, introspection, plugins, schema });
