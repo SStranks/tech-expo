@@ -13,6 +13,7 @@
     - [Intermediate Certificate Authorities](#intermediate-certificate-authorities)
     - [Service Certification](#service-certification)
     - [Client Certification](#client-certification)
+    - [Revoking Certification](#revoking-certification)
   - [.secret.certs.yml](#secretcertsyml)
 
 ## Overview
@@ -190,6 +191,12 @@ subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid:always,issuer
 basicConstraints = critical, CA:true
 keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+
+[ v3_intermediate_ca ]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints = critical, CA:true, pathlen:0
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
 ```
 
 ###### Create Root CA Certification
@@ -208,14 +215,14 @@ Key requires passphrase for security. See [`.secret.certs.yml`](#secretcertsyml)
 
 ```bash
 # Inspect cert
-openssl x509 -in prod/certs/root-ca.crt -noout -text
+openssl x509 -in prod/root/certs/root-ca.crt -noout -text
 ```
 
 #### Intermediate Certificate Authorities
 
 Each docker service should have its own intermediate certificate authority. The following example demonstrates the process for the [`grafana`](../grafana/) docker service.
 
-Services required: (client, mongo, redis, postgres, nginx, nginxreact, expressjs, grafana, prometheus)
+Services required: (client, mongo, redis, postgres, nginx, nginxreact, nginxmetrics, expressjs, grafana, prometheus)
 
 ###### Preare Intermediate Certificate Directory
 
@@ -441,7 +448,17 @@ openssl verify -CAfile /dev/stdin prod/client/certs/grafana-prometheus.crt
 openssl x509 -in prod/client/certs/grafana-prometheus.crt -noout -text
 ```
 
-### .secret.certs.yml
+#### Revoking Certification
+
+Certificates can be revoked if erroneously created or for security purposes - certificates should not be manually deleted to ensure openssl log consistency.
+
+Certificates can only be revoked by a higher authority. The following example shows the intermediate CA authority revoking a server certificate.
+
+```bash
+openssl ca -config prod/nginxreact/cnf/openssl.cnf -revoke prod/nginxreact/certs/server.crt
+```
+
+#### .secret.certs.yml
 
 Should contain:
 
