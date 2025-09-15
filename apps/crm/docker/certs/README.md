@@ -462,16 +462,16 @@ openssl ca -config prod/nginxreact/cnf/openssl.cnf -revoke prod/nginxreact/certs
 
 Should contain:
 
-- `prod-root-ca-passphrase:<strong password>`
-- `prod-client-ca-passphrase:<strong password>`
-- `prod-expressjs-ca-passphrase:<strong password>`
-- `prod-grafana-ca-passphrase:<strong password>`
-- `prod-mongo-ca-passphrase:<strong password>`
-- `prod-nginx-ca-passphrase:<strong password>`
-- `prod-nginxmetrics-ca-passphrase:<strong password>`
-- `prod-nginxreact-ca-passphrase:<strong password>`
-- `prod-postgres-ca-passphrase:<strong password>`
-- `prod-prometheus-ca-passphrase:<strong password>`
-- `prod-redis-ca-passphrase:<strong password>`
+- `root-ca-passphrase:<strong password>`
+- `client-ca-passphrase:<strong password>`
+- `expressjs-ca-passphrase:<strong password>`
+- `grafana-ca-passphrase:<strong password>`
+- `mongo-ca-passphrase:<strong password>`
+- `nginx-ca-passphrase:<strong password>`
+- `nginxmetrics-ca-passphrase:<strong password>`
+- `nginxreact-ca-passphrase:<strong password>`
+- `postgres-ca-passphrase:<strong password>`
+- `prometheus-ca-passphrase:<strong password>`
+- `redis-ca-passphrase:<strong password>`
 
 Encrypt the file in-place using SOPS for secure storage; files should ideally be stored offline in physically secure location. Passphrases should be at least 30 characters; [Password Strength Checker](https://www.passwordmonster.com/)

@@ -8,7 +8,7 @@ upstream node-api-prod {
 }
 
 server {
-  listen ${NGINX_PUBLIC_DOCKER_PORT_HTTP};
+  listen 127.0.0.1:${NGINX_PUBLIC_DOCKER_PORT_HTTP};
 
   location = /health {
     return 200 "ok\n";
