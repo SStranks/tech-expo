@@ -68,7 +68,7 @@ services:
   nginx-react:
     build:
       context: .
-      dockerfile: ../client/nginx/Dockerfile
+      dockerfile: ./nginx-react/Dockerfile
       args:
         REACT_VERSION: ${REACT_VERSION:?error}
         IMAGE_VERSION: ${REACT_CUSTOM_IMAGE_VERSION:?error}

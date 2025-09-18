@@ -166,7 +166,7 @@ services:
         gid: 1000
 
   nginx-react:
-    image: nginx:1.29-alpine
+    image: ${IMAGE_REPO:-docker.io/}techexpo-crm/nginx-brotli:latest
     deploy:
       restart_policy:
         condition: any
