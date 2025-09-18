@@ -10,6 +10,7 @@
   - [.secret.yaml](#secretyaml)
   - [.secret.mongoExporter.txt](#secretmongoexportertxt)
   - [.secret.redisExporter.json](#secretredisexporterjson)
+- [Debugging](#debugging)
 
 ## Overview
 
@@ -340,5 +341,46 @@ MONGODB_URI=mongodb://<mongo_user_metrics>:<mongo_password_metrics>@<MONGO_CONTA
 {
   "redis://<REDIS_CONTAINER>:REDIS_DOCKER_PORT>": "<redis_password>",
   "rediss://<REDIS_CONTAINER>:REDIS_DOCKER_PORT>": "<redis_password>"
+}
+```
+
+## Debugging
+
+- Ensure mapped ports are specified in [`docker-compose.override`](./docker-compose.override.yml) express-api service.
+- Ensure mapped ports are specified in [`package.json`](../server/package.json) nodemon and scripts `--inspect`.
+- Add the following objects to your 'configurations' array in the VSCode `launch.json`:
+
+```json
+{
+  "name": "Docker Node.js - CRM App",
+  "type": "node",
+  "request": "attach",
+  "port": 9229,
+  "address": "localhost",
+  "restart": true,
+  "localRoot": "${workspaceFolder}/apps/crm/server",
+  "remoteRoot": "/app/server",
+  "skipFiles": [
+    // Node.js internal core modules
+    "<node_internals>/**",
+    // Ignore all dependencies (optional)
+    "${workspaceFolder}/node_modules/**"
+  ]
+},
+{
+  "name": "Docker Node.js - CRM App - Drizzle",
+  "type": "node",
+  "request": "attach",
+  "port": 9230,
+  "address": "localhost",
+  "restart": true,
+  "localRoot": "${workspaceFolder}/apps/crm/server",
+  "remoteRoot": "/app/server",
+  "skipFiles": [
+    // Node.js internal core modules
+    "<node_internals>/**",
+    // Ignore all dependencies (optional)
+    "${workspaceFolder}/node_modules/**"
+  ]
 }
 ```

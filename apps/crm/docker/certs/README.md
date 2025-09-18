@@ -1,4 +1,4 @@
-# x509 TLS Ceritification
+# x509 TLS Certification
 
 - [Overview](#overview)
 - [Current Directory](#current-directory)
@@ -8,7 +8,7 @@
     - [Certificate Authority](#certificate-authority)
     - [Service Certification](#service-certification)
   - [Production](#for-production)
-    - [File Structure](#directory-structure)
+    - [Directory Structure](#directory-structure)
     - [Root Certificate Authority](#root-certificate-authority)
     - [Intermediate Certificate Authorities](#intermediate-certificate-authorities)
     - [Service Certification](#service-certification)
@@ -133,7 +133,7 @@ apps/crm/docker/certs/
 
 #### Root Certificate Authority
 
-###### Preare Root Directory
+###### Prepare Root Directory
 
 ```bash
 # cd into apps/crm/docker/certs before running commands
@@ -224,7 +224,7 @@ Each docker service should have its own intermediate certificate authority. The 
 
 Services required: (client, mongo, redis, postgres, nginx, nginxreact, nginxmetrics, expressjs, grafana, prometheus)
 
-###### Preare Intermediate Certificate Directory
+###### Prepare Intermediate Certificate Directory
 
 ```bash
 # cd into apps/crm/docker/certs before running commands
