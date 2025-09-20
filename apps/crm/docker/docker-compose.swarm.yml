@@ -558,7 +558,7 @@ configs:
     file: ./certs/prod/nginxreact/certs/nginxreact.crt
   prometheus_conf:
     file: ./prometheus/prometheus.config.prod.yml
-  prometheus_healtcheck.sh:
+  prometheus_healthcheck.sh:
     file: ./prometheus/prometheus-healthcheck.sh
   prometheus_prometheus-ca.crt:
     file: ./certs/prod/prometheus/certs/prometheus-ca.crt

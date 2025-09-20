@@ -97,7 +97,7 @@ It includes core CRM capabilities like customer management, secure authenticatio
 <summary>Monitoring</summary>
 </br>
 
-- **Prometheus**: funcmetrics exposed from expressJS service, postgreSQL, mongo, redis
+- **Prometheus**: metrics exposed from expressJS service, postgreSQL, mongo, redis
 - **Grafana**: unified dashboard with UP status overview, docker container metrics (cAdvisor), annotations, alerts
 - **Dashboard**: dedicated rows for expressJS and each database; latency, query ops, memory use, requests/errors
 - **Alerts**: Grafana email alerts for databases offline, high-rate 5xx server errors, redis max-memory
@@ -128,7 +128,7 @@ It includes core CRM capabilities like customer management, secure authenticatio
 
 <details open>
 <summary>Repository Management</summary>
-<br />
+<br>
 
 [![PNPM](https://img.shields.io/badge/pnpm-%234a4a4a.svg?style=for-the-badge&logo=pnpm&logoColor=f69220)](https://pnpm.io/)
 [![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
@@ -151,7 +151,7 @@ It includes core CRM capabilities like customer management, secure authenticatio
 
 <details>
 <summary>Frontend</summary>
-<br />
+<br>
 
 [![Webpack](https://img.shields.io/badge/webpack-%238dd6f9.svg?style=for-the-badge&logo=webpack&logoColor=white)](https://webpack.js.org/)
 [![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://react.dev/)
@@ -165,7 +165,7 @@ It includes core CRM capabilities like customer management, secure authenticatio
 
 <details>
 <summary>Backend</summary>
-<br />
+<br>
 
 [![esbuild](https://img.shields.io/badge/esbuild-%23FFCF00.svg?style=for-the-badge&logo=esbuild&logoColor=black)](https://esbuild.github.io/)
 [![Express](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)](https://expressjs.com/)
@@ -177,7 +177,7 @@ It includes core CRM capabilities like customer management, secure authenticatio
 
 <details>
 <summary>Infrastructure</summary>
-<br />
+<br>
 
 [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![PostgreSQL](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
@@ -192,7 +192,7 @@ It includes core CRM capabilities like customer management, secure authenticatio
 
 <details>
 <summary>Security</summary>
-<br />
+<br>
 
 [![OpenSSL](https://img.shields.io/badge/openssl-%23731513.svg?style=for-the-badge&logo=openssl&logoColor=white)](https://www.openssl.org/)
 [![Mozilla SOPS](https://img.shields.io/badge/SOPS-%23161616.svg?style=for-the-badge&logo=mozilla&logoColor=white)](https://getsops.io/)
@@ -203,7 +203,7 @@ It includes core CRM capabilities like customer management, secure authenticatio
 
 <details>
 <summary>Testing</summary>
-<br />
+<br>
 
 [![Cypress](https://img.shields.io/badge/-cypress-%23E5E5E5?style=for-the-badge&logo=cypress&logoColor=058a5e)](https://www.cypress.io/)
 [![Vitest](https://img.shields.io/badge/-Vitest-252529?style=for-the-badge&logo=vitest&logoColor=FCC72B)](https://vitest.dev/)
@@ -216,7 +216,7 @@ It includes core CRM capabilities like customer management, secure authenticatio
 
 <details>
 <summary>Tools</summary>
-<br />
+<br>
 
 [![DBeaver](https://img.shields.io/badge/DBeaver-382923?style=for-the-badge&logo=dbeaver&logoColor=white)](https://dbeaver.io/)
 [![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](https://www.postman.com/)
@@ -230,7 +230,7 @@ It includes core CRM capabilities like customer management, secure authenticatio
 
 <details>
 <summary>Development Environment</summary>
-<br />
+<br>
 
 [![Debian](https://img.shields.io/badge/Debian%20Trixie%20x86/64-a81d33?style=for-the-badge&logo=debian&logoColor=white)](https://www.debian.org/)
 [![WSL2](https://img.shields.io/badge/WSL2-000000?style=for-the-badge&logo=linux&logoColor=ffcc33)](https://learn.microsoft.com/en-us/windows/wsl/install)
@@ -246,6 +246,10 @@ It includes core CRM capabilities like customer management, secure authenticatio
 
 <details open>
 <summary>Infrastructure Diagram</summary>
+<br>
+
+![Architecture Diagram](./architecture_diagram.jpg)
+
 </details>
 
 ### Database Schema
