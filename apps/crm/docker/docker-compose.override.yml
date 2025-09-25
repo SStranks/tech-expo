@@ -151,10 +151,10 @@ services:
     ports:
       - 127.0.0.1:9230:9230
     volumes:
-      - tmpfs-certs:/certs:ro
+      - tmpfs-certs:/etc/expressjs/certs:ro
       - ../server:/app/server:ro
       - ../../../node_modules:/node_modules:ro
-      - ./postgres/postgres-seeder-init.sh:/usr/local/bin/postgres-seeder-init.sh:ro
+      - ./postgres/scripts/postgres-seeder-init.sh:/usr/local/bin/postgres-seeder-init.sh:ro
     networks:
       - techexpo-crm-backend
     security_opt:

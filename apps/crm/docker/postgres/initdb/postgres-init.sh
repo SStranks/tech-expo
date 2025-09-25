@@ -51,7 +51,7 @@ EOSQL
 
 echo "*** Postgres Initialization: Create drizzle schema ***"
 psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" <<- EOSQL
-  CREATE SCHEMA IF NOT EXISTS drizzle;
+  CREATE SCHEMA IF NOT EXISTS drizzle AUTHORIZATION $USER_MIGRATOR;
 EOSQL
 
 echo "*** Postgres Initialization: Create metrics schema ***"
