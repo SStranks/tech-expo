@@ -42,6 +42,14 @@ openssl x509 -req -in expressjs-postgresseeder.csr -CA ../root-ca.crt -CAkey ../
 openssl x509 -req -in expressjs-redis.csr -CA ../root-ca.crt -CAkey ../root-ca.key -CAcreateserial -out expressjs-redis.crt -days 365 -sha256 -extfile ../client-ext.cnf
 ```
 
+###### expressjs-mongo.pem
+
+This file is required for the expressjs/PinoLogger connection to Mongo
+
+```console
+cat expressjs-mongo.key expressjs-mongo.crt > expressjs-mongo.pem
+```
+
 ### For production:
 
 Refer to [Production Certification](../../README.md#for-production)
