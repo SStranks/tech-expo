@@ -296,6 +296,10 @@ Explore the components of the mongo architecture through this interactive schema
 
 <details>
 <summary>Metrics Collection</summary>
+<br>
+
+![Metrics Collection Diagram](https://sstranks.github.io/tech-expo/assets/observability_diagram.jpg)
+
 </details>
 
 ### Directory Structure
