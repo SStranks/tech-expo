@@ -1,4 +1,4 @@
-![Repository Banner](repo_banner.jpg)
+![Repository Banner](./assets/repo_banner.jpg)
 <br>
 
 _Tech-Expo is a full-stack CRM-style application showcasing secure microservice architecture, modern DevOps practices, and production-grade observability_
@@ -248,22 +248,48 @@ It includes core CRM capabilities like customer management, secure authenticatio
 <summary>Infrastructure Diagram</summary>
 <br>
 
-![Architecture Diagram](./architecture_diagram.jpg)
+![Architecture Diagram](./assets/architecture_diagram.jpg)
 
 </details>
 
 ### Database Schema
 
 <details>
-<summary>PostgreSQL Schema Diagram</summary>
+<summary>PostgreSQL</summary>
+
+###### Interactive Diagram
+
+Explore the components of the postgres architecture through this interactive schema diagram: [`Interactive Postgres Diagram`](https://sstranks.github.io/tech-expo/assets/docs/reports/postgres/index.html)
+
+###### Static Diagram
+
+![Postgres Diagram](./assets/architecture_postgres.png)
+
 </details>
 
 <details>
-<summary>MongoDB Schema Diagram</summary>
-</details>
+<summary>GraphQL</summary>
 
+###### Interactive Diagram
+
+Explore the components of the graphql architecture through this interactive schema diagram: [`Interactive GraphQL Diagram`](https://sstranks.github.io/tech-expo/assets/docs/reports/graphql/index.html)
+
+###### Static Diagram
+
+![GraphQL Diagram](./assets/architecture_graphql.png)
+
+</details>
 <details>
-<summary>GraphQL Diagram</summary>
+<summary>Mongo</summary>
+
+###### Interactive Diagram
+
+Explore the components of the mongo architecture through this interactive schema diagram: [`Interactive Mongo Diagram`](https://sstranks.github.io/tech-expo/assets/docs/reports/mongo/index.html)
+
+###### Static Diagram
+
+![Mongo Diagram](./assets/architecture_mongo.png)
+
 </details>
 
 ### Observability

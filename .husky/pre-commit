@@ -1,5 +1,5 @@
 # shellcheck disable=SC2148
-STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -v '^assets/')
 STAGED_FILES_CSV=$(echo "$STAGED_FILES" | tr '\n' ',' | sed 's/,$//')
 TIMESTAMP=$(date +%Y%m%d-%H%M%S) && readonly TIMESTAMP
 
