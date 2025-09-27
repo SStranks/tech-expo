@@ -19,7 +19,17 @@ DISABLE_LINTERS:
   - JAVASCRIPT_STANDARD
   - TYPESCRIPT_STANDARD
 
-EXCLUDED_DIRECTORIES: ['node_modules', 'megalinter-reports', 'dist', 'build', 'public', 'private', 'generated', 'meta']
+EXCLUDED_DIRECTORIES:
+  - 'node_modules'
+  - 'megalinter-reports'
+  - 'dist'
+  - 'build'
+  - 'public'
+  - 'private'
+  - 'generated'
+  - 'meta'
+  - 'assets/docs/reports'
+
 FILTER_REGEX_EXCLUDE: '(pnpm-lock.yaml|pnpm-workspace.yaml)'
 
 BASH_SHELLCHECK_ARGUMENTS: '-S warning'
