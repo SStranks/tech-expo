@@ -14,7 +14,7 @@ const { MONGO_ARGS: ARGS, MONGO_DOCKER_PORT: PORT, MONGO_HOST: HOST, MONGO_PROTO
 const MONGO_URI = `${PROTOCOL}://${USER}:${PASSWORD}@${HOST}:${PORT}/${DATABASE}${ARGS}`;
 
 // DANGER:  Ensure logger for current ENV is not storing credentials; level INFO or higher.
-pinoLogger.debug(MONGO_URI);
+pinoLogger.server.debug(MONGO_URI);
 
 let secureContext;
 try {
@@ -48,7 +48,7 @@ class ServerEventsLogger {
 
     Object.keys(this.eventNames).forEach((event) => {
       this.MongoClient.on(event, () => {
-        pinoLogger.info(`${event}: MongoDB: @${HOST}:${PORT}/${DATABASE}`);
+        pinoLogger.server.info(`${event}: MongoDB: @${HOST}:${PORT}/${DATABASE}`);
       });
     });
   }
@@ -70,7 +70,7 @@ const connectMongoDB = async () => {
     const errMsg = `Cannot connect to Mongo: ${DATABASE} @ ${HOST}`;
     process.exitCode = 1;
 
-    pinoLogger.fatal(error, errMsg);
+    pinoLogger.server.fatal(error, errMsg);
     rollbar.critical(errMsg, error as Error, () => {
       // eslint-disable-next-line n/no-process-exit, unicorn/no-process-exit
       process.exit();

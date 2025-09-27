@@ -10,7 +10,7 @@ process.on('uncaughtException', (err: Error) => {
   process.exitCode = 1;
   const exitMsg = `UncaughtException; Exit Code: ${process.exitCode}`;
 
-  pinoLogger.fatal(err, exitMsg);
+  pinoLogger.server.fatal(err, exitMsg);
   rollbar.critical(exitMsg, err, () => {
     // eslint-disable-next-line n/no-process-exit
     process.exit();
@@ -35,7 +35,7 @@ import '#App/app';
 import { apolloServer } from '#Graphql/apolloServer.js';
 
 httpServer.listen(PORT, () => {
-  pinoLogger.info(`Server running successfuly in ${NODE_ENV} mode on Port ${PORT}`);
+  pinoLogger.server.info(`Server running successfuly in ${NODE_ENV} mode on Port ${PORT}`);
 });
 
 // Unhandled Rejection Errors
@@ -48,7 +48,7 @@ process.on('unhandledRejection', async (err: Error) => {
   await postgresClient.end();
   await redisClient.destroy();
 
-  pinoLogger.fatal(err, exitMsg);
+  pinoLogger.server.fatal(err, exitMsg);
   rollbar.critical(exitMsg, err, () => {
     httpServer.close(() => {
       // eslint-disable-next-line n/no-process-exit
@@ -66,7 +66,7 @@ process.on('SIGTERM', async () => {
   await postgresClient.end();
   await redisClient.destroy();
 
-  pinoLogger.info(exitMsg);
+  pinoLogger.server.info(exitMsg);
   httpServer.close(() => {
     console.log('Server terminated');
   });
@@ -81,7 +81,7 @@ process.on('SIGINT', async () => {
   await postgresClient.end();
   await redisClient.destroy();
 
-  pinoLogger.info(exitMsg);
+  pinoLogger.server.info(exitMsg);
   httpServer.close(() => {
     console.log('Server terminated');
   });

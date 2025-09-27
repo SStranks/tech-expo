@@ -15,12 +15,12 @@ const globalErrorHandler: ErrorRequestHandler = (err, _req, res: Response<ApiRes
     if (err instanceof CustomError) {
       const { errors, message, stack, status, statusCode } = err;
 
-      pinoLogger.error(err, `GlobalErrorHandler: ${message}`);
+      pinoLogger.app.error(err, `GlobalErrorHandler: ${message}`);
       res.status(statusCode).json({ errors, message, stack, status });
       return;
     }
 
-    pinoLogger.error(err, `Non-Operational Error: ${err.message}`);
+    pinoLogger.app.error(err, `Non-Operational Error: ${err.message}`);
     res.status(500).json({
       errors: err,
       message: `Non-Operational Error: ${err.message}`,
@@ -47,8 +47,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, _req, res: Response<ApiRes
     const { errors, logging, message, stack, status, statusCode, zodError } = err;
 
     if (logging) {
-      const logError = JSON.stringify({ errors, stack, statusCode });
-      pinoLogger.error(logError, 'Operational Error');
+      pinoLogger.app.error({ errors, stack, statusCode }, 'Operational Error');
     }
 
     // Return user friendly Zod error
@@ -63,8 +62,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, _req, res: Response<ApiRes
     const { errors, logging, message, stack, status, statusCode } = err;
 
     if (logging) {
-      const logError = JSON.stringify({ errors, stack, statusCode });
-      pinoLogger.error(logError, 'Operational Error');
+      pinoLogger.app.error({ errors, stack, statusCode }, 'Operational Error');
     }
 
     res.status(statusCode).json({ errors, message, status });
@@ -73,7 +71,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, _req, res: Response<ApiRes
 
   // Unhnandled Errors
   const errMsg = 'Non-Operational Error';
-  pinoLogger.error(err, errMsg);
+  pinoLogger.app.error(err, errMsg);
   rollbar.error(errMsg, err);
 
   res.status(500).json({

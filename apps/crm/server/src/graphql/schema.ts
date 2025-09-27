@@ -9,8 +9,7 @@ import {
   UUIDDefinition,
 } from 'graphql-scalars';
 
-import pinoLogger from '#Lib/pinoLogger.js';
-import rollbar from '#Lib/rollbar.js';
+import { pinoLogger, rollbar } from '#Lib/index.js';
 
 import resolvers from './resolvers.js';
 import schemaTypeDefs from './typedefs.js';
@@ -35,7 +34,7 @@ try {
   const errMsg = `Invalid GraphQL Schema Definition`;
   process.exitCode = 1;
 
-  pinoLogger.fatal(error, errMsg);
+  pinoLogger.server.fatal(error, errMsg);
   rollbar.critical(errMsg, error as Error, () => {
     // eslint-disable-next-line n/no-process-exit, unicorn/no-process-exit
     process.exit();

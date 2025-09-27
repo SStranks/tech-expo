@@ -4,7 +4,7 @@ import type { TCompanyDTO } from '#Models/company/Company.js';
 
 import { z } from 'zod';
 
-import pinoLogger from '#Lib/pinoLogger.js';
+import { pinoLogger } from '#Lib/index.js';
 
 import { dbInconsistencyError, invalidInputError } from '../errors.js';
 
@@ -27,7 +27,7 @@ const companyResolver: Resolvers = {
       if (!result) {
         const errorMessage = `[GraphQL] DB integrity issue: Company ${company.id} has invalid country ID ${company.country}`;
         const error = dbInconsistencyError(errorMessage);
-        pinoLogger.error(error, errorMessage);
+        pinoLogger.server.error(error, errorMessage);
         throw error;
       }
 

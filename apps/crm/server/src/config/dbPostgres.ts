@@ -15,7 +15,7 @@ const { DRIZZLE, NODE_ENV, POSTGRES_DOCKER_PORT: PORT, POSTGRES_HOST: HOST } = p
 const POSTGRES_URL = `postgres://${USER}:${PASSWORD}@${HOST}:${PORT}/${DATABASE}`;
 
 // DANGER:  Ensure logger for current ENV is not storing credentials; level INFO or higher.
-pinoLogger.debug(POSTGRES_URL);
+pinoLogger.server.debug(POSTGRES_URL);
 
 let secureContext;
 try {
@@ -51,13 +51,13 @@ const connectPostgresDB = async () => {
     const errMsg = `Cannot connect to Postgres: ${HOST}:${PORT}/${DATABASE}`;
     process.exitCode = 1;
 
-    pinoLogger.fatal(error, errMsg);
+    pinoLogger.server.fatal(error, errMsg);
     rollbar.critical(errMsg, error as Error, () => {
       // eslint-disable-next-line n/no-process-exit, unicorn/no-process-exit
       process.exit();
     });
   }
-  pinoLogger.info(`Connected to Postgres: ${HOST}:${PORT}/${DATABASE}`);
+  pinoLogger.server.info(`Connected to Postgres: ${HOST}:${PORT}/${DATABASE}`);
 };
 
 type TPostgresHTTPError = { httpCode: number; message: string };

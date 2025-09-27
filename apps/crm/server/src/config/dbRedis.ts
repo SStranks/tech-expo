@@ -35,7 +35,7 @@ const redisClient = createClient({
 });
 
 // DANGER:  Ensure logger for current ENV is not storing credentials; level INFO or higher.
-pinoLogger.debug(REDIS_URL);
+pinoLogger.server.debug(REDIS_URL);
 
 type RedisEvents = 'connect' | 'ready' | 'end' | 'error' | 'reconnecting';
 type TRedisServerEvents = {
@@ -52,7 +52,7 @@ class ServerEventsLogger {
 
     Object.keys(this.eventNames).forEach((event) => {
       this.RedisClient.on(event, () => {
-        pinoLogger.info(`${event}: RedisDB: @${REDIS_HOST}:${REDIS_DOCKER_PORT}`);
+        pinoLogger.server.info(`${event}: RedisDB: @${REDIS_HOST}:${REDIS_DOCKER_PORT}`);
       });
     });
   }
@@ -75,13 +75,13 @@ const connectRedisDB = async () => {
     const errMsg = `Cannot connect to Redis: ${REDIS_HOST}:${REDIS_DOCKER_PORT}`;
     process.exitCode = 1;
 
-    pinoLogger.fatal(error, errMsg);
+    pinoLogger.server.fatal(error, errMsg);
     rollbar.critical(errMsg, error as Error, () => {
       // eslint-disable-next-line n/no-process-exit, unicorn/no-process-exit
       process.exit();
     });
   }
-  pinoLogger.info(`Connected to Redis: ${REDIS_HOST}:${REDIS_DOCKER_PORT}`);
+  pinoLogger.server.info(`Connected to Redis: ${REDIS_HOST}:${REDIS_DOCKER_PORT}`);
 };
 
 export { connectRedisDB, redisClient };

@@ -1,7 +1,7 @@
 import { ApolloServerErrorCode } from '@apollo/server/errors';
 import { GraphQLError, type GraphQLFormattedError } from 'graphql';
 
-import pinoLogger from '#Lib/pinoLogger.js';
+import { pinoLogger } from '#Lib/index.js';
 import { AppError, PostgresError } from '#Utils/errors/index.js';
 
 const formatError = (formattedError: GraphQLFormattedError, error: unknown): GraphQLFormattedError => {
@@ -13,7 +13,7 @@ const formatError = (formattedError: GraphQLFormattedError, error: unknown): Gra
   }
 
   if (formattedError.extensions?.code === ApolloServerErrorCode.INTERNAL_SERVER_ERROR) {
-    pinoLogger.error(error, 'GraphQL: Caught in formatError; INTERNAL_SERVER_ERROR');
+    pinoLogger.server.error(error, 'GraphQL: Caught in formatError; INTERNAL_SERVER_ERROR');
     return new GraphQLError('Internal Server Error', {
       extensions: {
         code: 'INTERNAL_SERVER_ERROR',
@@ -24,7 +24,7 @@ const formatError = (formattedError: GraphQLFormattedError, error: unknown): Gra
 
   if (error instanceof PostgresError) {
     if (error.statusCode >= 500) {
-      pinoLogger.error(error, 'GraphQL: Caught in formatError; PostgresError');
+      pinoLogger.server.error(error, 'GraphQL: Caught in formatError; PostgresError');
       return new GraphQLError('Internal Server Error', {
         extensions: {
           code: 'INTERNAL_SERVER_ERROR',
@@ -41,7 +41,7 @@ const formatError = (formattedError: GraphQLFormattedError, error: unknown): Gra
   }
 
   if (error instanceof AppError) {
-    pinoLogger.error(error, 'GraphQL: Caught in formatError; AppError');
+    pinoLogger.server.error(error, 'GraphQL: Caught in formatError; AppError');
     return new GraphQLError('Internal Server Error', {
       extensions: {
         code: 'INTERNAL_SERVER_ERROR',

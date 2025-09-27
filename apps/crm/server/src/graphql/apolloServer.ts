@@ -4,8 +4,7 @@ import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 
 import httpServer from '#App/httpServer.js';
-import pinoLogger from '#Lib/pinoLogger.js';
-import rollbar from '#Lib/rollbar.js';
+import { pinoLogger, rollbar } from '#Lib/index.js';
 
 import formatError from './errors.js';
 import schema from './schema.js';
@@ -23,12 +22,12 @@ try {
   const errMsg = `Cannot establish GraphQL ApolloServer`;
   process.exitCode = 1;
 
-  pinoLogger.fatal(error, errMsg);
+  pinoLogger.server.fatal(error, errMsg);
   rollbar.critical(errMsg, error as Error, () => {
     // eslint-disable-next-line n/no-process-exit, unicorn/no-process-exit
     process.exit();
   });
 }
-pinoLogger.info('Connected to GraphQL ApolloServer');
+pinoLogger.server.info('Connected to GraphQL ApolloServer');
 
 export { apolloServer };
