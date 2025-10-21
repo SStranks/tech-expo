@@ -254,7 +254,7 @@ It includes core CRM capabilities like customer management, secure authenticatio
 
 ### Database Schema
 
-<details>
+<details open>
 <summary>PostgreSQL</summary>
 
 ###### Interactive Diagram
