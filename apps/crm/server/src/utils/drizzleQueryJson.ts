@@ -4,8 +4,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import url from 'node:url';
 
-const CUR = path.dirname(url.fileURLToPath(import.meta.url));
-const pathToTempFolder = path.resolve(CUR, '../temp');
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const pathToTempFolder = path.resolve(__dirname, '../temp');
 
 // Exports the results of a drizzle query to JSON; map to host in temp folder
 export async function drizzleQueryJSON(result: Record<string, unknown> | any[], fileName: string) {

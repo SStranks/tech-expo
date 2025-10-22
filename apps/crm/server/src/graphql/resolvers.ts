@@ -4,8 +4,8 @@ import { mergeResolvers } from '@graphql-tools/merge';
 import path from 'node:path';
 import url from 'node:url';
 
-const CUR_PATH = path.dirname(url.fileURLToPath(import.meta.url));
-const resolversPath = path.resolve(CUR_PATH, './resolvers');
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const resolversPath = path.resolve(__dirname, './resolvers');
 
 const resolversArray = loadFilesSync(resolversPath);
 

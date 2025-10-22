@@ -6,16 +6,16 @@ import { replaceTscAliasPaths } from 'tsc-alias';
 import path from 'node:path';
 import url from 'node:url';
 
-const CWD = path.dirname(url.fileURLToPath(import.meta.url));
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 await esbuild.build({
   bundle: false,
   entryPoints: ['./src/**/*.ts'],
-  outdir: path.resolve(CWD, './dist'),
+  outdir: path.resolve(__dirname, './dist'),
   platform: 'node',
   target: 'node18',
   format: 'esm',
-  tsconfig: path.resolve(CWD, './tsconfig.json'),
+  tsconfig: path.resolve(__dirname, './tsconfig.json'),
   plugins: [
     copy({
       assets: [
@@ -30,8 +30,8 @@ await esbuild.build({
 
 // BUG: check tsconfig; disabled base-url replacer; naming collision if package name equals alias target e.g. 'graphql'
 await replaceTscAliasPaths({
-  configFile: path.resolve(CWD, './tsconfig.json'),
+  configFile: path.resolve(__dirname, './tsconfig.json'),
   watch: false,
-  outDir: path.resolve(CWD, './dist'),
-  declarationDir: path.resolve(CWD, './dist'),
+  outDir: path.resolve(__dirname, './dist'),
+  declarationDir: path.resolve(__dirname, './dist'),
 });

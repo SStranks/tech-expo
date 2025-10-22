@@ -13,18 +13,19 @@ import { merge } from 'webpack-merge';
 import { StatsWriterPlugin } from 'webpack-stats-plugin';
 
 import path from 'node:path';
+import url from 'node:url';
 import zlib from 'node:zlib';
 
 import filterWebpackStats from './filter/filterWebpackStats.js';
 import CommonConfig from './webpack.common.js';
 
-const CUR = './';
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 /** @type { import('webpack').Configuration } */
 const ProdConfig = {
   mode: 'production',
   output: {
-    path: path.resolve(CUR, 'dist'),
+    path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.[contenthash].js',
     chunkFilename: '[name].[chunkhash].js',
     assetModuleFilename: 'assets/[ext]/[name].[hash][ext]',
@@ -35,6 +36,7 @@ const ProdConfig = {
     rules: [
       {
         test: /\.(ts|tsx|js|jsx)$/,
+        include: path.resolve(__dirname, '../src'),
         exclude: [/node_modules/],
         use: [
           {
@@ -53,6 +55,8 @@ const ProdConfig = {
       },
       {
         test: /\.css$/,
+        include: path.resolve(__dirname, '../src'),
+        exclude: [/node_modules/],
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -78,6 +82,8 @@ const ProdConfig = {
       },
       {
         test: /\.module\.scss$/,
+        include: path.resolve(__dirname, '../src'),
+        exclude: [/node_modules/],
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -116,7 +122,8 @@ const ProdConfig = {
       },
       {
         test: /\.scss$/,
-        exclude: /\.module.scss$/,
+        include: path.resolve(__dirname, '../src'),
+        exclude: [/node_modules/, /\.module.scss$/],
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
@@ -132,13 +139,33 @@ const ProdConfig = {
     ],
   },
   optimization: {
+    moduleIds: 'deterministic',
     runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {
-        vendor: {
+        react: {
           test: /[/\\]node_modules[/\\](react|react-dom)[/\\]/,
           name: 'react',
           chunks: 'all',
+          priority: 40,
+        },
+        graphql: {
+          test: /[\\/]node_modules[\\/](graphql|@apollo|apollo-client)[\\/]/,
+          name: 'graphql',
+          chunks: 'all',
+          priority: 30,
+        },
+        redux: {
+          test: /[\\/]node_modules[\\/](redux|@reduxjs|react-redux)[\\/]/,
+          name: 'redux',
+          chunks: 'all',
+          priority: 20,
+        },
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+          priority: 10,
         },
       },
     },
@@ -187,8 +214,8 @@ const ProdConfig = {
       filename: '[name].[contenthash].css',
     }),
     new HTMLWebpackPlugin({
-      template: path.resolve(CUR, './src/index-template.html.ejs'),
-      favicon: path.resolve(CUR, './src/favicon.ico'),
+      template: path.resolve(__dirname, './src/index-template.html.ejs'),
+      favicon: path.resolve(__dirname, './src/favicon.ico'),
       templateParameters: {
         // eslint-disable-next-line no-undef
         PUBLIC_URL: process.env.PUBLIC_URL,
@@ -222,21 +249,21 @@ const ProdConfig = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve(CUR, 'public'),
-          to: path.resolve(CUR, 'dist/public'),
+          from: path.resolve(__dirname, 'public'),
+          to: path.resolve(__dirname, 'dist/public'),
           globOptions: { ignore: ['**/img/**'] },
           noErrorOnMissing: true,
         },
         {
-          from: path.resolve(CUR, 'public/img'),
-          to: path.resolve(CUR, 'dist/img/[path][name].[contenthash][ext]'),
+          from: path.resolve(__dirname, 'public/img'),
+          to: path.resolve(__dirname, 'dist/img/[path][name].[contenthash][ext]'),
           noErrorOnMissing: true,
         },
-        { from: path.resolve(CUR, 'public/robots.txt'), noErrorOnMissing: true },
-        { from: path.resolve(CUR, 'public/sitemap.xml'), noErrorOnMissing: true },
+        { from: path.resolve(__dirname, 'public/robots.txt'), noErrorOnMissing: true },
+        { from: path.resolve(__dirname, 'public/sitemap.xml'), noErrorOnMissing: true },
       ],
     }),
-    new Dotenv({ path: path.resolve(CUR, './.env.prod.client') }),
+    new Dotenv({ path: path.resolve(__dirname, './.env.prod.client') }),
     new WebpackManifestPlugin({}),
     new StatsWriterPlugin({
       filename: '../webpack/stats/build-stats.json',

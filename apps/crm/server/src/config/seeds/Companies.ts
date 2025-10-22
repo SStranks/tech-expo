@@ -7,8 +7,8 @@ import importCSVFile from '#Utils/importCsvFile.js';
 import path from 'node:path';
 import url from 'node:url';
 
-const CUR_PATH = path.dirname(url.fileURLToPath(import.meta.url));
-const COMPANIES_CSV = path.resolve(CUR_PATH, '../../data/TechCompanies_1.2.csv');
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const COMPANIES_CSV = path.resolve(__dirname, '../../data/TechCompanies_1.2.csv');
 
 export default async function seedCompanies(db: TPostgresDB) {
   // ----------- COMPANIES TABLE ----------- //

@@ -4,7 +4,7 @@ import 'identity-obj-proxy';
 import path from 'node:path';
 import url from 'node:url';
 
-const CUR = path.dirname(url.fileURLToPath(import.meta.url));
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 export default {
   roots: ['<rootDir>/src'],
@@ -18,13 +18,13 @@ export default {
   // when using React Testing Library and adds special
   // extended assertions to Jest
   setupFilesAfterEnv: [
-    path.resolve(CUR, './node_modules/@testing-library/jest-dom'),
-    path.resolve(CUR, './jest.setup.ts'),
+    path.resolve(__dirname, './node_modules/@testing-library/jest-dom'),
+    path.resolve(__dirname, './jest.setup.ts'),
   ],
   snapshotResolver: '<rootDir>/__snapshots__/snapshotResolver.ts',
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': path.resolve(
-      CUR,
+      __dirname,
       './jest.fileMock.ts'
     ),
     '\\.(css|sass|scss)$': 'identity-obj-proxy',

@@ -5,8 +5,8 @@ import { print } from 'graphql';
 import path from 'node:path';
 import url from 'node:url';
 
-const CUR_PATH = path.dirname(url.fileURLToPath(import.meta.url));
-const typesPaths = path.resolve(CUR_PATH, './typedefs');
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const typesPaths = path.resolve(__dirname, './typedefs');
 
 const typesArray = loadFilesSync(typesPaths, { extensions: ['graphql'] });
 

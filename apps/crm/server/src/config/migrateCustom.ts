@@ -7,9 +7,9 @@ import url from 'node:url';
 
 import { postgresDB } from './dbPostgres.js';
 
-const CUR_DIR = path.dirname(url.fileURLToPath(import.meta.url));
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 function filePath(relativePath: string): string {
-  return path.join(CUR_DIR, relativePath);
+  return path.join(__dirname, relativePath);
 }
 
 export async function SQL_Triggers() {

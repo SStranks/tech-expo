@@ -9,9 +9,9 @@ import importCSVFile from '#Utils/importCsvFile.js';
 import path from 'node:path';
 import url from 'node:url';
 
-const CUR_PATH = path.dirname(url.fileURLToPath(import.meta.url));
-const COUNTRIES_CSV = path.resolve(CUR_PATH, '../../data/Countries.csv');
-const TIMEZONE_CSV = path.resolve(CUR_PATH, '../../data/Countries with UTC Offset.csv');
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const COUNTRIES_CSV = path.resolve(__dirname, '../../data/Countries.csv');
+const TIMEZONE_CSV = path.resolve(__dirname, '../../data/Countries with UTC Offset.csv');
 
 export default async function seedCountries(db: TPostgresDB) {
   // ----------- COUNTRIES TABLE ----------- //

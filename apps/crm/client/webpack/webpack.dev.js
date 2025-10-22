@@ -8,18 +8,17 @@ import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import { merge } from 'webpack-merge';
 
 import path from 'node:path';
+import url from 'node:url';
 
 import CommonConfig from './webpack.common.js';
-// import url from 'node:url';
 
-const CUR = './';
-// const CUR = path.dirname(url.fileURLToPath(import.meta.url));
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 /** @type { import('webpack').Configuration } */
 const DevConfig = {
   mode: 'development',
   output: {
-    path: path.resolve(CUR, 'dist'),
+    path: path.resolve(__dirname, 'dist'),
     pathinfo: false,
     filename: 'main.js',
     publicPath: '/',
@@ -30,7 +29,7 @@ const DevConfig = {
     port: 3000,
     static: [
       {
-        directory: path.resolve(CUR, 'public'),
+        directory: path.resolve(__dirname, 'public'),
         staticOptions: {
           extensions: ['jpeg', 'png'],
         },
@@ -57,7 +56,7 @@ const DevConfig = {
     rules: [
       {
         test: /\.(ts|tsx|js|jsx)$/,
-        include: path.resolve(CUR, 'src'),
+        include: path.resolve(__dirname, 'src'),
         exclude: [/node_modules/],
         use: [
           {
@@ -137,15 +136,15 @@ const DevConfig = {
   },
   plugins: [
     new HTMLWebpackPlugin({
-      template: path.resolve(CUR, './src/index-template.html.ejs'),
-      favicon: path.resolve(CUR, './src/favicon.ico'),
+      template: path.resolve(__dirname, './src/index-template.html.ejs'),
+      favicon: path.resolve(__dirname, './src/favicon.ico'),
       templateParameters: {
         // eslint-disable-next-line no-undef
         PUBLIC_URL: process.env.PUBLIC_URL,
       },
     }),
-    new CopyPlugin({ patterns: [{ from: path.resolve(CUR, './public'), noErrorOnMissing: true }] }),
-    new Dotenv({ path: path.resolve(CUR, './.env.dev.client') }),
+    new CopyPlugin({ patterns: [{ from: path.resolve(__dirname, './public'), noErrorOnMissing: true }] }),
+    new Dotenv({ path: path.resolve(__dirname, './.env.dev.client') }),
   ],
 };
 
