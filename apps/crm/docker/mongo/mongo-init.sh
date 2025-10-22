@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# mongo-init.sh - bound to docker-entrypoint-initdb.d; runs only once on fresh container and fresh volume
-# Script to generate a new user on a new mongodb instance
+# -----------------------------------------------------------------------------
+# Script: mongo-init.sh
+# Description: initializes the mongo docker service; bound to
+#              docker-entrypoint-initdb.d; runs once on new container+volume.
+#              Creates: service and metrics users, dummy init database
+# Usage: entrypoint: ['/usr/local/bin/mongo-init.sh']
+# -----------------------------------------------------------------------------
 
 # Mongo docker image only supports secrets for MONGO_INITDB_ROOT_USERNAME and MONGO_INITDB_ROOT_PASSWORD
 DB="$(cat /run/secrets/mongo_database)"

@@ -1,6 +1,12 @@
 #!/usr/bin/env sh
 set -eu
 
+# -----------------------------------------------------------------------------
+# Script: grafana-init.sh
+# Description: initializes the grafana docker service
+# Usage: entrypoint: ['/usr/local/bin/grafana-init.sh']
+# -----------------------------------------------------------------------------
+
 GF_SECURITY_DATASOURCE_PROMETHEUS_USER="$(cat /run/secrets/prometheus_username)"
 GF_SECURITY_DATASOURCE_PROMETHEUS_PASSWORD="$(cat /run/secrets/prometheus_password)"
 GF_SECURITY_RBAC_USERS_USER1="$(cat /run/secrets/grafana_user1_username)"

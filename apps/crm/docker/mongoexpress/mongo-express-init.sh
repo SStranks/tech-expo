@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Secure way of interpolation of secrets; v.1.0.3 will have URL_FILE available instead
+# -----------------------------------------------------------------------------
+# Script: mongo-express-init.sh
+# Description: initializes the mongo-express docker service
+# Usage: entrypoint: ['/usr/local/bin/mongo-express-init.sh']
+# -----------------------------------------------------------------------------
+
+# NOTE: Secure way of interpolation of secrets; v.1.0.3 will have URL_FILE available instead
 
 DB="$(cat /run/secrets/mongo_database)"
 USER_ROOT="$(cat /run/secrets/mongo_user_root)"

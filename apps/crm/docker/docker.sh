@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# -----------------------------------------------------------------------------
+# Script: docker.sh
+# Description: user activated initialization script; primary function is to set
+#              required docker secrets into memory for consumption by docker-compose
+#              files; interfaces with SOPS for decryption. Secondary - omittable -
+#              function is to creates docker volumes and initialize a docker-compose
+#              file.
+# Example: ./docker.sh
+# -----------------------------------------------------------------------------
+
 # TODO: Need to make prod version of script; target .env.prod file
 # NODE_ENV="${1:-dev}"
 

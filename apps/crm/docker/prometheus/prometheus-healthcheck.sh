@@ -1,6 +1,12 @@
 #!/usr/bin/env sh
 set -eu
 
+# -----------------------------------------------------------------------------
+# Script: prometheus-healthcheck.sh
+# Description: polls the healthcheck endpoint of a prometheus docker service
+# Usage: test: ['CMD', '/bin/sh', '/usr/local/bin/scripts/prometheus-healthcheck.sh']
+# -----------------------------------------------------------------------------
+
 PORT="${NGINX_METRICS_DOCKER_PORT_HTTP}"
 HOST="${NGINX_METRICS_CONTAINER}"
 USER="$(cat /run/secrets/prometheus_username)"

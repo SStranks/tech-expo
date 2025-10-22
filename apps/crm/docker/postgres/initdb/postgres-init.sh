@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# -----------------------------------------------------------------------------
+# Script: postgres-init.sh
+# Description: initializes the postgres docker service; creates users, schemas,
+#              permissions, system configuration - one-time operation
+# Usage: entrypoint: ['/usr/local/bin/postgres-init.sh']
+# -----------------------------------------------------------------------------
+
 DB="$(cat /run/secrets/postgres_database)"
 USER_SUPER="$(cat /run/secrets/postgres_user_super)"
 USER_SERVICE="$(cat /run/secrets/postgres_user_service)"

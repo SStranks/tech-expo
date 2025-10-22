@@ -1,6 +1,12 @@
 #!/usr/bin/env sh
 set -eu
 
+# -----------------------------------------------------------------------------
+# Script: redisinsight-init.sh
+# Description: initializes the redisinsight docker service
+# Usage: entrypoint: ['/usr/local/bin/redisinsight-init.sh']
+# -----------------------------------------------------------------------------
+
 RI_REDIS_HOST="${REDIS_CONTAINER}"
 RI_REDIS_PORT="${REDIS_DOCKER_PORT}"
 RI_REDIS_PASSWORD="$(cat /run/secrets/redis_password)"

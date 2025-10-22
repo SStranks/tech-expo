@@ -1,6 +1,12 @@
 #!/usr/bin/env sh
 set -eu
 
+# -----------------------------------------------------------------------------
+# Script: postgres-seeder-init.sh
+# Description: initializes the postgres-seeder docker service
+# Usage: entrypoint: ['/usr/local/bin/postgres-seeder-init.sh']
+# -----------------------------------------------------------------------------
+
 POSTGRES_USER="$(cat /run/secrets/postgres_user_migrator)"
 POSTGRES_PASSWORD="$(cat /run/secrets/postgres_password_migrator)"
 POSTGRES_DATABASE="$(cat /run/secrets/postgres_database)"

@@ -1,6 +1,16 @@
 #!/usr/bin/env sh
 set -eu
 
+# -----------------------------------------------------------------------------
+# Script: certs-init.sh
+# Description: for development; non-swarm docker-rootless unable to set the
+#              permission/ownership of certification key files correctly via
+#              mounting; script sets them in respect to the particular service.
+#              On completion generates healthcheck '.ready' file and sleeps
+# Usage: add to 'certs' docker service entrypoint
+# Example: entrypoint: ['/usr/local/bin/certs-init.sh']
+# -----------------------------------------------------------------------------
+
 DEST_DIR="/certs"
 mkdir -p /tmp/certs "$DEST_DIR"
 

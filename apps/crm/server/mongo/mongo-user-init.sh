@@ -2,6 +2,12 @@
 
 # Script to generate a new user on a new mongodb instance
 
+# -----------------------------------------------------------------------------
+# Script: mongo-user-init.sh
+# Description: initializes a single user with 'readWrite' permissions on a
+#              mongo instance.
+# -----------------------------------------------------------------------------
+
 echo "*** Preparing MongoDB User Configuration ***"
 sleep 3
 echo "*** Initializing MongoDB User Configuration ***"

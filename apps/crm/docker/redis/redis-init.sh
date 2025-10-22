@@ -1,6 +1,12 @@
 #!/usr/bin/env sh
 set -eu
 
+# -----------------------------------------------------------------------------
+# Script: redis-init.sh
+# Description: initializes the redis docker service
+# Usage: entrypoint: ['/usr/local/bin/redis-init.sh']
+# -----------------------------------------------------------------------------
+
 PASSWORD="$(cat /run/secrets/redis_password)"
 
 : "${PASSWORD:?redis_password is empty}"

@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# -----------------------------------------------------------------------------
+# Script: mongo-healthcheck.sh
+# Description: polls the healthcheck endpoint of a mongo docker service
+# Usage: test: ['CMD', '/bin/bash', '/usr/local/bin/mongo-healthcheck.sh']
+# -----------------------------------------------------------------------------
+
 HOST="${MONGO_CONTAINER}:${MONGO_DOCKER_PORT}"
 DB="$(cat /run/secrets/mongo_database)"
 USER_ROOT="$(cat /run/secrets/mongo_user_root)"
