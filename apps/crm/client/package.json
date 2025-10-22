@@ -34,7 +34,7 @@
     "jest:coverage": "jest --coverage --config ../../../jest.config.js --selectProjects CRM-Client",
     "jest:watch": "jest --watch --config ../../../jest.config.js --selectProjects CRM-Client",
     "cypress:open": "cypress open",
-    "cypress:ui": "start-server-and-test start http://localhost:3000 cypress:run",
+    "cypress:ui": "start-server-and-test start http://localhost:3000 cypress:e2e",
     "cypress:e2e": "cypress run",
     "cypress:component": "cypress run --component",
     "storybook": "storybook dev -p 6006 --disable-telemetry",
