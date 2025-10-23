@@ -9,11 +9,11 @@
   "types": "index.d.ts",
   "main": "config.js",
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^5.2.2",
-    "@typescript-eslint/eslint-plugin": "^8.37.0",
-    "@typescript-eslint/parser": "^8.37.0",
-    "eslint-import-resolver-typescript": "^4.4.3",
+    "@stylistic/eslint-plugin": "^5.5.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "^8.46.2",
+    "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import-x": "^4.16.1",
-    "globals": "^16.3.0"
+    "globals": "^16.4.0"
   }
 }
