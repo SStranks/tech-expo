@@ -3,38 +3,37 @@ import { loadEnv } from 'vite';
 import { defineConfig } from 'vitest/config';
 
 import path from 'node:path';
+import url from 'node:url';
 
-const CUR = './';
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 export default defineConfig({
   css: {
     preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-      },
+      scss: {},
     },
   },
   resolve: {
     alias: {
-      '@Components': path.resolve(CUR, 'src/components'),
-      '@Context': path.resolve(CUR, 'src/context'),
-      '@Data': path.resolve(CUR, 'src/data'),
-      '@Features': path.resolve(CUR, 'src/features'),
-      '@Hooks': path.resolve(CUR, 'src/hooks'),
-      '@Img': path.resolve(CUR, 'src/assets/img'),
-      '@Layouts': path.resolve(CUR, 'src/layouts'),
-      '@Lib': path.resolve(CUR, 'src/lib'),
-      '@Modules': path.resolve(CUR, 'src/modules'),
-      '@Pages': path.resolve(CUR, 'src/pages'),
-      '@Redux': path.resolve(CUR, 'src/redux'),
-      '@Routes': path.resolve(CUR, 'src/routes'),
-      '@Sass': path.resolve(CUR, 'src/assets/sass'),
-      '@Services': path.resolve(CUR, 'src/services'),
-      '@Shared': path.resolve(CUR, '../shared'),
-      '@Stories': path.resolve(CUR, 'src/stories'),
-      '@Svg': path.resolve(CUR, 'src/assets/svg'),
-      '@Types': path.resolve(CUR, 'src/types'),
-      '@Utils': path.resolve(CUR, 'src/utils'),
+      '@Components': path.resolve(__dirname, 'src/components'),
+      '@Context': path.resolve(__dirname, 'src/context'),
+      '@Data': path.resolve(__dirname, 'src/data'),
+      '@Features': path.resolve(__dirname, 'src/features'),
+      '@Hooks': path.resolve(__dirname, 'src/hooks'),
+      '@Img': path.resolve(__dirname, 'src/assets/img'),
+      '@Layouts': path.resolve(__dirname, 'src/layouts'),
+      '@Lib': path.resolve(__dirname, 'src/lib'),
+      '@Modules': path.resolve(__dirname, 'src/modules'),
+      '@Pages': path.resolve(__dirname, 'src/pages'),
+      '@Redux': path.resolve(__dirname, 'src/redux'),
+      '@Routes': path.resolve(__dirname, 'src/routes'),
+      '@Sass': path.resolve(__dirname, 'src/assets/sass'),
+      '@Services': path.resolve(__dirname, 'src/services'),
+      '@Shared': path.resolve(__dirname, '../shared'),
+      '@Stories': path.resolve(__dirname, 'src/stories'),
+      '@Svg': path.resolve(__dirname, 'src/assets/svg'),
+      '@Types': path.resolve(__dirname, 'src/types'),
+      '@Utils': path.resolve(__dirname, 'src/utils'),
     },
   },
   test: {
@@ -43,6 +42,9 @@ export default defineConfig({
     globals: true,
     include: ['src/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
     setupFiles: ['./vitest.setup.ts'],
+    coverage: {
+      include: ['src/**.{js,jsx,ts,tsx}'],
+    },
     exclude: [
       '**/node_modules/**',
       '**/dist/**',
