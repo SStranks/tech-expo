@@ -17,6 +17,6 @@ docker run --rm \
   -e MEGALINTER_FILES_TO_LINT="$STAGED_FILES_CSV" \
   -e MEGALINTER_CONFIG=.mega-linter.lint.yaml \
   -e REPORT_OUTPUT_FOLDER="/tmp/lint/logs/commit/megalinter/${TIMESTAMP}" \
-  oxsecurity/megalinter:v8
+  oxsecurity/megalinter:v9
 
 echo "[HUSKY: PRE-COMMIT] Linting successful"

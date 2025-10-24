@@ -34,4 +34,4 @@ docker run --rm \
   -e REPORT_OUTPUT_FOLDER="/tmp/lint/logs/megalinter/${TARGET_DIR}_${TIMESTAMP}" \
   -e FILTER_REGEX_INCLUDE="$TARGET_DIR" \
   -v "$ROOT_DIR_PATH":/tmp/lint \
-  oxsecurity/megalinter:v8
+  oxsecurity/megalinter:v9
