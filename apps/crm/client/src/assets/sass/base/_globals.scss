@@ -140,8 +140,9 @@ a:active {
 }
 
 .invisibleAccessible {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
+  /* stylelint-disable-next-line property-no-deprecated */
+  clip: rect(0 0 0 0); // Legacy browser support
+  clip-path: inset(50%); // Modern browser support
   height: 1px;
   overflow: hidden;
   position: absolute;

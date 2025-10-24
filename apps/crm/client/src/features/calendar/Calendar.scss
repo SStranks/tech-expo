@@ -832,7 +832,7 @@
 
 .sx__month-grid-day__events {
   display: grid;
-  grid-gap: 4px;
+  gap: 4px;
 }
 
 .sx__month-grid-cell {
@@ -881,7 +881,7 @@
 .sx__month-agenda-day__event-icons {
   margin-top: 4px;
   display: flex;
-  grid-gap: 3px;
+  gap: 3px;
 }
 
 .sx__month-agenda-day__event-icon {
@@ -1129,7 +1129,7 @@
 .sx__date-grid-day {
   width: 100%;
   display: grid;
-  grid-gap: 2px;
+  gap: 2px;
 }
 
 .sx__date-grid-event {
