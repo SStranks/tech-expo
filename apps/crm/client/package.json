@@ -47,6 +47,7 @@
     "@apollo/client": "^4.0.7",
     "@internationalized/date": "^3.10.0",
     "@reduxjs/toolkit": "^2.9.2",
+    "@rollbar/react": "^1.0.0",
     "@schedule-x/calendar": "^3.3.0",
     "@schedule-x/react": "^3.3.0",
     "@schedule-x/theme-default": "^3.3.0",
@@ -69,6 +70,7 @@
     "react-router-dom": "^7.9.4",
     "react-transition-group": "^4.4.5",
     "rehype-sanitize": "^6.0.0",
+    "rollbar": "^2.26.5",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {

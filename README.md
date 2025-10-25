@@ -391,7 +391,7 @@ curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=<10.13.1> sh -
 - Version: 8
 - Warning: Large image (11Gb)
 - Used for pre-commit linting and security scans
-- Installation: `docker pull oxsecurity/megalinter:v8`
+- Installation: `docker pull oxsecurity/megalinter:v9`
 
 ###### Debugging
 
