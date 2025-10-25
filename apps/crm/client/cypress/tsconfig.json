@@ -11,6 +11,7 @@
       "@Sass/*": ["src/assets/sass/*"],
       "@Svg/*": ["src/assets/svg/*"],
       "@Components/*": ["src/components/*"],
+      "@Config/*": ["src/config/*"],
       "@Context/*": ["src/context/*"],
       "@Data/*": ["src/data/*"],
       "@Features/*": ["src/features/*"],

@@ -3,12 +3,13 @@
 import ESLintPlugin from 'eslint-webpack-plugin';
 
 import path from 'node:path';
+import url from 'node:url';
 
-const CUR = './';
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 /** @type { import('webpack').Configuration } */
 const CommonConfig = {
-  entry: path.resolve(CUR, './src/index.tsx'),
+  entry: path.resolve(__dirname, '../src/index.tsx'),
   target: 'web',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.json'],
@@ -17,28 +18,29 @@ const CommonConfig = {
      * For use in CSS url() imports e.g url(~svg/desktop/a.svg)
      * Prefix with ~ to initiate module resolver
      */
-    modules: ['node_modules', path.resolve(CUR, './src/assets')],
+    modules: ['node_modules', path.resolve(__dirname, './src/assets')],
     alias: {
-      '@Shared': path.resolve(CUR, '../shared'),
-      '@Img': path.resolve(CUR, 'src/assets/img'),
-      '@Sass': path.resolve(CUR, 'src/assets/sass'),
-      '@Svg': path.resolve(CUR, 'src/assets/svg'),
-      '@Components': path.resolve(CUR, 'src/components'),
-      '@Context': path.resolve(CUR, 'src/context'),
-      '@Data': path.resolve(CUR, 'src/data'),
-      '@Features': path.resolve(CUR, 'src/features'),
-      '@Graphql': path.resolve(CUR, 'src/graphql'),
-      '@Hooks': path.resolve(CUR, 'src/hooks'),
-      '@Layouts': path.resolve(CUR, 'src/layouts'),
-      '@Lib': path.resolve(CUR, 'src/lib'),
-      '@Modules': path.resolve(CUR, 'src/modules'),
-      '@Pages': path.resolve(CUR, 'src/pages'),
-      '@Redux': path.resolve(CUR, 'src/redux'),
-      '@Routes': path.resolve(CUR, 'src/routes'),
-      '@Services': path.resolve(CUR, 'src/services'),
-      '@Stories': path.resolve(CUR, 'src/stories'),
-      '@Types': path.resolve(CUR, 'src/types'),
-      '@Utils': path.resolve(CUR, 'src/utils'),
+      '@Shared': path.resolve(__dirname, '../../shared'),
+      '@Img': path.resolve(__dirname, '../src/assets/img'),
+      '@Sass': path.resolve(__dirname, '../src/assets/sass'),
+      '@Svg': path.resolve(__dirname, '../src/assets/svg'),
+      '@Components': path.resolve(__dirname, '../src/components'),
+      '@Config': path.resolve(__dirname, '../src/config'),
+      '@Context': path.resolve(__dirname, '../src/context'),
+      '@Data': path.resolve(__dirname, '../src/data'),
+      '@Features': path.resolve(__dirname, '../src/features'),
+      '@Graphql': path.resolve(__dirname, '../src/graphql'),
+      '@Hooks': path.resolve(__dirname, '../src/hooks'),
+      '@Layouts': path.resolve(__dirname, '../src/layouts'),
+      '@Lib': path.resolve(__dirname, '../src/lib'),
+      '@Modules': path.resolve(__dirname, '../src/modules'),
+      '@Pages': path.resolve(__dirname, '../src/pages'),
+      '@Redux': path.resolve(__dirname, '../src/redux'),
+      '@Routes': path.resolve(__dirname, '../src/routes'),
+      '@Services': path.resolve(__dirname, '../src/services'),
+      '@Stories': path.resolve(__dirname, '../src/stories'),
+      '@Types': path.resolve(__dirname, '../src/types'),
+      '@Utils': path.resolve(__dirname, '../src/utils'),
     },
   },
   module: {

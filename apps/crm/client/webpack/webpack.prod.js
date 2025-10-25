@@ -25,7 +25,7 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const ProdConfig = {
   mode: 'production',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../dist'),
     filename: '[name].bundle.[contenthash].js',
     chunkFilename: '[name].[chunkhash].js',
     assetModuleFilename: 'assets/[ext]/[name].[hash][ext]',
@@ -214,8 +214,8 @@ const ProdConfig = {
       filename: '[name].[contenthash].css',
     }),
     new HTMLWebpackPlugin({
-      template: path.resolve(__dirname, './src/index-template.html.ejs'),
-      favicon: path.resolve(__dirname, './src/favicon.ico'),
+      template: path.resolve(__dirname, '../src/index-template.html.ejs'),
+      favicon: path.resolve(__dirname, '../src/favicon.ico'),
       templateParameters: {
         // eslint-disable-next-line no-undef
         PUBLIC_URL: process.env.PUBLIC_URL,
@@ -249,24 +249,24 @@ const ProdConfig = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, 'public'),
-          to: path.resolve(__dirname, 'dist/public'),
+          from: path.resolve(__dirname, '../public'),
+          to: path.resolve(__dirname, '../dist/public'),
           globOptions: { ignore: ['**/img/**'] },
           noErrorOnMissing: true,
         },
         {
-          from: path.resolve(__dirname, 'public/img'),
-          to: path.resolve(__dirname, 'dist/img/[path][name].[contenthash][ext]'),
+          from: path.resolve(__dirname, '../public/img'),
+          to: path.resolve(__dirname, '../dist/img/[path][name].[contenthash][ext]'),
           noErrorOnMissing: true,
         },
-        { from: path.resolve(__dirname, 'public/robots.txt'), noErrorOnMissing: true },
-        { from: path.resolve(__dirname, 'public/sitemap.xml'), noErrorOnMissing: true },
+        { from: path.resolve(__dirname, '../public/robots.txt'), noErrorOnMissing: true },
+        { from: path.resolve(__dirname, '../public/sitemap.xml'), noErrorOnMissing: true },
       ],
     }),
-    new Dotenv({ path: path.resolve(__dirname, './.env.prod.client') }),
+    new Dotenv({ path: path.resolve(__dirname, '../.env.prod.client') }),
     new WebpackManifestPlugin({}),
     new StatsWriterPlugin({
-      filename: '../webpack/stats/build-stats.json',
+      filename: path.resolve(__dirname, './stats/build-stats.json'),
       stats: {
         assets: true,
         chunks: true,
