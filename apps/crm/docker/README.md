@@ -11,6 +11,8 @@
   - [.secret.mongoExporter.txt](#secretmongoexportertxt)
   - [.secret.redisExporter.json](#secretredisexporterjson)
 - [Debugging](#debugging)
+- [Tooling](#tooling)
+  - [DBeaver](#dbeaver)
 
 ## Overview
 
@@ -283,7 +285,7 @@ mongo_database: xxxx
 # Mongo-Express
 mongoexpress_password: xxxx
 mongoexpress_user: xxxx
-mongoexpress_url: mongodb://<mongo_user_root>:<mongo_password_root>@<MONGO_CONTAINER>:<MONGO_DOCKER_PORT>/<mongo_database>?authSource=admin&tls=true
+mongoexpress_url: mongodb://${mongo_user_root}:${$mongo_password_root}@${MONGO_CONTAINER}:${MONGO_DOCKER_PORT}/${mongo_database}?authSource=admin&tls=true
 mongoexpress_cookiesecret: xxxx
 mongoexpress_sessionsecret: xxxx
 # Postgres
@@ -297,8 +299,8 @@ postgres_password_migrator: xxxx
 postgres_password_service: xxxx
 postgres_password_metrics: xxxx
 postgres_pepper: xxxx
-postgres_url: postgres://<postgres_user_super>:<postgres_password_super>@127.0.0.1:<POSTGRES_DOCKER_PORT>/<postgres_database>
-postgres_exporter_uri: <POSTGRES_CONTAINER>:<POSTGRES_DOCKER_PORT>/<postgres_database>?sslmode=verify-ca&sslrootcert=/etc/prometheus/certs/prometheus-ca.crt&sslcert=/etc/prometheus/certs/prometheus-postgresexporter.crt&sslkey=/etc/prometheus/certs/prometheus-postgresexporter.key
+postgres_url: postgres://${postgres_user_super}:${postgres_password_super}@127.0.0.1:${POSTGRES_DOCKER_PORT}/${postgres_database}
+postgres_exporter_uri: ${POSTGRES_CONTAINER}:${POSTGRES_DOCKER_PORT}/${postgres_database}?sslmode=verify-ca&sslrootcert=/etc/prometheus/certs/prometheus-ca.crt&sslcert=/etc/prometheus/certs/prometheus-postgresexporter.crt&sslkey=/etc/prometheus/certs/prometheus-postgresexporter.key
 # Redis
 redis_username: xxxx
 redis_password: xxxx
@@ -329,7 +331,7 @@ demo_acc_generic_non_user_password: xxxx
 - `!` Store encrypted - [`./docker.sh`](./docker.sh) requires secrets to be encrypted
 
 ```ini
-MONGODB_URI=mongodb://<mongo_user_metrics>:<mongo_password_metrics>@<MONGO_CONTAINER>:<MONGO_DOCKER_PORT>/admin?tls=true&tlsCertificateKeyFile=/etc/prometheus/certs/prometheus-mongoexporter.pem&tlsCAFile=/etc/prometheus/certs/prometheus-ca.crt
+MONGODB_URI=mongodb://${mongo_user_metrics}:${mongo_password_metrics}@${MONGO_CONTAINER}:${MONGO_DOCKER_PORT}/admin?tls=true&tlsCertificateKeyFile=/etc/prometheus/certs/prometheus-mongoexporter.pem&tlsCAFile=/etc/prometheus/certs/prometheus-ca.crt
 ```
 
 ###### .secret.redisExporter.json
@@ -384,3 +386,27 @@ MONGODB_URI=mongodb://<mongo_user_metrics>:<mongo_password_metrics>@<MONGO_CONTA
   ]
 }
 ```
+
+## Tooling
+
+### DBeaver
+
+The following configuration is applicable for `DBeaver v25`. Free community-level software is available from [`DBeaver.io`](https://dbeaver.io/).
+
+Three separate connections to the postgresql docker service were configured, for: the superuser, migrator and service user accounts. The following example demonstrates the service user connection - only authentication details differ between the connections.
+
+- Right-click in the Database Navigator panel; Create > Connection
+- Main tab, set:
+  - 'database' to the name/value specified in `secret.yaml` under `postgres_database`
+  - 'port' to 5432 (default) unless manually specified
+  - 'username' and 'password' to the values specified in `secret.yaml` under `postgres_user_service` and `postgres_password_service` respectively
+- SSL tab, set:
+  - Paths to the required `.crt` and `.key` files, as produced by the certification procedure; refer to [`certs README`](./certs/README.md) and [`certs/dev/postgres README`](./certs/dev/postgres/README.md#client-certification) for details.
+
+###### Create Connection; Main
+
+![DBeaver Connection: Main](https://sstranks.github.io/tech-expo/assets/dbeaver_connection_1.jpg)
+
+###### Create Connection; SSL
+
+![DBeaver Connection: Main](https://sstranks.github.io/tech-expo/assets/dbeaver_connection_2.jpg)
