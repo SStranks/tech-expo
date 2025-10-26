@@ -35,6 +35,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+          cache-dependency-path: ${{ github.workspace }}/tech-expo
 
       # Install main project dependencies
       - name: Install 'tech-expo' dependencies
