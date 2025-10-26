@@ -7,7 +7,7 @@ on: # yamllint disable-line rule:truthy
   schedule:
     # minute (0-59) - hour (0-23) - date (1-31) - month (1-12 or JAN-DEC) - day (0-6 or SUN-SAT)
     - cron: '0 17 * * SUN'
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 jobs:
   dependencies:
@@ -21,14 +21,14 @@ jobs:
     steps:
       # Checkout project code to runner workspace sub-directory
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: ${{ github.workspace }}/tech-expo
 
       - name: Use Node.js v20
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
 
       - uses: pnpm/action-setup@v4
         with:
@@ -55,7 +55,7 @@ jobs:
 
       # Reference github action in another public repo
       - name: Checkout code - github action - pnpm-outdated
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: SStranks/pnpm-outdated
           path: ${{ github.workspace }}/pnpm-outdated
