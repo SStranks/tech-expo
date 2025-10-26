@@ -25,16 +25,16 @@ jobs:
         with:
           path: ${{ github.workspace }}/tech-expo
 
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: tech-expo/package.json
+          run_install: false
+
       - name: Use Node.js v22
         uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: pnpm
-
-      - uses: pnpm/action-setup@v4
-        with:
-          package_json_file: tech-expo/package.json
-          run_install: false
 
       # Install main project dependencies
       - name: Install 'tech-expo' dependencies
