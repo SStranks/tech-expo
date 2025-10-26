@@ -35,7 +35,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: ${{ github.workspace }}/tech-expo
+          cache-dependency-path: ${{ github.workspace }}/tech-expo/pnpm-lock.yaml
 
       # Install main project dependencies
       - name: Install 'tech-expo' dependencies
