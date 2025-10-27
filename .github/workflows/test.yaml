@@ -25,27 +25,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Use Node.js v22
-        uses: actions/setup-node@v5
-        with:
-          node-version: 22
-
-      - uses: pnpm/action-setup@v4
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
         with:
           run_install: false
 
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
-
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
+      - name: Setup Node v22
+        uses: actions/setup-node@v5
         with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          node-version: 22
+          cache: pnpm
 
       - name: Cache Cypress binary
         uses: actions/cache@v4
@@ -58,8 +47,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Jest
-        run: pnpm --filter "@apps/*" jest:test
+      - name: CRM Client - Vitest
+        run: pnpm --filter "./apps/crm/client" vitest:test
 
-      - name: Cypress
-        run: pnpm --filter "@apps/*" cypress:test
+      - name: CRM Client - Cypress
+        run: pnpm --filter "./apps/crm/client" cypress:e2e
+
+      # // TODO:
+      # - name: CRM Server - Node
+      # run: pnpm --filter "./apps/crm/server" vitest:test

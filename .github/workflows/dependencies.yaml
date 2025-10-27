@@ -37,7 +37,6 @@ jobs:
           cache: pnpm
           cache-dependency-path: ${{ github.workspace }}/tech-expo/pnpm-lock.yaml
 
-      # Install main project dependencies
       - name: Install 'tech-expo' dependencies
         working-directory: ${{ github.workspace }}/tech-expo
         run: pnpm install
@@ -61,7 +60,6 @@ jobs:
       #   working-directory: ${{ github.workspace }}
       #   run: tree -d -I "node_modules" >> $GITHUB_STEP_SUMMARY
 
-      # Run github action.yaml; pnpm-outdated
       - name: Run action; pnpm-outdated
         uses: ./pnpm-outdated
         with:
