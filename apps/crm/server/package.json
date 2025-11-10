@@ -35,10 +35,6 @@
     "start:dist": "nodemon --exec 'dotenvx run -f ./.env.dev.server -- node .'",
     "prod": "NODE_ENV=production node .",
     "prod:dist": "dotenvx run -f ./.env.prod.server -- node .",
-    "test": "dotenvx run --env-file .env.dev.server -- NODE_ENV=test NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --config ../../../jest.config.js",
-    "test:all": "NODE_ENV=test NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --config ../../../jest.config.js --selectProjects CRM-Server",
-    "test:coverage": "jest --coverage --config ../../../jest.config.js --selectProjects CRM-Server",
-    "test:watch": "NODE_ENV=test NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --config ../../../jest.config.js --watch",
     "docker:build": "docker image build -f Dockerfile.prod -t $npm_package_config_dockerImageRepo:$npm_package_version .",
     "docker:postbuild": "docker image tag $npm_package_config_dockerImageRepo:$npm_package_version $npm_package_config_dockerImageRepo:latest",
     "docker:run": "docker run --name $npm_package_config_dockerImageName -d -p $npm_package_config_dockerImagePort:$npm_package_config_dockerInternalContainerPort $npm_package_config_dockerImageRepo",
@@ -48,7 +44,10 @@
     "drizzle:seed": "DRIZZLE=seed tsx --inspect=0.0.0.0:9230 ./src/config/seed.ts",
     "drizzle:drop": "pnpm drizzle-kit drop",
     "drizzle:push": "NODE_OPTIONS='--import tsx' drizzle-kit push",
-    "dotenv:lint": "docker run --rm -v \"$(pwd)\":/app -w /app dotenvlinter/dotenv-linter:3.3.0 dotenv-linter .env* -r"
+    "dotenv:lint": "docker run --rm -v \"$(pwd)\":/app -w /app dotenvlinter/dotenv-linter:3.3.0 dotenv-linter .env* -r",
+    "vitest:test": "vitest run --config ./vitest.config.ts",
+    "vitest:watch": "vitest watch --config ./vitest.config.ts",
+    "vitest:list": "vitest list --filesOnly --config ./vitest.config.ts"
   },
   "config": {
     "dockerImageRepo": "techexpo/server",
@@ -159,6 +158,8 @@
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",
-    "tsx": "^4.20.6"
+    "tsx": "^4.20.6",
+    "vite": "^7.1.12",
+    "vitest": "^4.0.8"
   }
 }

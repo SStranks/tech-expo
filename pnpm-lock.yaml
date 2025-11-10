@@ -678,6 +678,12 @@ importers:
       tsx:
         specifier: ^4.20.6
         version: 4.20.6
+      vite:
+        specifier: ^7.1.12
+        version: 7.1.12(@types/node@24.10.0)(jiti@2.6.1)(sass-embedded@1.93.3)(sass@1.93.3)(terser@5.36.0)(tsx@4.20.6)(yaml@2.8.1)
+      vitest:
+        specifier: ^4.0.8
+        version: 4.0.8(@types/debug@4.1.12)(@types/node@24.10.0)(jiti@2.6.1)(jsdom@26.1.0)(msw@2.11.6(@types/node@24.10.0)(typescript@5.9.3))(sass-embedded@1.93.3)(sass@1.93.3)(terser@5.36.0)(tsx@4.20.6)(yaml@2.8.1)
 
   apps/crm/shared: {}
 
@@ -16073,7 +16079,7 @@ snapshots:
       '@babel/parser': 7.28.5
       '@babel/template': 7.27.2
       '@babel/types': 7.28.5
-      debug: 4.4.1
+      debug: 4.4.3(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -16701,7 +16707,7 @@ snapshots:
   '@eslint/config-array@0.21.1':
     dependencies:
       '@eslint/object-schema': 2.1.7
-      debug: 4.4.1
+      debug: 4.4.3(supports-color@8.1.1)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -21404,7 +21410,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.37.0(typescript@5.9.3)
       '@typescript-eslint/types': 8.37.0
-      debug: 4.4.1
+      debug: 4.4.3(supports-color@8.1.1)
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
@@ -21458,7 +21464,7 @@ snapshots:
       '@typescript-eslint/tsconfig-utils': 8.37.0(typescript@5.9.3)
       '@typescript-eslint/types': 8.37.0
       '@typescript-eslint/visitor-keys': 8.37.0
-      debug: 4.4.1
+      debug: 4.4.3(supports-color@8.1.1)
       fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.5
@@ -21655,7 +21661,7 @@ snapshots:
     dependencies:
       '@vitest/spy': 3.2.4
       estree-walker: 3.0.3
-      magic-string: 0.30.19
+      magic-string: 0.30.21
     optionalDependencies:
       msw: 2.11.6(@types/node@24.10.0)(typescript@5.9.3)
       vite: 7.1.12(@types/node@24.10.0)(jiti@2.6.1)(sass-embedded@1.93.3)(sass@1.93.3)(terser@5.36.0)(tsx@4.20.6)(yaml@2.8.1)
@@ -21664,7 +21670,7 @@ snapshots:
     dependencies:
       '@vitest/spy': 3.2.4
       estree-walker: 3.0.3
-      magic-string: 0.30.19
+      magic-string: 0.30.21
     optionalDependencies:
       msw: 2.11.6(@types/node@24.9.1)(typescript@5.9.3)
       vite: 7.1.12(@types/node@24.9.1)(jiti@2.6.1)(sass-embedded@1.93.3)(sass@1.93.3)(terser@5.36.0)(tsx@4.20.6)(yaml@2.8.1)
@@ -21673,7 +21679,7 @@ snapshots:
     dependencies:
       '@vitest/spy': 4.0.2
       estree-walker: 3.0.3
-      magic-string: 0.30.19
+      magic-string: 0.30.21
     optionalDependencies:
       msw: 2.11.6(@types/node@24.10.0)(typescript@5.9.3)
       vite: 7.1.12(@types/node@24.10.0)(jiti@2.6.1)(sass-embedded@1.93.3)(sass@1.93.3)(terser@5.36.0)(tsx@4.20.6)(yaml@2.8.1)
@@ -21686,7 +21692,6 @@ snapshots:
     optionalDependencies:
       msw: 2.11.6(@types/node@24.10.0)(typescript@5.9.3)
       vite: 7.1.12(@types/node@24.10.0)(jiti@2.6.1)(sass-embedded@1.93.3)(sass@1.93.3)(terser@5.36.0)(tsx@4.20.6)(yaml@2.8.1)
-    optional: true
 
   '@vitest/mocker@4.0.8(msw@2.11.6(@types/node@24.9.1)(typescript@5.9.3))(vite@7.1.12(@types/node@24.9.1)(jiti@2.6.1)(sass-embedded@1.93.3)(sass@1.93.3)(terser@5.36.0)(tsx@4.20.6)(yaml@2.8.1))':
     dependencies:
@@ -21722,7 +21727,7 @@ snapshots:
   '@vitest/snapshot@4.0.2':
     dependencies:
       '@vitest/pretty-format': 4.0.2
-      magic-string: 0.30.19
+      magic-string: 0.30.21
       pathe: 2.0.3
 
   '@vitest/snapshot@4.0.8':
@@ -29443,7 +29448,7 @@ snapshots:
 
   router@2.2.0:
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.3(supports-color@8.1.1)
       depd: 2.0.0
       is-promise: 4.0.0
       parseurl: 1.3.3
@@ -29791,7 +29796,7 @@ snapshots:
 
   send@1.2.0:
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.3(supports-color@8.1.1)
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
@@ -31429,7 +31434,6 @@ snapshots:
       - terser
       - tsx
       - yaml
-    optional: true
 
   vitest@4.0.8(@types/debug@4.1.12)(@types/node@24.9.1)(jiti@2.6.1)(jsdom@26.1.0)(msw@2.11.6(@types/node@24.9.1)(typescript@5.9.3))(sass-embedded@1.93.3)(sass@1.93.3)(terser@5.36.0)(tsx@4.20.6)(yaml@2.8.1):
     dependencies:

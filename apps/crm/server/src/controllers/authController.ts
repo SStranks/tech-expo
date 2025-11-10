@@ -361,7 +361,7 @@ const identify = async (_req: Request, res: Response<ApiResponse>, _next: NextFu
 const protectedRoute = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
-
+  console.log('******************', JWT_COOKIE_AUTH_ID);
   let JWT;
   if (authorization && authorization.startsWith('Bearer')) {
     JWT = authorization.split(' ')[1];
@@ -394,6 +394,7 @@ const restrictedRoute = (...roles: TUserRoles[]) => {
     if (!roles.includes(role)) {
       return next(new BadRequestError({ code: 403, message: 'Forbidden' }));
     }
+
     // High-security routes; manadatory DB check for role
     if (roles.some((el) => el === 'ROOT' || el === 'ADMIN')) {
       const { role } = await UserService.queryUserById(client_id);

@@ -1,60 +1,63 @@
-import { describe, jest, test } from '@jest/globals';
 import request from 'supertest';
+import { describe, test, vi } from 'vitest';
 
-const MOCKED_QUERYREFRESHTOKEN = jest.fn(() => ({}));
-const MOCKED_QUERYUSERBYID = jest.fn(() => ({}));
-const MOCKED_VERIFYAUTHTOKEN = jest.fn(() => ({}));
-const MOCKED_VERIFYREFRESHTOKEN = jest.fn(() => ({}));
+import mockUser from '#Tests/mocks/mockUser.js';
 
-jest.unstable_mockModule('@apollo/server/express4', () => ({
-  __esModule: true,
-  expressMiddleware: () => jest.fn(),
-}));
-jest.unstable_mockModule('#Graphql/apolloServer.ts', () => ({
-  __esModule: true,
-  apolloServer: jest.fn(),
-}));
-jest.unstable_mockModule('#Lib/index', () => ({
-  __esModule: true,
-  NodeMailerService: {
-    sendAccountVerificationEmail: jest.fn(),
-    sendPasswordResetEmail: jest.fn(),
+const MOCK_QUERYREFRESHTOKEN = vi.fn(() => ({}));
+const MOCK_QUERYUSERBYID = vi.fn(() => mockUser());
+const MOCK_VERIFYAUTHTOKEN = vi.fn(() => ({}));
+const MOCK_VERIFYREFRESHTOKEN = vi.fn(() => ({}));
+
+vi.mock('@as-integrations/express5', () => ({
+  expressMiddleware: (a: any) => {
+    return a;
   },
 }));
-jest.unstable_mockModule('#Services/index', () => ({
-  __esModule: true,
-  UserService: {
-    activateRefreshToken: jest.fn(),
-    advanceRefreshToken: jest.fn(),
-    blacklistAllRefreshTokens: jest.fn(),
-    blacklistToken: jest.fn(),
-    clearCookies: jest.fn(),
-    createAuthCookie: jest.fn(),
-    createRefreshCookie: jest.fn(),
-    decodeAuthToken: jest.fn().mockReturnValue({}),
-    deleteAccount: jest.fn(),
-    deleteAllRefreshTokens: jest.fn().mockReturnValue({}),
-    forgotPassword: jest.fn().mockReturnValue(''),
-    freezeAccount: jest.fn(),
-    generateClientTokens: jest.fn().mockReturnValue({}),
-    insertRefreshToken: jest.fn(),
-    insertUser: jest.fn(),
-    isExistingAccount: jest.fn(),
-    isPasswordValid: jest.fn(),
-    isResetTokenValid: jest.fn().mockReturnValue({}),
-    isTokenBlacklisted: jest.fn(),
-    loginAccount: jest.fn(),
-    logoutAccount: jest.fn().mockReturnValue(Promise.resolve()),
-    queryRefreshToken: MOCKED_QUERYREFRESHTOKEN,
-    queryUserByEmail: jest.fn().mockReturnValue({}),
-    queryUserById: MOCKED_QUERYUSERBYID,
-    resetPassword: jest.fn(),
-    signAuthToken: jest.fn(),
-    updatePassword: jest.fn(),
-    updateRefreshToken: jest.fn(),
-    verifyAccount: jest.fn(),
-    verifyAuthToken: MOCKED_VERIFYAUTHTOKEN,
-    verifyRefreshToken: MOCKED_VERIFYREFRESHTOKEN,
+
+vi.mock('#Graphql/apolloServer.ts', () => ({
+  apolloServer: vi.fn(),
+}));
+
+vi.mock('#Lib/nodemailer/NodeMailer.ts', () => ({
+  default: {
+    sendAccountVerificationEmail: vi.fn(),
+    sendPasswordResetEmail: vi.fn(),
+  },
+}));
+
+vi.mock('#Services/User.ts', () => ({
+  default: {
+    activateRefreshToken: vi.fn(),
+    advanceRefreshToken: vi.fn(),
+    blacklistAllRefreshTokens: vi.fn(),
+    blacklistToken: vi.fn(),
+    clearCookies: vi.fn(),
+    createAuthCookie: vi.fn(),
+    createRefreshCookie: vi.fn(),
+    decodeAuthToken: vi.fn().mockReturnValue({}),
+    deleteAccount: vi.fn(),
+    deleteAllRefreshTokens: vi.fn().mockReturnValue({}),
+    forgotPassword: vi.fn().mockReturnValue(''),
+    freezeAccount: vi.fn(),
+    generateClientTokens: vi.fn().mockReturnValue({}),
+    insertRefreshToken: vi.fn(),
+    insertUser: vi.fn(),
+    isExistingAccount: vi.fn(),
+    isPasswordValid: vi.fn(),
+    isResetTokenValid: vi.fn().mockReturnValue({}),
+    isTokenBlacklisted: vi.fn(),
+    loginAccount: vi.fn().mockReturnValue({}),
+    logoutAccount: vi.fn().mockReturnValue(Promise.resolve()),
+    queryRefreshToken: MOCK_QUERYREFRESHTOKEN,
+    queryUserByEmail: vi.fn().mockReturnValue({}),
+    queryUserById: MOCK_QUERYUSERBYID,
+    resetPassword: vi.fn(),
+    signAuthToken: vi.fn(),
+    updatePassword: vi.fn(),
+    updateRefreshToken: vi.fn(),
+    verifyAccount: vi.fn(),
+    verifyAuthToken: MOCK_VERIFYAUTHTOKEN,
+    verifyRefreshToken: MOCK_VERIFYREFRESHTOKEN,
   },
 }));
 
@@ -67,12 +70,11 @@ const VALID_CONFIRM_PASSWORD = 'password';
 const INVALID_CONFIRM_PASSWORD = 'pass';
 const VERIFICATION_CODE = '123456';
 
-const REQUEST = request(app);
-
 describe('PUBLIC Routes', () => {
   describe(`'POST /api/users/signup'`, () => {
     test('No email provided; should return 400', async () => {
-      return REQUEST.post('/api/users/signup')
+      await request(app)
+        .post('/api/users/signup')
         .set('Content-Type', 'application/json')
         .send({})
         .expect(400)
@@ -80,8 +82,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('Invalid email provided; should return 401', () => {
-      return REQUEST.post('/api/users/signup')
+    test('Invalid email provided; should return 401', async () => {
+      await request(app)
+        .post('/api/users/signup')
         .set('Content-Type', 'application/json')
         .send({ email: INVALID_EMAIL })
         .expect(401)
@@ -89,8 +92,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Invalid email address');
     });
 
-    test('Valid email provided; should return 200', () => {
-      return REQUEST.post('/api/users/signup')
+    test('Valid email provided; should return 200', async () => {
+      await request(app)
+        .post('/api/users/signup')
         .set('Content-Type', 'application/json')
         .send({ email: VALID_EMAIL })
         .expect(200)
@@ -100,8 +104,9 @@ describe('PUBLIC Routes', () => {
   });
 
   describe('POST /api/users/confirmSignup', () => {
-    test('No email provided; should return 400', () => {
-      return REQUEST.post('/api/users/confirmSignup')
+    test('No email provided; should return 400', async () => {
+      await request(app)
+        .post('/api/users/confirmSignup')
         .set('Content-Type', 'application/json')
         .send({
           password: VALID_PASSWORD,
@@ -113,8 +118,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('No password provided; should return 400', () => {
-      return REQUEST.post('/api/users/confirmSignup')
+    test('No password provided; should return 400', async () => {
+      await request(app)
+        .post('/api/users/confirmSignup')
         .set('Content-Type', 'application/json')
         .send({ email: VALID_EMAIL, passwordConfirm: VALID_CONFIRM_PASSWORD, verificationCode: VERIFICATION_CODE })
         .expect(400)
@@ -122,8 +128,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('No passwordConfirm provided; should return 400', () => {
-      return REQUEST.post('/api/users/confirmSignup')
+    test('No passwordConfirm provided; should return 400', async () => {
+      await request(app)
+        .post('/api/users/confirmSignup')
         .set('Content-Type', 'application/json')
         .send({ email: VALID_EMAIL, password: VALID_PASSWORD, verificationCode: VERIFICATION_CODE })
         .expect(400)
@@ -131,8 +138,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('No verificationCode provided; should return 400', () => {
-      return REQUEST.post('/api/users/confirmSignup')
+    test('No verificationCode provided; should return 400', async () => {
+      await request(app)
+        .post('/api/users/confirmSignup')
         .set('Content-Type', 'application/json')
         .send({ email: VALID_EMAIL, password: VALID_PASSWORD, passwordConfirm: VALID_CONFIRM_PASSWORD })
         .expect(400)
@@ -140,8 +148,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('Password and passwordConfirm do not match; should return 401', () => {
-      return REQUEST.post('/api/users/confirmSignup')
+    test('Password and passwordConfirm do not match; should return 401', async () => {
+      await request(app)
+        .post('/api/users/confirmSignup')
         .set('Content-Type', 'application/json')
         .send({
           email: VALID_EMAIL,
@@ -154,8 +163,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Password and password confirm do not match');
     });
 
-    test('Invalid email; should return 401', () => {
-      return REQUEST.post('/api/users/confirmSignup')
+    test('Invalid email; should return 401', async () => {
+      await request(app)
+        .post('/api/users/confirmSignup')
         .set('Content-Type', 'application/json')
         .send({
           email: INVALID_EMAIL,
@@ -168,8 +178,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Invalid email address');
     });
 
-    test('Valid credentials provided; return 201', () => {
-      return REQUEST.post('/api/users/confirmSignup')
+    test('Valid credentials provided; return 201', async () => {
+      await request(app)
+        .post('/api/users/confirmSignup')
         .set('Content-Type', 'application/json')
         .send({
           email: VALID_EMAIL,
@@ -184,8 +195,9 @@ describe('PUBLIC Routes', () => {
   });
 
   describe(`'POST /api/users/login'`, () => {
-    test('No email provided; return 400', () => {
-      return REQUEST.post('/api/users/login')
+    test('No email provided; return 400', async () => {
+      await request(app)
+        .post('/api/users/login')
         .set('Content-Type', 'application/json')
         .send({ password: VALID_PASSWORD })
         .expect(400)
@@ -193,8 +205,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('No password provided; return 400', () => {
-      return REQUEST.post('/api/users/login')
+    test('No password provided; return 400', async () => {
+      await request(app)
+        .post('/api/users/login')
         .set('Content-Type', 'application/json')
         .send({ email: VALID_EMAIL })
         .expect(400)
@@ -202,8 +215,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('Invalid email; return 401', () => {
-      return REQUEST.post('/api/users/login')
+    test('Invalid email; return 401', async () => {
+      await request(app)
+        .post('/api/users/login')
         .set('Content-Type', 'application/json')
         .send({ email: INVALID_EMAIL, password: VALID_PASSWORD })
         .expect(401)
@@ -211,8 +225,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Invalid email address');
     });
 
-    test('Valid crendentials; return 200', () => {
-      return REQUEST.post('/api/users/login')
+    test('Valid crendentials; return 200', async () => {
+      await request(app)
+        .post('/api/users/login')
         .set('Content-Type', 'application/json')
         .send({ email: VALID_EMAIL, password: VALID_PASSWORD })
         .expect(200)
@@ -222,8 +237,9 @@ describe('PUBLIC Routes', () => {
   });
 
   describe(`'GET /api/users/logout'`, () => {
-    test('Logout; always return 200', () => {
-      return REQUEST.get('/api/users/logout')
+    test('Logout; always return 200', async () => {
+      await request(app)
+        .get('/api/users/logout')
         .set('Authorization', 'Bearer token')
         .expect(200)
         .expect((res) => res.body.message === 'Logged out');
@@ -231,8 +247,9 @@ describe('PUBLIC Routes', () => {
   });
 
   describe(`'POST /api/users/forgotPassword'`, () => {
-    test('No email provided; return 400', () => {
-      return REQUEST.post('/api/users/forgotPassword')
+    test('No email provided; return 400', async () => {
+      await request(app)
+        .post('/api/users/forgotPassword')
         .set('Content-Type', 'application/json')
         .send({})
         .expect(400)
@@ -240,8 +257,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('Invalid email provided; return 401', () => {
-      return REQUEST.post('/api/users/forgotPassword')
+    test('Invalid email provided; return 401', async () => {
+      await request(app)
+        .post('/api/users/forgotPassword')
         .set('Content-Type', 'application/json')
         .send({ email: INVALID_EMAIL })
         .expect(401)
@@ -249,8 +267,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Invalid email address');
     });
 
-    test('Valid credentials provided; return 200', () => {
-      return REQUEST.post('/api/users/forgotPassword')
+    test('Valid credentials provided; return 200', async () => {
+      await request(app)
+        .post('/api/users/forgotPassword')
         .set('Content-Type', 'application/json')
         .send({ email: VALID_EMAIL })
         .expect(200)
@@ -260,8 +279,9 @@ describe('PUBLIC Routes', () => {
   });
 
   describe(`'PATCH /api/users/resetPassword'`, () => {
-    test('No password provided; return 400', () => {
-      return REQUEST.patch('/api/users/resetPassword/token')
+    test('No password provided; return 400', async () => {
+      await request(app)
+        .patch('/api/users/resetPassword/token')
         .set('Content-Type', 'application/json')
         .send({ passwordConfirm: VALID_CONFIRM_PASSWORD })
         .expect(400)
@@ -269,8 +289,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('No passwordConfirm provided; return 400', () => {
-      return REQUEST.patch('/api/users/resetPassword/token')
+    test('No passwordConfirm provided; return 400', async () => {
+      await request(app)
+        .patch('/api/users/resetPassword/token')
         .set('Content-Type', 'application/json')
         .send({ password: VALID_PASSWORD })
         .expect(400)
@@ -278,8 +299,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('Password and passwordConfirm do not match; return 401', () => {
-      return REQUEST.patch('/api/users/resetPassword/token')
+    test('Password and passwordConfirm do not match; return 401', async () => {
+      await request(app)
+        .patch('/api/users/resetPassword/token')
         .set('Content-Type', 'application/json')
         .send({ password: VALID_PASSWORD, passwordConfirm: INVALID_CONFIRM_PASSWORD })
         .expect(401)
@@ -287,8 +309,9 @@ describe('PUBLIC Routes', () => {
         .expect((res) => res.body.message === 'Password and password confirm do not match');
     });
 
-    test('Valid credentials provided; return 200', () => {
-      return REQUEST.patch('/api/users/resetPassword/token')
+    test('Valid credentials provided; return 200', async () => {
+      await request(app)
+        .patch('/api/users/resetPassword/token')
         .set('Content-Type', 'application/json')
         .send({ password: VALID_PASSWORD, passwordConfirm: VALID_CONFIRM_PASSWORD })
         .expect(200)
@@ -299,54 +322,59 @@ describe('PUBLIC Routes', () => {
 
   describe(`'GET /api/users/generateAuthToken'`, () => {
     afterEach(() => {
-      MOCKED_QUERYREFRESHTOKEN.mockReturnValue({});
-      MOCKED_VERIFYREFRESHTOKEN.mockReturnValue({});
+      MOCK_QUERYREFRESHTOKEN.mockReturnValue({});
+      MOCK_VERIFYREFRESHTOKEN.mockReturnValue({});
     });
 
     test('No refreshToken found in DB; return 500', async () => {
-      MOCKED_QUERYREFRESHTOKEN.mockReturnValue(Promise.resolve(null));
+      MOCK_QUERYREFRESHTOKEN.mockReturnValue(Promise.resolve(null));
 
-      return REQUEST.get('/api/users/generateAuthToken')
+      await request(app)
+        .get('/api/users/generateAuthToken')
         .set('Authorization', 'Bearer token')
         .expect(500)
         .expect((res) => res.body.message === 'Internal Error. Please login again');
     });
 
-    test('Legitimate Request; return 201', () => {
-      MOCKED_VERIFYREFRESHTOKEN.mockReturnValue({ acc: 1 });
-      MOCKED_QUERYREFRESHTOKEN.mockReturnValue({ acc: 1, activated: true });
+    test('Legitimate Request; return 201', async () => {
+      MOCK_VERIFYREFRESHTOKEN.mockReturnValue({ acc: 1 });
+      MOCK_QUERYREFRESHTOKEN.mockReturnValue({ acc: 1, activated: true });
 
-      return REQUEST.get('/api/users/generateAuthToken')
+      await request(app)
+        .get('/api/users/generateAuthToken')
         .set('Authorization', 'Bearer token')
         .expect(201)
         .expect((res) => res.body.message === 'Auth token generated');
     });
 
-    test('Legitimate Request but tokens not received by client; return 401', () => {
-      MOCKED_VERIFYREFRESHTOKEN.mockReturnValue({ acc: 1 });
-      MOCKED_QUERYREFRESHTOKEN.mockReturnValue({ acc: 2, activated: false });
+    test('Legitimate Request but tokens not received by client; return 401', async () => {
+      MOCK_VERIFYREFRESHTOKEN.mockReturnValue({ acc: 1 });
+      MOCK_QUERYREFRESHTOKEN.mockReturnValue({ acc: 2, activated: false });
 
-      return REQUEST.get('/api/users/generateAuthToken')
+      await request(app)
+        .get('/api/users/generateAuthToken')
         .set('Authorization', 'Bearer token')
         .expect(401)
         .expect((res) => res.body.message === 'Resubmit refresh token');
     });
 
-    test('Client has not yet validated RefreshToken; return 401', () => {
-      MOCKED_VERIFYREFRESHTOKEN.mockReturnValue({ acc: 1 });
-      MOCKED_QUERYREFRESHTOKEN.mockReturnValue({ acc: 1, activated: false });
+    test('Client has not yet validated RefreshToken; return 401', async () => {
+      MOCK_VERIFYREFRESHTOKEN.mockReturnValue({ acc: 1 });
+      MOCK_QUERYREFRESHTOKEN.mockReturnValue({ acc: 1, activated: false });
 
-      return REQUEST.get('/api/users/generateAuthToken')
+      await request(app)
+        .get('/api/users/generateAuthToken')
         .set('Authorization', 'Bearer token')
         .expect(401)
         .expect((res) => res.body.message === 'Please verify Refresh Token');
     });
 
-    test('Fraudulent request; return 403', () => {
-      MOCKED_VERIFYREFRESHTOKEN.mockReturnValue({ acc: 1 });
-      MOCKED_QUERYREFRESHTOKEN.mockReturnValue({ acc: 3, activated: true });
+    test('Fraudulent request; return 403', async () => {
+      MOCK_VERIFYREFRESHTOKEN.mockReturnValue({ acc: 1 });
+      MOCK_QUERYREFRESHTOKEN.mockReturnValue({ acc: 3, activated: true });
 
-      return REQUEST.get('/api/users/generateAuthToken')
+      await request(app)
+        .get('/api/users/generateAuthToken')
         .set('Authorization', 'Bearer token')
         .expect(403)
         .expect((res) => res.body.message === 'Account frozen');
@@ -356,8 +384,9 @@ describe('PUBLIC Routes', () => {
 
 describe('PROTECTED Routes', () => {
   describe('PATCH api/users/updatePassword', () => {
-    test('No newPassword provided; return 400', () => {
-      return REQUEST.patch('/api/users/updatePassword')
+    test('No newPassword provided; return 400', async () => {
+      await request(app)
+        .patch('/api/users/updatePassword')
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer token')
         .send({ newPasswordConfirm: VALID_CONFIRM_PASSWORD, oldPassword: VALID_PASSWORD })
@@ -366,8 +395,9 @@ describe('PROTECTED Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('No newPasswordConfirm provided; return 400', () => {
-      return REQUEST.patch('/api/users/updatePassword')
+    test('No newPasswordConfirm provided; return 400', async () => {
+      await request(app)
+        .patch('/api/users/updatePassword')
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer token')
         .send({ oldPassword: VALID_PASSWORD, password: VALID_CONFIRM_PASSWORD })
@@ -376,8 +406,9 @@ describe('PROTECTED Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('No oldPassword provided; return 400', () => {
-      return REQUEST.patch('/api/users/updatePassword')
+    test('No oldPassword provided; return 400', async () => {
+      await request(app)
+        .patch('/api/users/updatePassword')
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer token')
         .send({ newPasswordConfirm: VALID_CONFIRM_PASSWORD, password: VALID_PASSWORD })
@@ -386,8 +417,9 @@ describe('PROTECTED Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('New password and newPasswordConfirm do not match; return 401', () => {
-      return REQUEST.patch('/api/users/updatePassword')
+    test('New password and newPasswordConfirm do not match; return 401', async () => {
+      await request(app)
+        .patch('/api/users/updatePassword')
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer token')
         .send({
@@ -400,8 +432,9 @@ describe('PROTECTED Routes', () => {
         .expect((res) => res.body.message === 'Password and password confirm do not match');
     });
 
-    test('Valid credentials provided; return 200', () => {
-      return REQUEST.patch('/api/users/updatePassword')
+    test('Valid credentials provided; return 200', async () => {
+      await request(app)
+        .patch('/api/users/updatePassword')
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer token')
         .send({ newPassword: VALID_PASSWORD, newPasswordConfirm: VALID_CONFIRM_PASSWORD, oldPassword: VALID_PASSWORD })
@@ -412,8 +445,9 @@ describe('PROTECTED Routes', () => {
   });
 
   describe('PATCH api/users/freezeAccount', () => {
-    test('Valid credentials provided; return 204', () => {
-      return REQUEST.patch('/api/users/freezeAccount')
+    test('Valid credentials provided; return 204', async () => {
+      await request(app)
+        .patch('/api/users/freezeAccount')
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer token')
         .send()
@@ -422,8 +456,9 @@ describe('PROTECTED Routes', () => {
   });
 
   describe('PATCH api/users/deleteAccount', () => {
-    test('No password provided; return 400', () => {
-      return REQUEST.patch('/api/users/deleteAccount')
+    test('No password provided; return 400', async () => {
+      await request(app)
+        .patch('/api/users/deleteAccount')
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer token')
         .send()
@@ -432,8 +467,9 @@ describe('PROTECTED Routes', () => {
         .expect((res) => res.body.message === 'Provide all required fields');
     });
 
-    test('Valid credentials provided; return 204', () => {
-      return REQUEST.patch('/api/users/deleteAccount')
+    test('Valid credentials provided; return 204', async () => {
+      await request(app)
+        .patch('/api/users/deleteAccount')
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer token')
         .send({ password: VALID_PASSWORD })
@@ -442,16 +478,18 @@ describe('PROTECTED Routes', () => {
   });
 
   describe('GET api/users/activateRefreshToken', () => {
-    test('Valid credentials provided; return 204', () => {
-      return REQUEST.get('/api/users/activateRefreshToken')
+    test('Valid credentials provided; return 204', async () => {
+      await request(app)
+        .get('/api/users/activateRefreshToken')
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer token')
         .send()
         .expect(204);
     });
 
-    test('Invalid credentials provided; return 401', () => {
-      return REQUEST.get('/api/users/activateRefreshToken')
+    test('Invalid credentials provided; return 401', async () => {
+      await request(app)
+        .get('/api/users/activateRefreshToken')
         .set('Content-Type', 'application/json')
         .expect(401)
         .expect((res) => res.body.message === 'Unauthorized');
@@ -462,15 +500,16 @@ describe('PROTECTED Routes', () => {
 describe('RESTRICTED Routes', () => {
   describe('GET api/users/restricted', () => {
     afterEach(() => {
-      MOCKED_QUERYUSERBYID.mockReturnValue({});
-      MOCKED_VERIFYAUTHTOKEN.mockReturnValue({});
+      MOCK_QUERYUSERBYID.mockReturnValue(mockUser());
+      MOCK_VERIFYAUTHTOKEN.mockReturnValue({});
     });
 
-    test('Valid credentials provided; return 204', () => {
-      MOCKED_QUERYUSERBYID.mockReturnValue({ role: 'ADMIN' });
-      MOCKED_VERIFYAUTHTOKEN.mockReturnValue({ role: 'ADMIN' });
+    test('Valid credentials provided; return 204', async () => {
+      MOCK_QUERYUSERBYID.mockReturnValue(mockUser({ role: 'ADMIN' }));
+      MOCK_VERIFYAUTHTOKEN.mockReturnValue({ role: 'ADMIN' });
 
-      return REQUEST.get('/api/users/restricted')
+      await request(app)
+        .get('/api/users/restricted')
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer token')
         .expect(200)
@@ -478,8 +517,9 @@ describe('RESTRICTED Routes', () => {
         .expect((res) => res.body.message === 'Restricted Route Accessed');
     });
 
-    test('Invalid credentials provided; return 403', () => {
-      return REQUEST.get('/api/users/restricted')
+    test('Invalid credentials provided; return 403', async () => {
+      await request(app)
+        .get('/api/users/restricted')
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer token')
         .expect(403);

@@ -1,22 +1,31 @@
+import type { JwtPayload } from 'jsonwebtoken';
 import type { UUID } from 'node:crypto';
 
 import type { IRefreshTokenPayload } from '#Services/User.ts';
 
-import { describe, jest, test } from '@jest/globals';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+import { describe, expect, test, vi } from 'vitest';
 
 import { secrets } from '#Config/secrets.js';
 
-const MOCK_JWT_JTI = jest.fn();
+const { JWT_AUTH_SECRET, JWT_REFRESH_SECRET } = secrets;
+const MOCK_JWT_JTI = vi.fn();
 
-jest.unstable_mockModule('node:crypto', () => ({
-  __esModule: true,
+vi.stubEnv('JWT_AUTH_EXPIRES', '1m');
+
+vi.mock('node:crypto', () => ({
   default: {
     randomUUID: MOCK_JWT_JTI,
   },
 }));
 
-const { JWT_AUTH_SECRET, JWT_REFRESH_SECRET } = secrets;
+vi.mock('#Config/secrets', () => ({
+  secrets: {
+    JWT_AUTH_SECRET: 'secret',
+    JWT_REFRESH_SECRET: 'secret',
+  },
+}));
+
 const { UserService } = await import('#Services/index.js');
 
 describe('Signing Tokens: Auth Token', () => {

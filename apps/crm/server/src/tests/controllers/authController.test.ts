@@ -1,44 +1,37 @@
-import { describe, jest, test } from '@jest/globals';
 import httpMocks from 'node-mocks-http';
+import { describe, expect, test, vi } from 'vitest';
 
-jest.unstable_mockModule('#Config/dbPostgres', () => ({
-  __esModule: true,
-  connectPostgresDB: jest.fn(),
-  postgresClient: jest.fn(),
-  postgresDB: jest.fn(),
-}));
-jest.unstable_mockModule('#Config/dbRedis', () => ({
-  __esModule: true,
-  connectRedisDB: jest.fn(),
-  redisClient: jest.fn(),
-}));
+import mockUser from '#Tests/mocks/mockUser.js';
 
-const { default: ServiceUser } = await import('#Services/User.js');
+const MOCK_BADREQUESTERROR = vi.fn(
+  class MOCK_BADREQUESTERROR {
+    code: number;
+    message: string;
+    constructor({ code, message }: { code: number; message: string }) {
+      this.code = code;
+      this.message = message;
+    }
+  }
+);
+const MOCK_QUERYUSERBYID = vi.fn(() => ({}));
+const MOCK_VERIFYAUTHTOKEN = vi.fn(() => ({}));
 
-const MOCK_BADREQUESTERROR = jest.fn((_: any) => _);
-const MOCK_QUERYUSERBYID = jest.fn();
+vi.stubEnv('JWT_COOKIE_AUTH_ID', 'auth_token');
 
-jest.unstable_mockModule('#Utils/errors', () => ({
-  __esModule: true,
+vi.mock('#Utils/errors', () => ({
   BadRequestError: MOCK_BADREQUESTERROR,
 }));
-jest.unstable_mockModule('#Services/User', () => ({
-  __esModule: true,
+
+vi.mock('#Services/User', () => ({
   default: {
-    ...ServiceUser,
-    isTokenBlacklisted: jest.fn(),
+    isTokenBlacklisted: vi.fn(),
     queryUserById: MOCK_QUERYUSERBYID,
+    verifyAuthToken: MOCK_VERIFYAUTHTOKEN,
   },
 }));
 
 const { default: authController } = await import('#Controllers/authController.js');
-
 const { JWT_COOKIE_AUTH_ID } = process.env;
-const IAT = Math.floor(Date.now() / 1000);
-const JWT = ServiceUser.signAuthToken('user', 'user', IAT);
-const RES = httpMocks.createResponse();
-ServiceUser.createAuthCookie(RES, JWT);
-const JWT_COOKIE = RES.cookies[`${JWT_COOKIE_AUTH_ID}`].value;
 
 describe('authController.protectedRoute', () => {
   test('No JWT credentials; return 401', async () => {
@@ -46,7 +39,7 @@ describe('authController.protectedRoute', () => {
       headers: { Authorization: '' },
     });
     const res = httpMocks.createResponse();
-    const next = jest.fn();
+    const next = vi.fn();
 
     await authController.protectedRoute(req, res, next);
 
@@ -56,10 +49,10 @@ describe('authController.protectedRoute', () => {
 
   test('Valid JWT Header; return next()', async () => {
     const req = httpMocks.createRequest({
-      headers: { authorization: `Bearer ${JWT}` },
+      headers: { authorization: `Bearer JWT-TOKEN` },
     });
     const res = httpMocks.createResponse();
-    const next = jest.fn();
+    const next = vi.fn();
 
     await authController.protectedRoute(req, res, next);
 
@@ -67,10 +60,10 @@ describe('authController.protectedRoute', () => {
     expect(next).toHaveBeenCalledWith();
   });
 
-  test('Valid JWT Cookie; return 401', async () => {
-    const req = httpMocks.createRequest({ cookies: { [`${JWT_COOKIE_AUTH_ID}`]: JWT_COOKIE } });
+  test('Valid JWT Cookie; return next()', async () => {
+    const req = httpMocks.createRequest({ cookies: { [`${JWT_COOKIE_AUTH_ID}`]: 'JWT_COOKIE' } });
     const res = httpMocks.createResponse();
-    const next = jest.fn();
+    const next = vi.fn();
 
     await authController.protectedRoute(req, res, next);
 
@@ -82,11 +75,11 @@ describe('authController.protectedRoute', () => {
 // NOTE:  authController.protectedRoute guarantees presence of JWT header/cookie; see flow in userRoutes.ts
 describe('authController.restrictedRoute', () => {
   test('Invalid JWT role credentials; return 403', async () => {
-    const req = httpMocks.createRequest({
-      headers: { Authorization: `Bearer ${JWT}` },
-    });
+    MOCK_VERIFYAUTHTOKEN.mockReturnValue({ role: 'USER' });
+
+    const req = httpMocks.createRequest();
     const res = httpMocks.createResponse();
-    const next = jest.fn();
+    const next = vi.fn();
 
     const route = authController.restrictedRoute('ADMIN');
     await route(req, res, next);
@@ -96,17 +89,15 @@ describe('authController.restrictedRoute', () => {
   });
 
   test('Valid JWT role credentials; return next()', async () => {
-    const ROLE = 'ADMIN';
-    const JWT = ServiceUser.signAuthToken('user', ROLE, IAT);
-    MOCK_QUERYUSERBYID.mockReturnValue(ROLE);
+    MOCK_QUERYUSERBYID.mockReturnValue(mockUser({ role: 'ADMIN' }));
+    MOCK_VERIFYAUTHTOKEN.mockReturnValue({ role: 'ADMIN' });
 
-    const req = httpMocks.createRequest({
-      headers: { authorization: `Bearer ${JWT}` },
-    });
+    const req = httpMocks.createRequest();
     const res = httpMocks.createResponse();
-    const next = jest.fn();
+    const next = vi.fn();
 
-    await authController.protectedRoute(req, res, next);
+    const route = authController.restrictedRoute('ADMIN');
+    await route(req, res, next);
 
     expect(next).toHaveBeenCalledTimes(1);
     expect(next).toHaveBeenCalledWith();
