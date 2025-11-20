@@ -1,6 +1,6 @@
 import Rollbar from 'rollbar';
 
-const { NODE_ENV, ROLLBAR_ENABLED, ROLLBAR_POST_CLIENT_ITEM } = process.env;
+const { NODE_ENV, ROLLBAR_ENABLED, ROLLBAR_POST_CLIENT_ITEM = 'token' } = process.env;
 
 const rollbarConfig: Rollbar.Configuration = {
   accessToken: ROLLBAR_POST_CLIENT_ITEM,
