@@ -1,10 +1,11 @@
 import type { ITableAuditLogDetails } from '@Data/MockData';
 
-import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { getCoreRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
 
 import { ColumnAuditLogDetails } from '@Components/tanstack-table/columns';
 import { TableModalView } from '@Components/tanstack-table/views';
+import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableAuditLog.module.scss';
 

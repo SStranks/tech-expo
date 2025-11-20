@@ -7,13 +7,13 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   SortingState,
-  useReactTable,
 } from '@tanstack/react-table';
 import { useState } from 'react';
 
 import { ColumnAuditLog } from '@Components/tanstack-table/columns';
 import { TableControlsFooter } from '@Components/tanstack-table/controls';
 import { TableDefaultView } from '@Components/tanstack-table/views';
+import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableAuditLog.module.scss';
 

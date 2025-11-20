@@ -1,15 +1,10 @@
 import type { ITableDataContacts } from '@Data/MockData';
 
-import {
-  ColumnFiltersState,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getPaginationRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
 
 import { TableListEmbeddedView } from '@Components/tanstack-table/views';
+import { useReactTable } from '@Lib/tanstack';
 
 import { ColumnCompaniesContacts } from '../../columns';
 
