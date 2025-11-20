@@ -34,8 +34,8 @@
     "cypress:ui": "start-server-and-test start http://localhost:3000 cypress:e2e",
     "cypress:e2e": "cypress run",
     "cypress:component": "cypress run --component",
-    "storybook": "storybook dev -p 6006 --disable-telemetry",
-    "build-storybook": "storybook build --disable-telemetry",
+    "storybook": "storybook dev -p 6006 --no-open",
+    "storybook:build": "storybook build --no-open",
     "sassdoc:build": "sassdoc ./src --dest ./.sassdoc",
     "sassdoc:serve": "http-server ./.sassdoc",
     "dotenv:lint": "docker run --rm -v \"$(pwd)\":/app -w /app dotenvlinter/dotenv-linter:3.3.0 dotenv-linter .env* -r"
@@ -94,6 +94,7 @@
     "@storybook/addon-links": "^10.0.7",
     "@storybook/addon-onboarding": "^10.0.7",
     "@storybook/addon-webpack5-compiler-babel": "^4.0.0",
+    "@storybook/icons": "^2.0.1",
     "@storybook/react-webpack5": "^10.0.7",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
