@@ -1,0 +1,29 @@
+@use '@Sass/abstracts/animations' as anim;
+
+/// For overriding the default transition value provided by Storybook addons
+.Storybook-ThemeToggle {
+  transition: anim.$theme-transition-background !important;
+}
+
+.container {
+  min-height: 100vh;
+}
+
+.widgets {
+  display: flex;
+  position: fixed;
+  bottom: 6px;
+  left: 12px;
+  gap: 10px;
+  z-index: 999;
+
+  &__widget {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    gap: 8px;
+    background: rgb(255 255 255 / 85%);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+  }
+}

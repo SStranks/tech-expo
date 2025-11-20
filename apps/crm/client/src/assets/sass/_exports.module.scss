@@ -1,12 +1,17 @@
 /* stylelint-disable property-no-unknown */
-@use 'variables' as var;
+@use './abstracts/variables' as var;
+@use './base/themes' as thm;
+@use './abstracts/functions' as fn;
 
 // Export SASS variables for consumption inside JS
 /*   Exports                        */
 :export {
-  // hot-toast styling
-  color-toast-magenta: var.$magenta;
-  color-toast-royalblue: var.$royal-blue;
-  color-toast-red: var.$toast-red;
-  color-toast-muteblue: var.$toast-mute-blue;
+  // storybook-preview
+  /*
+    NOTE: Based on "background-screen" from themes
+    Colour values manually interpolated to hex; used in <input type='color'>;
+    which currently is bugged (should accept CSS Colors but doesn't)
+  */
+  storybook_background_light: #fbfcfd;
+  storybook_background_dark: #0c0d0e;
 }
