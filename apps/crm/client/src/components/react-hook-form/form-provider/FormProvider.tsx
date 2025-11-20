@@ -1,5 +1,7 @@
+import type { DefaultValues, FieldValues, Mode, SubmitHandler } from 'react-hook-form';
+
 import { PropsWithChildren, useId } from 'react';
-import { DefaultValues, FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import {
   FormProviderCombo,
@@ -17,15 +19,17 @@ import {
 interface IProps<T extends FieldValues> {
   defaultValues?: DefaultValues<T>;
   onSubmit: SubmitHandler<T>;
+  mode?: Mode;
 }
 
 // Compound Component Parent
 function RHFFormProvider<T extends FieldValues>({
   children,
   defaultValues,
+  mode = 'onSubmit',
   onSubmit,
 }: PropsWithChildren<IProps<T>>): React.JSX.Element {
-  const methods = useForm<T>({ defaultValues, mode: 'onChange' });
+  const methods = useForm<T>({ defaultValues, mode });
   const genId = useId();
 
   return (

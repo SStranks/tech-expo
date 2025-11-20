@@ -1,5 +1,7 @@
+import type { TValidationRules } from '@Components/react-hook-form/validationRules';
+
 import { useId } from 'react';
-import { Controller, type RegisterOptions, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import { InputTimeField } from '@Components/aria-inputs';
 import { InputParser, InputUx } from '@Components/react-hook-form';
@@ -7,13 +9,13 @@ import { InputParser, InputUx } from '@Components/react-hook-form';
 interface IProps {
   name: string;
   label: string;
-  rules?: RegisterOptions;
+  rules?: TValidationRules;
 }
 
 function FormProviderTimeField({ label, name, rules = {} }: IProps): React.JSX.Element {
   const {
     control,
-    formState: { defaultValues, dirtyFields, isSubmitted },
+    formState: { defaultValues },
   } = useFormContext();
   const id = useId();
 
@@ -24,16 +26,8 @@ function FormProviderTimeField({ label, name, rules = {} }: IProps): React.JSX.E
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { name, onBlur, onChange, value }, fieldState: { error, invalid: isInvalid } }) => (
-        <InputUx
-          id={id}
-          label={label}
-          defaultValue={defaultValue}
-          error={error}
-          isSubmitted={isSubmitted}
-          invalid={isInvalid}
-          isDirty={dirtyFields[name] || defaultValue}
-          isRequired={rules?.required}>
+      render={({ field: { name, onBlur, onChange, value }, fieldState: { invalid: isInvalid } }) => (
+        <InputUx id={id} label={label} name={name} rules={rules} defaultValue={defaultValue}>
           <InputParser
             ReactAriaComponent={InputTimeField}
             value={value}

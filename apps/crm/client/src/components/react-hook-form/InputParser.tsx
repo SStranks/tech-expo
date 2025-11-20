@@ -28,7 +28,7 @@ const valueFunctions = {
 interface IProps<T> {
   ReactAriaComponent: ComponentType<T>;
   value: unknown;
-  onChange: (...event: unknown[]) => void;
+  onChange: (...event: any[]) => void;
 }
 
 /**

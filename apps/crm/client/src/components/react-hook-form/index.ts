@@ -6,5 +6,4 @@ export { default as Input } from './input/Input';
 export { default as InputParser } from './InputParser';
 export { default as InputUx } from './InputUx';
 export { default as TextArea } from './textarea/TextArea';
-export { EMAIL_RULES as RulesEmail } from './validationRules';
-export { PASSWORD_RULES as RulesPassword } from './validationRules';
+export { EMAIL_RULES, PASSWORD_RULES } from './validationRules';

@@ -1,5 +1,7 @@
+import type { TValidationRules } from '@Components/react-hook-form/validationRules';
+
 import { useId } from 'react';
-import { Controller, type RegisterOptions, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useFormState } from 'react-hook-form';
 
 import { InputNumber } from '@Components/aria-inputs';
 import { InputParser, InputUx } from '@Components/react-hook-form';
@@ -7,14 +9,12 @@ import { InputParser, InputUx } from '@Components/react-hook-form';
 interface IProps {
   name: string;
   label: string;
-  rules?: RegisterOptions;
+  rules?: TValidationRules;
 }
 
 function FormProviderNumber({ label, name, rules = {}, ...rest }: IProps): React.JSX.Element {
-  const {
-    control,
-    formState: { defaultValues, dirtyFields, isSubmitted },
-  } = useFormContext();
+  const { control } = useFormContext();
+  const { defaultValues } = useFormState({ name, control });
   const id = useId();
 
   const defaultValue = defaultValues?.[name];
@@ -24,16 +24,9 @@ function FormProviderNumber({ label, name, rules = {}, ...rest }: IProps): React
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { name, onBlur, onChange, value }, fieldState: { error, invalid: isInvalid } }) => (
-        <InputUx
-          id={id}
-          label={label}
-          error={error}
-          defaultValue={defaultValue}
-          isSubmitted={isSubmitted}
-          invalid={isInvalid}
-          isDirty={dirtyFields[name] || defaultValue}
-          isRequired={rules?.required}>
+      render={({ field: { name, onBlur, onChange, value }, fieldState: { invalid: isInvalid } }) => (
+        <InputUx id={id} label={label} name={name} rules={rules} defaultValue={defaultValue}>
+          {' '}
           <InputParser
             ReactAriaComponent={InputNumber}
             value={value}

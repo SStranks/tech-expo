@@ -1,22 +1,14 @@
-import type { ZxcvbnResult } from '@zxcvbn-ts/core';
+import type { Score } from '@zxcvbn-ts/core';
+
+import type { TValidationRules } from '../validationRules';
 
 import { useEffect, useId, useState } from 'react';
-import {
-  Control,
-  FieldError,
-  FieldValues,
-  Path,
-  UseFormRegister,
-  UseFormTrigger,
-  useWatch,
-  ValidationRule,
-} from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
+import { Input, InputUx } from '@Components/react-hook-form';
 import { IconCircleInfo, IconEye, IconPassword } from '@Components/svg';
-import { usePasswordStrength } from '@Lib/zxcvbn';
-
-import InputUx from '../InputUx';
+import { getStrength, usePasswordStrength } from '@Lib/zxcvbn';
 
 import styles from './InputPasswordStrength.module.scss';
 
@@ -28,55 +20,35 @@ const ARIA_LIVE = [
   'Password strength 4 out of 4: Very unguessable',
 ];
 
-const screenReaderText = (result: ZxcvbnResult | null) => {
-  if (result) {
-    return ARIA_LIVE[result.score];
+const screenReaderText = (passwordScore: Score | null) => {
+  if (passwordScore) {
+    return ARIA_LIVE[passwordScore];
   }
 
   return false;
 };
 
-interface IProps<T extends FieldValues> {
-  register: UseFormRegister<T>;
-  control: Control<T>;
-  trigger: UseFormTrigger<T>;
-  inputName: Path<T>;
+interface IProps {
   defaultValue: string | undefined;
-  isDirty: boolean | undefined;
-  invalid: boolean;
-  isRequired: string | ValidationRule<boolean> | undefined;
-  isSubmitted: boolean;
-  error: FieldError | undefined;
-  reveal: boolean;
   label: string;
+  name: string;
+  reveal: boolean;
 }
 
 // TODO:  Style and reformat password information text
-function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): React.JSX.Element {
-  const {
-    control,
-    defaultValue,
-    error,
-    inputName,
-    invalid,
-    isDirty,
-    isRequired,
-    isSubmitted,
-    label,
-    register,
-    reveal,
-    trigger,
-  } = props;
+function InputPasswordStrength(props: IProps): React.JSX.Element {
+  const { defaultValue, label, name, reveal } = props;
+  const { control, trigger } = useFormContext();
   const [passwordReveal, setPasswordReveal] = useState<boolean>(reveal);
   const [informationPanel, setInformationPanel] = useState<boolean>(false);
-  const passwordValue = useWatch({ name: inputName, control });
-  const result = usePasswordStrength(passwordValue);
+  const passwordValue = useWatch({ name, control });
+  const passwordScore = usePasswordStrength(passwordValue);
   const passwordId = useId();
 
   // Trigger re-validation; 'result' is a deferred value
   useEffect(() => {
-    trigger(inputName);
-  }, [trigger, inputName, result]);
+    trigger(name);
+  }, [trigger, name, passwordScore]);
 
   const revealPasswordClickHandler = () => {
     setPasswordReveal((p) => !p);
@@ -86,30 +58,22 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): React.J
     setInformationPanel((p) => !p);
   };
 
-  const VALIDATION_RULES = {
+  const VALIDATION_RULES: TValidationRules = {
     required: { message: 'Please enter strong password', value: true },
-    validate: () => result?.score === 4 || 'Password is insufficiently strong',
+    validate: async (value: string) => {
+      const score = await getStrength(value);
+      return score === 4 || 'Password is insufficiently strong';
+    },
   };
 
   return (
     <div className={styles.container}>
-      <InputUx
-        label={label}
-        id={passwordId}
-        defaultValue={defaultValue}
-        isDirty={isDirty}
-        invalid={invalid}
-        isRequired={VALIDATION_RULES.required}
-        error={error}
-        isSubmitted={isSubmitted}>
-        <input
-          {...register(inputName, VALIDATION_RULES)}
-          type={passwordReveal ? 'text' : 'password'}
+      <InputUx name={name} label={label} id={passwordId} defaultValue={defaultValue} rules={VALIDATION_RULES}>
+        <Input
           id={passwordId}
-          className={styles.inputPassword}
-          placeholder="" // Placeholder intentionally empty; style using :placeholder-shown
-          aria-invalid={error ? true : false}
-          aria-required={isRequired ? true : false}
+          type={passwordReveal ? 'text' : 'password'}
+          rules={VALIDATION_RULES}
+          name={name}
           autoComplete="new-password"
         />
         <div className={styles.icons}>
@@ -126,7 +90,7 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): React.J
         </div>
       </InputUx>
       <div className={styles.result}>
-        <span className={`${styles.result__meter} ${styles[`result__meter--${result?.score}`]}`} />
+        <span className={`${styles.result__meter} ${styles[`result__meter--${passwordScore}`]}`} />
       </div>
       <div className={`${styles.infoPanel} ${informationPanel ? styles.infoPanel__active : ''}`}>
         <div className={styles.infoPanel__inner}>
@@ -147,7 +111,7 @@ function InputPasswordStrength<T extends FieldValues>(props: IProps<T>): React.J
         </div>
       </div>
       <output htmlFor={passwordId} aria-live="polite" className="invisibleAccessible">
-        {screenReaderText(result)}
+        {screenReaderText(passwordScore)}
       </output>
     </div>
   );

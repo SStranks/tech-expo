@@ -1,7 +1,9 @@
 import type { ComboBoxProps } from 'react-aria-components';
 
+import type { TValidationRules } from '@Components/react-hook-form/validationRules';
+
 import { useId } from 'react';
-import { Controller, type RegisterOptions, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useFormState } from 'react-hook-form';
 
 import { InputCombo } from '@Components/aria-inputs';
 import { InputParser, InputUx } from '@Components/react-hook-form';
@@ -11,7 +13,7 @@ interface IProps {
   label: string;
   defaultInputValue?: string;
   // items: { name: string }[];
-  rules?: RegisterOptions;
+  rules?: TValidationRules;
 }
 
 function FormProviderCombo<T extends object>({
@@ -22,10 +24,8 @@ function FormProviderCombo<T extends object>({
   rules = {},
   ...rest
 }: ComboBoxProps<T> & IProps): React.JSX.Element {
-  const {
-    control,
-    formState: { defaultValues, dirtyFields, isSubmitted },
-  } = useFormContext();
+  const { control } = useFormContext();
+  const { defaultValues } = useFormState({ name, control });
   const id = useId();
 
   const defaultValue = defaultValues?.[name];
@@ -36,16 +36,8 @@ function FormProviderCombo<T extends object>({
       name={name}
       rules={rules}
       defaultValue={defaultInputValue}
-      render={({ field: { name, onBlur, onChange, value }, fieldState: { error, invalid: isInvalid } }) => (
-        <InputUx
-          id={id}
-          label={label}
-          error={error}
-          defaultValue={defaultValue}
-          isSubmitted={isSubmitted}
-          isDirty={dirtyFields[name] || defaultValue}
-          invalid={isInvalid}
-          isRequired={rules?.required}>
+      render={({ field: { name, onBlur, onChange, value }, fieldState: { invalid: isInvalid } }) => (
+        <InputUx id={id} label={label} name={name} defaultValue={defaultValue}>
           <InputParser
             ReactAriaComponent={InputCombo}
             value={value}

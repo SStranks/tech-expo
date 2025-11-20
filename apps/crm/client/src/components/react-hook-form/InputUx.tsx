@@ -1,29 +1,30 @@
+import type { TValidationRules } from './validationRules';
+
 import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
-import { FieldError, FieldErrorsImpl, Merge, ValidationRule } from 'react-hook-form';
+import { useFormContext, useFormState } from 'react-hook-form';
 
 import styles from './InputUX.module.scss';
 
 interface IProps {
   label: string;
   id: string;
-  defaultValue: string | number | undefined;
-  error: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
-  isDirty: boolean | undefined;
-  isRequired?: string | ValidationRule<boolean> | undefined;
-  invalid: boolean;
-  isSubmitted: boolean;
+  name: string;
+  defaultValue?: string | number;
+  rules?: TValidationRules;
   testId?: string;
 }
 
 // Wrapper: UX presentation for state of input; valid, invalid, focused, etc
 function InputUx(props: PropsWithChildren<IProps>): React.JSX.Element {
-  const { children, defaultValue, error, id, invalid, isDirty, isRequired, isSubmitted, label, testId } = props;
-  const inputValidated = !error && (defaultValue || (isDirty && !invalid));
-  const showErrorState = error && isSubmitted;
-  const inputRequired = isRequired && invalid;
+  const { children, defaultValue, id, label, name, rules, testId } = props;
+  const { control } = useFormContext();
+  const { errors, isDirty, isSubmitted } = useFormState({ name, control });
 
-  // console.log(isDirty, invalid, error, isSubmitted);
+  const error = errors[name];
+  const inputValidated = !error && (defaultValue || isDirty);
+  const showErrorState = error && isSubmitted;
+  const inputRequired = rules?.required && !isDirty && isSubmitted;
 
   return (
     <div

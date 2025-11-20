@@ -1,7 +1,9 @@
 import type { SelectProps } from 'react-aria-components';
 
+import type { TValidationRules } from '@Components/react-hook-form/validationRules';
+
 import { useId } from 'react';
-import { Controller, RegisterOptions, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useFormState } from 'react-hook-form';
 
 import { InputSelect } from '@Components/aria-inputs';
 import { InputParser, InputUx } from '@Components/react-hook-form';
@@ -10,7 +12,7 @@ interface IProps {
   name: string;
   label: string;
   items: { name: string }[];
-  rules?: RegisterOptions;
+  rules?: TValidationRules;
 }
 
 function FormProviderSelect<T extends object>({
@@ -20,10 +22,8 @@ function FormProviderSelect<T extends object>({
   rules = {},
   ...rest
 }: SelectProps<T> & IProps): React.JSX.Element {
-  const {
-    control,
-    formState: { defaultValues, dirtyFields, isSubmitted },
-  } = useFormContext();
+  const { control } = useFormContext();
+  const { defaultValues } = useFormState({ name, control });
   const id = useId();
 
   const defaultValue = defaultValues?.[name];
@@ -33,16 +33,8 @@ function FormProviderSelect<T extends object>({
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { name, onBlur, onChange, value }, fieldState: { error, invalid: isInvalid } }) => (
-        <InputUx
-          id={id}
-          label={label}
-          defaultValue={defaultValue}
-          error={error}
-          isSubmitted={isSubmitted}
-          isDirty={dirtyFields[name] || defaultValue}
-          invalid={isInvalid}
-          isRequired={rules?.required}>
+      render={({ field: { name, onBlur, onChange, value }, fieldState: { invalid: isInvalid } }) => (
+        <InputUx id={id} label={label} name={name} rules={rules} defaultValue={defaultValue}>
           <InputParser
             ReactAriaComponent={InputSelect}
             value={value}

@@ -1,45 +1,30 @@
+import type { InputHTMLAttributes } from 'react';
+
+import type { TValidationRules } from '@Components/react-hook-form/validationRules';
+
 import { useId } from 'react';
 import { InputProps } from 'react-aria-components';
-import { type RegisterOptions, useFormContext } from 'react-hook-form';
+import { useFormContext, useFormState } from 'react-hook-form';
 
 import { Input, InputUx } from '@Components/react-hook-form';
 
-interface IProps {
+interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   type: React.HTMLInputTypeAttribute;
   label: string;
-  rules?: RegisterOptions;
+  rules?: TValidationRules;
 }
+
 function FormProviderInput({ label, name, rules = {}, type, ...rest }: InputProps & IProps): React.JSX.Element {
-  const {
-    formState: { defaultValues, dirtyFields, errors, isSubmitted },
-    getFieldState,
-    register,
-  } = useFormContext();
-  const { invalid } = getFieldState(name);
+  const { control } = useFormContext();
+  const { defaultValues } = useFormState({ name, control });
   const id = useId();
 
   const defaultValue = defaultValues?.[name];
 
   return (
-    <InputUx
-      id={id}
-      label={label}
-      error={errors[name as string]}
-      defaultValue={defaultValue}
-      isSubmitted={isSubmitted}
-      isDirty={dirtyFields[name] || defaultValue}
-      isRequired={rules?.required}
-      invalid={invalid}>
-      <Input
-        register={{ ...register(name, rules) }}
-        id={id}
-        type={type}
-        defaultValue={defaultValue}
-        error={errors[name as string]}
-        isRequired={rules?.required}
-        {...rest}
-      />
+    <InputUx id={id} label={label} name={name} rules={rules} defaultValue={defaultValue}>
+      <Input id={id} type={type} name={name} rules={rules} defaultValue={defaultValue} {...rest} />
     </InputUx>
   );
 }

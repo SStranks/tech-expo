@@ -1,24 +1,31 @@
-import { HTMLInputTypeAttribute } from 'react';
-import { FieldError, FieldErrorsImpl, Merge, UseFormRegisterReturn, ValidationRule } from 'react-hook-form';
+import type { HTMLInputTypeAttribute, InputHTMLAttributes } from 'react';
+
+import type { TValidationRules } from '../validationRules';
+
+import { useFormContext, useFormState } from 'react-hook-form';
 
 import styles from './Input.module.scss';
 
-interface IProps {
-  register: UseFormRegisterReturn;
+interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   type: HTMLInputTypeAttribute;
   id: string;
-  error: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
-  isRequired: string | ValidationRule<boolean> | undefined;
-  defaultValue?: string;
+  name: string;
+  rules?: TValidationRules;
 }
 
 function Input(props: IProps): React.JSX.Element {
-  const { defaultValue, error, id, isRequired, register, type, ...rest } = props;
+  const { id, name, rules, type, ...rest } = props;
+  const { control, register, trigger } = useFormContext();
+  const { defaultValues, errors } = useFormState({ name, control });
+
+  // const { mode } = control._options;
+  const defaultValue = defaultValues?.[name];
+  const error = errors?.[name];
 
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown
   return (
     <input
-      {...register}
+      {...register(name, { ...rules, onChange: () => trigger(name) })}
       {...rest}
       type={type}
       id={id}
@@ -26,7 +33,7 @@ function Input(props: IProps): React.JSX.Element {
       defaultValue={defaultValue}
       placeholder=""
       aria-invalid={error ? true : false}
-      aria-required={isRequired ? true : false}
+      aria-required={!!rules?.required}
       aria-describedby={`${id}-error`}
     />
   );

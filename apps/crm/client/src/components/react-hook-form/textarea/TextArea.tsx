@@ -1,13 +1,7 @@
-import { ChangeEvent } from 'react';
-import {
-  DeepRequired,
-  FieldError,
-  FieldErrorsImpl,
-  FieldValues,
-  Merge,
-  RegisterOptions,
-  UseFormRegister,
-} from 'react-hook-form';
+import type { TValidationRules } from '../validationRules';
+
+import { ChangeEvent, InputHTMLAttributes } from 'react';
+import { useFormContext, useFormState } from 'react-hook-form';
 
 import styles from './TextArea.module.scss';
 
@@ -17,26 +11,38 @@ const autoHeightResize = (e: ChangeEvent<HTMLTextAreaElement>) => {
   e.target.style.height = e.target.scrollHeight + 'px';
 };
 
-interface IProps<T extends FieldValues = FieldValues> {
-  register: UseFormRegister<FieldValues>;
+interface IProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   id: string;
   name: string;
-  rules: RegisterOptions;
-  error: FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<T>>> | undefined;
-  label: string;
+  rules?: TValidationRules;
 }
 
 function TextArea(props: IProps): React.JSX.Element {
-  const { error, id, name, register, rules } = props;
+  const { id, name, rules, ...rest } = props;
+  const { control, register, trigger } = useFormContext();
+  const { defaultValues, errors } = useFormState({ name, control });
+
+  const defaultValue = defaultValues?.[name];
+  const error = errors?.[name];
 
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown
   return (
     <textarea
-      {...register(name, { ...rules, onChange: (e) => autoHeightResize(e) })}
+      {...register(name, {
+        ...rules,
+        onChange: (e) => {
+          autoHeightResize(e);
+          trigger(name);
+        },
+      })}
+      {...rest}
       id={id}
       className={styles.textarea}
+      defaultValue={defaultValue}
       placeholder=""
+      aria-describedby={`${id}-error`}
       aria-invalid={error ? true : false}
+      aria-required={!!rules?.required}
     />
   );
 }

@@ -18,6 +18,13 @@ $padding: 16px;
   border: form.$input-border;
   border-radius: form.$input-border-radius;
   transition: anim.$input-focus;
+  transition: anim.$theme-transition-background;
+  outline: none;
+
+  & > input,
+  & > textarea {
+    border-style: hidden;
+  }
 
   &__label {
     position: absolute;
@@ -26,15 +33,14 @@ $padding: 16px;
     font-size: 16px;
     background-color: inherit;
     color: form.$input-placeholder;
-    transition: all 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out;
 
-    // &[data-is-dirty='true'] {
-    //   padding-inline: 4px;
-    //   color: form.$input-color-active;
-    //   font-size: 12px;
-    //   transform: translate(calc($padding / -2), calc(-1 * $padding) - 7px);
-    //   z-index: 1; // Clip out success pulse effect
-    // }
+    &[data-is-dirty='true'] {
+      padding-inline: 4px;
+      font-size: 12px;
+      transform: translate(calc($padding / -2), calc(-1 * $padding) - 7px);
+      z-index: 1; // Clip out success pulse effect
+    }
 
     & .react-area-Input[data-focused] {
       padding-inline: 4px;
@@ -131,4 +137,22 @@ $padding: 16px;
 
 .error {
   border-color: form.$input-color-danger;
+
+  &:has(:focus, :focus-within, [data-open], [data-focused], [data-focus-visible]) {
+    & .inputUX__label {
+      color: form.$input-color-active;
+    }
+  }
+
+  &:not(:is(:focus, :focus-within, [data-open], [data-focused], [data-focus-visible])) {
+    & .inputUX__label {
+      color: form.$input-color-danger;
+    }
+  }
+
+  &:has(:placeholder-shown):not(:is(:focus, :focus-within, [data-open], [data-focused], [data-focus-visible])) {
+    & .inputUX__label {
+      color: form.$input-placeholder;
+    }
+  }
 }
