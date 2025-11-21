@@ -47,7 +47,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           working-directory: .
-          install-command: pnpm install
+          install-command: pnpm install --ignore-engines
           command: pnpm --filter "./apps/crm/client" cypress:e2e
           build: false
           component: false
