@@ -1,14 +1,14 @@
 import type { Score } from '@zxcvbn-ts/core';
 
-import type { TValidationRules } from '../validationRules';
-
 import { useEffect, useId, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
 import { Input, InputUx } from '@Components/react-hook-form';
 import { IconCircleInfo, IconEye, IconPassword } from '@Components/svg';
-import { getStrength, usePasswordStrength } from '@Lib/zxcvbn';
+import { usePasswordStrength } from '@Lib/zxcvbn';
+
+import { PASSWORD_STRENGTH_RULES } from '../validationRules';
 
 import styles from './InputPasswordStrength.module.scss';
 
@@ -58,23 +58,16 @@ function InputPasswordStrength(props: IProps): React.JSX.Element {
     setInformationPanel((p) => !p);
   };
 
-  const VALIDATION_RULES: TValidationRules = {
-    required: { message: 'Please enter strong password', value: true },
-    validate: async (value: string) => {
-      const score = await getStrength(value);
-      return score === 4 || 'Password is insufficiently strong';
-    },
-  };
-
   return (
     <div className={styles.container}>
-      <InputUx name={name} label={label} id={passwordId} defaultValue={defaultValue} rules={VALIDATION_RULES}>
+      <InputUx name={name} label={label} id={passwordId} defaultValue={defaultValue} rules={PASSWORD_STRENGTH_RULES}>
         <Input
           id={passwordId}
           type={passwordReveal ? 'text' : 'password'}
-          rules={VALIDATION_RULES}
+          rules={PASSWORD_STRENGTH_RULES}
           name={name}
           autoComplete="new-password"
+          data-testid="password-strength-input"
         />
         <div className={styles.icons}>
           <button type="button" onClick={revealPasswordClickHandler} className={styles.icons__btn}>

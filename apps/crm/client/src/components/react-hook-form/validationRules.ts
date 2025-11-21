@@ -1,6 +1,8 @@
 /* eslint-disable perfectionist/sort-objects */
 import type { RegisterOptions } from 'react-hook-form';
 
+import { getStrength } from '@Lib/zxcvbn';
+
 export type TValidationRules = Pick<
   RegisterOptions,
   'required' | 'min' | 'max' | 'maxLength' | 'minLength' | 'pattern' | 'validate'
@@ -42,6 +44,14 @@ export const PASSWORD_RULES = {
   required: {
     value: true,
     message: 'Please enter a valid password',
+  },
+} satisfies TValidationRules;
+
+export const PASSWORD_STRENGTH_RULES = {
+  required: { message: 'Please enter strong password', value: true },
+  validate: async (value: string) => {
+    const score = await getStrength(value);
+    return score === 4 || 'Password is insufficiently strong';
   },
 } satisfies TValidationRules;
 

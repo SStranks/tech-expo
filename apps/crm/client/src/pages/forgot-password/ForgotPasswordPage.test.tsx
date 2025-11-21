@@ -4,8 +4,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 
 import { EMAIL_RULES } from '@Components/react-hook-form/validationRules';
+import serviceHttp from '@Services/serviceHttp';
 
 import ForgotPasswordPage from './ForgotPasswordPage';
+
+vi.spyOn(serviceHttp, 'accountForgotPassword').mockImplementation(async (data) => data);
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
@@ -42,7 +45,7 @@ describe('Functionality', () => {
 
   test('Form; Input validation; "required" errors on empty inputs', async () => {
     render(<ForgotPasswordPage />, { wrapper: BrowserRouter });
-    const user = userEvent.setup();
+    const user = userEvent.setup({ delay: null });
 
     const resetPasswordButton = screen.getByRole('button', { name: /email reset instructions/i });
 
@@ -50,13 +53,12 @@ describe('Functionality', () => {
 
     expect(await screen.findAllByRole('alert')).toHaveLength(1);
 
-    // Submission
-    expect(console.log).not.toHaveBeenCalled();
+    expect(serviceHttp.accountForgotPassword).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Input validation; error message on invalid email pattern', async () => {
     render(<ForgotPasswordPage />, { wrapper: BrowserRouter });
-    const user = userEvent.setup();
+    const user = userEvent.setup({ delay: null });
 
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const resetPasswordButton = screen.getByRole('button', { name: /email reset instructions/i });
@@ -67,13 +69,12 @@ describe('Functionality', () => {
 
     expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern.message);
 
-    // Submission
-    expect(console.log).not.toHaveBeenCalled();
+    expect(serviceHttp.accountForgotPassword).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Submission success', async () => {
     render(<ForgotPasswordPage />, { wrapper: BrowserRouter });
-    const user = userEvent.setup();
+    const user = userEvent.setup({ delay: null });
 
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const resetPasswordButton = screen.getByRole('button', { name: /email reset instructions/i });
@@ -84,7 +85,6 @@ describe('Functionality', () => {
 
     expect(screen.queryAllByRole('alert')).toHaveLength(0);
 
-    // Submission
-    expect(console.log).toHaveBeenCalledWith({ email: 'admin@admin.com' });
+    expect(serviceHttp.accountForgotPassword).toHaveBeenCalledWith({ email: 'admin@admin.com' }); // Form submission
   });
 });

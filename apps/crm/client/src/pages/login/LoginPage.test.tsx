@@ -1,29 +1,15 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { http, HttpResponse } from 'msw';
-import { setupServer } from 'msw/node';
 import { BrowserRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 
 import { EMAIL_RULES } from '@Components/react-hook-form/validationRules';
 import { renderWithProviders } from '@Redux/utils';
+import serviceHttp from '@Services/serviceHttp';
 
 import LoginPage from './LoginPage';
 
-const requestBodyParser = vi.fn();
-const handlers = [
-  http.post(`http://${process.env.API_HOST}/api/users/login`, async ({ request }) => {
-    const body = await request.json();
-    requestBodyParser(body);
-    return HttpResponse.json({});
-  }),
-];
-
-const server = setupServer(...handlers);
-
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+vi.spyOn(serviceHttp, 'accountLogin').mockImplementation(async (data) => data);
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
@@ -74,14 +60,13 @@ describe('Functionality', () => {
         <LoginPage />
       </BrowserRouter>
     );
-    const user = userEvent.setup();
+    const user = userEvent.setup({ delay: null });
 
     const signInButton = screen.getByRole('button', { name: /sign in/i });
 
     await user.click(signInButton);
 
-    // Submission
-    expect(requestBodyParser).not.toHaveBeenCalled();
+    expect(serviceHttp.accountLogin).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Input validation; error message on invalid email pattern', async () => {
@@ -90,48 +75,39 @@ describe('Functionality', () => {
         <LoginPage />
       </BrowserRouter>
     );
-    const user = userEvent.setup();
+    const user = userEvent.setup({ delay: null });
 
-    const emailInputContainer = screen.getByTestId('email address');
-    const emailInput = screen.getByLabelText(/email address/i);
+    const emailInput = screen.getByRole('textbox', { name: /email address/i });
     const passwordInput = screen.getByLabelText(/password/i);
     const signInButton = screen.getByRole('button', { name: /sign in/i });
 
-    await user.click(emailInput);
-    await user.keyboard('invalidAddress');
-    await user.click(passwordInput);
-    await user.keyboard('validpassword');
+    await user.type(emailInput, 'invalidAddress');
+    await user.type(passwordInput, 'validpassword');
     await user.click(signInButton);
 
-    expect(emailInputContainer).toHaveTextContent(EMAIL_RULES.pattern.message);
-
-    // Submission
-    expect(requestBodyParser).not.toHaveBeenCalled();
+    expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern.message);
+    expect(serviceHttp.accountLogin).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Submission success', async () => {
-    const user = userEvent.setup();
-
     renderWithProviders(
       <BrowserRouter>
         <LoginPage />
       </BrowserRouter>
     );
+    const user = userEvent.setup({ delay: null });
 
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const passwordInput = screen.getByLabelText(/password/i);
     const signInButton = screen.getByRole('button', { name: /sign in/i });
 
-    await user.click(emailInput);
-    await user.keyboard('admin@admin.com');
-    await user.click(passwordInput);
-    await user.keyboard('12345');
+    await user.type(emailInput, 'admin@admin.com');
+    await user.type(passwordInput, '12345');
     await user.click(signInButton);
 
     expect(screen.queryAllByRole('alert')).toHaveLength(0);
 
-    // Submission
-    expect(requestBodyParser).toHaveBeenCalledTimes(1);
-    expect(requestBodyParser).toHaveBeenCalledWith({ email: 'admin@admin.com', password: '12345' });
+    expect(serviceHttp.accountLogin).toHaveBeenCalledTimes(1); // Form submission
+    expect(serviceHttp.accountLogin).toHaveBeenCalledWith({ email: 'admin@admin.com', password: '12345' });
   });
 });

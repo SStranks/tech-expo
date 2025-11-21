@@ -9,6 +9,7 @@ export interface IServiceHttp {
   accountIdentify(): Promise<AxiosResponse>;
   accountLogin(body: TBody): Promise<AxiosResponse>;
   accountLogout(): Promise<AxiosResponse>;
+  accountForgotPassword(body: TBody): Promise<AxiosResponse>;
   accountUpdatePassword(body: TBody): Promise<AxiosResponse>;
   accountFreeze(): Promise<AxiosResponse>;
   accountDelete(body: TBody): Promise<AxiosResponse>;
@@ -57,6 +58,22 @@ class ServiceHttp implements IServiceHttp {
   async accountIdentify() {
     try {
       const response = await this.ApiServiceClient.get('/api/users/identify', { withCredentials: true });
+      return response.data;
+    } catch (error) {
+      if (error instanceof AppError && error.statusCode) {
+        console.error(error.message);
+        throw error;
+      }
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async accountForgotPassword(body: TBody) {
+    try {
+      const response = await this.ApiServiceClient.patch<TBody>('/api/users/forgotPassword', body, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       if (error instanceof AppError && error.statusCode) {

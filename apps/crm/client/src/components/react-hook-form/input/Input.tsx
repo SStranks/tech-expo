@@ -1,4 +1,4 @@
-import type { HTMLInputTypeAttribute, InputHTMLAttributes } from 'react';
+import type { HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, InputHTMLAttributes } from 'react';
 
 import type { TValidationRules } from '../validationRules';
 
@@ -10,7 +10,8 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   type: HTMLInputTypeAttribute;
   id: string;
   name: string;
-  rules?: TValidationRules;
+  autoComplete: HTMLInputAutoCompleteAttribute;
+  rules: TValidationRules;
 }
 
 function Input(props: IProps): React.JSX.Element {

@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm, useFormState } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { Input } from '@Components/react-hook-form';
@@ -17,17 +17,10 @@ interface IInputs {
 
 // TODO:  Think about security; remembering credentials?
 function LoginPage(): React.JSX.Element {
-  const {
-    formState,
-    formState: { defaultValues, dirtyFields, errors, isSubmitted, isSubmitting },
-    getFieldState,
-    handleSubmit,
-    register,
-  } = useForm<IInputs>({ defaultValues: { email: '', password: '' }, mode: 'onChange' });
+  const { control, ...methods } = useForm<IInputs>({ defaultValues: { email: '', password: '' } });
+  const { isSubmitting } = useFormState({ control });
   // } = useForm<IInputs>({ defaultValues: { email: 'user@email.com', password: 'crmuser' }, mode: 'onChange' });
   // DANGER: // TEMP DEV:  Remove email and password default values
-  const { invalid: emailInvalid } = getFieldState('email', formState);
-  const { invalid: passwordInvalid } = getFieldState('password', formState);
   const navigate = useNavigate();
   const location = useLocation();
   const emailId = useId();
@@ -36,7 +29,7 @@ function LoginPage(): React.JSX.Element {
 
   const fromURL = location.state?.from?.pathname || '/';
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = methods.handleSubmit(async (data) => {
     try {
       // TODO:  Get back user details and store in redux
       await reduxDispatch(login({ email: data.email, password: data.password }));
@@ -49,66 +42,45 @@ function LoginPage(): React.JSX.Element {
   });
 
   return (
-    <div className={styles.formContainer}>
-      <form name="sign-in form" onSubmit={onSubmit} aria-labelledby="heading" className={styles.loginForm} noValidate>
-        <h1 id="heading">Sign In</h1>
-        <InputUx
-          id={emailId}
-          label="Email address"
-          defaultValue={defaultValues?.email}
-          error={errors['email']}
-          isDirty={dirtyFields['email']}
-          invalid={emailInvalid}
-          isRequired={EMAIL_RULES?.required}
-          isSubmitted={isSubmitted}
-          testId="email address">
-          <Input
-            id={emailId}
-            type="email"
-            register={{ ...register('email', EMAIL_RULES) }}
-            error={errors.email}
-            isRequired={EMAIL_RULES.required}
-          />
-        </InputUx>
-        <InputUx
-          id={passwordId}
-          label="Password"
-          error={errors['password']}
-          defaultValue={defaultValues?.password}
-          isDirty={dirtyFields['password']}
-          invalid={passwordInvalid}
-          isRequired={PASSWORD_RULES?.required}
-          isSubmitted={isSubmitted}
-          testId="password">
-          <Input
-            id={passwordId}
-            type="password"
-            register={{ ...register('password', PASSWORD_RULES) }}
-            error={errors.password}
-            isRequired={PASSWORD_RULES.required}
-          />
-        </InputUx>
-        <div className={styles.options}>
-          <label>
-            <input type="checkbox" />
-            Remember Credentials?
-          </label>
-          <Link to="/forgot-password">
-            <span className={styles.loginForm__link}>Forgot Password</span>
-          </Link>
-        </div>
-        {/* <button type="submit" className={styles.loginForm__submitBtn} disabled={!isValid}> */}
-        <button type="submit" className={styles.loginForm__submitBtn}>
-          {isSubmitting ? 'Loading' : 'Sign In'}
-        </button>
-        <p>
-          Don&#39;t have an account?
-          <Link to="/register">
-            <span className={styles.loginForm__link}>Sign up here</span>
-          </Link>
-        </p>
-      </form>
-    </div>
+    <FormProvider {...{ ...methods, control }}>
+      <div className={styles.formContainer}>
+        <form name="sign-in form" onSubmit={onSubmit} aria-labelledby="heading" className={styles.loginForm} noValidate>
+          <h1 id="heading">Sign In</h1>
+          <InputUx id={emailId} name="email" label="Email address" rules={EMAIL_RULES}>
+            <Input id={emailId} type="email" name="email" rules={EMAIL_RULES} autoComplete="email" />
+          </InputUx>
+          <InputUx id={passwordId} name="password" label="Password" rules={PASSWORD_RULES}>
+            <Input
+              id={passwordId}
+              type="password"
+              name="password"
+              rules={PASSWORD_RULES}
+              autoComplete="password"
+              data-testid="password-input"
+            />
+          </InputUx>
+          <div className={styles.options}>
+            <label>
+              <input type="checkbox" />
+              Remember Credentials?
+            </label>
+            <Link to="/forgot-password">
+              <span className={styles.loginForm__link}>Forgot Password</span>
+            </Link>
+          </div>
+          {/* <button type="submit" className={styles.loginForm__submitBtn} disabled={!isValid}> */}
+          <button type="submit" className={styles.loginForm__submitBtn}>
+            {isSubmitting ? 'Loading' : 'Sign In'}
+          </button>
+          <p>
+            Don&#39;t have an account?
+            <Link to="/register">
+              <span className={styles.loginForm__link}>Sign up here</span>
+            </Link>
+          </p>
+        </form>
+      </div>
+    </FormProvider>
   );
 }
 
