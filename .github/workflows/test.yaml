@@ -46,10 +46,13 @@ jobs:
       - name: CRM Client - Cypress
         uses: cypress-io/github-action@v6
         with:
-          working-directory: apps/crm/client
+          working-directory: .
           install-command: pnpm install
-          command: pnpm cypress:e2e
+          command: pnpm --filter "./apps/crm/client" cypress:e2e
           build: false
+          component: false
+          record: false
+          publish-summary: true
 
       - name: CRM Server - Vitest
         run: pnpm --filter "./apps/crm/server" vitest:test
