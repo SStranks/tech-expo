@@ -36,14 +36,6 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: Cache Cypress binary
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/Cypress
-          key: cypress-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            cypress-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-
       - name: Install dependencies
         run: pnpm install
 
@@ -51,8 +43,12 @@ jobs:
         run: pnpm --filter "./apps/crm/client" vitest:test
 
       - name: CRM Client - Cypress
-        run: pnpm --filter "./apps/crm/client" cypress:e2e
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: apps/crm/client
+          install-command: pnpm install
+          command: pnpm cypress:e2e
+          build: false
 
-      # // TODO:
-      # - name: CRM Server - Node
-      # run: pnpm --filter "./apps/crm/server" vitest:test
+      - name: CRM Server - Vitest
+        run: pnpm --filter "./apps/crm/server" vitest:test
