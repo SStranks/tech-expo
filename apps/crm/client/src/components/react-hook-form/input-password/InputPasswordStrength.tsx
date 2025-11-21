@@ -21,7 +21,7 @@ const ARIA_LIVE = [
 ];
 
 const screenReaderText = (passwordScore: Score | null) => {
-  if (passwordScore) {
+  if (passwordScore !== null) {
     return ARIA_LIVE[passwordScore];
   }
 
@@ -103,7 +103,11 @@ function InputPasswordStrength(props: IProps): React.JSX.Element {
           </div>
         </div>
       </div>
-      <output htmlFor={passwordId} aria-live="polite" className="invisibleAccessible">
+      <output
+        htmlFor={passwordId}
+        data-testid="password-strength-status"
+        aria-live="polite"
+        className="invisibleAccessible">
         {screenReaderText(passwordScore)}
       </output>
     </div>

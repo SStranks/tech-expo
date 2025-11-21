@@ -8,3 +8,4 @@ export { default as FormProviderSubmitButton } from './components/FormProviderSu
 export { default as FormProviderTagGroup } from './components/FormProviderTagGroup';
 export { default as FormProviderTextArea } from './components/FormProviderTextArea';
 export { default as FormProviderTimeField } from './components/FormProviderTimeField';
+export { default as FormProvider } from './FormProvider';

@@ -2,6 +2,7 @@
 import type { RegisterOptions } from 'react-hook-form';
 
 import { getStrength } from '@Lib/zxcvbn';
+import { IInputs } from '@Pages/update-password/UpdatePasswordPage';
 
 export type TValidationRules = Pick<
   RegisterOptions,
@@ -55,9 +56,15 @@ export const PASSWORD_STRENGTH_RULES = {
   },
 } satisfies TValidationRules;
 
-export const PASSWORDCONFIRM_RULES = {
-  required: {
-    value: true,
-    message: 'Please enter a valid password',
-  },
-} satisfies TValidationRules;
+export const PASSWORDCONFIRM_RULES = (newPassword: keyof IInputs) =>
+  ({
+    required: {
+      value: true,
+      message: 'Please enter your new password',
+    },
+    validate: {
+      matchNewPassword: (value: string, { [newPassword]: targetValue }) => {
+        return value === targetValue || 'Passwords must be identical';
+      },
+    },
+  }) satisfies TValidationRules;

@@ -1,17 +1,29 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
-import { beforeEach, describe, test, vi } from 'vitest';
+import { describe, test, vi } from 'vitest';
 
+import { PASSWORD_STRENGTH_RULES, PASSWORDCONFIRM_RULES } from '@Components/react-hook-form/validationRules';
 import { MAX_PASSWORD } from '@Lib/__mocks__/zxcvbn';
+import { getStrength } from '@Lib/zxcvbn';
+import serviceHttp from '@Services/serviceHttp';
 
 import UpdatePasswordPage from './UpdatePasswordPage';
 
-vi.mock('@Lib/zxcvbn');
+vi.mock('@Lib/zxcvbn', () => ({
+  getStrength: vi.fn(),
+  usePasswordStrength: vi.fn(),
+}));
 
-beforeEach(() => {
-  vi.resetAllMocks();
+// Resolve lazy-load immediately
+vi.mock('@Components/react-hook-form/input-password/InputPasswordStrength', async (importOriginal) => {
+  const actual = await importOriginal();
+  return actual;
 });
+
+vi.spyOn(serviceHttp, 'accountUpdatePassword').mockImplementation(async (data) => data);
+
+afterEach(() => vi.clearAllMocks());
 
 describe('Initialization', () => {
   test('Component should render correctly', async () => {
@@ -32,79 +44,63 @@ describe('Initialization', () => {
 });
 
 describe('Functionality', () => {
-  const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {});
-
-  beforeEach(() => {
-    vi.resetAllMocks();
-  });
+  afterEach(() => vi.clearAllMocks());
 
   test('Form; Input validation; "required" errors on empty inputs', async () => {
-    const user = userEvent.setup();
+    vi.mocked(getStrength).mockResolvedValue(null);
     render(<UpdatePasswordPage />, { wrapper: BrowserRouter });
+    const user = userEvent.setup({ delay: null });
 
     const updatePasswordButton = screen.getByRole('button', { name: /update password/i });
     await user.click(updatePasswordButton);
 
-    const alert1 = await screen.findByText(/please enter strong password/i);
-    const alert2 = await screen.findByText(/please enter your new password again/i);
+    expect(await screen.findByText(PASSWORD_STRENGTH_RULES.required.message)).toBeInTheDocument();
+    expect(await screen.findByText(PASSWORDCONFIRM_RULES('new-password').required.message)).toBeInTheDocument();
 
-    expect(alert1).toBeInTheDocument();
-    expect(alert2).toBeInTheDocument();
-
-    // Submission
-    expect(consoleMock).not.toHaveBeenCalled();
+    expect(serviceHttp.accountUpdatePassword).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Input validation; if confirmed password is incorrect display error', async () => {
-    const user = userEvent.setup();
+    vi.mocked(getStrength).mockResolvedValue(4);
     render(<UpdatePasswordPage />, { wrapper: BrowserRouter });
+    const user = userEvent.setup({ delay: null });
 
     const passwordStrengthInput = await screen.findByLabelText(/^password$/i);
     const passwordConfirmInput = await screen.findByLabelText(/^confirm password$/i);
     const updatePasswordButton = await screen.findByRole('button', { name: /update password/i });
 
-    await user.click(passwordStrengthInput);
-    await user.keyboard(MAX_PASSWORD);
-    await user.click(passwordConfirmInput);
-    await user.keyboard('abc');
+    await user.type(passwordStrengthInput, MAX_PASSWORD);
+    await user.type(passwordConfirmInput, 'abc');
     await user.click(updatePasswordButton);
 
-    const alert1 = screen.queryByText(/please enter strong password/i);
-    const alert2 = screen.queryByText(/please enter your new password again/i);
-    const alert3 = screen.getByText(/Passwords must be identical/i);
+    expect(screen.queryByText(/please enter strong password/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/please enter your new password again/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/Passwords must be identical/i)).toBeInTheDocument();
 
-    expect(alert1).not.toBeInTheDocument();
-    expect(alert2).not.toBeInTheDocument();
-    expect(alert3).toBeInTheDocument();
-
-    // Submission
-    expect(consoleMock).not.toHaveBeenCalled();
+    expect(serviceHttp.accountUpdatePassword).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Submission success', async () => {
-    const user = userEvent.setup();
+    vi.mocked(getStrength).mockResolvedValue(4);
     render(<UpdatePasswordPage />, { wrapper: BrowserRouter });
+    const user = userEvent.setup({ delay: null });
 
     const passwordStrengthInput = await screen.findByLabelText(/^password$/i);
     const passwordConfirmInput = await screen.findByLabelText(/^confirm password$/i);
     const updatePasswordButton = screen.getByRole('button', { name: /update password/i });
 
-    await user.click(passwordStrengthInput);
-    await user.keyboard(MAX_PASSWORD);
-    await user.click(passwordConfirmInput);
-    await user.keyboard(MAX_PASSWORD);
+    await user.type(passwordStrengthInput, MAX_PASSWORD);
+    await user.type(passwordConfirmInput, MAX_PASSWORD);
     await user.click(updatePasswordButton);
 
-    const alert1 = screen.queryByText(/please enter strong password/i);
-    const alert2 = screen.queryByText(/please enter your new password again/i);
-    const alert3 = screen.queryByText(/Passwords must be identical/i);
+    expect(screen.queryByText(/please enter strong password/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/please enter your new password again/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Passwords must be identical/i)).not.toBeInTheDocument();
 
-    expect(alert1).not.toBeInTheDocument();
-    expect(alert2).not.toBeInTheDocument();
-    expect(alert3).not.toBeInTheDocument();
-
-    // Submission
-    expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock).toHaveBeenLastCalledWith({ confirmPassword: MAX_PASSWORD, newPassword: MAX_PASSWORD });
+    expect(serviceHttp.accountUpdatePassword).toHaveBeenCalledTimes(1); // Form submission
+    expect(serviceHttp.accountUpdatePassword).toHaveBeenLastCalledWith({
+      'confirm-password': MAX_PASSWORD,
+      'new-password': MAX_PASSWORD,
+    });
   });
 });
