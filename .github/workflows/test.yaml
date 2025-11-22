@@ -37,43 +37,42 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: Cache Cypress Binary
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/Cypress
-          key: cypress-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: cypress-${{ runner.os }}-
+      # - name: Cache Cypress Binary
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ~/.cache/Cypress
+      #     key: cypress-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+      #     restore-keys: cypress-${{ runner.os }}-
 
       - name: Install dependencies
         run: pnpm install
 
-      - name: CRM Client - Cypress Testing
-        run: pnpm --filter @apps/crm-client run cypress:e2e
+      # - name: CRM Client - Cypress Testing
+      #   run: pnpm --filter @apps/crm-client run cypress:e2e
 
       - name: CRM Client - Vitest
         run: pnpm --filter "./apps/crm/client" vitest:test
 
-      # - name: CRM Client - Cypress Binary
-      #   uses: cypress-io/github-action@v6
-      #   with:
-      #     working-directory: ./
-      #     install: true
-      #     install-command: pnpm --filter @apps/crm-client install
-      #     runTests: false
-      #   env:
-      #     CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+      - name: CRM Client - Cypress Binary
+        uses: cypress-io/github-action@v6
+        with:
+          project: ./apps/crm/client
+          install: true
+          runTests: false
+        # env:
+        #   CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
 
-      # - name: CRM Client - Cypress Testing
-      #   uses: cypress-io/github-action@v6
-      #   with:
-      #     working-directory: apps/crm/client
-      #     command: pnpm run cypress:e2e
-      #     install: false
-      #     component: false
-      #     record: false
-      #     publish-summary: true
-      #   env:
-      #     CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+      - name: CRM Client - Cypress Testing
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: apps/crm/client
+          command: pnpm run cypress:e2e
+          install: false
+          component: false
+          record: false
+          publish-summary: true
+        # env:
+        #   CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
 
       - name: CRM Server - Vitest
         run: pnpm --filter "./apps/crm/server" vitest:test
