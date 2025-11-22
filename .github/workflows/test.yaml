@@ -47,7 +47,8 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           working-directory: ./
-          install: false
+          install: true
+          install-command: echo "skip" # Binary only, not deps
           runTests: false
 
       - name: CRM Client - Cypress Testing
