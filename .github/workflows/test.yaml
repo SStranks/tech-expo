@@ -55,20 +55,8 @@ jobs:
 
       - name: CRM Server - Vitest
         run: pnpm --filter "./apps/crm/server" vitest:test
-
-      - name: CRM Client - Cypress Testing2
-        uses: cypress-io/github-action@v6
-        with:
-          project: apps/crm/client
-          # command: pnpm run cypress:e2e
-          install: false
-          component: false
-          record: false
-          publish-summary: true
-        # env:
-        #   CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
 #
-#
+# https://github.com/cypress-io/github-action/issues/1590
 # NOTE: Bug with cypress-action; relies on npx to source binary cache;
 # 'working-directory' requires lock-file presence (not in current monorepo setup);
 # 'working-directory' required for the installation step
