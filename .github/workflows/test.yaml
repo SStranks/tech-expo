@@ -46,7 +46,7 @@ jobs:
       - name: CRM Client - Cypress
         uses: cypress-io/github-action@v6
         with:
-          working-directory: .
+          working-directory: ./
           command: pnpm --filter "./apps/crm/client" cypress:e2e
           build: false
           component: false
