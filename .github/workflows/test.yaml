@@ -46,8 +46,9 @@ jobs:
       - name: CRM Client - Cypress Binary
         uses: cypress-io/github-action@v6
         with:
-          working-directory: apps/crm/client
+          working-directory: ./
           install: true
+          install-command: pnpm --filter './apps/crm/client' install
           runTests: false
         env:
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
