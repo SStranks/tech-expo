@@ -47,6 +47,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: CRM Client - Cypress Testing
+        run: pnpm --filter @apps/crm-client run cypress:e2e
+
       - name: CRM Client - Vitest
         run: pnpm --filter "./apps/crm/client" vitest:test
 
@@ -60,17 +63,17 @@ jobs:
       #   env:
       #     CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
 
-      - name: CRM Client - Cypress Testing
-        uses: cypress-io/github-action@v6
-        with:
-          working-directory: apps/crm/client
-          command: pnpm run cypress:e2e
-          install: false
-          component: false
-          record: false
-          publish-summary: true
-        env:
-          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+      # - name: CRM Client - Cypress Testing
+      #   uses: cypress-io/github-action@v6
+      #   with:
+      #     working-directory: apps/crm/client
+      #     command: pnpm run cypress:e2e
+      #     install: false
+      #     component: false
+      #     record: false
+      #     publish-summary: true
+      #   env:
+      #     CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
 
       - name: CRM Server - Vitest
         run: pnpm --filter "./apps/crm/server" vitest:test
