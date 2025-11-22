@@ -49,6 +49,8 @@ jobs:
           working-directory: ./
           install: true
           runTests: false
+        env:
+          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
 
       - name: CRM Client - Cypress Testing
         uses: cypress-io/github-action@v6
