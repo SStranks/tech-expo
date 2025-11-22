@@ -17,13 +17,13 @@
   "devEngines": {
     "runtime": {
       "name": "node",
-      "onFail": "error",
-      "version": "22.16.0"
+      "onFail": "warn",
+      "version": ">=22"
     },
     "packageManager": {
       "name": "pnpm",
-      "onFail": "error",
-      "version": "10.13.1"
+      "onFail": "warn",
+      "version": ">=10"
     }
   },
   "prettier": "@packages/prettier-config",
