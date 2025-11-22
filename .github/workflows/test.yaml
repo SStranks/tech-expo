@@ -47,7 +47,6 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           working-directory: ./
-          build: false
           install: false
           runTests: false
 
@@ -56,7 +55,6 @@ jobs:
         with:
           working-directory: apps/crm/client
           command: pnpm run cypress:e2e
-          build: false
           install: false
           component: false
           record: false
