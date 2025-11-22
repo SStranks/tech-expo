@@ -44,15 +44,11 @@ jobs:
       #     key: cypress-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
       #     restore-keys: cypress-${{ runner.os }}-
 
-      # - name: Install dependencies
-      #   run: pnpm install
+      - name: Install dependencies
+        run: pnpm install
 
       # - name: CRM Client - Cypress Testing
       #   run: pnpm --filter @apps/crm-client run cypress:e2e
-
-      - name: CRM Client - Vitest
-        run: pnpm --filter "./apps/crm/client" vitest:test
-
       - name: CRM Client - Cypress Binary
         uses: cypress-io/github-action@v6
         with:
@@ -73,6 +69,9 @@ jobs:
           publish-summary: true
         # env:
         #   CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+
+      - name: CRM Client - Vitest
+        run: pnpm --filter "./apps/crm/client" vitest:test
 
       - name: CRM Server - Vitest
         run: pnpm --filter "./apps/crm/server" vitest:test
