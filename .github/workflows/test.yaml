@@ -51,7 +51,8 @@ jobs:
       - name: CRM Client - Cypress Binary
         uses: cypress-io/github-action@v6
         with:
-          working-directory: apps/crm/client
+          working-directory: ./
+          project: apps/crm/client
           install: true
           runTests: false
         # env:
