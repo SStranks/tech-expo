@@ -48,7 +48,6 @@ jobs:
         with:
           working-directory: ./
           install: true
-          install-command: echo "skip" # Binary only, not deps
           runTests: false
 
       - name: CRM Client - Cypress Testing
