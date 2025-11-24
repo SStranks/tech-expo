@@ -26,7 +26,6 @@ function ReactPortal({ children, wrapperId = 'react-portal-wrapper' }: PortalChi
   const wrapperElementRef = useRef<WrapperState>(null);
 
   useLayoutEffect(() => {
-    // let element = document.querySelector('#wrapperId');
     let element = document.querySelector(`#${wrapperId}`);
     let systemCreated = false;
 

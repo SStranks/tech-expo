@@ -1,7 +1,7 @@
 import { flexRender, type Table } from '@tanstack/react-table';
-import { useRef } from 'react';
 
 import { FilterRowControl, SortRowControl } from '../controls';
+import { useTableDragScroll } from '../hooks/useTableDragScroll';
 
 import styles from './TableListView.module.scss';
 
@@ -14,47 +14,13 @@ interface IProps<T> {
  */
 function TableListView<T>(props: IProps<T>): React.JSX.Element {
   const { table } = props;
-  const tableContainerRef = useRef<HTMLDivElement>(null);
-  let pos = { left: 0, x: 0 };
-
-  const theadMouseMove = (e: MouseEvent) => {
-    if (tableContainerRef.current) {
-      // How far the mouse has been moved
-      const dx = e.clientX - pos.x;
-      // Scroll the element
-      tableContainerRef.current.scrollLeft = pos.left - dx;
-    }
-  };
-
-  const theadMouseUp = () => {
-    if (tableContainerRef.current) {
-      document.body.style.cursor = 'unset';
-      tableContainerRef.current.style.removeProperty('user-select');
-      tableContainerRef.current.removeEventListener('mousemove', theadMouseMove);
-      document.removeEventListener('mouseup', theadMouseUp);
-    }
-  };
-
-  const theadMouseDown = (e: React.MouseEvent) => {
-    if (tableContainerRef.current) {
-      pos = {
-        // The current scroll
-        left: tableContainerRef.current.scrollLeft,
-        // Get the current mouse position
-        x: e.clientX,
-      };
-      document.body.style.cursor = 'grabbing';
-      tableContainerRef.current.style.userSelect = 'none';
-      tableContainerRef.current.addEventListener('mousemove', theadMouseMove);
-      document.addEventListener('mouseup', theadMouseUp);
-    }
-  };
+  const { containerRef, handleMouseDown } = useTableDragScroll<HTMLDivElement>();
 
   return (
-    <div className={styles.tableContainer} ref={tableContainerRef}>
+    <div className={styles.tableContainer} ref={containerRef}>
       <table className={styles.table}>
         {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-        <thead className={styles.thead} onMouseDown={theadMouseDown}>
+        <thead className={styles.thead} onMouseDown={handleMouseDown}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
