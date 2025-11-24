@@ -17,8 +17,9 @@ $padding: 16px;
   background-color: inherit;
   border: form.$input-border;
   border-radius: form.$input-border-radius;
-  transition: anim.$input-focus;
-  transition: anim.$theme-transition-background;
+  transition:
+    anim.$input-focus, anim.$theme-transition-background, anim.$theme-transition-color,
+    anim.$theme-transition-border-color;
   outline: none;
 
   & > input,
@@ -33,7 +34,9 @@ $padding: 16px;
     font-size: 16px;
     background-color: inherit;
     color: form.$input-placeholder;
-    transition: transform 0.2s ease-in-out;
+    transition:
+      transform 0.2s ease-in-out,
+      anim.$theme-transition-color;
 
     &[data-is-dirty='true'] {
       padding-inline: 4px;
@@ -64,6 +67,7 @@ $padding: 16px;
     transform: translate(-50%, calc(+50% - 2px));
     overflow: hidden;
     text-wrap: nowrap;
+    transition: anim.$theme-transition-color;
   }
 
   &__required {
@@ -82,6 +86,7 @@ $padding: 16px;
       background-color: inherit;
       transform: translate(-50%, calc(-50% - 2px));
       transition:
+        anim.$theme-transition-color,
         width 0.4s,
         padding-inline 0.4s;
       overflow: hidden;
