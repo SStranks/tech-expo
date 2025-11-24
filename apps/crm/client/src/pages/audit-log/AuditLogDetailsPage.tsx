@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
@@ -6,12 +6,8 @@ import { TableAuditLogDetails } from '@Components/tanstack-table/tables';
 import { tableDataAuditLogDetails } from '@Data/MockData';
 
 function AuditLogDetailsPage(): React.JSX.Element {
-  const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
+  const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setPortalActiveInternal(true);
-  }, [setPortalActiveInternal]);
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);

@@ -1,6 +1,6 @@
 import type { SubmitHandler } from 'react-hook-form';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
@@ -22,7 +22,7 @@ type IFormData = {
 };
 
 function PipelineDealUpdatePage(): React.JSX.Element {
-  const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
+  const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const navigate = useNavigate();
   const { state } = useLocation();
   const [locationState] = useState(state);
@@ -32,10 +32,6 @@ function PipelineDealUpdatePage(): React.JSX.Element {
   // TODO:  Make dynamic; check RHF Provider; can we change the type from { name: string } to just string[]??
   // const stageList = ['unassigned', ...columnOrder.map((columnId) => columns[columnId].title), 'won', 'lost'];
   const stageList = [{ name: 'unassigned' }, { name: 'new' }, { name: 'won' }, { name: 'lost' }];
-
-  useEffect(() => {
-    setPortalActiveInternal(true);
-  }, [setPortalActiveInternal]);
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
@@ -110,7 +106,7 @@ function PipelineDealUpdatePage(): React.JSX.Element {
         </FormModal.Content>
         <FormModal.Footer>
           <FormModal.CancelButton />
-          <FormProvider.SubmitButton />
+          <FormProvider.SubmitButton name="submit" />
         </FormModal.Footer>
       </FormProvider>
     </FormModal>

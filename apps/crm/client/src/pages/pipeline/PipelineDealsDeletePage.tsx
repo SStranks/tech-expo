@@ -9,17 +9,13 @@ import { deleteDealsAll } from '@Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch } from '@Redux/hooks';
 
 function PiplineDealsDeletePage(): React.JSX.Element {
-  const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
+  const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
   // TODO:  Change assertion to runtime check later, using type guard.
   // TODO:  Apply this approach to the other components using useLocation.
   const { state } = useLocation();
   const [locationState] = useState(state);
-
-  useEffect(() => {
-    setPortalActiveInternal(true);
-  }, [setPortalActiveInternal]);
 
   useEffect(() => {
     const column = document.querySelector(`[data-rbd-droppable-id="${locationState.columnId}"]`);

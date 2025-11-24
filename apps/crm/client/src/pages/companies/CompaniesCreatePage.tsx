@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
@@ -9,12 +9,8 @@ import { GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules'
 const listItems = [{ name: 'Adam' }, { name: 'Bob' }, { name: 'Chuck' }, { name: 'Dave' }];
 
 function CompaniesCreatePage(): React.JSX.Element {
-  const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
+  const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setPortalActiveInternal(true);
-  }, [setPortalActiveInternal]);
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
@@ -37,7 +33,7 @@ function CompaniesCreatePage(): React.JSX.Element {
         </FormModal.Content>
         <FormModal.Footer>
           <FormModal.CancelButton />
-          <FormProvider.SubmitButton />
+          <FormProvider.SubmitButton name="submit" />
         </FormModal.Footer>
       </FormProvider>
     </FormModal>

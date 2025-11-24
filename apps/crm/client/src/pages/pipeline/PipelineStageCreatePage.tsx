@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,13 +13,9 @@ type IFormData = {
 };
 
 function PipelineStageCreatePage(): React.JSX.Element {
-  const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
+  const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setPortalActiveInternal(true);
-  }, [setPortalActiveInternal]);
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
@@ -41,7 +37,7 @@ function PipelineStageCreatePage(): React.JSX.Element {
         </FormModal.Content>
         <FormModal.Footer>
           <FormModal.CancelButton />
-          <FormProvider.SubmitButton />
+          <FormProvider.SubmitButton name="submit" />
         </FormModal.Footer>
       </FormProvider>
     </FormModal>

@@ -10,16 +10,12 @@ import { TableQuotesDelete } from '@Components/tanstack-table/tables';
 import { StylesTableListView } from '@Components/tanstack-table/views';
 
 function QuoteDeletePage(): React.JSX.Element {
-  const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
+  const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const navigate = useNavigate();
   // TODO:  Change assertion to runtime check later, using type guard.
   // TODO:  Apply this approach to the other components using useLocation.
   const state = useLocation().state as CoreRow<ITableDataQuotes>['original'];
   const [id] = useState(() => state.id);
-
-  useEffect(() => {
-    setPortalActiveInternal(true);
-  }, [setPortalActiveInternal]);
 
   useEffect(() => {
     const tableRow = document.querySelector(`tr[data-table-row-id="${id}"]`);

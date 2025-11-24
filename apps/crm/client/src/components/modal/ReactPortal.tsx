@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 /*
@@ -23,6 +23,7 @@ function createWrapperAndAppendToBody(wrapperId: string) {
 
 function ReactPortal({ children, wrapperId = 'react-portal-wrapper' }: PortalChildren): React.ReactPortal | null {
   const [wrapperElement, setWrapperElement] = useState<WrapperState>(null);
+  const wrapperElementRef = useRef<WrapperState>(null);
 
   useLayoutEffect(() => {
     // let element = document.querySelector('#wrapperId');
@@ -37,7 +38,9 @@ function ReactPortal({ children, wrapperId = 'react-portal-wrapper' }: PortalChi
       systemCreated = true;
       element = createWrapperAndAppendToBody(wrapperId);
     }
-    setWrapperElement(element);
+
+    wrapperElementRef.current = element;
+    setWrapperElement(wrapperElementRef.current);
 
     return () => {
       // delete the programatically created element

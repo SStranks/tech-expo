@@ -10,16 +10,12 @@ import { TableCompaniesDelete } from '@Components/tanstack-table/tables';
 import { StylesTableListView } from '@Components/tanstack-table/views';
 
 function CompaniesDeletePage(): React.JSX.Element {
-  const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
+  const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const navigate = useNavigate();
   // TODO:  Change assertion to runtime check later, using type guard.
   // TODO:  Apply this approach to the other components using useLocation.
   const state = useLocation().state as CoreRow<ITableDataCompanies>['original'];
   const [id] = useState(() => state.id);
-
-  useEffect(() => {
-    setPortalActiveInternal(true);
-  }, [setPortalActiveInternal]);
 
   useEffect(() => {
     const tableRow = document.querySelector(`[data-table-row-id="${id}"]`);

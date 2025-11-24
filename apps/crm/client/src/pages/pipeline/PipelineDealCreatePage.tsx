@@ -1,6 +1,6 @@
 import type { SubmitHandler } from 'react-hook-form';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
@@ -22,7 +22,7 @@ type IFormData = {
 };
 
 function PipelineDealCreatePage(): React.JSX.Element {
-  const [portalActive, setPortalActiveInternal] = useState<boolean>(false);
+  const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   // const { columns, columnOrder } = useReduxSelector((store) => store.scrumboardPipeline);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
@@ -32,10 +32,6 @@ function PipelineDealCreatePage(): React.JSX.Element {
   // TODO:  Make dynamic; check RHF Provider; can we change the type from { name: string } to just string[]??
   // const stageList = ['unassigned', ...columnOrder.map((columnId) => columns[columnId].title), 'won', 'lost'];
   const stageList = [{ name: 'unassigned' }, { name: 'new' }, { name: 'won' }, { name: 'lost' }];
-
-  useEffect(() => {
-    setPortalActiveInternal(true);
-  }, [setPortalActiveInternal]);
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
@@ -89,7 +85,7 @@ function PipelineDealCreatePage(): React.JSX.Element {
         </FormModal.Content>
         <FormModal.Footer>
           <FormModal.CancelButton />
-          <FormProvider.SubmitButton />
+          <FormProvider.SubmitButton name="submit" />
         </FormModal.Footer>
       </FormProvider>
     </FormModal>
