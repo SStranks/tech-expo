@@ -7,10 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import { Input } from '@Components/react-hook-form';
 import InputPasswordSkeleton from '@Components/react-hook-form/input-password/InputPasswordSkeleton';
 import InputUx from '@Components/react-hook-form/InputUx';
-import { PASSWORDCONFIRM_RULES } from '@Components/react-hook-form/validationRules';
+import { PASSWORDCONFIRM_RULES, VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
 import serviceHttp from '@Services/serviceHttp';
 
 import styles from './UpdatePasswordPage.module.scss';
+
+// import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
+
+// const { passwor} = validations
 
 // Contains 'zxcvbn' package; heavy weight
 const InputPasswordStrength = lazy(
@@ -59,13 +63,20 @@ function UpdatePasswordPage(): React.JSX.Element {
             id={confirmPasswordId}
             label="Confirm Password"
             name="confirm-password"
-            rules={PASSWORDCONFIRM_RULES('new-password')}
+            rules={PASSWORDCONFIRM_RULES}
             defaultValue={defaultValues?.['confirm-password']}>
             <Input
               id={confirmPasswordId}
               type="password"
               name="confirm-password"
-              rules={PASSWORDCONFIRM_RULES('new-password')}
+              rules={{
+                ...PASSWORDCONFIRM_RULES,
+                validate: {
+                  confirm: (confirmPassword) =>
+                    confirmPassword === methods.getValues('new-password') ||
+                    VALIDATION_MESSAGES.PASSWORDCONFIRM_RULES.validate.confirm,
+                },
+              }}
               autoComplete="new-password"
             />
           </InputUx>

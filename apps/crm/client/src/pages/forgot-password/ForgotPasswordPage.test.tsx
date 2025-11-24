@@ -3,10 +3,12 @@ import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 
-import { EMAIL_RULES } from '@Components/react-hook-form/validationRules';
+import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
 import serviceHttp from '@Services/serviceHttp';
 
 import ForgotPasswordPage from './ForgotPasswordPage';
+
+const { EMAIL_RULES } = VALIDATION_MESSAGES;
 
 vi.spyOn(serviceHttp, 'accountForgotPassword').mockImplementation(async (data) => data);
 
@@ -67,7 +69,7 @@ describe('Functionality', () => {
     await user.keyboard('invalidAddress');
     await user.click(resetPasswordButton);
 
-    expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern.message);
+    expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern);
 
     expect(serviceHttp.accountForgotPassword).not.toHaveBeenCalled(); // Form submission
   });

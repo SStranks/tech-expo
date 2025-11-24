@@ -3,12 +3,14 @@ import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, test, vi } from 'vitest';
 
-import { PASSWORD_STRENGTH_RULES, PASSWORDCONFIRM_RULES } from '@Components/react-hook-form/validationRules';
+import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
 import { MAX_PASSWORD } from '@Lib/__mocks__/zxcvbn';
 import { getStrength } from '@Lib/zxcvbn';
 import serviceHttp from '@Services/serviceHttp';
 
 import UpdatePasswordPage from './UpdatePasswordPage';
+
+const { PASSWORD_STRENGTH_RULES, PASSWORDCONFIRM_RULES } = VALIDATION_MESSAGES;
 
 vi.mock('@Lib/zxcvbn', () => ({
   getStrength: vi.fn(),
@@ -54,8 +56,8 @@ describe('Functionality', () => {
     const updatePasswordButton = screen.getByRole('button', { name: /update password/i });
     await user.click(updatePasswordButton);
 
-    expect(await screen.findByText(PASSWORD_STRENGTH_RULES.required.message)).toBeInTheDocument();
-    expect(await screen.findByText(PASSWORDCONFIRM_RULES('new-password').required.message)).toBeInTheDocument();
+    expect(await screen.findByText(PASSWORD_STRENGTH_RULES.required)).toBeInTheDocument();
+    expect(await screen.findByText(PASSWORDCONFIRM_RULES.required)).toBeInTheDocument();
 
     expect(serviceHttp.accountUpdatePassword).not.toHaveBeenCalled(); // Form submission
   });
@@ -73,9 +75,9 @@ describe('Functionality', () => {
     await user.type(passwordConfirmInput, 'abc');
     await user.click(updatePasswordButton);
 
-    expect(screen.queryByText(/please enter strong password/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/please enter your new password again/i)).not.toBeInTheDocument();
-    expect(screen.getByText(/Passwords must be identical/i)).toBeInTheDocument();
+    expect(screen.queryByText(PASSWORD_STRENGTH_RULES.required)).not.toBeInTheDocument();
+    expect(screen.queryByText(PASSWORDCONFIRM_RULES.required)).not.toBeInTheDocument();
+    expect(screen.getByText(PASSWORDCONFIRM_RULES.validate.confirm)).toBeInTheDocument();
 
     expect(serviceHttp.accountUpdatePassword).not.toHaveBeenCalled(); // Form submission
   });
@@ -93,9 +95,9 @@ describe('Functionality', () => {
     await user.type(passwordConfirmInput, MAX_PASSWORD);
     await user.click(updatePasswordButton);
 
-    expect(screen.queryByText(/please enter strong password/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/please enter your new password again/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Passwords must be identical/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(PASSWORD_STRENGTH_RULES.required)).not.toBeInTheDocument();
+    expect(screen.queryByText(PASSWORDCONFIRM_RULES.required)).not.toBeInTheDocument();
+    expect(screen.queryByText(PASSWORDCONFIRM_RULES.validate.confirm)).not.toBeInTheDocument();
 
     expect(serviceHttp.accountUpdatePassword).toHaveBeenCalledTimes(1); // Form submission
     expect(serviceHttp.accountUpdatePassword).toHaveBeenLastCalledWith({

@@ -12,7 +12,7 @@ import { PASSWORD_STRENGTH_RULES } from '../validationRules';
 
 import styles from './InputPasswordStrength.module.scss';
 
-const ARIA_LIVE = [
+export const ARIA_LIVE_MESSAGES = [
   'Password strength 0 out of 4: Too guessable',
   'Password strength 1 out of 4: Very guessable',
   'Password strength 2 out of 4: Somewhat guessable',
@@ -22,7 +22,7 @@ const ARIA_LIVE = [
 
 const screenReaderText = (passwordScore: Score | null) => {
   if (passwordScore !== null) {
-    return ARIA_LIVE[passwordScore];
+    return ARIA_LIVE_MESSAGES[passwordScore];
   }
 
   return false;

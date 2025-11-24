@@ -3,12 +3,14 @@ import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, vi } from 'vitest';
 
-import { EMAIL_RULES, PASSWORD_STRENGTH_RULES } from '@Components/react-hook-form/validationRules';
+import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
 import { MAX_PASSWORD } from '@Lib/__mocks__/zxcvbn';
 import { getStrength } from '@Lib/zxcvbn';
 import serviceHttp from '@Services/serviceHttp';
 
 import RegisterPage from './RegisterPage';
+
+const { EMAIL_RULES, PASSWORD_STRENGTH_RULES } = VALIDATION_MESSAGES;
 
 vi.mock('@Lib/zxcvbn', () => ({
   getStrength: vi.fn(),
@@ -64,8 +66,8 @@ describe('Functionality', () => {
     const registerAccountButton = screen.getByRole('button', { name: /register account/i });
     await user.click(registerAccountButton);
 
-    expect(await screen.findByText(EMAIL_RULES.required.message)).toBeInTheDocument();
-    expect(await screen.findByText(PASSWORD_STRENGTH_RULES.required.message)).toBeInTheDocument();
+    expect(await screen.findByText(EMAIL_RULES.required)).toBeInTheDocument();
+    expect(await screen.findByText(PASSWORD_STRENGTH_RULES.required)).toBeInTheDocument();
     expect(serviceHttp.accountLogin).not.toHaveBeenCalled(); // Form Submission
   });
 
@@ -82,7 +84,7 @@ describe('Functionality', () => {
     await user.type(passwordInput, MAX_PASSWORD);
     await user.click(registerAccountButton);
 
-    expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern.message);
+    expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern);
     expect(serviceHttp.accountLogin).not.toHaveBeenCalled(); // Form submission
   });
 
@@ -99,7 +101,7 @@ describe('Functionality', () => {
     await user.type(passwordInput, 'a');
     await user.click(registerAccountButton);
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('Password is insufficiently strong');
+    expect(await screen.findByRole('alert')).toHaveTextContent(PASSWORD_STRENGTH_RULES.validate.strength);
     expect(serviceHttp.accountLogin).not.toHaveBeenCalled(); // Form submission
   });
 

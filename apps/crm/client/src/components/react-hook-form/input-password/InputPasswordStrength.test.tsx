@@ -7,8 +7,10 @@ import { MAX_PASSWORD } from '@Lib/__mocks__/zxcvbn';
 import { usePasswordStrength } from '@Lib/zxcvbn';
 
 import { FormProvider } from '../form-provider';
-import InputPasswordStrength from './InputPasswordStrength';
+import { VALIDATION_MESSAGES } from '../validationRules';
+import InputPasswordStrength, { ARIA_LIVE_MESSAGES } from './InputPasswordStrength';
 
+const { PASSWORD_STRENGTH_RULES, PASSWORDCONFIRM_RULES } = VALIDATION_MESSAGES;
 const defaultValues = { password: '' };
 
 vi.mock('@Lib/zxcvbn', () => ({
@@ -53,7 +55,7 @@ describe('Functionality', () => {
 
     const ariaOutputElement = screen.getByTestId('password-strength-status');
 
-    expect(ariaOutputElement).toHaveTextContent('Password strength 0 out of 4: Too guessable');
+    expect(ariaOutputElement).toHaveTextContent(ARIA_LIVE_MESSAGES[0]);
   });
 
   test('Maximum strength password should have strength score of 4', async () => {
@@ -71,16 +73,16 @@ describe('Functionality', () => {
 
     await user.type(passwordInput, MAX_PASSWORD);
 
-    const alert1 = screen.queryByText(/please enter strong password/i);
-    const alert2 = screen.queryByText(/please enter your new password again/i);
-    const alert3 = screen.queryByText(/passwords must be identical/i);
-    const alert4 = screen.queryByText(/password is insufficiently strong/i);
+    const alert1 = screen.queryByText(PASSWORD_STRENGTH_RULES.required);
+    const alert2 = screen.queryByText(PASSWORDCONFIRM_RULES.required);
+    const alert3 = screen.queryByText(PASSWORDCONFIRM_RULES.validate.confirm);
+    const alert4 = screen.queryByText(PASSWORD_STRENGTH_RULES.validate.strength);
 
     expect(alert1).not.toBeInTheDocument();
     expect(alert2).not.toBeInTheDocument();
     expect(alert3).not.toBeInTheDocument();
     expect(alert4).not.toBeInTheDocument();
 
-    expect(ariaOutputElement).toHaveTextContent('Password strength 4 out of 4: Very unguessable');
+    expect(ariaOutputElement).toHaveTextContent(ARIA_LIVE_MESSAGES[4]);
   });
 });

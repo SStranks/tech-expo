@@ -3,11 +3,13 @@ import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 
-import { EMAIL_RULES } from '@Components/react-hook-form/validationRules';
+import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
 import { renderWithProviders } from '@Redux/utils';
 import serviceHttp from '@Services/serviceHttp';
 
 import LoginPage from './LoginPage';
+
+const { EMAIL_RULES } = VALIDATION_MESSAGES;
 
 vi.spyOn(serviceHttp, 'accountLogin').mockImplementation(async (data) => data);
 
@@ -85,7 +87,7 @@ describe('Functionality', () => {
     await user.type(passwordInput, 'validpassword');
     await user.click(signInButton);
 
-    expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern.message);
+    expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern);
     expect(serviceHttp.accountLogin).not.toHaveBeenCalled(); // Form submission
   });
 
