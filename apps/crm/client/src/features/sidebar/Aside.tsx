@@ -13,16 +13,15 @@ import {
   IconPipe,
   IconScrum,
   IconSettings,
-  IIcon,
 } from '@Components/svg';
 
 import { MenuLink, MenuToggle } from './components';
 
 import styles from './Aside.module.scss';
 
-type TMenuCategories = [string, string, IIcon][];
+// type TMenuCategories = [string, string, IIcon][];
 
-export const MENU_CATEGORIES: TMenuCategories = [
+export const MENU_CATEGORIES = [
   ['Dashboard', '/', IconDashboard],
   ['Calendar', '/calendar', IconCalendar],
   ['Scrumboard', '/scrumboard', IconScrum],
@@ -34,7 +33,7 @@ export const MENU_CATEGORIES: TMenuCategories = [
   ['Administration', '/adminstration', IconAdministration],
   ['Settings', '/settings', IconSettings],
   ['Audit Log', '/auditlog', IconAudit],
-];
+] as const;
 
 export function Aside(): React.JSX.Element {
   const [sidebarMaximize, setSidebarMaximize] = useState<boolean | undefined>();
@@ -47,6 +46,7 @@ export function Aside(): React.JSX.Element {
     <aside className={`${styles.aside} ${sidebarMaximize ? styles['aside--minimize'] : ''}`}>
       <ul className={styles.aside__list}>{menuLinks}</ul>
       <div className={styles.aside__menuButton}>
+        <div className={styles.aside__menuButton__mask} />
         <ToolTip text={sidebarMaximize ? 'Maximize Menu' : 'Minimize Menu'} position="right" offset={16}>
           <MenuToggle sidebarMaximize={sidebarMaximize} setSidebarMaximize={setSidebarMaximize} />
         </ToolTip>

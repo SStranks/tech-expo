@@ -42,6 +42,7 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
     text-wrap: nowrap;
     opacity: 1;
     transition:
+      anim.$theme-transition-color,
       width 500ms,
       opacity 750ms 150ms; // Fade In
 

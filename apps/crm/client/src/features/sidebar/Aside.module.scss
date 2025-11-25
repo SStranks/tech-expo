@@ -37,17 +37,31 @@
     border-radius: 8px;
     transition: anim.$theme-transition-background, anim.$theme-transition-border-color;
 
-    &::before {
-      content: '';
+    &__mask {
       position: absolute;
       top: -45px;
-      left: 22.5px;
+      left: 7.5px;
       width: 45px;
       height: 45px;
       border-bottom-left-radius: 16px;
-      box-shadow: -15px 0 0 0 var(--thm-background-default);
-      transition: anim.$theme-transition-boxshadow;
+      transition: anim.$theme-transition-background;
+      background-color: var(--thm-background-default);
+      clip-path: path('M0 0, L15 0, L15 29, A16 16 0 0 0 31 45, L0 45, L0 0');
     }
+
+    // NOTE: #v1 of 'mask': transition of background-color out-of-phase when using ::psuedo and/or box-shadow property;
+    // ----- see implementation using clip-path svg property instead
+    // &::before {
+    //   content: '';
+    //   position: absolute;
+    //   top: -45px;
+    //   left: 22.5px;
+    //   width: 45px;
+    //   height: 45px;
+    //   border-bottom-left-radius: 16px;
+    //   box-shadow: -15px 0 0 0 var(--thm-background-default);
+    //   transition: anim.$theme-transition-boxshadow;
+    // }
   }
 
   &--minimize {
