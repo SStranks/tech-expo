@@ -34,6 +34,11 @@ const preview: Preview = {
     },
   },
   parameters: {
+    ally: {
+      config: {},
+      context: 'body',
+      options: {},
+    },
     backgrounds: {
       options: {
         default: { name: 'Default', value: 'var(--thm-background-screen)' },

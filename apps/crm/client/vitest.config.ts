@@ -1,5 +1,8 @@
 /// <reference types="vitest/config" />
+import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import { playwright } from '@vitest/browser-playwright';
 import { loadEnv } from 'vite';
+import viteTsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
 import path from 'node:path';
@@ -8,33 +11,10 @@ import url from 'node:url';
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 export default defineConfig({
+  plugins: [viteTsconfigPaths()],
   css: {
     preprocessorOptions: {
       scss: {},
-    },
-  },
-  resolve: {
-    alias: {
-      '@Components': path.resolve(__dirname, 'src/components'),
-      '@Config': path.resolve(__dirname, 'src/config'),
-      '@Context': path.resolve(__dirname, 'src/context'),
-      '@Data': path.resolve(__dirname, 'src/data'),
-      '@Features': path.resolve(__dirname, 'src/features'),
-      '@Hooks': path.resolve(__dirname, 'src/hooks'),
-      '@Img': path.resolve(__dirname, 'src/assets/img'),
-      '@Layouts': path.resolve(__dirname, 'src/layouts'),
-      '@Lib': path.resolve(__dirname, 'src/lib'),
-      '@Modules': path.resolve(__dirname, 'src/modules'),
-      '@Pages': path.resolve(__dirname, 'src/pages'),
-      '@Redux': path.resolve(__dirname, 'src/redux'),
-      '@Routes': path.resolve(__dirname, 'src/routes'),
-      '@Sass': path.resolve(__dirname, 'src/assets/sass'),
-      '@Services': path.resolve(__dirname, 'src/services'),
-      '@Shared': path.resolve(__dirname, '../shared'),
-      '@Stories': path.resolve(__dirname, 'src/stories'),
-      '@Svg': path.resolve(__dirname, 'src/assets/svg'),
-      '@Types': path.resolve(__dirname, 'src/types'),
-      '@Utils': path.resolve(__dirname, 'src/utils'),
     },
   },
   test: {
@@ -58,6 +38,32 @@ export default defineConfig({
       '**/webpack/**',
       '**/.{idea,git,cache,output,temp}/**',
       '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*',
+    ],
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'unit',
+        },
+      },
+      {
+        plugins: [
+          storybookTest({
+            configDir: path.join(__dirname, '.storybook'),
+            storybookScript: 'pnpm run storybook',
+          }),
+        ],
+        test: {
+          name: 'storybook',
+          setupFiles: ['./.storybook/vitest.setup.ts'],
+          browser: {
+            enabled: true,
+            headless: true,
+            instances: [{ browser: 'chromium' }],
+            provider: playwright({}),
+          },
+        },
+      },
     ],
   },
 });
