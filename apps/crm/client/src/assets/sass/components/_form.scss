@@ -130,6 +130,7 @@ $border-radius: 8px;
 $input-height: 50px;
 $input-padding: 16px;
 $input-background-color: transparent;
+$input-background-color-disabled: var(--thm-background-subtle);
 $input-color-active: var(--thm-border-info);
 $input-color-success: var(--thm-success-primary);
 $input-color-danger: var(--thm-border-danger);
@@ -165,6 +166,16 @@ $input-border-radius: 8px;
 @mixin input-validated {
   animation: pulse 1s;
   box-shadow: 0 0 0 10px transparent;
+}
+
+@mixin input-hover {
+  border-color: $input-color-active;
+  box-shadow: 0 0 0 1px $input-color-active;
+}
+
+@mixin input-disabled {
+  pointer-events: none;
+  background-color: $input-background-color-disabled;
 }
 
 @keyframes pulse {

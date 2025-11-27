@@ -21,6 +21,7 @@ export function ThemeToggle({ children, themeBg, updateGlobals }: PropsWithChild
             type="color"
             value={themeBg.light || ''}
             onChange={(e) => updateGlobals({ themeBg: { ...themeBg, light: e.target.value } })}
+            aria-label="light-mode background colour"
           />
         </div>
         <div className={styles.widgets__widget}>
@@ -29,6 +30,7 @@ export function ThemeToggle({ children, themeBg, updateGlobals }: PropsWithChild
             type="color"
             value={themeBg.dark || ''}
             onChange={(e) => updateGlobals({ themeBg: { ...themeBg, dark: e.target.value } })}
+            aria-label="dark-mode background colour"
           />
         </div>
       </div>
