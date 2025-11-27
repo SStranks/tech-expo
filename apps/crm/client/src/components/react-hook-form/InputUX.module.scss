@@ -22,9 +22,18 @@ $padding: 16px;
     anim.$theme-transition-border-color;
   outline: none;
 
+  &:hover {
+    @include form.input-hover;
+  }
+
+  &[aria-disabled='true'] {
+    @include form.input-disabled;
+  }
+
   & > input,
   & > textarea {
     border-style: hidden;
+    transition: anim.$theme-transition-color;
   }
 
   &__label {
