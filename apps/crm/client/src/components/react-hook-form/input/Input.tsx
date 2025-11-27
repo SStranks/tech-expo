@@ -2,6 +2,7 @@ import type { HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, InputHTMLA
 
 import type { TValidationRules } from '../validationRules';
 
+import { useEffect } from 'react';
 import { useFormContext, useFormState } from 'react-hook-form';
 
 import styles from './Input.module.scss';
@@ -23,6 +24,10 @@ function Input(props: IProps): React.JSX.Element {
   const defaultValue = defaultValues?.[name];
   const error = errors?.[name];
 
+  useEffect(() => {
+    if (defaultValue) trigger(name);
+  }, [defaultValue, name, trigger]);
+
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown
   return (
     <input
@@ -35,7 +40,6 @@ function Input(props: IProps): React.JSX.Element {
       placeholder=""
       aria-invalid={error ? true : false}
       aria-required={!!rules?.required}
-      aria-describedby={`${id}-error`}
     />
   );
 }
