@@ -120,7 +120,7 @@ export const initialData: IInitialData = {
     'column-unassigned': {
       id: 'column-unassigned',
       title: 'unassigned',
-      taskIds: ['task-1', 'task-2', 'task-5', 'task-6', 'task-7', 'task-8', 'task-9', 'task-10'],
+      taskIds: ['task-1', 'task-2', 'task-5'],
     },
     'column-new': {
       id: 'column-new',

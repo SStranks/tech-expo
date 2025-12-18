@@ -32,7 +32,14 @@ export const initialData: IInitialData = {
     'task-2': {
       id: 'task-2',
       userImage: UserImage,
-      title: 'Organize',
+      title: 'Prepare',
+      date: 'May 18',
+      notesTotal: 2,
+    },
+    'task-3': {
+      id: 'task-3',
+      userImage: UserImage,
+      title: 'Finalize',
       date: 'May 18',
       notesTotal: 2,
     },
@@ -41,7 +48,7 @@ export const initialData: IInitialData = {
     'column-unassigned': {
       id: 'column-unassigned',
       title: 'unassigned',
-      taskIds: ['task-1', 'task-2'],
+      taskIds: ['task-1', 'task-2', 'task-3'],
     },
     'column-todo': {
       id: 'column-todo',

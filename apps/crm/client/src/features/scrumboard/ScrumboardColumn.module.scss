@@ -112,3 +112,7 @@
 .dangerColumn {
   @include anim.danger-pulse;
 }
+
+.column--dragEnter {
+  background-color: var(--thm-background-danger);
+}

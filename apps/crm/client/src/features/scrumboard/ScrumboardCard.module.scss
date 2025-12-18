@@ -129,6 +129,11 @@
   }
 }
 
+.card--dragEnter {
+  background-color: var(--thm-background-danger);
+  border-color: var(--thm-border-danger);
+}
+
 .dangerCard {
   @include anim.danger-pulse;
 }
