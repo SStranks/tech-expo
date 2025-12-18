@@ -1,9 +1,14 @@
-import { DragDropContext, type DropResult } from 'react-beautiful-dnd';
+import { extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
+import { getReorderDestinationIndex } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index';
+import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { useEffect } from 'react';
 
 import { moveTaskHorizontal, moveTaskVertical } from '@Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 
 import { ScrumboardPipelineColumns } from './index';
+import { PIPELINE_CARD_TYPE, PIPELINE_COLUMN_TYPE } from './types/pragmaticDndTypes';
+import { isPipelineCardDropData, isPipelineColumnTargetData } from './utils/pragmaticDndValidation';
 
 import styles from './Scrumboard.module.scss';
 
@@ -11,30 +16,106 @@ function ScrumBoardPipeline(): React.JSX.Element {
   const reduxDispatch = useReduxDispatch();
   const data = useReduxSelector((store) => store.scrumboardPipeline);
 
-  const onDragEnd = (result: DropResult) => {
-    const { destination, draggableId, source } = result;
+  useEffect(() => {
+    return monitorForElements({
+      onDrop: ({ location, source }) => {
+        if (!source || location.current.dropTargets.length === 0) return;
+        if (!isPipelineCardDropData(source.data)) return;
 
-    // If location is null or the same starting point
-    if (!destination) return;
-    if (destination.droppableId === source.droppableId && destination.index === source.index) return;
+        const columnDataInitial = location.initial.dropTargets.find(
+          (target) => target.data.type === PIPELINE_COLUMN_TYPE
+        );
+        const columnDataCurrent = location.current.dropTargets.find(
+          (target) => target.data.type === PIPELINE_COLUMN_TYPE
+        );
+        if (
+          !columnDataInitial ||
+          !columnDataCurrent ||
+          !isPipelineColumnTargetData(columnDataInitial.data) ||
+          !isPipelineColumnTargetData(columnDataCurrent.data)
+        )
+          return;
 
-    const columnStart = data.columns[source.droppableId];
-    const columnEnd = data.columns[destination.droppableId];
+        const cardDataInitial = location.initial.dropTargets.find((target) => target.data.type === PIPELINE_CARD_TYPE);
+        if (!cardDataInitial || !isPipelineCardDropData(cardDataInitial.data)) return;
+        const cardDataCurrent = location.current.dropTargets.find((target) => target.data.type === PIPELINE_CARD_TYPE);
 
-    // If a task is moved within the same column
-    if (columnStart === columnEnd)
-      return reduxDispatch(moveTaskVertical({ columnStart, destination, draggableId, source }));
+        // Move card vertically in original column
+        if (columnDataInitial.data.columnId === columnDataCurrent.data.columnId) {
+          if (cardDataCurrent) {
+            if (!isPipelineCardDropData(cardDataCurrent.data)) return;
+            // Dragged over another card; move relative to it
 
-    // If a task is moved between columns
-    return reduxDispatch(moveTaskHorizontal({ columnEnd, columnStart, destination, draggableId, source }));
-  };
+            const destinationIndex = getReorderDestinationIndex({
+              axis: 'vertical',
+              closestEdgeOfTarget: extractClosestEdge(cardDataCurrent.data),
+              indexOfTarget: cardDataCurrent.data.taskIndex,
+              startIndex: source.data.taskIndex,
+            });
+
+            return reduxDispatch(
+              moveTaskVertical({
+                destinationIndex,
+                sourceColumnId: columnDataInitial.data.columnId,
+                taskId: source.data.taskId,
+                taskIndex: source.data.taskIndex,
+              })
+            );
+          } else {
+            // No other card was detected; default move to end of list
+            return reduxDispatch(
+              moveTaskVertical({
+                destinationIndex: columnDataInitial.data.numberOfTasks,
+                sourceColumnId: columnDataInitial.data.columnId,
+                taskId: source.data.taskId,
+                taskIndex: source.data.taskIndex,
+              })
+            );
+          }
+        }
+
+        // Move card horizontally to another column
+        if (columnDataInitial.data.columnId !== columnDataCurrent.data.columnId) {
+          if (cardDataCurrent) {
+            // Dragged over another card; move relative to it
+            if (!isPipelineCardDropData(cardDataCurrent.data)) return;
+
+            const destinationIndex =
+              extractClosestEdge(cardDataCurrent.data) === 'top'
+                ? cardDataCurrent.data.taskIndex
+                : cardDataCurrent.data.taskIndex + 1;
+
+            return reduxDispatch(
+              moveTaskHorizontal({
+                destinationColumnId: columnDataCurrent.data.columnId,
+                destinationIndex,
+                sourceColumnId: columnDataInitial.data.columnId,
+                taskId: source.data.taskId,
+                taskIndex: source.data.taskIndex,
+              })
+            );
+          } else {
+            // No other card was detected; default move to end of list
+            return reduxDispatch(
+              moveTaskHorizontal({
+                destinationColumnId: columnDataCurrent.data.columnId,
+                destinationIndex: columnDataCurrent.data.numberOfTasks,
+                sourceColumnId: columnDataInitial.data.columnId,
+                taskId: source.data.taskId,
+                taskIndex: source.data.taskIndex,
+              })
+            );
+          }
+        }
+        return;
+      },
+    });
+  }, [data.columns, reduxDispatch]);
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div className={styles.scrumboard}>
-        <ScrumboardPipelineColumns data={data} />
-      </div>
-    </DragDropContext>
+    <div className={styles.scrumboard}>
+      <ScrumboardPipelineColumns data={data} />
+    </div>
   );
 }
 

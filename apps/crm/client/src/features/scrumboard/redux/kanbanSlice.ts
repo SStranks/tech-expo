@@ -1,19 +1,17 @@
-import type { DraggableLocation } from 'react-beautiful-dnd';
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { IColumn, initialData } from '@Data/MockScrumboardKanban';
+import { initialData } from '@Data/MockScrumboardKanban';
 
 // TEMP DEV: .
 // import UserImage from '@Img/image-35.jpg';
 // import CompanyLogo from '@Img/CompanyLogo.png';
 
 interface IMoveTaskPayload {
-  columnStart: IColumn;
-  columnEnd: IColumn;
-  destination: DraggableLocation;
-  source: DraggableLocation;
-  draggableId: string;
+  sourceColumnId: string;
+  destinationColumnId: string;
+  destinationIndex: number;
+  taskIndex: number;
+  taskId: string;
 }
 
 interface ICreateStagePayload {
@@ -133,17 +131,18 @@ const kanbanSlice = createSlice({
     },
     moveTaskHorizontal(state, action: PayloadAction<IMoveTaskPayload>) {
       // Move a task across columns based upon user drag-drop
-      const { columnEnd, columnStart, destination, draggableId, source } = action.payload;
+      const { destinationColumnId, destinationIndex, sourceColumnId, taskId, taskIndex } = action.payload;
 
-      state.columns[columnStart.id].taskIds.splice(source.index, 1);
-      state.columns[columnEnd.id].taskIds.splice(destination.index, 0, draggableId);
+      state.columns[sourceColumnId].taskIds.splice(taskIndex, 1);
+      state.columns[destinationColumnId].taskIds.splice(destinationIndex, 0, taskId);
     },
-    moveTaskVertical(state, action: PayloadAction<Omit<IMoveTaskPayload, 'columnEnd'>>) {
+    moveTaskVertical(state, action: PayloadAction<Omit<IMoveTaskPayload, 'destinationColumnId'>>) {
       // Re-order task in a column based upon user drag-drop
-      const { columnStart, destination, draggableId, source } = action.payload;
+      const { destinationIndex, sourceColumnId, taskId, taskIndex } = action.payload;
+      console.log(destinationIndex, sourceColumnId, taskId, taskIndex);
 
-      state.columns[columnStart.id].taskIds.splice(source.index, 1);
-      state.columns[columnStart.id].taskIds.splice(destination.index, 0, draggableId);
+      state.columns[sourceColumnId].taskIds.splice(taskIndex, 1);
+      state.columns[sourceColumnId].taskIds.splice(destinationIndex, 0, taskId);
     },
     updateStage(state, action: PayloadAction<IUpdateStagePayload>) {
       const { columnId, stageTitle } = action.payload;
