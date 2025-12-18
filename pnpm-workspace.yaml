@@ -4,14 +4,14 @@ packages:
 
 injectWorkspacePackages: true
 
-onlyBuiltDependencies:
-  - argon2
-  - core-js
-  - cypress
-  - esbuild
-  - msw
-  - sharp
-  - unrs-resolver
-  - '@apollo/protobufjs'
-  - bcrypt
-  - secp256k1
+allowBuilds:
+  - argon2: true
+  - core-js: true
+  - cypress: true
+  - esbuild: true
+  - msw: true
+  - sharp: true
+  - unrs-resolver: true
+  - '@apollo/protobufjs': true
+  - bcrypt: true
+  - secp256k1: true
