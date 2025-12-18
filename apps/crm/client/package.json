@@ -43,6 +43,8 @@
   },
   "dependencies": {
     "@apollo/client": "^4.0.9",
+    "@atlaskit/pragmatic-drag-and-drop": "^1.7.7",
+    "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.1.0",
     "@internationalized/date": "^3.10.0",
     "@reduxjs/toolkit": "^2.9.2",
     "@rollbar/react": "^1.0.0",
@@ -59,7 +61,6 @@
     "graphql": "^16.10.0",
     "react": "^19.2.0",
     "react-aria-components": "^1.13.0",
-    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^19.2.0",
     "react-error-boundary": "^6.0.0",
     "react-hook-form": "^7.65.0",
