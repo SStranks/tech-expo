@@ -10,6 +10,11 @@
   "license": "ISC",
   "type": "module",
   "packageManager": "pnpm@10.13.1",
+  "pnpm": {
+    "overrides": {
+      "browserslist": "^4.28.0"
+    }
+  },
   "engines": {
     "node": ">=22",
     "pnpm": ">=10"
