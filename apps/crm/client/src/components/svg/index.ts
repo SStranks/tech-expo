@@ -9,6 +9,7 @@ export { default as IconArrowDownAlt } from './IconArrowDownAlt';
 export { default as IconArrowDownDoubleAlt } from './IconArrowDownDoubleAlt';
 export { default as IconArrowLeftAlt } from './IconArrowLeftAlt';
 export { default as IconArrowLeftDoubleAlt } from './IconArrowLeftDoubleAlt';
+export { default as IconArrowRightDoubleAlt } from './IconArrowRightDoubleAlt';
 export { default as IconArrowRightUp } from './IconArrowRightUp';
 export { default as IconAudit } from './IconAudit';
 export { default as IconBillQuote } from './IconBillQuote';
