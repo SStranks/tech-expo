@@ -6,6 +6,7 @@
   border: 1px solid var(--thm-border-default);
   border-radius: 4px;
   background-color: var(--thm-background-subtle);
+  list-style: none;
 
   &__upper {
     display: flex;
@@ -132,6 +133,10 @@
 .card--dragEnter {
   background-color: var(--thm-background-danger);
   border-color: var(--thm-border-danger);
+}
+
+.card--focus {
+  border: 1px solid var(--thm-border-danger);
 }
 
 .dangerCard {

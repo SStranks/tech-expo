@@ -76,6 +76,10 @@
       background-color: hsl(from var(--thm-button-primary-destructive-background) h s l / 20%);
     }
   }
+
+  &__separator {
+    border: 1px solid var(--thm-border-default);
+  }
 }
 
 .cardOptionsBtn--won {

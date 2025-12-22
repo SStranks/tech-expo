@@ -139,13 +139,16 @@ a:active {
   transition: none !important;
 }
 
-.invisibleAccessible {
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
   /* stylelint-disable-next-line property-no-deprecated */
   clip: rect(0 0 0 0); // Legacy browser support
   clip-path: inset(50%); // Modern browser support
-  height: 1px;
   overflow: hidden;
-  position: absolute;
   white-space: nowrap;
-  width: 1px;
+  border-width: 0;
 }
