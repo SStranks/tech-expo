@@ -39,19 +39,3 @@ root.render(
     </ProviderRollbar>
   </StrictMode>
 );
-
-// Webpack; Hot-Module-Reload
-if (module.hot) {
-  module.hot.accept('./components/App', async () => {
-    const { default: AppHMR } = await import('./components/App');
-    root.render(
-      <StrictMode>
-        <BrowserRouter>
-          <ProviderRedux store={ReduxStore}>
-            <AppHMR />
-          </ProviderRedux>
-        </BrowserRouter>
-      </StrictMode>
-    );
-  });
-}

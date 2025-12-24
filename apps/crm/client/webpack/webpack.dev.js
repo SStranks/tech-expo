@@ -1,8 +1,10 @@
 // @ts-check
 /* eslint-disable perfectionist/sort-objects */
 import 'webpack-dev-server';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import { merge } from 'webpack-merge';
@@ -61,15 +63,8 @@ const DevConfig = {
         use: [
           {
             loader: 'babel-loader',
-          },
-          {
-            loader: 'ts-loader',
             options: {
-              transpileOnly: true,
-              onlyCompileBundledFiles: true,
-              compilerOptions: {
-                noEmit: false,
-              },
+              plugins: ['react-refresh/babel'],
             },
           },
         ],
@@ -141,6 +136,16 @@ const DevConfig = {
       templateParameters: {
         // eslint-disable-next-line no-undef
         PUBLIC_URL: process.env.PUBLIC_URL,
+      },
+    }),
+    new ReactRefreshWebpackPlugin(),
+    new ForkTsCheckerWebpackPlugin({
+      async: true,
+      typescript: {
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true,
+        },
       },
     }),
     new CopyPlugin({ patterns: [{ from: path.resolve(__dirname, '../public'), noErrorOnMissing: true }] }),
