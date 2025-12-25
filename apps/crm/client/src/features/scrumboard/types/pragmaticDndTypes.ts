@@ -1,40 +1,41 @@
+import type { KanbanColumn, KanbanTask } from '@Data/MockScrumboardKanban';
+import type { PipelineDeal, PipelineStage } from '@Data/MockScrumboardPipeline';
+
 import {
   SYMBOL_KANBAN_CARD,
   SYMBOL_KANBAN_COLUMN,
-  SYMBOL_PIPELINE_CARD,
-  SYMBOL_PIPELINE_COLUMN,
+  SYMBOL_PIPELINE_DEAL,
+  SYMBOL_PIPELINE_STAGE,
 } from '../utils/pragmaticDndValidation';
 
-export const PIPELINE_CARD_TYPE = 'pipeline_card' as const;
-export type TPipelineCard = {
-  [SYMBOL_PIPELINE_CARD]: true;
-  columnId: string;
-  taskId: string;
-  taskIndex: number;
-  type: typeof PIPELINE_CARD_TYPE;
+export const PRAGMATICDND_PIPELINE_DEAL_TYPE = 'pipeline_card' as const;
+export type PragmaticDnDPipelineDeal = {
+  [SYMBOL_PIPELINE_DEAL]: true;
+  deal: PipelineDeal;
+  dealIndex: number;
+  type: typeof PRAGMATICDND_PIPELINE_DEAL_TYPE;
 };
 
-export const PIPELINE_COLUMN_TYPE = 'pipeline_column' as const;
-export type TPipelineColumn = {
-  [SYMBOL_PIPELINE_COLUMN]: true;
-  columnId: string;
-  numberOfTasks: number;
-  type: typeof PIPELINE_COLUMN_TYPE;
+export const PRAGMATICDND_PIPELINE_STAGE_TYPE = 'pipeline_column' as const;
+export type PragmaticDndPipelineStage = {
+  [SYMBOL_PIPELINE_STAGE]: true;
+  stage: PipelineStage;
+  dealIds: PipelineDeal['id'][];
+  type: typeof PRAGMATICDND_PIPELINE_STAGE_TYPE;
 };
 
-export const KANBAN_CARD_TYPE = 'kanban_card' as const;
-export type TKanbanCard = {
+export const PRAGMATICDND_KANBAN_CARD_TYPE = 'kanban_card' as const;
+export type PragmaticDndKanbanCard = {
   [SYMBOL_KANBAN_CARD]: true;
-  columnId: string;
-  taskId: string;
+  column: KanbanColumn;
+  task: KanbanTask;
   taskIndex: number;
-  type: typeof KANBAN_CARD_TYPE;
+  type: typeof PRAGMATICDND_KANBAN_CARD_TYPE;
 };
 
-export const KANBAN_COLUMN_TYPE = 'kanban_column' as const;
-export type TKanbanColumn = {
+export const PRAGMATICDND_KANBAN_COLUMN_TYPE = 'kanban_column' as const;
+export type PragmaticDndKanbanColumn = {
   [SYMBOL_KANBAN_COLUMN]: true;
-  columnId: string;
-  numberOfTasks: number;
-  type: typeof KANBAN_COLUMN_TYPE;
+  column: KanbanColumn;
+  type: typeof PRAGMATICDND_KANBAN_COLUMN_TYPE;
 };

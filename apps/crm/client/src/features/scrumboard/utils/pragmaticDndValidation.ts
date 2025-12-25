@@ -1,17 +1,23 @@
 /* eslint-disable perfectionist/sort-objects */
-import type { IColumn, ITask } from '@Data/MockScrumboardKanban';
+import type { KanbanColumn, KanbanTask } from '@Data/MockScrumboardKanban';
+import type { PipelineDeal, PipelineStage } from '@Data/MockScrumboardPipeline';
 
-import type { TKanbanCard, TKanbanColumn, TPipelineCard, TPipelineColumn } from '../types/pragmaticDndTypes';
-
-import {
-  KANBAN_CARD_TYPE,
-  KANBAN_COLUMN_TYPE,
-  PIPELINE_CARD_TYPE,
-  PIPELINE_COLUMN_TYPE,
+import type {
+  PragmaticDndKanbanCard,
+  PragmaticDndKanbanColumn,
+  PragmaticDnDPipelineDeal,
+  PragmaticDndPipelineStage,
 } from '../types/pragmaticDndTypes';
 
-export const SYMBOL_PIPELINE_CARD = Symbol();
-export const SYMBOL_PIPELINE_COLUMN = Symbol();
+import {
+  PRAGMATICDND_KANBAN_CARD_TYPE,
+  PRAGMATICDND_KANBAN_COLUMN_TYPE,
+  PRAGMATICDND_PIPELINE_DEAL_TYPE,
+  PRAGMATICDND_PIPELINE_STAGE_TYPE,
+} from '../types/pragmaticDndTypes';
+
+export const SYMBOL_PIPELINE_DEAL = Symbol();
+export const SYMBOL_PIPELINE_STAGE = Symbol();
 export const SYMBOL_KANBAN_CARD = Symbol();
 export const SYMBOL_KANBAN_COLUMN = Symbol();
 
@@ -19,33 +25,33 @@ export const SYMBOL_KANBAN_COLUMN = Symbol();
 // ----------- DRAGGABLES --------- //
 // -------------------------------- //
 
-export function isPipelineCardDropData(data: Record<string | symbol, unknown>): data is TPipelineCard {
-  return Boolean(data[SYMBOL_PIPELINE_CARD]);
+export function isPipelineDealDropData(data: Record<string | symbol, unknown>): data is PragmaticDnDPipelineDeal {
+  return Boolean(data[SYMBOL_PIPELINE_DEAL]);
 }
 
-export function isKanbanCardDropData(data: Record<string | symbol, unknown>): data is TKanbanCard {
+export function isKanbanCardDropData(data: Record<string | symbol, unknown>): data is PragmaticDndKanbanCard {
   return Boolean(data[SYMBOL_KANBAN_CARD]);
 }
 
-export function createPipelineCardDropData(
-  columnId: IColumn['id'],
-  taskId: ITask['id'],
-  taskIndex: number
-): TPipelineCard {
+export function createPipelineDealDropData(deal: PipelineDeal, dealIndex: number): PragmaticDnDPipelineDeal {
   return {
-    [SYMBOL_PIPELINE_CARD]: true,
-    type: PIPELINE_CARD_TYPE,
-    columnId,
-    taskId,
-    taskIndex,
+    [SYMBOL_PIPELINE_DEAL]: true,
+    type: PRAGMATICDND_PIPELINE_DEAL_TYPE,
+    deal,
+    dealIndex,
   };
 }
-export function createKanbanCardDropData(columnId: IColumn['id'], taskId: ITask['id'], taskIndex: number): TKanbanCard {
+
+export function createKanbanCardDropData(
+  column: KanbanColumn,
+  task: KanbanTask,
+  taskIndex: number
+): PragmaticDndKanbanCard {
   return {
     [SYMBOL_KANBAN_CARD]: true,
-    type: KANBAN_CARD_TYPE,
-    columnId,
-    taskId,
+    type: PRAGMATICDND_KANBAN_CARD_TYPE,
+    column,
+    task,
     taskIndex,
   };
 }
@@ -54,28 +60,30 @@ export function createKanbanCardDropData(columnId: IColumn['id'], taskId: ITask[
 // ---------- DROP TARGETS -------- //
 // -------------------------------- //
 
-export function isPipelineColumnTargetData(data: Record<string | symbol, unknown>): data is TPipelineColumn {
-  return Boolean(data[SYMBOL_PIPELINE_COLUMN]);
+export function isPipelineStageTargetData(data: Record<string | symbol, unknown>): data is PragmaticDndPipelineStage {
+  return Boolean(data[SYMBOL_PIPELINE_STAGE]);
 }
 
-export function createPipelineColumnTargetData(columnId: IColumn['id'], numberOfTasks: number): TPipelineColumn {
+export function createPipelineStageTargetData(
+  stage: PipelineStage,
+  dealIds: PipelineDeal['id'][]
+): PragmaticDndPipelineStage {
   return {
-    [SYMBOL_PIPELINE_COLUMN]: true,
-    type: PIPELINE_COLUMN_TYPE,
-    columnId,
-    numberOfTasks,
+    [SYMBOL_PIPELINE_STAGE]: true,
+    type: PRAGMATICDND_PIPELINE_STAGE_TYPE,
+    stage,
+    dealIds,
   };
 }
 
-export function isKanbanColumnTargetData(data: Record<string | symbol, unknown>): data is TKanbanColumn {
+export function isKanbanColumnTargetData(data: Record<string | symbol, unknown>): data is PragmaticDndKanbanColumn {
   return Boolean(data[SYMBOL_KANBAN_COLUMN]);
 }
 
-export function createKanbanColumnTargetData(columnId: IColumn['id'], numberOfTasks: number): TKanbanColumn {
+export function createKanbanColumnTargetData(column: KanbanColumn): PragmaticDndKanbanColumn {
   return {
     [SYMBOL_KANBAN_COLUMN]: true,
-    type: KANBAN_COLUMN_TYPE,
-    columnId,
-    numberOfTasks,
+    type: PRAGMATICDND_KANBAN_COLUMN_TYPE,
+    column,
   };
 }
