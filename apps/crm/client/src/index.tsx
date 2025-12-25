@@ -8,7 +8,7 @@ import { ErrorBoundary, Provider as ProviderRollbar } from '@rollbar/react';
 
 // NOTE:  Redux to initialize before App.
 import Rollbar from '@Lib/rollbar';
-import ReduxStore from '@Redux/store';
+import configureReduxStore from '@Redux/store';
 import App from '@Components/App';
 
 import '@Sass/global-imports.scss';
@@ -16,10 +16,17 @@ import { globalErrorHandler } from '@Config/globalOnError';
 import ApolloClient from '@Graphql/ApolloClient';
 import { authInitialize } from '@Redux/reducers/authSlice';
 import { FallbackUi } from '@Components/index';
+import ServiceAuth from '@Services/serviceAuth';
+import { AxiosClient } from '@Lib/axios';
 
 // Initialization
 globalErrorHandler();
-ReduxStore.dispatch(authInitialize());
+const reduxStore = configureReduxStore();
+const axiosClient = new AxiosClient();
+const serviceAuth = new ServiceAuth(axiosClient, reduxStore);
+
+await reduxStore.dispatch(authInitialize());
+await serviceAuth.initInterceptors();
 
 const container = document.querySelector('#root');
 const root = createRoot(container!);
@@ -29,7 +36,7 @@ root.render(
     <ProviderRollbar instance={Rollbar}>
       <ErrorBoundary level="critical" fallbackUI={FallbackUi}>
         <BrowserRouter>
-          <ProviderRedux store={ReduxStore}>
+          <ProviderRedux store={reduxStore}>
             <ApolloProvider client={ApolloClient}>
               <App />
             </ApolloProvider>
