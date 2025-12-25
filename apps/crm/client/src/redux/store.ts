@@ -1,42 +1,41 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 
-import themeReducer from '@Features/header/features/theme/redux/themeSlice';
-import kanbanReducer from '@Features/scrumboard/redux/kanbanSlice';
-import pipelineReducer from '@Features/scrumboard/redux/pipelineSlice';
+import rootReducer from './reducers/rootReducer';
 
-import authReducer from './reducers/authSlice';
-import requestReducer from './reducers/requestSlice';
+let ReduxStore: EnhancedStore | undefined;
 
-const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    request: requestReducer,
-    scrumboardKanban: kanbanReducer,
-    scrumboardPipeline: pipelineReducer,
-    theme: themeReducer,
-  },
-});
+function assertReduxStore(ReduxStore: EnhancedStore | undefined): asserts ReduxStore is ReduxStore {
+  if (!ReduxStore) throw new Error('Redux store not yet configured');
+}
 
-// For Jest testing
-const rootReducer = combineReducers({
-  auth: authReducer,
-  request: requestReducer,
-  scrumboardKanban: kanbanReducer,
-  scrumboardPipeline: pipelineReducer,
-  theme: themeReducer,
-});
+export function getReduxStore(): ReduxStore {
+  assertReduxStore(ReduxStore);
+  return ReduxStore;
+}
 
-// For Jest testing
-export function setupStore(preloadedState?: Partial<ReduxRootState>) {
-  return configureStore({
+export default function configureReduxStore(preloadedState?: Partial<ReduxRootState>) {
+  const store = configureStore({
     preloadedState,
     reducer: rootReducer,
   });
+
+  if (!ReduxStore) ReduxStore = store;
+  return (ReduxStore as typeof store) ?? store;
 }
 
-export default store;
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept('./reducers/rootReducer', async () => {
+    try {
+      const { default: newRootReducer } = await import('./reducers/rootReducer');
+      assertReduxStore(ReduxStore);
+      ReduxStore.replaceReducer(newRootReducer);
+    } catch (error) {
+      console.error('HMR reload failed for rootReducer:', error);
+    }
+  });
+}
+
+export type ReduxStore = ReturnType<typeof configureReduxStore>;
 export type ReduxRootState = ReturnType<typeof rootReducer>;
-export type ReduxStoreSetup = ReturnType<typeof setupStore>;
-export type ReduxStore = typeof store;
 export type ReduxDispatch = ReduxStore['dispatch'];
 export type ReduxState = ReturnType<ReduxStore['getState']>;
