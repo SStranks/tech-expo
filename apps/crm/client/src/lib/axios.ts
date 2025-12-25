@@ -9,8 +9,7 @@ import axios, {
 import handleServiceError from '@Services/serviceHttpErrors';
 import { ApiResponseSuccess } from '@Shared/src';
 
-export interface IAxiosClient {
-  clientInstance: AxiosInstance;
+export interface AxiosClient {
   requestInterceptor(): AxiosInterceptorManager<InternalAxiosRequestConfig<any>>;
   responseInterceptor(): AxiosInterceptorManager<AxiosResponse<any, any>>;
   responseData(response: AxiosResponse<ApiResponseSuccess>): ApiResponseSuccess | undefined;
@@ -26,7 +25,7 @@ export interface IAxiosClient {
   delete(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse>;
 }
 
-class axiosClient implements IAxiosClient {
+export class AxiosClient implements AxiosClient {
   private client: AxiosInstance;
   private clientRequestInterceptor: AxiosInterceptorManager<InternalAxiosRequestConfig<any>>;
   private clientResponseInterceptor: AxiosInterceptorManager<AxiosResponse<any, any>>;
@@ -43,10 +42,6 @@ class axiosClient implements IAxiosClient {
     this.client = this.createAxiosClient();
     this.clientRequestInterceptor = this.client.interceptors.request;
     this.clientResponseInterceptor = this.client.interceptors.response;
-  }
-
-  get clientInstance() {
-    return this.client;
   }
 
   requestInterceptor() {
@@ -121,5 +116,3 @@ class axiosClient implements IAxiosClient {
     }
   }
 }
-
-export default new axiosClient();
