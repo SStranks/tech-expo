@@ -38,6 +38,8 @@ import {
   PageSettings,
   PageUpdatePassword,
 } from '@Pages/index';
+import { useReduxSelector } from '@Redux/hooks';
+import { selectorAriaEventsGlobal } from '@Redux/reducers/uiSlice';
 import {
   RouteAdministration,
   RouteAuditLog,
@@ -52,6 +54,8 @@ import {
   RouteSettings,
 } from '@Routes/index';
 
+import AriaAnnouncement from './AriaAnnouncement';
+
 declare module 'react-aria-components' {
   interface RouterConfig {
     routerOptions: NavigateOptions;
@@ -61,9 +65,12 @@ declare module 'react-aria-components' {
 function App(): React.JSX.Element {
   // NOTE:  RouterProvider: Integrates React-Aria-Components into React-Router
   const navigate = useNavigate();
+  const uiEvent = useReduxSelector(selectorAriaEventsGlobal);
+  const nextUiEvent = uiEvent[0];
 
   return (
     <RouterProvider navigate={navigate}>
+      <AriaAnnouncement scope="global" uiEvent={nextUiEvent} />
       <Routes>
         <Route
           element={
