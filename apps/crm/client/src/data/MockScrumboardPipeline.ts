@@ -2,31 +2,36 @@
 import CompanyLogo from '@Img/CompanyLogo.png';
 import UserImage from '@Img/image-35.jpg';
 
-export interface ITask {
+export type PipelineDeal = {
   id: string;
+  orderKey: string;
+  stageId: PipelineStage['id'];
   companyLogo: string;
   companyTitle: string;
   dealTitle: string;
   userImage: string;
   daysElapsed: number;
   dealTotal: number;
-}
+};
 
-export interface IColumn {
+export type PipelineStage = {
   id: string;
   title: string;
-  taskIds: string[];
-}
+  isPermanent: boolean;
+};
 
-export interface IInitialData {
-  tasks: { [key: string]: ITask };
-  columns: { [key: string]: IColumn };
+export type PipelineInitialData = {
+  deals: PipelineDeal[];
+  columns: PipelineStage[];
   columnOrder: string[];
-}
-export const initialData: IInitialData = {
-  tasks: {
-    'task-1': {
-      id: 'task-1',
+};
+
+export const initialData: PipelineInitialData = {
+  deals: [
+    {
+      id: 'task1',
+      orderKey: 'a',
+      stageId: 'column-unassigned',
       companyLogo: CompanyLogo,
       companyTitle: 'Microsoft',
       dealTitle: 'Bloatware Junk As Per Usual',
@@ -34,8 +39,10 @@ export const initialData: IInitialData = {
       daysElapsed: 27,
       dealTotal: 12,
     },
-    'task-2': {
-      id: 'task-2',
+    {
+      id: 'task2',
+      orderKey: 'd',
+      stageId: 'column-unassigned',
       companyLogo: CompanyLogo,
       companyTitle: 'Apple',
       dealTitle: 'Overpriced Hardware',
@@ -43,8 +50,10 @@ export const initialData: IInitialData = {
       daysElapsed: 1,
       dealTotal: 32,
     },
-    'task-3': {
-      id: 'task-3',
+    {
+      id: 'task3',
+      orderKey: 'g',
+      stageId: 'column-unassigned',
       companyLogo: CompanyLogo,
       companyTitle: 'Linux',
       dealTitle: 'Reasonable Product',
@@ -52,8 +61,10 @@ export const initialData: IInitialData = {
       daysElapsed: 11,
       dealTotal: 27,
     },
-    'task-4': {
-      id: 'task-4',
+    {
+      id: 'task4',
+      orderKey: 'j',
+      stageId: 'column-new',
       companyLogo: CompanyLogo,
       companyTitle: 'Fortran',
       dealTitle: 'Oh Lord Why',
@@ -61,82 +72,90 @@ export const initialData: IInitialData = {
       daysElapsed: 11,
       dealTotal: 33,
     },
-    'task-5': {
-      id: 'task-5',
+    {
+      id: 'task5',
+      orderKey: 'm',
+      stageId: 'column-won',
       companyLogo: CompanyLogo,
       companyTitle: 'Fortran',
-      dealTitle: 'Oh Lord Why',
+      dealTitle: 'Oh Lord Why22',
       userImage: UserImage,
       daysElapsed: 11,
       dealTotal: 33,
     },
-    'task-6': {
-      id: 'task-6',
+    {
+      id: 'task6',
+      orderKey: 'p',
+      stageId: 'column-lost',
       companyLogo: CompanyLogo,
       companyTitle: 'Fortran',
-      dealTitle: 'Oh Lord Why',
+      dealTitle: 'Oh Lord Why33',
       userImage: UserImage,
       daysElapsed: 11,
       dealTotal: 33,
     },
-    'task-7': {
-      id: 'task-7',
-      companyLogo: CompanyLogo,
-      companyTitle: 'Fortran',
-      dealTitle: 'Oh Lord Why',
-      userImage: UserImage,
-      daysElapsed: 11,
-      dealTotal: 33,
-    },
-    'task-8': {
-      id: 'task-8',
-      companyLogo: CompanyLogo,
-      companyTitle: 'Fortran',
-      dealTitle: 'Oh Lord Why',
-      userImage: UserImage,
-      daysElapsed: 11,
-      dealTotal: 33,
-    },
-    'task-9': {
-      id: 'task-9',
-      companyLogo: CompanyLogo,
-      companyTitle: 'Fortran',
-      dealTitle: 'Oh Lord Why',
-      userImage: UserImage,
-      daysElapsed: 11,
-      dealTotal: 33,
-    },
-    'task-10': {
-      id: 'task-10',
-      companyLogo: CompanyLogo,
-      companyTitle: 'Fortran',
-      dealTitle: 'Oh Lord Why',
-      userImage: UserImage,
-      daysElapsed: 11,
-      dealTotal: 33,
-    },
-  },
-  columns: {
-    'column-unassigned': {
+    // 'task7': {
+    //   id: 'task7',
+    //   orderKey: 's',
+    //   companyLogo: CompanyLogo,
+    //   companyTitle: 'Fortran',
+    //   dealTitle: 'Oh Lord Why',
+    //   userImage: UserImage,
+    //   daysElapsed: 11,
+    //   dealTotal: 33,
+    // },
+    // 'task8': {
+    //   id: 'task8',
+    //   orderKey: 'v',
+    //   companyLogo: CompanyLogo,
+    //   companyTitle: 'Fortran',
+    //   dealTitle: 'Oh Lord Why',
+    //   userImage: UserImage,
+    //   daysElapsed: 11,
+    //   dealTotal: 33,
+    // },
+    // 'task9': {
+    //   id: 'task9',
+    //   orderKey: 'y',
+    //   companyLogo: CompanyLogo,
+    //   companyTitle: 'Fortran',
+    //   dealTitle: 'Oh Lord Why',
+    //   userImage: UserImage,
+    //   daysElapsed: 11,
+    //   dealTotal: 33,
+    // },
+    // 'task10': {
+    //   id: 'task10',
+    //   orderKey: 'z',
+    //   companyLogo: CompanyLogo,
+    //   companyTitle: 'Fortran',
+    //   dealTitle: 'Oh Lord Why',
+    //   userImage: UserImage,
+    //   daysElapsed: 11,
+    //   dealTotal: 33,
+    // },
+  ],
+  columns: [
+    {
       id: 'column-unassigned',
       title: 'unassigned',
-      taskIds: ['task-1', 'task-2', 'task-5'],
+      isPermanent: true,
     },
-    'column-new': {
+    {
       id: 'column-new',
       title: 'new',
-      taskIds: [],
+      isPermanent: false,
     },
-    'column-won': {
+    {
       id: 'column-won',
       title: 'won',
-      taskIds: ['task-3'],
+      isPermanent: true,
     },
-    'column-lost': {
+    {
       id: 'column-lost',
       title: 'lost',
-      taskIds: ['task-4'],
+      isPermanent: true,
     },
-  },
+  ],
   columnOrder: ['column-new'],
 };

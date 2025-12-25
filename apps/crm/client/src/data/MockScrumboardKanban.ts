@@ -1,65 +1,65 @@
 /* eslint-disable perfectionist/sort-objects */
 import UserImage from '@Img/image-35.jpg';
 
-export interface ITask {
+export type KanbanTask = {
   id: string;
   userImage: string;
   title: string;
   date: string; // TODO:  Make Date type; when form functionality is complete
   notesTotal: number;
-}
+};
 
-export interface IColumn {
+export type KanbanColumn = {
   id: string;
   title: string;
   taskIds: string[];
-}
+};
 
-export interface IInitialData {
-  tasks: { [key: string]: ITask };
-  columns: { [key: string]: IColumn };
+export type KanbanInitialData = {
+  tasks: KanbanTask[];
+  columns: KanbanColumn[];
   columnOrder: string[];
-}
-export const initialData: IInitialData = {
-  tasks: {
-    'task-1': {
+};
+export const initialData: KanbanInitialData = {
+  tasks: [
+    {
       id: 'task-1',
       userImage: UserImage,
       title: 'Organize',
       date: 'May 18',
       notesTotal: 2,
     },
-    'task-2': {
+    {
       id: 'task-2',
       userImage: UserImage,
       title: 'Prepare',
       date: 'May 18',
       notesTotal: 2,
     },
-    'task-3': {
+    {
       id: 'task-3',
       userImage: UserImage,
       title: 'Finalize',
       date: 'May 18',
       notesTotal: 2,
     },
-  },
-  columns: {
-    'column-unassigned': {
+  ],
+  columns: [
+    {
       id: 'column-unassigned',
       title: 'unassigned',
       taskIds: ['task-1', 'task-2', 'task-3'],
     },
-    'column-todo': {
+    {
       id: 'column-todo',
       title: 'todo',
       taskIds: [],
     },
-    'column-complete': {
+    {
       id: 'column-complete',
       title: 'complete',
       taskIds: [],
     },
-  },
+  ],
   columnOrder: ['column-todo', 'column-complete'],
 };
