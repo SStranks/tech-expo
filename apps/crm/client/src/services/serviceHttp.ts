@@ -1,11 +1,12 @@
 import type { AxiosResponse } from 'axios';
 
-import axiosClient, { type IAxiosClient } from '@Lib/axios';
+import type { AxiosClient } from '@Lib/axios';
+
 import AppError from '@Utils/AppError';
 
 export type TBody = { [x: string]: unknown };
 
-export interface IServiceHttp {
+export interface ServiceHttp {
   accountIdentify(): Promise<AxiosResponse>;
   accountLogin(body: TBody): Promise<AxiosResponse>;
   accountLogout(): Promise<AxiosResponse>;
@@ -15,10 +16,10 @@ export interface IServiceHttp {
   accountDelete(body: TBody): Promise<AxiosResponse>;
 }
 
-class ServiceHttp implements IServiceHttp {
-  public ApiServiceClient: IAxiosClient;
+export class ServiceHttp implements ServiceHttp {
+  public ApiServiceClient: AxiosClient;
 
-  constructor(apiClient: IAxiosClient) {
+  constructor(apiClient: AxiosClient) {
     this.ApiServiceClient = apiClient;
   }
 
@@ -129,5 +130,3 @@ class ServiceHttp implements IServiceHttp {
     }
   }
 }
-
-export default new ServiceHttp(axiosClient);
