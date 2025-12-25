@@ -1,11 +1,11 @@
 import type { UUID } from 'node:crypto';
 
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
-import { pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { boolean, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { PipelineDealsOrderTable, PipelineTable } from '../index.js';
+import { PipelineTable } from '../index.js';
 
 // ---------- TABLES -------- //
 export type TPipelineStagesTableInsert = InferInsertModel<typeof PiplineStagesTable>;
@@ -13,6 +13,7 @@ export type TPipelineStagesTableSelect = InferSelectModel<typeof PiplineStagesTa
 export const PiplineStagesTable = pgTable('pipeline_stages', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull(),
+  isPermanent: boolean().default(false),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   pipelineTableId: uuid('pipeline_table_id')
     .references(() => PipelineTable.id)
@@ -21,9 +22,8 @@ export const PiplineStagesTable = pgTable('pipeline_stages', {
 });
 
 // -------- RELATIONS ------- //
-export const PipelineStagesTableRelations = relations(PiplineStagesTable, ({ many, one }) => {
+export const PipelineStagesTableRelations = relations(PiplineStagesTable, ({ one }) => {
   return {
-    dealsOrder: many(PipelineDealsOrderTable),
     pipeline: one(PipelineTable, {
       fields: [PiplineStagesTable.pipelineTableId],
       references: [PipelineTable.id],

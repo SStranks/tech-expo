@@ -3,7 +3,6 @@ import type { UUID } from 'node:crypto';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 import { CompaniesTable, ContactsTable, PipelineStagesTable, UserProfileTable } from '../index.js';
@@ -13,9 +12,7 @@ export type TPipelineDealsTableInsert = InferInsertModel<typeof PipelineDealsTab
 export type TPipelineDealsTableSelect = InferSelectModel<typeof PipelineDealsTable>;
 export const PipelineDealsTable = pgTable('pipeline_deals', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  serial: varchar({ length: 6 })
-    .notNull()
-    .$defaultFn(() => nanoid(6)),
+  orderKey: varchar({ length: 255 }).notNull(),
   title: varchar('title', { length: 255 }).notNull(),
   company: uuid('company_name')
     .references(() => CompaniesTable.id, { onDelete: 'no action' })
