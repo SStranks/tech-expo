@@ -1,5 +1,4 @@
-import type { UUID } from 'node:crypto';
-
+import { UUID } from '@apps/crm-shared/src/types/api/base.js';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { pgTable, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
@@ -9,8 +8,8 @@ import { CalendarTable } from './Calendar.js';
 import { CalendarEventsTable } from './Events.js';
 
 // ---------- TABLES -------- //
-export type TCalendarCategoriesTableInsert = InferInsertModel<typeof CalendarCategoriesTable>;
-export type TCalendarCategoriesTableSelect = InferSelectModel<typeof CalendarCategoriesTable>;
+export type CalendarCategoriesTableInsert = InferInsertModel<typeof CalendarCategoriesTable>;
+export type CalendarCategoriesTableSelect = InferSelectModel<typeof CalendarCategoriesTable>;
 export const CalendarCategoriesTable = pgTable(
   'calendar_event_categories',
   {
@@ -38,8 +37,10 @@ export const CalendarCategoriesTableRelations = relations(CalendarCategoriesTabl
 
 // ----------- ZOD ---------- //
 export const insertCalendarCategoriesSchema = createInsertSchema(CalendarCategoriesTable);
-export const selectCalendarCategoriesSchema = createSelectSchema(CalendarCategoriesTable);
-export type TInsertCalendarCategoriesSchema = z.infer<typeof insertCalendarCategoriesSchema>;
-export type TSelectCalendarCategoriesSchema = z.infer<typeof selectCalendarCategoriesSchema>;
+export const selectCalendarCategoriesSchema = createSelectSchema(CalendarCategoriesTable).extend({
+  id: z.uuid() as z.ZodType<UUID>,
+});
+export type InsertCalendarCategoriesSchema = z.infer<typeof insertCalendarCategoriesSchema>;
+export type SelectCalendarCategoriesSchema = z.infer<typeof selectCalendarCategoriesSchema>;
 
 export default CalendarCategoriesTable;

@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { integer, numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -8,8 +8,8 @@ import { z } from 'zod';
 import { QuotesTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TQuoteServicesTableInsert = InferInsertModel<typeof QuoteServicesTable>;
-export type TQuoteServicesTableSelect = InferSelectModel<typeof QuoteServicesTable>;
+export type QuoteServicesTableInsert = InferInsertModel<typeof QuoteServicesTable>;
+export type QuoteServicesTableSelect = InferSelectModel<typeof QuoteServicesTable>;
 export const QuoteServicesTable = pgTable('quotes_services', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull(),
@@ -36,8 +36,10 @@ export const QuoteServicesTableRelations = relations(QuoteServicesTable, ({ one 
 
 // ----------- ZOD ---------- //
 export const insertQuoteServicesSchema = createInsertSchema(QuoteServicesTable);
-export const selectQuoteServicesSchema = createSelectSchema(QuoteServicesTable);
-export type TInsertQuoteServicesSchema = z.infer<typeof insertQuoteServicesSchema>;
-export type TSelectQuoteServicesSchema = z.infer<typeof selectQuoteServicesSchema>;
+export const selectQuoteServicesSchema = createSelectSchema(QuoteServicesTable).extend({
+  id: z.uuid() as z.ZodType<UUID>,
+});
+export type InsertQuoteServicesSchema = z.infer<typeof insertQuoteServicesSchema>;
+export type SelectQuoteServicesSchema = z.infer<typeof selectQuoteServicesSchema>;
 
 export default QuoteServicesTable;

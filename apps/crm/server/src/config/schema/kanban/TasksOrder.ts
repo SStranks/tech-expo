@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
 import { InferInsertModel, InferSelectModel, relations, sql } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
@@ -9,8 +9,8 @@ import KanbanTable from './Kanban.js';
 import KanbanStagesTable from './Stages.js';
 
 // ---------- TABLES -------- //
-export type TKanbanTasksOrderTableInsert = InferInsertModel<typeof KanbanTasksOrderTable>;
-export type TKanbanTasksOrderTableSelect = InferSelectModel<typeof KanbanTasksOrderTable>;
+export type KanbanTasksOrderTableInsert = InferInsertModel<typeof KanbanTasksOrderTable>;
+export type KanbanTasksOrderTableSelect = InferSelectModel<typeof KanbanTasksOrderTable>;
 export const KanbanTasksOrderTable = pgTable('kanban_tasks_order', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   taskOrder: text('task_order')
@@ -45,8 +45,10 @@ export const KanbanTaskOrderTableRelations = relations(KanbanTasksOrderTable, ({
 
 // ----------- ZOD ---------- //
 export const insertTasksOrderSchema = createInsertSchema(KanbanTasksOrderTable);
-export const selectTasksOrderSchema = createSelectSchema(KanbanTasksOrderTable);
-export type TInsertTasksOrderSchema = z.infer<typeof insertTasksOrderSchema>;
-export type TSelectTasksOrderSchema = z.infer<typeof selectTasksOrderSchema>;
+export const selectTasksOrderSchema = createSelectSchema(KanbanTasksOrderTable).extend({
+  id: z.uuid() as z.ZodType<UUID>,
+});
+export type InsertTasksOrderSchema = z.infer<typeof insertTasksOrderSchema>;
+export type SelectTasksOrderSchema = z.infer<typeof selectTasksOrderSchema>;
 
 export default KanbanTasksOrderTable;

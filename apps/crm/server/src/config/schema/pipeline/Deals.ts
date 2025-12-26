@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -8,8 +8,8 @@ import { z } from 'zod';
 import { CompaniesTable, ContactsTable, PipelineStagesTable, UserProfileTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TPipelineDealsTableInsert = InferInsertModel<typeof PipelineDealsTable>;
-export type TPipelineDealsTableSelect = InferSelectModel<typeof PipelineDealsTable>;
+export type PipelineDealsTableInsert = InferInsertModel<typeof PipelineDealsTable>;
+export type PipelineDealsTableSelect = InferSelectModel<typeof PipelineDealsTable>;
 export const PipelineDealsTable = pgTable('pipeline_deals', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   orderKey: varchar({ length: 255 }).notNull(),
@@ -58,8 +58,10 @@ export const PipelineDealsTableRelations = relations(PipelineDealsTable, ({ one 
 
 // ----------- ZOD ---------- //
 export const insertPipelineDealsSchema = createInsertSchema(PipelineDealsTable);
-export const selectPipelineDealsSchema = createSelectSchema(PipelineDealsTable);
-export type TInsertPipelineDealsSchema = z.infer<typeof insertPipelineDealsSchema>;
-export type TSelectPipelineDealsSchema = z.infer<typeof selectPipelineDealsSchema>;
+export const selectPipelineDealsSchema = createSelectSchema(PipelineDealsTable).extend({
+  id: z.uuid() as z.ZodType<UUID>,
+});
+export type InsertPipelineDealsSchema = z.infer<typeof insertPipelineDealsSchema>;
+export type SelectPipelineDealsSchema = z.infer<typeof selectPipelineDealsSchema>;
 
 export default PipelineDealsTable;

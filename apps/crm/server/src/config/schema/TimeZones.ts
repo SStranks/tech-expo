@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { char, pgTable, uuid } from 'drizzle-orm/pg-core';
@@ -6,8 +6,8 @@ import { char, pgTable, uuid } from 'drizzle-orm/pg-core';
 import { ContactsTable, CountriesTable, UserProfileTable } from './index.js';
 
 // ---------- TABLES -------- //
-export type TTimeZoneTableInsert = InferInsertModel<typeof TimeZoneTable>;
-export type TTimeZoneTableSelect = InferSelectModel<typeof TimeZoneTable>;
+export type TimeZoneTableInsert = InferInsertModel<typeof TimeZoneTable>;
+export type TimeZoneTableSelect = InferSelectModel<typeof TimeZoneTable>;
 export const TimeZoneTable = pgTable('time_zones_utc', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   alpha2Code: char('alpha_2_code', { length: 2 }).notNull(),

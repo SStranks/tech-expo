@@ -1,5 +1,6 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
+import { USER_ROLES } from '@apps/crm-shared/src/types/api/auth.js';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { boolean, pgEnum, pgTable, timestamp, uniqueIndex, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
@@ -8,13 +9,11 @@ import { z } from 'zod';
 import { AuditLogTable, UserProfileTable, UserRefreshTokensTable } from '../index.js';
 
 // ---------- ENUMS --------- //
-export type TUserRoles = (typeof USER_ROLES)[number];
-export const USER_ROLES = ['ROOT', 'ADMIN', 'MODERATOR', 'USER'] as const;
 export const UserRolesEnum = pgEnum('user_role', USER_ROLES);
 
 // ---------- TABLES -------- //
-export type TUserTableInsert = InferInsertModel<typeof UserTable>;
-export type TUserTableSelect = InferSelectModel<typeof UserTable>;
+export type UserTableInsert = InferInsertModel<typeof UserTable>;
+export type UserTableSelect = InferSelectModel<typeof UserTable>;
 export const UserTable = pgTable(
   'user',
   {
@@ -47,8 +46,8 @@ export const UserTableRelations = relations(UserTable, ({ many, one }) => {
 
 // ----------- ZOD ---------- //
 export const insertUserSchema = createInsertSchema(UserTable);
-export const selectUserSchema = createSelectSchema(UserTable);
-export type TInsertUserSchema = z.infer<typeof insertUserSchema>;
-export type TSelectUserSchema = z.infer<typeof selectUserSchema>;
+export const selectUserSchema = createSelectSchema(UserTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export type InsertUserSchema = z.infer<typeof insertUserSchema>;
+export type SelectUserSchema = z.infer<typeof selectUserSchema>;
 
 export default UserTable;

@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { char, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -16,13 +16,13 @@ import {
 } from '../index.js';
 
 // ---------- ENUMS --------- //
-export type TCompanyRoles = (typeof COMPANY_ROLES)[number];
+export type CompanyRoles = (typeof COMPANY_ROLES)[number];
 export const COMPANY_ROLES = ['ADMIN', 'SALES_MANAGER', 'SALES_PERSON', 'SALES_INTERN'] as const;
 export const CompanyRolesEnum = pgEnum('company_role', COMPANY_ROLES);
 
 // ---------- TABLES -------- //
-export type TUserProfileTableInsert = InferInsertModel<typeof UserProfileTable>;
-export type TUserProfileTableSelect = InferSelectModel<typeof UserProfileTable>;
+export type UserProfileTableInsert = InferInsertModel<typeof UserProfileTable>;
+export type UserProfileTableSelect = InferSelectModel<typeof UserProfileTable>;
 export const UserProfileTable = pgTable('user_profile', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   userId: uuid('user_id')
@@ -75,8 +75,8 @@ export const UserProfileTableRelations = relations(UserProfileTable, ({ many, on
 
 // ----------- ZOD ---------- //
 export const insertUserProfileSchema = createInsertSchema(UserProfileTable);
-export const selectUserProfileSchema = createSelectSchema(UserProfileTable);
-export type TInsertUserProfileSchema = z.infer<typeof insertUserProfileSchema>;
-export type TSelectUserProfileSchema = z.infer<typeof selectUserProfileSchema>;
+export const selectUserProfileSchema = createSelectSchema(UserProfileTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export type InsertUserProfileSchema = z.infer<typeof insertUserProfileSchema>;
+export type SelectUserProfileSchema = z.infer<typeof selectUserProfileSchema>;
 
 export default UserProfileTable;

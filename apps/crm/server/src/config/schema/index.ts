@@ -1,35 +1,39 @@
 /* eslint-disable perfectionist/sort-named-exports */
-export type { TCalendarTableInsert, TCalendarTableSelect } from './calendar/Calendar.ts';
-export type { TCalendarCategoriesTableInsert, TCalendarCategoriesTableSelect } from './calendar/Categories.ts';
-export type { TCalendarEventsTableInsert, TCalendarEventsTableSelect } from './calendar/Events.ts';
+export type { CalendarTableInsert, CalendarTableSelect } from './calendar/Calendar.ts';
+export type { CalendarCategoriesTableInsert, CalendarCategoriesTableSelect } from './calendar/Categories.ts';
+export type { CalendarEventsTableInsert, CalendarEventsTableSelect } from './calendar/Events.ts';
 export type {
-  TCalendarEventsParticipantsTableInsert,
-  TCalendarEventsParticipantsTableSelect,
+  CalendarEventsParticipantsTableInsert,
+  CalendarEventsParticipantsTableSelect,
 } from './calendar/EventsParticipants.ts';
-export type { TCompaniesTableInsert, TCompaniesTableSelect } from './companies/Companies.ts';
-export type { TCompaniesNotesTableInsert, TCompaniesNotesTableSelect } from './companies/CompanyNotes.ts';
-export type { TContactsTableInsert, TContactStage } from './contacts/Contacts.ts';
-export type { TContactsNotesTableInsert, TContactsNotesTableSelect } from './contacts/ContactsNotes.ts';
-export type { TCountriesTableInsert, TCountriesTableSelect } from './Countries.ts';
+export type { CompaniesTableInsert, CompaniesTableSelect } from './companies/Companies.ts';
+export type { CompaniesNotesTableInsert, CompaniesNotesTableSelect } from './companies/CompanyNotes.ts';
+export type { ContactsTableInsert, ContactStage } from './contacts/Contacts.ts';
+export type { ContactsNotesTableInsert, ContactsNotesTableSelect } from './contacts/ContactsNotes.ts';
+export type { CountriesTableInsert, CountriesTableSelect } from './Countries.ts';
 export type {
-  TKanbanTaskChecklistItemTableInsert,
-  TKanbanTaskChecklistItemTableSelect,
+  KanbanTaskChecklistItemTableInsert,
+  KanbanTaskChecklistItemTableSelect,
 } from './kanban/ChecklistItems.ts';
-export type { TKanbanTableInsert, TKanbanTableSelect } from './kanban/Kanban.ts';
-export type { TKanbanStagesTableInsert, TKanbanStagesTableSelect } from './kanban/Stages.ts';
-export type { TKanbanTasksTableInsert, TKanbanTasksTableSelect } from './kanban/Tasks.ts';
-export type { TKanbanTaskCommentsTableInsert, TKanbanTaskCommentsTableSelect } from './kanban/TasksComments.ts';
-export type { TKanbanTasksOrderTableInsert, TKanbanTasksOrderTableSelect } from './kanban/TasksOrder.ts';
-export type { TPipelineDealsTableInsert, TPipelineDealsTableSelect } from './pipeline/Deals.ts';
-export type { TPipelineTableInsert, TPipelineTableSelect } from './pipeline/Pipeline.ts';
-export type { TPipelineStagesTableInsert, TPipelineStagesTableSelect } from './pipeline/Stages.ts';
-export type { TQuotesTableInsert, TQuotesTableSelect } from './quotes/Quotes.ts';
-export type { TQuotesNotesTableInsert, TQuotesNotesTableSelect } from './quotes/QuotesNotes.ts';
-export type { TQuoteServicesTableInsert, TQuoteServicesTableSelect } from './quotes/Services.ts';
-export type { TTimeZoneTableInsert, TTimeZoneTableSelect } from './TimeZones.ts';
-export type { TUserTableInsert, TUserTableSelect, TUserRoles } from './user/User.ts';
-export type { TUserProfileTableInsert, TUserProfileTableSelect, TCompanyRoles } from './user/UserProfile.ts';
-export type { TUserRefreshTokensTableInsert, TUserRefreshTokensTableSelect } from './user/UserRefreshTokens.ts';
+export type { KanbanTableInsert, KanbanTableSelect } from './kanban/Kanban.ts';
+export type { KanbanStagesTableInsert, KanbanStagesTableSelect } from './kanban/Stages.ts';
+export type { KanbanTasksTableInsert, KanbanTasksTableSelect } from './kanban/Tasks.ts';
+export type { KanbanTaskCommentsTableInsert, KanbanTaskCommentsTableSelect } from './kanban/TasksComments.ts';
+export type { KanbanTasksOrderTableInsert, KanbanTasksOrderTableSelect } from './kanban/TasksOrder.ts';
+export type { PipelineDealsTableInsert, PipelineDealsTableSelect } from './pipeline/Deals.ts';
+export type { PipelineTableInsert, PipelineTableSelect } from './pipeline/Pipeline.ts';
+export type { PipelineStagesTableInsert, PipelineStagesTableSelect } from './pipeline/Stages.ts';
+export type { QuotesTableInsert, QuotesTableSelect } from './quotes/Quotes.ts';
+export type { QuotesNotesTableInsert, QuotesNotesTableSelect } from './quotes/QuotesNotes.ts';
+export type { QuoteServicesTableInsert, QuoteServicesTableSelect } from './quotes/Services.ts';
+export type { TimeZoneTableInsert, TimeZoneTableSelect } from './TimeZones.ts';
+export type { UserTableInsert, UserTableSelect } from './user/User.ts';
+export type {
+  UserProfileTableInsert as TUserProfileTableInsert,
+  UserProfileTableSelect as TUserProfileTableSelect,
+  CompanyRoles as TCompanyRoles,
+} from './user/UserProfile.ts';
+export type { UserRefreshTokensTableInsert, UserRefreshTokensTableSelect } from './user/UserRefreshTokens.ts';
 
 export { default as AuditLogTable, AuditLogTableRelations } from './AuditLog.js';
 export { default as CalendarTable, CalendarTableRelations } from './calendar/Calendar.js';

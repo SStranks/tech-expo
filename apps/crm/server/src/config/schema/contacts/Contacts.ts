@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { CompaniesTable, ContactsNotesTable, PipelineDealsTable, QuotesTable, TimeZoneTable } from '../index.js';
 
 // ---------- ENUMS --------- //
-export type TContactStage = (typeof CONTACT_STAGE)[number];
+export type ContactStage = (typeof CONTACT_STAGE)[number];
 export const CONTACT_STAGE = [
   'NEW',
   'CONTACTED',
@@ -23,8 +23,8 @@ export const CONTACT_STAGE = [
 export const ContactStageEnum = pgEnum('contact_stage', CONTACT_STAGE);
 
 // ---------- TABLES -------- //
-export type TContactsTableInsert = InferInsertModel<typeof ContactsTable>;
-export type TContactsTableSelect = InferSelectModel<typeof ContactsTable>;
+export type ContactsTableInsert = InferInsertModel<typeof ContactsTable>;
+export type ContactsTableSelect = InferSelectModel<typeof ContactsTable>;
 export const ContactsTable = pgTable('contacts', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   firstName: varchar('first_name', { length: 255 }).notNull(),
@@ -62,8 +62,8 @@ export const ContactsTableRelations = relations(ContactsTable, ({ many, one }) =
 
 // ----------- ZOD ---------- //
 export const insertContactsSchema = createInsertSchema(ContactsTable);
-export const selectContactsSchema = createSelectSchema(ContactsTable);
-export type TInsertContactsSchema = z.infer<typeof insertContactsSchema>;
-export type TSelectContactsSchema = z.infer<typeof selectContactsSchema>;
+export const selectContactsSchema = createSelectSchema(ContactsTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export type InsertContactsSchema = z.infer<typeof insertContactsSchema>;
+export type SelectContactsSchema = z.infer<typeof selectContactsSchema>;
 
 export default ContactsTable;

@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -8,8 +8,8 @@ import { z } from 'zod';
 import { CompaniesTable, TimeZoneTable, UserProfileTable } from './index.js';
 
 // ---------- TABLES -------- //
-export type TCountriesTableInsert = InferInsertModel<typeof CountriesTable>;
-export type TCountriesTableSelect = InferSelectModel<typeof CountriesTable>;
+export type CountriesTableInsert = InferInsertModel<typeof CountriesTable>;
+export type CountriesTableSelect = InferSelectModel<typeof CountriesTable>;
 export const CountriesTable = pgTable('countries', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   numCode: integer('num_code').unique().notNull(),
@@ -30,8 +30,8 @@ export const CountriesTablerelations = relations(CountriesTable, ({ many }) => {
 
 // ----------- ZOD ---------- //
 export const insertCountriesSchema = createInsertSchema(CountriesTable);
-export const selectCountriesSchema = createSelectSchema(CountriesTable);
-export type TInsertCountriesSchema = z.infer<typeof insertCountriesSchema>;
-export type TSelectCountriesSchema = z.infer<typeof selectCountriesSchema>;
+export const selectCountriesSchema = createSelectSchema(CountriesTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export type InsertCountriesSchema = z.infer<typeof insertCountriesSchema>;
+export type SelectCountriesSchema = z.infer<typeof selectCountriesSchema>;
 
 export default CountriesTable;

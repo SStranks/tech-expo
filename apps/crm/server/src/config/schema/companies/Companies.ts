@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { doublePrecision, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -17,17 +17,17 @@ import {
 } from '../index.js';
 
 // ---------- ENUMS --------- //
-export type TCompanySize = (typeof COMPANY_SIZE)[number];
+export type CompanySize = (typeof COMPANY_SIZE)[number];
 export const COMPANY_SIZE = ['MICRO', 'SMALL', 'MEDIUM', 'LARGE'] as const;
 export const CompanySizeEnum = pgEnum('company_size', COMPANY_SIZE);
 
-export type TBusinessType = (typeof BUSINESS_TYPE)[number];
+export type BusinessType = (typeof BUSINESS_TYPE)[number];
 export const BUSINESS_TYPE = ['B2B', 'B2C'] as const;
 export const BusinessTypeEnum = pgEnum('business_type', BUSINESS_TYPE);
 
 // ---------- TABLES -------- //
-export type TCompaniesTableInsert = InferInsertModel<typeof CompaniesTable>;
-export type TCompaniesTableSelect = InferSelectModel<typeof CompaniesTable>;
+export type CompaniesTableInsert = InferInsertModel<typeof CompaniesTable>;
+export type CompaniesTableSelect = InferSelectModel<typeof CompaniesTable>;
 export const CompaniesTable = pgTable('companies', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   name: varchar('company_name', { length: 255 }).notNull().unique(),
@@ -62,8 +62,8 @@ export const CompaniesTableRelations = relations(CompaniesTable, ({ many, one })
 
 // ----------- ZOD ---------- //
 export const insertCompaniesSchema = createInsertSchema(CompaniesTable);
-export const selectCompaniesSchema = createSelectSchema(CompaniesTable);
-export type TInsertCompaniesSchema = z.infer<typeof insertCompaniesSchema>;
-export type TSelectCompaniesSchema = z.infer<typeof selectCompaniesSchema>;
+export const selectCompaniesSchema = createSelectSchema(CompaniesTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export type InsertCompaniesSchema = z.infer<typeof insertCompaniesSchema>;
+export type SelectCompaniesSchema = z.infer<typeof selectCompaniesSchema>;
 
 export default CompaniesTable;

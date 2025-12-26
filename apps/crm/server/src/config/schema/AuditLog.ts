@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
 import { relations } from 'drizzle-orm';
 import { jsonb, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { UserTable } from './index.js';
 
 // ---------- ENUMS --------- //
-export type TEntityAction = (typeof ENTITY_ACTION)[number];
+export type EntityAction = (typeof ENTITY_ACTION)[number];
 export const ENTITY_ACTION = ['INSERT', 'UPDATE', 'DELETE'] as const;
 export const EntityActionsEnum = pgEnum('entity_action', ENTITY_ACTION);
 
@@ -39,8 +39,8 @@ export const AuditLogTableRelations = relations(AuditLogTable, ({ one }) => {
 
 // ----------- ZOD ---------- //
 export const insertAuditSchema = createInsertSchema(AuditLogTable);
-export const selectAuditSchema = createSelectSchema(AuditLogTable);
-export type TInsertAuditSchema = z.infer<typeof insertAuditSchema>;
-export type TSelectAuditSchema = z.infer<typeof selectAuditSchema>;
+export const selectAuditSchema = createSelectSchema(AuditLogTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export type InsertAuditSchema = z.infer<typeof insertAuditSchema>;
+export type SelectAuditSchema = z.infer<typeof selectAuditSchema>;
 
 export default AuditLogTable;

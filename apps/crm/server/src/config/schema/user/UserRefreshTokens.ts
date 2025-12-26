@@ -1,5 +1,4 @@
-import type { UUID } from 'node:crypto';
-
+import { UUID } from '@apps/crm-shared/src/types/api/base.js';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { boolean, integer, pgTable, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
@@ -8,8 +7,8 @@ import { z } from 'zod';
 import { UserTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TUserRefreshTokensTableInsert = InferInsertModel<typeof UserRefreshTokensTable>;
-export type TUserRefreshTokensTableSelect = InferSelectModel<typeof UserRefreshTokensTable>;
+export type UserRefreshTokensTableInsert = InferInsertModel<typeof UserRefreshTokensTable>;
+export type UserRefreshTokensTableSelect = InferSelectModel<typeof UserRefreshTokensTable>;
 export const UserRefreshTokensTable = pgTable('user_tokens', {
   jti: uuid('jti').primaryKey().notNull().$type<UUID>(),
   iat: integer('iat').notNull(),
@@ -34,8 +33,10 @@ export const UserRefreshTokensTableRelations = relations(UserRefreshTokensTable,
 
 // ----------- ZOD ---------- //
 export const insertRefreshTokensSchema = createInsertSchema(UserRefreshTokensTable);
-export const selectRefreshTokensSchema = createSelectSchema(UserRefreshTokensTable);
-export type TInsertRefreshTokensSchema = z.infer<typeof insertRefreshTokensSchema>;
-export type TSelectRefreshTokensSchema = z.infer<typeof selectRefreshTokensSchema>;
+export const selectRefreshTokensSchema = createSelectSchema(UserRefreshTokensTable).extend({
+  id: z.uuid() as z.ZodType<UUID>,
+});
+export type InsertRefreshTokensSchema = z.infer<typeof insertRefreshTokensSchema>;
+export type SelectRefreshTokensSchema = z.infer<typeof selectRefreshTokensSchema>;
 
 export default UserRefreshTokensTable;

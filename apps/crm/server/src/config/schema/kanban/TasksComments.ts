@@ -1,4 +1,4 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
@@ -8,8 +8,8 @@ import { z } from 'zod';
 import { KanbanTasksTable, UserProfileTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TKanbanTaskCommentsTableInsert = InferInsertModel<typeof KanbanTaskCommentsTable>;
-export type TKanbanTaskCommentsTableSelect = InferSelectModel<typeof KanbanTaskCommentsTable>;
+export type KanbanTaskCommentsTableInsert = InferInsertModel<typeof KanbanTaskCommentsTable>;
+export type KanbanTaskCommentsTableSelect = InferSelectModel<typeof KanbanTaskCommentsTable>;
 export const KanbanTaskCommentsTable = pgTable('kanban_task_comments', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   taskId: uuid('task_id')
@@ -40,8 +40,10 @@ export const KanbanTaskCommentsTableRelations = relations(KanbanTaskCommentsTabl
 
 // ----------- ZOD ---------- //
 export const insertKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskCommentsTable);
-export const selectKanbanTaskCommentsSchema = createSelectSchema(KanbanTaskCommentsTable);
-export type TInsertKanbanTaskCommentsSchema = z.infer<typeof insertKanbanTaskCommentsSchema>;
-export type TSelectKanbanTaskCommentsSchema = z.infer<typeof selectKanbanTaskCommentsSchema>;
+export const selectKanbanTaskCommentsSchema = createSelectSchema(KanbanTaskCommentsTable).extend({
+  id: z.uuid() as z.ZodType<UUID>,
+});
+export type InsertKanbanTaskCommentsSchema = z.infer<typeof insertKanbanTaskCommentsSchema>;
+export type SelectKanbanTaskCommentsSchema = z.infer<typeof selectKanbanTaskCommentsSchema>;
 
 export default KanbanTaskCommentsTable;

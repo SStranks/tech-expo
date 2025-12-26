@@ -1,15 +1,15 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable, PipelineDealsOrderTable, PipelineDealsTable, PipelineStagesTable } from '../index.js';
+import { CompaniesTable, PipelineDealsTable, PipelineStagesTable } from '../index.js';
 
 // ---------- TABLES -------- //
-export type TPipelineTableInsert = InferInsertModel<typeof PipelineTable>;
-export type TPipelineTableSelect = InferSelectModel<typeof PipelineTable>;
+export type PipelineTableInsert = InferInsertModel<typeof PipelineTable>;
+export type PipelineTableSelect = InferSelectModel<typeof PipelineTable>;
 export const PipelineTable = pgTable('pipeline', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   companyId: uuid('company_id')
@@ -23,7 +23,6 @@ export const PipelineTable = pgTable('pipeline', {
 export const PipelineTableRelations = relations(PipelineTable, ({ many, one }) => {
   return {
     deals: many(PipelineDealsTable),
-    dealsOrder: many(PipelineDealsOrderTable),
     stages: many(PipelineStagesTable),
     company: one(CompaniesTable, {
       fields: [PipelineTable.companyId],
@@ -34,8 +33,8 @@ export const PipelineTableRelations = relations(PipelineTable, ({ many, one }) =
 
 // ----------- ZOD ---------- //
 export const insertPipelineSchema = createInsertSchema(PipelineTable);
-export const selectPipelineSchema = createSelectSchema(PipelineTable);
-export type TInsertPipelineSchema = z.infer<typeof insertPipelineSchema>;
-export type TSelectPipelineSchema = z.infer<typeof selectPipelineSchema>;
+export const selectPipelineSchema = createSelectSchema(PipelineTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export type InsertPipelineSchema = z.infer<typeof insertPipelineSchema>;
+export type SelectPipelineSchema = z.infer<typeof selectPipelineSchema>;
 
 export default PipelineTable;
