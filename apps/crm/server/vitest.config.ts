@@ -18,6 +18,7 @@ export default defineConfig({
       '#Helpers': path.resolve(__dirname, 'src/helpers'),
       '#Lib': path.resolve(__dirname, 'src/lib'),
       '#Log': path.resolve(__dirname, 'src/log'),
+      '#Mappers': path.resolve(__dirname, 'src/mappers'),
       '#Middleware': path.resolve(__dirname, 'src/middleware'),
       '#Models': path.resolve(__dirname, 'src/models'),
       '#Routes': path.resolve(__dirname, 'src/routes'),
