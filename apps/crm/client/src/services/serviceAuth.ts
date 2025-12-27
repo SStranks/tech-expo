@@ -1,16 +1,9 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import type { AxiosClient } from '@Lib/axios';
-import type { ReduxStore } from '@Redux/store';
+import type { ReduxAuthStateAdapter } from '@Redux/adapters/reduxAuthAdapter';
 import type { ApiResponseSuccess } from '@Shared/src';
 
-import {
-  clearAuthState,
-  selectorAuthTokenPending,
-  setAuthTokenPending,
-  setRefreshTokenActivated,
-  setRefreshTokenPending,
-} from '@Redux/reducers/authSlice';
 import AppError from '@Utils/AppError';
 
 interface Request {
@@ -18,7 +11,7 @@ interface Request {
 }
 
 class ServiceAuth {
-  private ReduxStore: ReduxStore;
+  private AuthState: ReduxAuthStateAdapter;
   private ApiClient: AxiosClient;
   private PendingRequests: number;
   private RequestQueue: Request[];
@@ -27,8 +20,8 @@ class ServiceAuth {
   private CurrentRetry = 0;
   private Data: unknown;
 
-  constructor(apiClient: AxiosClient, store: ReduxStore) {
-    this.ReduxStore = store;
+  constructor(apiClient: AxiosClient, authState: ReduxAuthStateAdapter) {
+    this.AuthState = authState;
     this.ApiClient = apiClient;
     this.PendingRequests = 0;
     this.RequestQueue = [];
@@ -39,7 +32,7 @@ class ServiceAuth {
   }
 
   private canRequestAuthToken(): boolean {
-    return !selectorAuthTokenPending(this.ReduxStore.getState());
+    return this.AuthState.isAuthTokenPending();
   }
 
   private authInterceptorSuccess = (response: AxiosResponse<ApiResponseSuccess>) => {
@@ -75,7 +68,7 @@ class ServiceAuth {
           console.log(error);
           // Refresh authToken failure: Clear request queue, logout
           this.clearQueue();
-          this.ReduxStore.dispatch(clearAuthState());
+          this.AuthState.clearAuth();
           throw error;
         }
       }
@@ -101,9 +94,9 @@ class ServiceAuth {
 
   private async getAuthToken() {
     try {
-      this.ReduxStore.dispatch(setRefreshTokenActivated(false));
-      this.ReduxStore.dispatch(setRefreshTokenPending(true));
-      this.ReduxStore.dispatch(setAuthTokenPending(true));
+      this.AuthState.setRefreshTokenActivated(false);
+      this.AuthState.setRefreshTokenPending(true);
+      this.AuthState.setAuthTokenPending(true);
       await this.ApiClient.get('/api/users/generateAuthToken', { withCredentials: true });
       this.CurrentRetry = 0;
     } catch (error) {
@@ -116,16 +109,16 @@ class ServiceAuth {
           this.getAuthToken();
         } else {
           // Unauthorized
-          this.ReduxStore.dispatch(clearAuthState());
+          this.AuthState.clearAuth();
         }
       }
       if (error instanceof AppError && error.message === 'Please verify Refresh Token') {
         return this.activateRefreshToken();
       }
       // Unspecified error; force logout state
-      this.ReduxStore.dispatch(clearAuthState());
+      this.AuthState.clearAuth();
     } finally {
-      this.ReduxStore.dispatch(setAuthTokenPending(false));
+      this.AuthState.setAuthTokenPending(false);
     }
   }
 
@@ -133,12 +126,12 @@ class ServiceAuth {
     try {
       await this.ApiClient.get('/api/users/activateRefreshToken', { withCredentials: true });
       this.CurrentRetry = 0;
-      this.ReduxStore.dispatch(setRefreshTokenActivated(true));
-      this.ReduxStore.dispatch(setRefreshTokenPending(false));
+      this.AuthState.setRefreshTokenActivated(true);
+      this.AuthState.setRefreshTokenPending(false);
     } catch (error: any) {
       if (error.message === 'Token already activated') {
-        this.ReduxStore.dispatch(setRefreshTokenActivated(true));
-        this.ReduxStore.dispatch(setRefreshTokenPending(false));
+        this.AuthState.setRefreshTokenActivated(true);
+        this.AuthState.setRefreshTokenPending(false);
         return;
       }
       if (this.CurrentRetry < this.MaxRetry) {

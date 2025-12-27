@@ -1,3 +1,5 @@
+import type { ApiResponseSuccessData } from '@Shared/src/types/api/base';
+
 import axios, {
   type AxiosInstance,
   type AxiosInterceptorManager,
@@ -7,22 +9,21 @@ import axios, {
 } from 'axios';
 
 import handleServiceError from '@Services/serviceHttpErrors';
-import { ApiResponseSuccess } from '@Shared/src';
 
 export interface AxiosClient {
   requestInterceptor(): AxiosInterceptorManager<InternalAxiosRequestConfig<any>>;
   responseInterceptor(): AxiosInterceptorManager<AxiosResponse<any, any>>;
-  responseData(response: AxiosResponse<ApiResponseSuccess>): ApiResponseSuccess | undefined;
+  responseData<T>(response: AxiosResponse<ApiResponseSuccessData<T>>): ApiResponseSuccessData<T> | undefined;
   retryRequest(
     config: AxiosRequestConfig<any>,
     retries?: number,
     delay?: number
   ): Promise<AxiosResponse<any, any> | void>;
-  get(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse>;
-  post<TRequest>(url: string, data: TRequest, config?: AxiosRequestConfig): Promise<AxiosResponse>;
-  patch<TRequest>(url: string, data: TRequest, config?: AxiosRequestConfig): Promise<AxiosResponse>;
-  put<TRequest>(url: string, data: TRequest, config?: AxiosRequestConfig): Promise<AxiosResponse>;
-  delete(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse>;
+  get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  post<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T>;
+  patch<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T>;
+  put<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T>;
+  delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
 }
 
 export class AxiosClient implements AxiosClient {
@@ -71,46 +72,46 @@ export class AxiosClient implements AxiosClient {
       });
   }
 
-  async get<TResponse>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
+  async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     try {
-      const response = await this.client.get<TResponse>(url, config);
-      return response;
+      const response = await this.client.get<T>(url, config);
+      return response.data;
     } catch (error) {
       throw handleServiceError(error);
     }
   }
 
-  async post<TRequest>(url: string, data: TRequest, config?: AxiosRequestConfig): Promise<AxiosResponse> {
+  async post<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T> {
     try {
-      const response = await this.client.post(url, data, config);
-      return response;
+      const response = await this.client.post<T>(url, data, config);
+      return response.data;
     } catch (error) {
       throw handleServiceError(error);
     }
   }
 
-  async patch<TRequest>(url: string, data: TRequest, config?: AxiosRequestConfig): Promise<AxiosResponse> {
+  async patch<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T> {
     try {
-      const res = await this.client.patch(url, data, config);
-      return res.data;
+      const response = await this.client.patch<T>(url, data, config);
+      return response.data;
     } catch (error) {
       throw handleServiceError(error);
     }
   }
 
-  async put<TRequest>(url: string, data: TRequest, config?: AxiosRequestConfig): Promise<AxiosResponse> {
+  async put<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T> {
     try {
-      const response = await this.client.put(url, data, config);
-      return response;
+      const response = await this.client.put<T>(url, data, config);
+      return response.data;
     } catch (error) {
       throw handleServiceError(error);
     }
   }
 
-  async delete(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
+  async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     try {
-      const response = await this.client.delete(url, config);
-      return response;
+      const response = await this.client.delete<T>(url, config);
+      return response.data;
     } catch (error) {
       throw handleServiceError(error);
     }

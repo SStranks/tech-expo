@@ -1,19 +1,26 @@
-import type { AxiosResponse } from 'axios';
-
 import type { AxiosClient } from '@Lib/axios';
-
-import AppError from '@Utils/AppError';
-
-export type TBody = { [x: string]: unknown };
+import type {
+  DeleteAccountRequestDTO,
+  ForgotPasswordRequestDTO,
+  FreezeAccountRequestDTO,
+  IdentifyResponse,
+  LoginRequestDTO,
+  LoginResponse,
+  UpdatePasswordRequestDTO,
+  UpdatePasswordResponse,
+} from '@Shared/src/types/api/auth';
+import type { ApiResponseSuccess, ApiResponseSuccessData } from '@Shared/src/types/api/base';
 
 export interface ServiceHttp {
-  accountIdentify(): Promise<AxiosResponse>;
-  accountLogin(body: TBody): Promise<AxiosResponse>;
-  accountLogout(): Promise<AxiosResponse>;
-  accountForgotPassword(body: TBody): Promise<AxiosResponse>;
-  accountUpdatePassword(body: TBody): Promise<AxiosResponse>;
-  accountFreeze(): Promise<AxiosResponse>;
-  accountDelete(body: TBody): Promise<AxiosResponse>;
+  account: {
+    delete: (body: DeleteAccountRequestDTO) => Promise<ApiResponseSuccess>;
+    forgotpassword: (body: ForgotPasswordRequestDTO) => Promise<ApiResponseSuccess>;
+    freeze: () => Promise<ApiResponseSuccess>;
+    identify: () => Promise<ApiResponseSuccessData<IdentifyResponse>>;
+    login: (body: LoginRequestDTO) => Promise<ApiResponseSuccessData<LoginResponse>>;
+    logout: () => Promise<ApiResponseSuccess>;
+    updatepassword: (body: UpdatePasswordRequestDTO) => Promise<ApiResponseSuccessData<UpdatePasswordResponse>>;
+  };
 }
 
 export class ServiceHttp implements ServiceHttp {
@@ -23,110 +30,73 @@ export class ServiceHttp implements ServiceHttp {
     this.ApiServiceClient = apiClient;
   }
 
-  /*
-   * TODO: eturn user and roles from API as response?
-   * TODO: 'throw errors' - tidy up; graceful error UI required.
-   * NOTE: Throw is necessary to propagate into redux authSlice.
-   */
-  async accountLogin(body: TBody) {
-    try {
-      const response = await this.ApiServiceClient.post<TBody>('/api/users/login', body, { withCredentials: true });
-      return response.data;
-    } catch (error) {
-      if (error instanceof AppError && error.statusCode) {
-        console.error(error.message);
-        throw error;
-      }
-      console.error(error);
-      throw error;
-    }
-  }
+  account = {
+    delete: async (body: DeleteAccountRequestDTO): Promise<ApiResponseSuccess> => {
+      const response = await this.ApiServiceClient.patch<ApiResponseSuccess, DeleteAccountRequestDTO>(
+        '/api/users/deleteAccount',
+        body,
+        {
+          withCredentials: true,
+        }
+      );
+      return response;
+    },
 
-  async accountLogout() {
-    try {
-      const response = await this.ApiServiceClient.get('/api/users/logout', { withCredentials: true });
-      return response.data;
-    } catch (error) {
-      if (error instanceof AppError && error.statusCode) {
-        console.error(error.message);
-        throw error;
-      }
-      console.error(error);
-      throw error;
-    }
-  }
+    forgotpassword: async (body: ForgotPasswordRequestDTO): Promise<ApiResponseSuccess> => {
+      const response = await this.ApiServiceClient.patch<ApiResponseSuccess, ForgotPasswordRequestDTO>(
+        '/api/users/forgotPassword',
+        body,
+        {
+          withCredentials: true,
+        }
+      );
+      return response;
+    },
 
-  async accountIdentify() {
-    try {
-      const response = await this.ApiServiceClient.get('/api/users/identify', { withCredentials: true });
-      return response.data;
-    } catch (error) {
-      if (error instanceof AppError && error.statusCode) {
-        console.error(error.message);
-        throw error;
-      }
-      console.error(error);
-      throw error;
-    }
-  }
+    freeze: async (): Promise<ApiResponseSuccess> => {
+      const response = await this.ApiServiceClient.patch<ApiResponseSuccess, FreezeAccountRequestDTO>(
+        '/api/users/freezeAccount',
+        { withCredentials: true }
+      );
+      return response;
+    },
 
-  async accountForgotPassword(body: TBody) {
-    try {
-      const response = await this.ApiServiceClient.patch<TBody>('/api/users/forgotPassword', body, {
+    identify: async (): Promise<ApiResponseSuccessData<IdentifyResponse>> => {
+      const response = await this.ApiServiceClient.get<ApiResponseSuccessData<IdentifyResponse>>(
+        '/api/users/identify',
+        {
+          withCredentials: true,
+        }
+      );
+      return response;
+    },
+
+    login: async (body: LoginRequestDTO): Promise<ApiResponseSuccessData<LoginResponse>> => {
+      const response = await this.ApiServiceClient.post<ApiResponseSuccessData<LoginResponse>, LoginRequestDTO>(
+        '/api/users/login',
+        body,
+        {
+          withCredentials: true,
+        }
+      );
+      return response;
+    },
+
+    logout: async (): Promise<ApiResponseSuccess> => {
+      const response = await this.ApiServiceClient.get<ApiResponseSuccess>('/api/users/logout', {
         withCredentials: true,
       });
-      return response.data;
-    } catch (error) {
-      if (error instanceof AppError && error.statusCode) {
-        console.error(error.message);
-        throw error;
-      }
-      console.error(error);
-      throw error;
-    }
-  }
+      return response;
+    },
 
-  async accountUpdatePassword(body: TBody) {
-    try {
-      const response = await this.ApiServiceClient.patch<TBody>('/api/users/identify', body, { withCredentials: true });
-      return response.data;
-    } catch (error) {
-      if (error instanceof AppError && error.statusCode) {
-        console.error(error.message);
-        throw error;
-      }
-      console.error(error);
-      throw error;
-    }
-  }
-
-  async accountFreeze() {
-    try {
-      const response = await this.ApiServiceClient.patch('/api/users/freezeAccount', { withCredentials: true });
-      return response.data;
-    } catch (error) {
-      if (error instanceof AppError && error.statusCode) {
-        console.error(error.message);
-        throw error;
-      }
-      console.error(error);
-      throw error;
-    }
-  }
-
-  async accountDelete(body: TBody) {
-    try {
-      const response = await this.ApiServiceClient.patch<TBody>('/api/users/deleteAccount', body, {
+    updatepassword: async (body: UpdatePasswordRequestDTO): Promise<ApiResponseSuccessData<UpdatePasswordResponse>> => {
+      const response = await this.ApiServiceClient.patch<
+        ApiResponseSuccessData<UpdatePasswordResponse>,
+        UpdatePasswordRequestDTO
+      >('/api/users/identify', body, {
         withCredentials: true,
       });
-      return response.data;
-    } catch (error) {
-      if (error instanceof AppError && error.statusCode) {
-        console.error(error.message);
-        throw error;
-      }
-      console.error(error);
-      throw error;
-    }
-  }
+      return response;
+    },
+  };
 }
