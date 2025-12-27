@@ -1,27 +1,16 @@
 import type { TPostgresDB } from '#Config/dbPostgres.js';
-import type {
-  TPipelineDealsOrderTableInsert,
-  TPipelineDealsTableInsert,
-  TPipelineStagesTableInsert,
-  TPipelineTableInsert,
-} from '#Config/schema/index.js';
+import type { PipelineDealsTableInsert, PipelineStagesTableInsert, PipelineTableInsert } from '#Config/schema/index.js';
 
 import { faker } from '@faker-js/faker';
 import { eq } from 'drizzle-orm';
 
-import {
-  CompaniesTable,
-  PipelineDealsOrderTable,
-  PipelineDealsTable,
-  PipelineStagesTable,
-  PipelineTable,
-} from '#Config/schema/index.js';
+import { CompaniesTable, PipelineDealsTable, PipelineStagesTable, PipelineTable } from '#Config/schema/index.js';
 import { seedSettings } from '#Config/seedSettings.js';
 
 import { generatePipelineDeal } from './generators/PipelineDeal.js';
-export type TSeedPipelineDealStages = typeof PIPELINE_DEAL_STAGES;
-export type TSeedPipelineCompanies = Awaited<ReturnType<typeof getAllCompaniesWithContacts>>;
-export type TSeedPipelineUsers = Awaited<ReturnType<typeof getAllUsers>>;
+export type SeedPipelineDealStages = typeof PIPELINE_DEAL_STAGES;
+export type SeedPipelineCompanies = Awaited<ReturnType<typeof getAllCompaniesWithContacts>>;
+export type SeedPipelineUsers = Awaited<ReturnType<typeof getAllUsers>>;
 
 const { COMPANY_NAME, PIPELINE_STAGE_DEALS_MAX, PIPELINE_STAGE_DEALS_MIN } = seedSettings;
 
@@ -47,7 +36,8 @@ export default async function seedPipeline(db: TPostgresDB) {
   if (!primaryCompany) throw new Error(`Could not source ${COMPANY_NAME} from company table`);
 
   // ---------------- PIPELINE TABLE --------------- //
-  const pipelineInsertionData: TPipelineTableInsert[] = [];
+  const pipelineInsertionData: PipelineTableInsert[] = [];
+  // eslint-disable-next-line unicorn/no-immediate-mutation
   pipelineInsertionData.push({ companyId: primaryCompany.id });
 
   const pipelineTableReturnData = await db
@@ -58,7 +48,7 @@ export default async function seedPipeline(db: TPostgresDB) {
   const PRIMARY_COMPANY_PIPELINE_ID = pipelineTableReturnData[0].pipelineId;
 
   // ------------- PIPELINE-STAGES TABLE ------------ //
-  const pipelineStagesInsertionData: TPipelineStagesTableInsert[] = [];
+  const pipelineStagesInsertionData: PipelineStagesTableInsert[] = [];
 
   PIPELINE_DEAL_STAGES.forEach((title) => {
     pipelineStagesInsertionData.push({ pipelineTableId: PRIMARY_COMPANY_PIPELINE_ID, title });
@@ -70,7 +60,7 @@ export default async function seedPipeline(db: TPostgresDB) {
     .returning({ id: PipelineStagesTable.id });
 
   // ------------- PIPELINE-DEALS TABLE ------------ //
-  const pipelineDealsInsertionData: TPipelineDealsTableInsert[] = [];
+  const pipelineDealsInsertionData: PipelineDealsTableInsert[] = [];
   const allUsers = await getAllUsers(db);
   const allCompanies = await getAllCompaniesWithContacts(db);
   if (!allUsers || !allCompanies)
@@ -86,17 +76,18 @@ export default async function seedPipeline(db: TPostgresDB) {
     }
   });
 
-  const dealsReturnData = await db.insert(PipelineDealsTable).values(pipelineDealsInsertionData).returning();
+  await db.insert(PipelineDealsTable).values(pipelineDealsInsertionData).returning();
 
   // ------------- PIPELINE-DEALS-ORDER TABLE ------------ //
-  const pipelineDealsOrderInsertionData: TPipelineDealsOrderTableInsert[] = [];
+  // NOTE: Depreciated; WIP on Lexicographical ordering on task/card itself
+  // const pipelineDealsOrderInsertionData: TPipelineDealsOrderTableInsert[] = [];
 
-  stagesReturnData.forEach(({ id: columnId }) => {
-    const dealOrder = dealsReturnData.filter((deal) => deal.stage === columnId).map((deal) => deal.serial);
-    pipelineDealsOrderInsertionData.push({ columnId, dealOrder, pipelineId: PRIMARY_COMPANY_PIPELINE_ID });
-  });
+  // stagesReturnData.forEach(({ id: columnId }) => {
+  //   const dealOrder = dealsReturnData.filter((deal) => deal.stage === columnId).map((deal) => deal.serial);
+  //   pipelineDealsOrderInsertionData.push({ columnId, dealOrder, pipelineId: PRIMARY_COMPANY_PIPELINE_ID });
+  // });
 
-  await db.insert(PipelineDealsOrderTable).values(pipelineDealsOrderInsertionData);
+  // await db.insert(PipelineDealsOrderTable).values(pipelineDealsOrderInsertionData);
 
   // --------- END OF SEEDING -------- //
   console.log('Seed Successful: Pipeline.ts');

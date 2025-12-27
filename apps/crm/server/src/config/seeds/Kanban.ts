@@ -1,10 +1,10 @@
 import type { TPostgresDB } from '#Config/dbPostgres.js';
 import type {
-  TKanbanStagesTableInsert,
-  TKanbanTableInsert,
-  TKanbanTaskCommentsTableInsert,
-  TKanbanTasksOrderTableInsert,
-  TKanbanTasksTableInsert,
+  KanbanStagesTableInsert,
+  KanbanTableInsert,
+  KanbanTaskCommentsTableInsert,
+  KanbanTasksOrderTableInsert,
+  KanbanTasksTableInsert,
 } from '#Config/schema/index.js';
 
 import { faker } from '@faker-js/faker';
@@ -19,7 +19,7 @@ import {
   KanbanTasksTable,
 } from '#Config/schema/index.js';
 import KanbanTaskChecklistItemTable, {
-  TKanbanTaskChecklistItemTableInsert,
+  KanbanTaskChecklistItemTableInsert,
 } from '#Config/schema/kanban/ChecklistItems.js';
 import { seedSettings } from '#Config/seedSettings.js';
 
@@ -29,7 +29,7 @@ import {
   generateKanbanTaskComments,
 } from './generators/KanbanTask.js';
 
-export type TSeedKanbanUsers = Awaited<ReturnType<typeof getAllUsers>>;
+export type SeedKanbanUsers = Awaited<ReturnType<typeof getAllUsers>>;
 
 const { COMPANY_NAME, KANBAN_STAGE_TASKS_MAX, KANBAN_STAGE_TASKS_MIN } = seedSettings;
 
@@ -51,7 +51,8 @@ export default async function seedKanban(db: TPostgresDB) {
   if (!primaryCompany) throw new Error(`Could not source ${COMPANY_NAME} from company table`);
 
   // ---------------- KANBAN TABLE --------------- //
-  const kanbanInsertionData: TKanbanTableInsert[] = [];
+  const kanbanInsertionData: KanbanTableInsert[] = [];
+  // eslint-disable-next-line unicorn/no-immediate-mutation
   kanbanInsertionData.push({ companyId: primaryCompany.id });
 
   const kanbanTableReturnData = await db
@@ -62,7 +63,7 @@ export default async function seedKanban(db: TPostgresDB) {
   const PRIMARY_COMPANY_KANBAN_ID = kanbanTableReturnData[0].kanbanId;
 
   // ------------ KANBAN-STAGES TABLE ------------ //
-  const stagesInsertionData: TKanbanStagesTableInsert[] = [];
+  const stagesInsertionData: KanbanStagesTableInsert[] = [];
 
   KANBAN_TASKS_STAGES.forEach((title) => {
     stagesInsertionData.push({ kanbanTableId: PRIMARY_COMPANY_KANBAN_ID, title });
@@ -74,7 +75,7 @@ export default async function seedKanban(db: TPostgresDB) {
     .returning({ id: KanbanStagesTable.id, title: KanbanStagesTable.title });
 
   // ------------ KANBAN-TASKS TABLE ------------- //
-  const tasksInsertionData: TKanbanTasksTableInsert[] = [];
+  const tasksInsertionData: KanbanTasksTableInsert[] = [];
   const allUsers = await getAllUsers(db);
 
   stagesReturnData.forEach(({ id: stageId, title }) => {
@@ -88,7 +89,7 @@ export default async function seedKanban(db: TPostgresDB) {
   const tasksReturnData = await db.insert(KanbanTasksTable).values(tasksInsertionData).returning();
 
   // ------- KANBAN-TASKS-CHECKLIST TABLE -------- //
-  const taskChecklistInsertionData: TKanbanTaskChecklistItemTableInsert[] = [];
+  const taskChecklistInsertionData: KanbanTaskChecklistItemTableInsert[] = [];
 
   tasksReturnData.forEach(({ id, title }) => {
     taskChecklistInsertionData.push(...generateKanbanTaskChecklist(id, title));
@@ -97,7 +98,7 @@ export default async function seedKanban(db: TPostgresDB) {
   await db.insert(KanbanTaskChecklistItemTable).values(taskChecklistInsertionData);
 
   // ------- KANBAN-TASKS-COMMENTS TABLE --------- //
-  const taskCommentsInsertionData: TKanbanTaskCommentsTableInsert[] = [];
+  const taskCommentsInsertionData: KanbanTaskCommentsTableInsert[] = [];
 
   tasksReturnData.forEach(({ id, title }) => {
     taskCommentsInsertionData.push(...generateKanbanTaskComments(allUsers, id, title));
@@ -106,7 +107,7 @@ export default async function seedKanban(db: TPostgresDB) {
   await db.insert(KanbanTaskCommentsTable).values(taskCommentsInsertionData).returning();
 
   // --------- KANBAN-TASKS-ORDER TABLE ---------- //
-  const kanbanTasksOrderInsertionData: TKanbanTasksOrderTableInsert[] = [];
+  const kanbanTasksOrderInsertionData: KanbanTasksOrderTableInsert[] = [];
 
   stagesReturnData.forEach(({ id: columnId }) => {
     const taskOrder = tasksReturnData.filter((task) => task.stage === columnId).map((task) => task.serial);

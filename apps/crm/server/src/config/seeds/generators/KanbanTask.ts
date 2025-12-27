@@ -1,23 +1,19 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
 import type {
-  TKanbanTaskChecklistItemTableInsert,
-  TKanbanTaskCommentsTableInsert,
-  TKanbanTasksTableInsert,
+  KanbanTaskChecklistItemTableInsert,
+  KanbanTaskCommentsTableInsert,
+  KanbanTasksTableInsert,
 } from '#Config/schema/index.js';
 
-import type { TSeedKanbanUsers } from '../Kanban.js';
+import type { SeedKanbanUsers } from '../Kanban.js';
 
 import { faker } from '@faker-js/faker';
 
 import KanbanTasks from '#Data/KanbanTasks.json';
 
 // TODO:  Possibility of duplicate task from faker.arrayElement calls; amend to ensure unique random value
-export function generateKanbanTask(
-  users: TSeedKanbanUsers,
-  stageId: UUID,
-  stageTitle: string
-): TKanbanTasksTableInsert {
+export function generateKanbanTask(users: SeedKanbanUsers, stageId: UUID, stageTitle: string): KanbanTasksTableInsert {
   const { description, title } = faker.helpers.arrayElement(KanbanTasks.tasks);
   const assignedUser = faker.helpers.arrayElement(users).id;
   const completed = stageTitle === 'done' ? true : false;
@@ -34,7 +30,7 @@ export function generateKanbanTask(
 }
 
 export function generateKanbanTaskChecklist(taskId: UUID, title: string) {
-  const checklistItems: TKanbanTaskChecklistItemTableInsert[] = [];
+  const checklistItems: KanbanTaskChecklistItemTableInsert[] = [];
   const task = KanbanTasks.tasks.find((task) => task.title === title);
   if (!task) throw new Error(`Incongruency in JSON and SQL return data; task title`);
 
@@ -45,8 +41,8 @@ export function generateKanbanTaskChecklist(taskId: UUID, title: string) {
   return checklistItems;
 }
 
-export function generateKanbanTaskComments(users: TSeedKanbanUsers, taskId: UUID, title: string) {
-  const comments: TKanbanTaskCommentsTableInsert[] = [];
+export function generateKanbanTaskComments(users: SeedKanbanUsers, taskId: UUID, title: string) {
+  const comments: KanbanTaskCommentsTableInsert[] = [];
   const task = KanbanTasks.tasks.find((task) => task.title === title);
   if (!task) throw new Error(`Incongruency in JSON and SQL return data; task title`);
 
