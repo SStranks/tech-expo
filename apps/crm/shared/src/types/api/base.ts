@@ -1,13 +1,17 @@
-// https://jsonapi.org/
-export type Response<T = unknown> = ResponseSuccess<T> | ResponseError<T>;
+export type UUID = string & { __uuid?: never };
 
-export interface ResponseSuccess<T = unknown> {
+// https://jsonapi.org/
+export type ApiResponse<T> = ApiResponseSuccessData<T> | ApiResponseError<T>;
+
+export interface ApiResponseSuccess {
   status: 'success';
   message: string;
+}
+export interface ApiResponseSuccessData<T> extends ApiResponseSuccess {
   data: T;
 }
 
-export interface ResponseError<T = unknown> {
+export interface ApiResponseError<T> {
   status: 'error';
   message: string;
   errors: T;
