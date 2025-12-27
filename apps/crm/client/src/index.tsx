@@ -16,17 +16,19 @@ import { globalErrorHandler } from '@Config/globalOnError';
 import ApolloClient from '@Graphql/ApolloClient';
 import { authInitialize } from '@Redux/reducers/authSlice';
 import { FallbackUi } from '@Components/index';
-import ServiceAuth from '@Services/serviceAuth';
-import { AxiosClient } from '@Lib/axios';
+import { createCoreServices } from '@Services/servicesCore';
+import { createReduxServices } from '@Services/servicesRedux';
 
 // Initialization
 globalErrorHandler();
-const reduxStore = configureReduxStore();
-const axiosClient = new AxiosClient();
-const serviceAuth = new ServiceAuth(axiosClient, reduxStore);
+const coreServices = createCoreServices();
+const reduxStore = configureReduxStore({
+  serviceHttp: coreServices.serviceHttp,
+});
+const reduxServices = createReduxServices(coreServices, reduxStore);
 
 await reduxStore.dispatch(authInitialize());
-await serviceAuth.initInterceptors();
+await reduxServices.serviceAuth.initInterceptors();
 
 const container = document.querySelector('#root');
 const root = createRoot(container!);
