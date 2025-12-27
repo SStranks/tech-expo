@@ -6,8 +6,8 @@ import { useEffect } from 'react';
 import { moveTaskHorizontal, moveTaskVertical } from '@Features/scrumboard/redux/kanbanSlice';
 import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 
-import { ScrumboardKanbanColumns } from './index';
-import { KANBAN_CARD_TYPE, KANBAN_COLUMN_TYPE } from './types/pragmaticDndTypes';
+import { ScrumboardKanbanStages } from './index';
+import { PRAGMATICDND_KANBAN_CARD_TYPE, PRAGMATICDND_KANBAN_COLUMN_TYPE } from './types/pragmaticDndTypes';
 import { isKanbanCardDropData, isKanbanColumnTargetData } from './utils/pragmaticDndValidation';
 
 import styles from './Scrumboard.module.scss';
@@ -22,10 +22,10 @@ function ScrumBoard(): React.JSX.Element {
         if (!isKanbanCardDropData(source.data)) return;
 
         const columnDataInitial = location.initial.dropTargets.find(
-          (target) => target.data.type === KANBAN_COLUMN_TYPE
+          (target) => target.data.type === PRAGMATICDND_KANBAN_COLUMN_TYPE
         );
         const columnDataCurrent = location.current.dropTargets.find(
-          (target) => target.data.type === KANBAN_COLUMN_TYPE
+          (target) => target.data.type === PRAGMATICDND_KANBAN_COLUMN_TYPE
         );
         if (
           !columnDataInitial ||
@@ -35,12 +35,16 @@ function ScrumBoard(): React.JSX.Element {
         )
           return;
 
-        const cardDataInitial = location.initial.dropTargets.find((target) => target.data.type === KANBAN_CARD_TYPE);
+        const cardDataInitial = location.initial.dropTargets.find(
+          (target) => target.data.type === PRAGMATICDND_KANBAN_CARD_TYPE
+        );
         if (!cardDataInitial || !isKanbanCardDropData(cardDataInitial.data)) return;
-        const cardDataCurrent = location.current.dropTargets.find((target) => target.data.type === KANBAN_CARD_TYPE);
+        const cardDataCurrent = location.current.dropTargets.find(
+          (target) => target.data.type === PRAGMATICDND_KANBAN_CARD_TYPE
+        );
 
         // Move card vertically in original column
-        if (columnDataInitial.data.columnId === columnDataCurrent.data.columnId) {
+        if (columnDataInitial.data.column.id === columnDataCurrent.data.column.id) {
           if (cardDataCurrent) {
             if (!isKanbanCardDropData(cardDataCurrent.data)) return;
             // Dragged over another card; move relative to it
@@ -55,8 +59,8 @@ function ScrumBoard(): React.JSX.Element {
             return reduxDispatch(
               moveTaskVertical({
                 destinationIndex,
-                sourceColumnId: columnDataInitial.data.columnId,
-                taskId: source.data.taskId,
+                sourceColumnId: columnDataInitial.data.column.id,
+                taskId: source.data.task.id,
                 taskIndex: source.data.taskIndex,
               })
             );
@@ -64,9 +68,9 @@ function ScrumBoard(): React.JSX.Element {
             // No other card was detected; default move to end of list
             return reduxDispatch(
               moveTaskVertical({
-                destinationIndex: columnDataInitial.data.numberOfTasks,
-                sourceColumnId: columnDataInitial.data.columnId,
-                taskId: source.data.taskId,
+                destinationIndex: columnDataInitial.data.column.taskIds.length,
+                sourceColumnId: columnDataInitial.data.column.id,
+                taskId: source.data.task.id,
                 taskIndex: source.data.taskIndex,
               })
             );
@@ -74,7 +78,7 @@ function ScrumBoard(): React.JSX.Element {
         }
 
         // Move card horizontally to another column
-        if (columnDataInitial.data.columnId !== columnDataCurrent.data.columnId) {
+        if (columnDataInitial.data.column.id !== columnDataCurrent.data.column.id) {
           if (cardDataCurrent) {
             // Dragged over another card; move relative to it
             if (!isKanbanCardDropData(cardDataCurrent.data)) return;
@@ -86,10 +90,10 @@ function ScrumBoard(): React.JSX.Element {
 
             return reduxDispatch(
               moveTaskHorizontal({
-                destinationColumnId: columnDataCurrent.data.columnId,
+                destinationColumnId: columnDataCurrent.data.column.id,
                 destinationIndex,
-                sourceColumnId: columnDataInitial.data.columnId,
-                taskId: source.data.taskId,
+                sourceColumnId: columnDataInitial.data.column.id,
+                taskId: source.data.task.id,
                 taskIndex: source.data.taskIndex,
               })
             );
@@ -97,10 +101,10 @@ function ScrumBoard(): React.JSX.Element {
             // No other card was detected; default move to end of list
             return reduxDispatch(
               moveTaskHorizontal({
-                destinationColumnId: columnDataCurrent.data.columnId,
-                destinationIndex: columnDataCurrent.data.numberOfTasks,
-                sourceColumnId: columnDataInitial.data.columnId,
-                taskId: source.data.taskId,
+                destinationColumnId: columnDataCurrent.data.column.id,
+                destinationIndex: columnDataCurrent.data.column.taskIds.length,
+                sourceColumnId: columnDataInitial.data.column.id,
+                taskId: source.data.task.id,
                 taskIndex: source.data.taskIndex,
               })
             );
@@ -114,7 +118,7 @@ function ScrumBoard(): React.JSX.Element {
   return (
     <div className={styles.scrumboard}>
       {' '}
-      <ScrumboardKanbanColumns data={data} />{' '}
+      <ScrumboardKanbanStages data={data} />{' '}
     </div>
   );
 }

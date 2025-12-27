@@ -1,19 +1,19 @@
-import type { IColumn, ITask } from '@Data/MockScrumboardKanban';
+import type { KanbanStage, KanbanTask } from '@Data/MockScrumboardKanban';
 
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { useEffect, useRef, useState } from 'react';
 
-import { ScrumboardAddCard, ScrumboardColumnAddBtn, ScrumboardColumnOptionsBtn, ScrumboardKanbanCard } from './index';
+import { ScrumboardAddCard, ScrumboardColumnAddBtn, ScrumboardKanbanTask } from './index';
 import { createKanbanColumnTargetData } from './utils/pragmaticDndValidation';
 
 import styles from './ScrumboardColumn.module.scss';
 
-interface IScrumboardColumn {
-  column: IColumn;
-  tasks: ITask[];
+interface Props {
+  column: KanbanStage;
+  tasks: KanbanTask[];
 }
 
-function ScrumboardKanbanColumn(props: IScrumboardColumn): React.JSX.Element {
+function ScrumboardKanbanColumnUnassigned(props: Props): React.JSX.Element {
   const { column, tasks } = props;
   const [, setIsDraggedOver] = useState<boolean>(false);
   const columnRef = useRef(null);
@@ -24,7 +24,7 @@ function ScrumboardKanbanColumn(props: IScrumboardColumn): React.JSX.Element {
 
     return dropTargetForElements({
       element: columnElement,
-      getData: () => createKanbanColumnTargetData(column.id, tasks.length),
+      getData: () => createKanbanColumnTargetData(column),
       getIsSticky: () => true,
       onDragEnter: () => setIsDraggedOver(true),
       onDragLeave: () => setIsDraggedOver(false),
@@ -46,14 +46,21 @@ function ScrumboardKanbanColumn(props: IScrumboardColumn): React.JSX.Element {
             )}
           </div>
           <div className={styles.headerControls}>
-            <ScrumboardColumnOptionsBtn columnId={column.id} columnTitle={column.title} />
             <ScrumboardColumnAddBtn columnId={column.id} />
           </div>
         </div>
       </div>
       <div className={styles.column__cards}>
         {tasks.map((task, i) => {
-          return <ScrumboardKanbanCard key={task.id} task={task} taskIndex={i} columnId={column.id} />;
+          return (
+            <ScrumboardKanbanTask
+              key={task.id}
+              task={task}
+              taskIndex={i}
+              columnId={column.id}
+              columnTitle={column.title}
+            />
+          );
         })}
         {tasks.length === 0 && <ScrumboardAddCard columnId={column.id} />}
       </div>
@@ -61,4 +68,4 @@ function ScrumboardKanbanColumn(props: IScrumboardColumn): React.JSX.Element {
   );
 }
 
-export default ScrumboardKanbanColumn;
+export default ScrumboardKanbanColumnUnassigned;

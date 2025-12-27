@@ -9,7 +9,7 @@ export type KanbanTask = {
   notesTotal: number;
 };
 
-export type KanbanColumn = {
+export type KanbanStage = {
   id: string;
   title: string;
   taskIds: string[];
@@ -17,7 +17,7 @@ export type KanbanColumn = {
 
 export type KanbanInitialData = {
   tasks: KanbanTask[];
-  columns: KanbanColumn[];
+  columns: KanbanStage[];
   columnOrder: string[];
 };
 export const initialData: KanbanInitialData = {

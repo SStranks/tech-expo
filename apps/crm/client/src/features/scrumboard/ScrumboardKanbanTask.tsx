@@ -1,4 +1,4 @@
-import type { ITask } from '@Data/MockScrumboardKanban';
+import type { KanbanStage, KanbanTask } from '@Data/MockScrumboardKanban';
 
 import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
@@ -9,19 +9,18 @@ import { useNavigate } from 'react-router-dom';
 
 import { UserCircle } from '@Components/general';
 
-import { ScrumboardCardOptionsBtn } from '.';
 import { createKanbanCardDropData } from './utils/pragmaticDndValidation';
 
 import styles from './ScrumboardCard.module.scss';
 
-interface IProps {
-  task: ITask;
-  columnId: string;
+type Props = {
+  task: KanbanTask;
+  stage: KanbanStage;
   taskIndex: number;
   taskStatus?: 'won' | 'lost';
-}
+};
 
-function ScrumBoardKanbanCard({ columnId, task, taskIndex, taskStatus }: IProps): React.JSX.Element {
+function ScrumBoardKanbanCard({ stage, task, taskIndex, taskStatus }: Props): React.JSX.Element {
   const cardRef = useRef(null);
   const [, setIsDragging] = useState<boolean>(false);
   const [, setIsDragEnter] = useState<boolean>(false);
@@ -31,8 +30,6 @@ function ScrumBoardKanbanCard({ columnId, task, taskIndex, taskStatus }: IProps)
     navigate(`deal/update/${task.id}`, { state: { taskId: task.id } });
   };
 
-  console.log(columnId, task, taskIndex, taskStatus);
-
   useEffect(() => {
     const cardElement = cardRef.current;
     if (!cardElement) return;
@@ -40,14 +37,14 @@ function ScrumBoardKanbanCard({ columnId, task, taskIndex, taskStatus }: IProps)
     return combine(
       draggable({
         element: cardElement,
-        getInitialData: () => createKanbanCardDropData(columnId, task.id, taskIndex),
+        getInitialData: () => createKanbanCardDropData(stage, task, taskIndex),
         onDragStart: () => setIsDragging(true),
         onDrop: () => setIsDragging(false),
       }),
       dropTargetForElements({
         element: cardElement,
         getData: ({ element, input }) => {
-          const data = createKanbanCardDropData(columnId, task.id, taskIndex);
+          const data = createKanbanCardDropData(stage, task, taskIndex);
           return attachClosestEdge(data, {
             allowedEdges: ['top', 'bottom'],
             element,
@@ -60,16 +57,20 @@ function ScrumBoardKanbanCard({ columnId, task, taskIndex, taskStatus }: IProps)
         onDrop: () => setIsDragEnter(false),
       })
     );
-  }, [taskIndex, task, columnId]);
+  }, [taskIndex, task, stage]);
 
   return (
-    <div
+    <li
       ref={cardRef}
       onDoubleClick={onDoubleClickHandler}
-      className={clsx(`${styles.card}`, `${taskStatus ? styles[`card--${taskStatus}`] : ''}`)}>
+      className={clsx(`${styles.card}`, `${taskStatus ? styles[`card--${taskStatus}`] : ''}`)}
+      aria-label={`Kanban Card: ${task.title}. Column: ${stage.title}`}
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+      tabIndex={0}
+      draggable>
       <div className={styles.card__upper}>
         <span className={styles.dealInfo__company}>{task.title}</span>
-        <ScrumboardCardOptionsBtn taskId={task.id} columnId={columnId} taskStatus={taskStatus} />
+        {/* <ScrumboardCardOptionsBtn taskId={task.id} columnId={stage.id} taskStatus={taskStatus} /> TODO: Make new component, separate from the Pipeline one */}
       </div>
       <div className={styles.card__lower}>
         <div className={styles.card__lower__details}>
@@ -79,7 +80,7 @@ function ScrumBoardKanbanCard({ columnId, task, taskIndex, taskStatus }: IProps)
         </div>
         <UserCircle userImage={task.userImage} alt={task.userImage} />
       </div>
-    </div>
+    </li>
   );
 }
 
