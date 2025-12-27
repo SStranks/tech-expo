@@ -3,9 +3,11 @@ import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { expect } from 'storybook/test';
 
-import { Input, InputUx } from '@Components/react-hook-form';
+import Input from '@Components/react-hook-form/input/Input';
+import InputUx from '@Components/react-hook-form/InputUx';
 import { EMAIL_RULES } from '@Components/react-hook-form/validationRules';
-import { WithFormProvider } from '@Stories/helpers/index';
+
+import { WithFormProvider } from './helpers/withFormProvider';
 
 interface InputUxStoryArgs extends React.ComponentProps<typeof InputUx> {
   childrenArgs: React.ComponentProps<typeof Input>;
