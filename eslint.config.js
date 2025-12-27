@@ -6,8 +6,9 @@ import EslintConfigGraphQL from '@packages/eslint-config-graphql';
 import EslintConfigHTML from '@packages/eslint-config-html';
 import EslintConfigJavascript from '@packages/eslint-config-javascript';
 import { EslintConfigJSON, EslintConfigJSON5, EslintConfigJSONC } from '@packages/eslint-config-json';
+// import EslintConfigReact_18p2 from '@packages/eslint-config-react/react-18.2/config.js';
+import EslintConfigReact from '@packages/eslint-config-react';
 import EslintConfigReactVitest from '@packages/eslint-config-react-vitest';
-import EslintConfigReact_18p2 from '@packages/eslint-config-react/react-18.2/config.js';
 import EslintConfigStorybook from '@packages/eslint-config-storybook';
 import EslintConfigTypescript, { createTypeScriptImportResolver } from '@packages/eslint-config-typescript';
 import EslintConfigYAML from '@packages/eslint-config-yaml';
@@ -107,12 +108,12 @@ export default defineConfig([
     processor: EslintConfigGraphQL.processor,
     languageOptions: {
       parserOptions: { projectService: true },
-      ...EslintConfigReact_18p2.languageOptions,
+      ...EslintConfigReact.languageOptions,
     },
-    plugins: { ...EslintConfigReact_18p2.plugins },
-    rules: { ...EslintConfigReact_18p2.rules },
+    plugins: { ...EslintConfigReact.plugins },
+    rules: { ...EslintConfigReact.rules },
     settings: {
-      ...EslintConfigReact_18p2.settings,
+      ...EslintConfigReact.settings,
       'import-x/resolver-next': [
         createTypeScriptImportResolver({
           alwaysTryTypes: true,
@@ -148,19 +149,19 @@ export default defineConfig([
   // {
   //   name: 'CRM: Client; Testing (Jest + RTL)',
   //   files: ['apps/crm/client/src/**/?(*.jest.)+(spec|test).[jt]s?(x)'],
-  //   languageOptions: { ...EslintConfigReact_18p2.languageOptions },
-  //   plugins: { ...EslintConfigReact_18p2.plugins, ...EslintConfigReactJest.plugins },
-  //   rules: { ...EslintConfigReact_18p2.rules, ...EslintConfigReactJest.rules },
-  //   settings: { ...EslintConfigReact_18p2.settings },
+  //   languageOptions: { ...EslintConfigReact.languageOptions },
+  //   plugins: { ...EslintConfigReact.plugins, ...EslintConfigReactJest.plugins },
+  //   rules: { ...EslintConfigReact.rules, ...EslintConfigReactJest.rules },
+  //   settings: { ...EslintConfigReact.settings },
   // },
   {
     name: 'CRM: Client; Testing (Vitest + RTL)',
     files: ['apps/crm/client/src/**/?(*.)+(spec|test).[jt]s?(x)'],
-    languageOptions: { ...EslintConfigReact_18p2.languageOptions },
-    plugins: { ...EslintConfigReact_18p2.plugins, ...EslintConfigReactVitest.plugins },
-    rules: { ...EslintConfigReact_18p2.rules, ...EslintConfigReactVitest.rules },
+    languageOptions: { ...EslintConfigReact.languageOptions },
+    plugins: { ...EslintConfigReact.plugins, ...EslintConfigReactVitest.plugins },
+    rules: { ...EslintConfigReact.rules, ...EslintConfigReactVitest.rules },
     settings: {
-      ...EslintConfigReact_18p2.settings,
+      ...EslintConfigReact.settings,
       'import-x/resolver-next': [
         createTypeScriptImportResolver({
           alwaysTryTypes: true,
@@ -190,19 +191,18 @@ export default defineConfig([
     files: ['apps/crm/server/src/**/*.[jt]s'],
     languageOptions: {
       ...EslintConfigExpress.languageOptions,
-      // parserOptions: { project: 'apps/crm/server/tsconfig.json' },
       parserOptions: { projectService: true },
     },
     plugins: { ...EslintConfigExpress.plugins },
     rules: { ...EslintConfigExpress.rules },
     settings: {
       ...EslintConfigExpress.settings,
-      'import-x/resolver': {
-        typescript: {
+      'import-x/resolver-next': [
+        createTypeScriptImportResolver({
           alwaysTryTypes: true,
           project: ['apps/crm/server/tsconfig.json'],
-        },
-      },
+        }),
+      ],
     },
   },
   {

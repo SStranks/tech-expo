@@ -7,6 +7,10 @@
   "license": "ISC",
   "type": "module",
   "exports": {
+    ".": {
+      "import": "./config.js",
+      "types": "./index.d.ts"
+    },
     "./react-18.2": {
       "import": "./react-18.2/config.js",
       "types": "./index.d.ts"
