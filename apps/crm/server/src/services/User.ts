@@ -1,8 +1,8 @@
+import type { AuthTokenPayload, RefreshTokenPayload } from '@apps/crm-shared/src/types/api/auth.js';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 import type { Response } from 'express';
-import type { JwtPayload } from 'jsonwebtoken';
 
-import type { TUserRoles } from '#Config/schema/index.ts';
-import type { TSelectUserSchema } from '#Config/schema/user/User.ts';
+import type { SelectUserSchema } from '#Config/schema/user/User.ts';
 
 import argon2 from 'argon2';
 import { and, eq } from 'drizzle-orm/pg-core/expressions';
@@ -13,9 +13,10 @@ import { postgresDB } from '#Config/dbPostgres.js';
 import { redisClient } from '#Config/dbRedis.js';
 import { UserRefreshTokensTable, UserTable } from '#Config/schema/index.js';
 import { secrets } from '#Config/secrets.js';
+import { toDbUUID } from '#Helpers/helpers.js';
 import { AppError, BadRequestError, PostgresError } from '#Utils/errors/index.js';
 
-import crypto, { type UUID } from 'node:crypto';
+import crypto from 'node:crypto';
 
 const { JWT_AUTH_SECRET, JWT_REFRESH_SECRET, POSTGRES_PEPPER } = secrets;
 
@@ -29,26 +30,6 @@ const {
   NODE_ENV,
   PASSWORD_RESET_EXPIRES,
 } = process.env;
-
-// REFACTOR:  Move type and function to PostGres Service??
-// type TQueryAccountVerify = Awaited<ReturnType<typeof queryAccountVerify>>;
-// type TQueryAccountRefreshTokens = Pick<Exclude<TQueryAccountVerify, undefined>, 'refreshToken'>['refreshToken'];
-
-interface IAuthTokenPayload extends JwtPayload {
-  client_id: UUID;
-  role: TUserRoles;
-  jti: UUID;
-  iat: number;
-  exp: number;
-}
-
-export interface IRefreshTokenPayload extends JwtPayload {
-  client_id: UUID;
-  jti: UUID;
-  iat: number;
-  exp: number;
-  acc: number;
-}
 
 class User {
   constructor() {}
@@ -69,7 +50,7 @@ class User {
     return { acc, client_id, exp, iat, jti };
   };
 
-  signRefreshToken = (client_id: string, iat: number, refreshTokenPayload: IRefreshTokenPayload) => {
+  signRefreshToken = (client_id: string, iat: number, refreshTokenPayload: RefreshTokenPayload) => {
     const { acc, exp, jti } = refreshTokenPayload;
     return jwt.sign({ acc, client_id, exp, iat, jti }, JWT_REFRESH_SECRET as string);
   };
@@ -84,9 +65,9 @@ class User {
     });
   };
 
-  verifyAuthToken = (authToken: string): IAuthTokenPayload => {
+  verifyAuthToken = (authToken: string): AuthTokenPayload => {
     try {
-      const { client_id, exp, iat, jti, role } = jwt.verify(authToken, JWT_AUTH_SECRET as string) as IAuthTokenPayload;
+      const { client_id, exp, iat, jti, role } = jwt.verify(authToken, JWT_AUTH_SECRET as string) as AuthTokenPayload;
       return { client_id, exp, iat, jti, role };
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
@@ -99,12 +80,12 @@ class User {
     }
   };
 
-  verifyRefreshToken = (refreshToken: string): IRefreshTokenPayload => {
+  verifyRefreshToken = (refreshToken: string): RefreshTokenPayload => {
     try {
       const { acc, client_id, exp, iat, jti } = jwt.verify(
         refreshToken,
         JWT_REFRESH_SECRET as string
-      ) as IRefreshTokenPayload;
+      ) as RefreshTokenPayload;
       return { acc, client_id, exp, iat, jti };
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
@@ -118,11 +99,11 @@ class User {
   };
 
   decodeAuthToken = async (token: string) => {
-    return jwt.decode(token) as IAuthTokenPayload;
+    return jwt.decode(token) as AuthTokenPayload;
   };
 
   decodeRefreshToken = async (token: string) => {
-    return jwt.decode(token) as IRefreshTokenPayload;
+    return jwt.decode(token) as RefreshTokenPayload;
   };
 
   activateRefreshToken = async (client_id: UUID, iat: number) => {
@@ -131,7 +112,7 @@ class User {
       .set({ activated: true })
       .where(
         and(
-          eq(UserRefreshTokensTable.userId, client_id),
+          eq(UserRefreshTokensTable.userId, toDbUUID(client_id)),
           eq(UserRefreshTokensTable.iat, iat),
           eq(UserRefreshTokensTable.activated, false)
         )
@@ -143,7 +124,7 @@ class User {
 
   advanceRefreshToken = (refreshToken: string, iat: number) => {
     const payload = jwt.decode(refreshToken);
-    let { acc, client_id, exp, jti } = payload as IRefreshTokenPayload;
+    let { acc, client_id, exp, jti } = payload as RefreshTokenPayload;
 
     acc = acc + 1;
 
@@ -153,19 +134,22 @@ class User {
   deleteAllRefreshTokens = async (client_id: UUID) => {
     return await postgresDB
       .delete(UserRefreshTokensTable)
-      .where(eq(UserRefreshTokensTable.userId, client_id))
+      .where(eq(UserRefreshTokensTable.userId, toDbUUID(client_id)))
       .returning({ exp: UserRefreshTokensTable.exp, jti: UserRefreshTokensTable.jti });
   };
 
   queryRefreshToken = async (client_id: UUID, jti: UUID) => {
     return await postgresDB.query.UserRefreshTokensTable.findFirst({
       columns: { acc: true, activated: true, exp: true, iat: true, jti: true },
-      where: (table, { and, eq }) => and(eq(table.userId, client_id), eq(table.jti, jti)),
+      where: (table, { and, eq }) => and(eq(table.userId, toDbUUID(client_id)), eq(table.jti, toDbUUID(jti))),
     });
   };
 
-  insertRefreshToken = async (refreshTokenPayload: IRefreshTokenPayload) => {
-    const { acc, client_id, exp, iat, jti } = refreshTokenPayload;
+  insertRefreshToken = async (refreshTokenPayload: RefreshTokenPayload) => {
+    let { acc, client_id, exp, iat, jti } = refreshTokenPayload;
+    jti = toDbUUID(jti);
+    client_id = toDbUUID(client_id);
+
     await postgresDB.insert(UserRefreshTokensTable).values({ acc, exp, iat, jti, userId: client_id });
   };
 
@@ -173,7 +157,9 @@ class User {
     await postgresDB
       .update(UserRefreshTokensTable)
       .set({ acc, activated, iat })
-      .where(and(eq(UserRefreshTokensTable.userId, client_id), eq(UserRefreshTokensTable.jti, jti)));
+      .where(
+        and(eq(UserRefreshTokensTable.userId, toDbUUID(client_id)), eq(UserRefreshTokensTable.jti, toDbUUID(jti)))
+      );
   };
 
   createAuthCookie = (res: Response, authToken: string) => {
@@ -304,7 +290,7 @@ class User {
     return user;
   }
 
-  async verifyAccount(user: TSelectUserSchema, verificationCode: string) {
+  async verifyAccount(user: SelectUserSchema, verificationCode: string) {
     const TIME_NOW = Date.now();
 
     if (user.accountFrozenAt === null || user.accountFrozenAt.getTime() !== user.accountCreatedAt.getTime())
@@ -349,7 +335,7 @@ class User {
     const { client_id, iat } = await this.verifyAuthToken(authTokenJWT);
     const [{ exp, jti }] = await postgresDB
       .delete(UserRefreshTokensTable)
-      .where(and(eq(UserRefreshTokensTable.userId, client_id), eq(UserRefreshTokensTable.iat, iat)))
+      .where(and(eq(UserRefreshTokensTable.userId, toDbUUID(client_id)), eq(UserRefreshTokensTable.iat, iat)))
       .returning({ exp: UserRefreshTokensTable.exp, jti: UserRefreshTokensTable.jti });
     await redisClient.set(`${jti}`, 'Blacklisted', { EXAT: exp });
     await this.blacklistToken(jti, exp);

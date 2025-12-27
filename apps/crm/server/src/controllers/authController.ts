@@ -1,18 +1,26 @@
 import type {
-  ApiResponse,
-  AuthConfirmSignup,
-  AuthGenerateAuthToken,
-  AuthLoginResponse,
-  AuthResetPassword,
-  AuthUpdatePassword,
-} from '@apps/crm-shared';
+  ConfirmSignupRequestDTO,
+  ConfirmSignupResponse,
+  DeleteAccountRequestDTO,
+  ForgotPasswordRequestDTO,
+  GenerateAuthTokenResponse,
+  IdentifyResponse,
+  LoginRequestDTO,
+  LoginResponse,
+  ResetPasswordRequestDTO,
+  ResetPasswordResponse,
+  SignupRequestDTO,
+  UpdatePasswordRequestDTO,
+  UpdatePasswordResponse,
+  UserRoles,
+} from '@apps/crm-shared/src/types/api/auth.js';
+import type { ApiResponseSuccess, ApiResponseSuccessData, UUID } from '@apps/crm-shared/src/types/api/base.js';
 import type { NextFunction, Request, Response } from 'express';
-
-import type { TUserRoles } from '#Config/schema/index.ts';
 
 import validator from 'validator';
 
 import { NodeMailerService } from '#Lib/index.js';
+import { toUserRoleDTO } from '#Mappers/userMapper.js';
 import { UserService } from '#Services/index.js';
 import { BadRequestError } from '#Utils/errors/index.js';
 import { utilMath, utilTime } from '#Utils/index.js';
@@ -36,15 +44,26 @@ import { utilMath, utilTime } from '#Utils/index.js';
  * Activate R: Client sends A. Find R on DB using payload of A, and set to active.
  */
 
+type AuthenticatedLocals = {
+  user: {
+    client_id: UUID;
+    role: UserRoles;
+  };
+};
+
 const { JWT_COOKIE_AUTH_ID, JWT_COOKIE_REFRESH_ID } = process.env;
 
 // TODO:  Make verification page on client; redirect to this page at end of THIS signup process.
-const signup = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
+const signup = async (
+  req: Request<{}, {}, SignupRequestDTO>,
+  res: Response<ApiResponseSuccess>,
+  next: NextFunction
+) => {
   const { email } = req.body;
   if (!email) return next(new BadRequestError({ message: 'Provide all required fields' }));
 
   const isEmailValid = validator.isEmail(email);
-  if (!isEmailValid) return next(new BadRequestError({ code: 401, message: 'Invalid email address' }));
+  if (!isEmailValid) return next(new BadRequestError({ message: 'Invalid email address' }));
 
   // Check for existing account. Generate 6-digit verification code, expiry time, and send email to client
   await UserService.isExistingAccount(email);
@@ -56,21 +75,24 @@ const signup = async (req: Request, res: Response<ApiResponse>, next: NextFuncti
   res.status(200).json({
     status: 'success',
     message: 'Signup email with verification code sent',
-    data: null,
   });
 };
 
-const confirmSignup = async (req: Request, res: Response<ApiResponse<AuthConfirmSignup>>, next: NextFunction) => {
+const confirmSignup = async (
+  req: Request<{}, {}, ConfirmSignupRequestDTO>,
+  res: Response<ApiResponseSuccessData<ConfirmSignupResponse>>,
+  next: NextFunction
+) => {
   const { email, password, passwordConfirm, verificationCode } = req.body;
   if (!email || !password || !passwordConfirm || !verificationCode)
     return next(new BadRequestError({ message: 'Provide all required fields' }));
 
   // eslint-disable-next-line security/detect-possible-timing-attacks
   if (password !== passwordConfirm)
-    return next(new BadRequestError({ code: 401, message: 'Password and password confirm do not match' }));
+    return next(new BadRequestError({ message: 'Password and password confirm do not match' }));
 
   const isEmailValid = validator.isEmail(email);
-  if (!isEmailValid) return next(new BadRequestError({ code: 401, message: 'Invalid email address' }));
+  if (!isEmailValid) return next(new BadRequestError({ message: 'Invalid email address' }));
 
   const user = await UserService.queryUserByEmail(email);
   await UserService.verifyAccount(user, verificationCode);
@@ -80,19 +102,25 @@ const confirmSignup = async (req: Request, res: Response<ApiResponse<AuthConfirm
   UserService.createAuthCookie(res, authToken);
   UserService.createRefreshCookie(res, refreshToken);
 
-  res.status(201).json({ status: 'success', message: 'Account verified', data: { tokens: true } });
+  res.status(201).json({ status: 'success', message: 'Account verified', data: { tokens: { tokens: true } } });
 };
 
-const login = async (req: Request, res: Response<ApiResponse<AuthLoginResponse>>, next: NextFunction) => {
+const login = async (
+  req: Request<{}, {}, LoginRequestDTO>,
+  res: Response<ApiResponseSuccessData<LoginResponse>>,
+  next: NextFunction
+) => {
   const { email, password } = req.body;
   if (!email || !password) return next(new BadRequestError({ message: 'Provide all required fields' }));
 
   const isEmailValid = validator.isEmail(email);
-  if (!isEmailValid) return next(new BadRequestError({ code: 401, message: 'Invalid email address' }));
+  if (!isEmailValid) return next(new BadRequestError({ message: 'Invalid email address' }));
 
-  const user = await UserService.loginAccount(email, password);
-  if (user.accountFrozen && user.accountCreatedAt === user.accountFrozenAt)
-    return res.status(401).redirect('/verify-account');
+  const userRow = await UserService.loginAccount(email, password);
+  if (userRow.accountFrozen && userRow.accountCreatedAt === userRow.accountFrozenAt)
+    return res.status(401).redirect('/verify-account'); // TODO: Move this out to the frontend to handle instead
+
+  const user = toUserRoleDTO(userRow);
 
   const { authToken, refreshToken, refreshTokenPayload } = await UserService.generateClientTokens(user.id, user.role);
   await UserService.insertRefreshToken(refreshTokenPayload);
@@ -101,12 +129,10 @@ const login = async (req: Request, res: Response<ApiResponse<AuthLoginResponse>>
 
   // TODO:  Send client to dashboard on success
   // TODO: . Amend DATA to send back actual details here.
-  res
-    .status(200)
-    .json({ status: 'success', message: 'Logged in to CRM', data: { roles: ['B'], tokens: true, user: 'A' } });
+  res.status(200).json({ status: 'success', message: 'Logged in to CRM', data: { tokens: { tokens: true }, user } });
 };
 
-const logout = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
+const logout = async (req: Request<{}, {}, never>, res: Response<ApiResponseSuccess>, next: NextFunction) => {
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 
@@ -131,31 +157,38 @@ const logout = async (req: Request, res: Response<ApiResponse>, next: NextFuncti
     )
   );
 
-  res.status(200).json({ status: 'success', message: 'Logged out', data: null });
+  res.status(200).json({ status: 'success', message: 'Logged out' });
 };
 
-const forgotPassword = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
+const forgotPassword = async (
+  req: Request<{}, {}, ForgotPasswordRequestDTO>,
+  res: Response<ApiResponseSuccess>,
+  next: NextFunction
+) => {
   const { email } = req.body;
   if (!email) return next(new BadRequestError({ message: 'Provide all required fields' }));
 
   const isEmailValid = validator.isEmail(email);
-  if (!isEmailValid) return next(new BadRequestError({ code: 401, message: 'Invalid email address' }));
+  if (!isEmailValid) return next(new BadRequestError({ message: 'Invalid email address' }));
 
   const unhashedResetToken = await UserService.forgotPassword(email);
   const resetURL = `${req.protocol}://${req.get('host')}/api/users/resetPassword/${unhashedResetToken}`;
   await NodeMailerService.sendPasswordResetEmail(email, resetURL);
 
-  // TEST: .Testing types.
-  res.status(200).json({ status: 'success', message: 'Reset token sent to email', data: null });
+  res.status(200).json({ status: 'success', message: 'Reset token sent to email' });
 };
 
-const resetPassword = async (req: Request, res: Response<ApiResponse<AuthResetPassword>>, next: NextFunction) => {
+const resetPassword = async (
+  req: Request<{ token: string }, {}, ResetPasswordRequestDTO>,
+  res: Response<ApiResponseSuccessData<ResetPasswordResponse>>,
+  next: NextFunction
+) => {
   const { password, passwordConfirm } = req.body;
   const { token } = req.params;
   if (!password || !passwordConfirm) return next(new BadRequestError({ message: 'Provide all required fields' }));
   // eslint-disable-next-line security/detect-possible-timing-attacks
   if (password !== passwordConfirm)
-    return next(new BadRequestError({ code: 401, message: 'Password and password confirm do not match' }));
+    return next(new BadRequestError({ message: 'Password and password confirm do not match' }));
   if (!token) return next(new BadRequestError({ message: 'Provide valid token' }));
 
   const user = await UserService.isResetTokenValid(token);
@@ -171,11 +204,15 @@ const resetPassword = async (req: Request, res: Response<ApiResponse<AuthResetPa
   res.status(200).json({
     status: 'success',
     message: 'Password Reset Successful',
-    data: { tokens: true },
+    data: { tokens: { tokens: true } },
   });
 };
 
-const updatePassword = async (req: Request, res: Response<ApiResponse<AuthUpdatePassword>>, next: NextFunction) => {
+const updatePassword = async (
+  req: Request<{}, {}, UpdatePasswordRequestDTO>,
+  res: Response<ApiResponseSuccessData<UpdatePasswordResponse>>,
+  next: NextFunction
+) => {
   const { newPassword, newPasswordConfirm, oldPassword } = req.body;
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
@@ -183,7 +220,7 @@ const updatePassword = async (req: Request, res: Response<ApiResponse<AuthUpdate
   if (!newPassword || !newPasswordConfirm || !oldPassword)
     return next(new BadRequestError({ message: 'Provide all required fields' }));
   if (newPassword !== newPasswordConfirm)
-    return next(new BadRequestError({ code: 401, message: 'Password and password confirm do not match' }));
+    return next(new BadRequestError({ message: 'Password and password confirm do not match' }));
 
   let JWT;
   if (authorization && authorization.startsWith('Bearer')) {
@@ -205,10 +242,10 @@ const updatePassword = async (req: Request, res: Response<ApiResponse<AuthUpdate
   UserService.createAuthCookie(res, authToken);
   UserService.createRefreshCookie(res, refreshToken);
 
-  res.status(200).json({ status: 'success', message: 'Password updated', data: { tokens: true } });
+  res.status(200).json({ status: 'success', message: 'Password updated', data: { tokens: { tokens: true } } });
 };
 
-const freezeAccount = async (req: Request, res: Response<ApiResponse>, _next: NextFunction) => {
+const freezeAccount = async (req: Request<{}, {}, never>, res: Response<ApiResponseSuccess>, _next: NextFunction) => {
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 
@@ -230,7 +267,11 @@ const freezeAccount = async (req: Request, res: Response<ApiResponse>, _next: Ne
   res.status(204).send();
 };
 
-const deleteAccount = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
+const deleteAccount = async (
+  req: Request<{}, {}, DeleteAccountRequestDTO>,
+  res: Response<ApiResponseSuccess>,
+  next: NextFunction
+) => {
   const { password } = req.body;
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
@@ -255,8 +296,8 @@ const deleteAccount = async (req: Request, res: Response<ApiResponse>, next: Nex
 };
 
 const generateAuthToken = async (
-  req: Request,
-  res: Response<ApiResponse<AuthGenerateAuthToken>>,
+  req: Request<{}, {}, never>,
+  res: Response<ApiResponseSuccessData<GenerateAuthTokenResponse>>,
   next: NextFunction
 ) => {
   const { authorization } = req.headers;
@@ -268,7 +309,7 @@ const generateAuthToken = async (
   } else if (refreshCookie) {
     JWT = refreshCookie;
   }
-  if (!JWT) return next(new BadRequestError({ code: 400, message: 'Unauthorized. Please login' }));
+  if (!JWT) return next(new BadRequestError({ code: 401, message: 'Unauthorized. Please login' }));
 
   const { acc, client_id, iat: oldIat, jti } = await UserService.verifyRefreshToken(JWT);
   await UserService.isTokenBlacklisted(JWT);
@@ -295,7 +336,8 @@ const generateAuthToken = async (
 
     await UserService.createAuthCookie(res, authToken);
     await UserService.createRefreshCookie(res, refreshToken);
-    res.status(201).json({ status: 'success', message: 'Auth token generated', data: { tokens: true } }); // TODO:  Return Expiry time
+    // TODO:  Return Expiry time
+    res.status(201).json({ status: 'success', message: 'Auth token generated', data: { tokens: { tokens: true } } });
     return;
   }
 
@@ -305,11 +347,11 @@ const generateAuthToken = async (
    */
   if (refreshToken.acc === acc + 1 && !refreshToken.activated) {
     await UserService.updateRefreshToken(client_id, jti, oldIat, acc, true);
-    return next(new BadRequestError({ code: 401, message: 'Resubmit refresh token' }));
+    return next(new BadRequestError({ message: 'Resubmit refresh token' }));
   }
 
   // Legitimate request; Client has not validated the R token yet.
-  if (!refreshToken.activated) return next(new BadRequestError({ code: 401, message: 'Please verify Refresh Token' }));
+  if (!refreshToken.activated) return next(new BadRequestError({ message: 'Please verify Refresh Token' }));
 
   // Fraudulent request; R accumulator out-of-sync; freeze account
   if (refreshToken.acc !== acc && refreshToken.activated) {
@@ -328,7 +370,11 @@ const generateAuthToken = async (
   }
 };
 
-const activateRefreshToken = async (req: Request, res: Response<ApiResponse>, _next: NextFunction) => {
+const activateRefreshToken = async (
+  req: Request<{}, {}, never>,
+  res: Response<ApiResponseSuccess>,
+  next: NextFunction
+) => {
   // On receipt of AR tokens, send back A to /verifyToken - have setInterval on client to keep resending until 200 received.
   // Update R token active flag on DB
   const { authorization } = req.headers;
@@ -340,8 +386,7 @@ const activateRefreshToken = async (req: Request, res: Response<ApiResponse>, _n
   } else if (authCookie) {
     JWT = authCookie;
   } else {
-    res.status(401).json({ errors: {}, message: 'Unauthorized', status: 'error' });
-    return;
+    return next(new BadRequestError({ code: 401, message: 'Unauthorized. Please login' }));
   }
 
   await UserService.verifyAuthToken(JWT);
@@ -351,18 +396,23 @@ const activateRefreshToken = async (req: Request, res: Response<ApiResponse>, _n
   res.status(204).send();
 };
 
-const identify = async (_req: Request, res: Response<ApiResponse>, _next: NextFunction) => {
+const identify = async (
+  _req: Request<{}, {}, never>,
+  res: Response<ApiResponseSuccessData<IdentifyResponse>, AuthenticatedLocals>,
+  _next: NextFunction
+) => {
   // TODO:  Query profile table for user information.
-  const user = await UserService.queryUserById(res.locals.user.client_id);
+  const userRow = await UserService.queryUserById(res.locals.user.client_id);
   // TEMP: . Need to add in user name, role title, minor details - information to hydrate FE on initial load.
-  res.status(200).json({ status: 'success', message: 'Account identified', data: { user: { role: user.role } } });
+  const user = toUserRoleDTO(userRow);
+  res.status(200).json({ status: 'success', message: 'Account identified', data: { user } });
 };
 
-const protectedRoute = async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
+const protectedRoute = async (req: Request, res: Response<{}, AuthenticatedLocals>, next: NextFunction) => {
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
-  console.log('******************', JWT_COOKIE_AUTH_ID);
   let JWT;
+
   if (authorization && authorization.startsWith('Bearer')) {
     JWT = authorization.split(' ')[1];
   } else if (authCookie) {
@@ -377,8 +427,8 @@ const protectedRoute = async (req: Request, res: Response<ApiResponse>, next: Ne
   next();
 };
 
-const restrictedRoute = (...roles: TUserRoles[]) => {
-  return async (req: Request, _res: Response<ApiResponse>, next: NextFunction) => {
+const restrictedRoute = (...roles: UserRoles[]) => {
+  return async (req: Request, _res: Response, next: NextFunction) => {
     const { authorization } = req.headers;
     const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 
