@@ -1,6 +1,16 @@
+import type { ServiceHttp } from '@Services/serviceHttp';
+
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 
 import rootReducer from './reducers/rootReducer';
+
+export type ThunkExtra = {
+  serviceHttp: ServiceHttp;
+};
+
+export type AppThunkApiConfig = {
+  extra: ThunkExtra;
+};
 
 let ReduxStore: EnhancedStore | undefined;
 
@@ -13,10 +23,16 @@ export function getReduxStore(): ReduxStore {
   return ReduxStore;
 }
 
-export default function configureReduxStore(preloadedState?: Partial<ReduxRootState>) {
+export default function configureReduxStore(extra: ThunkExtra, preloadedState?: Partial<ReduxRootState>) {
   const store = configureStore({
     preloadedState,
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        thunk: {
+          extraArgument: extra,
+        },
+      }),
   });
 
   if (!ReduxStore) ReduxStore = store;

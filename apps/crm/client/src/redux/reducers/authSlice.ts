@@ -1,9 +1,17 @@
+import type { AppThunkApiConfig, ReduxRootState } from '@Redux/store';
+import type {
+  DeleteAccountRequestDTO,
+  IdentifyResponse,
+  LoginRequestDTO,
+  LoginResponse,
+  UpdatePasswordRequestDTO,
+  UpdatePasswordResponse,
+} from '@Shared/src/types/api/auth';
+import type { ApiResponseSuccess } from '@Shared/src/types/api/base';
+
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { serviceHttp } from '@Services/index';
-import { TBody } from '@Services/serviceHttp';
-
-interface IAuth {
+type AuthInitialState = {
   user: string | null;
   roles: string[];
   authTokenExpiry: Date | null;
@@ -13,9 +21,9 @@ interface IAuth {
   refreshTokenActivated: boolean;
   refreshTokenPending: boolean;
   status: 'idle' | 'pending';
-}
+};
 
-export const initialState: IAuth = {
+export const initialState: AuthInitialState = {
   authTokenExpiry: null,
   authTokenPending: false,
   isAuthenticated: false,
@@ -27,46 +35,95 @@ export const initialState: IAuth = {
   user: null,
 };
 
-export const authInitialize = createAsyncThunk('auth/initialize', async () => {
-  const response = await serviceHttp.accountIdentify();
-  return response;
-});
+export const authInitialize = createAsyncThunk<IdentifyResponse, void, AppThunkApiConfig>(
+  'auth/initialize',
+  async (_, { extra, rejectWithValue }) => {
+    try {
+      const response = await extra.serviceHttp.account.identify();
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
-export const identify = createAsyncThunk('auth/identify', async () => {
-  const response = await serviceHttp.accountIdentify();
-  return response;
-});
+export const identify = createAsyncThunk<IdentifyResponse, void, AppThunkApiConfig>(
+  'auth/identify',
+  async (_, { extra, rejectWithValue }) => {
+    try {
+      const response = await extra.serviceHttp.account.identify();
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
-export const login = createAsyncThunk('auth/login', async (body: TBody) => {
-  const response = await serviceHttp.accountLogin(body);
-  return response;
-});
+export const login = createAsyncThunk<LoginResponse, LoginRequestDTO, AppThunkApiConfig>(
+  'auth/login',
+  async (body: LoginRequestDTO, { extra, rejectWithValue }) => {
+    try {
+      const response = await extra.serviceHttp.account.login(body);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-  const response = await serviceHttp.accountLogout();
-  return response;
-});
+export const logout = createAsyncThunk<ApiResponseSuccess, void, AppThunkApiConfig>(
+  'auth/logout',
+  async (_, { extra, rejectWithValue }) => {
+    try {
+      const response = await extra.serviceHttp.account.logout();
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
-export const updatePassword = createAsyncThunk('auth/updatePassword', async (body: TBody) => {
-  const response = await serviceHttp.accountUpdatePassword(body);
-  return response;
-});
+export const updatePassword = createAsyncThunk<UpdatePasswordResponse, UpdatePasswordRequestDTO, AppThunkApiConfig>(
+  'auth/updatePassword',
+  async (body: UpdatePasswordRequestDTO, { extra, rejectWithValue }) => {
+    try {
+      const response = await extra.serviceHttp.account.updatepassword(body);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
-export const freezeAccount = createAsyncThunk('auth/freezeAccount', async () => {
-  const response = await serviceHttp.accountFreeze();
-  return response;
-});
+export const freezeAccount = createAsyncThunk<ApiResponseSuccess, void, AppThunkApiConfig>(
+  'auth/freezeAccount',
+  async (_, { extra, rejectWithValue }) => {
+    try {
+      const response = await extra.serviceHttp.account.freeze();
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
-export const deleteAccount = createAsyncThunk('auth/deleteAccount', async (body: TBody) => {
-  const response = await serviceHttp.accountDelete(body);
-  return response;
-});
+export const deleteAccount = createAsyncThunk<ApiResponseSuccess, DeleteAccountRequestDTO, AppThunkApiConfig>(
+  'auth/deleteAccount',
+  async (body: DeleteAccountRequestDTO, { extra, rejectWithValue }) => {
+    try {
+      const response = await extra.serviceHttp.account.delete(body);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    authenticateUser(state, action: PayloadAction<IAuth['isAuthenticated']>) {
+    authenticateUser(state, action: PayloadAction<AuthInitialState['isAuthenticated']>) {
       state.isAuthenticated = action.payload;
       state.status = 'idle';
     },
@@ -80,14 +137,14 @@ export const authSlice = createSlice({
       state.refreshTokenActivated = false;
       state.refreshTokenPending = false;
     },
-    setAuthTokenPending(state, action: PayloadAction<IAuth['authTokenPending']>) {
+    setAuthTokenPending(state, action: PayloadAction<AuthInitialState['authTokenPending']>) {
       state.authTokenPending = action.payload;
     },
-    setRefreshTokenActivated(state, action: PayloadAction<IAuth['refreshTokenActivated']>) {
+    setRefreshTokenActivated(state, action: PayloadAction<AuthInitialState['refreshTokenActivated']>) {
       state.refreshTokenActivated = action.payload;
       state.status = 'idle';
     },
-    setRefreshTokenPending(state, action: PayloadAction<IAuth['refreshTokenPending']>) {
+    setRefreshTokenPending(state, action: PayloadAction<AuthInitialState['refreshTokenPending']>) {
       state.refreshTokenPending = action.payload;
     },
     setUser(state, action) {
@@ -189,6 +246,8 @@ export const authSlice = createSlice({
       });
   },
 });
+
+export const selectorAuthTokenPending = (state: ReduxRootState) => state.auth.authTokenPending;
 
 export const {
   authenticateUser,
