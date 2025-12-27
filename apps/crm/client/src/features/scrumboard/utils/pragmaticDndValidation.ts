@@ -1,5 +1,5 @@
 /* eslint-disable perfectionist/sort-objects */
-import type { KanbanColumn, KanbanTask } from '@Data/MockScrumboardKanban';
+import type { KanbanStage, KanbanTask } from '@Data/MockScrumboardKanban';
 import type { PipelineDeal, PipelineStage } from '@Data/MockScrumboardPipeline';
 
 import type {
@@ -43,7 +43,7 @@ export function createPipelineDealDropData(deal: PipelineDeal, dealIndex: number
 }
 
 export function createKanbanCardDropData(
-  column: KanbanColumn,
+  column: KanbanStage,
   task: KanbanTask,
   taskIndex: number
 ): PragmaticDndKanbanCard {
@@ -80,7 +80,7 @@ export function isKanbanColumnTargetData(data: Record<string | symbol, unknown>)
   return Boolean(data[SYMBOL_KANBAN_COLUMN]);
 }
 
-export function createKanbanColumnTargetData(column: KanbanColumn): PragmaticDndKanbanColumn {
+export function createKanbanColumnTargetData(column: KanbanStage): PragmaticDndKanbanColumn {
   return {
     [SYMBOL_KANBAN_COLUMN]: true,
     type: PRAGMATICDND_KANBAN_COLUMN_TYPE,

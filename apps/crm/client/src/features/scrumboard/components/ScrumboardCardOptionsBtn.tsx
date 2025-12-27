@@ -1,39 +1,150 @@
-import { Button, Menu, MenuItem, MenuTrigger, Popover } from 'react-aria-components';
+import type { PipelineDeal, PipelineStage } from '@Data/MockScrumboardPipeline';
 
-import { IconDelete, IconEye, IconMenuDots } from '@Components/svg';
+import { useEffect, useMemo, useRef } from 'react';
+import {
+  Button,
+  Key,
+  Menu,
+  MenuItem,
+  MenuSection,
+  MenuTrigger,
+  Popover,
+  Separator,
+  SubmenuTrigger,
+} from 'react-aria-components';
+
+import { IconArrowRightDoubleAlt, IconDelete, IconEye, IconMenuDots } from '@Components/svg';
+import { useReduxSelector } from '@Redux/hooks';
+
+import { makeSelectorDealIdsForStage, selectorStagesById } from '../redux/pipelineSlice';
+import { usePipeineContext } from '../ScrumboardPipeline';
 
 import styles from './ScrumboardCardOptionsBtn.module.scss';
 
+type MoveKey = 'top' | 'up' | 'down' | 'bottom';
+
+const moveIndexMap: Record<MoveKey, (index: number, length: number) => number> = {
+  bottom: (_, len) => len - 1,
+  down: (i, len) => Math.min(len - 1, i + 1),
+  top: () => 0,
+  up: (i) => Math.max(0, i - 1),
+};
+
 interface IProps {
-  taskId: string;
-  columnId: string;
-  taskStatus?: 'won' | 'lost';
+  deal: PipelineDeal;
+  dealIndex: number;
+  stage: PipelineStage;
+  dealStatus?: 'won' | 'lost';
+  isFocused: boolean;
 }
 
-function ScrumboardCardOptionsBtn({ columnId, taskId, taskStatus }: IProps): React.JSX.Element {
+function ScrumboardCardOptionsBtn({ deal, dealIndex, dealStatus, isFocused, stage }: IProps): React.JSX.Element {
+  const { handleHorizontalMove, handleVerticalMove } = usePipeineContext();
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const selectorDealIdsForStage = useMemo(() => makeSelectorDealIdsForStage(), []);
+  const dealIds = useReduxSelector((state) => selectorDealIdsForStage(state, stage.id));
+  const stages = useReduxSelector(selectorStagesById);
+
+  const moveTaskHorizontalHandler = (destinationStage: PipelineStage) => {
+    const destinationDealIndex = dealIds.length;
+    if (destinationDealIndex === undefined) return;
+
+    return handleHorizontalMove({ destinationDealIndex, destinationStage, sourceDeal: deal });
+  };
+
+  const moveTaskVerticalHandler = (key: Key) => {
+    if (typeof key !== 'string' || !(key in moveIndexMap)) return;
+    if (dealIds === undefined) return;
+    const destinationDealIndex = moveIndexMap[key as MoveKey](dealIndex, dealIds.length);
+
+    return handleVerticalMove({ destinationDealIndex, sourceDeal: deal, sourceStage: stage });
+  };
+
+  useEffect(() => {
+    if (isFocused && buttonRef.current) buttonRef.current?.focus();
+  }, [isFocused]);
+
   return (
     <MenuTrigger>
       <Button
-        className={`${styles.cardOptionsBtn} ${taskStatus ? styles[`cardOptionsBtn--${taskStatus}`] : ''}`}
-        aria-label="Companies Option Menu">
+        ref={buttonRef}
+        className={`${styles.cardOptionsBtn} ${dealStatus ? styles[`cardOptionsBtn--${dealStatus}`] : ''}`}
+        aria-label={`Options for card ${deal.dealTitle}`}>
         <IconMenuDots svgClass={styles.cardOptionsBtn__svg} />
       </Button>
-      <Popover placement="bottom right" className={styles.cardOptionsBtn__popover}>
+      <Popover placement="bottom start" className={styles.cardOptionsBtn__popover}>
         <Menu className={styles.cardOptionsBtn__menu}>
-          <MenuItem
-            href={`pipeline/deal/update/${taskId}`}
-            routerOptions={{ state: { taskId } }}
-            className={styles.cardOptionsBtn__menuItem}>
-            <IconEye svgClass={styles.cardOptionsBtn__menuItem__svg} />
-            <span>View Card</span>
-          </MenuItem>
-          <MenuItem
-            href={`pipeline/deal/delete/${taskId}`}
-            routerOptions={{ state: { columnId, taskId } }}
-            className={styles.cardOptionsBtn__menuItemWarning}>
-            <IconDelete svgClass={styles.cardOptionsBtn__menuItemWarning__svg} />
-            <span>Delete Card</span>
-          </MenuItem>
+          <MenuSection>
+            <MenuItem
+              href={`pipeline/deal/update/${deal.id}`}
+              routerOptions={{ state: { sourceTaskId: deal.id } }}
+              className={styles.cardOptionsBtn__menuItem}>
+              <IconEye svgClass={styles.cardOptionsBtn__menuItem__svg} />
+              <span>View Card</span>
+            </MenuItem>
+            <SubmenuTrigger>
+              <MenuItem className={styles.cardOptionsBtn__menuItem}>
+                <span className={styles.cardOptionsBtn__menuItem}>Move Card</span>
+                <IconArrowRightDoubleAlt svgClass={styles.cardOptionsBtn__menuItem__svg} />
+              </MenuItem>
+              <Popover placement="end top" className={styles.cardOptionsBtn__popover}>
+                <Menu onAction={(key: Key) => moveTaskVerticalHandler(key)} className={styles.cardOptionsBtn__menu}>
+                  <MenuSection>
+                    <MenuItem id="top" isDisabled={dealIndex === 0} className={styles.cardOptionsBtn__menuItem}>
+                      <span className={styles.cardOptionsBtn__menuItem}>Move to top</span>
+                    </MenuItem>
+                    <MenuItem id="up" isDisabled={dealIndex === 0} className={styles.cardOptionsBtn__menuItem}>
+                      <span className={styles.cardOptionsBtn__menuItem}>Move up</span>
+                    </MenuItem>
+                    <MenuItem
+                      id="down"
+                      isDisabled={dealIndex === dealIds.length - 1}
+                      className={styles.cardOptionsBtn__menuItem}>
+                      <span className={styles.cardOptionsBtn__menuItem}>Move down</span>
+                    </MenuItem>
+                    <MenuItem
+                      id="bottom"
+                      isDisabled={dealIndex === dealIds.length - 1}
+                      className={styles.cardOptionsBtn__menuItem}>
+                      <span className={styles.cardOptionsBtn__menuItem}>Move to bottom</span>
+                    </MenuItem>
+                  </MenuSection>
+                  <Separator className={styles.cardOptionsBtn__separator} />
+                  <SubmenuTrigger>
+                    <MenuItem className={styles.cardOptionsBtn__menuItem}>
+                      <span className={styles.cardOptionsBtn__menuItem}>Move to column</span>
+                      <IconArrowRightDoubleAlt svgClass={styles.cardOptionsBtn__menuItem__svg} />
+                    </MenuItem>
+                    <Popover placement="end top" className={styles.cardOptionsBtn__popover}>
+                      <Menu>
+                        <MenuSection>
+                          {stages.map((stage) => (
+                            <MenuItem
+                              key={stage.id}
+                              textValue={stage.title}
+                              onAction={() => moveTaskHorizontalHandler(stage)}
+                              className={styles.cardOptionsBtn__menuItem}>
+                              <span>{stage.title}</span>
+                            </MenuItem>
+                          ))}
+                        </MenuSection>
+                      </Menu>
+                    </Popover>
+                  </SubmenuTrigger>
+                </Menu>
+              </Popover>
+            </SubmenuTrigger>
+          </MenuSection>
+          <Separator className={styles.cardOptionsBtn__separator} />
+          <MenuSection>
+            <MenuItem
+              href={`pipeline/deal/delete/${deal.id}`}
+              routerOptions={{ state: { columnId: stage, sourceTaskId: deal.id } }}
+              className={styles.cardOptionsBtn__menuItemWarning}>
+              <IconDelete svgClass={styles.cardOptionsBtn__menuItemWarning__svg} />
+              <span>Delete Card</span>
+            </MenuItem>
+          </MenuSection>
         </Menu>
       </Popover>
     </MenuTrigger>

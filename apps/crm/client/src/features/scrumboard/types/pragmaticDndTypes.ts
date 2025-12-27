@@ -1,4 +1,4 @@
-import type { KanbanColumn, KanbanTask } from '@Data/MockScrumboardKanban';
+import type { KanbanStage, KanbanTask } from '@Data/MockScrumboardKanban';
 import type { PipelineDeal, PipelineStage } from '@Data/MockScrumboardPipeline';
 
 import {
@@ -27,7 +27,7 @@ export type PragmaticDndPipelineStage = {
 export const PRAGMATICDND_KANBAN_CARD_TYPE = 'kanban_card' as const;
 export type PragmaticDndKanbanCard = {
   [SYMBOL_KANBAN_CARD]: true;
-  column: KanbanColumn;
+  column: KanbanStage;
   task: KanbanTask;
   taskIndex: number;
   type: typeof PRAGMATICDND_KANBAN_CARD_TYPE;
@@ -36,6 +36,6 @@ export type PragmaticDndKanbanCard = {
 export const PRAGMATICDND_KANBAN_COLUMN_TYPE = 'kanban_column' as const;
 export type PragmaticDndKanbanColumn = {
   [SYMBOL_KANBAN_COLUMN]: true;
-  column: KanbanColumn;
+  column: KanbanStage;
   type: typeof PRAGMATICDND_KANBAN_COLUMN_TYPE;
 };

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './ScrumboardAddStage.module.scss';
@@ -10,4 +11,4 @@ function ScrumboardAddStage(): React.JSX.Element {
   );
 }
 
-export default ScrumboardAddStage;
+export default memo(ScrumboardAddStage);

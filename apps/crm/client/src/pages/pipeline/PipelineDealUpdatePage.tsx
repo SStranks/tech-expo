@@ -1,19 +1,19 @@
 import type { SubmitHandler } from 'react-hook-form';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import { FormProvider } from '@Components/react-hook-form';
 import { GENERIC_NUMBER_RULES, GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
-import { updateDeal } from '@Features/scrumboard/redux/pipelineSlice';
+import { makeSelectorDealById, updateDeal } from '@Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 
 // TEMP DEV: .
 const companiesList = [{ name: 'Microsoft' }, { name: 'Linux' }];
 const ownersList = [{ name: 'Bob' }, { name: 'Dave' }];
 
-type IFormData = {
+type FormData = {
   companyTitle: string;
   dealStage: string;
   dealTitle: string;
@@ -26,7 +26,8 @@ function PipelineDealUpdatePage(): React.JSX.Element {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [locationState] = useState(state);
-  const task = useReduxSelector((store) => store.scrumboardPipeline.tasks[locationState.taskId]);
+  const selectorDealById = useMemo(() => makeSelectorDealById(), []);
+  const deal = useReduxSelector((state) => selectorDealById(state, locationState.taskId));
   const reduxDispatch = useReduxDispatch();
 
   // TODO:  Make dynamic; check RHF Provider; can we change the type from { name: string } to just string[]??
@@ -38,19 +39,13 @@ function PipelineDealUpdatePage(): React.JSX.Element {
     navigate(-1);
   };
 
-  const onSubmit: SubmitHandler<IFormData> = (data) => {
-    const { companyTitle, dealOwner, dealStage, dealTitle, dealTotal } = data;
-    const taskId = task.id;
+  const onSubmit: SubmitHandler<FormData> = () => {
+    // const { companyTitle, dealOwner, dealStage, dealTitle, dealTotal } = data;
 
     reduxDispatch(
       updateDeal({
-        companyTitle,
-        dealOwner,
-        dealStage,
-        dealTitle,
-        dealTotal,
-        dealValue: 0,
-        taskId,
+        dealId: deal.id,
+        stageId: locationState.columnId, // TODO: Not correct
       })
     );
     setPortalActiveInternal(false);
@@ -62,11 +57,11 @@ function PipelineDealUpdatePage(): React.JSX.Element {
       <FormProvider
         onSubmit={onSubmit}
         defaultValues={{
-          companyTitle: task.companyTitle,
+          companyTitle: deal.companyTitle,
           dealOwner: 'Bob',
           dealStage: 'new',
-          dealTitle: task.dealTitle,
-          dealTotal: task.dealTotal,
+          dealTitle: deal.dealTitle,
+          dealTotal: deal.dealTotal,
         }}>
         <FormModal.Header title="Edit Deal" />
         <FormModal.Content>
