@@ -1,5 +1,5 @@
 import type { TPostgresDB } from '#Config/dbPostgres.js';
-import type { TUserProfileTableInsert, TUserTableInsert } from '#Config/schema/index.js';
+import type { TUserProfileTableInsert, UserTableInsert } from '#Config/schema/index.js';
 
 import { eq } from 'drizzle-orm';
 
@@ -24,8 +24,8 @@ export default async function seedUsers(db: TPostgresDB) {
   if (!primaryCompany) throw new Error(`Could not find primary company ${COMPANY_NAME}`);
 
   // -------------- USER TABLE ------------- //
-  const userInsertionData: TUserTableInsert[] = [];
-  const demoUserInsertionData: TUserTableInsert[] = [];
+  const userInsertionData: UserTableInsert[] = [];
+  const demoUserInsertionData: UserTableInsert[] = [];
 
   const generatedUsers = generateUsers();
   const generatedDemoUsers = generateDemoUsers();

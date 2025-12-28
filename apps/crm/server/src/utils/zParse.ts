@@ -1,7 +1,7 @@
 import { z, ZodError, ZodObject } from 'zod';
 
-import { BadRequestError } from './errors/index.js';
-import ZodValidationError from './errors/ZodValidationError.js';
+import BadRequestError from '#Utils/errors/BadRequestError.js';
+import ZodValidationError from '#Utils/errors/ZodValidationError.js';
 
 // NOTE:  Change 'any' back to request when finished experimenting.
 export async function zParse<T extends ZodObject>(schema: T, req: any): Promise<z.infer<T>> {

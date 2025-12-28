@@ -5,12 +5,12 @@ import { boolean, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { PipelineTable } from '../index.js';
+import PipelineTable from './Pipeline.js';
 
 // ---------- TABLES -------- //
-export type PipelineStagesTableInsert = InferInsertModel<typeof PiplineStagesTable>;
-export type PipelineStagesTableSelect = InferSelectModel<typeof PiplineStagesTable>;
-export const PiplineStagesTable = pgTable('pipeline_stages', {
+export type PipelineStagesTableInsert = InferInsertModel<typeof PipelineStagesTable>;
+export type PipelineStagesTableSelect = InferSelectModel<typeof PipelineStagesTable>;
+export const PipelineStagesTable = pgTable('pipeline_stages', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull(),
   isPermanent: boolean().default(false),
@@ -22,21 +22,21 @@ export const PiplineStagesTable = pgTable('pipeline_stages', {
 });
 
 // -------- RELATIONS ------- //
-export const PipelineStagesTableRelations = relations(PiplineStagesTable, ({ one }) => {
+export const PipelineStagesTableRelations = relations(PipelineStagesTable, ({ one }) => {
   return {
     pipeline: one(PipelineTable, {
-      fields: [PiplineStagesTable.pipelineTableId],
+      fields: [PipelineStagesTable.pipelineTableId],
       references: [PipelineTable.id],
     }),
   };
 });
 
 // ----------- ZOD ---------- //
-export const insertPiplineStagesSchema = createInsertSchema(PiplineStagesTable);
-export const selectPiplineStagesSchema = createSelectSchema(PiplineStagesTable).extend({
+export const insertPiplineStagesSchema = createInsertSchema(PipelineStagesTable);
+export const selectPiplineStagesSchema = createSelectSchema(PipelineStagesTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
 export type InsertPiplineStagesSchema = z.infer<typeof insertPiplineStagesSchema>;
 export type SelectPiplineStagesSchema = z.infer<typeof selectPiplineStagesSchema>;
 
-export default PiplineStagesTable;
+export default PipelineStagesTable;

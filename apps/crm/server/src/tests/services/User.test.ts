@@ -1,7 +1,6 @@
+import type { RefreshTokenPayload } from '@apps/crm-shared/src/types/api/auth.js';
 import type { JwtPayload } from 'jsonwebtoken';
 import type { UUID } from 'node:crypto';
-
-import type { IRefreshTokenPayload } from '#Services/User.ts';
 
 import jwt from 'jsonwebtoken';
 import { describe, expect, test, vi } from 'vitest';
@@ -26,7 +25,7 @@ vi.mock('#Config/secrets', () => ({
   },
 }));
 
-const { UserService } = await import('#Services/index.js');
+const { default: UserService } = await import('#Services/User.js');
 
 describe('Signing Tokens: Auth Token', () => {
   const userId = 'user';
@@ -81,7 +80,7 @@ describe('Signing Tokens: Refresh Token', () => {
     exp,
     iat,
     jti,
-  } as unknown as IRefreshTokenPayload;
+  } as unknown as RefreshTokenPayload;
 
   test('Sign Refresh Token - is payload valid', () => {
     const jwt_encoded = UserService.signRefreshToken(userId, iat, token_payload);
@@ -89,11 +88,11 @@ describe('Signing Tokens: Refresh Token', () => {
     const jwt_decoded = jwt.decode(jwt_encoded, { complete: true });
     if (!jwt_decoded) fail('JWT Encoding failed');
 
-    expect((jwt_decoded?.payload as IRefreshTokenPayload)['client_id']).toEqual(userId);
-    expect((jwt_decoded?.payload as IRefreshTokenPayload).acc).toEqual(acc);
-    expect((jwt_decoded?.payload as IRefreshTokenPayload).iat).toEqual(iat);
-    expect((jwt_decoded?.payload as IRefreshTokenPayload).jti).toEqual(jti);
-    expect(typeof (jwt_decoded?.payload as IRefreshTokenPayload).exp).toBe('number');
+    expect((jwt_decoded?.payload as RefreshTokenPayload)['client_id']).toEqual(userId);
+    expect((jwt_decoded?.payload as RefreshTokenPayload).acc).toEqual(acc);
+    expect((jwt_decoded?.payload as RefreshTokenPayload).iat).toEqual(iat);
+    expect((jwt_decoded?.payload as RefreshTokenPayload).jti).toEqual(jti);
+    expect(typeof (jwt_decoded?.payload as RefreshTokenPayload).exp).toBe('number');
   });
 
   test('Sign Refresh Token - is signature valid', async () => {
@@ -101,7 +100,7 @@ describe('Signing Tokens: Refresh Token', () => {
 
     try {
       const jwt_decoded = jwt.verify(jwt_encoded, JWT_REFRESH_SECRET, { complete: true });
-      expect((jwt_decoded?.payload as IRefreshTokenPayload).jti).toEqual(jti);
+      expect((jwt_decoded?.payload as RefreshTokenPayload).jti).toEqual(jti);
     } catch {
       throw new Error('JWT Signature Failure');
     }

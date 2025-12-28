@@ -1,6 +1,7 @@
 import { createClient } from 'redis';
 
-import { pinoLogger, rollbar } from '#Lib/index.js';
+import pinoLogger from '#Lib/pinoLogger.js';
+import rollbar from '#Lib/rollbar.js';
 
 import fs from 'node:fs';
 import { createSecureContext } from 'node:tls';

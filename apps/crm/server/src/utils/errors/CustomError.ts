@@ -5,7 +5,7 @@ export type CustomErrorContent = {
   context?: { [key: string]: unknown };
 };
 
-export abstract class CustomError extends Error {
+export default abstract class CustomError extends Error {
   readonly status: ApiResponseError['status'];
   abstract readonly statusCode: number;
   abstract readonly errors: CustomErrorContent[];

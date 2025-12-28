@@ -1,9 +1,12 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
-import * as schema from '#Config/schema/index.js';
-import { DrizzleLogger, pinoLogger, rollbar } from '#Lib/index.js';
-import { AppError, PostgresError } from '#Utils/errors/index.js';
+import schema from '#Config/schema/Schemas.js';
+import DrizzleLogger from '#Lib/drizzleLogger.js';
+import pinoLogger from '#Lib/pinoLogger.js';
+import rollbar from '#Lib/rollbar.js';
+import AppError from '#Utils/errors/AppError.js';
+import PostgresError from '#Utils/errors/PostgresError.js';
 
 import fs from 'node:fs';
 import { createSecureContext } from 'node:tls';

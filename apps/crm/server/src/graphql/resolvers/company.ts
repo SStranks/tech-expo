@@ -4,7 +4,7 @@ import type { TCompanyDTO } from '#Models/company/Company.js';
 
 import { z } from 'zod';
 
-import { pinoLogger } from '#Lib/index.js';
+import pinoLogger from '#Lib/pinoLogger.js';
 
 import { dbInconsistencyError, invalidInputError } from '../errors.js';
 

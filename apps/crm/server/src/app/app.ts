@@ -6,11 +6,12 @@ import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 
-import { apolloServer, graphqlContext } from '#Graphql/index.js';
-import { globalErrorHandler } from '#Middleware/index.js';
-import { userRouter } from '#Routes/index.js';
-import { httpRequestCounter, httpRequestDurationSeconds, prometheusMetricsHandler } from '#Services/index.js';
-import { BadRequestError } from '#Utils/errors/index.js';
+import { apolloServer } from '#Graphql/apolloServer.js';
+import graphqlContext from '#Graphql/context.js';
+import globalErrorHandler from '#Middleware/globalError.js';
+import userRouter from '#Routes/userRoutes.js';
+import { httpRequestCounter, httpRequestDurationSeconds, prometheusMetricsHandler } from '#Services/prometheus.js';
+import BadRequestError from '#Utils/errors/BadRequestError.js';
 
 import expressApp from './express.js';
 

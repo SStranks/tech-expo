@@ -11,10 +11,13 @@ import ms from 'ms';
 
 import { postgresDB } from '#Config/dbPostgres.js';
 import { redisClient } from '#Config/dbRedis.js';
-import { UserRefreshTokensTable, UserTable } from '#Config/schema/index.js';
+import { UserTable } from '#Config/schema/user/User.js';
+import UserRefreshTokensTable from '#Config/schema/user/UserRefreshTokens.js';
 import { secrets } from '#Config/secrets.js';
 import { toDbUUID } from '#Helpers/helpers.js';
-import { AppError, BadRequestError, PostgresError } from '#Utils/errors/index.js';
+import AppError from '#Utils/errors/AppError.js';
+import BadRequestError from '#Utils/errors/BadRequestError.js';
+import PostgresError from '#Utils/errors/PostgresError.js';
 
 import crypto from 'node:crypto';
 
@@ -37,7 +40,7 @@ class User {
   signAuthToken = (userId: string, role: string, iat: number) => {
     const UUIDv4 = crypto.randomUUID();
     return jwt.sign({ client_id: userId, iat, role }, JWT_AUTH_SECRET as string, {
-      expiresIn: JWT_AUTH_EXPIRES,
+      expiresIn: JWT_AUTH_EXPIRES as ms.StringValue, // TODO: Valiator function? Env-zod schema checker?,
       jwtid: UUIDv4,
     });
   };

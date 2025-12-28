@@ -1,4 +1,4 @@
-import { CustomError } from './CustomError.js';
+import CustomError from './CustomError.js';
 
 export default class PostgresError extends CustomError {
   private static readonly _statusCode = 500;

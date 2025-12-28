@@ -1,23 +1,27 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
-import type { TCountryDTO } from '#Models/index.js';
+import type { TCountryDTO } from '#Models/country/Country.js';
 
-import { pinoLogger } from '#Lib/index.js';
-import { PostgresCountryRepository } from '#Models/index.js';
+import { toDbUUIDArray } from '#Helpers/helpers.js';
+import pinoLogger from '#Lib/pinoLogger.js';
+import PostgresCountryRepository from '#Models/country/PostgresCountryRepository.js';
 
-export type TCountryService = {
+export interface CountryService {
   getCountriesById(ids: UUID[]): Promise<TCountryDTO[]>;
-};
+}
+export class CountryService implements CountryService {
+  constructor() {}
 
-export async function getCountriesById(ids: UUID[]) {
-  const countries = await PostgresCountryRepository.findCountriesById(ids);
+  async getCountriesById(ids: UUID[]) {
+    const countries = await PostgresCountryRepository.findCountriesById(toDbUUIDArray(ids));
 
-  if (countries.length !== ids.length) {
-    pinoLogger.app.warn(
-      { found: countries.map((c) => c.id), requested: ids },
-      '[CountryService]: getCountriesById; Some countries not found'
-    );
+    if (countries.length !== ids.length) {
+      pinoLogger.app.warn(
+        { found: countries.map((c) => c.id), requested: ids },
+        '[CountryService]: getCountriesById; Some countries not found'
+      );
+    }
+
+    return countries;
   }
-
-  return countries;
 }

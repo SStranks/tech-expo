@@ -2,9 +2,20 @@ import { reset } from 'drizzle-seed';
 import { z, ZodError } from 'zod';
 
 import { postgresClient, postgresDB } from './dbPostgres.js';
-import * as schema from './schema/index.js';
+import schema from './schema/Schemas.js';
 import { initializeDockerSecrets } from './secrets.js';
-import * as seeds from './seeds/index.js';
+import Calendar from './seeds/Calendar.js';
+import Companies from './seeds/Companies.js';
+import CompaniesNotes from './seeds/CompaniesNotes.js';
+import Contacts from './seeds/Contacts.js';
+import ContactsNotes from './seeds/ContactsNotes.js';
+import Countries from './seeds/Countries.js';
+import Kanban from './seeds/Kanban.js';
+import Pipeline from './seeds/Pipeline.js';
+import Quotes from './seeds/Quotes.js';
+import QuotesNotes from './seeds/QuotesNotes.js';
+import QuotesServices from './seeds/QuotesServices.js';
+import Users from './seeds/Users.js';
 
 initializeDockerSecrets();
 
@@ -31,19 +42,19 @@ const resetDB = async () => {
 const seedDB = async () => {
   console.log('Seeding database...');
   console.log('Seeding non-relational data...');
-  await seeds.Countries(postgresDB);
-  await seeds.Companies(postgresDB);
+  await Countries(postgresDB);
+  await Companies(postgresDB);
   console.log('Seeding relational data...');
-  await seeds.Users(postgresDB);
-  await seeds.CompaniesNotes(postgresDB);
-  await seeds.Calendar(postgresDB);
-  await seeds.Contacts(postgresDB);
-  await seeds.ContactsNotes(postgresDB);
-  await seeds.Quotes(postgresDB);
-  await seeds.QuotesServices(postgresDB);
-  await seeds.QuotesNotes(postgresDB);
-  await seeds.Pipeline(postgresDB);
-  await seeds.Kanban(postgresDB);
+  await Users(postgresDB);
+  await CompaniesNotes(postgresDB);
+  await Calendar(postgresDB);
+  await Contacts(postgresDB);
+  await ContactsNotes(postgresDB);
+  await Quotes(postgresDB);
+  await QuotesServices(postgresDB);
+  await QuotesNotes(postgresDB);
+  await Pipeline(postgresDB);
+  await Kanban(postgresDB);
   console.log('Database seeding completed.');
 };
 

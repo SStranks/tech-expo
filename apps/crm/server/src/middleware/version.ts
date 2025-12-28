@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { BadRequestError } from '#Utils/errors/index.js';
+import BadRequestError from '#Utils/errors/BadRequestError.js';
 
 // API Versioning
 const version = function (version: number) {

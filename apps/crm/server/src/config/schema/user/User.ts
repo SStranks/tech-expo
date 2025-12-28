@@ -6,7 +6,9 @@ import { boolean, pgEnum, pgTable, timestamp, uniqueIndex, uuid, varchar } from 
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { AuditLogTable, UserProfileTable, UserRefreshTokensTable } from '../index.js';
+import AuditLogTable from '../AuditLog.js';
+import UserProfileTable from './UserProfile.js';
+import UserRefreshTokensTable from './UserRefreshTokens.js';
 
 // ---------- ENUMS --------- //
 export const UserRolesEnum = pgEnum('user_role', USER_ROLES);

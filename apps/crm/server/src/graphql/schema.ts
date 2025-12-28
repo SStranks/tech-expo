@@ -9,7 +9,8 @@ import {
   UUIDDefinition,
 } from 'graphql-scalars';
 
-import { pinoLogger, rollbar } from '#Lib/index.js';
+import pinoLogger from '#Lib/pinoLogger.js';
+import rollbar from '#Lib/rollbar.js';
 
 import resolvers from './resolvers.js';
 import schemaTypeDefs from './typedefs.js';

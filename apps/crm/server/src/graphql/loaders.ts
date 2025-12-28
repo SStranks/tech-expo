@@ -1,7 +1,7 @@
 import type { UUID } from 'node:crypto';
 
-import type { TCountryDTO } from '#Models/index.js';
-import type { TCountryService } from '#Services/index.ts';
+import type { TCountryDTO } from '#Models/country/Country.js';
+import type { TCountryService } from '#Services/Country.js';
 
 import DataLoader from 'dataloader';
 

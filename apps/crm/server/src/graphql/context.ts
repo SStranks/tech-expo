@@ -1,22 +1,22 @@
-import type { Request } from 'express';
-import type { UUID } from 'node:crypto';
-
-import type { TUserRoles } from '#Config/schema/index.ts';
-import type { TCompanyService } from '#Services/index.ts';
+import type { UserRoles } from '@apps/crm-shared/src/types/api/auth.js';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
+import type { Request, Response } from 'express';
 
 import type { TCountryDataLoader } from './loaders.ts';
 
 import { GraphQLError } from 'graphql';
 
 import { secrets } from '#Config/secrets.js';
-import { CompanyService, CountryService, UserService } from '#Services/index.js';
+import { CompanyService } from '#Services/Company.js';
+import { CountryService } from '#Services/Country.js';
+import UserService from '#Services/User.js';
 
 import { createCountryLoader } from './loaders.js';
 
-export interface IGraphqlContext {
-  auth: { client_id: UUID; role: TUserRoles };
+export interface GraphqlContext {
+  auth: { client_id: UUID; role: UserRoles };
   loaders: { Country: TCountryDataLoader };
-  services: { Company: TCompanyService };
+  services: { Company: typeof CompanyService };
 }
 
 const { GRAPHQL_INTROSPECT_AUTH } = secrets;
@@ -32,11 +32,11 @@ const isIntrospectionQuery = (req: Request) => {
   return true;
 };
 
-const graphqlContext = async ({ req }: { req: Request }): Promise<IGraphqlContext> => {
+const graphqlContext = async ({ req }: { req: Request; res: Response }): Promise<GraphqlContext> => {
   const { authorization } = req.headers;
   const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 
-  if (isIntrospectionQuery(req)) return {} as IGraphqlContext;
+  if (isIntrospectionQuery(req)) return {} as GraphqlContext;
 
   let JWT;
   if (authorization && authorization.startsWith('Bearer')) {

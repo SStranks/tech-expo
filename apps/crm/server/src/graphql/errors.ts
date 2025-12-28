@@ -1,8 +1,9 @@
 import { ApolloServerErrorCode } from '@apollo/server/errors';
 import { GraphQLError, type GraphQLFormattedError } from 'graphql';
 
-import { pinoLogger } from '#Lib/index.js';
-import { AppError, PostgresError } from '#Utils/errors/index.js';
+import pinoLogger from '#Lib/pinoLogger.js';
+import AppError from '#Utils/errors/AppError.js';
+import PostgresError from '#Utils/errors/PostgresError.js';
 
 const formatError = (formattedError: GraphQLFormattedError, error: unknown): GraphQLFormattedError => {
   if (formattedError.extensions?.code === ApolloServerErrorCode.GRAPHQL_VALIDATION_FAILED) {

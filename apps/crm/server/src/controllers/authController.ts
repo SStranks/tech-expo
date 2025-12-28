@@ -19,11 +19,12 @@ import type { NextFunction, Request, Response } from 'express';
 
 import validator from 'validator';
 
-import { NodeMailerService } from '#Lib/index.js';
+import NodeMailer from '#Lib/nodemailer/NodeMailer.js';
 import { toUserRoleDTO } from '#Mappers/userMapper.js';
-import { UserService } from '#Services/index.js';
-import { BadRequestError } from '#Utils/errors/index.js';
-import { utilMath, utilTime } from '#Utils/index.js';
+import UserService from '#Services/User.js';
+import BadRequestError from '#Utils/errors/BadRequestError.js';
+import { generateRandomInteger } from '#Utils/math.js';
+import { hoursFromNowInEpochSeconds } from '#Utils/time.js';
 
 // NOTE:  Generate JWT Secret: node -e "crypto.randomBytes(64).toString('hex')"
 
@@ -67,9 +68,9 @@ const signup = async (
 
   // Check for existing account. Generate 6-digit verification code, expiry time, and send email to client
   await UserService.isExistingAccount(email);
-  const verificationCode = utilMath.generateRandomInteger(6).toString();
-  const verificationExpiry = new Date(utilTime.hoursFromNowInEpochSeconds(24));
-  await NodeMailerService.sendAccountVerificationEmail(email, verificationCode, verificationExpiry);
+  const verificationCode = generateRandomInteger(6).toString();
+  const verificationExpiry = new Date(hoursFromNowInEpochSeconds(24));
+  await NodeMailer.sendAccountVerificationEmail(email, verificationCode, verificationExpiry);
   await UserService.insertUser(email, verificationCode, verificationExpiry);
 
   res.status(200).json({
@@ -173,7 +174,7 @@ const forgotPassword = async (
 
   const unhashedResetToken = await UserService.forgotPassword(email);
   const resetURL = `${req.protocol}://${req.get('host')}/api/users/resetPassword/${unhashedResetToken}`;
-  await NodeMailerService.sendPasswordResetEmail(email, resetURL);
+  await NodeMailer.sendPasswordResetEmail(email, resetURL);
 
   res.status(200).json({ status: 'success', message: 'Reset token sent to email' });
 };

@@ -1,6 +1,6 @@
 import { ZodError } from 'zod';
 
-import { CustomError } from './CustomError.js';
+import CustomError from './CustomError.js';
 
 export default class ZodValidationError extends CustomError {
   private static readonly _statusCode = 400;

@@ -4,7 +4,7 @@ import type SMTPTransport from 'nodemailer/lib/smtp-transport/index.js';
 import nodemailer from 'nodemailer';
 
 import { secrets } from '#Config/secrets.js';
-import { BadRequestError } from '#Utils/errors/index.js';
+import BadRequestError from '#Utils/errors/BadRequestError.js';
 
 import { EMAIL_TEMPLATE_PASSWORD_RESET } from './templates/PasswordResetEmailTemplate.js';
 import { EMAIL_TEMPLATE_VERIFICATION } from './templates/VerificationEmailTemplate.js';

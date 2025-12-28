@@ -5,8 +5,11 @@ import postgres from 'postgres';
 import { ZodError } from 'zod';
 
 import { postgresErrorHTTPMapper } from '#Config/dbPostgres.js';
-import { pinoLogger, rollbar } from '#Lib/index.js';
-import { CustomError, PostgresError, ZodValidationError } from '#Utils/errors/index.js';
+import pinoLogger from '#Lib/pinoLogger.js';
+import rollbar from '#Lib/rollbar.js';
+import CustomError from '#Utils/errors/CustomError.js';
+import PostgresError from '#Utils/errors/PostgresError.js';
+import ZodValidationError from '#Utils/errors/ZodValidationError.js';
 
 const { NODE_ENV } = process.env;
 

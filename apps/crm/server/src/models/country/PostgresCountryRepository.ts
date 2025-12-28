@@ -1,10 +1,10 @@
 import type { UUID } from 'node:crypto';
 
-import type { TCountryDTO } from '#Models/index.js';
-
 import type { ICountryRepository } from './CountryRepository.js';
 
 import { postgresDB, postgresDBCall } from '#Config/dbPostgres.js';
+
+import { TCountryDTO } from './Country.js';
 
 const PostgresCountryRepository: ICountryRepository = {
   async findCountriesById(ids: UUID[]): Promise<TCountryDTO[]> {
