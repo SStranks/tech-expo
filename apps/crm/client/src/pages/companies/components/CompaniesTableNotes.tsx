@@ -1,6 +1,6 @@
-import { TableSingleColumn } from '@Components/general';
-import { IconList } from '@Components/svg';
-import { CommentThread } from '@Features/comment';
+import TableSingleColumn from '@Components/general/TableSingleColumn';
+import IconList from '@Components/svg/IconList';
+import CommentThread from '@Features/comment/CommentThread';
 
 import styles from './CompaniesTableNotes.module.scss';
 

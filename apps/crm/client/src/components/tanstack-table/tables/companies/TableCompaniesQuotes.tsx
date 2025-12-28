@@ -3,10 +3,9 @@ import type { ITableDataQuotes } from '@Data/MockData';
 import { ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getPaginationRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { TableListEmbeddedView } from '@Components/tanstack-table/views';
+import ColumnCompaniesQuotes from '@Components/tanstack-table/columns/ColumnCompaniesQuotes';
+import TableListEmbeddedView from '@Components/tanstack-table/views/TableListEmbeddedView';
 import { useReactTable } from '@Lib/tanstack';
-
-import { ColumnCompaniesQuotes } from '../../columns';
 
 interface IProps {
   tableData: ITableDataQuotes[];

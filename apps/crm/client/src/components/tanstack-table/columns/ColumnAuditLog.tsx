@@ -2,7 +2,8 @@ import type { ITableAuditLog } from '@Data/MockData';
 
 import { createColumnHelper } from '@tanstack/react-table';
 
-import { AuditAction, AuditDetails } from '../elements';
+import AuditAction from '../elements/AuditAction';
+import AuditDetails from '../elements/AuditDetails';
 
 const columnHelper = createColumnHelper<ITableAuditLog>();
 

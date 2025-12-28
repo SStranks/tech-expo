@@ -5,7 +5,11 @@ import type { ITableDataCompanies, ITableDataContacts, ITableDataQuotes } from '
 
 import { Link } from 'react-router-dom';
 
-import { IconDelete, IconEdit, IconEmail, IconEye, IconPhone } from '@Components/svg';
+import IconDelete from '@Components/svg/IconDelete';
+import IconEdit from '@Components/svg/IconEdit';
+import IconEmail from '@Components/svg/IconEmail';
+import IconEye from '@Components/svg/IconEye';
+import IconPhone from '@Components/svg/IconPhone';
 
 import styles from './RowActionsControl.module.scss';
 

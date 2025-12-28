@@ -1,6 +1,7 @@
 import { flexRender, type Table } from '@tanstack/react-table';
 
-import { FilterRowControl, SortRowControl } from '../controls';
+import FilterRowControl from '../controls/filter-row/FilterRowControl';
+import SortRowControl from '../controls/sort-row/SortRowControl';
 import { useTableDragScroll } from '../hooks/useTableDragScroll';
 
 import styles from './TableListView.module.scss';

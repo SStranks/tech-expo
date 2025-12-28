@@ -1,4 +1,4 @@
-import { IconClose } from '@Components/svg';
+import IconClose from '@Components/svg/IconClose';
 
 import styles from './Buttons.module.scss';
 

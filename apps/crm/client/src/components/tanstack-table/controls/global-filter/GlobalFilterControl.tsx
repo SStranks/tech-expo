@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Button, Input, Label, SearchField } from 'react-aria-components';
 
-import { IconClose, IconSearch } from '@Components/svg';
+import IconClose from '@Components/svg/IconClose';
+import IconSearch from '@Components/svg/IconSearch';
 
 import styles from './GlobalFilterControl.module.scss';
 

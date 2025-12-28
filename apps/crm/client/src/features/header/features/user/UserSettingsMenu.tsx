@@ -2,8 +2,10 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
-import { ReactPortal } from '@Components/index';
-import { IconLogout, IconSettings, IconUser } from '@Components/svg';
+import ReactPortal from '@Components/modal/ReactPortal';
+import IconLogout from '@Components/svg/IconLogout';
+import IconSettings from '@Components/svg/IconSettings';
+import IconUser from '@Components/svg/IconUser';
 import usePortalClose from '@Hooks/usePortalClose';
 import usePortalResizeEvent from '@Hooks/usePortalResizeEvent';
 import { useReduxDispatch } from '@Redux/hooks';

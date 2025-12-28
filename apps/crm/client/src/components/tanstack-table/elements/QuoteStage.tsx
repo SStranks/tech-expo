@@ -1,6 +1,8 @@
 import type { ITableDataQuotes } from '@Data/MockData';
 
-import { IconCircleTick, IconFullScreen, IconSquareArrowTopRight } from '@Components/svg';
+import IconCircleTick from '@Components/svg/IconCircleTick';
+import IconFullScreen from '@Components/svg/IconFullScreen';
+import IconSquareArrowTopRight from '@Components/svg/IconSquareArrowTopRight';
 
 import styles from './QuoteStage.module.scss';
 

@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-import { ReactPortal } from '@Components/index';
-import { IconNotificationBell } from '@Components/svg';
+import ReactPortal from '@Components/modal/ReactPortal';
+import IconNotificationBell from '@Components/svg/IconNotificationBell';
 import { INotification } from '@Data/MockData';
 import usePortalClose from '@Hooks/usePortalClose';
 import usePortalResizeEvent from '@Hooks/usePortalResizeEvent';

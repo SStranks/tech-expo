@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-import { TableSingleColumn } from '@Components/general';
-import { IconArrowDownAlt, IconCircleTriangleRight } from '@Components/svg';
-import { ContactStatus } from '@Components/tanstack-table/elements';
+import TableSingleColumn from '@Components/general/TableSingleColumn';
+import IconArrowDownAlt from '@Components/svg/IconArrowDownAlt';
+import IconCircleTriangleRight from '@Components/svg/IconCircleTriangleRight';
+import ContactStatus from '@Components/tanstack-table/elements/ContactStatus';
 
 import styles from './ContactLifecycle.module.scss';
 

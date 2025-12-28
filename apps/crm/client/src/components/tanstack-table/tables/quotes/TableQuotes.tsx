@@ -9,12 +9,12 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { TableControlsFooter, TableControlsHeader } from '@Components/tanstack-table/controls';
-import { TableListView } from '@Components/tanstack-table/views';
+import ColumnQuotes from '@Components/tanstack-table/columns/ColumnQuotes';
+import TableControlsFooter from '@Components/tanstack-table/controls/ui/TableControlsFooter';
+import TableControlsHeader from '@Components/tanstack-table/controls/ui/TableControlsHeader';
+import TableListView from '@Components/tanstack-table/views/TableListView';
 import { ITableDataQuotes } from '@Data/MockData';
 import { useReactTable } from '@Lib/tanstack';
-
-import { ColumnQuotes } from '../../columns';
 
 import styles from './TableQuotes.module.scss';
 

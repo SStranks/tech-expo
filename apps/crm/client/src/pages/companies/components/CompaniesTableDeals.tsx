@@ -1,7 +1,7 @@
-import { ButtonAddEntry } from '@Components/buttons';
-import { TableSingleColumn } from '@Components/general';
-import { IconPipe } from '@Components/svg';
-import { TableCompaniesDeals } from '@Components/tanstack-table/tables';
+import ButtonAddEntry from '@Components/buttons/ButtonAddEntry';
+import TableSingleColumn from '@Components/general/TableSingleColumn';
+import IconPipe from '@Components/svg/IconPipe';
+import TableCompaniesDeals from '@Components/tanstack-table/tables/companies/TableCompaniesDeals';
 import { tableDataDeals } from '@Data/MockData';
 
 import styles from './CompaniesTableDeals.module.scss';

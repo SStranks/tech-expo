@@ -13,7 +13,10 @@ import {
   SubmenuTrigger,
 } from 'react-aria-components';
 
-import { IconArrowRightDoubleAlt, IconDelete, IconEye, IconMenuDots } from '@Components/svg';
+import IconArrowRightDoubleAlt from '@Components/svg/IconArrowRightDoubleAlt';
+import IconDelete from '@Components/svg/IconDelete';
+import IconEye from '@Components/svg/IconEye';
+import IconMenuDots from '@Components/svg/IconMenuDots';
 import { useReduxSelector } from '@Redux/hooks';
 
 import { makeSelectorDealIdsForStage, selectorStagesById } from '../redux/pipelineSlice';

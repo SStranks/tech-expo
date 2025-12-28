@@ -1,11 +1,13 @@
+import type { SvgIcon } from '@Components/svg';
+
 import { useState } from 'react';
 
-import { IconEdit, IIcon } from '@Components/svg';
+import IconEdit from '@Components/svg/IconEdit';
 
 import styles from './EditableRow.module.scss';
 
 interface IProps {
-  IconSvg: IIcon;
+  IconSvg: SvgIcon;
   title: string;
   description: string;
 }

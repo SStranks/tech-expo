@@ -1,6 +1,8 @@
 import user from '@Img/image-35.jpg';
 
-import { ContactLifecycle, ContactTableInformation, ContactTableNotes } from './components';
+import ContactLifecycle from './components/ContactLifecycle';
+import ContactTableInformation from './components/ContactTableInformation';
+import ContactTableNotes from './components/ContactTableNotes';
 
 import styles from './ContactsReadPage.module.scss';
 

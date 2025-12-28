@@ -3,7 +3,8 @@ import type { ColumnFiltersState, Updater } from '@tanstack/react-table';
 import { useState } from 'react';
 import { Label, Radio, RadioGroup } from 'react-aria-components';
 
-import { IconGrid, IconListDownArrow } from '@Components/svg';
+import IconGrid from '@Components/svg/IconGrid';
+import IconListDownArrow from '@Components/svg/IconListDownArrow';
 
 import styles from './ListGridToggle.module.scss';
 

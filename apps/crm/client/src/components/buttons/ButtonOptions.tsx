@@ -1,6 +1,6 @@
 import { Button, Menu, MenuTrigger, Popover } from 'react-aria-components';
 
-import { IconMenuDots } from '@Components/svg';
+import IconMenuDots from '@Components/svg/IconMenuDots';
 
 import styles from './Buttons.module.scss';
 

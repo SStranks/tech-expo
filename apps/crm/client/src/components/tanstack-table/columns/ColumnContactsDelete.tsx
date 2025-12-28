@@ -2,7 +2,8 @@ import { createColumnHelper } from '@tanstack/react-table';
 
 import { ITableDataContacts } from '@Data/MockData';
 
-import { ContactStatus, UserSingle } from '../elements';
+import ContactStatus from '../elements/ContactStatus';
+import UserSingle from '../elements/UserSingle';
 
 const columnHelper = createColumnHelper<ITableDataContacts>();
 

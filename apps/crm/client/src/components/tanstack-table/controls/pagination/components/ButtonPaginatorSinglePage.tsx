@@ -1,4 +1,4 @@
-import { IconArrowLeftAlt } from '@Components/svg';
+import IconArrowLeftAlt from '@Components/svg/IconArrowLeftAlt';
 
 import styles from './ButtonPaginator.module.scss';
 

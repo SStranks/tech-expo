@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 
-import { IconClose, IconSearch } from '@Components/svg';
+import IconClose from '@Components/svg/IconClose';
+import IconSearch from '@Components/svg/IconSearch';
 import usePortalClose from '@Hooks/usePortalClose';
 import usePortalFocusTrap from '@Hooks/usePortalFocusTrap';
 import { LogoAlgolia } from '@Svg/logos';

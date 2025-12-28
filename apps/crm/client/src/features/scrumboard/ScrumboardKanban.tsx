@@ -6,11 +6,12 @@ import { useEffect } from 'react';
 import { moveTaskHorizontal, moveTaskVertical } from '@Features/scrumboard/redux/kanbanSlice';
 import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 
-import { ScrumboardKanbanStages } from './index';
+import ScrumboardKanbanStages from './ScrumboardKanbanStages';
 import { PRAGMATICDND_KANBAN_CARD_TYPE, PRAGMATICDND_KANBAN_COLUMN_TYPE } from './types/pragmaticDndTypes';
 import { isKanbanCardDropData, isKanbanColumnTargetData } from './utils/pragmaticDndValidation';
 
 import styles from './Scrumboard.module.scss';
+
 function ScrumBoard(): React.JSX.Element {
   const reduxDispatch = useReduxDispatch();
   const data = useReduxSelector((store) => store.scrumboardKanban);
@@ -118,7 +119,7 @@ function ScrumBoard(): React.JSX.Element {
   return (
     <div className={styles.scrumboard}>
       {' '}
-      <ScrumboardKanbanStages data={data} />{' '}
+      <ScrumboardKanbanStages />
     </div>
   );
 }

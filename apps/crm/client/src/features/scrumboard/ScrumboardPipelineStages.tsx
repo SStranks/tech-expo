@@ -1,13 +1,11 @@
 import { useReduxSelector } from '@Redux/hooks';
 
-import {
-  ScrumboardAddStage,
-  ScrumboardPipelineStage,
-  ScrumboardPipelineStageLost,
-  ScrumboardPipelineStageUnassigned,
-  ScrumboardPipelineStageWon,
-} from './index';
+import ScrumboardAddStage from './components/ScrumboardAddStage';
 import { selectorStagesByNotPermanent, selectorStagesByPermanent } from './redux/pipelineSlice';
+import ScrumboardPipelineStage from './ScrumboardPipelineStage';
+import ScrumboardPipelineStageLost from './ScrumboardPipelineStageLost';
+import ScrumboardPipelineStageUnassigned from './ScrumboardPipelineStageUnassigned';
+import ScrumboardPipelineStageWon from './ScrumboardPipelineStageWon';
 
 import styles from './ScrumboardColumns.module.scss';
 

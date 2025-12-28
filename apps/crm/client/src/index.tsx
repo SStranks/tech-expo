@@ -15,9 +15,9 @@ import '@Sass/global-imports.scss';
 import { globalErrorHandler } from '@Config/globalOnError';
 import ApolloClient from '@Graphql/ApolloClient';
 import { authInitialize } from '@Redux/reducers/authSlice';
-import { FallbackUi } from '@Components/index';
 import { createCoreServices } from '@Services/servicesCore';
 import { createReduxServices } from '@Services/servicesRedux';
+import FallbackUi from '@Components/ui/FallbackUi';
 
 // Initialization
 globalErrorHandler();

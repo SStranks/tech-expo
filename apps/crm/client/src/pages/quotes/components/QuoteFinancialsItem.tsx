@@ -1,4 +1,4 @@
-import { IconDelete } from '@Components/svg';
+import IconDelete from '@Components/svg/IconDelete';
 
 import styles from './QuoteFinancialsItem.module.scss';
 

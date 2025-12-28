@@ -1,9 +1,15 @@
 import { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-import { EditableRow, UserRole } from '@Components/general';
-import { ReactPortal } from '@Components/index';
-import { IconClose, IconEmail, IconPhone, IconSmartphone, IconTimezone, IconUserTitle } from '@Components/svg';
+import EditableRow from '@Components/general/EditableRow';
+import UserRole from '@Components/general/UserRole';
+import ReactPortal from '@Components/modal/ReactPortal';
+import IconClose from '@Components/svg/IconClose';
+import IconEmail from '@Components/svg/IconEmail';
+import IconPhone from '@Components/svg/IconPhone';
+import IconSmartphone from '@Components/svg/IconSmartphone';
+import IconTimezone from '@Components/svg/IconTimezone';
+import IconUserTitle from '@Components/svg/IconUserTitle';
 import { UserData } from '@Data/MockData';
 import usePortalClose from '@Hooks/usePortalClose';
 import CompanyLogo from '@Img/CompanyLogo.png';

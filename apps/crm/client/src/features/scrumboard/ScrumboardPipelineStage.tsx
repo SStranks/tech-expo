@@ -6,12 +6,15 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useReduxSelector } from '@Redux/hooks';
 
-import { ScrumboardAddCard, ScrumboardColumnAddBtn, ScrumboardColumnOptionsBtn, ScrumboardPipelineCard } from './index';
+import ScrumboardAddCard from './components/ScrumboardAddCard';
+import ScrumboardColumnAddBtn from './components/ScrumboardColumnAddBtn';
+import ScrumboardColumnOptionsBtn from './components/ScrumboardColumnOptionsBtn';
 import {
   makeSelectorDealIdsSortedForStage,
   makeSelectorDealsTotalForStage,
   makeSelectorStageById,
 } from './redux/pipelineSlice';
+import ScrumboardPipelineDeal from './ScrumboardPipelineDeal';
 import { createPipelineStageTargetData } from './utils/pragmaticDndValidation';
 
 import styles from './ScrumboardColumn.module.scss';
@@ -66,7 +69,7 @@ function ScrumboardPipelineStage({ stageId }: Props): React.JSX.Element {
       </div>
       <div className={styles.column__cards}>
         {dealIdsLexiSorted.map((dealId, i) => {
-          return <ScrumboardPipelineCard key={dealId} dealId={dealId} dealIndex={i} stage={stage} />;
+          return <ScrumboardPipelineDeal key={dealId} dealId={dealId} dealIndex={i} stage={stage} />;
         })}
         {dealIdsLexiSorted.length === 0 && <ScrumboardAddCard columnId={stage.id} />}
       </div>

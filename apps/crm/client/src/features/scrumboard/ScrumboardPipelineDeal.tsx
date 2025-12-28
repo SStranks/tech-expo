@@ -7,10 +7,10 @@ import clsx from 'clsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { UserCircle } from '@Components/general';
+import UserCircle from '@Components/general/UserCircle';
 import { useReduxSelector } from '@Redux/hooks';
 
-import { ScrumboardCardOptionsBtn } from '.';
+import ScrumboardCardOptionsBtn from './components/ScrumboardCardOptionsBtn';
 import { makeSelectorDealById } from './redux/pipelineSlice';
 import { useFocusContext } from './ScrumboardPipeline';
 import { createPipelineDealDropData } from './utils/pragmaticDndValidation';

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { IconOperatorPlus } from '@Components/svg';
+import IconOperatorPlus from '@Components/svg/IconOperatorPlus';
 
 import styles from './ScrumboardColumnAddBtn.module.scss';
 

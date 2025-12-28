@@ -1,4 +1,5 @@
-import { CommentInsert, CommentList } from './index';
+import CommentInsert from './CommentInsert';
+import CommentList from './CommentList';
 
 import styles from './CommentThread.module.scss';
 

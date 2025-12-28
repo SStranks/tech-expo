@@ -2,8 +2,9 @@ import { createColumnHelper } from '@tanstack/react-table';
 
 import { ITableDataContacts } from '@Data/MockData';
 
-import { RowActionsControl } from '../controls';
-import { ContactStatus, UserSingle } from '../elements';
+import RowActionsControl from '../controls/actions-row/RowActionsControl';
+import ContactStatus from '../elements/ContactStatus';
+import UserSingle from '../elements/UserSingle';
 
 const columnHelper = createColumnHelper<ITableDataContacts>();
 

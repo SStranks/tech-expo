@@ -1,21 +1,20 @@
 import { useState } from 'react';
 
-import { ToolTip } from '@Components/index';
-import {
-  IconAdministration,
-  IconAudit,
-  IconBillQuote,
-  IconCalendar,
-  IconCompanies,
-  IconContacts,
-  IconDashboard,
-  IconKanban,
-  IconPipe,
-  IconScrum,
-  IconSettings,
-} from '@Components/svg';
+import IconAdministration from '@Components/svg/IconAdministration';
+import IconAudit from '@Components/svg/IconAudit';
+import IconBillQuote from '@Components/svg/IconBillQuote';
+import IconCalendar from '@Components/svg/IconCalendar';
+import IconCompanies from '@Components/svg/IconCompanies';
+import IconContacts from '@Components/svg/IconContacts';
+import IconDashboard from '@Components/svg/IconDashboard';
+import IconKanban from '@Components/svg/IconKanban';
+import IconPipe from '@Components/svg/IconPipe';
+import IconScrum from '@Components/svg/IconScrum';
+import IconSettings from '@Components/svg/IconSettings';
+import ToolTip from '@Components/ui/Tooltip';
 
-import { MenuLink, MenuToggle } from './components';
+import MenuLink from './components/MenuLink';
+import MenuToggle from './components/MenuToggle';
 
 import styles from './Aside.module.scss';
 

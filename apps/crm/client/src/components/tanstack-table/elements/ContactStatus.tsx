@@ -1,13 +1,11 @@
 import type { ITableDataContacts } from '@Data/MockData';
 
-import {
-  IconCircleClock,
-  IconCircleClose,
-  IconCircleMinus,
-  IconCirclePlus,
-  IconCircleTick,
-  IconCircleTriangleRight,
-} from '@Components/svg';
+import IconCircleClock from '@Components/svg/IconCircleClock';
+import IconCircleClose from '@Components/svg/IconCircleClose';
+import IconCircleMinus from '@Components/svg/IconCircleMinus';
+import IconCirclePlus from '@Components/svg/IconCirclePlus';
+import IconCircleTick from '@Components/svg/IconCircleTick';
+import IconCircleTriangleRight from '@Components/svg/IconCircleTriangleRight';
 
 import styles from './ContactStatus.module.scss';
 

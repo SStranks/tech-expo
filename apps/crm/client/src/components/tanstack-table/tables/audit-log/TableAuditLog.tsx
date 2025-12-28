@@ -10,9 +10,9 @@ import {
 } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { ColumnAuditLog } from '@Components/tanstack-table/columns';
-import { TableControlsFooter } from '@Components/tanstack-table/controls';
-import { TableDefaultView } from '@Components/tanstack-table/views';
+import ColumnAuditLog from '@Components/tanstack-table/columns/ColumnAuditLog';
+import TableControlsFooter from '@Components/tanstack-table/controls/ui/TableControlsFooter';
+import TableDefaultView from '@Components/tanstack-table/views/TableDefaultView';
 import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableAuditLog.module.scss';

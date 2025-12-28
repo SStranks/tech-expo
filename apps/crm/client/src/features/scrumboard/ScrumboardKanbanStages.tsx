@@ -1,4 +1,4 @@
-import { ScrumboardAddStage } from './index';
+import ScrumboardAddStage from './components/ScrumboardAddStage';
 
 import styles from './ScrumboardColumns.module.scss';
 

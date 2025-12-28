@@ -1,6 +1,6 @@
-import clsx from 'clsx';
+import type { SvgIcon } from '@Components/svg';
 
-import { IIcon } from '@Components/svg';
+import clsx from 'clsx';
 
 import styles from './Button.module.scss';
 
@@ -9,7 +9,7 @@ type TType = 'primary' | 'secondary' | 'quaternary';
 interface IProps {
   buttonClickFn?: (data?: unknown) => void;
   buttonDisabled?: boolean;
-  ButtonIcon?: IIcon;
+  ButtonIcon?: SvgIcon;
   buttonShape?: 'default' | 'circle' | 'pill';
   buttonSize?: 'small' | 'default' | 'large';
   buttonStyle?: TType;

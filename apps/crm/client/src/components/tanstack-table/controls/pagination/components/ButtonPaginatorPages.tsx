@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { IconArrowLeftDoubleAlt, IconMenuDots } from '@Components/svg';
+import IconArrowLeftDoubleAlt from '@Components/svg/IconArrowLeftDoubleAlt';
+import IconMenuDots from '@Components/svg/IconMenuDots';
 
 import styles from './ButtonPaginator.module.scss';
 

@@ -4,10 +4,13 @@ import { useEffect, useId, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-import { Input, InputUx } from '@Components/react-hook-form';
-import { IconCircleInfo, IconEye, IconPassword } from '@Components/svg';
+import IconCircleInfo from '@Components/svg/IconCircleInfo';
+import IconEye from '@Components/svg/IconEye';
+import IconPassword from '@Components/svg/IconPassword';
 import { usePasswordStrength } from '@Lib/zxcvbn';
 
+import Input from '../input/Input';
+import InputUx from '../InputUx';
 import { PASSWORD_STRENGTH_RULES } from '../validationRules';
 
 import styles from './InputPasswordStrength.module.scss';
@@ -60,7 +63,13 @@ function InputPasswordStrength(props: IProps): React.JSX.Element {
 
   return (
     <div className={styles.container}>
-      <InputUx name={name} label={label} id={passwordId} defaultValue={defaultValue} rules={PASSWORD_STRENGTH_RULES}>
+      <InputUx
+        name={name}
+        label={label}
+        id={passwordId}
+        defaultValue={defaultValue}
+        rules={PASSWORD_STRENGTH_RULES}
+        disabled={false}>
         <Input
           id={passwordId}
           type={passwordReveal ? 'text' : 'password'}

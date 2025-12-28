@@ -20,7 +20,7 @@ import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 import { uiEventInsert } from '@Redux/reducers/uiSlice';
 import { generateOrderKeyBetween } from '@Utils/lexicographicalRanking';
 
-import { ScrumboardPipelineStages } from './index';
+import ScrumboardPipelineStages from './ScrumboardPipelineStages';
 import { PRAGMATICDND_PIPELINE_DEAL_TYPE, PRAGMATICDND_PIPELINE_STAGE_TYPE } from './types/pragmaticDndTypes';
 import { isPipelineDealDropData, isPipelineStageTargetData } from './utils/pragmaticDndValidation';
 

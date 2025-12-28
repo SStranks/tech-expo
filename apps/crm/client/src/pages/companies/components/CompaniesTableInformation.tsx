@@ -1,5 +1,6 @@
-import { EditableRow, TableSingleColumn } from '@Components/general';
-import { IconCompanies } from '@Components/svg';
+import EditableRow from '@Components/general/EditableRow';
+import TableSingleColumn from '@Components/general/TableSingleColumn';
+import IconCompanies from '@Components/svg/IconCompanies';
 
 import styles from './CompaniesTableInformation.module.scss';
 

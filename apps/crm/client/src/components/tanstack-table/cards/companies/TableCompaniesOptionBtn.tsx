@@ -5,7 +5,9 @@ import type { ITableDataCompanies } from '@Data/MockData';
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from 'react-aria-components';
 import { useNavigate } from 'react-router-dom';
 
-import { IconDelete, IconEye, IconMenuDots } from '@Components/svg';
+import IconDelete from '@Components/svg/IconDelete';
+import IconEye from '@Components/svg/IconEye';
+import IconMenuDots from '@Components/svg/IconMenuDots';
 
 import styles from './TableCompaniesOptionBtn.module.scss';
 

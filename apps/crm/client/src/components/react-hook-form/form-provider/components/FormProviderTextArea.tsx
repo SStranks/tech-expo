@@ -3,7 +3,8 @@ import type { TValidationRules } from '@Components/react-hook-form/validationRul
 import { useId } from 'react';
 import { useFormContext, useFormState } from 'react-hook-form';
 
-import { InputUx, TextArea } from '@Components/react-hook-form';
+import InputUx from '@Components/react-hook-form/InputUx';
+import TextArea from '@Components/react-hook-form/textarea/TextArea';
 
 interface IProps {
   name: string;
@@ -18,7 +19,7 @@ function FormProviderTextArea({ label, name, rules = {} }: IProps): React.JSX.El
   const defaultValue = defaultValues?.[name];
 
   return (
-    <InputUx id={id} label={label} name={name} rules={rules} defaultValue={defaultValue}>
+    <InputUx id={id} label={label} name={name} rules={rules} defaultValue={defaultValue} disabled={false}>
       <TextArea id={id} name={name} rules={rules} defaultValue={defaultValue} />
     </InputUx>
   );

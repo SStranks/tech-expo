@@ -1,12 +1,10 @@
 import CompanyLogo from '@Img/Microsoft_logo.png';
 
-import {
-  CompaniesTableContacts,
-  CompaniesTableDeals,
-  CompaniesTableInformation,
-  CompaniesTableNotes,
-  CompaniesTableQuotes,
-} from './components';
+import CompaniesTableContacts from './components/CompaniesTableContacts';
+import CompaniesTableDeals from './components/CompaniesTableDeals';
+import CompaniesTableInformation from './components/CompaniesTableInformation';
+import CompaniesTableNotes from './components/CompaniesTableNotes';
+import CompaniesTableQuotes from './components/CompaniesTableQuotes';
 
 import styles from './CompaniesReadPage.module.scss';
 

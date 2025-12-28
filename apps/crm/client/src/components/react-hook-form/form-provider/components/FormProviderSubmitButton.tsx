@@ -2,7 +2,7 @@ import type { InputHTMLAttributes } from 'react';
 
 import { useFormContext, useFormState } from 'react-hook-form';
 
-import { ButtonSave } from '@Components/buttons';
+import ButtonSave from '@Components/buttons/ButtonSave';
 
 interface IProps extends InputHTMLAttributes<HTMLButtonElement> {
   name: string;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { UserCircle } from '@Components/general';
+import UserCircle from '@Components/general/UserCircle';
 // TEMP DEV: .
 import userImage from '@Img/image-35.jpg';
 

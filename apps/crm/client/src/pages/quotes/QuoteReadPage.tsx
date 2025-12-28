@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 
-import { MarkdownEditor } from '@Components/index';
-import { IconArrowLeftAlt, IconDocument, IconEdit } from '@Components/svg';
+import MarkdownEditor from '@Components/markdown-editor/MarkdownEditor';
+import IconArrowLeftAlt from '@Components/svg/IconArrowLeftAlt';
+import IconDocument from '@Components/svg/IconDocument';
+import IconEdit from '@Components/svg/IconEdit';
 import CompanyLogo from '@Img/Microsoft_logo.png';
 
 import QuoteFinancials from './components/QuoteFinancials';

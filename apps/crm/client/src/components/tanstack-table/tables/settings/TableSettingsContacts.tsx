@@ -3,9 +3,9 @@ import type { ITableSettingsContacts } from '@Data/MockData';
 import { ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getPaginationRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { ColumnSettingsContacts } from '@Components/tanstack-table/columns';
-import { TableControlsFooter } from '@Components/tanstack-table/controls';
-import { TableDefaultView } from '@Components/tanstack-table/views';
+import ColumnSettingsContacts from '@Components/tanstack-table/columns/ColumnSettingsContacts';
+import TableControlsFooter from '@Components/tanstack-table/controls/ui/TableControlsFooter';
+import TableDefaultView from '@Components/tanstack-table/views/TableDefaultView';
 import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableSettingsContacts.module.scss';

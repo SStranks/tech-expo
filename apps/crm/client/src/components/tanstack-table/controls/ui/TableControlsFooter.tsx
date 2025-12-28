@@ -1,7 +1,7 @@
 import type { Updater } from '@tanstack/react-table';
 
-import { PaginatorRangeControl } from '../';
 import ButtonPaginatorRowLimit from '../pagination/components/ButtonPaginatorRowLimit';
+import PaginatorRangeControl from '../pagination/PaginatorRangeControl';
 
 import styles from './TableControlsFooter.module.scss';
 

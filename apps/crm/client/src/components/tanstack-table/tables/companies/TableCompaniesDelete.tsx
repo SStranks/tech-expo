@@ -3,10 +3,9 @@ import type { ITableDataCompanies } from '@Data/MockData';
 import { getCoreRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { TableModalView } from '@Components/tanstack-table/views';
+import ColumnCompaniesDelete from '@Components/tanstack-table/columns/ColumnCompaniesDelete';
+import TableModalView from '@Components/tanstack-table/views/TableModalView';
 import { useReactTable } from '@Lib/tanstack';
-
-import { ColumnCompaniesDelete } from '../../columns';
 
 import styles from './TableCompanies.module.scss';
 

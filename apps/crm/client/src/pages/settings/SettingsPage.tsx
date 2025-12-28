@@ -1,5 +1,8 @@
-import { IconCity, IconEmail, IconGlobal, IconPhone } from '@Components/svg';
-import { TableSettingsContacts } from '@Components/tanstack-table/tables';
+import IconCity from '@Components/svg/IconCity';
+import IconEmail from '@Components/svg/IconEmail';
+import IconGlobal from '@Components/svg/IconGlobal';
+import IconPhone from '@Components/svg/IconPhone';
+import TableSettingsContacts from '@Components/tanstack-table/tables/settings/TableSettingsContacts';
 import { tableDataSettingsCompanyInfo, tableDataSettingsContacts } from '@Data/MockData';
 
 import styles from './SettingsPage.module.scss';

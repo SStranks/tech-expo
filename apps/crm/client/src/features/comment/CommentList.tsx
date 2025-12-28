@@ -1,4 +1,4 @@
-import { CommentPosted } from './index';
+import CommentPosted from './CommentPosted';
 
 import styles from './CommentList.module.scss';
 

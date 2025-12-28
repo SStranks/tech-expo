@@ -1,6 +1,6 @@
 import { useId, useState } from 'react';
 
-import { IconCirclePlus } from '@Components/svg';
+import IconCirclePlus from '@Components/svg/IconCirclePlus';
 
 import QuoteFinancialsItem from './QuoteFinancialsItem';
 

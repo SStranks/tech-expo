@@ -25,7 +25,9 @@ import {
   Text,
 } from 'react-aria-components';
 
-import { IconArrowDownAlt, IconArrowLeftAlt, IconArrowLeftDoubleAlt } from '@Components/svg';
+import IconArrowDownAlt from '@Components/svg/IconArrowDownAlt';
+import IconArrowLeftAlt from '@Components/svg/IconArrowLeftAlt';
+import IconArrowLeftDoubleAlt from '@Components/svg/IconArrowLeftDoubleAlt';
 
 import styles from './InputDatePicker.module.scss';
 

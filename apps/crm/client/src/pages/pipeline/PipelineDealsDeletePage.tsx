@@ -3,10 +3,11 @@ import { SubmitHandler } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
-import { FormProvider } from '@Components/react-hook-form';
-import { ScrumboardCardStyles } from '@Features/scrumboard';
+import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
 import { deleteAllDealsInStage } from '@Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch } from '@Redux/hooks';
+
+import ScrumboardCardStyles from '@Features/scrumboard/ScrumboardCard.module.scss';
 
 function PiplineDealsDeletePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);

@@ -1,6 +1,6 @@
 import AriaAnnouncement from '@Components/AriaAnnouncement';
 import OutletPortalTransition from '@Components/react-transition-group/OutletPortalTransition';
-import { ScrumboardPipeline } from '@Features/scrumboard';
+import ScrumboardPipeline from '@Features/scrumboard/ScrumboardPipeline';
 import { useReduxSelector } from '@Redux/hooks';
 import { selectorAriaEventsPipeline } from '@Redux/reducers/uiSlice';
 

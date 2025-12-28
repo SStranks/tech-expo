@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 
-import { IconTheme } from '@Components/svg';
+import IconTheme from '@Components/svg/IconTheme';
 import { useReduxDispatch } from '@Redux/hooks';
 
 import { toggleTheme } from './redux/themeSlice';

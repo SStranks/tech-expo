@@ -14,7 +14,8 @@ import {
 } from 'react-aria-components';
 import { FieldValues, UseFormTrigger } from 'react-hook-form';
 
-import { IconArrowDownAlt, IconClose } from '@Components/svg';
+import IconArrowDownAlt from '@Components/svg/IconArrowDownAlt';
+import IconClose from '@Components/svg/IconClose';
 
 import styles from './InputComboTag.module.scss';
 

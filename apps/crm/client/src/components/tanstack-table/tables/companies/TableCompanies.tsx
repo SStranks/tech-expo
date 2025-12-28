@@ -11,12 +11,15 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { TableCompaniesCardLower, TableCompaniesCardUpper, TableGridCard } from '@Components/tanstack-table/cards';
-import { TableControlsFooter, TableControlsHeader } from '@Components/tanstack-table/controls';
-import { TableGridView, TableListView } from '@Components/tanstack-table/views';
+import TableCompaniesCardLower from '@Components/tanstack-table/cards/companies/TableCompaniesCardLower';
+import TableCompaniesCardUpper from '@Components/tanstack-table/cards/companies/TableCompaniesCardUpper';
+import TableGridCard from '@Components/tanstack-table/cards/TableGridCard';
+import ColumnCompanies from '@Components/tanstack-table/columns/ColumnCompanies';
+import TableControlsFooter from '@Components/tanstack-table/controls/ui/TableControlsFooter';
+import TableControlsHeader from '@Components/tanstack-table/controls/ui/TableControlsHeader';
+import TableGridView from '@Components/tanstack-table/views/TableGridView';
+import TableListView from '@Components/tanstack-table/views/TableListView';
 import { useReactTable } from '@Lib/tanstack';
-
-import { ColumnCompanies } from '../../columns';
 
 import styles from './TableCompanies.module.scss';
 

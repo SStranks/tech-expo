@@ -3,7 +3,7 @@ import type { Updater } from '@tanstack/react-table';
 import { useContext } from 'react';
 import { Button, Key, Label, ListBox, ListBoxItem, Popover, Select, SelectStateContext } from 'react-aria-components';
 
-import { IconListDownArrow } from '@Components/svg';
+import IconListDownArrow from '@Components/svg/IconListDownArrow';
 
 import styles from './ButtonPaginatorRowLimit.module.scss';
 

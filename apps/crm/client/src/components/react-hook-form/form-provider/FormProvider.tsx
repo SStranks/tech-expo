@@ -3,18 +3,16 @@ import type { DefaultValues, FieldValues, Mode, SubmitHandler } from 'react-hook
 import { PropsWithChildren, useId } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import {
-  FormProviderCombo,
-  FormProviderComboTag,
-  FormProviderDatePicker,
-  FormProviderInput,
-  FormProviderNumber,
-  FormProviderSelect,
-  FormProviderSubmitButton,
-  FormProviderTagGroup,
-  FormProviderTextArea,
-  FormProviderTimeField,
-} from './';
+import FormProviderCombo from './components/FormProviderCombo';
+import FormProviderComboTag from './components/FormProviderComboTag';
+import FormProviderDatePicker from './components/FormProviderDatePicker';
+import FormProviderInput from './components/FormProviderInput';
+import FormProviderNumber from './components/FormProviderNumber';
+import FormProviderSelect from './components/FormProviderSelect';
+import FormProviderSubmitButton from './components/FormProviderSubmitButton';
+import FormProviderTagGroup from './components/FormProviderTagGroup';
+import FormProviderTextArea from './components/FormProviderTextArea';
+import FormProviderTimeField from './components/FormProviderTimeField';
 
 interface IProps<T extends FieldValues> {
   defaultValues?: DefaultValues<T>;

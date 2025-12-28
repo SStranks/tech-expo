@@ -2,7 +2,7 @@ import type { CoreRow } from '@tanstack/react-table';
 
 import type { ITableDataContacts } from '@Data/MockData';
 
-import { ContactStatus } from '@Components/tanstack-table/elements';
+import ContactStatus from '@Components/tanstack-table/elements/ContactStatus';
 
 import TableContactsOptionBtn from './TableContactsOptionBtn';
 

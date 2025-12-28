@@ -1,4 +1,4 @@
-import { IconCirclePlus } from '@Components/svg';
+import IconCirclePlus from '@Components/svg/IconCirclePlus';
 
 import styles from './Buttons.module.scss';
 

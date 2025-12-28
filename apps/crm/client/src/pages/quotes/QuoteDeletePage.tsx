@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
-import { TableQuotesDelete } from '@Components/tanstack-table/tables';
-import { StylesTableListView } from '@Components/tanstack-table/views';
+import TableQuotesDelete from '@Components/tanstack-table/tables/quotes/TableQuotesDelete';
+
+import StylesTableListView from '@Components/tanstack-table/views/TableListView.module.scss';
 
 function QuoteDeletePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);

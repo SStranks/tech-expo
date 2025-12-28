@@ -1,6 +1,6 @@
 import type { SortDirection } from '@tanstack/react-table';
 
-import { IconSortVertical } from '@Components/svg';
+import IconSortVertical from '@Components/svg/IconSortVertical';
 
 import styles from './SortRowControl.module.scss';
 

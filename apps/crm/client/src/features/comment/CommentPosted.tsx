@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
-import { ButtonCancel, ButtonSave } from '@Components/buttons';
-import { UserCircle } from '@Components/general';
+import ButtonCancel from '@Components/buttons/ButtonCancel';
+import ButtonSave from '@Components/buttons/ButtonSave';
+import UserCircle from '@Components/general/UserCircle';
 // TEMP DEV: .
 import userImage from '@Img/image-35.jpg';
 
 import styles from './CommentPosted.module.scss';
+
 const userName = 'Creed Bob';
 const dateTime = 'April 27, 2024 - 2:27pm';
 
@@ -67,7 +69,7 @@ function CommentPosted(): React.JSX.Element {
             </button>
           )}
           {editActive && <ButtonCancel onClick={cancelBtnClickHandler} />}
-          {editActive && <ButtonSave onClick={saveBtnClickHanlder} />}
+          {editActive && <ButtonSave onClick={saveBtnClickHanlder} name="" />}
         </div>
       </div>
     </div>

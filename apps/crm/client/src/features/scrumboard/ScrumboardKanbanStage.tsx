@@ -3,7 +3,10 @@ import type { KanbanStage, KanbanTask } from '@Data/MockScrumboardKanban';
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { useEffect, useRef, useState } from 'react';
 
-import { ScrumboardAddCard, ScrumboardColumnAddBtn, ScrumboardColumnOptionsBtn, ScrumboardKanbanTask } from './index';
+import ScrumboardAddCard from './components/ScrumboardAddCard';
+import ScrumboardColumnAddBtn from './components/ScrumboardColumnAddBtn';
+import ScrumboardColumnOptionsBtn from './components/ScrumboardColumnOptionsBtn';
+import ScrumboardKanbanTask from './ScrumboardKanbanTask';
 import { createKanbanColumnTargetData } from './utils/pragmaticDndValidation';
 
 import styles from './ScrumboardColumn.module.scss';
@@ -53,15 +56,7 @@ function ScrumboardKanbanColumn(props: Props): React.JSX.Element {
       </div>
       <div className={styles.column__cards}>
         {tasks.map((task, i) => {
-          return (
-            <ScrumboardKanbanTask
-              key={task.id}
-              task={task}
-              taskIndex={i}
-              columnId={column.id}
-              columnTitle={column.title}
-            />
-          );
+          return <ScrumboardKanbanTask key={task.id} task={task} taskIndex={i} stage={column} />;
         })}
         {tasks.length === 0 && <ScrumboardAddCard columnId={column.id} />}
       </div>

@@ -10,10 +10,9 @@ import {
 } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { TableListEmbeddedView } from '@Components/tanstack-table/views';
+import ColumnCompaniesDeals from '@Components/tanstack-table/columns/ColumnCompaniesDeals';
+import TableListEmbeddedView from '@Components/tanstack-table/views/TableListEmbeddedView';
 import { useReactTable } from '@Lib/tanstack';
-
-import { ColumnCompaniesDeals } from '../../columns';
 
 interface IProps {
   tableData: ITableDataDeals[];

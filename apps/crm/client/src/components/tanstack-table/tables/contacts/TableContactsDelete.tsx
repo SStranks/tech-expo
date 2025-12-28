@@ -1,8 +1,8 @@
 import { getCoreRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { ColumnContactsDelete } from '@Components/tanstack-table/columns';
-import { TableModalView } from '@Components/tanstack-table/views';
+import ColumnContactsDelete from '@Components/tanstack-table/columns/ColumnContactsDelete';
+import TableModalView from '@Components/tanstack-table/views/TableModalView';
 import { ITableDataContacts } from '@Data/MockData';
 import { useReactTable } from '@Lib/tanstack';
 

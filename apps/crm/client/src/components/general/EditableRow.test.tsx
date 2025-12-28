@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { IconAdministration } from '@Components/svg';
+import IconAdministration from '@Components/svg/IconAdministration';
 
 import EditableRow from './EditableRow';
 

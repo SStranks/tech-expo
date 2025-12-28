@@ -2,8 +2,8 @@ import { createColumnHelper } from '@tanstack/react-table';
 
 import { ITableDataDeals } from '@Data/MockData';
 
-import { RowActionsControl } from '../controls';
-import { DealParticipants } from '../elements';
+import RowActionsControl from '../controls/actions-row/RowActionsControl';
+import DealParticipants from '../elements/DealParticipants';
 
 const columnHelper = createColumnHelper<ITableDataDeals>();
 

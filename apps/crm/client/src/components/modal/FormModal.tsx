@@ -1,6 +1,9 @@
 import { createContext, PropsWithChildren, useContext, useMemo, useRef } from 'react';
 
-import { ButtonCancel, ButtonClose, ButtonDelete, ButtonOkay } from '@Components/buttons';
+import ButtonCancel from '@Components/buttons/ButtonCancel';
+import ButtonClose from '@Components/buttons/ButtonClose';
+import ButtonDelete from '@Components/buttons/ButtonDelete';
+import ButtonOkay from '@Components/buttons/ButtonOkay';
 import usePortalClose from '@Hooks/usePortalClose';
 
 import styles from './FormModal.module.scss';

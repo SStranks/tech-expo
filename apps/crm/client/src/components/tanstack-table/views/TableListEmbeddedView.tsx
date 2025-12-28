@@ -1,6 +1,8 @@
 import { flexRender, type Table, Updater } from '@tanstack/react-table';
 
-import { FilterRowControl, PaginatorRangeControl, SortRowControl } from '../controls';
+import FilterRowControl from '../controls/filter-row/FilterRowControl';
+import PaginatorRangeControl from '../controls/pagination/PaginatorRangeControl';
+import SortRowControl from '../controls/sort-row/SortRowControl';
 import { useTableDragScroll } from '../hooks/useTableDragScroll';
 
 import styles from './TableListEmbeddedView.module.scss';

@@ -1,9 +1,9 @@
 import type { ColumnFiltersState } from '@tanstack/react-table';
 
 import ListGridToggle from '@Components/buttons/list-grid-toggle/ListGridToggle';
-import { IconCirclePlus } from '@Components/svg';
+import IconCirclePlus from '@Components/svg/IconCirclePlus';
 
-import { GlobalFilterControl } from '../';
+import GlobalFilterControl from '../global-filter/GlobalFilterControl';
 
 import styles from './TableControlsHeader.module.scss';
 

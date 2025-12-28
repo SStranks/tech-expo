@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
-import { FormProvider } from '@Components/react-hook-form';
+import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
 import { GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
 
 /*

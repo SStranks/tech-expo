@@ -5,12 +5,13 @@ import { memo, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useReduxSelector } from '@Redux/hooks';
 
-import { ScrumboardColumnAddBtn, ScrumboardPipelineCard } from './index';
+import ScrumboardColumnAddBtn from './components/ScrumboardColumnAddBtn';
 import {
   makeSelectorDealIdsSortedForStage,
   makeSelectorDealsTotalForStage,
   makeSelectorStageById,
 } from './redux/pipelineSlice';
+import ScrumboardPipelineDeal from './ScrumboardPipelineDeal';
 import { createPipelineStageTargetData } from './utils/pragmaticDndValidation';
 
 import styles from './ScrumboardColumn.module.scss';
@@ -65,7 +66,7 @@ function ScrumboardPipelineStageLost({ stageId }: Props): React.JSX.Element {
       </div>
       <div className={styles.column__cards}>
         {dealIdsLexiSorted.map((dealId, i) => {
-          return <ScrumboardPipelineCard key={dealId} dealId={dealId} dealIndex={i} stage={stage} dealStatus="lost" />;
+          return <ScrumboardPipelineDeal key={dealId} dealId={dealId} dealIndex={i} stage={stage} dealStatus="lost" />;
         })}
       </div>
     </div>

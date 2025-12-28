@@ -1,6 +1,7 @@
 import { useId } from 'react';
 
-import { IconCircleInfo, IconEye } from '@Components/svg';
+import IconCircleInfo from '@Components/svg/IconCircleInfo';
+import IconEye from '@Components/svg/IconEye';
 
 import InputUx from '../InputUx';
 
@@ -18,7 +19,7 @@ function InputPasswordSkeleton(props: IProps): React.JSX.Element {
   return (
     <div className={`${styles.container} ${skeleton.container}`}>
       <div className={skeleton.wrapper}>
-        <InputUx name="password" label={label} id={passwordId} defaultValue={undefined} rules={{}}>
+        <InputUx name="password" label={label} id={passwordId} defaultValue={undefined} rules={{}} disabled={false}>
           <input
             type="password"
             id={passwordId}

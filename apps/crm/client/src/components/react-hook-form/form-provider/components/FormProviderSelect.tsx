@@ -5,8 +5,9 @@ import type { TValidationRules } from '@Components/react-hook-form/validationRul
 import { useId } from 'react';
 import { Controller, useFormContext, useFormState } from 'react-hook-form';
 
-import { InputSelect } from '@Components/aria-inputs';
-import { InputParser, InputUx } from '@Components/react-hook-form';
+import InputSelect from '@Components/aria-inputs/select/InputSelect';
+import InputParser from '@Components/react-hook-form/InputParser';
+import InputUx from '@Components/react-hook-form/InputUx';
 
 interface IProps {
   name: string;
@@ -34,7 +35,7 @@ function FormProviderSelect<T extends object>({
       name={name}
       rules={rules}
       render={({ field: { name, onBlur, onChange, value }, fieldState: { invalid: isInvalid } }) => (
-        <InputUx id={id} label={label} name={name} rules={rules} defaultValue={defaultValue}>
+        <InputUx id={id} label={label} name={name} rules={rules} defaultValue={defaultValue} disabled={false}>
           <InputParser
             ReactAriaComponent={InputSelect}
             value={value}

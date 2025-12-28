@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { UserCircle } from '@Components/general';
+import UserCircle from '@Components/general/UserCircle';
 
 import { createKanbanCardDropData } from './utils/pragmaticDndValidation';
 
@@ -70,7 +70,8 @@ function ScrumBoardKanbanCard({ stage, task, taskIndex, taskStatus }: Props): Re
       draggable>
       <div className={styles.card__upper}>
         <span className={styles.dealInfo__company}>{task.title}</span>
-        {/* <ScrumboardCardOptionsBtn taskId={task.id} columnId={stage.id} taskStatus={taskStatus} /> TODO: Make new component, separate from the Pipeline one */}
+        {/* <ScrumboardCardOptionsBtn taskId={task.id} columnId={stage.id} taskStatus={taskStatus} />  */}
+        {/* TODO: Make new component, separate from the Pipeline one */}
       </div>
       <div className={styles.card__lower}>
         <div className={styles.card__lower__details}>

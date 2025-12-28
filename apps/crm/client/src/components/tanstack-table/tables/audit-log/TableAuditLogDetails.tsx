@@ -3,8 +3,8 @@ import type { ITableAuditLogDetails } from '@Data/MockData';
 import { getCoreRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { ColumnAuditLogDetails } from '@Components/tanstack-table/columns';
-import { TableModalView } from '@Components/tanstack-table/views';
+import ColumnAuditLogDetails from '@Components/tanstack-table/columns/ColumnAuditLogDetails';
+import TableModalView from '@Components/tanstack-table/views/TableModalView';
 import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableAuditLog.module.scss';

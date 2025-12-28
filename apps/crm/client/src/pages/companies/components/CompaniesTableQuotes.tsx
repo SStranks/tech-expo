@@ -1,7 +1,7 @@
-import { ButtonAddEntry } from '@Components/buttons';
-import { TableSingleColumn } from '@Components/general';
-import { IconBillQuote } from '@Components/svg';
-import { TableCompaniesQuotes } from '@Components/tanstack-table/tables';
+import ButtonAddEntry from '@Components/buttons/ButtonAddEntry';
+import TableSingleColumn from '@Components/general/TableSingleColumn';
+import IconBillQuote from '@Components/svg/IconBillQuote';
+import TableCompaniesQuotes from '@Components/tanstack-table/tables/companies/TableCompaniesQuotes';
 import { tableDataQuotes } from '@Data/MockData';
 
 import styles from './CompaniesTableQuotes.module.scss';

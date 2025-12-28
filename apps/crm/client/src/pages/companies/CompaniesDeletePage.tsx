@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
-import { TableCompaniesDelete } from '@Components/tanstack-table/tables';
-import { StylesTableListView } from '@Components/tanstack-table/views';
+import TableCompaniesDelete from '@Components/tanstack-table/tables/companies/TableCompaniesDelete';
+
+import StylesTableListView from '@Components/tanstack-table/views/TableListView.module.scss';
 
 function CompaniesDeletePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);

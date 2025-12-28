@@ -1,4 +1,5 @@
-import { IconArrowRightUp, IconNotebook } from '@Components/svg';
+import IconArrowRightUp from '@Components/svg/IconArrowRightUp';
+import IconNotebook from '@Components/svg/IconNotebook';
 
 import styles from './SearchResult.module.scss';
 

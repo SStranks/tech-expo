@@ -1,4 +1,4 @@
-import type { IIcon } from '@Components/svg';
+import type { SvgIcon } from '@Components/svg';
 
 import { useId, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -8,7 +8,7 @@ import styles from './MenuLink.module.scss';
 interface IProps {
   name: string;
   href: string;
-  Icon: IIcon;
+  Icon: SvgIcon;
   minimize: boolean | undefined;
   index: number;
 }

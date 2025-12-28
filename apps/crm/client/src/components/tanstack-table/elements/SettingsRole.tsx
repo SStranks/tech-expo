@@ -1,6 +1,7 @@
 import type { ITableSettingsContacts } from '@Data/MockData';
 
-import { IconUser, IconUserShield } from '@Components/svg';
+import IconUser from '@Components/svg/IconUser';
+import IconUserShield from '@Components/svg/IconUserShield';
 
 import styles from './SettingsRole.module.scss';
 

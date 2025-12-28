@@ -1,7 +1,7 @@
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-import { ReactPortal } from '@Components/index';
+import ReactPortal from '@Components/modal/ReactPortal';
 
 import styles from './ToolTip.module.scss';
 

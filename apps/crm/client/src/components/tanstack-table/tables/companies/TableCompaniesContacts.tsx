@@ -3,10 +3,9 @@ import type { ITableDataContacts } from '@Data/MockData';
 import { ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getPaginationRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { TableListEmbeddedView } from '@Components/tanstack-table/views';
+import ColumnCompaniesContacts from '@Components/tanstack-table/columns/ColumnCompaniesContacts';
+import TableListEmbeddedView from '@Components/tanstack-table/views/TableListEmbeddedView';
 import { useReactTable } from '@Lib/tanstack';
-
-import { ColumnCompaniesContacts } from '../../columns';
 
 interface IProps {
   tableData: ITableDataContacts[];

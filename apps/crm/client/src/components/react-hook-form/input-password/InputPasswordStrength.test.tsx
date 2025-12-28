@@ -6,7 +6,7 @@ import { vi } from 'vitest';
 import { MAX_PASSWORD } from '@Lib/__mocks__/zxcvbn';
 import { usePasswordStrength } from '@Lib/zxcvbn';
 
-import { FormProvider } from '../form-provider';
+import FormProvider from '../form-provider/FormProvider';
 import { VALIDATION_MESSAGES } from '../validationRules';
 import InputPasswordStrength, { ARIA_LIVE_MESSAGES } from './InputPasswordStrength';
 

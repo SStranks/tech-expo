@@ -2,7 +2,8 @@ import { createColumnHelper } from '@tanstack/react-table';
 
 import { ITableDataQuotes } from '@Data/MockData';
 
-import { CompanySingle, QuoteStage } from '../elements';
+import CompanySingle from '../elements/CompanySingle';
+import QuoteStage from '../elements/QuoteStage';
 
 const columnHelper = createColumnHelper<ITableDataQuotes>();
 
