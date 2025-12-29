@@ -38,10 +38,10 @@ interface FocusContext {
   setFocusedId: React.Dispatch<React.SetStateAction<PipelineDeal['id'] | undefined>>;
 }
 
-const FocusContext = createContext({} as FocusContext);
+const FocusContext = createContext<FocusContext | null>(null);
 export const useFocusContext = () => {
   const context = useContext(FocusContext);
-  if (!context) throw new Error('Context out of scope of ScrumboardPipeline provider');
+  if (!context) throw new Error('useFocusContext out of scope of ScrumboardPipeline.Provider');
   return context;
 };
 
@@ -66,10 +66,10 @@ interface PipelineContext {
   }) => Promise<void>;
 }
 
-const PipelineContext = createContext({} as PipelineContext);
+const PipelineContext = createContext<PipelineContext | null>(null);
 export const usePipeineContext = () => {
   const context = useContext(PipelineContext);
-  if (!context) throw new Error('Context out of scope of ScrumboardPipeline provider');
+  if (!context) throw new Error('usePipeineContext out of scope of ScrumboardPipeline.Provider');
   return context;
 };
 

@@ -18,6 +18,7 @@ import { authInitialize } from '@Redux/reducers/authSlice';
 import { createCoreServices } from '@Services/servicesCore';
 import { createReduxServices } from '@Services/servicesRedux';
 import FallbackUi from '@Components/ui/FallbackUi';
+import { ServicesContext } from '@Context/servicesContext';
 
 // Initialization
 globalErrorHandler();
@@ -40,7 +41,9 @@ root.render(
         <BrowserRouter>
           <ProviderRedux store={reduxStore}>
             <ApolloProvider client={ApolloClient}>
-              <App />
+              <ServicesContext.Provider value={{ serviceHttp: coreServices.serviceHttp }}>
+                <App />
+              </ServicesContext.Provider>
             </ApolloProvider>
           </ProviderRedux>
         </BrowserRouter>

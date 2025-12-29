@@ -2,7 +2,7 @@ import { useId } from 'react';
 import { FormProvider, useForm, useFormState } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import { Input } from '@Components/react-hook-form';
+import Input from '@Components/react-hook-form/input/Input';
 import InputUx from '@Components/react-hook-form/InputUx';
 import { EMAIL_RULES, PASSWORD_RULES } from '@Components/react-hook-form/validationRules';
 import { useReduxDispatch } from '@Redux/hooks';
@@ -10,16 +10,16 @@ import { login } from '@Redux/reducers/authSlice';
 
 import styles from './LoginPage.module.scss';
 
-interface IInputs {
+interface DefaultValues {
   email: string;
   password: string;
 }
 
 // TODO:  Think about security; remembering credentials?
 function LoginPage(): React.JSX.Element {
-  const { control, ...methods } = useForm<IInputs>({ defaultValues: { email: '', password: '' } });
+  const { control, ...methods } = useForm<DefaultValues>({ defaultValues: { email: '', password: '' } });
   const { isSubmitting } = useFormState({ control });
-  // } = useForm<IInputs>({ defaultValues: { email: 'user@email.com', password: 'crmuser' }, mode: 'onChange' });
+  // } = useForm<DefaultValues>({ defaultValues: { email: 'user@email.com', password: 'crmuser' }, mode: 'onChange' });
   // DANGER: // TEMP DEV:  Remove email and password default values
   const navigate = useNavigate();
   const location = useLocation();
@@ -46,10 +46,10 @@ function LoginPage(): React.JSX.Element {
       <div className={styles.formContainer}>
         <form name="sign-in form" onSubmit={onSubmit} aria-labelledby="heading" className={styles.loginForm} noValidate>
           <h1 id="heading">Sign In</h1>
-          <InputUx id={emailId} name="email" label="Email address" rules={EMAIL_RULES}>
+          <InputUx id={emailId} name="email" label="Email address" rules={EMAIL_RULES} disabled={false}>
             <Input id={emailId} type="email" name="email" rules={EMAIL_RULES} autoComplete="email" />
           </InputUx>
-          <InputUx id={passwordId} name="password" label="Password" rules={PASSWORD_RULES}>
+          <InputUx id={passwordId} name="password" label="Password" rules={PASSWORD_RULES} disabled={false}>
             <Input
               id={passwordId}
               type="password"

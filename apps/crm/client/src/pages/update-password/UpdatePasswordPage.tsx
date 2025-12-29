@@ -4,11 +4,15 @@ import { lazy, Suspense, useId } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { Input } from '@Components/react-hook-form';
 import InputPasswordSkeleton from '@Components/react-hook-form/input-password/InputPasswordSkeleton';
+import Input from '@Components/react-hook-form/input/Input';
 import InputUx from '@Components/react-hook-form/InputUx';
-import { PASSWORDCONFIRM_RULES, VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
-import serviceHttp from '@Services/serviceHttp';
+import {
+  PASSWORD_RULES,
+  PASSWORDCONFIRM_RULES,
+  VALIDATION_MESSAGES,
+} from '@Components/react-hook-form/validationRules';
+import { useServicesContext } from '@Context/servicesContext';
 
 import styles from './UpdatePasswordPage.module.scss';
 
@@ -21,23 +25,27 @@ const InputPasswordStrength = lazy(
   () => import('@Components/react-hook-form/input-password/InputPasswordStrength')
 ) as TInputPasswordStrength;
 
-export interface IInputs {
-  'confirm-password': string;
-  'new-password': string;
+export interface DefaultValues {
+  newPassword: string;
+  newPasswordConfirm: string;
+  oldPassword: string;
 }
 
-const defaultValues: IInputs = {
-  'confirm-password': '',
-  'new-password': '',
+const defaultValues: DefaultValues = {
+  newPassword: '',
+  newPasswordConfirm: '',
+  oldPassword: '',
 };
 
 function UpdatePasswordPage(): React.JSX.Element {
-  const methods = useForm<IInputs>({ defaultValues });
+  const methods = useForm<DefaultValues>({ defaultValues });
   const navigate = useNavigate();
   const confirmPasswordId = useId();
+  const oldPasswordId = useId();
+  const { serviceHttp } = useServicesContext();
 
   const onSubmit = methods.handleSubmit(async (data) => {
-    serviceHttp.accountUpdatePassword({ ...data });
+    serviceHttp.account.updatepassword({ ...data });
     navigate('/login');
   });
 
@@ -53,8 +61,8 @@ function UpdatePasswordPage(): React.JSX.Element {
           <h1 id="heading">Set New Password</h1>
           <Suspense fallback={<InputPasswordSkeleton label="Password" />}>
             <InputPasswordStrength
-              name="new-password"
-              defaultValue={defaultValues?.['new-password']}
+              name="newPassword"
+              defaultValue={defaultValues?.['newPassword']}
               reveal={false}
               label="Password"
             />
@@ -62,21 +70,37 @@ function UpdatePasswordPage(): React.JSX.Element {
           <InputUx
             id={confirmPasswordId}
             label="Confirm Password"
-            name="confirm-password"
+            name="newPasswordConfirm"
             rules={PASSWORDCONFIRM_RULES}
-            defaultValue={defaultValues?.['confirm-password']}>
+            defaultValue={defaultValues?.['newPasswordConfirm']}
+            disabled={false}>
             <Input
               id={confirmPasswordId}
               type="password"
-              name="confirm-password"
+              name="newPasswordConfirm"
               rules={{
                 ...PASSWORDCONFIRM_RULES,
                 validate: {
                   confirm: (confirmPassword) =>
-                    confirmPassword === methods.getValues('new-password') ||
+                    confirmPassword === methods.getValues('newPassword') ||
                     VALIDATION_MESSAGES.PASSWORDCONFIRM_RULES.validate.confirm,
                 },
               }}
+              autoComplete="new-password"
+            />
+          </InputUx>
+          <InputUx
+            id={oldPasswordId}
+            label="Old Password"
+            name="oldPassword"
+            rules={PASSWORD_RULES}
+            defaultValue={defaultValues?.['oldPassword']}
+            disabled={false}>
+            <Input
+              id={confirmPasswordId}
+              type="password"
+              name="oldPassword"
+              rules={{ ...PASSWORD_RULES }}
               autoComplete="new-password"
             />
           </InputUx>

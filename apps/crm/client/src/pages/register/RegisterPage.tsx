@@ -4,8 +4,11 @@ import { lazy, Suspense, useId } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { EMAIL_RULES, Input, InputPasswordSkeleton, InputUx } from '@Components/react-hook-form';
-import serviceHttp from '@Services/serviceHttp';
+import InputPasswordSkeleton from '@Components/react-hook-form/input-password/InputPasswordSkeleton';
+import Input from '@Components/react-hook-form/input/Input';
+import InputUx from '@Components/react-hook-form/InputUx';
+import { EMAIL_RULES } from '@Components/react-hook-form/validationRules';
+import { useServicesContext } from '@Context/servicesContext';
 
 import styles from './RegisterPage.module.scss';
 
@@ -14,23 +17,24 @@ const InputPasswordStrength = lazy(
   () => import('@Components/react-hook-form/input-password/InputPasswordStrength')
 ) as TInputPasswordStrength;
 
-export interface IInputs {
+export interface DefaultValues {
   email: string;
   password: string;
 }
 
-const defaultValues: IInputs = {
+const defaultValues: DefaultValues = {
   email: '',
   password: '',
 };
 
 function RegisterPage(): React.JSX.Element {
-  const methods = useForm<IInputs>({ defaultValues, mode: 'onChange' });
+  const methods = useForm<DefaultValues>({ defaultValues, mode: 'onChange' });
   const navigate = useNavigate();
   const emailId = useId();
+  const { serviceHttp } = useServicesContext();
 
-  const onSubmit = methods.handleSubmit(async (data: IInputs) => {
-    serviceHttp.accountLogin({ ...data });
+  const onSubmit = methods.handleSubmit(async (data) => {
+    serviceHttp.account.login({ ...data });
     navigate('/login');
   });
 
@@ -49,7 +53,8 @@ function RegisterPage(): React.JSX.Element {
             id={emailId}
             label="Email address"
             defaultValue={defaultValues.email}
-            rules={EMAIL_RULES}>
+            rules={EMAIL_RULES}
+            disabled={false}>
             <Input id={emailId} type="email" rules={EMAIL_RULES} name="email" autoComplete="email" />
           </InputUx>
           <Suspense fallback={<InputPasswordSkeleton label="Password" />}>

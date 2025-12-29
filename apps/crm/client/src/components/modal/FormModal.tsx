@@ -8,22 +8,27 @@ import usePortalClose from '@Hooks/usePortalClose';
 
 import styles from './FormModal.module.scss';
 
-interface IFormModalContext {
+interface FormModalContext {
   setPortalActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const FormModalContext = createContext({} as IFormModalContext);
+const FormModalContext = createContext<FormModalContext | null>(null);
+const useFormModalContext = () => {
+  const context = useContext(FormModalContext);
+  if (!context) throw new Error('useFormModalContext out of scope of FormModalContext.Provider');
+  return context;
+};
 
-interface IProps {
+type Props = {
   portalActive: boolean;
   setPortalActive: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 function FormModal({
   children = undefined,
   portalActive,
   setPortalActive: setPortalActiveProp,
-}: PropsWithChildren<IProps>): React.JSX.Element {
+}: PropsWithChildren<Props>): React.JSX.Element {
   const modalContentRef = useRef<HTMLDivElement>(null);
   usePortalClose(portalActive, setPortalActiveProp, modalContentRef);
 
@@ -56,7 +61,7 @@ function Footer({ children }: PropsWithChildren): React.JSX.Element {
 }
 
 function CloseButton(): React.JSX.Element {
-  const { setPortalActive } = useContext(FormModalContext);
+  const { setPortalActive } = useFormModalContext();
 
   const closeModal = () => {
     setPortalActive(false);
@@ -66,7 +71,7 @@ function CloseButton(): React.JSX.Element {
 }
 
 function CancelButton(): React.JSX.Element {
-  const { setPortalActive } = useContext(FormModalContext);
+  const { setPortalActive } = useFormModalContext();
 
   const closeModal = () => {
     setPortalActive(false);
@@ -75,7 +80,7 @@ function CancelButton(): React.JSX.Element {
 }
 
 function OkayButton(): React.JSX.Element {
-  const { setPortalActive } = useContext(FormModalContext);
+  const { setPortalActive } = useFormModalContext();
 
   const closeModal = () => {
     setPortalActive(false);

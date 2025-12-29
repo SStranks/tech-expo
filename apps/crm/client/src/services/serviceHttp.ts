@@ -2,7 +2,6 @@ import type { AxiosClient } from '@Lib/axios';
 import type {
   DeleteAccountRequestDTO,
   ForgotPasswordRequestDTO,
-  FreezeAccountRequestDTO,
   IdentifyResponse,
   LoginRequestDTO,
   LoginResponse,
@@ -54,10 +53,9 @@ export class ServiceHttp implements ServiceHttp {
     },
 
     freeze: async (): Promise<ApiResponseSuccess> => {
-      const response = await this.ApiServiceClient.patch<ApiResponseSuccess, FreezeAccountRequestDTO>(
-        '/api/users/freezeAccount',
-        { withCredentials: true }
-      );
+      const response = await this.ApiServiceClient.get<ApiResponseSuccess>('/api/users/freezeAccount', {
+        withCredentials: true,
+      });
       return response;
     },
 
