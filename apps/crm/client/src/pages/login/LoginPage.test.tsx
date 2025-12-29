@@ -3,15 +3,23 @@ import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 
+const loginMock = vi.fn();
+vi.mock('@Services/serviceHttp', () => {
+  return {
+    ServiceHttp: vi.fn().mockImplementation(() => ({
+      account: {
+        login: loginMock,
+      },
+    })),
+  };
+});
+
 import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
 import { renderWithProviders } from '@Redux/utils';
-import serviceHttp from '@Services/serviceHttp';
 
 import LoginPage from './LoginPage';
 
 const { EMAIL_RULES } = VALIDATION_MESSAGES;
-
-vi.spyOn(serviceHttp, 'accountLogin').mockImplementation(async (data) => data);
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
@@ -68,7 +76,7 @@ describe('Functionality', () => {
 
     await user.click(signInButton);
 
-    expect(serviceHttp.accountLogin).not.toHaveBeenCalled(); // Form submission
+    expect(loginMock).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Input validation; error message on invalid email pattern', async () => {
@@ -88,7 +96,7 @@ describe('Functionality', () => {
     await user.click(signInButton);
 
     expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern);
-    expect(serviceHttp.accountLogin).not.toHaveBeenCalled(); // Form submission
+    expect(loginMock).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Submission success', async () => {
@@ -109,7 +117,7 @@ describe('Functionality', () => {
 
     expect(screen.queryAllByRole('alert')).toHaveLength(0);
 
-    expect(serviceHttp.accountLogin).toHaveBeenCalledTimes(1); // Form submission
-    expect(serviceHttp.accountLogin).toHaveBeenCalledWith({ email: 'admin@admin.com', password: '12345' });
+    expect(loginMock).toHaveBeenCalledTimes(1); // Form submission
+    expect(loginMock).toHaveBeenCalledWith({ email: 'admin@admin.com', password: '12345' });
   });
 });

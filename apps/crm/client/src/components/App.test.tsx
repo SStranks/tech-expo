@@ -1,16 +1,21 @@
-/* eslint-disable perfectionist/sort-imports */
 import { screen } from '@testing-library/react';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 
-import { setupStore } from '@Redux/store';
-import { authenticateUser } from '@Redux/reducers/authSlice';
+import { initialState } from '@Redux/reducers/authSlice';
 import { renderWithProviders } from '@Redux/utils';
 
 import App from './App';
 
 console.error = vi.fn();
 console.warn = vi.fn();
+
+const preloadedState = {
+  auth: {
+    ...initialState,
+    isAuthenticated: true,
+  },
+};
 
 // TODO:  Set auth state as authorized to enable passage to main dashboard.
 describe('Initialization', () => {
@@ -32,14 +37,11 @@ describe('Initialization', () => {
 
 describe('Routes; user logged in', () => {
   test('Address "/" defaults to dashboard as index route', () => {
-    const store = setupStore();
-    store.dispatch(authenticateUser(true));
-
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
         <App />
       </MemoryRouter>,
-      { store }
+      { preloadedState }
     );
 
     // eslint-disable-next-line perfectionist/sort-objects
@@ -49,14 +51,11 @@ describe('Routes; user logged in', () => {
   });
 
   test('Erroneous route defaults back to index route', () => {
-    const store = setupStore();
-    store.dispatch(authenticateUser(true));
-
     renderWithProviders(
       <MemoryRouter initialEntries={['/someErroneousRoute']}>
         <App />
       </MemoryRouter>,
-      { store }
+      { preloadedState }
     );
 
     // eslint-disable-next-line perfectionist/sort-objects

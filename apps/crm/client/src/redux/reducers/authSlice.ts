@@ -12,7 +12,7 @@ import type { ApiResponseSuccess, UUID } from '@Shared/src/types/api/base';
 
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type AuthInitialState = {
+export type AuthInitialState = {
   user: {
     client_id: UUID;
     role: UserRoles;
