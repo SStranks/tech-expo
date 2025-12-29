@@ -1,6 +1,6 @@
-import type { IProps } from './';
+import type { Props } from './';
 
-function IconUser({ svgClass = undefined }: IProps): React.JSX.Element {
+function IconUser({ svgClass = undefined }: Props): React.JSX.Element {
   return (
     <svg
       className={svgClass}

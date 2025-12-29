@@ -1,6 +1,6 @@
-import type { IProps } from './';
+import type { Props } from './';
 
-function IconCircleTriangleRight({ svgClass = undefined }: IProps): React.JSX.Element {
+function IconCircleTriangleRight({ svgClass = undefined }: Props): React.JSX.Element {
   return (
     <svg className={svgClass} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <title>Icon Circle Triangle Right</title>
