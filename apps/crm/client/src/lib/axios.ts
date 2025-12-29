@@ -8,6 +8,7 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios';
 
+import { ENV } from '@Config/env';
 import handleServiceError from '@Services/serviceHttpErrors';
 
 export interface AxiosClient {
@@ -33,7 +34,7 @@ export class AxiosClient implements AxiosClient {
 
   protected createAxiosClient(): AxiosInstance {
     return axios.create({
-      baseURL: `http://${process.env.API_HOST}/`,
+      baseURL: `http://${ENV.apiHost}/`,
       headers: { 'Content-Type': 'application/json' },
       timeout: 5000,
     });

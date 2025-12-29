@@ -1,13 +1,13 @@
 import Rollbar from 'rollbar';
 
-const { NODE_ENV, ROLLBAR_ENABLED, ROLLBAR_POST_CLIENT_ITEM = 'token' } = process.env;
+import { ENV } from '@Config/env';
 
 const rollbarConfig: Rollbar.Configuration = {
-  accessToken: ROLLBAR_POST_CLIENT_ITEM,
+  accessToken: ENV.rollbarPostClientItem,
   captureUncaught: true,
   captureUnhandledRejections: true,
-  enabled: ROLLBAR_ENABLED === 'true',
-  environment: NODE_ENV,
+  enabled: ENV.rollbarEnabled,
+  environment: ENV.mode,
 };
 
 export default new Rollbar(rollbarConfig);

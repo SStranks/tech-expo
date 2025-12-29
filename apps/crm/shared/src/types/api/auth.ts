@@ -21,7 +21,7 @@ export interface RefreshTokenPayload extends JwtPayload {
 }
 
 export interface UserRoleDTO {
-  id: UUID;
+  client_id: UUID;
   role: UserRoles;
 }
 

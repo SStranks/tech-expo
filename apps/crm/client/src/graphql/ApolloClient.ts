@@ -1,8 +1,8 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 
-const { PUBLIC_URL } = process.env;
+import { ENV } from '@Config/env';
 
 export default new ApolloClient({
   cache: new InMemoryCache(),
-  link: new HttpLink({ uri: `http://${PUBLIC_URL}/graphql` }),
+  link: new HttpLink({ uri: `http://${ENV.publicUrl}/graphql` }),
 });

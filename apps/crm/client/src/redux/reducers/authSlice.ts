@@ -6,14 +6,17 @@ import type {
   LoginResponse,
   UpdatePasswordRequestDTO,
   UpdatePasswordResponse,
+  UserRoles,
 } from '@Shared/src/types/api/auth';
-import type { ApiResponseSuccess } from '@Shared/src/types/api/base';
+import type { ApiResponseSuccess, UUID } from '@Shared/src/types/api/base';
 
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type AuthInitialState = {
-  user: string | null;
-  roles: string[];
+  user: {
+    client_id: UUID;
+    role: UserRoles;
+  } | null;
   authTokenExpiry: Date | null;
   isAuthenticated: boolean;
   isInitialized: boolean;
@@ -30,7 +33,6 @@ export const initialState: AuthInitialState = {
   isInitialized: false,
   refreshTokenActivated: false,
   refreshTokenPending: false,
-  roles: [],
   status: 'idle',
   user: null,
 };
@@ -130,12 +132,16 @@ export const authSlice = createSlice({
     clearAuthState(state) {
       state.status = 'idle';
       state.user = null;
-      state.roles = [];
       state.isAuthenticated = false;
       state.authTokenExpiry = null;
       state.authTokenPending = false;
       state.refreshTokenActivated = false;
       state.refreshTokenPending = false;
+    },
+    hydrateAuth(state, action: PayloadAction<IdentifyResponse>) {
+      state.user = action.payload.user;
+      state.isAuthenticated = true;
+      state.status = 'idle';
     },
     setAuthTokenPending(state, action: PayloadAction<AuthInitialState['authTokenPending']>) {
       state.authTokenPending = action.payload;
@@ -157,13 +163,15 @@ export const authSlice = createSlice({
         state.status = 'pending';
       })
       .addCase(identify.rejected, (state) => {
+        state.user = null;
+        state.isInitialized = true;
+        state.isAuthenticated = false;
         state.status = 'idle';
       })
       .addCase(identify.fulfilled, (state, action) => {
-        const { user } = action.payload;
+        authSlice.caseReducers.hydrateAuth(state, action);
+        state.isInitialized = true;
         state.status = 'idle';
-        state.isAuthenticated = true;
-        console.log('C', user);
       })
       .addCase(authInitialize.pending, (state) => {
         state.status = 'pending';
@@ -252,6 +260,7 @@ export const selectorAuthTokenPending = (state: ReduxRootState) => state.auth.au
 export const {
   authenticateUser,
   clearAuthState,
+  hydrateAuth,
   setAuthTokenPending,
   setRefreshTokenActivated,
   setRefreshTokenPending,

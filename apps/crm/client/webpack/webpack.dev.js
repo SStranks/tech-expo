@@ -149,7 +149,7 @@ const DevConfig = {
       },
     }),
     new CopyPlugin({ patterns: [{ from: path.resolve(__dirname, '../public'), noErrorOnMissing: true }] }),
-    new Dotenv({ path: path.resolve(__dirname, '../.env.dev.client') }),
+    new Dotenv({ path: path.resolve(__dirname, '../.env.dev.client'), prefix: 'import.meta.env.' }),
   ],
 };
 

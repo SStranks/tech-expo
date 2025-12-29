@@ -1,35 +1,21 @@
-/* eslint-disable perfectionist/sort-imports */
+import { ApolloProvider } from '@apollo/client/react';
+import { ErrorBoundary, Provider as ProviderRollbar } from '@rollbar/react';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider as ProviderRedux } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { ApolloProvider } from '@apollo/client/react';
-import { ErrorBoundary, Provider as ProviderRollbar } from '@rollbar/react';
 
-// NOTE:  Redux to initialize before App.
-import Rollbar from '@Lib/rollbar';
-import configureReduxStore from '@Redux/store';
+import { initializeApp } from '@Config/initializeApp';
+// eslint-disable-next-line perfectionist/sort-imports -- Redux must initialize before App
 import App from '@Components/App';
+import FallbackUi from '@Components/ui/FallbackUi';
 
 import '@Sass/global-imports.scss';
-import { globalErrorHandler } from '@Config/globalOnError';
-import ApolloClient from '@Graphql/ApolloClient';
-import { authInitialize } from '@Redux/reducers/authSlice';
-import { createCoreServices } from '@Services/servicesCore';
-import { createReduxServices } from '@Services/servicesRedux';
-import FallbackUi from '@Components/ui/FallbackUi';
 import { ServicesContext } from '@Context/servicesContext';
+import ApolloClient from '@Graphql/ApolloClient';
+import Rollbar from '@Lib/rollbar';
 
-// Initialization
-globalErrorHandler();
-const coreServices = createCoreServices();
-const reduxStore = configureReduxStore({
-  serviceHttp: coreServices.serviceHttp,
-});
-const reduxServices = createReduxServices(coreServices, reduxStore);
-
-await reduxStore.dispatch(authInitialize());
-await reduxServices.serviceAuth.initInterceptors();
+const { coreServices, reduxStore } = await initializeApp();
 
 const container = document.querySelector('#root');
 const root = createRoot(container!);

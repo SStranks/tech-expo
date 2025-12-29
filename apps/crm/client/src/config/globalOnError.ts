@@ -1,5 +1,7 @@
+import { ENV } from './env';
+
 export function globalErrorHandler() {
-  if (process.env.NODE_ENV === 'development') {
+  if (ENV.mode === 'development') {
     globalThis.addEventListener('error', ({ colno, error, lineno, message }) => {
       console.error('GlobalErrorHandler:', { colno, error, lineno, message });
     });
