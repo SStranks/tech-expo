@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
-import { FormProvider } from '@Components/react-hook-form';
+import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
 import { GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
 import { createDeal } from '@Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch } from '@Redux/hooks';
@@ -13,7 +13,7 @@ import { useReduxDispatch } from '@Redux/hooks';
 const companiesList = [{ name: 'Microsoft' }, { name: 'Linux' }];
 const ownersList = [{ name: 'Bob' }, { name: 'Dave' }];
 
-type IFormData = {
+type FormFieldData = {
   companyTitle: string;
   dealStage: string;
   dealTitle: string;
@@ -38,18 +38,18 @@ function PipelineDealCreatePage(): React.JSX.Element {
     navigate(-1);
   };
 
-  const onSubmit: SubmitHandler<IFormData> = (data) => {
+  const onSubmit: SubmitHandler<FormFieldData> = (data) => {
     const { companyTitle, dealOwner, dealStage, dealTitle, dealValue } = data;
     const { columnId } = locationState;
     reduxDispatch(
       createDeal({
-        columnId,
         companyTitle,
         dealOwner,
         dealStage,
         dealTitle,
         dealTotal: 0,
         dealValue,
+        stageId: columnId,
       })
     );
     setPortalActiveInternal(false);

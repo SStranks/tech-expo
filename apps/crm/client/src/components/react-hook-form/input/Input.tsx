@@ -11,7 +11,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   type: HTMLInputTypeAttribute;
   id: string;
   name: string;
-  autoComplete: HTMLInputAutoCompleteAttribute;
+  autoComplete?: HTMLInputAutoCompleteAttribute;
   rules: TValidationRules;
 }
 

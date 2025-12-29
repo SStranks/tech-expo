@@ -3,10 +3,11 @@ import { SubmitHandler } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
-import { FormProvider } from '@Components/react-hook-form';
-import { ScrumboardColumnStyles } from '@Features/scrumboard';
+import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
 import { deleteStage } from '@Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch } from '@Redux/hooks';
+
+import ScrumboardColumnStyles from '@Features/scrumboard/ScrumboardColumn.module.scss';
 
 function PiplineStageDeletePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
@@ -30,7 +31,7 @@ function PiplineStageDeletePage(): React.JSX.Element {
   };
 
   const onSubmit: SubmitHandler<Record<string, never>> = () => {
-    reduxDispatch(deleteStage({ columnId: locationState.columnId }));
+    reduxDispatch(deleteStage({ stageId: locationState.columnId }));
     setPortalActiveInternal(false);
     navigate(-1);
   };

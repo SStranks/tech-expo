@@ -3,12 +3,12 @@ import { SubmitHandler } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
-import { FormProvider } from '@Components/react-hook-form';
+import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
 import { GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
 import { updateStage } from '@Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch } from '@Redux/hooks';
 
-type IFormData = {
+type FormFieldData = {
   stageTitle: string;
 };
 
@@ -24,10 +24,10 @@ function PipelineStageUpdatePage(): React.JSX.Element {
     navigate(-1);
   };
 
-  const onSubmit: SubmitHandler<IFormData> = (data) => {
+  const onSubmit: SubmitHandler<FormFieldData> = (data) => {
     const { stageTitle } = data;
-    const columnId = locationState.columnId;
-    reduxDispatch(updateStage({ columnId, stageTitle }));
+    const stageId = locationState.columnId;
+    reduxDispatch(updateStage({ stageId, stageTitle }));
     setPortalActiveInternal(false);
     navigate(-1);
   };

@@ -14,7 +14,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   type: React.HTMLInputTypeAttribute;
   label: string;
   rules?: TValidationRules;
-  autoComplete: string;
+  autoComplete?: string;
 }
 
 function FormProviderInput({
