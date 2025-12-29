@@ -6,9 +6,19 @@ import { describe, test, vi } from 'vitest';
 import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
 import { MAX_PASSWORD } from '@Lib/__mocks__/zxcvbn';
 import { getStrength } from '@Lib/zxcvbn';
-import serviceHttp from '@Services/serviceHttp';
 
 import UpdatePasswordPage from './UpdatePasswordPage';
+
+const updatePasswordMock = vi.fn();
+vi.mock('@Services/serviceHttp', () => {
+  return {
+    ServiceHttp: vi.fn().mockImplementation(() => ({
+      account: {
+        updatepassword: updatePasswordMock,
+      },
+    })),
+  };
+});
 
 const { PASSWORD_STRENGTH_RULES, PASSWORDCONFIRM_RULES } = VALIDATION_MESSAGES;
 
@@ -22,8 +32,6 @@ vi.mock('@Components/react-hook-form/input-password/InputPasswordStrength', asyn
   const actual = await importOriginal();
   return actual;
 });
-
-vi.spyOn(serviceHttp, 'accountUpdatePassword').mockImplementation(async (data) => data);
 
 afterEach(() => vi.clearAllMocks());
 
@@ -59,7 +67,7 @@ describe('Functionality', () => {
     expect(await screen.findByText(PASSWORD_STRENGTH_RULES.required)).toBeInTheDocument();
     expect(await screen.findByText(PASSWORDCONFIRM_RULES.required)).toBeInTheDocument();
 
-    expect(serviceHttp.accountUpdatePassword).not.toHaveBeenCalled(); // Form submission
+    expect(updatePasswordMock).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Input validation; if confirmed password is incorrect display error', async () => {
@@ -79,7 +87,7 @@ describe('Functionality', () => {
     expect(screen.queryByText(PASSWORDCONFIRM_RULES.required)).not.toBeInTheDocument();
     expect(screen.getByText(PASSWORDCONFIRM_RULES.validate.confirm)).toBeInTheDocument();
 
-    expect(serviceHttp.accountUpdatePassword).not.toHaveBeenCalled(); // Form submission
+    expect(updatePasswordMock).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Submission success', async () => {
@@ -99,8 +107,8 @@ describe('Functionality', () => {
     expect(screen.queryByText(PASSWORDCONFIRM_RULES.required)).not.toBeInTheDocument();
     expect(screen.queryByText(PASSWORDCONFIRM_RULES.validate.confirm)).not.toBeInTheDocument();
 
-    expect(serviceHttp.accountUpdatePassword).toHaveBeenCalledTimes(1); // Form submission
-    expect(serviceHttp.accountUpdatePassword).toHaveBeenLastCalledWith({
+    expect(updatePasswordMock).toHaveBeenCalledTimes(1); // Form submission
+    expect(updatePasswordMock).toHaveBeenLastCalledWith({
       'confirm-password': MAX_PASSWORD,
       'new-password': MAX_PASSWORD,
     });

@@ -6,7 +6,6 @@ import { describe, vi } from 'vitest';
 import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
 import { MAX_PASSWORD } from '@Lib/__mocks__/zxcvbn';
 import { getStrength } from '@Lib/zxcvbn';
-import serviceHttp from '@Services/serviceHttp';
 
 import RegisterPage from './RegisterPage';
 
@@ -23,7 +22,16 @@ vi.mock('@Components/react-hook-form/input-password/InputPasswordStrength', asyn
   return actual;
 });
 
-vi.spyOn(serviceHttp, 'accountLogin').mockImplementation(async (data) => data);
+const loginMock = vi.fn();
+vi.mock('@Services/serviceHttp', () => {
+  return {
+    ServiceHttp: vi.fn().mockImplementation(() => ({
+      account: {
+        login: loginMock,
+      },
+    })),
+  };
+});
 
 afterEach(() => vi.clearAllMocks());
 
@@ -68,7 +76,7 @@ describe('Functionality', () => {
 
     expect(await screen.findByText(EMAIL_RULES.required)).toBeInTheDocument();
     expect(await screen.findByText(PASSWORD_STRENGTH_RULES.required)).toBeInTheDocument();
-    expect(serviceHttp.accountLogin).not.toHaveBeenCalled(); // Form Submission
+    expect(loginMock).not.toHaveBeenCalled(); // Form Submission
   });
 
   test('Form; Input validation; error message on invalid email pattern', async () => {
@@ -85,7 +93,7 @@ describe('Functionality', () => {
     await user.click(registerAccountButton);
 
     expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern);
-    expect(serviceHttp.accountLogin).not.toHaveBeenCalled(); // Form submission
+    expect(loginMock).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Input validation; error message on invalid password strength', async () => {
@@ -102,7 +110,7 @@ describe('Functionality', () => {
     await user.click(registerAccountButton);
 
     expect(await screen.findByRole('alert')).toHaveTextContent(PASSWORD_STRENGTH_RULES.validate.strength);
-    expect(serviceHttp.accountLogin).not.toHaveBeenCalled(); // Form submission
+    expect(loginMock).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Submission success', async () => {
@@ -119,6 +127,6 @@ describe('Functionality', () => {
     await user.click(registerAccountButton);
 
     expect(screen.queryAllByRole('alert')).toHaveLength(0);
-    expect(serviceHttp.accountLogin).toHaveBeenCalledWith({ email: 'admin@admin.com', password: MAX_PASSWORD }); // Form submission
+    expect(loginMock).toHaveBeenCalledWith({ email: 'admin@admin.com', password: MAX_PASSWORD }); // Form submission
   });
 });

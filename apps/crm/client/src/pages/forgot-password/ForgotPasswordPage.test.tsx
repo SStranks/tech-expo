@@ -4,13 +4,21 @@ import { BrowserRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 
 import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
-import serviceHttp from '@Services/serviceHttp';
 
 import ForgotPasswordPage from './ForgotPasswordPage';
 
 const { EMAIL_RULES } = VALIDATION_MESSAGES;
 
-vi.spyOn(serviceHttp, 'accountForgotPassword').mockImplementation(async (data) => data);
+const forgotPasswordMock = vi.fn();
+vi.mock('@Services/serviceHttp', () => {
+  return {
+    ServiceHttp: vi.fn().mockImplementation(() => ({
+      account: {
+        forgotpassword: forgotPasswordMock,
+      },
+    })),
+  };
+});
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
@@ -55,7 +63,7 @@ describe('Functionality', () => {
 
     expect(await screen.findAllByRole('alert')).toHaveLength(1);
 
-    expect(serviceHttp.accountForgotPassword).not.toHaveBeenCalled(); // Form submission
+    expect(forgotPasswordMock).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Input validation; error message on invalid email pattern', async () => {
@@ -71,7 +79,7 @@ describe('Functionality', () => {
 
     expect(await screen.findByRole('alert')).toHaveTextContent(EMAIL_RULES.pattern);
 
-    expect(serviceHttp.accountForgotPassword).not.toHaveBeenCalled(); // Form submission
+    expect(forgotPasswordMock).not.toHaveBeenCalled(); // Form submission
   });
 
   test('Form; Submission success', async () => {
@@ -87,6 +95,6 @@ describe('Functionality', () => {
 
     expect(screen.queryAllByRole('alert')).toHaveLength(0);
 
-    expect(serviceHttp.accountForgotPassword).toHaveBeenCalledWith({ email: 'admin@admin.com' }); // Form submission
+    expect(forgotPasswordMock).toHaveBeenCalledWith({ email: 'admin@admin.com' }); // Form submission
   });
 });
