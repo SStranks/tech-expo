@@ -5,9 +5,9 @@ import styles from './UserSingle.module.scss';
 // TODO:  Make image dynamic; currently not part of mock data.
 const USER_IMAGE = userImage;
 
-interface Props {
+type Props = {
   userName: string;
-}
+};
 
 /*
  * TODO:

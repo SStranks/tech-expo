@@ -1,8 +1,8 @@
 import styles from './Buttons.module.scss';
 
-interface Props {
+type Props = {
   disabled?: boolean;
-}
+};
 
 function ButtonDelete({ disabled }: Props): React.JSX.Element {
   return (

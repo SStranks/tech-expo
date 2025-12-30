@@ -7,11 +7,11 @@ import InputTimeField from '@Components/aria-inputs/time-field/InputTimeField';
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-interface Props {
+type Props = {
   name: string;
   label: string;
   rules?: TValidationRules;
-}
+};
 
 function FormProviderTimeField({ label, name, rules = {} }: Props): React.JSX.Element {
   const {

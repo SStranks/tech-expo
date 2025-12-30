@@ -2,9 +2,9 @@ import { INotification } from '@Data/MockData';
 
 import styles from './NotificationsList.module.scss';
 
-interface Props {
+type Props = {
   notifications: INotification[] | [];
-}
+};
 
 // TODO:  Implement keyboard navigation - convert component/use 'cmdk'; pnpm add cmdk
 function NotificationsList(props: Props): React.JSX.Element {

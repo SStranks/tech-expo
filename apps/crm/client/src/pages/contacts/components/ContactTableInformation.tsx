@@ -14,9 +14,9 @@ interface IUserInfo {
   stage: string;
 }
 
-interface Props {
+type Props = {
   userInfo: IUserInfo;
-}
+};
 
 function ContactTableInformation(props: Props): React.JSX.Element {
   const { userInfo } = props;

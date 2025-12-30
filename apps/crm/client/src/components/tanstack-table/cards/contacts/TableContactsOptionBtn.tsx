@@ -10,9 +10,9 @@ import { ITableDataContacts } from '@Data/MockData';
 
 import styles from './TableContactsOptionBtn.module.scss';
 
-interface Props {
+type Props = {
   rowOriginal: CoreRow<ITableDataContacts>['original'];
-}
+};
 
 function TableContactsOptionBtn(props: Props): React.JSX.Element {
   const { rowOriginal } = props;

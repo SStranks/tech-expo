@@ -5,13 +5,13 @@ import { Link, useLocation } from 'react-router-dom';
 
 import styles from './MenuLink.module.scss';
 
-interface Props {
+type Props = {
   name: string;
   href: string;
   Icon: SvgIcon;
   minimize: boolean | undefined;
   index: number;
-}
+};
 
 function MenuLink(props: Props): React.JSX.Element {
   const { href, Icon, index, minimize, name } = props;

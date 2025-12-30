@@ -11,9 +11,9 @@ import IconMenuDots from '@Components/svg/IconMenuDots';
 
 import styles from './TableCompaniesOptionBtn.module.scss';
 
-interface Props {
+type Props = {
   rowOriginal: CoreRow<ITableDataCompanies>['original'];
-}
+};
 
 function TableCompaniesOptionBtn(props: Props): React.JSX.Element {
   const { rowOriginal } = props;

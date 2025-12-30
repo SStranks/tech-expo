@@ -8,9 +8,9 @@ import InputUx from '../InputUx';
 import skeleton from './InputPasswordSkeleton.module.scss';
 import styles from './InputPasswordStrength.module.scss';
 
-interface Props {
+type Props = {
   label: string;
-}
+};
 
 function InputPasswordSkeleton(props: Props): React.JSX.Element {
   const { label } = props;

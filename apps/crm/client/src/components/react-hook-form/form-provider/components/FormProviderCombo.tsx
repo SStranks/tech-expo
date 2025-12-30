@@ -9,13 +9,13 @@ import InputCombo from '@Components/aria-inputs/combo/InputCombo';
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-interface Props {
+type Props = {
   name: string;
   label: string;
   defaultInputValue?: string;
   // items: { name: string }[];
   rules?: TValidationRules;
-}
+};
 
 function FormProviderCombo<T extends object>({
   defaultInputValue,

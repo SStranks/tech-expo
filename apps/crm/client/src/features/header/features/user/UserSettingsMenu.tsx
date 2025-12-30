@@ -34,9 +34,9 @@ const PORTAL_ONRESIZE = (menuPortalButtonRef: React.RefObject<HTMLButtonElement 
   CSS_ROOT?.style.setProperty(CSS_ROOT_PROPERTY, cssValue);
 };
 
-interface Props {
+type Props = {
   userName: string;
-}
+};
 
 function UserSettingsMenu(props: Props): React.JSX.Element {
   const { userName } = props;

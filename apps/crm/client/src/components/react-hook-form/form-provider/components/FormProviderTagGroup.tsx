@@ -7,11 +7,11 @@ import InputTagGroup from '@Components/aria-inputs/tagGroup/InputTagGroup';
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-interface Props {
+type Props = {
   name: string;
   label: string;
   rules?: TValidationRules;
-}
+};
 
 function FormProviderTagGroup({ label, name, rules = {} }: Props): React.JSX.Element {
   const { control, trigger } = useFormContext();

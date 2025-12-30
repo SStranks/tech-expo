@@ -57,11 +57,11 @@ interface ICoords extends Partial<DOMRect> {}
 
 type TPosition = 'left' | 'right' | 'top' | 'bottom';
 
-interface Props {
+type Props = {
   text: string;
   position: TPosition;
   offset: number;
-}
+};
 
 function ToolTip({ children = undefined, offset, position, text }: PropsWithChildren<Props>): React.JSX.Element {
   const [childCoords, setChildCoords] = useState<ICoords>();

@@ -7,10 +7,10 @@ import IconFilter from '@Components/svg/IconFilter';
 
 import styles from './FilterRowControl.module.scss';
 
-interface Props {
+type Props = {
   column: Column<any, unknown>;
   fieldName: string;
-}
+};
 
 function FilterRowControl(props: Props): React.JSX.Element {
   const { column, fieldName } = props;

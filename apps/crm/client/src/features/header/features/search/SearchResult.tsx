@@ -3,11 +3,11 @@ import IconNotebook from '@Components/svg/IconNotebook';
 
 import styles from './SearchResult.module.scss';
 
-interface Props {
+type Props = {
   title: string;
   category: string;
   description: string;
-}
+};
 
 function SearchResult(props: Props): React.JSX.Element {
   const { category, description, title } = props;

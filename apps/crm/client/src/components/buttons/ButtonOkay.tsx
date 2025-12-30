@@ -1,8 +1,8 @@
 import styles from './Buttons.module.scss';
 
-interface Props {
+type Props = {
   onClick: () => void;
-}
+};
 
 function ButtonOkay({ onClick }: Props): React.JSX.Element {
   return (

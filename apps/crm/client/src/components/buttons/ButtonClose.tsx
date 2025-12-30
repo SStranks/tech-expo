@@ -2,9 +2,9 @@ import IconClose from '@Components/svg/IconClose';
 
 import styles from './Buttons.module.scss';
 
-interface Props {
+type Props = {
   onClick?: (data?: unknown) => void;
-}
+};
 
 function ButtonClose(props: Props): React.JSX.Element {
   const { onClick } = props;

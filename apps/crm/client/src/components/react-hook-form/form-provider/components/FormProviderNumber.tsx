@@ -7,11 +7,11 @@ import InputNumber from '@Components/aria-inputs/number/InputNumber';
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-interface Props {
+type Props = {
   name: string;
   label: string;
   rules?: TValidationRules;
-}
+};
 
 function FormProviderNumber({ label, name, rules = {}, ...rest }: Props): React.JSX.Element {
   const { control } = useFormContext();

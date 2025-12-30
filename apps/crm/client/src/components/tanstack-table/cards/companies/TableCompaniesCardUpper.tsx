@@ -6,9 +6,9 @@ import TableCompaniesOptionBtn from './TableCompaniesOptionBtn';
 
 import styles from './TableCompaniesCardUpper.module.scss';
 
-interface Props {
+type Props = {
   rowOriginal: CoreRow<ITableDataCompanies>['original'];
-}
+};
 
 function TableCompaniesCardUpper(props: Props): React.JSX.Element {
   const { rowOriginal } = props;

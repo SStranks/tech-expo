@@ -6,11 +6,11 @@ import IconEdit from '@Components/svg/IconEdit';
 
 import styles from './EditableRow.module.scss';
 
-interface Props {
+type Props = {
   IconSvg: SvgIcon;
   title: string;
   description: string;
-}
+};
 
 // Consuming components: CompaniesTableInformation, UserSettingsModal
 function EditableRow(props: Props): React.JSX.Element {

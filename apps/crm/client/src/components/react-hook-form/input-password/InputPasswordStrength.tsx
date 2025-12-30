@@ -31,12 +31,12 @@ const screenReaderText = (passwordScore: Score | null) => {
   return false;
 };
 
-interface Props {
+type Props = {
   defaultValue: string | undefined;
   label: string;
   name: string;
   reveal: boolean;
-}
+};
 
 // TODO:  Style and reformat password information text
 function InputPasswordStrength(props: Props): React.JSX.Element {

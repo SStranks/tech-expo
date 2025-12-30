@@ -9,12 +9,12 @@ import InputSelect from '@Components/aria-inputs/select/InputSelect';
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-interface Props {
+type Props = {
   name: string;
   label: string;
   items: { name: string }[];
   rules?: TValidationRules;
-}
+};
 
 function FormProviderSelect<T extends object>({
   items,

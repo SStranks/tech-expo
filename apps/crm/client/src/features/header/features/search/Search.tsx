@@ -10,10 +10,10 @@ import SearchResults from './SearchResults';
 
 import styles from './Search.module.scss';
 
-interface Props {
+type Props = {
   portalActive: boolean;
   setPortalActive: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 // TODO:  Add in DEBOUNCE when the API is functional.
 // NOTE:  <search> contains 'is' attribute to satisfy RTL test - currently <search> is unknown tag/recently added.

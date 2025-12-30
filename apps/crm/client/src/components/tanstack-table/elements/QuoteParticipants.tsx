@@ -4,10 +4,10 @@ import UserCircleAbbv from '@Components/general/UserCircleAbbv';
 
 import styles from './QuotesParticipants.module.scss';
 
-interface Props {
+type Props = {
   participantBy: ITableDataQuotes['prepared by'];
   participantFor: ITableDataQuotes['prepared for'];
-}
+};
 
 function QuoteParticipants(props: Props): React.JSX.Element {
   const { participantBy, participantFor } = props;

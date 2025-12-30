@@ -7,9 +7,9 @@ import ColumnCompaniesContacts from '@Components/tanstack-table/columns/ColumnCo
 import TableListEmbeddedView from '@Components/tanstack-table/views/TableListEmbeddedView';
 import { useReactTable } from '@Lib/tanstack';
 
-interface Props {
+type Props = {
   tableData: ITableDataContacts[];
-}
+};
 
 function TableCompaniesContacts(props: Props): React.JSX.Element {
   const { tableData } = props;

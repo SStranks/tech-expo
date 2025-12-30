@@ -7,9 +7,9 @@ import ColumnCompaniesQuotes from '@Components/tanstack-table/columns/ColumnComp
 import TableListEmbeddedView from '@Components/tanstack-table/views/TableListEmbeddedView';
 import { useReactTable } from '@Lib/tanstack';
 
-interface Props {
+type Props = {
   tableData: ITableDataQuotes[];
-}
+};
 
 function TableCompaniesQuotes(props: Props): React.JSX.Element {
   const { tableData } = props;

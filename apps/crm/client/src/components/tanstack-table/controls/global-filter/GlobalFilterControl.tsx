@@ -6,12 +6,12 @@ import IconSearch from '@Components/svg/IconSearch';
 
 import styles from './GlobalFilterControl.module.scss';
 
-interface Props {
+type Props = {
   label: string;
   globalFilter: string;
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>;
   debounceDelay?: number;
-}
+};
 
 function GlobalFilterControl(props: Props): React.JSX.Element {
   const { debounceDelay = 250, globalFilter, label, setGlobalFilter } = props;

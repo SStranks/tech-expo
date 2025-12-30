@@ -9,10 +9,10 @@ import { uiEventConsume } from '@Redux/reducers/uiSlice';
 
 export type AriaLiveLevel = Extract<AriaAttributes['aria-live'], 'polite' | 'assertive'>;
 
-interface Props {
+type Props = {
   scope: UiEventScope;
   uiEvent: UiEvent;
-}
+};
 
 function setLiveRegion(setter: (value: string) => void, message: string) {
   setter('');

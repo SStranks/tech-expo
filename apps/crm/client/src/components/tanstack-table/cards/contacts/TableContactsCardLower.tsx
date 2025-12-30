@@ -4,9 +4,9 @@ import type { ITableDataContacts } from '@Data/MockData';
 
 import styles from './TableContactsCardLower.module.scss';
 
-interface Props {
+type Props = {
   rowOriginal: CoreRow<ITableDataContacts>['original'];
-}
+};
 
 function TableContactsCardLower(props: Props): React.JSX.Element {
   const { rowOriginal } = props;

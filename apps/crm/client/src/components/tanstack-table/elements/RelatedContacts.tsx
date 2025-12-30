@@ -28,9 +28,9 @@ const CIRCLE_EXTRA_USERS = (relatedContacts: ITableDataCompanies['relatedContact
   );
 };
 
-interface Props {
+type Props = {
   relatedContacts: ITableDataCompanies['relatedContacts'];
-}
+};
 
 function RelatedContacts(props: Props): React.JSX.Element {
   const { relatedContacts } = props;

@@ -12,9 +12,9 @@ import styles from './TableCompaniesCardLower.module.scss';
 // TODO:  Make image dynamic; currently not part of mock data.
 const USER_IMAGE = userImage;
 
-interface Props {
+type Props = {
   rowOriginal: CoreRow<ITableDataCompanies>['original'];
-}
+};
 
 function TableCompaniesCardLower(props: Props): React.JSX.Element {
   const { rowOriginal } = props;

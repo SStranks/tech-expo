@@ -6,10 +6,10 @@ import IconMenuDots from '@Components/svg/IconMenuDots';
 
 import styles from './ScrumboardColumnOptionsBtn.module.scss';
 
-interface Props {
+type Props = {
   stageId: string;
   stageTitle: string;
-}
+};
 
 function ScrumboardColumnOptionsBtn({ stageId, stageTitle }: Props): React.JSX.Element {
   return (

@@ -8,13 +8,13 @@ import IconListDownArrow from '@Components/svg/IconListDownArrow';
 
 import styles from './ListGridToggle.module.scss';
 
-interface Props {
+type Props = {
   tableView: 'list' | 'grid';
   setTableView: React.Dispatch<React.SetStateAction<'list' | 'grid'>>;
   columnFilters: ColumnFiltersState;
   setColumnFilters: (updater: Updater<ColumnFiltersState>) => void;
   resetColumnFilters: (defaultState?: boolean | undefined) => void;
-}
+};
 
 function ListGridToggle(props: Props): React.JSX.Element {
   const { columnFilters, resetColumnFilters, setColumnFilters, setTableView, tableView } = props;

@@ -24,7 +24,7 @@ interface IListItem {
   name: string;
 }
 
-interface Props {
+type Props = {
   name: string;
   onChange: (...event: unknown[]) => void;
   listItems: IListItem[];
@@ -32,7 +32,7 @@ interface Props {
   defaultValue: string;
   id: string;
   trigger: UseFormTrigger<FieldValues>;
-}
+};
 
 /*
  * NOTE:

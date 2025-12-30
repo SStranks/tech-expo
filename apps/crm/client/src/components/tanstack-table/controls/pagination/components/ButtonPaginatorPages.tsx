@@ -5,11 +5,11 @@ import IconMenuDots from '@Components/svg/IconMenuDots';
 
 import styles from './ButtonPaginator.module.scss';
 
-interface Props {
+type Props = {
   direction: 'previous' | 'next';
   title: string;
   onClick: () => void;
-}
+};
 
 function ButtonPaginatorPages(props: Props): React.JSX.Element {
   const { direction, onClick, title } = props;

@@ -2,12 +2,12 @@ import IconArrowLeftAlt from '@Components/svg/IconArrowLeftAlt';
 
 import styles from './ButtonPaginator.module.scss';
 
-interface Props {
+type Props = {
   direction: 'previous' | 'next';
   title: string;
   disabled: boolean;
   onClick: () => void;
-}
+};
 
 function ButtonPaginatorSinglePage(props: Props): React.JSX.Element {
   const { direction, disabled, onClick, title } = props;

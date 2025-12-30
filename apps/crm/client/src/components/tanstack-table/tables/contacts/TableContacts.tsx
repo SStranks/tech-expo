@@ -23,9 +23,9 @@ import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableContacts.module.scss';
 
-interface Props {
+type Props = {
   tableData: ITableDataContacts[];
-}
+};
 
 function TableContacts(props: Props): React.JSX.Element {
   const { tableData } = props;

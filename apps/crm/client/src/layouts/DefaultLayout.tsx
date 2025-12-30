@@ -2,10 +2,10 @@ import { PropsWithChildren } from 'react';
 
 import styles from './DefaultLayout.module.scss';
 
-interface Props {
+type Props = {
   header: React.JSX.Element;
   aside: React.JSX.Element;
-}
+};
 
 function DefaultLayout({ aside, children = undefined, header }: PropsWithChildren<Props>): React.JSX.Element {
   return (

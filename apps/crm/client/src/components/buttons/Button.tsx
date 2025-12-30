@@ -6,7 +6,7 @@ import styles from './Button.module.scss';
 
 type TType = 'primary' | 'secondary' | 'quaternary';
 
-interface Props {
+type Props = {
   buttonClickFn?: (data?: unknown) => void;
   buttonDisabled?: boolean;
   ButtonIcon?: SvgIcon;
@@ -16,7 +16,7 @@ interface Props {
   buttonText?: string;
   type?: HTMLButtonElement['type'];
   form?: string;
-}
+};
 
 function Button({
   buttonClickFn = undefined,

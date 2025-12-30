@@ -7,11 +7,11 @@ import InputDatePicker from '@Components/aria-inputs/date-picker/InputDatePicker
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-interface Props {
+type Props = {
   name: string;
   label: string;
   rules?: TValidationRules;
-}
+};
 
 function FormProviderDatePicker({ label, name, rules = {} }: Props): React.JSX.Element {
   const { control } = useFormContext();

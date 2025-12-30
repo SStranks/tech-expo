@@ -41,9 +41,9 @@ function StatusIcon(status: ITableDataContacts['status']) {
   }
 }
 
-interface Props {
+type Props = {
   status: ITableDataContacts['status'];
-}
+};
 
 function ContactStatus(props: Props): React.JSX.Element {
   const { status } = props;

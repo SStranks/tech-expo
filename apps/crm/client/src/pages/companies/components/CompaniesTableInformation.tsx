@@ -13,9 +13,9 @@ interface ICompanyInfo {
   website: string;
 }
 
-interface Props {
+type Props = {
   companyInfo: ICompanyInfo;
-}
+};
 
 function CompaniesTableInformation(props: Props): React.JSX.Element {
   const { companyInfo } = props;

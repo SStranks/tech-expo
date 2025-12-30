@@ -10,9 +10,9 @@ import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableSettingsContacts.module.scss';
 
-interface Props {
+type Props = {
   tableData: ITableSettingsContacts[];
-}
+};
 
 function TableSettingsContacts(props: Props): React.JSX.Element {
   const { tableData } = props;

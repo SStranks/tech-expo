@@ -29,9 +29,9 @@ function RoleIcon(userRole: ITableSettingsContacts['role']) {
   }
 }
 
-interface Props {
+type Props = {
   userRole: ITableSettingsContacts['role'];
-}
+};
 
 function SettingsRole(props: Props): React.JSX.Element {
   const { userRole } = props;

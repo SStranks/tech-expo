@@ -1,9 +1,9 @@
 import styles from './UserCircle.module.scss';
 
-interface Props {
+type Props = {
   userImage: string;
   alt?: string;
-}
+};
 
 // Creates circle image with users photograph
 function UserCircle(props: Props): React.JSX.Element {

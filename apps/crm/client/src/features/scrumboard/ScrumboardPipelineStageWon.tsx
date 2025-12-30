@@ -16,9 +16,9 @@ import { createPipelineStageTargetData } from './utils/pragmaticDndValidation';
 
 import styles from './ScrumboardColumn.module.scss';
 
-interface Props {
+type Props = {
   stageId: PipelineStage['id'];
-}
+};
 
 function ScrumboardColumnWon({ stageId }: Props): React.JSX.Element {
   const [, setIsDraggedOver] = useState<boolean>(false);

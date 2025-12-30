@@ -9,12 +9,12 @@ import InputComboTag from '@Components/aria-inputs/comboTag/InputComboTag';
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-interface Props {
+type Props = {
   name: string;
   label: string;
   listItems: { id: string; name: string }[];
   rules?: TValidationRules;
-}
+};
 
 function FormProviderComboTag<T extends object>({
   label,

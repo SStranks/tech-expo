@@ -5,14 +5,14 @@ import PaginatorRangeControl from '../pagination/PaginatorRangeControl';
 
 import styles from './TableControlsFooter.module.scss';
 
-interface Props {
+type Props = {
   entriesName: string;
   entriesTotal: number;
   pageIndex: number;
   getPageCount: () => number;
   setPageIndex: (updater: Updater<number>) => void;
   setPageSize: (updater: Updater<number>) => void;
-}
+};
 
 function TableControlsFooter(props: Props): React.JSX.Element {
   const { entriesName, entriesTotal, getPageCount, pageIndex, setPageIndex, setPageSize } = props;

@@ -10,10 +10,10 @@ const iconDirectionStyles = (sortDirection: Props['sortDirection']) => {
   return '';
 };
 
-interface Props {
+type Props = {
   sortDirection: SortDirection | false;
   sortOnClick: ((event: unknown) => void) | undefined;
-}
+};
 
 function SortRowControl(props: Props): React.JSX.Element {
   const { sortDirection, sortOnClick } = props;

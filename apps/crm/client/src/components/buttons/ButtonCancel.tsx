@@ -1,8 +1,8 @@
 import styles from './Buttons.module.scss';
 
-interface Props {
+type Props = {
   onClick: () => void;
-}
+};
 
 function ButtonCancel({ onClick }: Props): React.JSX.Element {
   return (

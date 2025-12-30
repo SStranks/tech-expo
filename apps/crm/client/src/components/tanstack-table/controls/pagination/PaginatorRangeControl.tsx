@@ -6,11 +6,11 @@ import ButtonPaginatorSinglePage from './components/ButtonPaginatorSinglePage';
 
 import styles from './PaginatorRangeControl.module.scss';
 
-interface Props {
+type Props = {
   pageCount: number;
   pageIndex: number;
   setPageIndex: (updater: Updater<number>) => void;
-}
+};
 
 function PaginatorRangeControl(props: Props): React.JSX.Element {
   const { pageCount, pageIndex: pageIndexProp, setPageIndex: setPageIndexProp } = props;

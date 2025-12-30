@@ -8,9 +8,9 @@ import TableContactsOptionBtn from './TableContactsOptionBtn';
 
 import styles from './TableContactsCardUpper.module.scss';
 
-interface Props {
+type Props = {
   rowOriginal: CoreRow<ITableDataContacts>['original'];
-}
+};
 
 function TableContactsCardUpper(props: Props): React.JSX.Element {
   const { rowOriginal } = props;

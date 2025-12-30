@@ -23,9 +23,9 @@ import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableCompanies.module.scss';
 
-interface Props {
+type Props = {
   tableData: ITableDataCompanies[];
-}
+};
 
 function TableCompanies(props: Props): React.JSX.Element {
   const { tableData } = props;

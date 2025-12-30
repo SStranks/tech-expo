@@ -7,9 +7,9 @@ import styles from './CompanySingle.module.scss';
  */
 const COMPANY_IMAGE = companyImage;
 
-interface Props {
+type Props = {
   companyName: string;
-}
+};
 
 /*
  * TODO:
