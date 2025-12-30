@@ -4,47 +4,58 @@ import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/clos
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import UserCircle from '@Components/general/UserCircle';
+import { useReduxSelector } from '@Redux/hooks';
 
-import { createKanbanCardDropData } from './utils/pragmaticDndValidation';
+import { makeSelectorDealById } from './redux/kanbanSlice';
+import { useFocusContext } from './ScrumboardKanban';
+import { createKanbanTaskDropData } from './utils/pragmaticDndValidation';
 
 import styles from './ScrumboardCard.module.scss';
 
 type Props = {
-  task: KanbanTask;
+  taskId: KanbanTask['id'];
   stage: KanbanStage;
   taskIndex: number;
   taskStatus?: 'won' | 'lost';
 };
 
-function ScrumBoardKanbanCard({ stage, task, taskIndex, taskStatus }: Props): React.JSX.Element {
-  const cardRef = useRef(null);
-  const [, setIsDragging] = useState<boolean>(false);
-  const [, setIsDragEnter] = useState<boolean>(false);
+function ScrumBoardKanbanTask({ stage, taskId, taskIndex, taskStatus }: Props): React.JSX.Element {
+  const { focusedId, setFocusedId } = useFocusContext();
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [isDragEnter, setIsDragEnter] = useState<boolean>(false);
+  const taskRef = useRef<HTMLLIElement>(null);
   const navigate = useNavigate();
+  const selectorDealById = useMemo(() => makeSelectorDealById(), []);
+  const task = useReduxSelector((state) => selectorDealById(state, taskId));
+
+  const isFocused = focusedId === task.id;
 
   const onDoubleClickHandler = () => {
-    navigate(`deal/update/${task.id}`, { state: { taskId: task.id } });
+    navigate(`deal/update/${taskId}`, { state: { taskId } });
   };
 
   useEffect(() => {
-    const cardElement = cardRef.current;
-    if (!cardElement) return;
+    const taskElement = taskRef.current;
+    if (!taskElement) return;
 
     return combine(
       draggable({
-        element: cardElement,
-        getInitialData: () => createKanbanCardDropData(stage, task, taskIndex),
-        onDragStart: () => setIsDragging(true),
+        element: taskElement,
+        getInitialData: () => createKanbanTaskDropData(task, taskIndex),
+        onDragStart: () => {
+          setIsDragging(true);
+          setFocusedId(task.id);
+        },
         onDrop: () => setIsDragging(false),
       }),
       dropTargetForElements({
-        element: cardElement,
+        element: taskElement,
         getData: ({ element, input }) => {
-          const data = createKanbanCardDropData(stage, task, taskIndex);
+          const data = createKanbanTaskDropData(task, taskIndex);
           return attachClosestEdge(data, {
             allowedEdges: ['top', 'bottom'],
             element,
@@ -57,20 +68,27 @@ function ScrumBoardKanbanCard({ stage, task, taskIndex, taskStatus }: Props): Re
         onDrop: () => setIsDragEnter(false),
       })
     );
-  }, [taskIndex, task, stage]);
+  }, [setFocusedId, task, taskIndex]);
 
   return (
     <li
-      ref={cardRef}
+      id={task.id}
+      ref={taskRef}
       onDoubleClick={onDoubleClickHandler}
-      className={clsx(`${styles.card}`, `${taskStatus ? styles[`card--${taskStatus}`] : ''}`)}
-      aria-label={`Kanban Card: ${task.title}. Column: ${stage.title}`}
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-      tabIndex={0}
+      onFocus={() => setFocusedId(task.id)}
+      onBlur={() => setFocusedId(undefined)}
+      className={clsx(
+        `${styles.card}`,
+        `${taskStatus ? styles[`card--${taskStatus}`] : ''}`,
+        `${isDragging ? styles['card--dragging'] : ''}`,
+        `${isDragEnter ? styles['card--dragEnter'] : ''}`,
+        `${isFocused ? styles['card--focus'] : ''}`
+      )}
+      aria-label={`Kanban Task: ${task.title}. Stage: ${stage.title}`}
       draggable>
       <div className={styles.card__upper}>
         <span className={styles.dealInfo__company}>{task.title}</span>
-        {/* <ScrumboardCardOptionsBtn taskId={task.id} columnId={stage.id} taskStatus={taskStatus} />  */}
+        {/* <ScrumboardCardOptionsBtn taskId={taskId} columnId={stage.id} taskStatus={taskStatus} />  */}
         {/* TODO: Make new component, separate from the Pipeline one */}
       </div>
       <div className={styles.card__lower}>
@@ -85,4 +103,4 @@ function ScrumBoardKanbanCard({ stage, task, taskIndex, taskStatus }: Props): Re
   );
 }
 
-export default ScrumBoardKanbanCard;
+export default ScrumBoardKanbanTask;

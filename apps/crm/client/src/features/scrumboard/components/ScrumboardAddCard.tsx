@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom';
 
 import styles from './ScrumboardAddCard.module.scss';
 
-interface IProps {
-  columnId: string;
-}
+type Props = {
+  stageId: string;
+};
 
-function ScrumboardAddCard({ columnId }: IProps): React.JSX.Element {
+function ScrumboardAddCard({ stageId }: Props): React.JSX.Element {
   return (
-    <Link to="deal/create" state={{ columnId }} className={styles.addCard}>
+    <Link to="deal/create" state={{ stageId }} className={styles.addCard}>
       <span>Add New Card</span>
     </Link>
   );

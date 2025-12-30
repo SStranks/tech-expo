@@ -2,7 +2,7 @@ import type { PipelineStage } from '@Data/MockScrumboardPipeline';
 
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import clsx from 'clsx';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useReduxSelector } from '@Redux/hooks';
 
@@ -19,9 +19,9 @@ import { createPipelineStageTargetData } from './utils/pragmaticDndValidation';
 
 import styles from './ScrumboardColumn.module.scss';
 
-interface Props {
+type Props = {
   stageId: PipelineStage['id'];
-}
+};
 
 function ScrumboardPipelineStage({ stageId }: Props): React.JSX.Element {
   const [isDraggedOver, setIsDraggedOver] = useState<boolean>(false);
@@ -34,11 +34,11 @@ function ScrumboardPipelineStage({ stageId }: Props): React.JSX.Element {
   const dealsTotal = useReduxSelector((state) => selectorDealsTotalForStage(state, stageId));
 
   useEffect(() => {
-    const columnElement = stageRef.current;
-    if (!columnElement) return;
+    const stageElement = stageRef.current;
+    if (!stageElement) return;
 
     return dropTargetForElements({
-      element: columnElement,
+      element: stageElement,
       getData: () => createPipelineStageTargetData(stage, dealIdsLexiSorted),
       getIsSticky: () => true,
       onDragEnter: () => setIsDraggedOver(true),
@@ -61,8 +61,8 @@ function ScrumboardPipelineStage({ stageId }: Props): React.JSX.Element {
             )}
           </div>
           <div className={styles.headerControls}>
-            <ScrumboardColumnOptionsBtn columnId={stage.id} columnTitle={stage.title} />
-            <ScrumboardColumnAddBtn columnId={stage.id} />
+            <ScrumboardColumnOptionsBtn stageId={stage.id} stageTitle={stage.title} />
+            <ScrumboardColumnAddBtn stageId={stage.id} />
           </div>
         </div>
         <span className={styles.pipelineTotal}>${dealsTotal}</span>
@@ -71,10 +71,10 @@ function ScrumboardPipelineStage({ stageId }: Props): React.JSX.Element {
         {dealIdsLexiSorted.map((dealId, i) => {
           return <ScrumboardPipelineDeal key={dealId} dealId={dealId} dealIndex={i} stage={stage} />;
         })}
-        {dealIdsLexiSorted.length === 0 && <ScrumboardAddCard columnId={stage.id} />}
+        {dealIdsLexiSorted.length === 0 && <ScrumboardAddCard stageId={stage.id} />}
       </div>
     </div>
   );
 }
 
-export default ScrumboardPipelineStage;
+export default memo(ScrumboardPipelineStage);

@@ -1,65 +1,70 @@
-import type { KanbanStage, KanbanTask } from '@Data/MockScrumboardKanban';
+import type { KanbanStage } from '@Data/MockScrumboardKanban';
 
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
+
+import { useReduxSelector } from '@Redux/hooks';
 
 import ScrumboardAddCard from './components/ScrumboardAddCard';
 import ScrumboardColumnAddBtn from './components/ScrumboardColumnAddBtn';
+import { makeSelectorStageById, makeSelectorTaskIdsSortedForStage } from './redux/kanbanSlice';
 import ScrumboardKanbanTask from './ScrumboardKanbanTask';
-import { createKanbanColumnTargetData } from './utils/pragmaticDndValidation';
+import { createKanbanStageTargetData } from './utils/pragmaticDndValidation';
 
 import styles from './ScrumboardColumn.module.scss';
 
-interface Props {
-  column: KanbanStage;
-  tasks: KanbanTask[];
-}
+type Props = {
+  stageId: KanbanStage['id'];
+};
 
-function ScrumboardKanbanColumnUnassigned(props: Props): React.JSX.Element {
-  const { column, tasks } = props;
+function ScrumboardKanbanColumnUnassigned({ stageId }: Props): React.JSX.Element {
   const [, setIsDraggedOver] = useState<boolean>(false);
-  const columnRef = useRef(null);
+  const stageRef = useRef(null);
+  const selectorStageById = useMemo(() => makeSelectorStageById(), []);
+  const stage = useReduxSelector((state) => selectorStageById(state, stageId));
+  const selectorTaskIdsLexiSorted = useMemo(() => makeSelectorTaskIdsSortedForStage(), []);
+  const taskIdsLexiSorted = useReduxSelector((state) => selectorTaskIdsLexiSorted(state, stageId));
 
   useEffect(() => {
-    const columnElement = columnRef.current;
-    if (!columnElement) return;
+    const stageElement = stageRef.current;
+    if (!stageElement) return;
 
     return dropTargetForElements({
-      element: columnElement,
-      getData: () => createKanbanColumnTargetData(column),
+      element: stageElement,
+      getData: () => createKanbanStageTargetData(stage, taskIdsLexiSorted),
       getIsSticky: () => true,
       onDragEnter: () => setIsDraggedOver(true),
       onDragLeave: () => setIsDraggedOver(false),
       onDragStart: () => setIsDraggedOver(true),
       onDrop: () => setIsDraggedOver(false),
     });
-  }, [column, tasks.length]);
+  }, [taskIdsLexiSorted, stage]);
 
   return (
-    <div ref={columnRef} className={styles.column}>
+    <div ref={stageRef} className={styles.column}>
       <div className={styles.column__header}>
         <div className={styles.headerPanel}>
           <div className={styles.headerDetails}>
-            <span>{column.title}</span>
-            {column.taskIds.length > 0 && (
+            <span>{stage.title}</span>
+            {taskIdsLexiSorted.length > 0 && (
               <div className={styles.cardsTotal}>
-                <span>{column.taskIds.length}</span>
+                <span>{taskIdsLexiSorted.length}</span>
               </div>
             )}
           </div>
           <div className={styles.headerControls}>
-            <ScrumboardColumnAddBtn columnId={column.id} />
+            <ScrumboardColumnAddBtn stageId={stage.id} />
           </div>
         </div>
       </div>
       <div className={styles.column__cards}>
-        {tasks.map((task, i) => {
-          return <ScrumboardKanbanTask key={task.id} task={task} taskIndex={i} stage={column} />;
+        {taskIdsLexiSorted.map((taskId, i) => {
+          return <ScrumboardKanbanTask key={taskId} taskId={taskId} taskIndex={i} stage={stage} />;
         })}
-        {tasks.length === 0 && <ScrumboardAddCard columnId={column.id} />}
+        {taskIdsLexiSorted.length === 0 && <ScrumboardAddCard stageId={stage.id} />}
       </div>
     </div>
   );
 }
 
-export default ScrumboardKanbanColumnUnassigned;
+export default memo(ScrumboardKanbanColumnUnassigned);

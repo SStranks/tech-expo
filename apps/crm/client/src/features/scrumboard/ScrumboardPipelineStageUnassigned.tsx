@@ -17,9 +17,9 @@ import { createPipelineStageTargetData } from './utils/pragmaticDndValidation';
 
 import styles from './ScrumboardColumn.module.scss';
 
-interface Props {
+type Props = {
   stageId: PipelineStage['id'];
-}
+};
 
 function ScrumboardPipelineColumnUnassigned({ stageId }: Props): React.JSX.Element {
   const [, setIsDraggedOver] = useState<boolean>(false);
@@ -59,7 +59,7 @@ function ScrumboardPipelineColumnUnassigned({ stageId }: Props): React.JSX.Eleme
             )}
           </div>
           <div className={styles.headerControls}>
-            <ScrumboardColumnAddBtn columnId={stage.id} />
+            <ScrumboardColumnAddBtn stageId={stage.id} />
           </div>
         </div>
         <span className={styles.pipelineTotal}>${dealsTotal}</span>
@@ -68,7 +68,7 @@ function ScrumboardPipelineColumnUnassigned({ stageId }: Props): React.JSX.Eleme
         {dealIdsLexiSorted.map((dealId, i) => {
           return <ScrumboardPipelineDeal key={dealId} dealId={dealId} dealIndex={i} stage={stage} />;
         })}
-        {dealIdsLexiSorted.length === 0 && <ScrumboardAddCard columnId={stage.id} />}
+        {dealIdsLexiSorted.length === 0 && <ScrumboardAddCard stageId={stage.id} />}
       </div>
     </div>
   );

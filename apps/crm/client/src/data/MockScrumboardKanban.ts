@@ -3,6 +3,8 @@ import UserImage from '@Img/image-35.jpg';
 
 export type KanbanTask = {
   id: string;
+  orderKey: string;
+  stageId: KanbanStage['id'];
   userImage: string;
   title: string;
   date: string; // TODO:  Make Date type; when form functionality is complete
@@ -12,18 +14,20 @@ export type KanbanTask = {
 export type KanbanStage = {
   id: string;
   title: string;
-  taskIds: string[];
+  isPermanent: boolean;
 };
 
 export type KanbanInitialData = {
   tasks: KanbanTask[];
-  columns: KanbanStage[];
+  stages: KanbanStage[];
   columnOrder: string[];
 };
 export const initialData: KanbanInitialData = {
   tasks: [
     {
       id: 'task-1',
+      orderKey: '',
+      stageId: 'column-unassigned',
       userImage: UserImage,
       title: 'Organize',
       date: 'May 18',
@@ -31,6 +35,8 @@ export const initialData: KanbanInitialData = {
     },
     {
       id: 'task-2',
+      orderKey: '',
+      stageId: 'column-unassigned',
       userImage: UserImage,
       title: 'Prepare',
       date: 'May 18',
@@ -38,27 +44,29 @@ export const initialData: KanbanInitialData = {
     },
     {
       id: 'task-3',
+      orderKey: '',
+      stageId: 'column-unassigned',
       userImage: UserImage,
       title: 'Finalize',
       date: 'May 18',
       notesTotal: 2,
     },
   ],
-  columns: [
+  stages: [
     {
       id: 'column-unassigned',
       title: 'unassigned',
-      taskIds: ['task-1', 'task-2', 'task-3'],
+      isPermanent: true,
     },
     {
       id: 'column-todo',
       title: 'todo',
-      taskIds: [],
+      isPermanent: false,
     },
     {
       id: 'column-complete',
       title: 'complete',
-      taskIds: [],
+      isPermanent: false,
     },
   ],
   columnOrder: ['column-todo', 'column-complete'],

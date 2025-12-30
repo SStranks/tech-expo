@@ -3,23 +3,23 @@ import type { KanbanStage, KanbanTask } from '@Data/MockScrumboardKanban';
 import type { PipelineDeal, PipelineStage } from '@Data/MockScrumboardPipeline';
 
 import type {
-  PragmaticDndKanbanCard,
-  PragmaticDndKanbanColumn,
+  PragmaticDndKanbanStage,
+  PragmaticDndKanbanTask,
   PragmaticDnDPipelineDeal,
   PragmaticDndPipelineStage,
 } from '../types/pragmaticDndTypes';
 
 import {
-  PRAGMATICDND_KANBAN_CARD_TYPE,
-  PRAGMATICDND_KANBAN_COLUMN_TYPE,
+  PRAGMATICDND_KANBAN_STAGE_TYPE,
+  PRAGMATICDND_KANBAN_TASK_TYPE,
   PRAGMATICDND_PIPELINE_DEAL_TYPE,
   PRAGMATICDND_PIPELINE_STAGE_TYPE,
 } from '../types/pragmaticDndTypes';
 
 export const SYMBOL_PIPELINE_DEAL = Symbol();
 export const SYMBOL_PIPELINE_STAGE = Symbol();
-export const SYMBOL_KANBAN_CARD = Symbol();
-export const SYMBOL_KANBAN_COLUMN = Symbol();
+export const SYMBOL_KANBAN_TASK = Symbol();
+export const SYMBOL_KANBAN_STAGE = Symbol();
 
 // -------------------------------- //
 // ----------- DRAGGABLES --------- //
@@ -29,8 +29,8 @@ export function isPipelineDealDropData(data: Record<string | symbol, unknown>): 
   return Boolean(data[SYMBOL_PIPELINE_DEAL]);
 }
 
-export function isKanbanCardDropData(data: Record<string | symbol, unknown>): data is PragmaticDndKanbanCard {
-  return Boolean(data[SYMBOL_KANBAN_CARD]);
+export function isKanbanTaskDropData(data: Record<string | symbol, unknown>): data is PragmaticDndKanbanTask {
+  return Boolean(data[SYMBOL_KANBAN_TASK]);
 }
 
 export function createPipelineDealDropData(deal: PipelineDeal, dealIndex: number): PragmaticDnDPipelineDeal {
@@ -42,15 +42,10 @@ export function createPipelineDealDropData(deal: PipelineDeal, dealIndex: number
   };
 }
 
-export function createKanbanCardDropData(
-  column: KanbanStage,
-  task: KanbanTask,
-  taskIndex: number
-): PragmaticDndKanbanCard {
+export function createKanbanTaskDropData(task: KanbanTask, taskIndex: number): PragmaticDndKanbanTask {
   return {
-    [SYMBOL_KANBAN_CARD]: true,
-    type: PRAGMATICDND_KANBAN_CARD_TYPE,
-    column,
+    [SYMBOL_KANBAN_TASK]: true,
+    type: PRAGMATICDND_KANBAN_TASK_TYPE,
     task,
     taskIndex,
   };
@@ -76,14 +71,15 @@ export function createPipelineStageTargetData(
   };
 }
 
-export function isKanbanColumnTargetData(data: Record<string | symbol, unknown>): data is PragmaticDndKanbanColumn {
-  return Boolean(data[SYMBOL_KANBAN_COLUMN]);
+export function isKanbanStageTargetData(data: Record<string | symbol, unknown>): data is PragmaticDndKanbanStage {
+  return Boolean(data[SYMBOL_KANBAN_STAGE]);
 }
 
-export function createKanbanColumnTargetData(column: KanbanStage): PragmaticDndKanbanColumn {
+export function createKanbanStageTargetData(stage: KanbanStage, taskIds: KanbanTask['id'][]): PragmaticDndKanbanStage {
   return {
-    [SYMBOL_KANBAN_COLUMN]: true,
-    type: PRAGMATICDND_KANBAN_COLUMN_TYPE,
-    column,
+    [SYMBOL_KANBAN_STAGE]: true,
+    type: PRAGMATICDND_KANBAN_STAGE_TYPE,
+    stage,
+    taskIds,
   };
 }

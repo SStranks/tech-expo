@@ -16,8 +16,8 @@ function ScrumboardPipelineStages(): React.JSX.Element {
   return (
     <div className={styles.columns}>
       <ScrumboardPipelineStageUnassigned stageId={permanentStages['unassigned'].id} />
-      {userCreatedStages.map((column) => {
-        return <ScrumboardPipelineStage key={column.id} stageId={column.id} />;
+      {userCreatedStages.map((stage) => {
+        return <ScrumboardPipelineStage key={stage.id} stageId={stage.id} />;
       })}
       <ScrumboardAddStage />
       <ScrumboardPipelineStageWon stageId={permanentStages['won'].id} />

@@ -214,7 +214,6 @@ const pipelineSlice = createSlice({
     updateTaskVerticalMove(state, action: PayloadAction<Omit<MoveDealPayload, 'destinationStageId'>>) {
       const { destinationDealOrderKey, sourceDealId } = action.payload;
       state.deals.byId[sourceDealId].orderKey = destinationDealOrderKey;
-      console.log('TEST');
     },
   },
   extraReducers: (builder) => {

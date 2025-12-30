@@ -17,12 +17,12 @@ import { createPipelineDealDropData } from './utils/pragmaticDndValidation';
 
 import styles from './ScrumboardCard.module.scss';
 
-interface Props {
+type Props = {
   dealId: PipelineDeal['id'];
   stage: PipelineStage;
   dealIndex: number;
   dealStatus?: 'won' | 'lost';
-}
+};
 
 // TODO:  focused Id; get from UI State
 function ScrumBoardPipelineDeal({ dealId, dealIndex, dealStatus, stage }: Props): React.JSX.Element {
@@ -86,7 +86,7 @@ function ScrumBoardPipelineDeal({ dealId, dealIndex, dealStatus, stage }: Props)
         `${isDragEnter ? styles['card--dragEnter'] : ''}`,
         `${isFocused ? styles['card--focus'] : ''}`
       )}
-      aria-label={`Pipeline Card: ${deal.dealTitle}. Column: ${stage.title}`}
+      aria-label={`Pipeline Deal: ${deal.dealTitle}. Stage: ${stage.title}`}
       draggable>
       <div className={styles.card__upper}>
         <img src={deal.companyLogo} alt="" className={styles.companyLogo} />

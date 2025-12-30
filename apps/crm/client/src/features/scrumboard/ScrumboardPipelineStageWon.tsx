@@ -58,7 +58,7 @@ function ScrumboardColumnWon({ stageId }: Props): React.JSX.Element {
             )}
           </div>
           <div className={styles.headerControls}>
-            <ScrumboardColumnAddBtn columnStyle="won" columnId={stage.id} />
+            <ScrumboardColumnAddBtn columnStyle="won" stageId={stage.id} />
           </div>
         </div>
         <span className={styles['pipelineTotal--won']}>${dealsTotal}</span>
