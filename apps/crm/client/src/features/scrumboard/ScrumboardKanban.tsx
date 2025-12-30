@@ -34,10 +34,10 @@ type TaskMove = {
   destinationTaskStageId: KanbanStage['id'];
 };
 
-interface FocusContext {
+type FocusContext = {
   focusedId: KanbanTask['id'] | undefined;
   setFocusedId: React.Dispatch<React.SetStateAction<KanbanStage['id'] | undefined>>;
-}
+};
 
 const FocusContext = createContext<FocusContext | null>(null);
 export const useFocusContext = () => {
@@ -46,7 +46,7 @@ export const useFocusContext = () => {
   return context;
 };
 
-interface KanbanContext {
+type KanbanContext = {
   handleHorizontalMove: ({
     destinationStage,
     destinationTaskIndex,
@@ -65,7 +65,7 @@ interface KanbanContext {
     sourceStage: KanbanStage;
     sourceTask: KanbanTask;
   }) => Promise<void>;
-}
+};
 
 const KanbanContext = createContext<KanbanContext | null>(null);
 export const useKanbanontext = () => {

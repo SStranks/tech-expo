@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-type TParam1 = boolean;
+type Param1 = boolean;
 
-function usePortalFocusTrap(portalActive: TParam1) {
+function usePortalFocusTrap(portalActive: Param1) {
   useEffect(() => {
     if (portalActive) {
       document.querySelector('div#root')?.setAttribute('inert', 'true');

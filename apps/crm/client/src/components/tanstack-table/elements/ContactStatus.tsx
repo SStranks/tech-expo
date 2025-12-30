@@ -1,4 +1,4 @@
-import type { ITableDataContacts } from '@Data/MockData';
+import type { TableDataContacts } from '@Data/MockData';
 
 import IconCircleClock from '@Components/svg/IconCircleClock';
 import IconCircleClose from '@Components/svg/IconCircleClose';
@@ -9,7 +9,7 @@ import IconCircleTriangleRight from '@Components/svg/IconCircleTriangleRight';
 
 import styles from './ContactStatus.module.scss';
 
-function StatusIcon(status: ITableDataContacts['status']) {
+function StatusIcon(status: TableDataContacts['status']) {
   switch (status) {
     case 'churned': {
       return <IconCircleMinus svgClass={styles.icon} />;
@@ -42,7 +42,7 @@ function StatusIcon(status: ITableDataContacts['status']) {
 }
 
 type Props = {
-  status: ITableDataContacts['status'];
+  status: TableDataContacts['status'];
 };
 
 function ContactStatus(props: Props): React.JSX.Element {

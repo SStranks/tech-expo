@@ -1,9 +1,9 @@
-import { INotification } from '@Data/MockData';
+import { Notification } from '@Data/MockData';
 
 import styles from './NotificationsList.module.scss';
 
 type Props = {
-  notifications: INotification[] | [];
+  notifications: Notification[] | [];
 };
 
 // TODO:  Implement keyboard navigation - convert component/use 'cmdk'; pnpm add cmdk

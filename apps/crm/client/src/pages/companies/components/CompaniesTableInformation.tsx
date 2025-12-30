@@ -4,17 +4,17 @@ import IconCompanies from '@Components/svg/IconCompanies';
 
 import styles from './CompaniesTableInformation.module.scss';
 
-interface ICompanyInfo {
+type CompanyInfo = {
   size: string;
   revenue: string;
   industry: string;
   type: string;
   country: string;
   website: string;
-}
+};
 
 type Props = {
-  companyInfo: ICompanyInfo;
+  companyInfo: CompanyInfo;
 };
 
 function CompaniesTableInformation(props: Props): React.JSX.Element {

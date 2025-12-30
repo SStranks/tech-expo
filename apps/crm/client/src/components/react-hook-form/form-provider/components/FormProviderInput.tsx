@@ -1,6 +1,6 @@
 import type { InputHTMLAttributes } from 'react';
 
-import type { TValidationRules } from '@Components/react-hook-form/validationRules';
+import type { ValidationRules } from '@Components/react-hook-form/validationRules';
 
 import { useId } from 'react';
 import { InputProps } from 'react-aria-components';
@@ -13,7 +13,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   type: React.HTMLInputTypeAttribute;
   label: string;
-  rules?: TValidationRules;
+  rules?: ValidationRules;
   autoComplete?: string;
 }
 

@@ -1,11 +1,11 @@
 import { createColumnHelper } from '@tanstack/react-table';
 
-import { ITableDataContacts } from '@Data/MockData';
+import { TableDataContacts } from '@Data/MockData';
 
 import ContactStatus from '../elements/ContactStatus';
 import UserSingle from '../elements/UserSingle';
 
-const columnHelper = createColumnHelper<ITableDataContacts>();
+const columnHelper = createColumnHelper<TableDataContacts>();
 
 const columnContactsDeleteDef = [
   columnHelper.accessor('name', {

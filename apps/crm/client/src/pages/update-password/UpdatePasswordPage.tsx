@@ -1,4 +1,4 @@
-import type { TInputPasswordStrength } from '@Components/react-hook-form/input-password/InputPasswordStrength';
+import type { InputPasswordStrength } from '@Components/react-hook-form/input-password/InputPasswordStrength';
 
 import { lazy, Suspense, useId } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -23,13 +23,13 @@ import styles from './UpdatePasswordPage.module.scss';
 // Contains 'zxcvbn' package; heavy weight
 const InputPasswordStrength = lazy(
   () => import('@Components/react-hook-form/input-password/InputPasswordStrength')
-) as TInputPasswordStrength;
+) as InputPasswordStrength;
 
-export interface DefaultValues {
+export type DefaultValues = {
   newPassword: string;
   newPasswordConfirm: string;
   oldPassword: string;
-}
+};
 
 const defaultValues: DefaultValues = {
   newPassword: '',

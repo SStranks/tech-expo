@@ -1,4 +1,4 @@
-import type { TValidationRules } from '@Components/react-hook-form/validationRules';
+import type { ValidationRules } from '@Components/react-hook-form/validationRules';
 
 import { useId } from 'react';
 import { useFormContext, useFormState } from 'react-hook-form';
@@ -9,7 +9,7 @@ import TextArea from '@Components/react-hook-form/textarea/TextArea';
 type Props = {
   name: string;
   label: string;
-  rules?: TValidationRules;
+  rules?: ValidationRules;
 };
 function FormProviderTextArea({ label, name, rules = {} }: Props): React.JSX.Element {
   const { control } = useFormContext();

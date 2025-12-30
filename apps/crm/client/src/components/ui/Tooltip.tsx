@@ -8,11 +8,11 @@ import styles from './ToolTip.module.scss';
 /**
  * Determine the positional coordinates for the tooltip, utilizing the DOMRect coordinates of the associated element.
  * Tooltip utilizes a portal, with absolute positioning.
- * @param  {[ICoords | undefined]} childCoords The DOM coordinates of the element the tooltip is to be associated with
- * @param  {[TPosition]} position Which side of the element the tooltip should appear on
+ * @param  {[Coords | undefined]} childCoords The DOM coordinates of the element the tooltip is to be associated with
+ * @param  {[Position]} position Which side of the element the tooltip should appear on
  * @return {[number]} Pixel offset of the tooltip from the edge of the associated element
  */
-const calculateFinalPosition = (childCoords: ICoords | undefined, position: TPosition, offset: number) => {
+const calculateFinalPosition = (childCoords: Coords | undefined, position: Position, offset: number) => {
   let top, left, translateX, translateY;
   if (childCoords === undefined || childCoords.width === undefined || childCoords.height === undefined) return;
   switch (true) {
@@ -53,18 +53,18 @@ const calculateFinalPosition = (childCoords: ICoords | undefined, position: TPos
   };
 };
 
-interface ICoords extends Partial<DOMRect> {}
+interface Coords extends Partial<DOMRect> {}
 
-type TPosition = 'left' | 'right' | 'top' | 'bottom';
+type Position = 'left' | 'right' | 'top' | 'bottom';
 
 type Props = {
   text: string;
-  position: TPosition;
+  position: Position;
   offset: number;
 };
 
 function ToolTip({ children = undefined, offset, position, text }: PropsWithChildren<Props>): React.JSX.Element {
-  const [childCoords, setChildCoords] = useState<ICoords>();
+  const [childCoords, setChildCoords] = useState<Coords>();
   const [active, setActive] = useState<boolean>();
   const nodeRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout>(null);

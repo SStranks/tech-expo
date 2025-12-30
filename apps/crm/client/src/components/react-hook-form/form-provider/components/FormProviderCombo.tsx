@@ -1,6 +1,6 @@
 import type { ComboBoxProps } from 'react-aria-components';
 
-import type { TValidationRules } from '@Components/react-hook-form/validationRules';
+import type { ValidationRules } from '@Components/react-hook-form/validationRules';
 
 import { useId } from 'react';
 import { Controller, useFormContext, useFormState } from 'react-hook-form';
@@ -14,7 +14,7 @@ type Props = {
   label: string;
   defaultInputValue?: string;
   // items: { name: string }[];
-  rules?: TValidationRules;
+  rules?: ValidationRules;
 };
 
 function FormProviderCombo<T extends object>({

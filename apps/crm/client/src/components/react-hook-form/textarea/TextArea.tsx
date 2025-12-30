@@ -1,4 +1,4 @@
-import type { TValidationRules } from '../validationRules';
+import type { ValidationRules } from '../validationRules';
 
 import { ChangeEvent, InputHTMLAttributes } from 'react';
 import { useFormContext, useFormState } from 'react-hook-form';
@@ -14,7 +14,7 @@ const autoHeightResize = (e: ChangeEvent<HTMLTextAreaElement>) => {
 interface Props extends InputHTMLAttributes<HTMLTextAreaElement> {
   id: string;
   name: string;
-  rules?: TValidationRules;
+  rules?: ValidationRules;
 }
 
 function TextArea(props: Props): React.JSX.Element {

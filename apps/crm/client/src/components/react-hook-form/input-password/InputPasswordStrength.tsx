@@ -124,5 +124,5 @@ function InputPasswordStrength(props: Props): React.JSX.Element {
 }
 
 // Type required for <Suspense> component; generics require it
-export type TInputPasswordStrength = typeof InputPasswordStrength;
+export type InputPasswordStrength = typeof InputPasswordStrength;
 export default InputPasswordStrength;

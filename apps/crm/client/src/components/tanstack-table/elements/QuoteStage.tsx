@@ -1,4 +1,4 @@
-import type { ITableDataQuotes } from '@Data/MockData';
+import type { TableDataQuotes } from '@Data/MockData';
 
 import IconCircleTick from '@Components/svg/IconCircleTick';
 import IconFullScreen from '@Components/svg/IconFullScreen';
@@ -6,7 +6,7 @@ import IconSquareArrowTopRight from '@Components/svg/IconSquareArrowTopRight';
 
 import styles from './QuoteStage.module.scss';
 
-function StageIcon(stage: ITableDataQuotes['stage']) {
+function StageIcon(stage: TableDataQuotes['stage']) {
   switch (stage) {
     case 'accepted': {
       return <IconCircleTick svgClass={styles.icon} />;
@@ -21,7 +21,7 @@ function StageIcon(stage: ITableDataQuotes['stage']) {
 }
 
 type Props = {
-  stage: ITableDataQuotes['stage'];
+  stage: TableDataQuotes['stage'];
 };
 
 function QuoteStage(props: Props): React.JSX.Element {

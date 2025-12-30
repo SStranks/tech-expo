@@ -1,13 +1,13 @@
 import { createColumnHelper } from '@tanstack/react-table';
 
-import { ITableDataQuotes } from '@Data/MockData';
+import { TableDataQuotes } from '@Data/MockData';
 
 import RowActionsControl from '../controls/actions-row/RowActionsControl';
 import QuoteParticipants from '../elements/QuoteParticipants';
 import QuoteStage from '../elements/QuoteStage';
 import UserSingle from '../elements/UserSingle';
 
-const columnHelper = createColumnHelper<ITableDataQuotes>();
+const columnHelper = createColumnHelper<TableDataQuotes>();
 
 const columnCompaniesQuotesDef = [
   columnHelper.accessor('title', {

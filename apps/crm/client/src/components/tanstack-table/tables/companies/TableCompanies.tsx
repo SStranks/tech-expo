@@ -1,4 +1,4 @@
-import type { ITableDataCompanies } from '@Data/MockData';
+import type { TableDataCompanies } from '@Data/MockData';
 
 import {
   ColumnFiltersState,
@@ -24,12 +24,12 @@ import { useReactTable } from '@Lib/tanstack';
 import styles from './TableCompanies.module.scss';
 
 type Props = {
-  tableData: ITableDataCompanies[];
+  tableData: TableDataCompanies[];
 };
 
 function TableCompanies(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<ITableDataCompanies[]>(tableData);
+  const [data] = useState<TableDataCompanies[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [globalFilter, setGlobalFilter] = useState<string>('');

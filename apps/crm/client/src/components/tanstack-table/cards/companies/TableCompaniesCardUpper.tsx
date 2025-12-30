@@ -1,13 +1,13 @@
 import type { CoreRow } from '@tanstack/react-table';
 
-import type { ITableDataCompanies } from '@Data/MockData';
+import type { TableDataCompanies } from '@Data/MockData';
 
 import TableCompaniesOptionBtn from './TableCompaniesOptionBtn';
 
 import styles from './TableCompaniesCardUpper.module.scss';
 
 type Props = {
-  rowOriginal: CoreRow<ITableDataCompanies>['original'];
+  rowOriginal: CoreRow<TableDataCompanies>['original'];
 };
 
 function TableCompaniesCardUpper(props: Props): React.JSX.Element {

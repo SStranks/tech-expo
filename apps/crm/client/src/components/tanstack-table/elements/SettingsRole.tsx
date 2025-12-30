@@ -1,4 +1,4 @@
-import type { ITableSettingsContacts } from '@Data/MockData';
+import type { TableSettingsContacts } from '@Data/MockData';
 
 import IconUser from '@Components/svg/IconUser';
 import IconUserShield from '@Components/svg/IconUserShield';
@@ -12,7 +12,7 @@ const CSS_ROLE_CLASS = {
   'sales person': 'salesPerson',
 };
 
-function RoleIcon(userRole: ITableSettingsContacts['role']) {
+function RoleIcon(userRole: TableSettingsContacts['role']) {
   switch (userRole) {
     case 'admin': {
       return <IconUserShield svgClass={styles.icon} />;
@@ -30,7 +30,7 @@ function RoleIcon(userRole: ITableSettingsContacts['role']) {
 }
 
 type Props = {
-  userRole: ITableSettingsContacts['role'];
+  userRole: TableSettingsContacts['role'];
 };
 
 function SettingsRole(props: Props): React.JSX.Element {

@@ -1,4 +1,4 @@
-import type { ITableDataContacts } from '@Data/MockData';
+import type { TableDataContacts } from '@Data/MockData';
 
 import { ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getPaginationRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
@@ -8,12 +8,12 @@ import TableListEmbeddedView from '@Components/tanstack-table/views/TableListEmb
 import { useReactTable } from '@Lib/tanstack';
 
 type Props = {
-  tableData: ITableDataContacts[];
+  tableData: TableDataContacts[];
 };
 
 function TableCompaniesContacts(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<ITableDataContacts[]>(tableData);
+  const [data] = useState<TableDataContacts[]>(tableData);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 

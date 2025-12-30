@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import styles from './Button.module.scss';
 
-type TType = 'primary' | 'secondary' | 'quaternary';
+type ButtonStyle = 'primary' | 'secondary' | 'quaternary';
 
 type Props = {
   buttonClickFn?: (data?: unknown) => void;
@@ -12,7 +12,7 @@ type Props = {
   ButtonIcon?: SvgIcon;
   buttonShape?: 'default' | 'circle' | 'pill';
   buttonSize?: 'small' | 'default' | 'large';
-  buttonStyle?: TType;
+  buttonStyle?: ButtonStyle;
   buttonText?: string;
   type?: HTMLButtonElement['type'];
   form?: string;

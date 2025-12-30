@@ -18,7 +18,7 @@ import MenuToggle from './components/MenuToggle';
 
 import styles from './Aside.module.scss';
 
-// type TMenuCategories = [string, string, IIcon][];
+// type MenuCategories = [string, string, IIcon][];
 
 export const MENU_CATEGORIES = [
   ['Dashboard', '/', IconDashboard],

@@ -1,12 +1,12 @@
-import type { ITableDataDeals } from '@Data/MockData';
+import type { TableDataDeals } from '@Data/MockData';
 
 import UserCircleAbbv from '@Components/general/UserCircleAbbv';
 
 import styles from './QuotesParticipants.module.scss';
 
 type Props = {
-  dealOwner: ITableDataDeals['dealOwner'];
-  dealContact: ITableDataDeals['dealContact'];
+  dealOwner: TableDataDeals['dealOwner'];
+  dealContact: TableDataDeals['dealContact'];
 };
 
 // REFACTOR:  Same as QuoteParticipants generally

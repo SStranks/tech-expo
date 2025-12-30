@@ -1,6 +1,6 @@
 import type { CoreRow } from '@tanstack/react-table';
 
-import type { ITableDataCompanies } from '@Data/MockData';
+import type { TableDataCompanies } from '@Data/MockData';
 
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ function CompaniesDeletePage(): React.JSX.Element {
   const navigate = useNavigate();
   // TODO:  Change assertion to runtime check later, using type guard.
   // TODO:  Apply this approach to the other components using useLocation.
-  const state = useLocation().state as CoreRow<ITableDataCompanies>['original'];
+  const state = useLocation().state as CoreRow<TableDataCompanies>['original'];
   const [id] = useState(() => state.id);
 
   useEffect(() => {

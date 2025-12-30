@@ -8,9 +8,9 @@ import usePortalClose from '@Hooks/usePortalClose';
 
 import styles from './FormModal.module.scss';
 
-interface FormModalContext {
+type FormModalContext = {
   setPortalActive: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 const FormModalContext = createContext<FormModalContext | null>(null);
 const useFormModalContext = () => {

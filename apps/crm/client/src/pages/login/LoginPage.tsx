@@ -10,10 +10,10 @@ import { login } from '@Redux/reducers/authSlice';
 
 import styles from './LoginPage.module.scss';
 
-interface DefaultValues {
+type DefaultValues = {
   email: string;
   password: string;
-}
+};
 
 // TODO:  Think about security; remembering credentials?
 function LoginPage(): React.JSX.Element {

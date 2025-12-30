@@ -1,6 +1,6 @@
 import type { CoreRow } from '@tanstack/react-table';
 
-import type { ITableDataCompanies } from '@Data/MockData';
+import type { TableDataCompanies } from '@Data/MockData';
 
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from 'react-aria-components';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,7 @@ import IconMenuDots from '@Components/svg/IconMenuDots';
 import styles from './TableCompaniesOptionBtn.module.scss';
 
 type Props = {
-  rowOriginal: CoreRow<ITableDataCompanies>['original'];
+  rowOriginal: CoreRow<TableDataCompanies>['original'];
 };
 
 function TableCompaniesOptionBtn(props: Props): React.JSX.Element {

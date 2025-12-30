@@ -3,7 +3,7 @@ import { CSSTransition } from 'react-transition-group';
 
 import ReactPortal from '@Components/modal/ReactPortal';
 import IconNotificationBell from '@Components/svg/IconNotificationBell';
-import { INotification } from '@Data/MockData';
+import { Notification } from '@Data/MockData';
 import usePortalClose from '@Hooks/usePortalClose';
 import usePortalResizeEvent from '@Hooks/usePortalResizeEvent';
 import {
@@ -32,14 +32,14 @@ const PORTAL_ONRESIZE = (portalButtonRef: React.RefObject<HTMLButtonElement | nu
 };
 
 type Props = {
-  notifications: INotification[];
+  notifications: Notification[];
 };
 
 // TODO:  1. Clear notifications. 2. Mark all as read. 3. Click on single notifcation; mark as read.
 function Notifications(props: Props): React.JSX.Element {
   const { notifications } = props;
   const [portalActive, setPortalActive] = useState<boolean>(false);
-  const [notificationsList, setNotificationsList] = useState<INotification[]>(notifications);
+  const [notificationsList, setNotificationsList] = useState<Notification[]>(notifications);
   const portalButtonRef = useRef<HTMLButtonElement>(null);
   const portalContentRef = useRef<HTMLDivElement>(null);
   usePortalClose(portalActive, setPortalActive, portalContentRef, portalButtonRef);

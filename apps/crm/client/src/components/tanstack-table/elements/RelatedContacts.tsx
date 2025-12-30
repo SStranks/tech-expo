@@ -1,4 +1,4 @@
-import type { ITableDataCompanies } from '@Data/MockData';
+import type { TableDataCompanies } from '@Data/MockData';
 
 import userImage from '@Img/image-35.jpg';
 
@@ -11,13 +11,13 @@ import styles from './RelatedContacts.module.scss';
 
 const USER_IMAGE = userImage;
 
-const CIRCLE_USER_IMAGES = (relatedContacts: ITableDataCompanies['relatedContacts']) => {
+const CIRCLE_USER_IMAGES = (relatedContacts: TableDataCompanies['relatedContacts']) => {
   return relatedContacts
     .slice(0, 3)
     .map((contact, i) => <img key={i} src={USER_IMAGE} alt={contact} className={styles.displayImage} />);
 };
 
-const CIRCLE_EXTRA_USERS = (relatedContacts: ITableDataCompanies['relatedContacts']) => {
+const CIRCLE_EXTRA_USERS = (relatedContacts: TableDataCompanies['relatedContacts']) => {
   if (relatedContacts.length <= 3) return null;
   const EXTRA_USERS_NUM = relatedContacts.length - 3;
   return (
@@ -29,7 +29,7 @@ const CIRCLE_EXTRA_USERS = (relatedContacts: ITableDataCompanies['relatedContact
 };
 
 type Props = {
-  relatedContacts: ITableDataCompanies['relatedContacts'];
+  relatedContacts: TableDataCompanies['relatedContacts'];
 };
 
 function RelatedContacts(props: Props): React.JSX.Element {

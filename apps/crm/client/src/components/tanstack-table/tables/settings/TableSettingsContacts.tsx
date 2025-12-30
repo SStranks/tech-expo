@@ -1,4 +1,4 @@
-import type { ITableSettingsContacts } from '@Data/MockData';
+import type { TableSettingsContacts } from '@Data/MockData';
 
 import { ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getPaginationRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
@@ -11,13 +11,13 @@ import { useReactTable } from '@Lib/tanstack';
 import styles from './TableSettingsContacts.module.scss';
 
 type Props = {
-  tableData: ITableSettingsContacts[];
+  tableData: TableSettingsContacts[];
 };
 
 function TableSettingsContacts(props: Props): React.JSX.Element {
   const { tableData } = props;
 
-  const [data] = useState<ITableSettingsContacts[]>(tableData);
+  const [data] = useState<TableSettingsContacts[]>(tableData);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 

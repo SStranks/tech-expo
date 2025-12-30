@@ -1,4 +1,4 @@
-import type { ITableDataDeals } from '@Data/MockData';
+import type { TableDataDeals } from '@Data/MockData';
 
 import {
   ColumnFiltersState,
@@ -15,12 +15,12 @@ import TableListEmbeddedView from '@Components/tanstack-table/views/TableListEmb
 import { useReactTable } from '@Lib/tanstack';
 
 type Props = {
-  tableData: ITableDataDeals[];
+  tableData: TableDataDeals[];
 };
 
 function TableCompaniesDeals(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<ITableDataDeals[]>(tableData);
+  const [data] = useState<TableDataDeals[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);

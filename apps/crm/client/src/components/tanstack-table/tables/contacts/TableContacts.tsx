@@ -1,4 +1,4 @@
-import type { ITableDataContacts } from '@Data/MockData';
+import type { TableDataContacts } from '@Data/MockData';
 
 import {
   ColumnFiltersState,
@@ -24,12 +24,12 @@ import { useReactTable } from '@Lib/tanstack';
 import styles from './TableContacts.module.scss';
 
 type Props = {
-  tableData: ITableDataContacts[];
+  tableData: TableDataContacts[];
 };
 
 function TableContacts(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<ITableDataContacts[]>(tableData);
+  const [data] = useState<TableDataContacts[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [globalFilter, setGlobalFilter] = useState<string>('');

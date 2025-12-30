@@ -1,4 +1,4 @@
-import type { ITableDataCompanies } from '@Data/MockData';
+import type { TableDataCompanies } from '@Data/MockData';
 
 import { getCoreRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
@@ -10,12 +10,12 @@ import { useReactTable } from '@Lib/tanstack';
 import styles from './TableCompanies.module.scss';
 
 type Props = {
-  tableData: ITableDataCompanies[];
+  tableData: TableDataCompanies[];
 };
 
 function TableCompanies(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<ITableDataCompanies[]>(tableData);
+  const [data] = useState<TableDataCompanies[]>(tableData);
 
   const table = useReactTable({
     columns: ColumnCompaniesDelete,

@@ -4,7 +4,7 @@ import IconCompanies from '@Components/svg/IconCompanies';
 
 import styles from './ContactTableInformation.module.scss';
 
-interface IUserInfo {
+type UserInfo = {
   username: string;
   email: string;
   company: string;
@@ -12,10 +12,10 @@ interface IUserInfo {
   phone: string;
   timezone: string;
   stage: string;
-}
+};
 
 type Props = {
-  userInfo: IUserInfo;
+  userInfo: UserInfo;
 };
 
 function ContactTableInformation(props: Props): React.JSX.Element {

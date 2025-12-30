@@ -1,7 +1,7 @@
 import type { CoreRow } from '@tanstack/react-table';
 import type { PropsWithChildren } from 'react';
 
-import type { ITableDataCompanies, ITableDataContacts, ITableDataQuotes } from '@Data/MockData';
+import type { TableDataCompanies, TableDataContacts, TableDataQuotes } from '@Data/MockData';
 
 import { Link } from 'react-router-dom';
 
@@ -13,33 +13,33 @@ import IconPhone from '@Components/svg/IconPhone';
 
 import styles from './RowActionsControl.module.scss';
 
-type TTableDataAllUnion = ITableDataContacts | ITableDataCompanies | ITableDataQuotes;
+type TableDataAllUnion = TableDataContacts | TableDataCompanies | TableDataQuotes;
 
-interface IViewControl {
+type ViewControl = {
   entryId: string;
-}
+};
 
-interface IUpdateControl {
-  rowOriginal: CoreRow<TTableDataAllUnion>['original'];
-}
+type UpdateControl = {
+  rowOriginal: CoreRow<TableDataAllUnion>['original'];
+};
 
-interface ICallControl {
+type CallControl = {
   phone: string;
-}
+};
 
-interface IEmailControl {
+type EmailControl = {
   entryId: string;
-}
+};
 
-interface IDeleteControl {
-  rowOriginal: CoreRow<TTableDataAllUnion>['original'];
-}
+type DeleteControl = {
+  rowOriginal: CoreRow<TableDataAllUnion>['original'];
+};
 
 function RowActionsControl({ children }: PropsWithChildren): React.JSX.Element {
   return <div className={styles.rowActions}>{children}</div>;
 }
 
-function ViewControl({ entryId }: IViewControl): React.JSX.Element {
+function ViewControl({ entryId }: ViewControl): React.JSX.Element {
   return (
     <Link to={`read/${entryId}`} className={styles.link}>
       <IconEye svgClass={styles.svg} />
@@ -47,7 +47,7 @@ function ViewControl({ entryId }: IViewControl): React.JSX.Element {
   );
 }
 
-function CallControl({ phone }: ICallControl): React.JSX.Element {
+function CallControl({ phone }: CallControl): React.JSX.Element {
   return (
     <Link to={`tel:${phone}`} className={styles.link}>
       <IconPhone svgClass={styles.svg} />
@@ -55,7 +55,7 @@ function CallControl({ phone }: ICallControl): React.JSX.Element {
   );
 }
 
-function EmailControl({ entryId }: IEmailControl): React.JSX.Element {
+function EmailControl({ entryId }: EmailControl): React.JSX.Element {
   return (
     <Link to={`email:${entryId}`} className={styles.link}>
       <IconEmail svgClass={styles.svg} />
@@ -63,7 +63,7 @@ function EmailControl({ entryId }: IEmailControl): React.JSX.Element {
   );
 }
 
-function UpdateControl({ rowOriginal }: IUpdateControl): React.JSX.Element {
+function UpdateControl({ rowOriginal }: UpdateControl): React.JSX.Element {
   return (
     <Link to={`update/${rowOriginal.id}`} state={rowOriginal} className={styles.link}>
       <IconEdit svgClass={styles.svg} />
@@ -71,7 +71,7 @@ function UpdateControl({ rowOriginal }: IUpdateControl): React.JSX.Element {
   );
 }
 
-function DeleteControl({ rowOriginal }: IDeleteControl): React.JSX.Element {
+function DeleteControl({ rowOriginal }: DeleteControl): React.JSX.Element {
   return (
     <Link to={`delete/${rowOriginal.id}`} state={rowOriginal} className={styles.linkDelete}>
       <IconDelete svgClass={styles.svg} />

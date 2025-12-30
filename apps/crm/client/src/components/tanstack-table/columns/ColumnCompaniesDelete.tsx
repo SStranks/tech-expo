@@ -1,11 +1,11 @@
 import { createColumnHelper } from '@tanstack/react-table';
 
-import { ITableDataCompanies } from '@Data/MockData';
+import { TableDataCompanies } from '@Data/MockData';
 
 import CompanySingle from '../elements/CompanySingle';
 import UserSingle from '../elements/UserSingle';
 
-const columnHelper = createColumnHelper<ITableDataCompanies>();
+const columnHelper = createColumnHelper<TableDataCompanies>();
 
 const columnCompaniesDeleteDef = [
   columnHelper.accessor('companyTitle', {

@@ -1,6 +1,6 @@
 import type { CoreRow } from '@tanstack/react-table';
 
-import type { ITableDataQuotes } from '@Data/MockData';
+import type { TableDataQuotes } from '@Data/MockData';
 
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -21,7 +21,7 @@ function QuoteUpdatePage(): React.JSX.Element {
   const navigate = useNavigate();
   // TODO:  Change assertion to runtime check later, using type guard.
   // TODO:  Apply this approach to the other components using useLocation.
-  const state = useLocation().state as CoreRow<ITableDataQuotes>['original'];
+  const state = useLocation().state as CoreRow<TableDataQuotes>['original'];
   const [title] = useState(() => state.title);
 
   const setPortalActive = () => {

@@ -1,11 +1,11 @@
 import { createColumnHelper } from '@tanstack/react-table';
 
-import { ITableDataDeals } from '@Data/MockData';
+import { TableDataDeals } from '@Data/MockData';
 
 import RowActionsControl from '../controls/actions-row/RowActionsControl';
 import DealParticipants from '../elements/DealParticipants';
 
-const columnHelper = createColumnHelper<ITableDataDeals>();
+const columnHelper = createColumnHelper<TableDataDeals>();
 
 const columnCompaniesDealssDef = [
   columnHelper.accessor('title', {

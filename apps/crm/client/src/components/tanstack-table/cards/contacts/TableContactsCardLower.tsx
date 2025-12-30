@@ -1,11 +1,11 @@
 import type { CoreRow } from '@tanstack/react-table';
 
-import type { ITableDataContacts } from '@Data/MockData';
+import type { TableDataContacts } from '@Data/MockData';
 
 import styles from './TableContactsCardLower.module.scss';
 
 type Props = {
-  rowOriginal: CoreRow<ITableDataContacts>['original'];
+  rowOriginal: CoreRow<TableDataContacts>['original'];
 };
 
 function TableContactsCardLower(props: Props): React.JSX.Element {

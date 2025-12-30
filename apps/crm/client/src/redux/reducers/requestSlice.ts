@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // TODO:  Check auth flow - what is IRequest supposed to be?
-interface IRequest {}
+type Request = {};
 
-interface IRequests {
+type Requests = {
   intervalMs: number;
   maxRequests: number;
   pendingRequests: number;
-  queueRequests: IRequest[];
-}
+  queueRequests: Request[];
+};
 
-const initialState: IRequests = {
+const initialState: Requests = {
   intervalMs: 600,
   maxRequests: 10,
   pendingRequests: 0,
@@ -24,7 +24,7 @@ export const requestSlice = createSlice({
     clearQueue(state) {
       state.pendingRequests = 0;
     },
-    pushQueue(state, action: PayloadAction<IRequest>) {
+    pushQueue(state, action: PayloadAction<Request>) {
       state.queueRequests.push(action.payload);
       state.pendingRequests += 1;
     },

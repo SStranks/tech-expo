@@ -33,10 +33,10 @@ type DealMove = {
   destinationDealOrderKey: PipelineDeal['orderKey'];
   destinationDealStageId: PipelineStage['id'];
 };
-interface FocusContext {
+type FocusContext = {
   focusedId: PipelineDeal['id'] | undefined;
   setFocusedId: React.Dispatch<React.SetStateAction<PipelineDeal['id'] | undefined>>;
-}
+};
 
 const FocusContext = createContext<FocusContext | null>(null);
 export const useFocusContext = () => {
@@ -45,7 +45,7 @@ export const useFocusContext = () => {
   return context;
 };
 
-interface PipelineContext {
+type PipelineContext = {
   handleHorizontalMove: ({
     destinationDealIndex,
     destinationStage,
@@ -64,7 +64,7 @@ interface PipelineContext {
     sourceStage: PipelineStage;
     sourceDeal: PipelineDeal;
   }) => Promise<void>;
-}
+};
 
 const PipelineContext = createContext<PipelineContext | null>(null);
 export const usePipeineContext = () => {

@@ -2,12 +2,12 @@ import { useState } from 'react';
 
 import styles from './QuoteStatusUpdater.module.scss';
 
-type TQuoteStatus = 'draft' | 'sent' | 'accepted';
+type QuoteStatus = 'draft' | 'sent' | 'accepted';
 
 function QuoteStatusUpdater(): React.JSX.Element {
-  const [quoteStatus, setQuoteStatus] = useState<TQuoteStatus>('draft');
+  const [quoteStatus, setQuoteStatus] = useState<QuoteStatus>('draft');
 
-  const statusBtnClickHandler = (status: TQuoteStatus) => {
+  const statusBtnClickHandler = (status: QuoteStatus) => {
     setQuoteStatus(status);
   };
 

@@ -13,18 +13,18 @@ import ColumnQuotes from '@Components/tanstack-table/columns/ColumnQuotes';
 import TableControlsFooter from '@Components/tanstack-table/controls/ui/TableControlsFooter';
 import TableControlsHeader from '@Components/tanstack-table/controls/ui/TableControlsHeader';
 import TableListView from '@Components/tanstack-table/views/TableListView';
-import { ITableDataQuotes } from '@Data/MockData';
+import { TableDataQuotes } from '@Data/MockData';
 import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableQuotes.module.scss';
 
 type Props = {
-  tableData: ITableDataQuotes[];
+  tableData: TableDataQuotes[];
 };
 
 function TableQuotes(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<ITableDataQuotes[]>(tableData);
+  const [data] = useState<TableDataQuotes[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [globalFilter, setGlobalFilter] = useState<string>('');

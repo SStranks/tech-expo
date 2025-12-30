@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 
-type TParam1 = boolean;
-type TParam2 = React.Dispatch<React.SetStateAction<boolean>>;
-type TParam3 = React.RefObject<HTMLDivElement | null>;
-type TParam4 = React.RefObject<HTMLButtonElement | null>;
+type Param1 = boolean;
+type Param2 = React.Dispatch<React.SetStateAction<boolean>>;
+type Param3 = React.RefObject<HTMLDivElement | null>;
+type Param4 = React.RefObject<HTMLButtonElement | null>;
 
 // Closes portal/modal content; when ESC key or click outside of modal content
 function usePortalClose(
-  portalActive: TParam1,
-  setPortalActive: TParam2,
-  portalContentRef: TParam3,
-  openPortalContentBtnRef?: TParam4
+  portalActive: Param1,
+  setPortalActive: Param2,
+  portalContentRef: Param3,
+  openPortalContentBtnRef?: Param4
 ): void {
   return useEffect(() => {
     const closePortal = (e: KeyboardEvent | MouseEvent) => {

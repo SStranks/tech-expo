@@ -9,9 +9,9 @@ import { useServicesContext } from '@Context/servicesContext';
 
 import styles from './ForgotPasswordPage.module.scss';
 
-interface DefaultValues {
+type DefaultValues = {
   email: string;
-}
+};
 
 function ForgotPasswordPage(): React.JSX.Element {
   const methods = useForm<DefaultValues>({ defaultValues: { email: '' } });

@@ -1,6 +1,6 @@
 import type { HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, InputHTMLAttributes } from 'react';
 
-import type { TValidationRules } from '../validationRules';
+import type { ValidationRules } from '../validationRules';
 
 import { useEffect } from 'react';
 import { useFormContext, useFormState } from 'react-hook-form';
@@ -12,7 +12,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
   name: string;
   autoComplete?: HTMLInputAutoCompleteAttribute;
-  rules: TValidationRules;
+  rules: ValidationRules;
 }
 
 function Input(props: Props): React.JSX.Element {

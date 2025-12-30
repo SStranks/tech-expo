@@ -3,18 +3,18 @@ import { useState } from 'react';
 
 import ColumnContactsDelete from '@Components/tanstack-table/columns/ColumnContactsDelete';
 import TableModalView from '@Components/tanstack-table/views/TableModalView';
-import { ITableDataContacts } from '@Data/MockData';
+import { TableDataContacts } from '@Data/MockData';
 import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableContacts.module.scss';
 
 type Props = {
-  tableData: ITableDataContacts[];
+  tableData: TableDataContacts[];
 };
 
 function TableContactsDelete(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<ITableDataContacts[]>(tableData);
+  const [data] = useState<TableDataContacts[]>(tableData);
 
   const table = useReactTable({
     columns: ColumnContactsDelete,

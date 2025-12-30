@@ -6,9 +6,9 @@ import type { ApiResponseSuccess } from '@Shared/src/types/api/base';
 
 import AppError from '@Utils/AppError';
 
-interface Request {
+type Request = {
   config: AxiosRequestConfig<any>;
-}
+};
 
 class ServiceAuth {
   private AuthState: ReduxAuthStateAdapter;

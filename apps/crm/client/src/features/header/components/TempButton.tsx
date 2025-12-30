@@ -5,11 +5,12 @@ import { useState } from 'react';
 import FormModal from '@Components/modal/FormModal';
 import { IconEye } from '@Svg/icons';
 
-interface IListItem {
+type ListItem = {
   id: string;
   name: string;
-}
-let listItems: IListItem[] = [
+};
+
+let listItems: ListItem[] = [
   { id: 'a', name: 'Aerospace' },
   { id: 'b', name: 'Mechanical' },
   { id: 'c', name: 'Civil' },

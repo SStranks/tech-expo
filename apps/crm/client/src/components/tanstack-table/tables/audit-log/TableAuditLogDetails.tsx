@@ -1,4 +1,4 @@
-import type { ITableAuditLogDetails } from '@Data/MockData';
+import type { TableAuditLogDetails } from '@Data/MockData';
 
 import { getCoreRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
@@ -10,12 +10,12 @@ import { useReactTable } from '@Lib/tanstack';
 import styles from './TableAuditLog.module.scss';
 
 type Props = {
-  tableData: ITableAuditLogDetails[];
+  tableData: TableAuditLogDetails[];
 };
 
 function TableAuditLogDetails(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<ITableAuditLogDetails[]>(tableData);
+  const [data] = useState<TableAuditLogDetails[]>(tableData);
 
   const table = useReactTable({
     columns: ColumnAuditLogDetails,

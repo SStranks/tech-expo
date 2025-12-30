@@ -4,11 +4,11 @@ import IconMenuDots from '@Components/svg/IconMenuDots';
 
 import styles from './Buttons.module.scss';
 
-type TPlacementValues = 'top' | 'bottom' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right';
+type PlacementValues = 'top' | 'bottom' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right';
 
 type Props = {
   buttonAriaLabel: string;
-  popoverPlacement: TPlacementValues;
+  popoverPlacement: PlacementValues;
 };
 
 function ButtonOptions(props: Props): React.JSX.Element {

@@ -2,13 +2,13 @@
 import type { Preview } from '@storybook/react-webpack5';
 
 import '@Sass/global-imports.scss';
-import { ThemeToggleDecorator } from '../src/stories/helpers';
+import ThemeToggleDecorator from '../src/stories/helpers/ThemeToggleDecorator';
 
 import SCSS_Exports from '@Sass/_exports.module.scss';
 
 const { storybook_background_dark, storybook_background_light } = SCSS_Exports;
 
-export type TStorybookPreview = typeof preview;
+export type StorybookPreview = typeof preview;
 const preview: Preview = {
   decorators: [ThemeToggleDecorator],
   initialGlobals: { themeBg: { dark: storybook_background_dark, light: storybook_background_light } },

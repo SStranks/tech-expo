@@ -1,9 +1,9 @@
-import { ITableAuditLog } from '@Data/MockData';
+import { TableAuditLog } from '@Data/MockData';
 
 import styles from './AuditAction.module.scss';
 
 type Props = {
-  action: ITableAuditLog['action'];
+  action: TableAuditLog['action'];
 };
 
 function AuditAction(props: Props): React.JSX.Element {

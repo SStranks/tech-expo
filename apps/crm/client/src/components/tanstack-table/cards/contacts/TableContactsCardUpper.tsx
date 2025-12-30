@@ -1,6 +1,6 @@
 import type { CoreRow } from '@tanstack/react-table';
 
-import type { ITableDataContacts } from '@Data/MockData';
+import type { TableDataContacts } from '@Data/MockData';
 
 import ContactStatus from '@Components/tanstack-table/elements/ContactStatus';
 
@@ -9,7 +9,7 @@ import TableContactsOptionBtn from './TableContactsOptionBtn';
 import styles from './TableContactsCardUpper.module.scss';
 
 type Props = {
-  rowOriginal: CoreRow<ITableDataContacts>['original'];
+  rowOriginal: CoreRow<TableDataContacts>['original'];
 };
 
 function TableContactsCardUpper(props: Props): React.JSX.Element {

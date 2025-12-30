@@ -24,7 +24,7 @@ export const VALIDATION_MESSAGES = {
   },
 };
 
-export type TValidationRules = Pick<
+export type ValidationRules = Pick<
   RegisterOptions,
   'required' | 'min' | 'max' | 'maxLength' | 'minLength' | 'pattern' | 'validate'
 >;
@@ -38,7 +38,7 @@ export const GENERIC_TEXT_RULES = {
     value: 1,
     message: VALIDATION_MESSAGES.GENERIC_TEXT_RULES.minLength,
   },
-} satisfies TValidationRules;
+} satisfies ValidationRules;
 
 export const GENERIC_NUMBER_RULES = {
   required: {
@@ -48,7 +48,7 @@ export const GENERIC_NUMBER_RULES = {
   validate: {
     isNumber: (v: number) => !Number.isNaN(v) || VALIDATION_MESSAGES.GENERIC_NUMBER_RULES.validate.isNumber,
   },
-} satisfies TValidationRules;
+} satisfies ValidationRules;
 
 export const EMAIL_RULES = {
   required: {
@@ -59,14 +59,14 @@ export const EMAIL_RULES = {
     value: /\S[^\s@]*@\S+\.\S+/,
     message: VALIDATION_MESSAGES.EMAIL_RULES.pattern,
   },
-} satisfies TValidationRules;
+} satisfies ValidationRules;
 
 export const PASSWORD_RULES = {
   required: {
     value: true,
     message: VALIDATION_MESSAGES.PASSWORD_RULES.required,
   },
-} satisfies TValidationRules;
+} satisfies ValidationRules;
 
 export const PASSWORD_STRENGTH_RULES = {
   required: { message: VALIDATION_MESSAGES.PASSWORD_STRENGTH_RULES.required, value: true },
@@ -76,11 +76,11 @@ export const PASSWORD_STRENGTH_RULES = {
       return score === 4 || VALIDATION_MESSAGES.PASSWORD_STRENGTH_RULES.validate.strength;
     },
   },
-} satisfies TValidationRules;
+} satisfies ValidationRules;
 
 export const PASSWORDCONFIRM_RULES = {
   required: {
     value: true,
     message: VALIDATION_MESSAGES.PASSWORDCONFIRM_RULES.required,
   },
-} satisfies TValidationRules;
+} satisfies ValidationRules;

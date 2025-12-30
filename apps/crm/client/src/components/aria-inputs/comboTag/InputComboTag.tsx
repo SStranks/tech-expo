@@ -19,15 +19,15 @@ import IconClose from '@Components/svg/IconClose';
 
 import styles from './InputComboTag.module.scss';
 
-interface IListItem {
+type ListItem = {
   id: number;
   name: string;
-}
+};
 
 type Props = {
   name: string;
   onChange: (...event: unknown[]) => void;
-  listItems: IListItem[];
+  listItems: ListItem[];
   label: string;
   defaultValue: string;
   id: string;
@@ -42,7 +42,7 @@ type Props = {
  */
 function InputComboTag(props: Props): React.JSX.Element {
   const { id, listItems, name, onChange, trigger, ...rest } = props;
-  const [selectedKeys, setSelectedKeys] = useState<IListItem[]>([]);
+  const [selectedKeys, setSelectedKeys] = useState<ListItem[]>([]);
   const [inputValue, setInputValue] = useState('');
 
   const onSelect = (key: Key | null) => {

@@ -1,12 +1,12 @@
 import { createColumnHelper } from '@tanstack/react-table';
 
-import { ITableDataContacts } from '@Data/MockData';
+import { TableDataContacts } from '@Data/MockData';
 
 import RowActionsControl from '../controls/actions-row/RowActionsControl';
 import ContactStatus from '../elements/ContactStatus';
 import UserSingle from '../elements/UserSingle';
 
-const columnHelper = createColumnHelper<ITableDataContacts>();
+const columnHelper = createColumnHelper<TableDataContacts>();
 
 const columnCompaniesContactsDef = [
   columnHelper.accessor('name', {

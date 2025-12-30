@@ -1,7 +1,7 @@
 import type { RowData } from '@tanstack/react-table';
 
-export type TTables = 'companies' | 'contacts' | 'quotes';
-export type TTablesGrid = Extract<TTables, 'companies' | 'contacts'>;
+export type Tables = 'companies' | 'contacts' | 'quotes';
+export type TablesGrid = Extract<Tables, 'companies' | 'contacts'>;
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

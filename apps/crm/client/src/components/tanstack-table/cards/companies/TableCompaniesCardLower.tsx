@@ -1,6 +1,6 @@
 import type { CoreRow } from '@tanstack/react-table';
 
-import type { ITableDataCompanies } from '@Data/MockData';
+import type { TableDataCompanies } from '@Data/MockData';
 
 import UserCircle from '@Components/general/UserCircle';
 import userImage from '@Img/image-35.jpg';
@@ -13,7 +13,7 @@ import styles from './TableCompaniesCardLower.module.scss';
 const USER_IMAGE = userImage;
 
 type Props = {
-  rowOriginal: CoreRow<ITableDataCompanies>['original'];
+  rowOriginal: CoreRow<TableDataCompanies>['original'];
 };
 
 function TableCompaniesCardLower(props: Props): React.JSX.Element {

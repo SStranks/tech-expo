@@ -51,13 +51,13 @@ function ButtonToday(): React.JSX.Element {
   );
 }
 
-interface IButtonYearProps {
+type ButtonYearProps = {
   operation: 'add' | 'subtract';
   className?: string;
-}
+};
 
 // Advance/Recess calendar view by one year
-function ButtonYear({ className = undefined, operation }: IButtonYearProps): React.JSX.Element {
+function ButtonYear({ className = undefined, operation }: ButtonYearProps): React.JSX.Element {
   let state = useContext(CalendarStateContext);
 
   return (

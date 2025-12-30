@@ -1,11 +1,11 @@
-import type { ITableAuditLog } from '@Data/MockData';
+import type { TableAuditLog } from '@Data/MockData';
 
 import { createColumnHelper } from '@tanstack/react-table';
 
 import AuditAction from '../elements/AuditAction';
 import AuditDetails from '../elements/AuditDetails';
 
-const columnHelper = createColumnHelper<ITableAuditLog>();
+const columnHelper = createColumnHelper<TableAuditLog>();
 
 const columnAuditLogDef = [
   columnHelper.accessor('user', {

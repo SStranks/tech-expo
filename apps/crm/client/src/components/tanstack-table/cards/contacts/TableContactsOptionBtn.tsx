@@ -6,12 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import IconDelete from '@Components/svg/IconDelete';
 import IconEye from '@Components/svg/IconEye';
 import IconMenuDots from '@Components/svg/IconMenuDots';
-import { ITableDataContacts } from '@Data/MockData';
+import { TableDataContacts } from '@Data/MockData';
 
 import styles from './TableContactsOptionBtn.module.scss';
 
 type Props = {
-  rowOriginal: CoreRow<ITableDataContacts>['original'];
+  rowOriginal: CoreRow<TableDataContacts>['original'];
 };
 
 function TableContactsOptionBtn(props: Props): React.JSX.Element {

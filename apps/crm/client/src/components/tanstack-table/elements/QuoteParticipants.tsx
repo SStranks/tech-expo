@@ -1,12 +1,12 @@
-import type { ITableDataQuotes } from '@Data/MockData';
+import type { TableDataQuotes } from '@Data/MockData';
 
 import UserCircleAbbv from '@Components/general/UserCircleAbbv';
 
 import styles from './QuotesParticipants.module.scss';
 
 type Props = {
-  participantBy: ITableDataQuotes['prepared by'];
-  participantFor: ITableDataQuotes['prepared for'];
+  participantBy: TableDataQuotes['prepared by'];
+  participantFor: TableDataQuotes['prepared for'];
 };
 
 function QuoteParticipants(props: Props): React.JSX.Element {

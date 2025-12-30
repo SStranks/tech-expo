@@ -1,4 +1,4 @@
-import type { TValidationRules } from '@Components/react-hook-form/validationRules';
+import type { ValidationRules } from '@Components/react-hook-form/validationRules';
 
 import { useId } from 'react';
 import { Controller, useFormContext, useFormState } from 'react-hook-form';
@@ -10,7 +10,7 @@ import InputUx from '@Components/react-hook-form/InputUx';
 type Props = {
   name: string;
   label: string;
-  rules?: TValidationRules;
+  rules?: ValidationRules;
 };
 
 function FormProviderNumber({ label, name, rules = {}, ...rest }: Props): React.JSX.Element {

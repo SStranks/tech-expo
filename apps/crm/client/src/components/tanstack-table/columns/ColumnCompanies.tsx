@@ -1,13 +1,13 @@
 import { createColumnHelper } from '@tanstack/react-table';
 
-import { ITableDataCompanies } from '@Data/MockData';
+import { TableDataCompanies } from '@Data/MockData';
 
 import RowActionsControl from '../controls/actions-row/RowActionsControl';
 import CompanySingle from '../elements/CompanySingle';
 import RelatedContacts from '../elements/RelatedContacts';
 import UserSingle from '../elements/UserSingle';
 
-const columnHelper = createColumnHelper<ITableDataCompanies>();
+const columnHelper = createColumnHelper<TableDataCompanies>();
 
 const columnCompaniesDef = [
   columnHelper.accessor('companyTitle', {

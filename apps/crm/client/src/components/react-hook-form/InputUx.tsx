@@ -1,4 +1,4 @@
-import type { TValidationRules } from './validationRules';
+import type { ValidationRules } from './validationRules';
 
 import clsx from 'clsx';
 import { HTMLAttributes, PropsWithChildren } from 'react';
@@ -12,7 +12,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   name: string;
   defaultValue?: string | number;
   disabled: boolean;
-  rules: TValidationRules | undefined;
+  rules: ValidationRules | undefined;
 }
 
 // Wrapper: UX presentation for state of input; valid, invalid, focused, disabled, etc

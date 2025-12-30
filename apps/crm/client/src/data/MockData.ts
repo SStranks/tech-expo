@@ -13,14 +13,14 @@ export const UserData = {
   timezone: 'GMT',
 };
 
-export interface INotification {
+export type Notification = {
   logoURL: string;
   identity: string;
   description: string;
   timeframe: string;
-}
+};
 // Logo, Entity, Description, Time
-export const notificationsArr: INotification[] = [
+export const notificationsArr: Notification[] = [
   { logoURL: CompanyLogo, identity: 'Company A', description: 'Signed Deal', timeframe: 'an hour ago' },
   { logoURL: CompanyLogo, identity: 'Company A', description: 'Signed Deal', timeframe: 'an hour ago' },
   { logoURL: CompanyLogo, identity: 'Company A', description: 'Signed Deal', timeframe: 'an hour ago' },
@@ -49,7 +49,7 @@ export const searchResults = [
   { title: 'Search Title', category: 'Search Category', description: 'Search Description' },
 ];
 
-export interface ITableDataContacts {
+export type TableDataContacts = {
   id: string;
   name: string;
   email: string;
@@ -59,8 +59,8 @@ export interface ITableDataContacts {
   title: string;
   status: 'new' | 'contacted' | 'interested' | 'qualified' | 'unqualified' | 'negotiation' | 'lost' | 'won' | 'churned';
   phone: string;
-}
-export const tableDataContacts: ITableDataContacts[] = [
+};
+export const tableDataContacts: TableDataContacts[] = [
   {
     id: '1',
     name: 'Janos Linkleter',
@@ -1164,7 +1164,7 @@ export const tableDataContacts: ITableDataContacts[] = [
   },
 ];
 
-export interface ITableDataQuotes {
+export type TableDataQuotes = {
   id: string;
   title: string;
   company: string;
@@ -1173,8 +1173,8 @@ export interface ITableDataQuotes {
   'prepared for': string;
   'prepared by': string;
   'created at': string;
-}
-export const tableDataQuotes: ITableDataQuotes[] = [
+};
+export const tableDataQuotes: TableDataQuotes[] = [
   {
     id: '1',
     title: 'Tablet',
@@ -2177,15 +2177,15 @@ export const tableDataQuotes: ITableDataQuotes[] = [
   },
 ];
 
-export interface ITableDataCompanies {
+export type TableDataCompanies = {
   id: string;
   companyLogo: string;
   companyTitle: string;
   salesOwner: string;
   openDealsAmount: string;
   relatedContacts: string[];
-}
-export const tableDataCompanies: ITableDataCompanies[] = [
+};
+export const tableDataCompanies: TableDataCompanies[] = [
   {
     id: '1',
     companyLogo: CompanyLogo,
@@ -2996,15 +2996,15 @@ export const tableDataCompanies: ITableDataCompanies[] = [
   },
 ];
 
-export interface ITableAuditLog {
+export type TableAuditLog = {
   id: number;
   user: string;
   action: 'create' | 'update' | 'delete';
   entity: string;
   entity_id: number;
   date: string;
-}
-export const tableDataAuditLog: ITableAuditLog[] = [
+};
+export const tableDataAuditLog: TableAuditLog[] = [
   {
     id: 1,
     user: 'Arleen Cutridge',
@@ -3808,13 +3808,13 @@ export const tableDataAuditLog: ITableAuditLog[] = [
 ];
 
 // NOTE: // TODO:  Fields need to be determined dynamically from DB fields.
-export interface ITableAuditLogDetails {
+export type TableAuditLogDetails = {
   id: number;
   field: string;
   newValue: string;
   oldValue: string;
-}
-export const tableDataAuditLogDetails: ITableAuditLogDetails[] = [
+};
+export const tableDataAuditLogDetails: TableAuditLogDetails[] = [
   {
     id: 1,
     field: 'comment',
@@ -3841,13 +3841,13 @@ export const tableDataAuditLogDetails: ITableAuditLogDetails[] = [
   },
 ];
 
-export interface ITableSettingsContacts {
+export type TableSettingsContacts = {
   id: number;
   name: string;
   title: string;
   role: 'admin' | 'sales manager' | 'sales person' | 'sales intern';
-}
-export const tableDataSettingsContacts: ITableSettingsContacts[] = [
+};
+export const tableDataSettingsContacts: TableSettingsContacts[] = [
   {
     id: 1,
     name: 'Ode Davidsson',
@@ -4012,14 +4012,14 @@ export const tableDataSettingsContacts: ITableSettingsContacts[] = [
   },
 ];
 
-export interface ITableSettingsCompanyInfo {
+export type TableSettingsCompanyInfo = {
   id: number;
   address: string;
   phone: string;
   email: string;
   website: string;
-}
-export const tableDataSettingsCompanyInfo: ITableSettingsCompanyInfo[] = [
+};
+export const tableDataSettingsCompanyInfo: TableSettingsCompanyInfo[] = [
   {
     id: 1,
     address: '1234 Sly Street, Suspiciousbury, New Anon Town, USA 12345',
@@ -4030,15 +4030,15 @@ export const tableDataSettingsCompanyInfo: ITableSettingsCompanyInfo[] = [
 ];
 
 // TODO:  'stage' needs to be dynamic against pipeline categories
-export interface ITableDataDeals {
+export type TableDataDeals = {
   id: string;
   title: string;
   amount: string;
   stage: 'lost' | 'won' | 'under review';
   dealContact: string;
   dealOwner: string;
-}
-export const tableDataDeals: ITableDataDeals[] = [
+};
+export const tableDataDeals: TableDataDeals[] = [
   {
     id: '1',
     title: 'Tasty Chips',
