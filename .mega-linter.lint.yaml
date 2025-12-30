@@ -54,14 +54,14 @@ TYPESCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
 TYPESCRIPT_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
 TYPESCRIPT_ES_CONFIG_FILE: 'eslint.config.js'
 
-TSX_ES_CLI_EXECUTABLE: ['node_modules/.bin/eslint']
-TSX_ES_COMMAND_REMOVE_ARGUMENTS:
+TSX_ESLINT_CLI_EXECUTABLE: ['node_modules/.bin/eslint']
+TSX_ESLINT_COMMAND_REMOVE_ARGUMENTS:
   - --no-eslintrc
   - -c
   - /tmp/lint/eslint.config.js
   - --no-ignore
 TSX_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
-TSX_ES_CONFIG_FILE: 'eslint.config.js'
+TSX_ESLINT_CONFIG_FILE: 'eslint.config.js'
 
 CLEAR_REPORT_FOLDER: true
 FLAVOR_SUGGESTIONS: false
