@@ -9,7 +9,7 @@ import InputSelect from '@Components/aria-inputs/select/InputSelect';
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-interface IProps {
+interface Props {
   name: string;
   label: string;
   items: { name: string }[];
@@ -22,7 +22,7 @@ function FormProviderSelect<T extends object>({
   name,
   rules = {},
   ...rest
-}: SelectProps<T> & IProps): React.JSX.Element {
+}: SelectProps<T> & Props): React.JSX.Element {
   const { control } = useFormContext();
   const { defaultValues } = useFormState({ name, control });
   const id = useId();

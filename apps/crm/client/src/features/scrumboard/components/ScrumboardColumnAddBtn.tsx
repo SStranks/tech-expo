@@ -4,12 +4,12 @@ import IconOperatorPlus from '@Components/svg/IconOperatorPlus';
 
 import styles from './ScrumboardColumnAddBtn.module.scss';
 
-interface IProps {
+interface Props {
   columnStyle?: 'won' | 'lost';
   stageId: string;
 }
 
-function ScrumboardColumnAddBtn({ columnStyle, stageId }: IProps): React.JSX.Element {
+function ScrumboardColumnAddBtn({ columnStyle, stageId }: Props): React.JSX.Element {
   return (
     <Link
       to="deal/create"

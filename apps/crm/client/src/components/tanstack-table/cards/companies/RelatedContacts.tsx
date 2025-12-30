@@ -30,11 +30,11 @@ const CIRCLE_EXTRA_USERS = (relatedContacts: ITableDataCompanies['relatedContact
   );
 };
 
-interface IProps {
+interface Props {
   relatedContacts: ITableDataCompanies['relatedContacts'];
 }
 
-function RelatedContacts(props: IProps): React.JSX.Element {
+function RelatedContacts(props: Props): React.JSX.Element {
   const { relatedContacts } = props;
 
   const userImages = CIRCLE_USER_IMAGES(relatedContacts);

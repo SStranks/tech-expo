@@ -9,7 +9,7 @@ import InputComboTag from '@Components/aria-inputs/comboTag/InputComboTag';
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-interface IProps {
+interface Props {
   name: string;
   label: string;
   listItems: { id: string; name: string }[];
@@ -21,7 +21,7 @@ function FormProviderComboTag<T extends object>({
   listItems,
   name,
   rules = {},
-}: ComboBoxProps<T> & IProps): React.JSX.Element {
+}: ComboBoxProps<T> & Props): React.JSX.Element {
   const { control, trigger } = useFormContext();
   const { defaultValues } = useFormState({ name, control });
   const id = useId();

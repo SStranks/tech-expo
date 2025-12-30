@@ -4,11 +4,11 @@ import type { ITableDataContacts } from '@Data/MockData';
 
 import styles from './TableContactsCardLower.module.scss';
 
-interface IProps {
+interface Props {
   rowOriginal: CoreRow<ITableDataContacts>['original'];
 }
 
-function TableContactsCardLower(props: IProps): React.JSX.Element {
+function TableContactsCardLower(props: Props): React.JSX.Element {
   const { rowOriginal } = props;
 
   return (

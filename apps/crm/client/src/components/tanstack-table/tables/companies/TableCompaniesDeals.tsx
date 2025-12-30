@@ -14,11 +14,11 @@ import ColumnCompaniesDeals from '@Components/tanstack-table/columns/ColumnCompa
 import TableListEmbeddedView from '@Components/tanstack-table/views/TableListEmbeddedView';
 import { useReactTable } from '@Lib/tanstack';
 
-interface IProps {
+interface Props {
   tableData: ITableDataDeals[];
 }
 
-function TableCompaniesDeals(props: IProps): React.JSX.Element {
+function TableCompaniesDeals(props: Props): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableDataDeals[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);

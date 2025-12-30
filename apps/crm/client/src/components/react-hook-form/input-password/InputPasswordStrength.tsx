@@ -31,7 +31,7 @@ const screenReaderText = (passwordScore: Score | null) => {
   return false;
 };
 
-interface IProps {
+interface Props {
   defaultValue: string | undefined;
   label: string;
   name: string;
@@ -39,7 +39,7 @@ interface IProps {
 }
 
 // TODO:  Style and reformat password information text
-function InputPasswordStrength(props: IProps): React.JSX.Element {
+function InputPasswordStrength(props: Props): React.JSX.Element {
   const { defaultValue, label, name, reveal } = props;
   const { control, trigger } = useFormContext();
   const [passwordReveal, setPasswordReveal] = useState<boolean>(reveal);

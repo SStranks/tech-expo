@@ -7,11 +7,11 @@ import ColumnCompaniesContacts from '@Components/tanstack-table/columns/ColumnCo
 import TableListEmbeddedView from '@Components/tanstack-table/views/TableListEmbeddedView';
 import { useReactTable } from '@Lib/tanstack';
 
-interface IProps {
+interface Props {
   tableData: ITableDataContacts[];
 }
 
-function TableCompaniesContacts(props: IProps): React.JSX.Element {
+function TableCompaniesContacts(props: Props): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableDataContacts[]>(tableData);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });

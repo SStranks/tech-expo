@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import styles from './MenuLink.module.scss';
 
-interface IProps {
+interface Props {
   name: string;
   href: string;
   Icon: SvgIcon;
@@ -13,7 +13,7 @@ interface IProps {
   index: number;
 }
 
-function MenuLink(props: IProps): React.JSX.Element {
+function MenuLink(props: Props): React.JSX.Element {
   const { href, Icon, index, minimize, name } = props;
   const location = useLocation();
   const menuLinkRef = useRef<HTMLLIElement>(null);

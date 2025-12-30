@@ -9,11 +9,11 @@ import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableAuditLog.module.scss';
 
-interface IProps {
+interface Props {
   tableData: ITableAuditLogDetails[];
 }
 
-function TableAuditLogDetails(props: IProps): React.JSX.Element {
+function TableAuditLogDetails(props: Props): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableAuditLogDetails[]>(tableData);
 

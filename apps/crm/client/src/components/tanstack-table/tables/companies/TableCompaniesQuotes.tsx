@@ -7,11 +7,11 @@ import ColumnCompaniesQuotes from '@Components/tanstack-table/columns/ColumnComp
 import TableListEmbeddedView from '@Components/tanstack-table/views/TableListEmbeddedView';
 import { useReactTable } from '@Lib/tanstack';
 
-interface IProps {
+interface Props {
   tableData: ITableDataQuotes[];
 }
 
-function TableCompaniesQuotes(props: IProps): React.JSX.Element {
+function TableCompaniesQuotes(props: Props): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableDataQuotes[]>(tableData);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });

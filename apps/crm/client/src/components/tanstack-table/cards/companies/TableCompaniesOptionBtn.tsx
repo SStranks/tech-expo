@@ -11,11 +11,11 @@ import IconMenuDots from '@Components/svg/IconMenuDots';
 
 import styles from './TableCompaniesOptionBtn.module.scss';
 
-interface IProps {
+interface Props {
   rowOriginal: CoreRow<ITableDataCompanies>['original'];
 }
 
-function TableCompaniesOptionBtn(props: IProps): React.JSX.Element {
+function TableCompaniesOptionBtn(props: Props): React.JSX.Element {
   const { rowOriginal } = props;
   const navigate = useNavigate();
 

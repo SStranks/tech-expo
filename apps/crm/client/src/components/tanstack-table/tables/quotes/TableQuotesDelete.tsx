@@ -8,11 +8,11 @@ import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableQuotes.module.scss';
 
-interface IProps {
+interface Props {
   tableData: ITableDataQuotes[];
 }
 
-function TableQuotesDelete(props: IProps): React.JSX.Element {
+function TableQuotesDelete(props: Props): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableDataQuotes[]>(tableData);
 

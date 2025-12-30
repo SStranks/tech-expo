@@ -1,10 +1,10 @@
 import styles from './Buttons.module.scss';
 
-interface IProps {
+interface Props {
   disabled?: boolean;
 }
 
-function ButtonDelete({ disabled }: IProps): React.JSX.Element {
+function ButtonDelete({ disabled }: Props): React.JSX.Element {
   return (
     <button type="submit" disabled={disabled} className={styles.deleteBtn}>
       Delete

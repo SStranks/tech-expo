@@ -13,11 +13,11 @@ interface ICompanyInfo {
   website: string;
 }
 
-interface IProps {
+interface Props {
   companyInfo: ICompanyInfo;
 }
 
-function CompaniesTableInformation(props: IProps): React.JSX.Element {
+function CompaniesTableInformation(props: Props): React.JSX.Element {
   const { companyInfo } = props;
 
   return (

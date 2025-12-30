@@ -2,9 +2,9 @@ import { PropsWithChildren } from 'react';
 
 import styles from './ViewportLayout.module.scss';
 
-interface IProps {}
+interface Props {}
 
-function ViewportLayout(props: PropsWithChildren<IProps>): React.JSX.Element {
+function ViewportLayout(props: PropsWithChildren<Props>): React.JSX.Element {
   const { children } = props;
   return (
     <div className={styles.viewportLayout} data-testid="viewportLayout">

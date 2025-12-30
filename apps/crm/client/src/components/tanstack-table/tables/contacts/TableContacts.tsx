@@ -23,11 +23,11 @@ import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableContacts.module.scss';
 
-interface IProps {
+interface Props {
   tableData: ITableDataContacts[];
 }
 
-function TableContacts(props: IProps): React.JSX.Element {
+function TableContacts(props: Props): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableDataContacts[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);

@@ -9,7 +9,7 @@ import InputCombo from '@Components/aria-inputs/combo/InputCombo';
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-interface IProps {
+interface Props {
   name: string;
   label: string;
   defaultInputValue?: string;
@@ -24,7 +24,7 @@ function FormProviderCombo<T extends object>({
   name,
   rules = {},
   ...rest
-}: ComboBoxProps<T> & IProps): React.JSX.Element {
+}: ComboBoxProps<T> & Props): React.JSX.Element {
   const { control } = useFormContext();
   const { defaultValues } = useFormState({ name, control });
   const id = useId();

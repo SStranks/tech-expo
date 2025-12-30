@@ -7,7 +7,7 @@ import { useTableDragScroll } from '../hooks/useTableDragScroll';
 
 import styles from './TableListEmbeddedView.module.scss';
 
-interface IProps<T> {
+interface Props<T> {
   table: Table<T>;
   pageCount: number;
   pageIndex: number;
@@ -18,7 +18,7 @@ interface IProps<T> {
  * TODO: REFACTOR: 99% idential to TableListView; styles and paginator control different.
  * NOTE: <tr />; prevents rows from expanding to fill table when total rows height is less than the table height
  */
-function TableListEmbeddedView<T>(props: IProps<T>): React.JSX.Element {
+function TableListEmbeddedView<T>(props: Props<T>): React.JSX.Element {
   const { pageCount, pageIndex, setPageIndex, table } = props;
   const { containerRef, handleMouseDown } = useTableDragScroll<HTMLDivElement>();
 

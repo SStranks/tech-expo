@@ -16,11 +16,11 @@ function SelectValueWrapper(): React.JSX.Element {
 
 const PAGE_SIZES = [10, 20, 50, 100];
 
-interface IProps {
+interface Props {
   setPageSize: (updater: Updater<number>) => void;
 }
 
-function ButtonPaginatorRowLimit(props: IProps): React.JSX.Element {
+function ButtonPaginatorRowLimit(props: Props): React.JSX.Element {
   const { setPageSize } = props;
 
   const onSelectionChange = (key: Key | null) => {

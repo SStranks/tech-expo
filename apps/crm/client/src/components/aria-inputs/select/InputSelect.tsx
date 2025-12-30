@@ -4,7 +4,7 @@ import IconArrowDownAlt from '@Components/svg/IconArrowDownAlt';
 
 import styles from './InputSelect.module.scss';
 
-interface IProps {
+interface Props {
   name: string;
   value: string | undefined;
   items: { name: string }[];
@@ -12,7 +12,7 @@ interface IProps {
   onChange: (...event: unknown[]) => void;
 }
 
-function InputSelect({ ...props }: IProps): React.JSX.Element {
+function InputSelect({ ...props }: Props): React.JSX.Element {
   return (
     <Select
       onSelectionChange={props.onChange}

@@ -7,12 +7,12 @@ import IconFilter from '@Components/svg/IconFilter';
 
 import styles from './FilterRowControl.module.scss';
 
-interface IProps {
+interface Props {
   column: Column<any, unknown>;
   fieldName: string;
 }
 
-function FilterRowControl(props: IProps): React.JSX.Element {
+function FilterRowControl(props: Props): React.JSX.Element {
   const { column, fieldName } = props;
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
   const [filterActive, setFilterActive] = useState<boolean>(column.getIsFiltered);

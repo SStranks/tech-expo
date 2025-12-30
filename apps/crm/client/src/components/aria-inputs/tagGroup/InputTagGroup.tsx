@@ -5,7 +5,7 @@ import IconClose from '@Components/svg/IconClose';
 
 import styles from './InputTagGroup.module.scss';
 
-interface IProps {
+interface Props {
   name: string;
   value: { id: number; name: string }[];
   onChange: (...event: unknown[]) => void;
@@ -14,7 +14,7 @@ interface IProps {
   trigger: UseFormTrigger<FieldValues>;
 }
 
-function InputTagGroup(props: IProps): React.JSX.Element {
+function InputTagGroup(props: Props): React.JSX.Element {
   const { id, name, onChange, trigger, value, ...rest } = props;
 
   const onRemove = (ids: Set<Key>) => {

@@ -6,14 +6,14 @@ import IconEdit from '@Components/svg/IconEdit';
 
 import styles from './EditableRow.module.scss';
 
-interface IProps {
+interface Props {
   IconSvg: SvgIcon;
   title: string;
   description: string;
 }
 
 // Consuming components: CompaniesTableInformation, UserSettingsModal
-function EditableRow(props: IProps): React.JSX.Element {
+function EditableRow(props: Props): React.JSX.Element {
   const { description, IconSvg, title } = props;
   const [editSettingActive, setEditSettingActive] = useState<boolean>(false);
   const [editInputValue, setEditInputValue] = useState<string>(description);

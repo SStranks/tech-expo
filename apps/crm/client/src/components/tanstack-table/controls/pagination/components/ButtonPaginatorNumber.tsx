@@ -1,12 +1,12 @@
 import styles from './ButtonPaginator.module.scss';
 
-interface IProps {
+interface Props {
   number: number;
   active: boolean;
   onClick: () => void;
 }
 
-function ButtonPaginatorNumber(props: IProps): React.JSX.Element {
+function ButtonPaginatorNumber(props: Props): React.JSX.Element {
   const { active, number, onClick } = props;
 
   return (

@@ -5,7 +5,7 @@ import styles from './UserSingle.module.scss';
 // TODO:  Make image dynamic; currently not part of mock data.
 const USER_IMAGE = userImage;
 
-interface IProps {
+interface Props {
   userName: string;
 }
 
@@ -14,7 +14,7 @@ interface IProps {
  * Add another component that takes companyName initials and makes coloured circle with abbrv,
  * if userImage not available
  */
-function UserSingle(props: IProps): React.JSX.Element {
+function UserSingle(props: Props): React.JSX.Element {
   const { userName } = props;
 
   return (

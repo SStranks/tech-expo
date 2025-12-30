@@ -14,11 +14,11 @@ interface IUserInfo {
   stage: string;
 }
 
-interface IProps {
+interface Props {
   userInfo: IUserInfo;
 }
 
-function ContactTableInformation(props: IProps): React.JSX.Element {
+function ContactTableInformation(props: Props): React.JSX.Element {
   const { userInfo } = props;
 
   return (

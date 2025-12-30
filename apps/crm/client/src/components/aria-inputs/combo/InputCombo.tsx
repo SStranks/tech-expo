@@ -4,7 +4,7 @@ import IconArrowDownAlt from '@Components/svg/IconArrowDownAlt';
 
 import styles from './InputCombo.module.scss';
 
-interface IProps {
+interface Props {
   value: string | undefined;
   onChange: (...event: unknown[]) => void;
   items: { name: string }[];
@@ -13,7 +13,7 @@ interface IProps {
   id: string;
 }
 
-function InputCombo(props: IProps): React.JSX.Element {
+function InputCombo(props: Props): React.JSX.Element {
   const { id, items, onChange, value, ...rest } = props;
 
   return (

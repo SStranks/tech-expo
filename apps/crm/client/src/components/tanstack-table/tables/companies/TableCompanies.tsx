@@ -23,11 +23,11 @@ import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableCompanies.module.scss';
 
-interface IProps {
+interface Props {
   tableData: ITableDataCompanies[];
 }
 
-function TableCompanies(props: IProps): React.JSX.Element {
+function TableCompanies(props: Props): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableDataCompanies[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);

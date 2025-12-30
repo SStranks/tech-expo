@@ -20,11 +20,11 @@ function StageIcon(stage: ITableDataQuotes['stage']) {
   }
 }
 
-interface IProps {
+interface Props {
   stage: ITableDataQuotes['stage'];
 }
 
-function QuoteStage(props: IProps): React.JSX.Element {
+function QuoteStage(props: Props): React.JSX.Element {
   const { stage } = props;
 
   return (

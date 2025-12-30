@@ -17,11 +17,11 @@ import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableAuditLog.module.scss';
 
-interface IProps {
+interface Props {
   tableData: ITableAuditLog[];
 }
 
-function TableAuditLog(props: IProps): React.JSX.Element {
+function TableAuditLog(props: Props): React.JSX.Element {
   const { tableData } = props;
   const [data] = useState<ITableAuditLog[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);

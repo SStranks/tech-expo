@@ -2,12 +2,12 @@ import { PropsWithChildren } from 'react';
 
 import styles from './DefaultLayout.module.scss';
 
-interface IProps {
+interface Props {
   header: React.JSX.Element;
   aside: React.JSX.Element;
 }
 
-function DefaultLayout({ aside, children = undefined, header }: PropsWithChildren<IProps>): React.JSX.Element {
+function DefaultLayout({ aside, children = undefined, header }: PropsWithChildren<Props>): React.JSX.Element {
   return (
     <div className={styles.layout}>
       <div className={styles.layout__header}>{header}</div>

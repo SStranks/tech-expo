@@ -11,13 +11,13 @@ const autoHeightResize = (e: ChangeEvent<HTMLTextAreaElement>) => {
   e.target.style.height = e.target.scrollHeight + 'px';
 };
 
-interface IProps extends InputHTMLAttributes<HTMLTextAreaElement> {
+interface Props extends InputHTMLAttributes<HTMLTextAreaElement> {
   id: string;
   name: string;
   rules?: TValidationRules;
 }
 
-function TextArea(props: IProps): React.JSX.Element {
+function TextArea(props: Props): React.JSX.Element {
   const { id, name, rules, ...rest } = props;
   const { control, register, trigger } = useFormContext();
   const { defaultValues, errors } = useFormState({ name, control });

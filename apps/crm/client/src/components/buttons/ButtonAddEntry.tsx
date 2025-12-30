@@ -2,12 +2,12 @@ import IconCirclePlus from '@Components/svg/IconCirclePlus';
 
 import styles from './Buttons.module.scss';
 
-interface IProps {
+interface Props {
   buttonText: string;
   onClick: () => void;
 }
 
-function ButtonAddEntry(props: IProps): React.JSX.Element {
+function ButtonAddEntry(props: Props): React.JSX.Element {
   const { buttonText, onClick } = props;
 
   return (

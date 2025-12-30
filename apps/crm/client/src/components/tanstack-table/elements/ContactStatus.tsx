@@ -41,11 +41,11 @@ function StatusIcon(status: ITableDataContacts['status']) {
   }
 }
 
-interface IProps {
+interface Props {
   status: ITableDataContacts['status'];
 }
 
-function ContactStatus(props: IProps): React.JSX.Element {
+function ContactStatus(props: Props): React.JSX.Element {
   const { status } = props;
 
   return (

@@ -6,14 +6,14 @@ import { useTableDragScroll } from '../hooks/useTableDragScroll';
 
 import styles from './TableDefaultView.module.scss';
 
-interface IProps<T> {
+interface Props<T> {
   table: Table<T>;
 }
 
 /*
  * NOTE: <tr />; prevents rows from expanding to fill table when total rows height is less than the table height
  */
-function TableDefaultView<T>(props: IProps<T>): React.JSX.Element {
+function TableDefaultView<T>(props: Props<T>): React.JSX.Element {
   const { table } = props;
   const { containerRef, handleMouseDown } = useTableDragScroll<HTMLDivElement>();
 

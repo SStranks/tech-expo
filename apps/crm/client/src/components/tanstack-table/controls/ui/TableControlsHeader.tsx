@@ -7,7 +7,7 @@ import GlobalFilterControl from '../global-filter/GlobalFilterControl';
 
 import styles from './TableControlsHeader.module.scss';
 
-interface IProps {
+interface Props {
   createEntryBtn: {
     displayText: string;
     onClick: () => void;
@@ -26,7 +26,7 @@ interface IProps {
   };
 }
 
-function TableControlsHeader(props: IProps): React.JSX.Element {
+function TableControlsHeader(props: Props): React.JSX.Element {
   const { createEntryBtn, globalFilter, listGridToggle } = props;
 
   return (

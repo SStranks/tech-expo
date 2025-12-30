@@ -6,12 +6,12 @@ import { useFormContext, useFormState } from 'react-hook-form';
 import InputUx from '@Components/react-hook-form/InputUx';
 import TextArea from '@Components/react-hook-form/textarea/TextArea';
 
-interface IProps {
+interface Props {
   name: string;
   label: string;
   rules?: TValidationRules;
 }
-function FormProviderTextArea({ label, name, rules = {} }: IProps): React.JSX.Element {
+function FormProviderTextArea({ label, name, rules = {} }: Props): React.JSX.Element {
   const { control } = useFormContext();
   const { defaultValues } = useFormState({ name, control });
   const id = useId();

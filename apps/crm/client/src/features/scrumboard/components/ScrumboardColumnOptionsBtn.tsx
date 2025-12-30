@@ -6,12 +6,12 @@ import IconMenuDots from '@Components/svg/IconMenuDots';
 
 import styles from './ScrumboardColumnOptionsBtn.module.scss';
 
-interface IProps {
+interface Props {
   stageId: string;
   stageTitle: string;
 }
 
-function ScrumboardColumnOptionsBtn({ stageId, stageTitle }: IProps): React.JSX.Element {
+function ScrumboardColumnOptionsBtn({ stageId, stageTitle }: Props): React.JSX.Element {
   return (
     <MenuTrigger>
       <Button className={styles.scrumboardOptionBtn} aria-label="Companies Option Menu">

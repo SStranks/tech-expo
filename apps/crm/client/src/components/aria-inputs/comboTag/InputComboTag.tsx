@@ -24,7 +24,7 @@ interface IListItem {
   name: string;
 }
 
-interface IProps {
+interface Props {
   name: string;
   onChange: (...event: unknown[]) => void;
   listItems: IListItem[];
@@ -40,7 +40,7 @@ interface IProps {
  * NOTE:
  * May have to break apart implemention and utilize hooks, or place ListBox outside combo and hook up.
  */
-function InputComboTag(props: IProps): React.JSX.Element {
+function InputComboTag(props: Props): React.JSX.Element {
   const { id, listItems, name, onChange, trigger, ...rest } = props;
   const [selectedKeys, setSelectedKeys] = useState<IListItem[]>([]);
   const [inputValue, setInputValue] = useState('');

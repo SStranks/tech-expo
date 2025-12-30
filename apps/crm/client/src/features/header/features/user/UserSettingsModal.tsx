@@ -17,13 +17,13 @@ import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '@Utils/cssTransitionGroup';
 
 import styles from './UserSettingsModal.module.scss';
 
-interface IProps {
+interface Props {
   userName: string;
   settingsPortalActive: boolean;
   setSettingsPortalActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function UserSettingsModal(props: IProps): React.JSX.Element {
+function UserSettingsModal(props: Props): React.JSX.Element {
   const { setSettingsPortalActive, settingsPortalActive, userName } = props;
   const portalRef = useRef<HTMLDivElement>(null);
   const portalContentRef = useRef<HTMLDivElement>(null);

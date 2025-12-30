@@ -6,7 +6,7 @@ import styles from './Button.module.scss';
 
 type TType = 'primary' | 'secondary' | 'quaternary';
 
-interface IProps {
+interface Props {
   buttonClickFn?: (data?: unknown) => void;
   buttonDisabled?: boolean;
   ButtonIcon?: SvgIcon;
@@ -28,7 +28,7 @@ function Button({
   buttonText = undefined,
   form = undefined,
   type = 'button',
-}: IProps): React.JSX.Element {
+}: Props): React.JSX.Element {
   const clickHandler = () => {
     if (buttonClickFn) buttonClickFn();
   };

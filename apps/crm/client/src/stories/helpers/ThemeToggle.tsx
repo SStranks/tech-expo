@@ -5,13 +5,13 @@ import { MoonIcon, SunIcon } from '@storybook/icons';
 
 import styles from './ThemeToggle.module.scss';
 
-type IProps = {
+type Props = {
   themeBg: { light: string; dark: string };
   updateGlobals: (newGlobals: Args) => void;
   context?: StoryContext;
 };
 
-export function ThemeToggle({ children, themeBg, updateGlobals }: PropsWithChildren<IProps>): React.JSX.Element {
+export function ThemeToggle({ children, themeBg, updateGlobals }: PropsWithChildren<Props>): React.JSX.Element {
   return (
     <div className={styles.container}>
       <div className={styles.widgets}>

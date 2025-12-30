@@ -7,7 +7,7 @@ import { useFormContext, useFormState } from 'react-hook-form';
 
 import styles from './Input.module.scss';
 
-interface IProps extends InputHTMLAttributes<HTMLInputElement> {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   type: HTMLInputTypeAttribute;
   id: string;
   name: string;
@@ -15,7 +15,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   rules: TValidationRules;
 }
 
-function Input(props: IProps): React.JSX.Element {
+function Input(props: Props): React.JSX.Element {
   const { id, name, rules, type, ...rest } = props;
   const { control, register, trigger } = useFormContext();
   const { defaultValues, errors } = useFormState({ name, control });

@@ -25,7 +25,7 @@ const valueFunctions = {
   InputTimeField: (v: unknown) => (typeof v === 'string' && (v as string).length > 0 ? parseTime(v as string) : null),
 };
 
-interface IProps<T> {
+interface Props<T> {
   ReactAriaComponent: ComponentType<T>;
   value: unknown;
   onChange: (...event: any[]) => void;
@@ -36,7 +36,7 @@ interface IProps<T> {
  * @param ReactAriaComponent The React-Aria-Component component
  * @returns React-Aria-Component; React.JSX.Element
  */
-function InputParser<T>({ ReactAriaComponent, ...props }: IProps<T>): React.JSX.Element {
+function InputParser<T>({ ReactAriaComponent, ...props }: Props<T>): React.JSX.Element {
   // RETURN to React-Hook-Form; convert from CalendarDate to string
   const onChange = (...e: unknown[]): void => {
     const convertedValue = onChangeFunctions[ReactAriaComponent.name as keyof typeof onChangeFunctions](e);

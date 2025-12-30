@@ -34,11 +34,11 @@ const PORTAL_ONRESIZE = (menuPortalButtonRef: React.RefObject<HTMLButtonElement 
   CSS_ROOT?.style.setProperty(CSS_ROOT_PROPERTY, cssValue);
 };
 
-interface IProps {
+interface Props {
   userName: string;
 }
 
-function UserSettingsMenu(props: IProps): React.JSX.Element {
+function UserSettingsMenu(props: Props): React.JSX.Element {
   const { userName } = props;
   const reduxDispatch = useReduxDispatch();
   const [menuPortalActive, setMenuPortalActive] = useState<boolean>(false);

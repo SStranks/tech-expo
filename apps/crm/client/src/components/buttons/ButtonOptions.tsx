@@ -6,12 +6,12 @@ import styles from './Buttons.module.scss';
 
 type TPlacementValues = 'top' | 'bottom' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right';
 
-interface IProps {
+interface Props {
   buttonAriaLabel: string;
   popoverPlacement: TPlacementValues;
 }
 
-function ButtonOptions(props: IProps): React.JSX.Element {
+function ButtonOptions(props: Props): React.JSX.Element {
   const { buttonAriaLabel, popoverPlacement } = props;
 
   return (

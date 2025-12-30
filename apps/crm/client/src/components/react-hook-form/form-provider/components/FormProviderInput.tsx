@@ -9,7 +9,7 @@ import { useFormContext, useFormState } from 'react-hook-form';
 import Input from '@Components/react-hook-form/input/Input';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-interface IProps extends InputHTMLAttributes<HTMLInputElement> {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   type: React.HTMLInputTypeAttribute;
   label: string;
@@ -24,7 +24,7 @@ function FormProviderInput({
   rules = {},
   type,
   ...rest
-}: InputProps & IProps): React.JSX.Element {
+}: InputProps & Props): React.JSX.Element {
   const { control } = useFormContext();
   const { defaultValues } = useFormState({ name, control });
   const id = useId();

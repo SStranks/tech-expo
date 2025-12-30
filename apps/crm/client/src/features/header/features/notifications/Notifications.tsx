@@ -31,12 +31,12 @@ const PORTAL_ONRESIZE = (portalButtonRef: React.RefObject<HTMLButtonElement | nu
   CSS_ROOT?.style.setProperty(CSS_ROOT_PROPERTY, cssValue);
 };
 
-interface IProps {
+interface Props {
   notifications: INotification[];
 }
 
 // TODO:  1. Clear notifications. 2. Mark all as read. 3. Click on single notifcation; mark as read.
-function Notifications(props: IProps): React.JSX.Element {
+function Notifications(props: Props): React.JSX.Element {
   const { notifications } = props;
   const [portalActive, setPortalActive] = useState<boolean>(false);
   const [notificationsList, setNotificationsList] = useState<INotification[]>(notifications);

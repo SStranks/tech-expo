@@ -6,13 +6,13 @@ import ButtonPaginatorSinglePage from './components/ButtonPaginatorSinglePage';
 
 import styles from './PaginatorRangeControl.module.scss';
 
-interface IProps {
+interface Props {
   pageCount: number;
   pageIndex: number;
   setPageIndex: (updater: Updater<number>) => void;
 }
 
-function PaginatorRangeControl(props: IProps): React.JSX.Element {
+function PaginatorRangeControl(props: Props): React.JSX.Element {
   const { pageCount, pageIndex: pageIndexProp, setPageIndex: setPageIndexProp } = props;
   // Tanstack-Table; pagination is zero-based
   const pageIndex = pageIndexProp + 1;

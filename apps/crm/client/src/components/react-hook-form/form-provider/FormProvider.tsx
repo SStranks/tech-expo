@@ -14,7 +14,7 @@ import FormProviderTagGroup from './components/FormProviderTagGroup';
 import FormProviderTextArea from './components/FormProviderTextArea';
 import FormProviderTimeField from './components/FormProviderTimeField';
 
-interface IProps<T extends FieldValues> {
+interface Props<T extends FieldValues> {
   defaultValues?: DefaultValues<T>;
   onSubmit: SubmitHandler<T>;
   mode?: Mode;
@@ -26,7 +26,7 @@ function RHFFormProvider<T extends FieldValues>({
   defaultValues,
   mode = 'onSubmit',
   onSubmit,
-}: PropsWithChildren<IProps<T>>): React.JSX.Element {
+}: PropsWithChildren<Props<T>>): React.JSX.Element {
   const methods = useForm<T>({ defaultValues, mode });
   const genId = useId();
 

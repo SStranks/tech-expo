@@ -6,7 +6,7 @@ import { useFormContext, useFormState } from 'react-hook-form';
 
 import styles from './InputUX.module.scss';
 
-interface IProps extends HTMLAttributes<HTMLDivElement> {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   label: string;
   id: string;
   name: string;
@@ -16,7 +16,7 @@ interface IProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 // Wrapper: UX presentation for state of input; valid, invalid, focused, disabled, etc
-function InputUx(props: PropsWithChildren<IProps>): React.JSX.Element {
+function InputUx(props: PropsWithChildren<Props>): React.JSX.Element {
   const { children, defaultValue, disabled, id, label, name, rules, ...rest } = props;
   const { control } = useFormContext();
   const { errors, isDirty: dirty, isSubmitted, isValid } = useFormState({ name, control });

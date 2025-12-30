@@ -4,11 +4,11 @@ import { useFormContext, useFormState } from 'react-hook-form';
 
 import ButtonSave from '@Components/buttons/ButtonSave';
 
-interface IProps extends InputHTMLAttributes<HTMLButtonElement> {
+interface Props extends InputHTMLAttributes<HTMLButtonElement> {
   name: string;
 }
 
-function FormProviderSubmitButton({ name, ...rest }: IProps): React.JSX.Element {
+function FormProviderSubmitButton({ name, ...rest }: Props): React.JSX.Element {
   const { control } = useFormContext();
   const { isSubmitting } = useFormState({ name, control });
 

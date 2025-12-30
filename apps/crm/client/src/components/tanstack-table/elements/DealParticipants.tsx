@@ -4,13 +4,13 @@ import UserCircleAbbv from '@Components/general/UserCircleAbbv';
 
 import styles from './QuotesParticipants.module.scss';
 
-interface IProps {
+interface Props {
   dealOwner: ITableDataDeals['dealOwner'];
   dealContact: ITableDataDeals['dealContact'];
 }
 
 // REFACTOR:  Same as QuoteParticipants generally
-function DealParticipants(props: IProps): React.JSX.Element {
+function DealParticipants(props: Props): React.JSX.Element {
   const { dealContact, dealOwner } = props;
 
   return (

@@ -33,7 +33,7 @@ const moveIndexMap: Record<MoveKey, (index: number, length: number) => number> =
   up: (i) => Math.max(0, i - 1),
 };
 
-interface IProps {
+interface Props {
   deal: PipelineDeal;
   dealIndex: number;
   stage: PipelineStage;
@@ -41,7 +41,7 @@ interface IProps {
   isFocused: boolean;
 }
 
-function ScrumboardCardOptionsBtn({ deal, dealIndex, dealStatus, isFocused, stage }: IProps): React.JSX.Element {
+function ScrumboardCardOptionsBtn({ deal, dealIndex, dealStatus, isFocused, stage }: Props): React.JSX.Element {
   const { handleHorizontalMove, handleVerticalMove } = usePipeineContext();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const selectorDealIdsForStage = useMemo(() => makeSelectorDealIdsForStage(), []);

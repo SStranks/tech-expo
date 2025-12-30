@@ -10,11 +10,11 @@ import { ITableDataContacts } from '@Data/MockData';
 
 import styles from './TableContactsOptionBtn.module.scss';
 
-interface IProps {
+interface Props {
   rowOriginal: CoreRow<ITableDataContacts>['original'];
 }
 
-function TableContactsOptionBtn(props: IProps): React.JSX.Element {
+function TableContactsOptionBtn(props: Props): React.JSX.Element {
   const { rowOriginal } = props;
   const navigate = useNavigate();
 

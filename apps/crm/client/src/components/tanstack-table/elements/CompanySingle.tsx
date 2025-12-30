@@ -7,7 +7,7 @@ import styles from './CompanySingle.module.scss';
  */
 const COMPANY_IMAGE = companyImage;
 
-interface IProps {
+interface Props {
   companyName: string;
 }
 
@@ -16,7 +16,7 @@ interface IProps {
  * Add another component that takes companyName initials and makes coloured circle with abbrv,
  * if userImage not available
  */
-function CompanySingle(props: IProps): React.JSX.Element {
+function CompanySingle(props: Props): React.JSX.Element {
   const { companyName } = props;
 
   return (

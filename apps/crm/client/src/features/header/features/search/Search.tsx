@@ -10,14 +10,14 @@ import SearchResults from './SearchResults';
 
 import styles from './Search.module.scss';
 
-interface IProps {
+interface Props {
   portalActive: boolean;
   setPortalActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // TODO:  Add in DEBOUNCE when the API is functional.
 // NOTE:  <search> contains 'is' attribute to satisfy RTL test - currently <search> is unknown tag/recently added.
-function Search(props: IProps): React.JSX.Element {
+function Search(props: Props): React.JSX.Element {
   const { portalActive, setPortalActive } = props;
   const [searchInput, setSearchInput] = useState<string>('');
   const searchInputRef = useRef<HTMLInputElement>(null);

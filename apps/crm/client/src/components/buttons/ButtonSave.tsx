@@ -2,12 +2,12 @@ import type { InputHTMLAttributes } from 'react';
 
 import styles from './Buttons.module.scss';
 
-interface IProps extends InputHTMLAttributes<HTMLButtonElement> {
+interface Props extends InputHTMLAttributes<HTMLButtonElement> {
   onClick: () => void;
   name: string;
 }
 
-function ButtonSave({ disabled, name, onClick, ...rest }: IProps): React.JSX.Element {
+function ButtonSave({ disabled, name, onClick, ...rest }: Props): React.JSX.Element {
   return (
     <button {...rest} type="submit" name={name} onClick={onClick} disabled={disabled} className={styles.saveBtn}>
       Save

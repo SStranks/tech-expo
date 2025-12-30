@@ -2,11 +2,11 @@ import { ITableAuditLog } from '@Data/MockData';
 
 import styles from './AuditAction.module.scss';
 
-interface IProps {
+interface Props {
   action: ITableAuditLog['action'];
 }
 
-function AuditAction(props: IProps): React.JSX.Element {
+function AuditAction(props: Props): React.JSX.Element {
   const { action } = props;
 
   return (

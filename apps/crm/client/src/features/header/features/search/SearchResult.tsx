@@ -3,13 +3,13 @@ import IconNotebook from '@Components/svg/IconNotebook';
 
 import styles from './SearchResult.module.scss';
 
-interface IProps {
+interface Props {
   title: string;
   category: string;
   description: string;
 }
 
-function SearchResult(props: IProps): React.JSX.Element {
+function SearchResult(props: Props): React.JSX.Element {
   const { category, description, title } = props;
 
   return (
