@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { useReduxSelector } from '@Redux/hooks';
 
 import ScrumboardAddStage from './components/ScrumboardAddStage';
@@ -22,4 +24,4 @@ function ScrumboardKanbanColumns(): React.JSX.Element {
   );
 }
 
-export default ScrumboardKanbanColumns;
+export default memo(ScrumboardKanbanColumns);

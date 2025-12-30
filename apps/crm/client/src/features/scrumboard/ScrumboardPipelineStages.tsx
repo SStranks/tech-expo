@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { useReduxSelector } from '@Redux/hooks';
 
 import ScrumboardAddStage from './components/ScrumboardAddStage';
@@ -26,4 +28,4 @@ function ScrumboardPipelineStages(): React.JSX.Element {
   );
 }
 
-export default ScrumboardPipelineStages;
+export default memo(ScrumboardPipelineStages);
