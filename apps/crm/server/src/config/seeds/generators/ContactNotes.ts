@@ -1,8 +1,8 @@
 /* eslint-disable perfectionist/sort-objects */
 /* eslint-disable security/detect-object-injection */
-import type { TContactsNotesTableInsert } from '#Config/schema/index.js';
+import type { ContactsNotesTableInsert } from '#Config/schema/contacts/ContactsNotes.js';
 
-import type { TSeedContactNotesContact, TSeedContactNotesUsers } from '../ContactsNotes.js';
+import type { SeedContactNotesContact, SeedContactNotesUsers } from '../ContactsNotes.ts';
 
 import { faker } from '@faker-js/faker';
 
@@ -27,10 +27,10 @@ const CHAIN_NOTES_MAP = {
 
 // Take chain-notes from previous stage and push on a non-chain-note from current stage.
 export function generateContactNotes(
-  contact: TSeedContactNotesContact,
-  allUsers: TSeedContactNotesUsers
-): TContactsNotesTableInsert[] {
-  const returnContactNotes: TContactsNotesTableInsert[] = [];
+  contact: SeedContactNotesContact,
+  allUsers: SeedContactNotesUsers
+): ContactsNotesTableInsert[] {
+  const returnContactNotes: ContactsNotesTableInsert[] = [];
   const {
     stage,
     company: { industry },
@@ -56,7 +56,7 @@ export function generateContactNotes(
     const userName = users[i - 1]?.firstName;
     comment = replaceCommentPlaceholders(comment, { companyName, contactName, industry, userName });
 
-    const contactNote: TContactsNotesTableInsert = {
+    const contactNote: ContactsNotesTableInsert = {
       contactId: contact.id,
       createdAt: commentsCreatedAt[i],
       createdBy: users[i].id,

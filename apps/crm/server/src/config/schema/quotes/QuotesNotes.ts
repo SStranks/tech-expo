@@ -5,7 +5,8 @@ import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { QuotesTable, UserProfileTable } from '../index.js';
+import UserProfileTable from '../user/UserProfile.js';
+import QuotesTable from './Quotes.js';
 
 // ---------- TABLES -------- //
 export type QuotesNotesTableInsert = InferInsertModel<typeof QuotesNotesTable>;

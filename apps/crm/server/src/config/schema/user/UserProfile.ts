@@ -5,15 +5,13 @@ import { char, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import {
-  CompaniesTable,
-  ContactsNotesTable,
-  CountriesTable,
-  PipelineDealsTable,
-  QuotesTable,
-  TimeZoneTable,
-  UserTable,
-} from '../index.js';
+import CompaniesTable from '../companies/Companies.js';
+import ContactsNotesTable from '../contacts/ContactsNotes.js';
+import CountriesTable from '../Countries.js';
+import PipelineDealsTable from '../pipeline/Deals.js';
+import QuotesTable from '../quotes/Quotes.js';
+import TimeZoneTable from '../TimeZones.js';
+import UserTable from './User.js';
 
 // ---------- ENUMS --------- //
 export type CompanyRoles = (typeof COMPANY_ROLES)[number];

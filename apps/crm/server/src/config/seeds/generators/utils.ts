@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-interface ICommentPlaceholders {
+interface CommentPlaceholders {
   userName: string | undefined;
   contactName?: string;
   companyName: string;
@@ -17,7 +17,7 @@ export function generateCommentDates(numberOfComments: number) {
   return commentsCreatedAt;
 }
 
-export function replaceCommentPlaceholders(comment: string, replacements: ICommentPlaceholders): string {
+export function replaceCommentPlaceholders(comment: string, replacements: CommentPlaceholders): string {
   const { companyName, contactName, industry, userName } = replacements;
   if (comment.includes('{USER_NAME}')) {
     if (!userName) throw new Error('Error: Check JSON data; erroneous {USER_NAME} placeholder in first comment');

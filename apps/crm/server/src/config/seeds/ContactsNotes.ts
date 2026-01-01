@@ -1,14 +1,14 @@
-import type { TPostgresDB } from '#Config/dbPostgres.js';
-import type { TContactsNotesTableInsert } from '#Config/schema/index.js';
+import type { PostgresClient } from '#Config/dbPostgres.js';
+import type { ContactsNotesTableInsert } from '#Config/schema/contacts/ContactsNotes.ts';
 
-import { ContactsNotesTable } from '#Config/schema/index.js';
+import { ContactsNotesTable } from '#Config/schema/contacts/ContactsNotes.js';
 
 import { generateContactNotes } from './generators/ContactNotes.js';
 
-export type TSeedContactNotesContact = Awaited<ReturnType<typeof getAllContacts>>[number];
-export type TSeedContactNotesUsers = Awaited<ReturnType<typeof getAllUsers>>;
+export type SeedContactNotesContact = Awaited<ReturnType<typeof getAllContacts>>[number];
+export type SeedContactNotesUsers = Awaited<ReturnType<typeof getAllUsers>>;
 
-const getAllContacts = async (db: TPostgresDB) => {
+const getAllContacts = async (db: PostgresClient) => {
   return await db.query.ContactsTable.findMany({
     columns: { id: true, firstName: true, lastName: true, stage: true },
     with: {
@@ -19,18 +19,18 @@ const getAllContacts = async (db: TPostgresDB) => {
   });
 };
 
-const getAllUsers = async (db: TPostgresDB) => {
+const getAllUsers = async (db: PostgresClient) => {
   return await db.query.UserProfileTable.findMany({ columns: { id: true, firstName: true } });
 };
 
-export default async function seedContactsNotes(db: TPostgresDB) {
+export default async function seedContactsNotes(db: PostgresClient) {
   const allContacts = await getAllContacts(db);
   const allUsers = await getAllUsers(db);
 
   // --------- CONTACTS NOTES TABLE --------- //
-  const contactsNotesInsertionData: TContactsNotesTableInsert[] = [];
+  const contactsNotesInsertionData: ContactsNotesTableInsert[] = [];
 
-  allContacts.forEach((contact: TSeedContactNotesContact) => {
+  allContacts.forEach((contact: SeedContactNotesContact) => {
     const notes = generateContactNotes(contact, allUsers);
     contactsNotesInsertionData.push(...notes);
   });

@@ -1,6 +1,6 @@
 import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
-import type { PipelineDealsTableInsert } from '#Config/schema/index.js';
+import type { PipelineDealsTableInsert } from '#Config/schema/pipeline/Deals.ts';
 
 import type { SeedPipelineCompanies, SeedPipelineUsers } from '../Pipeline.js';
 

@@ -1,10 +1,11 @@
 import type { RefreshTokenPayload } from '@apps/crm-shared/src/types/api/auth.js';
 import type { JwtPayload } from 'jsonwebtoken';
-import type { UUID } from 'node:crypto';
 
 import jwt from 'jsonwebtoken';
 import { describe, expect, test, vi } from 'vitest';
 
+import { postgresDB } from '#Config/dbPostgres.js';
+import { redisClient } from '#Config/dbRedis.js';
 import { secrets } from '#Config/secrets.js';
 
 const { JWT_AUTH_SECRET, JWT_REFRESH_SECRET } = secrets;
@@ -25,7 +26,8 @@ vi.mock('#Config/secrets', () => ({
   },
 }));
 
-const { default: UserService } = await import('#Services/User.js');
+const { default: User } = await import('#Services/User.js');
+const UserService = new User(redisClient, postgresDB);
 
 describe('Signing Tokens: Auth Token', () => {
   const userId = 'user';
@@ -34,25 +36,17 @@ describe('Signing Tokens: Auth Token', () => {
   const jti = '123';
   MOCK_JWT_JTI.mockReturnValue(jti);
 
-  test('Sign Auth Token - is payload valid', () => {
-    interface IJWTPayload extends JwtPayload {
-      client_id: UUID;
-      role: string;
-      jti: UUID;
-      iat: number;
-      exp: number;
-    }
-
+  test('Sign Auth Token - is payload valid', async () => {
     const jwt_encoded = UserService.signAuthToken(userId, userRole, iat);
 
-    const jwt_decoded = jwt.decode(jwt_encoded, { complete: true });
+    const jwt_decoded = await UserService.decodeAuthToken(jwt_encoded);
     if (!jwt_decoded) fail('JWT Encoding failed');
 
-    expect((jwt_decoded?.payload as IJWTPayload)['client_id']).toEqual(userId);
-    expect((jwt_decoded?.payload as IJWTPayload).role).toEqual(userRole);
-    expect((jwt_decoded?.payload as IJWTPayload).iat).toEqual(iat);
-    expect((jwt_decoded?.payload as IJWTPayload).jti).toEqual(jti);
-    expect(typeof (jwt_decoded?.payload as IJWTPayload).exp).toBe('number');
+    expect((jwt_decoded?.payload)['client_id']).toEqual(userId);
+    expect((jwt_decoded?.payload).role).toEqual(userRole);
+    expect((jwt_decoded?.payload).iat).toEqual(iat);
+    expect((jwt_decoded?.payload).jti).toEqual(jti);
+    expect(typeof (jwt_decoded?.payload).exp).toBe('number');
   });
 
   test('Sign Auth Token - is signature valid', async () => {

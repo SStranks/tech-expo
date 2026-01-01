@@ -1,10 +1,15 @@
-import type { TPostgresDB } from '#Config/dbPostgres.js';
-import type { PipelineDealsTableInsert, PipelineStagesTableInsert, PipelineTableInsert } from '#Config/schema/index.js';
+import type { PostgresClient } from '#Config/dbPostgres.js';
+import type { PipelineDealsTableInsert } from '#Config/schema/pipeline/Deals.ts';
+import type { PipelineTableInsert } from '#Config/schema/pipeline/Pipeline.ts';
+import type { PipelineStagesTableInsert } from '#Config/schema/pipeline/Stages.ts';
 
 import { faker } from '@faker-js/faker';
 import { eq } from 'drizzle-orm';
 
-import { CompaniesTable, PipelineDealsTable, PipelineStagesTable, PipelineTable } from '#Config/schema/index.js';
+import CompaniesTable from '#Config/schema/companies/Companies.js';
+import PipelineDealsTable from '#Config/schema/pipeline/Deals.js';
+import PipelineTable from '#Config/schema/pipeline/Pipeline.js';
+import PipelineStagesTable from '#Config/schema/pipeline/Stages.js';
 import { seedSettings } from '#Config/seedSettings.js';
 
 import { generatePipelineDeal } from './generators/PipelineDeal.js';
@@ -16,22 +21,22 @@ const { COMPANY_NAME, PIPELINE_STAGE_DEALS_MAX, PIPELINE_STAGE_DEALS_MIN } = see
 
 const PIPELINE_DEAL_STAGES = ['unassigned', 'won', 'lost', 'new', 'follow-up', 'under review'] as const;
 
-const getPrimaryCompany = async (db: TPostgresDB) => {
+const getPrimaryCompany = async (db: PostgresClient) => {
   return await db.query.CompaniesTable.findFirst({
     columns: { id: true },
     where: eq(CompaniesTable.name, COMPANY_NAME),
   });
 };
 
-const getAllUsers = async (db: TPostgresDB) => {
+const getAllUsers = async (db: PostgresClient) => {
   return await db.query.UserProfileTable.findMany({});
 };
 
-const getAllCompaniesWithContacts = async (db: TPostgresDB) => {
+const getAllCompaniesWithContacts = async (db: PostgresClient) => {
   return await db.query.CompaniesTable.findMany({ with: { contacts: { columns: { id: true } } } });
 };
 
-export default async function seedPipeline(db: TPostgresDB) {
+export default async function seedPipeline(db: PostgresClient) {
   const primaryCompany = await getPrimaryCompany(db);
   if (!primaryCompany) throw new Error(`Could not source ${COMPANY_NAME} from company table`);
 

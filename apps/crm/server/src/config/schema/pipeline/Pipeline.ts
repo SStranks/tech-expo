@@ -5,7 +5,9 @@ import { pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable, PipelineDealsTable, PipelineStagesTable } from '../index.js';
+import CompaniesTable from '../companies/Companies.js';
+import PipelineDealsTable from './Deals.js';
+import PipelineStagesTable from './Stages.js';
 
 // ---------- TABLES -------- //
 export type PipelineTableInsert = InferInsertModel<typeof PipelineTable>;

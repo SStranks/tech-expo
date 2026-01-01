@@ -1,6 +1,4 @@
 /* eslint-disable security/detect-object-injection */
-import type { TCompanyRoles, TUserRoles } from '#Config/schema/index.js';
-
 import { faker } from '@faker-js/faker';
 
 import { seedSettings } from '#Config/seedSettings.js';
@@ -8,6 +6,10 @@ import { seedSettings } from '#Config/seedSettings.js';
 import { randomUUID } from 'node:crypto';
 
 const { COMPANY_EMAIL_DOMAIN, USER_ENTRY_COUNT } = seedSettings;
+
+import type { UserRoles } from '@apps/crm-shared/src/types/api/auth.js';
+
+import type { CompanyRoles } from '#Config/schema/user/UserProfile.js';
 
 import argon2 from 'argon2';
 
@@ -52,7 +54,7 @@ function generateUserBase() {
 export function generateUsers() {
   return Array.from({ length: USER_ENTRY_COUNT }, () => {
     const userBaseData = generateUserBase();
-    const companyRole = faker.helpers.weightedArrayElement<TCompanyRoles>([
+    const companyRole = faker.helpers.weightedArrayElement<CompanyRoles>([
       { value: 'SALES_MANAGER', weight: 2 },
       { value: 'SALES_PERSON', weight: 5 },
       { value: 'SALES_INTERN', weight: 3 },
@@ -67,8 +69,8 @@ export function generateUsers() {
 
 // TODO:  Substitute in known passwords and email addresses for demo-users to utilize;
 export function generateDemoUsers() {
-  const USER_ROLES: TUserRoles[] = ['ADMIN', 'MODERATOR', 'USER'];
-  const COMPANY_ROLES: TCompanyRoles[] = ['ADMIN', 'SALES_MANAGER', 'SALES_PERSON'];
+  const USER_ROLES: UserRoles[] = ['ADMIN', 'MODERATOR', 'USER'];
+  const COMPANY_ROLES: CompanyRoles[] = ['ADMIN', 'SALES_MANAGER', 'SALES_PERSON'];
 
   const demoUsers = Array.from({ length: USER_ROLES.length }, (_, i) => {
     const userBaseData = generateUserBase();

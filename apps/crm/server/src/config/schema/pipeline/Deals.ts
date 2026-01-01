@@ -5,7 +5,10 @@ import { numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable, ContactsTable, PipelineStagesTable, UserProfileTable } from '../index.js';
+import CompaniesTable from '../companies/Companies.js';
+import ContactsTable from '../contacts/Contacts.js';
+import UserProfileTable from '../user/UserProfile.js';
+import PipelineStagesTable from './Stages.js';
 
 // ---------- TABLES -------- //
 export type PipelineDealsTableInsert = InferInsertModel<typeof PipelineDealsTable>;

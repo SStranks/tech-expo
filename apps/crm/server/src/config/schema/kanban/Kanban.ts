@@ -5,7 +5,10 @@ import { pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable, KanbanStagesTable, KanbanTasksOrderTable, KanbanTasksTable } from '../index.js';
+import CompaniesTable from '../companies/Companies.js';
+import KanbanStagesTable from './Stages.js';
+import KanbanTasksTable from './Tasks.js';
+import KanbanTasksOrderTable from './TasksOrder.js';
 
 // ---------- TABLES -------- //
 export type KanbanTableInsert = InferInsertModel<typeof KanbanTable>;

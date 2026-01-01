@@ -1,6 +1,6 @@
-import type { TQuoteServicesTableInsert } from '#Config/schema/index.js';
+import type { QuoteServicesTableInsert } from '#Config/schema/quotes/Services.ts';
 
-import type { TSeedQuoteServicesQuotes } from '../QuotesServices.js';
+import type { SeedQuoteServicesQuotes } from '../QuotesServices.js';
 
 import { faker } from '@faker-js/faker';
 
@@ -13,8 +13,8 @@ const DISCOUNTS = [
   { value: 10, weight: 1 },
 ];
 
-export function generateQuoteServices(quote: TSeedQuoteServicesQuotes): TQuoteServicesTableInsert[] {
-  const quoteServices: TQuoteServicesTableInsert[] = [];
+export function generateQuoteServices(quote: SeedQuoteServicesQuotes): QuoteServicesTableInsert[] {
+  const quoteServices: QuoteServicesTableInsert[] = [];
   const randServiceTypes = faker.helpers.arrayElements(SERVICE_TYPES, { max: 3, min: 2 });
 
   randServiceTypes.forEach((serviceType) => {
@@ -26,7 +26,7 @@ export function generateQuoteServices(quote: TSeedQuoteServicesQuotes): TQuoteSe
       const discount = faker.helpers.weightedArrayElement(DISCOUNTS).toString();
       const total = (Number(price) * quantity - ((Number(price) * quantity) / 100) * Number(discount)).toString();
 
-      const service: TQuoteServicesTableInsert = {
+      const service: QuoteServicesTableInsert = {
         discount,
         price,
         quantity,

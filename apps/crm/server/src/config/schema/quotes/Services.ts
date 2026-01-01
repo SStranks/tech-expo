@@ -5,7 +5,7 @@ import { integer, numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { QuotesTable } from '../index.js';
+import QuotesTable from './Quotes.js';
 
 // ---------- TABLES -------- //
 export type QuoteServicesTableInsert = InferInsertModel<typeof QuoteServicesTable>;

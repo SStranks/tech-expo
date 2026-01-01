@@ -1,21 +1,21 @@
-import type { TPostgresDB } from '#Config/dbPostgres.js';
-import type { TQuotesNotesTableInsert } from '#Config/schema/index.js';
+import type { PostgresClient } from '#Config/dbPostgres.js';
+import type { QuotesNotesTableInsert } from '#Config/schema/quotes/QuotesNotes.ts';
 
-import { QuotesNotesTable } from '#Config/schema/index.js';
+import QuotesNotesTable from '#Config/schema/quotes/QuotesNotes.js';
 
 import { generateQuoteNote } from './generators/QuotesNotes.js';
 
-export type TSeedQuoteNotesQuotes = Awaited<ReturnType<typeof getQuotes>>[number];
+export type SeedQuoteNotesQuotes = Awaited<ReturnType<typeof getQuotes>>[number];
 
-const getQuotes = async (db: TPostgresDB) => {
+const getQuotes = async (db: PostgresClient) => {
   return await db.query.QuotesTable.findMany({
     columns: { id: true, dueAt: true, preparedBy: true },
     with: { company: { columns: { name: true } }, preparedFor: { columns: { firstName: true } } },
   });
 };
 
-export default async function seedQuotesServices(db: TPostgresDB) {
-  const quotesNotesInsertionData: TQuotesNotesTableInsert[] = [];
+export default async function seedQuotesServices(db: PostgresClient) {
+  const quotesNotesInsertionData: QuotesNotesTableInsert[] = [];
   const quotes = await getQuotes(db);
 
   // ---------- QUOTES NOTES --------- //

@@ -1,6 +1,6 @@
-import type { TContactsTableInsert } from '#Config/schema/index.js';
+import type { ContactsTableInsert } from '#Config/schema/contacts/Contacts.ts';
 
-import type { TSeedContactCompanies } from '../Contacts.js';
+import type { SeedContactCompanies } from '../Contacts.js';
 
 import { faker } from '@faker-js/faker';
 
@@ -8,9 +8,9 @@ import { CONTACT_STAGE } from '#Config/schema/contacts/Contacts.js';
 import DigitalIndustryJson from '#Data/DigitalIndustry.json';
 
 const { jobTitles } = DigitalIndustryJson;
-type TJobTitles = typeof jobTitles;
+type JobTitles = typeof jobTitles;
 
-export function generateContact(company: TSeedContactCompanies): TContactsTableInsert {
+export function generateContact(company: SeedContactCompanies): ContactsTableInsert {
   const firstName = faker.person.firstName();
   const lastName = faker.person.lastName();
   const provider = company.website?.split('//')[1];
@@ -24,7 +24,7 @@ export function generateContact(company: TSeedContactCompanies): TContactsTableI
     company: company.id,
     email: faker.internet.email({ firstName, lastName, provider }),
     firstName,
-    jobTitle: faker.helpers.arrayElement(jobTitles[industry as keyof TJobTitles]),
+    jobTitle: faker.helpers.arrayElement(jobTitles[industry as keyof JobTitles]),
     lastName,
     phone: faker.phone.number({ style: 'international' }),
     stage,

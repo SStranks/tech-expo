@@ -4,7 +4,7 @@ import { boolean, integer, pgTable, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { UserTable } from '../index.js';
+import UserTable from './User.js';
 
 // ---------- TABLES -------- //
 export type UserRefreshTokensTableInsert = InferInsertModel<typeof UserRefreshTokensTable>;

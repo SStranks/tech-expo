@@ -1,7 +1,7 @@
 /* eslint-disable security/detect-object-injection */
-import type { TCompaniesNotesTableInsert } from '#Config/schema/index.js';
+import type { CompaniesNotesTableInsert } from '#Config/schema/companies/CompanyNotes.ts';
 
-import type { TCompaniesQueryCompaniesNotes, TSeedCompaniesNotesAllUsers } from '../CompaniesNotes.js';
+import type { CompaniesQueryCompaniesNotes, SeedCompaniesNotesAllUsers } from '../CompaniesNotes.js';
 
 import { faker } from '@faker-js/faker';
 
@@ -11,11 +11,8 @@ import { generateCommentDates, replaceCommentPlaceholders } from './utils.js';
 
 const { chain_notes: CHAIN_NOTES, non_chain_notes: NON_CHAIN_NOTES } = CompaniesNotes;
 
-export function generateCompaniesNotes(
-  company: TCompaniesQueryCompaniesNotes,
-  allUsers: TSeedCompaniesNotesAllUsers[]
-) {
-  const returnCompaniesNotes: TCompaniesNotesTableInsert[] = [];
+export function generateCompaniesNotes(company: CompaniesQueryCompaniesNotes, allUsers: SeedCompaniesNotesAllUsers[]) {
+  const returnCompaniesNotes: CompaniesNotesTableInsert[] = [];
   const { industry, name } = company;
 
   // Pick a random chain-notes array and userIDs for each comment
@@ -33,7 +30,7 @@ export function generateCompaniesNotes(
     const userName = userIds[i - 1]?.firstName;
     comment = replaceCommentPlaceholders(comment, { companyName: name, industry, userName });
 
-    const companyNote: TCompaniesNotesTableInsert = {
+    const companyNote: CompaniesNotesTableInsert = {
       company: company.id,
       createdAt: commentsCreatedAt[i],
       createdBy: userIds[i].id,

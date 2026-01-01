@@ -5,7 +5,8 @@ import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { KanbanTasksTable, UserProfileTable } from '../index.js';
+import UserProfileTable from '../user/UserProfile.js';
+import KanbanTasksTable from './Tasks.js';
 
 // ---------- TABLES -------- //
 export type KanbanTaskCommentsTableInsert = InferInsertModel<typeof KanbanTaskCommentsTable>;

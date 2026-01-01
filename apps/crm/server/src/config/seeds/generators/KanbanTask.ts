@@ -1,10 +1,8 @@
 import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
-import type {
-  KanbanTaskChecklistItemTableInsert,
-  KanbanTaskCommentsTableInsert,
-  KanbanTasksTableInsert,
-} from '#Config/schema/index.js';
+import type { KanbanTaskChecklistItemTableInsert } from '#Config/schema/kanban/ChecklistItems.ts';
+import type { KanbanTasksTableInsert } from '#Config/schema/kanban/Tasks.ts';
+import type { KanbanTaskCommentsTableInsert } from '#Config/schema/kanban/TasksComments.ts';
 
 import type { SeedKanbanUsers } from '../Kanban.js';
 

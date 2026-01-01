@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-type TSecretName = (typeof REQUIRED_SECRETS)[number];
+type SecretName = (typeof REQUIRED_SECRETS)[number];
 
 const DOCKER_SECRET_PATH = '/run/secrets';
 const REQUIRED_SECRETS = [
@@ -26,7 +26,7 @@ const REQUIRED_SECRETS = [
   'REDIS_USERNAME',
 ] as const;
 
-const secrets: Record<TSecretName, string> = {} as Record<TSecretName, string>;
+const secrets: Record<SecretName, string> = {} as Record<SecretName, string>;
 let secretsFiles: string[] = [];
 
 function abortServerInitialization(error: Error) {
@@ -63,10 +63,10 @@ function validateSecretsCount(secretsFiles: string[]): void | Error {
     throw new Error('[secrets.js] FAILURE: incongruency between number of actual and required secrets');
 }
 
-function validateAndNormalizeSecretName(filename: string): TSecretName {
+function validateAndNormalizeSecretName(filename: string): SecretName {
   if (!(REQUIRED_SECRETS as readonly string[]).includes(filename.toUpperCase()))
     throw new Error(`[secrets.js] FAILURE: found secret not in required. secret file: ${filename}`);
-  return filename.toUpperCase() as TSecretName;
+  return filename.toUpperCase() as SecretName;
 }
 
 function initializeDockerSecrets() {

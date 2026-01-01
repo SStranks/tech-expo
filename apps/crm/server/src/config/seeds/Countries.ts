@@ -1,9 +1,12 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
-import type { TPostgresDB } from '#Config/dbPostgres.ts';
-import type { TCountriesTableInsert, TTimeZoneTableInsert } from '#Config/schema/index.ts';
+import type { PostgresClient } from '#Config/dbPostgres.ts';
+import type { CountriesTableInsert } from '#Config/schema/Countries.ts';
+import type { TimeZoneTableInsert } from '#Config/schema/TimeZones.ts';
 
-import { CountriesTable, TimeZoneTable } from '#Config/schema/index.js';
+import CountriesTable from '#Config/schema/Countries.js';
+import TimeZoneTable from '#Config/schema/TimeZones.js';
+import { toDbUUID } from '#Helpers/helpers.js';
 import importCSVFile from '#Utils/importCsvFile.js';
 
 import path from 'node:path';
@@ -13,9 +16,9 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const COUNTRIES_CSV = path.resolve(__dirname, '../../data/Countries.csv');
 const TIMEZONE_CSV = path.resolve(__dirname, '../../data/Countries with UTC Offset.csv');
 
-export default async function seedCountries(db: TPostgresDB) {
+export default async function seedCountries(db: PostgresClient) {
   // ----------- COUNTRIES TABLE ----------- //
-  const countriesInsertionData: TCountriesTableInsert[] = importCSVFile<TCountriesTableInsert>(COUNTRIES_CSV);
+  const countriesInsertionData: CountriesTableInsert[] = importCSVFile<CountriesTableInsert>(COUNTRIES_CSV);
 
   const countriesInsertReturnData = await db
     .insert(CountriesTable)
@@ -23,15 +26,15 @@ export default async function seedCountries(db: TPostgresDB) {
     .returning({ id: CountriesTable.id, alpha2code: CountriesTable.alpha2Code });
 
   // ------ COUNTRIES-TIMEZONES TABLE ------ //
-  const timeZonesInsertionData: TTimeZoneTableInsert[] = [];
+  const timeZonesInsertionData: TimeZoneTableInsert[] = [];
 
-  type TTimeZonesCSV = Omit<TTimeZoneTableInsert, 'id' | 'countryId'>;
-  const timeZonesCSVData = importCSVFile<TTimeZonesCSV>(TIMEZONE_CSV);
+  type TimeZonesCSV = Omit<TimeZoneTableInsert, 'id' | 'countryId'>;
+  const timeZonesCSVData = importCSVFile<TimeZonesCSV>(TIMEZONE_CSV);
 
   // Create dictionary of alpha-2 codes and country IDs
   const countriesDict = countriesInsertReturnData.reduce(
     (acc, cur) => {
-      acc[cur.alpha2code] = cur.id;
+      acc[cur.alpha2code] = toDbUUID(cur.id);
       return acc;
     },
     {} as { [key: string]: UUID }

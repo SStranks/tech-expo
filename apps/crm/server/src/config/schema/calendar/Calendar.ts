@@ -5,7 +5,9 @@ import { pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CalendarCategoriesTable, CalendarEventsTable, CompaniesTable } from '../index.js';
+import CompaniesTable from '../companies/Companies.js';
+import CalendarCategoriesTable from './Categories.js';
+import CalendarEventsTable from './Events.js';
 
 // ---------- TABLES -------- //
 export type CalendarTableInsert = InferInsertModel<typeof CalendarTable>;

@@ -1,26 +1,20 @@
-import type { TPostgresDB } from '#Config/dbPostgres.js';
-import type {
-  KanbanStagesTableInsert,
-  KanbanTableInsert,
-  KanbanTaskCommentsTableInsert,
-  KanbanTasksOrderTableInsert,
-  KanbanTasksTableInsert,
-} from '#Config/schema/index.js';
+import type { PostgresClient } from '#Config/dbPostgres.ts';
+import type { KanbanTableInsert } from '#Config/schema/kanban/Kanban.ts';
+import type { KanbanStagesTableInsert } from '#Config/schema/kanban/Stages.ts';
+import type { KanbanTasksTableInsert } from '#Config/schema/kanban/Tasks.ts';
 
 import { faker } from '@faker-js/faker';
 import { eq } from 'drizzle-orm';
 
-import {
-  CompaniesTable,
-  KanbanStagesTable,
-  KanbanTable,
-  KanbanTaskCommentsTable,
-  KanbanTasksOrderTable,
-  KanbanTasksTable,
-} from '#Config/schema/index.js';
+import CompaniesTable from '#Config/schema/companies/Companies.js';
 import KanbanTaskChecklistItemTable, {
   KanbanTaskChecklistItemTableInsert,
 } from '#Config/schema/kanban/ChecklistItems.js';
+import { KanbanTable } from '#Config/schema/kanban/Kanban.js';
+import KanbanStagesTable from '#Config/schema/kanban/Stages.js';
+import KanbanTasksTable from '#Config/schema/kanban/Tasks.js';
+import KanbanTaskCommentsTable, { KanbanTaskCommentsTableInsert } from '#Config/schema/kanban/TasksComments.js';
+import KanbanTasksOrderTable, { KanbanTasksOrderTableInsert } from '#Config/schema/kanban/TasksOrder.js';
 import { seedSettings } from '#Config/seedSettings.js';
 
 import {
@@ -35,18 +29,18 @@ const { COMPANY_NAME, KANBAN_STAGE_TASKS_MAX, KANBAN_STAGE_TASKS_MIN } = seedSet
 
 const KANBAN_TASKS_STAGES = ['unassigned', 'todo', 'in progress', 'in review', 'done'] as const;
 
-const getPrimaryCompany = async (db: TPostgresDB) => {
+const getPrimaryCompany = async (db: PostgresClient) => {
   return await db.query.CompaniesTable.findFirst({
     columns: { id: true },
     where: eq(CompaniesTable.name, COMPANY_NAME),
   });
 };
 
-const getAllUsers = async (db: TPostgresDB) => {
+const getAllUsers = async (db: PostgresClient) => {
   return await db.query.UserProfileTable.findMany({});
 };
 
-export default async function seedKanban(db: TPostgresDB) {
+export default async function seedKanban(db: PostgresClient) {
   const primaryCompany = await getPrimaryCompany(db);
   if (!primaryCompany) throw new Error(`Could not source ${COMPANY_NAME} from company table`);
 

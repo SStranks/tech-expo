@@ -5,7 +5,7 @@ import { boolean, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { KanbanTasksTable } from '../index.js';
+import KanbanTasksTable from './Tasks.js';
 
 // ---------- TABLES -------- //
 export type KanbanTaskChecklistItemTableInsert = InferInsertModel<typeof KanbanTaskChecklistItemTable>;

@@ -1,19 +1,19 @@
-import type { TPostgresDB } from '#Config/dbPostgres.js';
-import type { TQuotesTableInsert } from '#Config/schema/index.js';
+import type { PostgresClient } from '#Config/dbPostgres.js';
+import type { QuotesTableInsert } from '#Config/schema/quotes/Quotes.ts';
 
 import { faker } from '@faker-js/faker';
 
-import { QuotesTable } from '#Config/schema/index.js';
+import QuotesTable from '#Config/schema/quotes/Quotes.js';
 import { seedSettings } from '#Config/seedSettings.js';
 
 import { generateQuote } from './generators/Quotes.js';
 
-export type TSeedQuoteCompany = Awaited<ReturnType<typeof getCompanies>>[number];
-export type TSeedQuoteUser = Awaited<ReturnType<typeof getUsers>>[number];
+export type SeedQuoteCompany = Awaited<ReturnType<typeof getCompanies>>[number];
+export type SeedQuoteUser = Awaited<ReturnType<typeof getUsers>>[number];
 
 const { COMPANY_NAME, COMPANY_QUOTES_MAX, COMPANY_QUOTES_MIN } = seedSettings;
 
-const getCompanies = async (db: TPostgresDB) => {
+const getCompanies = async (db: PostgresClient) => {
   return await db.query.CompaniesTable.findMany({
     columns: { id: true, name: true, country: true, website: true },
     with: { contacts: { columns: { id: true, firstName: true, lastName: true } } },
@@ -21,14 +21,14 @@ const getCompanies = async (db: TPostgresDB) => {
   });
 };
 
-const getUsers = async (db: TPostgresDB) => {
+const getUsers = async (db: PostgresClient) => {
   return await db.query.UserProfileTable.findMany({
     columns: { id: true, firstName: true, lastName: true },
   });
 };
 
-export default async function seedQuotes(db: TPostgresDB) {
-  const quotesInsertionData: TQuotesTableInsert[] = [];
+export default async function seedQuotes(db: PostgresClient) {
+  const quotesInsertionData: QuotesTableInsert[] = [];
   const companies = await getCompanies(db);
   const users = await getUsers(db);
 

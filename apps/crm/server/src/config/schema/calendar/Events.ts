@@ -48,7 +48,7 @@ export const insertCalendarEventsSchema = createInsertSchema(CalendarEventsTable
 export const selectCalendarEventsSchema = createSelectSchema(CalendarEventsTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
-export type TInsertCalendarEventsSchema = z.infer<typeof insertCalendarEventsSchema>;
-export type TSelectCalendarEventsSchema = z.infer<typeof selectCalendarEventsSchema>;
+export type InsertCalendarEventsSchema = z.infer<typeof insertCalendarEventsSchema>;
+export type SelectCalendarEventsSchema = z.infer<typeof selectCalendarEventsSchema>;
 
 export default CalendarEventsTable;

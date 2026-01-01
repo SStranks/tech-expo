@@ -1,5 +1,5 @@
-import type { TPostgresDB } from '#Config/dbPostgres.js';
-import type { TQuoteServicesTableInsert } from '#Config/schema/index.js';
+import type { PostgresClient } from '#Config/dbPostgres.js';
+import type { QuoteServicesTableInsert } from '#Config/schema/quotes/Services.ts';
 
 import { eq } from 'drizzle-orm';
 
@@ -8,14 +8,14 @@ import QuoteServicesTable from '#Config/schema/quotes/Services.js';
 
 import { generateQuoteServices } from './generators/QuotesServices.js';
 
-export type TSeedQuoteServicesQuotes = Awaited<ReturnType<typeof getQuotes>>[number];
+export type SeedQuoteServicesQuotes = Awaited<ReturnType<typeof getQuotes>>[number];
 
-const getQuotes = async (db: TPostgresDB) => {
+const getQuotes = async (db: PostgresClient) => {
   return await db.query.QuotesTable.findMany({ columns: { id: true } });
 };
 
-export default async function seedQuotesServices(db: TPostgresDB) {
-  const quotesServicesInsertionData: TQuoteServicesTableInsert[] = [];
+export default async function seedQuotesServices(db: PostgresClient) {
+  const quotesServicesInsertionData: QuoteServicesTableInsert[] = [];
   const quotes = await getQuotes(db);
 
   // -------- QUOTES SERVICES -------- //

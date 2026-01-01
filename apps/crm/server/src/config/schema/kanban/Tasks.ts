@@ -6,12 +6,10 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
-import {
-  KanbanStagesTable,
-  KanbanTaskChecklistItemTable,
-  KanbanTaskCommentsTable,
-  UserProfileTable,
-} from '../index.js';
+import UserProfileTable from '../user/UserProfile.js';
+import KanbanTaskChecklistItemTable from './ChecklistItems.js';
+import KanbanStagesTable from './Stages.js';
+import KanbanTaskCommentsTable from './TasksComments.js';
 
 // ---------- TABLES -------- //
 export type KanbanTasksTableInsert = InferInsertModel<typeof KanbanTasksTable>;

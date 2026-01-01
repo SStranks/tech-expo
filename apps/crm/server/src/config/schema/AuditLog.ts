@@ -5,7 +5,7 @@ import { jsonb, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { UserTable } from './index.js';
+import UserTable from './user/User.js';
 
 // ---------- ENUMS --------- //
 export type EntityAction = (typeof ENTITY_ACTION)[number];

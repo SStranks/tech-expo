@@ -3,7 +3,9 @@ import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { char, pgTable, uuid } from 'drizzle-orm/pg-core';
 
-import { ContactsTable, CountriesTable, UserProfileTable } from './index.js';
+import ContactsTable from './contacts/Contacts.js';
+import CountriesTable from './Countries.js';
+import UserProfileTable from './user/UserProfile.js';
 
 // ---------- TABLES -------- //
 export type TimeZoneTableInsert = InferInsertModel<typeof TimeZoneTable>;

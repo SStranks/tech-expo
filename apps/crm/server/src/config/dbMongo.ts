@@ -34,7 +34,7 @@ const mongoClient = new MongoClient(MONGO_URI, {
   tls: true,
 });
 
-type TMongoServerEvents = {
+type MongoServerEvents = {
   [Key in keyof TopologyEvents]?: boolean;
 };
 
@@ -42,7 +42,7 @@ class ServerEventsLogger {
   private MongoClient;
   private eventNames;
 
-  constructor(mongoClient: MongoClient, eventName: TMongoServerEvents) {
+  constructor(mongoClient: MongoClient, eventName: MongoServerEvents) {
     this.MongoClient = mongoClient;
     this.eventNames = eventName;
 

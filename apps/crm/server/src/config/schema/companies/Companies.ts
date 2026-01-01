@@ -5,16 +5,14 @@ import { doublePrecision, pgEnum, pgTable, timestamp, uuid, varchar } from 'driz
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import {
-  CalendarTable,
-  CompaniesNotesTable,
-  ContactsTable,
-  CountriesTable,
-  KanbanTable,
-  PipelineDealsTable,
-  QuotesTable,
-  UserProfileTable,
-} from '../index.js';
+import CalendarTable from '../calendar/Calendar.js';
+import ContactsTable from '../contacts/Contacts.js';
+import CountriesTable from '../Countries.js';
+import KanbanTable from '../kanban/Kanban.js';
+import PipelineDealsTable from '../pipeline/Deals.js';
+import QuotesTable from '../quotes/Quotes.js';
+import UserProfileTable from '../user/UserProfile.js';
+import CompaniesNotesTable from './CompanyNotes.js';
 
 // ---------- ENUMS --------- //
 export type CompanySize = (typeof COMPANY_SIZE)[number];

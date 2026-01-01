@@ -1,6 +1,6 @@
-import type { TQuotesNotesTableInsert } from '#Config/schema/index.js';
+import type { QuotesNotesTableInsert } from '#Config/schema/quotes/QuotesNotes.ts';
 
-import type { TSeedQuoteNotesQuotes } from '../QuotesNotes.js';
+import type { SeedQuoteNotesQuotes } from '../QuotesNotes.js';
 
 import { faker } from '@faker-js/faker';
 
@@ -8,7 +8,7 @@ import QuotesNotes from '#Data/QuotesNotes.json';
 
 const FORMAL_NOTES = Object.keys(QuotesNotes.formal_notes) as [keyof (typeof QuotesNotes)['formal_notes']];
 
-export function generateQuoteNote(quote: TSeedQuoteNotesQuotes) {
+export function generateQuoteNote(quote: SeedQuoteNotesQuotes) {
   // Pick one formal note from 4 categories. Pick one informal note to add to end
   let note = '';
   const formalNotesKeys = faker.helpers.arrayElements(FORMAL_NOTES, 4);
@@ -26,7 +26,7 @@ export function generateQuoteNote(quote: TSeedQuoteNotesQuotes) {
 
   note += informalNote.trimEnd();
 
-  const quoteNote: TQuotesNotesTableInsert = {
+  const quoteNote: QuotesNotesTableInsert = {
     createdBy: quote.preparedBy,
     note,
     quote: quote.id,

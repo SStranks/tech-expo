@@ -5,7 +5,11 @@ import { pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable, ContactsNotesTable, PipelineDealsTable, QuotesTable, TimeZoneTable } from '../index.js';
+import CompaniesTable from '../companies/Companies.js';
+import PipelineDealsTable from '../pipeline/Deals.js';
+import QuotesTable from '../quotes/Quotes.js';
+import TimeZoneTable from '../TimeZones.js';
+import ContactsNotesTable from './ContactsNotes.js';
 
 // ---------- ENUMS --------- //
 export type ContactStage = (typeof CONTACT_STAGE)[number];

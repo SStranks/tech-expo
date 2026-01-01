@@ -39,7 +39,7 @@ const redisClient = createClient({
 pinoLogger.server.debug(REDIS_URL);
 
 type RedisEvents = 'connect' | 'ready' | 'end' | 'error' | 'reconnecting';
-type TRedisServerEvents = {
+type RedisServerEvents = {
   [K in RedisEvents]?: boolean;
 };
 
@@ -47,7 +47,7 @@ class ServerEventsLogger {
   private RedisClient;
   private eventNames;
 
-  constructor(RedisClient: typeof redisClient, eventName: TRedisServerEvents) {
+  constructor(RedisClient: typeof redisClient, eventName: RedisServerEvents) {
     this.RedisClient = RedisClient;
     this.eventNames = eventName;
 
@@ -68,7 +68,6 @@ new ServerEventsLogger(redisClient, {
   reconnecting: true,
 });
 
-// Connection
 const connectRedisDB = async () => {
   try {
     await redisClient.connect();
@@ -85,4 +84,5 @@ const connectRedisDB = async () => {
   pinoLogger.server.info(`Connected to Redis: ${REDIS_HOST}:${REDIS_DOCKER_PORT}`);
 };
 
+export type RedisClient = typeof redisClient;
 export { connectRedisDB, redisClient };

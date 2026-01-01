@@ -5,7 +5,9 @@ import { integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CompaniesTable, TimeZoneTable, UserProfileTable } from './index.js';
+import CompaniesTable from './companies/Companies.js';
+import TimeZoneTable from './TimeZones.js';
+import UserProfileTable from './user/UserProfile.js';
 
 // ---------- TABLES -------- //
 export type CountriesTableInsert = InferInsertModel<typeof CountriesTable>;
