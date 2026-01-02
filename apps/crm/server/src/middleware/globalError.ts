@@ -1,87 +1,92 @@
-import type { ApiResponseError } from '@apps/crm-shared';
+import type { ApiResponseError } from '@apps/crm-shared/src/types/api/base.ts';
 import type { ErrorRequestHandler, Response } from 'express';
 
 import postgres from 'postgres';
 import { ZodError } from 'zod';
 
-import { postgresErrorHTTPMapper } from '#Config/dbPostgres.js';
+import { postgresErrorDomainMapper, postgresKindToHttp } from '#Config/dbPostgres.js';
 import pinoLogger from '#Lib/pinoLogger.js';
 import rollbar from '#Lib/rollbar.js';
-import CustomError from '#Utils/errors/CustomError.js';
+import AppError from '#Utils/errors/AppError.js';
+import BadRequestError from '#Utils/errors/BadRequestError.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
 import ZodValidationError from '#Utils/errors/ZodValidationError.js';
 
 const { NODE_ENV } = process.env;
 
-const globalErrorHandler: ErrorRequestHandler = (err, _req, res: Response<ApiResponseError>, _next) => {
-  if (NODE_ENV === 'development' || NODE_ENV === 'test') {
-    if (err instanceof CustomError) {
-      const { errors, message, stack, status, statusCode } = err;
+const getHttpCode = (error: unknown): number => {
+  if (error instanceof ZodValidationError) return 400;
+  if (error instanceof PostgresError) return postgresKindToHttp(error.kind);
+  if (error instanceof BadRequestError) return 400;
+  if (error instanceof AppError) return error.statusCode;
+  return 500;
+};
 
-      pinoLogger.app.error(err, `GlobalErrorHandler: ${message}`);
-      res.status(statusCode).json({ errors, message, stack, status });
-      return;
+const devErrorResponse = (error: NormalizedError, res: Response) => {
+  const httpCode = getHttpCode(error);
+
+  if (error instanceof AppError && !error.isOperational) {
+    pinoLogger.app.error(error, `Non-Operational Error: ${error.message}`);
+    return res.status(httpCode).json({
+      errors: error,
+      message: `Non-Operational Error: ${error.message}`,
+      stack: error.stack,
+    });
+  } else {
+    const { errors, message, stack } = error;
+    pinoLogger.app.error(error, `GlobalErrorHandler: ${message}`);
+    return res.status(httpCode).json({ errors, message, stack });
+  }
+};
+
+const prodErrorResponse = (error: NormalizedError, res: Response) => {
+  if (error instanceof AppError && !error.isOperational) {
+    const errMsg = 'Non-Operational Error';
+    pinoLogger.app.error(error, errMsg);
+    rollbar.error(errMsg, error);
+
+    return res.status(500).json({ message: `${errMsg}. Contact support` });
+  } else {
+    const httpCode = getHttpCode(error);
+    const { cause, errors, logging, message, name, stack } = error;
+
+    if (logging) {
+      pinoLogger.app.error({ name, cause, errors, stack }, 'Operational Error');
     }
 
-    pinoLogger.app.error(err, `Non-Operational Error: ${err.message}`);
-    res.status(500).json({
-      errors: err,
-      message: `Non-Operational Error: ${err.message}`,
-      stack: err.stack,
-      status: 'error',
-    });
-    return;
+    return res.status(httpCode).json({ errors, message });
+  }
+};
+
+type NormalizedError = AppError | ZodValidationError | PostgresError;
+const normalizeError = (error: unknown): NormalizedError => {
+  if (error instanceof ZodError) {
+    return new ZodValidationError({ context: { error }, logging: true, zod: { error } });
   }
 
-  // NODE_ENV: PRODUCTION
-  let error = err;
-  if (error instanceof ZodError) error = new ZodValidationError({ context: { error }, logging: true, zod: { error } });
   if (error instanceof postgres.PostgresError) {
-    const { httpCode, message } = postgresErrorHTTPMapper(error.code);
-    error = new PostgresError({
-      code: httpCode,
+    const { kind, message } = postgresErrorDomainMapper(error.code);
+    return new PostgresError({
       context: { error, message: error.message },
-      logging: httpCode >= 500,
+      kind,
       message,
     });
   }
 
-  if (err instanceof ZodValidationError) {
-    const { errors, logging, message, stack, status, statusCode, zodError } = err;
+  if (error instanceof AppError) return error;
 
-    if (logging) {
-      pinoLogger.app.error({ errors, stack, statusCode }, 'Operational Error');
-    }
+  return new AppError({ isOperational: false, logging: true, message: 'Unknown error' });
+};
 
-    // Return user friendly Zod error
-    const validationErrors = zodError.error.format();
+const globalErrorHandler: ErrorRequestHandler = (error, _req, res: Response<ApiResponseError<unknown>>, next) => {
+  if (res.headersSent) return next(error);
+  const normalizedError = normalizeError(error);
 
-    res.status(statusCode).json({ errors: validationErrors, message, status });
-    return;
+  if (NODE_ENV !== 'production') {
+    return devErrorResponse(normalizedError, res);
   }
 
-  // Includes: AppError, BadRequestError, PostgresError
-  if (err instanceof CustomError) {
-    const { errors, logging, message, stack, status, statusCode } = err;
-
-    if (logging) {
-      pinoLogger.app.error({ errors, stack, statusCode }, 'Operational Error');
-    }
-
-    res.status(statusCode).json({ errors, message, status });
-    return;
-  }
-
-  // Unhnandled Errors
-  const errMsg = 'Non-Operational Error';
-  pinoLogger.app.error(err, errMsg);
-  rollbar.error(errMsg, err);
-
-  res.status(500).json({
-    errors: err,
-    message: `${errMsg}. Contact support`,
-    status: 'error',
-  });
+  return prodErrorResponse(normalizedError, res);
 };
 
 export default globalErrorHandler;

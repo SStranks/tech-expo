@@ -12,7 +12,6 @@ export interface ApiResponseSuccessData<T> extends ApiResponseSuccess {
 }
 
 export interface ApiResponseError<T> {
-  status: 'error';
   message: string;
   errors: T;
   stack?: string | undefined;

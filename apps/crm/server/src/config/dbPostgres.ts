@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
@@ -63,57 +64,101 @@ const connectPostgresDB = async () => {
   pinoLogger.server.info(`Connected to Postgres: ${HOST}:${PORT}/${DATABASE}`);
 };
 
-type TPostgresHTTPError = { httpCode: number; message: string };
-const errorCodesMap: Record<string, TPostgresHTTPError> = {
-  '08': { httpCode: 503, message: 'pg connection err' },
-  '09': { httpCode: 500, message: 'triggered action exception' },
-  '0L': { httpCode: 403, message: 'invalid grantor' },
-  '0P': { httpCode: 403, message: 'invalid role specification' },
-  '23503': { httpCode: 409, message: 'foreign key violation' },
-  '23505': { httpCode: 409, message: 'uniqueness violation' },
-  '25': { httpCode: 500, message: 'invalid transaction state' },
-  '25006': { httpCode: 405, message: 'read only sql transaction' },
-  '28': { httpCode: 403, message: 'invalid auth specification' },
-  '2D': { httpCode: 500, message: 'invalid transaction termination' },
-  '38': { httpCode: 500, message: 'external routine exception' },
-  '39': { httpCode: 500, message: 'external routine invocation' },
-  '3B': { httpCode: 500, message: 'savepoint exception' },
-  '40': { httpCode: 500, message: 'transaction rollback' },
-  '42501': { httpCode: 403, message: 'insufficient privileges' },
-  '42883': { httpCode: 404, message: 'undefined function' },
-  '42P01': { httpCode: 404, message: 'undefined table' },
-  '42P17': { httpCode: 500, message: 'infinite recursion' },
-  '53': { httpCode: 503, message: 'insufficient resources' },
-  '53400': { httpCode: 500, message: 'config limit exceeded' },
-  '54': { httpCode: 500, message: 'too complex' },
-  '55': { httpCode: 500, message: 'obj not in prerequisite state' },
-  '57': { httpCode: 500, message: 'operator intervention' },
-  '58': { httpCode: 500, message: 'system error' },
-  F0: { httpCode: 500, message: 'config file error' },
-  HV: { httpCode: 500, message: 'foreign data wrapper error' },
-  other: { httpCode: 400, message: 'unknown' },
-  P0: { httpCode: 500, message: 'PL/pgSQL error' },
-  P0001: { httpCode: 400, message: 'default code for “raise”' },
-  XX: { httpCode: 500, message: 'internal error' },
+export type DbErrorKind =
+  | 'CONNECTION_FAILURE'
+  | 'AUTHORIZATION_ERROR'
+  | 'CONSTRAINT_VIOLATION'
+  | 'NOT_FOUND'
+  | 'INVALID_STATE'
+  | 'TRANSIENT_FAILURE'
+  | 'CONFIG_ERROR'
+  | 'INTERNAL_ERROR'
+  | 'UNKNOWN';
+
+export interface PostgresDomainError {
+  kind: DbErrorKind;
+  message: string;
+  httpCode: number;
+}
+
+const kindToHttp: Record<DbErrorKind, number> = {
+  CONNECTION_FAILURE: 503,
+  AUTHORIZATION_ERROR: 403,
+  CONSTRAINT_VIOLATION: 409,
+  NOT_FOUND: 404,
+  INVALID_STATE: 400,
+  TRANSIENT_FAILURE: 503,
+  CONFIG_ERROR: 500,
+  INTERNAL_ERROR: 500,
+  UNKNOWN: 500,
 };
+
+export const postgresKindToHttp = (kind: DbErrorKind): number => {
+  return kindToHttp[`${kind}`];
+};
+
+const errorCodesMap: Record<string, PostgresDomainError> = {
+  // Connection / availability
+  '08': { httpCode: 503, kind: 'CONNECTION_FAILURE', message: 'Postgres connection error' },
+  '53': { httpCode: 500, kind: 'TRANSIENT_FAILURE', message: 'Insufficient resources' },
+  // Authorization / security
+  '0L': { httpCode: 403, kind: 'AUTHORIZATION_ERROR', message: 'Invalid grantor' },
+  '0P': { httpCode: 403, kind: 'AUTHORIZATION_ERROR', message: 'Invalid role specification' },
+  '28': { httpCode: 403, kind: 'AUTHORIZATION_ERROR', message: 'Invalid authorization specification' },
+  '42501': { httpCode: 403, kind: 'AUTHORIZATION_ERROR', message: 'Insufficient privileges' },
+  // Constraints / integrity
+  '23503': { httpCode: 409, kind: 'CONSTRAINT_VIOLATION', message: 'Foreign key violation' },
+  '23505': { httpCode: 409, kind: 'CONSTRAINT_VIOLATION', message: 'Uniqueness violation' },
+  // Missing objects
+  '42P01': { httpCode: 404, kind: 'NOT_FOUND', message: 'Undefined table' },
+  '42883': { httpCode: 404, kind: 'NOT_FOUND', message: 'Undefined function' },
+  // Invalid state / usage
+  '09': { httpCode: 500, kind: 'INVALID_STATE', message: 'Triggered action exception' },
+  '25': { httpCode: 500, kind: 'INVALID_STATE', message: 'Invalid transaction state' },
+  '25006': { httpCode: 405, kind: 'INVALID_STATE', message: 'Read-only SQL transaction' },
+  '2D': { httpCode: 500, kind: 'INVALID_STATE', message: 'Invalid transaction termination' },
+  '3B': { httpCode: 500, kind: 'INVALID_STATE', message: 'Savepoint exception' },
+  // External / config
+  F0: { httpCode: 500, kind: 'CONFIG_ERROR', message: 'Configuration file error' },
+  HV: { httpCode: 500, kind: 'CONFIG_ERROR', message: 'Foreign data wrapper error' },
+  P0: { httpCode: 500, kind: 'CONFIG_ERROR', message: 'PL/pgSQL error' },
+  P0001: { httpCode: 400, kind: 'INVALID_STATE', message: 'RAISE exception' },
+  // System / internal
+  '38': { httpCode: 500, kind: 'INTERNAL_ERROR', message: 'External routine exception' },
+  '39': { httpCode: 500, kind: 'INTERNAL_ERROR', message: 'External routine invocation exception' },
+  '54': { httpCode: 500, kind: 'INTERNAL_ERROR', message: 'Program limit exceeded' },
+  '55': { httpCode: 500, kind: 'INTERNAL_ERROR', message: 'Object not in prerequisite state' },
+  '57': { httpCode: 500, kind: 'INTERNAL_ERROR', message: 'Operator intervention' },
+  '58': { httpCode: 500, kind: 'INTERNAL_ERROR', message: 'System error' },
+  XX: { httpCode: 500, kind: 'INTERNAL_ERROR', message: 'Internal Postgres error' },
+  // Fallback
+  other: { httpCode: 400, kind: 'UNKNOWN', message: 'Unknown Postgres error' },
+};
+
+export function postgresErrorDomainMapper(sqlState?: string): PostgresDomainError {
+  if (!sqlState) return errorCodesMap.other;
+
+  // eslint-disable-next-line security/detect-object-injection
+  return errorCodesMap[sqlState] || errorCodesMap[sqlState.slice(0, 2)] || errorCodesMap.other;
+}
 
 // Postgres Error to HTTP
 // Based on https://docs.postgrest.org/en/stable/references/errors.html#http-status-codes
-const postgresErrorHTTPMapper = (errorCode: string): TPostgresHTTPError => {
+const postgresErrorHTTPMapper = (errorCode: string): number => {
   // Specific 5-digit codes
   if (errorCode in errorCodesMap) {
     // eslint-disable-next-line security/detect-object-injection
-    return errorCodesMap[errorCode];
+    return errorCodesMap[errorCode].httpCode;
   }
 
   // Multiple codes based on first 2 tokens
   const errorCodeStartWith = errorCode.slice(0, 2);
   if (errorCodeStartWith in errorCodesMap) {
     // eslint-disable-next-line security/detect-object-injection
-    return errorCodesMap[errorCodeStartWith];
+    return errorCodesMap[errorCodeStartWith].httpCode;
   }
 
-  return { httpCode: 400, message: 'unknown' };
+  return 400;
 };
 
 const postgresDBCall = async <T>(dbCall: () => Promise<T>): Promise<T> => {
@@ -121,12 +166,18 @@ const postgresDBCall = async <T>(dbCall: () => Promise<T>): Promise<T> => {
     return await dbCall();
   } catch (error: unknown) {
     if (error instanceof postgres.PostgresError) {
-      const { httpCode, message } = postgresErrorHTTPMapper(error.code);
-      throw new PostgresError({ code: httpCode, logging: httpCode >= 500, message });
+      const { httpCode, kind, message } = postgresErrorDomainMapper(error.code);
+      throw new PostgresError({
+        kind,
+        message,
+        logging: kind === 'INTERNAL_ERROR' || kind === 'TRANSIENT_FAILURE',
+        context: { sqlState: error.code, httpCode },
+      });
     }
-    throw new AppError({ context: { error }, logging: true });
+
+    throw new AppError({ context: { error }, logging: true, message: 'Unknown Postgres error' });
   }
 };
 
-export type TPostgresDB = typeof postgresDB;
+export type PostgresClient = typeof postgresDB;
 export { connectPostgresDB, postgresClient, postgresDB, postgresDBCall, postgresErrorHTTPMapper };
