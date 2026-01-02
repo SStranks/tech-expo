@@ -1,6 +1,7 @@
 import httpMocks from 'node-mocks-http';
 import { describe, expect, test, vi } from 'vitest';
 
+import { createMockResponse } from '#Tests/mocks/mockResponse.js';
 import mockUser from '#Tests/mocks/mockUser.js';
 
 const MOCK_BADREQUESTERROR = vi.fn(
@@ -38,7 +39,7 @@ describe('authController.protectedRoute', () => {
     const req = httpMocks.createRequest({
       headers: { Authorization: '' },
     });
-    const res = httpMocks.createResponse();
+    const res = createMockResponse();
     const next = vi.fn();
 
     await authController.protectedRoute(req, res, next);
@@ -51,7 +52,7 @@ describe('authController.protectedRoute', () => {
     const req = httpMocks.createRequest({
       headers: { authorization: `Bearer JWT-TOKEN` },
     });
-    const res = httpMocks.createResponse();
+    const res = createMockResponse();
     const next = vi.fn();
 
     await authController.protectedRoute(req, res, next);
@@ -62,7 +63,7 @@ describe('authController.protectedRoute', () => {
 
   test('Valid JWT Cookie; return next()', async () => {
     const req = httpMocks.createRequest({ cookies: { [`${JWT_COOKIE_AUTH_ID}`]: 'JWT_COOKIE' } });
-    const res = httpMocks.createResponse();
+    const res = createMockResponse();
     const next = vi.fn();
 
     await authController.protectedRoute(req, res, next);
@@ -78,7 +79,7 @@ describe('authController.restrictedRoute', () => {
     MOCK_VERIFYAUTHTOKEN.mockReturnValue({ role: 'USER' });
 
     const req = httpMocks.createRequest();
-    const res = httpMocks.createResponse();
+    const res = createMockResponse();
     const next = vi.fn();
 
     const route = authController.restrictedRoute('ADMIN');
@@ -93,7 +94,7 @@ describe('authController.restrictedRoute', () => {
     MOCK_VERIFYAUTHTOKEN.mockReturnValue({ role: 'ADMIN' });
 
     const req = httpMocks.createRequest();
-    const res = httpMocks.createResponse();
+    const res = createMockResponse();
     const next = vi.fn();
 
     const route = authController.restrictedRoute('ADMIN');

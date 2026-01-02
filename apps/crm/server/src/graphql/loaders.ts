@@ -1,13 +1,13 @@
-import type { UUID } from 'node:crypto';
+import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
-import type { TCountryDTO } from '#Models/country/Country.js';
-import type { TCountryService } from '#Services/Country.js';
+import type { CountryDTO } from '#Models/country/Country.js';
+import type { CountryService } from '#Services/Country.js';
 
 import DataLoader from 'dataloader';
 
-export type TCountryDataLoader = DataLoader<string, TCountryDTO | null>;
-export const createCountryLoader = (countryService: TCountryService) =>
-  new DataLoader<UUID, TCountryDTO | null>(async (ids) => {
+export type CountryDataLoader = DataLoader<string, CountryDTO | null>;
+export const createCountryLoader = (countryService: CountryService) =>
+  new DataLoader<UUID, CountryDTO | null>(async (ids) => {
     const uniqueIds = [...new Set(ids)];
     const countries = await countryService.getCountriesById(uniqueIds);
     const countryMap = new Map(countries.map((c) => [c.id, c]));

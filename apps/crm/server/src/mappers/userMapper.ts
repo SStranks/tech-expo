@@ -6,7 +6,7 @@ type UserRoleRow = Pick<SelectUserSchema, 'id' | 'role'>;
 
 export function toUserRoleDTO(row: UserRoleRow): UserRoleDTO {
   return {
-    id: row.id,
+    client_id: row.id,
     role: row.role,
   };
 }
