@@ -2,6 +2,8 @@ import type { AuthTokenPayload, RefreshTokenPayload } from '@apps/crm-shared/src
 import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 import type { Response } from 'express';
 
+import type { PostgresClient } from '#Config/dbPostgres.js';
+import type { RedisClient } from '#Config/dbRedis.js';
 import type { SelectUserSchema } from '#Config/schema/user/User.ts';
 
 import argon2 from 'argon2';
@@ -9,8 +11,6 @@ import { and, eq } from 'drizzle-orm/pg-core/expressions';
 import jwt from 'jsonwebtoken';
 import ms from 'ms';
 
-import { postgresDB } from '#Config/dbPostgres.js';
-import { redisClient } from '#Config/dbRedis.js';
 import { UserTable } from '#Config/schema/user/User.js';
 import UserRefreshTokensTable from '#Config/schema/user/UserRefreshTokens.js';
 import { secrets } from '#Config/secrets.js';
@@ -35,7 +35,10 @@ const {
 } = process.env;
 
 class User {
-  constructor() {}
+  constructor(
+    private readonly redisClient: RedisClient,
+    private readonly postgresClient: PostgresClient
+  ) {}
 
   signAuthToken = (userId: string, role: string, iat: number) => {
     const UUIDv4 = crypto.randomUUID();
@@ -59,12 +62,12 @@ class User {
   };
 
   blacklistToken = async (jti: UUID, exp: number) => {
-    await redisClient.set(`${jti}`, 'Blacklisted', { EXAT: exp });
+    await this.redisClient.set(`${jti}`, 'Blacklisted', { EXAT: exp });
   };
 
   blacklistAllRefreshTokens = async (tokens: { jti: UUID; exp: number }[]) => {
     tokens.forEach(({ exp, jti }) => {
-      redisClient.set(`${jti}`, 'Blacklisted', { EXAT: exp });
+      this.redisClient.set(`${jti}`, 'Blacklisted', { EXAT: exp });
     });
   };
 
@@ -110,7 +113,7 @@ class User {
   };
 
   activateRefreshToken = async (client_id: UUID, iat: number) => {
-    const user = await postgresDB
+    const user = await this.postgresClient
       .update(UserRefreshTokensTable)
       .set({ activated: true })
       .where(
@@ -135,14 +138,14 @@ class User {
   };
 
   deleteAllRefreshTokens = async (client_id: UUID) => {
-    return await postgresDB
+    return await this.postgresClient
       .delete(UserRefreshTokensTable)
       .where(eq(UserRefreshTokensTable.userId, toDbUUID(client_id)))
       .returning({ exp: UserRefreshTokensTable.exp, jti: UserRefreshTokensTable.jti });
   };
 
   queryRefreshToken = async (client_id: UUID, jti: UUID) => {
-    return await postgresDB.query.UserRefreshTokensTable.findFirst({
+    return await this.postgresClient.query.UserRefreshTokensTable.findFirst({
       columns: { acc: true, activated: true, exp: true, iat: true, jti: true },
       where: (table, { and, eq }) => and(eq(table.userId, toDbUUID(client_id)), eq(table.jti, toDbUUID(jti))),
     });
@@ -153,11 +156,11 @@ class User {
     jti = toDbUUID(jti);
     client_id = toDbUUID(client_id);
 
-    await postgresDB.insert(UserRefreshTokensTable).values({ acc, exp, iat, jti, userId: client_id });
+    await this.postgresClient.insert(UserRefreshTokensTable).values({ acc, exp, iat, jti, userId: client_id });
   };
 
   updateRefreshToken = async (client_id: UUID, jti: UUID, acc: number, iat?: number, activated?: boolean) => {
-    await postgresDB
+    await this.postgresClient
       .update(UserRefreshTokensTable)
       .set({ acc, activated, iat })
       .where(
@@ -204,7 +207,7 @@ class User {
   async updatePassword(userId: UUID, password: string) {
     const passwordHash = await this.getPasswordHash(password);
     const TIMESTAMP = new Date(Date.now());
-    const user = await postgresDB
+    const user = await this.postgresClient
       .update(UserTable)
       .set({
         accountActive: true,
@@ -246,7 +249,7 @@ class User {
   }
 
   async isExistingAccount(email: string): Promise<boolean> {
-    const account = await postgresDB.query.UserTable.findFirst({
+    const account = await this.postgresClient.query.UserTable.findFirst({
       columns: { id: true },
       where: (table, { eq }) => eq(table.email, email),
     });
@@ -258,7 +261,7 @@ class User {
   async isResetTokenValid(token: string) {
     // Find user by token; check if stored token timestamp is greater than now
     const hashedResetToken = crypto.createHash('sha256').update(token).digest('hex');
-    const user = await postgresDB.query.UserTable.findFirst({
+    const user = await this.postgresClient.query.UserTable.findFirst({
       columns: { id: true, role: true },
       where: (table, { and, eq, gt }) =>
         and(eq(table.passwordResetToken, hashedResetToken), gt(table.passwordResetExpires, new Date(Date.now()))),
@@ -269,24 +272,26 @@ class User {
   }
 
   async isTokenBlacklisted(jti: string) {
-    const value = await redisClient.get(jti);
+    const value = await this.redisClient.get(jti);
     if (value) throw new BadRequestError({ logging: true, message: 'JWT Invalid' });
   }
 
   async insertUser(email: string, verificationCode: string, verificationExpiry: Date) {
-    await postgresDB
+    await this.postgresClient
       .insert(UserTable)
       .values({ email, passwordResetExpires: verificationExpiry, passwordResetToken: verificationCode });
   }
 
   async queryUserById(userId: UUID) {
-    const user = await postgresDB.query.UserTable.findFirst({ where: (table, { eq }) => eq(table.id, userId) });
+    const user = await this.postgresClient.query.UserTable.findFirst({
+      where: (table, { eq }) => eq(table.id, userId),
+    });
     if (!user) throw new BadRequestError({ message: 'Account not found' });
     return user;
   }
 
   async queryUserByEmail(email: string) {
-    const user = await postgresDB.query.UserTable.findFirst({
+    const user = await this.postgresClient.query.UserTable.findFirst({
       where: (table, { eq }) => eq(table.email, email),
     });
     if (!user) throw new BadRequestError({ code: 401, message: 'Invalid account' });
@@ -307,7 +312,7 @@ class User {
   }
 
   async loginAccount(email: string, password: string) {
-    const user = await postgresDB.query.UserTable.findFirst({
+    const user = await this.postgresClient.query.UserTable.findFirst({
       columns: {
         id: true,
         accountActive: true,
@@ -336,37 +341,37 @@ class User {
     // A+R tokens are issued at same IAT (login and generateAuthToken routes)
     // Use A token to find R; blacklist R
     const { client_id, iat } = await this.verifyAuthToken(authTokenJWT);
-    const [{ exp, jti }] = await postgresDB
+    const [{ exp, jti }] = await this.postgresClient
       .delete(UserRefreshTokensTable)
       .where(and(eq(UserRefreshTokensTable.userId, toDbUUID(client_id)), eq(UserRefreshTokensTable.iat, iat)))
       .returning({ exp: UserRefreshTokensTable.exp, jti: UserRefreshTokensTable.jti });
-    await redisClient.set(`${jti}`, 'Blacklisted', { EXAT: exp });
+    await this.redisClient.set(`${jti}`, 'Blacklisted', { EXAT: exp });
     await this.blacklistToken(jti, exp);
   }
 
   async freezeAccount(userId: UUID) {
     const TIMESTAMP = new Date(Date.now());
-    await postgresDB
+    await this.postgresClient
       .update(UserTable)
       .set({ accountFrozen: true, accountFrozenAt: TIMESTAMP, accountUpdatedAt: TIMESTAMP })
       .where(eq(UserTable.id, userId));
   }
 
   async deleteAccount(userId: UUID, password: string) {
-    const user = await postgresDB.query.UserTable.findFirst({ columns: { password: true } });
+    const user = await this.postgresClient.query.UserTable.findFirst({ columns: { password: true } });
     if (!user) throw new PostgresError({ logging: true, message: 'Error deleting account' });
 
     await this.isPasswordValid(user.password, password);
 
     const TIMESTAMP = new Date(Date.now());
-    await postgresDB
+    await this.postgresClient
       .update(UserTable)
       .set({ accountActive: false, accountFrozen: true, accountFrozenAt: TIMESTAMP, accountUpdatedAt: TIMESTAMP })
       .where(eq(UserTable.id, userId));
   }
 
   async resetPassword(userId: UUID, password: string) {
-    const user = await postgresDB.query.UserTable.findFirst({
+    const user = await this.postgresClient.query.UserTable.findFirst({
       columns: { password: true, role: true },
       where: (table, funcs) => funcs.eq(table.id, userId),
     });
@@ -375,7 +380,7 @@ class User {
 
     const passwordHash = await this.getPasswordHash(password);
     const TIMESTAMP = new Date(Date.now());
-    await postgresDB
+    await this.postgresClient
       .update(UserTable)
       .set({
         accountUpdatedAt: TIMESTAMP,
@@ -395,7 +400,7 @@ class User {
 
     // Update user entry
     const TIMESTAMP = new Date(Date.now());
-    const [{ userId }] = await postgresDB
+    const [{ userId }] = await this.postgresClient
       .update(UserTable)
       .set({
         accountUpdatedAt: TIMESTAMP,
@@ -410,5 +415,4 @@ class User {
   }
 }
 
-export type TUser = typeof User;
-export default new User();
+export default User;

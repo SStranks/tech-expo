@@ -14,14 +14,18 @@ import type {
   UpdatePasswordResponse,
   UserRoles,
 } from '@apps/crm-shared/src/types/api/auth.js';
-import type { ApiResponseSuccess, ApiResponseSuccessData, UUID } from '@apps/crm-shared/src/types/api/base.js';
+import type { ApiResponseSuccess, ApiResponseSuccessData } from '@apps/crm-shared/src/types/api/base.js';
 import type { NextFunction, Request, Response } from 'express';
+
+import type { AuthenticatedLocals } from '#Types/express.js';
 
 import validator from 'validator';
 
+import { postgresDB } from '#Config/dbPostgres.js';
+import { redisClient } from '#Config/dbRedis.js';
 import NodeMailer from '#Lib/nodemailer/NodeMailer.js';
 import { toUserRoleDTO } from '#Mappers/userMapper.js';
-import UserService from '#Services/User.js';
+import User from '#Services/User.js';
 import BadRequestError from '#Utils/errors/BadRequestError.js';
 import { generateRandomInteger } from '#Utils/math.js';
 import { hoursFromNowInEpochSeconds } from '#Utils/time.js';
@@ -45,14 +49,9 @@ import { hoursFromNowInEpochSeconds } from '#Utils/time.js';
  * Activate R: Client sends A. Find R on DB using payload of A, and set to active.
  */
 
-type AuthenticatedLocals = {
-  user: {
-    client_id: UUID;
-    role: UserRoles;
-  };
-};
-
 const { JWT_COOKIE_AUTH_ID, JWT_COOKIE_REFRESH_ID } = process.env;
+
+const UserService = new User(redisClient, postgresDB);
 
 // TODO:  Make verification page on client; redirect to this page at end of THIS signup process.
 const signup = async (
@@ -123,7 +122,10 @@ const login = async (
 
   const user = toUserRoleDTO(userRow);
 
-  const { authToken, refreshToken, refreshTokenPayload } = await UserService.generateClientTokens(user.id, user.role);
+  const { authToken, refreshToken, refreshTokenPayload } = await UserService.generateClientTokens(
+    user.client_id,
+    user.role
+  );
   await UserService.insertRefreshToken(refreshTokenPayload);
   await UserService.createAuthCookie(res, authToken);
   await UserService.createRefreshCookie(res, refreshToken);
