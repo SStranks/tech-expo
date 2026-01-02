@@ -1,6 +1,6 @@
 /* eslint-disable perfectionist/sort-objects */
 import type { Resolvers } from '#Graphql/generated/graphql.gen.js';
-import type { TCompanyDTO } from '#Models/company/Company.js';
+import type { CompanyDTO } from '#Models/company/Company.js';
 
 import { z } from 'zod';
 
@@ -10,13 +10,13 @@ import { dbInconsistencyError, invalidInputError } from '../errors.js';
 
 const companyResolver: Resolvers = {
   Query: {
-    company: async (_, { id }, { services }): Promise<TCompanyDTO> => {
+    company: async (_, { id }, { services }): Promise<CompanyDTO> => {
       const parsedArgs = z.object({ id: z.string().uuid() }).safeParse({ id });
       if (!parsedArgs.success) throw invalidInputError('Invalid company UUID');
 
       return await services.Company.getCompanyById(id);
     },
-    companies: async (_, __, { services }): Promise<TCompanyDTO[]> => {
+    companies: async (_, __, { services }): Promise<CompanyDTO[]> => {
       return await services.Company.getAllCompanies();
     },
   },

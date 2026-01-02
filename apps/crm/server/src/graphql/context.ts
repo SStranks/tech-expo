@@ -2,11 +2,15 @@ import type { UserRoles } from '@apps/crm-shared/src/types/api/auth.js';
 import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 import type { Request, Response } from 'express';
 
-import type { TCountryDataLoader } from './loaders.ts';
+import type { CountryDataLoader } from './loaders.ts';
 
 import { GraphQLError } from 'graphql';
 
+import { postgresDB } from '#Config/dbPostgres.js';
+import { redisClient } from '#Config/dbRedis.js';
 import { secrets } from '#Config/secrets.js';
+import PostgresCompanyRepository from '#Models/company/PostgresCompanyRepository.js';
+import PostgresCountryRepository from '#Models/country/PostgresCountryRepository.js';
 import { CompanyService } from '#Services/Company.js';
 import { CountryService } from '#Services/Country.js';
 import UserService from '#Services/User.js';
@@ -15,8 +19,8 @@ import { createCountryLoader } from './loaders.js';
 
 export interface GraphqlContext {
   auth: { client_id: UUID; role: UserRoles };
-  loaders: { Country: TCountryDataLoader };
-  services: { Company: typeof CompanyService };
+  loaders: { Country: CountryDataLoader };
+  services: { Company: CompanyService };
 }
 
 const { GRAPHQL_INTROSPECT_AUTH } = secrets;
@@ -53,11 +57,17 @@ const graphqlContext = async ({ req }: { req: Request; res: Response }): Promise
       },
     });
 
-  const { client_id, jti, role } = UserService.verifyAuthToken(JWT);
-  await UserService.isTokenBlacklisted(jti);
+  const userService = new UserService(redisClient, postgresDB);
+  const { client_id, jti, role } = userService.verifyAuthToken(JWT);
+  await userService.isTokenBlacklisted(jti);
 
-  const loaders = { Country: createCountryLoader(CountryService) };
-  const services = { Company: CompanyService };
+  const countryRepo = PostgresCountryRepository;
+  const companyRepo = PostgresCompanyRepository;
+  const countryService = new CountryService(countryRepo);
+  const companyService = new CompanyService(companyRepo);
+
+  const loaders = { Country: createCountryLoader(countryService) };
+  const services = { Company: companyService };
 
   return { auth: { client_id, role }, loaders, services };
 };
