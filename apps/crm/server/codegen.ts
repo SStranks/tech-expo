@@ -14,16 +14,22 @@ const config: CodegenConfig = {
     './src/graphql/generated/graphql.gen.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
       config: {
-        contextType: '../../graphql/context.ts#IGraphqlContext',
+        contextType: '../../graphql/context.ts#GraphqlContext',
         skipTypename: true,
         useIndexSignature: true,
         useTypeImports: true,
+        enumValues: {
+          BusinessType: '../../models/company/Company.ts#BusinessType',
+          CompanySize: '../../models/company/Company.ts#CompanySize',
+        },
         mappers: {
-          Company: '../../models/company/Company.ts#TCompanyDTO',
-          Country: '../../models/country/Country.ts#TCountryDTO',
+          // NOTE: Key = Schema Type name. Value = What the Parent object is.
+          Company: '../../models/company/Company.ts#CompanyDTO',
+          CompanyDetailed: '../../models/company/Company.ts#CompanyDTO',
+          Country: '../../models/country/Country.ts#CountryDTO',
         },
         scalars: {
-          UUID: 'import("crypto").UUID',
+          UUID: 'string',
         },
       },
     },

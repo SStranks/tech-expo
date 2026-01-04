@@ -86,9 +86,9 @@ export function notFoundError(message: string) {
   });
 }
 
-export function invalidInputError(message: string) {
+export function invalidInputError(message: string, fieldErrors?: Record<string, string[]>, formErrors?: string[]) {
   return new GraphQLError(message, {
-    extensions: { code: 'INVALID_INPUT', http: { status: 400 } },
+    extensions: { code: 'INVALID_INPUT', fieldErrors, formErrors, http: { status: 400 } },
   });
 }
 

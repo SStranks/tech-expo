@@ -2,7 +2,7 @@ import type { UserRoles } from '@apps/crm-shared/src/types/api/auth.js';
 import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 import type { Request, Response } from 'express';
 
-import type { CountryDataLoader } from './loaders.ts';
+import type { CompanyDataLoader, ContactDataLoader, CountryDataLoader, QuoteDataLoader } from './loaders.ts';
 
 import { GraphQLError } from 'graphql';
 
@@ -10,16 +10,25 @@ import { postgresDB } from '#Config/dbPostgres.js';
 import { redisClient } from '#Config/dbRedis.js';
 import { secrets } from '#Config/secrets.js';
 import PostgresCompanyRepository from '#Models/company/PostgresCompanyRepository.js';
+import { PostgresContactRepository } from '#Models/contact/PostgresContactRepository.js';
 import PostgresCountryRepository from '#Models/country/PostgresCountryRepository.js';
+import { PostgresQuoteRepository } from '#Models/quote/PostgresQuoteRepository.js';
 import { CompanyService } from '#Services/Company.js';
+import { ContactService } from '#Services/Contact.js';
 import { CountryService } from '#Services/Country.js';
+import { QuoteService } from '#Services/Quote.js';
 import UserService from '#Services/User.js';
 
-import { createCountryLoader } from './loaders.js';
+import { createCompanyLoader, createContactLoader, createCountryLoader, createQuoteLoader } from './loaders.js';
 
 export interface GraphqlContext {
   auth: { client_id: UUID; role: UserRoles };
-  loaders: { Country: CountryDataLoader };
+  loaders: {
+    Country: CountryDataLoader;
+    Company: CompanyDataLoader;
+    Contact: ContactDataLoader;
+    Quote: QuoteDataLoader;
+  };
   services: { Company: CompanyService };
 }
 
@@ -61,13 +70,22 @@ const graphqlContext = async ({ req }: { req: Request; res: Response }): Promise
   const { client_id, jti, role } = userService.verifyAuthToken(JWT);
   await userService.isTokenBlacklisted(jti);
 
-  const countryRepo = PostgresCountryRepository;
   const companyRepo = PostgresCompanyRepository;
-  const countryService = new CountryService(countryRepo);
+  const contactRepo = PostgresContactRepository;
+  const countryRepo = PostgresCountryRepository;
+  const quoteRepo = PostgresQuoteRepository;
   const companyService = new CompanyService(companyRepo);
+  const contactService = new ContactService(contactRepo);
+  const countryService = new CountryService(countryRepo);
+  const quoteService = new QuoteService(quoteRepo);
 
-  const loaders = { Country: createCountryLoader(countryService) };
-  const services = { Company: companyService };
+  const loaders = {
+    Company: createCompanyLoader(companyService),
+    Contact: createContactLoader(contactService),
+    Country: createCountryLoader(countryService),
+    Quote: createQuoteLoader(quoteService),
+  };
+  const services = { Company: companyService, Contact: contactService, Country: countryService, Quote: quoteService };
 
   return { auth: { client_id, role }, loaders, services };
 };
