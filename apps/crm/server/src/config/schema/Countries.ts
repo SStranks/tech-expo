@@ -12,6 +12,7 @@ import UserProfileTable from './user/UserProfile.js';
 // ---------- TABLES -------- //
 export type CountriesTableInsert = InferInsertModel<typeof CountriesTable>;
 export type CountriesTableSelect = InferSelectModel<typeof CountriesTable>;
+export type CountriesTableUpdate = Partial<CountriesTableInsert>;
 export const CountriesTable = pgTable('countries', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   numCode: integer('num_code').unique().notNull(),

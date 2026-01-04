@@ -23,6 +23,7 @@ export const BusinessTypeEnum = pgEnum('business_type', BUSINESS_TYPE);
 // ---------- TABLES -------- //
 export type CompaniesTableInsert = InferInsertModel<typeof CompaniesTable>;
 export type CompaniesTableSelect = InferSelectModel<typeof CompaniesTable>;
+export type CompaniesTableUpdate = Partial<CompaniesTableInsert>;
 export const CompaniesTable = pgTable('companies', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   name: varchar('company_name', { length: 255 }).notNull().unique(),

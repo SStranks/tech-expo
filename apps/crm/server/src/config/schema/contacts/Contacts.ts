@@ -19,6 +19,7 @@ export const ContactStageEnum = pgEnum('contact_stage', CONTACT_STAGE);
 // ---------- TABLES -------- //
 export type ContactsTableInsert = InferInsertModel<typeof ContactsTable>;
 export type ContactsTableSelect = InferSelectModel<typeof ContactsTable>;
+export type ContactsTableUpdate = Partial<ContactsTableInsert>;
 export const ContactsTable = pgTable('contacts', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   firstName: varchar('first_name', { length: 255 }).notNull(),

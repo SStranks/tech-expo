@@ -11,6 +11,7 @@ import CompaniesTable from './Companies.js';
 // ---------- TABLES -------- //
 export type CompaniesNotesTableInsert = InferInsertModel<typeof CompaniesNotesTable>;
 export type CompaniesNotesTableSelect = InferSelectModel<typeof CompaniesNotesTable>;
+export type CompaniesNotesTableUpdate = Partial<CompaniesNotesTableInsert>;
 export const CompaniesNotesTable = pgTable('companies_notes', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   note: text('note_text').notNull(),

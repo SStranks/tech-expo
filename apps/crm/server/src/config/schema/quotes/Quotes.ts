@@ -19,6 +19,7 @@ export const QuoteStageEnum = pgEnum('quote_stage', QUOTE_STAGE);
 // ---------- TABLES -------- //
 export type QuotesTableInsert = InferInsertModel<typeof QuotesTable>;
 export type QuotesTableSelect = InferSelectModel<typeof QuotesTable>;
+export type QuotesTableUpdate = Partial<QuotesTableInsert>;
 export const QuotesTable = pgTable('quotes', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull().unique(),

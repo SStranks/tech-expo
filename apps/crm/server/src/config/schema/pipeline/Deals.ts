@@ -13,6 +13,7 @@ import PipelineStagesTable from './Stages.js';
 // ---------- TABLES -------- //
 export type PipelineDealsTableInsert = InferInsertModel<typeof PipelineDealsTable>;
 export type PipelineDealsTableSelect = InferSelectModel<typeof PipelineDealsTable>;
+export type PipelineDealsTableUpdate = Partial<PipelineDealsTableInsert>;
 export const PipelineDealsTable = pgTable('pipeline_deals', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   orderKey: varchar({ length: 255 }).notNull(),
