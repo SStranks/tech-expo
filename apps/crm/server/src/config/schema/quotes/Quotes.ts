@@ -5,6 +5,8 @@ import { numeric, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
+import { QUOTE_STAGE } from '#Models/quote/Quote.js';
+
 import CompaniesTable from '../companies/Companies.js';
 import ContactsTable from '../contacts/Contacts.js';
 import UserProfileTable from '../user/UserProfile.js';
@@ -12,8 +14,6 @@ import QuotesNotesTable from './QuotesNotes.js';
 import QuoteServicesTable from './Services.js';
 
 // ---------- ENUMS --------- //
-export type QuoteStage = (typeof QUOTE_STAGE)[number];
-export const QUOTE_STAGE = ['DRAFT', 'SENT', 'ACCEPTED'] as const;
 export const QuoteStageEnum = pgEnum('quote_stage', QUOTE_STAGE);
 
 // ---------- TABLES -------- //

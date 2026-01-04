@@ -5,6 +5,8 @@ import { doublePrecision, pgEnum, pgTable, timestamp, uuid, varchar } from 'driz
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
+import { BUSINESS_TYPE, COMPANY_SIZE } from '#Models/company/Company.js';
+
 import CalendarTable from '../calendar/Calendar.js';
 import ContactsTable from '../contacts/Contacts.js';
 import CountriesTable from '../Countries.js';
@@ -15,12 +17,7 @@ import UserProfileTable from '../user/UserProfile.js';
 import CompaniesNotesTable from './CompanyNotes.js';
 
 // ---------- ENUMS --------- //
-export type CompanySize = (typeof COMPANY_SIZE)[number];
-export const COMPANY_SIZE = ['MICRO', 'SMALL', 'MEDIUM', 'LARGE'] as const;
 export const CompanySizeEnum = pgEnum('company_size', COMPANY_SIZE);
-
-export type BusinessType = (typeof BUSINESS_TYPE)[number];
-export const BUSINESS_TYPE = ['B2B', 'B2C'] as const;
 export const BusinessTypeEnum = pgEnum('business_type', BUSINESS_TYPE);
 
 // ---------- TABLES -------- //

@@ -5,6 +5,8 @@ import { pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
+import { CONTACT_STAGE } from '#Models/contact/Contact.js';
+
 import CompaniesTable from '../companies/Companies.js';
 import PipelineDealsTable from '../pipeline/Deals.js';
 import QuotesTable from '../quotes/Quotes.js';
@@ -12,18 +14,6 @@ import TimeZoneTable from '../TimeZones.js';
 import ContactsNotesTable from './ContactsNotes.js';
 
 // ---------- ENUMS --------- //
-export type ContactStage = (typeof CONTACT_STAGE)[number];
-export const CONTACT_STAGE = [
-  'NEW',
-  'CONTACTED',
-  'INTERESTED',
-  'UNQUALIFIED',
-  'QUALIFIED',
-  'NEGOTIATION',
-  'LOST',
-  'WON',
-  'CHURNED',
-] as const;
 export const ContactStageEnum = pgEnum('contact_stage', CONTACT_STAGE);
 
 // ---------- TABLES -------- //
