@@ -23,7 +23,7 @@ export const BusinessTypeEnum = pgEnum('business_type', BUSINESS_TYPE);
 // ---------- TABLES -------- //
 export type CompaniesTableInsert = InferInsertModel<typeof CompaniesTable>;
 export type CompaniesTableSelect = InferSelectModel<typeof CompaniesTable>;
-export type CompaniesTableUpdate = Partial<CompaniesTableInsert>;
+export type CompaniesTableUpdate = Partial<Omit<CompaniesTableInsert, 'id'>>;
 export const CompaniesTable = pgTable('companies', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   name: varchar('company_name', { length: 255 }).notNull().unique(),
@@ -59,6 +59,7 @@ export const CompaniesTableRelations = relations(CompaniesTable, ({ many, one })
 // ----------- ZOD ---------- //
 export const insertCompaniesSchema = createInsertSchema(CompaniesTable);
 export const selectCompaniesSchema = createSelectSchema(CompaniesTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export const updateCompaniesSchema = insertCompaniesSchema.omit({ id: true }).partial();
 export type InsertCompaniesSchema = z.infer<typeof insertCompaniesSchema>;
 export type SelectCompaniesSchema = z.infer<typeof selectCompaniesSchema>;
 

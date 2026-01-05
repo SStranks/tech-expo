@@ -16,6 +16,6 @@ export interface CompanyRepository {
   findManyWithContactsAndOwner(query: CompanyQuery): Promise<CompanyWithRelations[]>;
   insert(company: CompaniesTableInsert): Promise<CompaniesTableSelect>;
   insertMany(companies: CompaniesTableInsert[]): Promise<CompaniesTableSelect[]>;
-  updateById(id: UUID, company: CompaniesTableUpdate): Promise<CompaniesTableSelect>;
-  updateByIds(ids: UUID[], companies: CompaniesTableUpdate[]): Promise<CompaniesTableSelect[]>;
+  updateById(id: UUID, patch: CompaniesTableUpdate): Promise<CompaniesTableSelect>;
+  updateByIds(ids: UUID[], patch: CompaniesTableUpdate): Promise<CompaniesTableSelect[]>;
 }
