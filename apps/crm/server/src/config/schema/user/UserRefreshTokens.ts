@@ -9,6 +9,7 @@ import UserTable from './User.js';
 // ---------- TABLES -------- //
 export type UserRefreshTokensTableInsert = InferInsertModel<typeof UserRefreshTokensTable>;
 export type UserRefreshTokensTableSelect = InferSelectModel<typeof UserRefreshTokensTable>;
+export type UserRefreshTokensTableUpdate = Partial<Omit<UserRefreshTokensTableInsert, 'id'>>;
 export const UserRefreshTokensTable = pgTable('user_tokens', {
   jti: uuid('jti').primaryKey().notNull().$type<UUID>(),
   iat: integer('iat').notNull(),
@@ -16,7 +17,7 @@ export const UserRefreshTokensTable = pgTable('user_tokens', {
   acc: integer('acc').notNull().default(0),
   activated: boolean('activated').notNull().default(false),
   userId: uuid('user_id')
-    .references(() => UserTable.id)
+    .references(() => UserTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
 });
@@ -32,11 +33,12 @@ export const UserRefreshTokensTableRelations = relations(UserRefreshTokensTable,
 });
 
 // ----------- ZOD ---------- //
-export const insertRefreshTokensSchema = createInsertSchema(UserRefreshTokensTable);
-export const selectRefreshTokensSchema = createSelectSchema(UserRefreshTokensTable).extend({
+export const insertUserRefreshTokensSchema = createInsertSchema(UserRefreshTokensTable);
+export const selectUserRefreshTokensSchema = createSelectSchema(UserRefreshTokensTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
-export type InsertRefreshTokensSchema = z.infer<typeof insertRefreshTokensSchema>;
-export type SelectRefreshTokensSchema = z.infer<typeof selectRefreshTokensSchema>;
+export const updateUserRefreshTokensSchema = insertUserRefreshTokensSchema.partial();
+export type InsertRefreshTokensSchema = z.infer<typeof insertUserRefreshTokensSchema>;
+export type SelectRefreshTokensSchema = z.infer<typeof selectUserRefreshTokensSchema>;
 
 export default UserRefreshTokensTable;

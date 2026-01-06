@@ -5,6 +5,8 @@ import { char, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
+import { COMPANY_ROLES } from '#Models/user/UserProfile.js';
+
 import CompaniesTable from '../companies/Companies.js';
 import ContactsNotesTable from '../contacts/ContactsNotes.js';
 import CountriesTable from '../Countries.js';
@@ -14,17 +16,16 @@ import TimeZoneTable from '../TimeZones.js';
 import UserTable from './User.js';
 
 // ---------- ENUMS --------- //
-export type CompanyRoles = (typeof COMPANY_ROLES)[number];
-export const COMPANY_ROLES = ['ADMIN', 'SALES_MANAGER', 'SALES_PERSON', 'SALES_INTERN'] as const;
 export const CompanyRolesEnum = pgEnum('company_role', COMPANY_ROLES);
 
 // ---------- TABLES -------- //
 export type UserProfileTableInsert = InferInsertModel<typeof UserProfileTable>;
 export type UserProfileTableSelect = InferSelectModel<typeof UserProfileTable>;
+export type UserProfileTableUpdate = Partial<Omit<UserProfileTableInsert, 'id'>>;
 export const UserProfileTable = pgTable('user_profile', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   userId: uuid('user_id')
-    .references(() => UserTable.id)
+    .references(() => UserTable.id, { onDelete: 'no action' })
     .notNull()
     .$type<UUID>(),
   firstName: varchar('first_name', { length: 255 }).notNull(),
@@ -74,6 +75,7 @@ export const UserProfileTableRelations = relations(UserProfileTable, ({ many, on
 // ----------- ZOD ---------- //
 export const insertUserProfileSchema = createInsertSchema(UserProfileTable);
 export const selectUserProfileSchema = createSelectSchema(UserProfileTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export const updateUserProfileSchema = insertUserProfileSchema.omit({ id: true }).partial();
 export type InsertUserProfileSchema = z.infer<typeof insertUserProfileSchema>;
 export type SelectUserProfileSchema = z.infer<typeof selectUserProfileSchema>;
 

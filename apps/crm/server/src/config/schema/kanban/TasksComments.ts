@@ -11,10 +11,11 @@ import KanbanTasksTable from './Tasks.js';
 // ---------- TABLES -------- //
 export type KanbanTaskCommentsTableInsert = InferInsertModel<typeof KanbanTaskCommentsTable>;
 export type KanbanTaskCommentsTableSelect = InferSelectModel<typeof KanbanTaskCommentsTable>;
+export type KanbanTaskCommentsTableUpdate = Partial<Omit<KanbanTaskCommentsTableInsert, 'id'>>;
 export const KanbanTaskCommentsTable = pgTable('kanban_task_comments', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   taskId: uuid('task_id')
-    .references(() => KanbanTasksTable.id)
+    .references(() => KanbanTasksTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -44,6 +45,7 @@ export const insertKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskComme
 export const selectKanbanTaskCommentsSchema = createSelectSchema(KanbanTaskCommentsTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
+export const updateKanbanTaskCommentsSchema = insertKanbanTaskCommentsSchema.omit({ id: true }).partial();
 export type InsertKanbanTaskCommentsSchema = z.infer<typeof insertKanbanTaskCommentsSchema>;
 export type SelectKanbanTaskCommentsSchema = z.infer<typeof selectKanbanTaskCommentsSchema>;
 

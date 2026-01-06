@@ -2,6 +2,8 @@ import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
 
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { char, pgTable, uuid } from 'drizzle-orm/pg-core';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import z from 'zod';
 
 import ContactsTable from './contacts/Contacts.js';
 import CountriesTable from './Countries.js';
@@ -10,6 +12,7 @@ import UserProfileTable from './user/UserProfile.js';
 // ---------- TABLES -------- //
 export type TimeZoneTableInsert = InferInsertModel<typeof TimeZoneTable>;
 export type TimeZoneTableSelect = InferSelectModel<typeof TimeZoneTable>;
+export type TimeZoneTableUpdate = Partial<Omit<TimeZoneTableInsert, 'id'>>;
 export const TimeZoneTable = pgTable('time_zones_utc', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   alpha2Code: char('alpha_2_code', { length: 2 }).notNull(),
@@ -31,5 +34,12 @@ export const TimeZoneTableRelations = relations(TimeZoneTable, ({ many, one }) =
     }),
   };
 });
+
+// ----------- ZOD ---------- //
+export const insertTimeZoneSchema = createInsertSchema(TimeZoneTable);
+export const selectTimeZoneSchema = createSelectSchema(TimeZoneTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export const updateTimeZoneSchema = insertTimeZoneSchema.omit({ id: true }).partial();
+export type InsertTimeZoneSchema = z.infer<typeof insertTimeZoneSchema>;
+export type SelectTimeZoneSchema = z.infer<typeof selectTimeZoneSchema>;
 
 export default TimeZoneTable;

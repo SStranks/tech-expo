@@ -10,13 +10,14 @@ import PipelineTable from './Pipeline.js';
 // ---------- TABLES -------- //
 export type PipelineStagesTableInsert = InferInsertModel<typeof PipelineStagesTable>;
 export type PipelineStagesTableSelect = InferSelectModel<typeof PipelineStagesTable>;
+export type PipelineStagesTableUpdate = Partial<Omit<PipelineStagesTableInsert, 'id'>>;
 export const PipelineStagesTable = pgTable('pipeline_stages', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull(),
   isPermanent: boolean().default(false),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   pipelineTableId: uuid('pipeline_table_id')
-    .references(() => PipelineTable.id)
+    .references(() => PipelineTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
 });
@@ -32,11 +33,12 @@ export const PipelineStagesTableRelations = relations(PipelineStagesTable, ({ on
 });
 
 // ----------- ZOD ---------- //
-export const insertPiplineStagesSchema = createInsertSchema(PipelineStagesTable);
-export const selectPiplineStagesSchema = createSelectSchema(PipelineStagesTable).extend({
+export const insertPipelineStagesSchema = createInsertSchema(PipelineStagesTable);
+export const selectPipelineStagesSchema = createSelectSchema(PipelineStagesTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
-export type InsertPiplineStagesSchema = z.infer<typeof insertPiplineStagesSchema>;
-export type SelectPiplineStagesSchema = z.infer<typeof selectPiplineStagesSchema>;
+export const updatePipelineStagesSchema = insertPipelineStagesSchema.omit({ id: true }).partial();
+export type InsertPiplineStagesSchema = z.infer<typeof insertPipelineStagesSchema>;
+export type SelectPiplineStagesSchema = z.infer<typeof selectPipelineStagesSchema>;
 
 export default PipelineStagesTable;

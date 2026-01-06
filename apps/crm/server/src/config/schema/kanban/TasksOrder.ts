@@ -11,6 +11,7 @@ import KanbanStagesTable from './Stages.js';
 // ---------- TABLES -------- //
 export type KanbanTasksOrderTableInsert = InferInsertModel<typeof KanbanTasksOrderTable>;
 export type KanbanTasksOrderTableSelect = InferSelectModel<typeof KanbanTasksOrderTable>;
+export type KanbanTasksOrderTableUpdate = Partial<Omit<KanbanTasksOrderTableInsert, 'id'>>;
 export const KanbanTasksOrderTable = pgTable('kanban_tasks_order', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   taskOrder: text('task_order')
@@ -18,11 +19,11 @@ export const KanbanTasksOrderTable = pgTable('kanban_tasks_order', {
     .notNull()
     .default(sql`ARRAY[]::text[]`),
   columnId: uuid('column_id')
-    .references(() => KanbanStagesTable.id)
+    .references(() => KanbanStagesTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
   kanbanId: uuid('kanban_id')
-    .references(() => KanbanTable.id)
+    .references(() => KanbanTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -44,11 +45,12 @@ export const KanbanTaskOrderTableRelations = relations(KanbanTasksOrderTable, ({
 });
 
 // ----------- ZOD ---------- //
-export const insertTasksOrderSchema = createInsertSchema(KanbanTasksOrderTable);
-export const selectTasksOrderSchema = createSelectSchema(KanbanTasksOrderTable).extend({
+export const insertKanbanTasksOrderSchema = createInsertSchema(KanbanTasksOrderTable);
+export const selectKanbanTasksOrderSchema = createSelectSchema(KanbanTasksOrderTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
-export type InsertTasksOrderSchema = z.infer<typeof insertTasksOrderSchema>;
-export type SelectTasksOrderSchema = z.infer<typeof selectTasksOrderSchema>;
+export const updateKanbanTasksOrderSchema = insertKanbanTasksOrderSchema.omit({ id: true }).partial();
+export type InsertKanbanTasksOrderSchema = z.infer<typeof insertKanbanTasksOrderSchema>;
+export type SelectKanbanTasksOrderSchema = z.infer<typeof selectKanbanTasksOrderSchema>;
 
 export default KanbanTasksOrderTable;

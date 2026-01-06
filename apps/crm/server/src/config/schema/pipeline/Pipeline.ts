@@ -12,10 +12,11 @@ import PipelineStagesTable from './Stages.js';
 // ---------- TABLES -------- //
 export type PipelineTableInsert = InferInsertModel<typeof PipelineTable>;
 export type PipelineTableSelect = InferSelectModel<typeof PipelineTable>;
+export type PipelineTableUpdate = Partial<Omit<PipelineTableInsert, 'id'>>;
 export const PipelineTable = pgTable('pipeline', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   companyId: uuid('company_id')
-    .references(() => CompaniesTable.id)
+    .references(() => CompaniesTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -36,6 +37,7 @@ export const PipelineTableRelations = relations(PipelineTable, ({ many, one }) =
 // ----------- ZOD ---------- //
 export const insertPipelineSchema = createInsertSchema(PipelineTable);
 export const selectPipelineSchema = createSelectSchema(PipelineTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export const updatePipelineSchema = insertPipelineSchema.omit({ id: true }).partial();
 export type InsertPipelineSchema = z.infer<typeof insertPipelineSchema>;
 export type SelectPipelineSchema = z.infer<typeof selectPipelineSchema>;
 

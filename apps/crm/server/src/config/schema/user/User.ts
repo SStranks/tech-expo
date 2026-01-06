@@ -16,6 +16,7 @@ export const UserRolesEnum = pgEnum('user_role', USER_ROLES);
 // ---------- TABLES -------- //
 export type UserTableInsert = InferInsertModel<typeof UserTable>;
 export type UserTableSelect = InferSelectModel<typeof UserTable>;
+export type UserTableUpdate = Partial<Omit<UserTableInsert, 'id'>>;
 export const UserTable = pgTable(
   'user',
   {
@@ -49,6 +50,7 @@ export const UserTableRelations = relations(UserTable, ({ many, one }) => {
 // ----------- ZOD ---------- //
 export const insertUserSchema = createInsertSchema(UserTable);
 export const selectUserSchema = createSelectSchema(UserTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export const updateUserSchema = insertUserSchema.omit({ id: true }).partial();
 export type InsertUserSchema = z.infer<typeof insertUserSchema>;
 export type SelectUserSchema = z.infer<typeof selectUserSchema>;
 

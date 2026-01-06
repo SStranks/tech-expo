@@ -11,11 +11,12 @@ import ContactsTable from './Contacts.js';
 // ---------- TABLES -------- //
 export type ContactsNotesTableInsert = InferInsertModel<typeof ContactsNotesTable>;
 export type ContactsNotesTableSelect = InferSelectModel<typeof ContactsNotesTable>;
+export type ContactsNotesTableUpdate = Partial<Omit<ContactsNotesTableInsert, 'id'>>;
 export const ContactsNotesTable = pgTable('contacts_notes', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   note: text('note_text').notNull(),
   contactId: uuid('contact_id')
-    .references(() => ContactsTable.id)
+    .references(() => ContactsTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -44,6 +45,7 @@ export const insertContactsNotesSchema = createInsertSchema(ContactsNotesTable);
 export const selectContactsNotesSchema = createSelectSchema(ContactsNotesTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
+export const updateContactsNotesSchema = insertContactsNotesSchema.omit({ id: true }).partial();
 export type InsertContactsNotesSchema = z.infer<typeof insertContactsNotesSchema>;
 export type SelectContactsNotesSchema = z.infer<typeof selectContactsNotesSchema>;
 

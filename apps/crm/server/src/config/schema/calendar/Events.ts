@@ -11,11 +11,12 @@ import { CalendarCategoriesTable } from './Categories.js';
 // ---------- TABLES -------- //
 export type CalendarEventsTableInsert = InferInsertModel<typeof CalendarEventsTable>;
 export type CalendarEventsTableSelect = InferSelectModel<typeof CalendarEventsTable>;
+export type CalendarEventsTableUpdate = Partial<Omit<CalendarEventsTableInsert, 'id'>>;
 export const CalendarEventsTable = pgTable('calendar_events', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull(),
   calendarId: uuid('calendar_id')
-    .references(() => CalendarTable.id)
+    .references(() => CalendarTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
   categoryId: uuid('category_id')
@@ -48,6 +49,7 @@ export const insertCalendarEventsSchema = createInsertSchema(CalendarEventsTable
 export const selectCalendarEventsSchema = createSelectSchema(CalendarEventsTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
+export const updateCalendarEventsSchema = insertCalendarEventsSchema.omit({ id: true }).partial();
 export type InsertCalendarEventsSchema = z.infer<typeof insertCalendarEventsSchema>;
 export type SelectCalendarEventsSchema = z.infer<typeof selectCalendarEventsSchema>;
 

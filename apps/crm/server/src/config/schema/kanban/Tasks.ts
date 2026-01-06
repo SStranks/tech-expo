@@ -14,6 +14,7 @@ import KanbanTaskCommentsTable from './TasksComments.js';
 // ---------- TABLES -------- //
 export type KanbanTasksTableInsert = InferInsertModel<typeof KanbanTasksTable>;
 export type KanbanTasksTableSelect = InferSelectModel<typeof KanbanTasksTable>;
+export type KanbanTasksTableUpdate = Partial<Omit<KanbanTasksTableInsert, 'id'>>;
 export const KanbanTasksTable = pgTable('kanban_tasks', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   serial: varchar({ length: 6 })
@@ -22,7 +23,7 @@ export const KanbanTasksTable = pgTable('kanban_tasks', {
   title: varchar('title', { length: 255 }).notNull(),
   completed: boolean('completed').default(false),
   stage: uuid('stage')
-    .references(() => KanbanStagesTable.id)
+    .references(() => KanbanStagesTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
   description: text('description_text'),
@@ -52,6 +53,7 @@ export const KanbanTaskTableRelations = relations(KanbanTasksTable, ({ many, one
 // ----------- ZOD ---------- //
 export const insertKanbanTasksSchema = createInsertSchema(KanbanTasksTable);
 export const selectKanbanTasksSchema = createSelectSchema(KanbanTasksTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export const updateKanbanTasksSchema = insertKanbanTasksSchema.omit({ id: true }).partial();
 export type InsertKanbanTasksSchema = z.infer<typeof insertKanbanTasksSchema>;
 export type SelectKanbanTasksSchema = z.infer<typeof selectKanbanTasksSchema>;
 

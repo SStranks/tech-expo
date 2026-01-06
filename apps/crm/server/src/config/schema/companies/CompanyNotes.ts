@@ -16,7 +16,7 @@ export const CompaniesNotesTable = pgTable('companies_notes', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   note: text('note_text').notNull(),
   company: uuid('company_id')
-    .references(() => CompaniesTable.id)
+    .references(() => CompaniesTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -45,6 +45,7 @@ export const insertCompaniesNotesSchema = createInsertSchema(CompaniesNotesTable
 export const selectCompaniesNotesSchema = createSelectSchema(CompaniesNotesTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
+export const updateCompaniesNotesSchema = insertCompaniesNotesSchema.omit({ id: true }).partial();
 export type InsertCompaniesNotesSchema = z.infer<typeof insertCompaniesNotesSchema>;
 export type SelectCompaniesNotesSchema = z.infer<typeof selectCompaniesNotesSchema>;
 

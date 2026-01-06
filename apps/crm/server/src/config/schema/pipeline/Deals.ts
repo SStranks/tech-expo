@@ -13,7 +13,7 @@ import PipelineStagesTable from './Stages.js';
 // ---------- TABLES -------- //
 export type PipelineDealsTableInsert = InferInsertModel<typeof PipelineDealsTable>;
 export type PipelineDealsTableSelect = InferSelectModel<typeof PipelineDealsTable>;
-export type PipelineDealsTableUpdate = Partial<PipelineDealsTableInsert>;
+export type PipelineDealsTableUpdate = Partial<Omit<PipelineDealsTableInsert, 'id'>>;
 export const PipelineDealsTable = pgTable('pipeline_deals', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   orderKey: varchar({ length: 255 }).notNull(),
@@ -65,6 +65,7 @@ export const insertPipelineDealsSchema = createInsertSchema(PipelineDealsTable);
 export const selectPipelineDealsSchema = createSelectSchema(PipelineDealsTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
+export const updatePipelineDealsSchema = insertPipelineDealsSchema.omit({ id: true }).partial();
 export type InsertPipelineDealsSchema = z.infer<typeof insertPipelineDealsSchema>;
 export type SelectPipelineDealsSchema = z.infer<typeof selectPipelineDealsSchema>;
 

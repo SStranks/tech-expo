@@ -11,11 +11,12 @@ import KanbanTasksOrderTable from './TasksOrder.js';
 // ---------- TABLES -------- //
 export type KanbanStagesTableInsert = InferInsertModel<typeof KanbanStagesTable>;
 export type KanbanStagesTableSelect = InferSelectModel<typeof KanbanStagesTable>;
+export type KanbanStagesTableUpdate = Partial<Omit<KanbanStagesTableInsert, 'id'>>;
 export const KanbanStagesTable = pgTable('kanban_stages', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull(),
   kanbanTableId: uuid('kanban_table_id')
-    .references(() => KanbanTable.id)
+    .references(() => KanbanTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -33,11 +34,12 @@ export const KanbanStagesTableRelations = relations(KanbanStagesTable, ({ many, 
 });
 
 // ----------- ZOD ---------- //
-export const insertKanbanStagesTableSchema = createInsertSchema(KanbanStagesTable);
-export const selectKanbanStagesTableSchema = createSelectSchema(KanbanStagesTable).extend({
+export const insertKanbanStagesSchema = createInsertSchema(KanbanStagesTable);
+export const selectKanbanStagesSchema = createSelectSchema(KanbanStagesTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
-export type InsertKanbanStagesTableSchema = z.infer<typeof insertKanbanStagesTableSchema>;
-export type SelectKanbanStagesTableSchema = z.infer<typeof selectKanbanStagesTableSchema>;
+export const updateKanbanStagesSchema = insertKanbanStagesSchema.omit({ id: true }).partial();
+export type InsertKanbanStagesSchema = z.infer<typeof insertKanbanStagesSchema>;
+export type SelectKanbanStagesSchema = z.infer<typeof selectKanbanStagesSchema>;
 
 export default KanbanStagesTable;

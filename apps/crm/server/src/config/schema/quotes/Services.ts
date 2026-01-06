@@ -10,6 +10,7 @@ import QuotesTable from './Quotes.js';
 // ---------- TABLES -------- //
 export type QuoteServicesTableInsert = InferInsertModel<typeof QuoteServicesTable>;
 export type QuoteServicesTableSelect = InferSelectModel<typeof QuoteServicesTable>;
+export type QuoteServicesTableUpdate = Partial<Omit<QuoteServicesTableInsert, 'id'>>;
 export const QuoteServicesTable = pgTable('quotes_services', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull(),
@@ -18,7 +19,7 @@ export const QuoteServicesTable = pgTable('quotes_services', {
   discount: numeric('discount', { precision: 4, scale: 2 }).default('0.00').notNull(),
   total: numeric('total', { precision: 14, scale: 2 }).default('0.00').notNull(),
   quoteId: uuid('quote_id')
-    .references(() => QuotesTable.id)
+    .references(() => QuotesTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -39,6 +40,7 @@ export const insertQuoteServicesSchema = createInsertSchema(QuoteServicesTable);
 export const selectQuoteServicesSchema = createSelectSchema(QuoteServicesTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
+export const updateQuoteServicesSchema = insertQuoteServicesSchema.omit({ id: true }).partial();
 export type InsertQuoteServicesSchema = z.infer<typeof insertQuoteServicesSchema>;
 export type SelectQuoteServicesSchema = z.infer<typeof selectQuoteServicesSchema>;
 

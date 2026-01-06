@@ -19,7 +19,7 @@ export const ContactStageEnum = pgEnum('contact_stage', CONTACT_STAGE);
 // ---------- TABLES -------- //
 export type ContactsTableInsert = InferInsertModel<typeof ContactsTable>;
 export type ContactsTableSelect = InferSelectModel<typeof ContactsTable>;
-export type ContactsTableUpdate = Partial<ContactsTableInsert>;
+export type ContactsTableUpdate = Partial<Omit<ContactsTableInsert, 'id'>>;
 export const ContactsTable = pgTable('contacts', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   firstName: varchar('first_name', { length: 255 }).notNull(),
@@ -58,6 +58,7 @@ export const ContactsTableRelations = relations(ContactsTable, ({ many, one }) =
 // ----------- ZOD ---------- //
 export const insertContactsSchema = createInsertSchema(ContactsTable);
 export const selectContactsSchema = createSelectSchema(ContactsTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export const updateContactsTableSchema = insertContactsSchema.omit({ id: true }).partial();
 export type InsertContactsSchema = z.infer<typeof insertContactsSchema>;
 export type SelectContactsSchema = z.infer<typeof selectContactsSchema>;
 

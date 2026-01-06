@@ -13,11 +13,11 @@ export type CalendarEventsParticipantsTableInsert = InferInsertModel<typeof Cale
 export type CalendarEventsParticipantsTableSelect = InferSelectModel<typeof CalendarEventsParticipantsTable>;
 export const CalendarEventsParticipantsTable = pgTable('calendar_event_participants', {
   eventId: uuid('event_id')
-    .references(() => CalendarEventsTable.id)
+    .references(() => CalendarEventsTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
   userId: uuid('user_id')
-    .references(() => UserProfileTable.id)
+    .references(() => UserProfileTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
 });
@@ -37,11 +37,11 @@ export const CalendarEventsParticipantsTableRelations = relations(CalendarEvents
 });
 
 // ----------- ZOD ---------- //
-export const insertCalendarEventParticipantsSchema = createInsertSchema(CalendarEventsParticipantsTable);
-export const selectCalendarEventParticipantsSchema = createSelectSchema(CalendarEventsParticipantsTable).extend({
+export const insertCalendarEventsParticipantsSchema = createInsertSchema(CalendarEventsParticipantsTable);
+export const selectCalendarEventsParticipantsSchema = createSelectSchema(CalendarEventsParticipantsTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
-export type InsertCalendarEventParticipantsSchema = z.infer<typeof insertCalendarEventParticipantsSchema>;
-export type SelectCalendarEventParticipantsSchema = z.infer<typeof selectCalendarEventParticipantsSchema>;
+export type InsertCalendarEventsParticipantsSchema = z.infer<typeof insertCalendarEventsParticipantsSchema>;
+export type SelectCalendarEventsParticipantsSchema = z.infer<typeof selectCalendarEventsParticipantsSchema>;
 
 export default CalendarEventsParticipantsTable;

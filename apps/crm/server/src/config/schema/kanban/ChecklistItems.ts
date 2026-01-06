@@ -10,13 +10,14 @@ import KanbanTasksTable from './Tasks.js';
 // ---------- TABLES -------- //
 export type KanbanTaskChecklistItemTableInsert = InferInsertModel<typeof KanbanTaskChecklistItemTable>;
 export type KanbanTaskChecklistItemTableSelect = InferSelectModel<typeof KanbanTaskChecklistItemTable>;
+export type KanbanTaskChecklistItemTableUpdate = Partial<Omit<KanbanTaskChecklistItemTableInsert, 'id'>>;
 export const KanbanTaskChecklistItemTable = pgTable('kanban_task_checklist', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull(),
   completed: boolean('completed').default(false).notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   taskId: uuid('task_id')
-    .references(() => KanbanTasksTable.id)
+    .references(() => KanbanTasksTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
 });
@@ -32,11 +33,12 @@ export const KanbanTaskChecklistItemRelations = relations(KanbanTaskChecklistIte
 });
 
 // ----------- ZOD ---------- //
-export const insertKanbanTaskChecklistItemsSchema = createInsertSchema(KanbanTaskChecklistItemTable);
-export const selectKanbanTaskChecklistItemsSchema = createSelectSchema(KanbanTaskChecklistItemTable).extend({
+export const insertKanbanTaskChecklistItemSchema = createInsertSchema(KanbanTaskChecklistItemTable);
+export const selectKanbanTaskChecklistItemSchema = createSelectSchema(KanbanTaskChecklistItemTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
-export type InsertKanbanTaskChecklistItemsSchema = z.infer<typeof insertKanbanTaskChecklistItemsSchema>;
-export type SelectKanbanTaskChecklistItemsSchema = z.infer<typeof selectKanbanTaskChecklistItemsSchema>;
+export const updateKanbanTaskChecklistItemSchema = insertKanbanTaskChecklistItemSchema.omit({ id: true }).partial();
+export type InsertKanbanTaskChecklistItemsSchema = z.infer<typeof insertKanbanTaskChecklistItemSchema>;
+export type SelectKanbanTaskChecklistItemsSchema = z.infer<typeof selectKanbanTaskChecklistItemSchema>;
 
 export default KanbanTaskChecklistItemTable;

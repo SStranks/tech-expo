@@ -13,10 +13,11 @@ import KanbanTasksOrderTable from './TasksOrder.js';
 // ---------- TABLES -------- //
 export type KanbanTableInsert = InferInsertModel<typeof KanbanTable>;
 export type KanbanTableSelect = InferSelectModel<typeof KanbanTable>;
+export type KanbanTableUpdate = Partial<Omit<KanbanTableInsert, 'id'>>;
 export const KanbanTable = pgTable('kanban', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   companyId: uuid('company_id')
-    .references(() => CompaniesTable.id)
+    .references(() => CompaniesTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -38,6 +39,7 @@ export const KanbanTableRelations = relations(KanbanTable, ({ many, one }) => {
 // ----------- ZOD ---------- //
 export const insertKanbanSchema = createInsertSchema(KanbanTable);
 export const selectKanbanSchema = createSelectSchema(KanbanTable).extend({ id: z.uuid() as z.ZodType<UUID> });
+export const updateKanbanSchema = insertKanbanSchema.omit({ id: true }).partial();
 export type InsertKanbanSchema = z.infer<typeof insertKanbanSchema>;
 export type SelectKanbanSchema = z.infer<typeof selectKanbanSchema>;
 
