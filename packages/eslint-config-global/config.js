@@ -69,7 +69,7 @@ export const EslintConfigGlobal = {
         type: 'alphabetical',
         order: 'asc',
         ignoreCase: true,
-        internalPattern: [`^@[A-Z]\\w*`, `^#[A-Z]\\w*`],
+        internalPattern: [String.raw`^@[A-Z]\w*`, String.raw`^#[A-Z]\w*`],
         newlinesBetween: 'always',
         environment: 'node',
         groups: [
@@ -97,9 +97,18 @@ export const EslintConfigGlobal = {
       {
         cases: {
           camelCase: true,
+          kebabCase: true,
           pascalCase: true,
         },
-        ignore: ['index.(js|jsx|ts|tsx)', 'webpack.*', '.d.ts', 'types.ts', '.test.ts', String.raw`use\w*.tsx`],
+        ignore: [
+          'index.(js|jsx|ts|tsx)',
+          'DTO.(js|ts)$',
+          'webpack.*',
+          '.d.ts',
+          'types.ts',
+          '.test.ts',
+          String.raw`use\w*.tsx`,
+        ],
       },
     ],
   },

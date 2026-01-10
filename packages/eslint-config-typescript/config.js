@@ -35,6 +35,7 @@ const EslintConfigTypescript = {
     '@typescript-eslint/no-use-before-define': 'error',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-require-imports': 'error',
+    '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/no-restricted-imports': [
       'warn',
       {
