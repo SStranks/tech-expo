@@ -7,10 +7,18 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
-  "scripts": {},
+  "scripts": {
+    "clean": "rm -rf dist",
+    "compile": "npm run clean && tsc -p tsconfig.json"
+  },
+  "types": "dist/index.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts"
+    }
+  },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.10"
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.0.5"
   }
 }
