@@ -1,0 +1,200 @@
+# lint-disable-line relay-page-info-spec
+# lint-disable types-have-descriptions, fields-have-descriptions
+
+type Query {
+  """
+  Fetches the initial data for rendering a kanban board belonging to a specific company.
+  Includes stages, task ordering, and tasks.
+  """
+  kanbanInitialData(companyId: UUID!): KanbanInitialData
+}
+
+"""
+Represents a Kanban board tied to a specific company.
+"""
+type Kanban {
+  """
+  Unique identifier for the kanban board.
+  """
+  id: UUID!
+
+  """
+  ID of the company this kanban board belongs to.
+  """
+  companyId: UUID!
+
+  """
+  All tasks associated with this kanban board.
+  """
+  tasks: [KanbanTask!]!
+}
+
+"""
+Initial data returned when loading a kanban board, including structure and task state.
+"""
+type KanbanInitialData {
+  """
+  Unique identifier for this payload.
+  """
+  id: ID!
+
+  """
+  The kanban board data.
+  """
+  kanban: Kanban!
+
+  """
+  Defines the order of tasks within each stage of the kanban board.
+  """
+  tasksOrder: [KanbanTaskOrder]
+
+  """
+  The set of stages (columns) in the kanban board.
+  """
+  stages: [KanbanStage!]!
+}
+
+"""
+A task within the kanban board.
+"""
+type KanbanTask {
+  """
+  Unique identifier for the task.
+  """
+  id: UUID!
+
+  """
+  Short, unique identifier (6 characters) for external referencing or display. Generated via nanoid.
+  """
+  serial: String!
+
+  """
+  The title or summary of the task.
+  """
+  title: String!
+
+  """
+  Whether the task has been marked as completed.
+  """
+  completed: Boolean!
+
+  """
+  The stage (column) this task currently belongs to.
+  """
+  stage: KanbanStage!
+
+  """
+  Optional description providing more context about the task.
+  """
+  description: String
+
+  """
+  Optional due date for the task.
+  """
+  dueDate: DateTime
+
+  """
+  The user assigned to this task, if any.
+  """
+  assignedUser: UserProfile
+
+  """
+  Comments associated with this task.
+  """
+  comments: [KanbanTaskComment!]!
+
+  """
+  Checklist items tied to this task, representing subtasks or actionable items.
+  """
+  checklistItems: [KanbanTaskChecklistItem!]
+}
+
+"""
+Defines the order of task serials within a given kanban stage.
+"""
+type KanbanTaskOrder {
+  """
+  Unique identifier for the task order entry.
+  """
+  id: UUID!
+
+  """
+  The stage this task order is associated with.
+  """
+  stage: KanbanStage!
+
+  """
+  Ordered list of task serials (not UUIDs) in this stage.
+  """
+  taskOrder: [String!]!
+}
+
+"""
+A checklist item within a kanban task.
+"""
+type KanbanTaskChecklistItem {
+  """
+  Unique identifier for the checklist item.
+  """
+  id: UUID!
+
+  """
+  The task this checklist item belongs to.
+  """
+  task: KanbanTask!
+
+  """
+  Title or label for the checklist item.
+  """
+  title: String!
+
+  """
+  Whether this checklist item has been completed.
+  """
+  completed: Boolean!
+}
+
+"""
+A comment left on a kanban task by a user.
+"""
+type KanbanTaskComment {
+  """
+  Unique identifier for the comment.
+  """
+  id: UUID!
+
+  """
+  The task this comment is associated with.
+  """
+  task: KanbanTask!
+
+  """
+  Timestamp when the comment was created.
+  """
+  createdAt: DateTime!
+
+  """
+  The user who wrote the comment.
+  """
+  createdBy: UserProfile!
+
+  """
+  Content of the comment.
+  """
+  comment: String!
+}
+
+"""
+Represents a stage (or column) in a kanban board, such as "To Do", "In Progress", or "Done".
+"""
+type KanbanStage {
+  """
+  Unique identifier for the stage.
+  """
+  id: UUID!
+
+  """
+  Title of the stage.
+  """
+  title: String!
+}

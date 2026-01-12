@@ -1,15 +1,14 @@
 /// <reference types="node" />
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
-import path from 'node:path';
 import url from 'node:url';
 
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const mergedSchema = import.meta.resolve('@apps/crm-shared/graphql/schema');
 
 // NOTE:  'contextType' and 'mappers' paths starts from location of the output file of the generated types.
 const config: CodegenConfig = {
   overwrite: true,
-  schema: `${__dirname}/src/graphql/typedefs/*.graphql`,
+  schema: url.fileURLToPath(mergedSchema),
   generates: {
     './src/graphql/generated/graphql.gen.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
@@ -19,17 +18,19 @@ const config: CodegenConfig = {
         useIndexSignature: true,
         useTypeImports: true,
         enumValues: {
-          BusinessType: '../../models/company/Company.ts#BusinessType',
-          CompanySize: '../../models/company/Company.ts#CompanySize',
+          BusinessType: '../../models/domain/company/company.types.ts#BusinessType',
+          CompanyRole: '../../models/domain/user/profile/profile.types.ts#CompanyRoles',
+          CompanySize: '../../models/domain/company/company.types.ts#CompanySize',
         },
         mappers: {
           // NOTE: Key = Schema Type name. Value = What the Parent object is.
-          Company: '../../models/company/Company.ts#CompanyDTO',
-          CompanyDetailed: '../../models/company/Company.ts#CompanyDTO',
-          Country: '../../models/country/Country.ts#CountryDTO',
+          Company: '../../models/domain/company/company.dto.ts#CompanyDTO',
+          CompanyDetailed: '../../models/domain/company/company.dto.ts#CompanyDTO',
+          Country: '../../models/domain/country/country.dto.ts#CountryDTO',
+          UserProfile: '../../models/domain/user/profile/profile.dto.ts#UserProfileDTO',
         },
         scalars: {
-          UUID: 'string',
+          UUID: '@apps/crm-shared#UUID',
         },
       },
     },

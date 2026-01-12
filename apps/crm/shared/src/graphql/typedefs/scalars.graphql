@@ -1,0 +1,12 @@
+# eslint-disable @graphql-eslint/require-description
+# lint-disable-line relay-page-info-spec
+# lint-disable types-have-descriptions, fields-have-descriptions
+
+"""
+Imported from 'graphql-scalars'
+"""
+scalar DateTime
+scalar EmailAddress
+scalar HexColorCode
+scalar JSON
+scalar UUID

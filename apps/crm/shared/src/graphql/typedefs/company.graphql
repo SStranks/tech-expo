@@ -1,0 +1,160 @@
+# eslint-disable @graphql-eslint/require-description
+# lint-disable-line relay-page-info-spec
+# lint-disable types-have-descriptions, fields-have-descriptions
+
+type Query {
+  company(id: UUID!): CompanyDetailed!
+  companiesOverview(filters: CompaniesOverviewFiltersInput, pagination: PaginationInput): CompaniesOverviewPaginated!
+}
+
+type Mutation {
+  createCompany(input: CreateCompanyInput): Company!
+  updateCompany(input: UpdateCompanyInput): CompanyDetailed!
+}
+
+type Company {
+  id: UUID!
+  name: String!
+  size: CompanySize!
+  totalRevenue: String!
+  industry: String!
+  businessType: BusinessType!
+  country: Country!
+  website: String
+}
+
+type CompaniesOverviewPaginated {
+  id: ID!
+  items: [CompanyOverview!]!
+  totalCount: Int!
+}
+
+type CompanyOverview {
+  id: UUID!
+  name: String!
+  salesOwner: UserAvatar!
+  openDealsAmount: String!
+  relatedContacts(limit: Int = 5, offset: Int = 0): CompanyOverviewContacts!
+}
+
+type CompanyOverviewContacts {
+  id: ID!
+  items: [ContactAvatar!]!
+  totalCount: Int!
+}
+
+type CompanyDetailed {
+  id: UUID!
+  name: String!
+  size: CompanySize!
+  totalRevenue: String!
+  industry: String!
+  businessType: BusinessType!
+  country: Country!
+  website: String
+  salesOwner: UserProfile!
+  contacts(pagination: PaginationInput): CompanyPaginatedContactSummary!
+  deals(pagination: PaginationInput): CompanyPaginatedDealSummary!
+  quotes(pagination: PaginationInput): CompanyPaginatedQuoteSummary!
+  notes: [CompanyNote!]!
+}
+
+type CompanyPaginatedContactSummary {
+  id: ID!
+  items: [CompanyContactSummary!]!
+  totalCount: Int!
+}
+
+type CompanyContactSummary {
+  id: UUID!
+  firstName: String!
+  lastName: String!
+  jobTitle: String!
+  stage: String!
+  image: String
+}
+
+type CompanyPaginatedDealSummary {
+  id: ID!
+  items: [CompanyDealSummary!]!
+  totalCount: Int!
+}
+
+type CompanyDealSummary {
+  id: UUID!
+  title: String!
+  value: String!
+  stage: String!
+}
+
+type CompanyPaginatedQuoteSummary {
+  id: ID!
+  items: [CompanyQuoteSummary!]!
+  totalCount: Int!
+}
+
+type CompanyQuoteSummary {
+  id: UUID!
+  title: String!
+  totalAmount: String!
+  stage: String!
+  preparedFor: ContactAvatar!
+  preparedBy: UserAvatar!
+}
+
+type CompanyNote {
+  id: UUID!
+  note: String!
+  createdAt: DateTime!
+  createdBy: UserProfile!
+}
+
+input CompaniesOverviewFiltersInput {
+  searchCompanyName: String
+  salesOwnerId: UUID
+  contactIds: [UUID!]
+}
+
+input PaginationInput {
+  page: Int = 1
+  pageSize: Int = 12
+}
+
+input CreateCompanyInput {
+  name: String!
+  size: CompanySize!
+  industry: String!
+  businessType: BusinessType!
+  totalRevenue: String
+  country: UUID!
+  website: String
+}
+
+input UpdateCompanyInput {
+  id: UUID!
+  name: String
+  size: CompanySize
+  industry: String
+  businessType: BusinessType
+  totalRevenue: String
+  country: UUID
+  website: String
+  addNotes: [CreateCompanyNoteInput!]
+  removeNoteIds: [UUID!]
+}
+
+input CreateCompanyNoteInput {
+  body: String!
+}
+
+enum CompanySize {
+  MICRO
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+enum BusinessType {
+  B2B
+  B2C
+}

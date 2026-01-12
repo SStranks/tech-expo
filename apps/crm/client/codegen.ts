@@ -1,10 +1,14 @@
+/// <reference types="node" />
 /* eslint-disable perfectionist/sort-objects */
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 import fs from 'node:fs';
 import path from 'node:path';
+import url from 'node:url';
 
-import { mergedSchema } from '../server/src/graphql/typedefs';
+const mergedSchemaFile = import.meta.resolve('@apps/crm-shared/graphql/schema');
+const mergedSchemaFilePath = url.fileURLToPath(mergedSchemaFile);
+const mergedSchema = fs.readFileSync(mergedSchemaFilePath);
 
 /*
 // NOTE: .
@@ -32,7 +36,7 @@ const config: CodegenConfig = {
         useTypeImports: true,
       },
       hooks: { onWatchTriggered: [writeMergedSchema] },
-      watchPattern: ['../server/src/graphql/typedefs/*.graphql'],
+      watchPattern: [mergedSchemaFilePath],
     },
   },
   hooks: { afterStart: [writeMergedSchema] },

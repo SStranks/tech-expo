@@ -10,7 +10,9 @@
     "module": "ESNext",
     "target": "ES2022",
     "allowImportingTsExtensions": true,
-    "types": []
+    "types": [],
+    "baseUrl": "./src",
+    "paths": { "#Graphql/*": ["graphql/*"], "#Types/*": ["types/*"] }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist", "./**/private.*"]
