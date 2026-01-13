@@ -91,6 +91,7 @@
     "@packages/jest-config-react": "workspace:*",
     "@packages/prettier-config": "workspace:*",
     "@packages/typescript-config": "workspace:*",
+    "@parcel/watcher": "^2.5.4",
     "@playwright/test": "^1.57.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.2",
     "@redux-devtools/extension": "^3.3.0",

@@ -1,14 +1,16 @@
 /// <reference types="node" />
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
+import path from 'node:path';
 import url from 'node:url';
 
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const mergedSchema = import.meta.resolve('@apps/crm-shared/graphql/schema');
 
 // NOTE:  'contextType' and 'mappers' paths starts from location of the output file of the generated types.
 const config: CodegenConfig = {
   overwrite: true,
-  schema: url.fileURLToPath(mergedSchema),
+  schema: path.relative(__dirname, url.fileURLToPath(mergedSchema)),
   generates: {
     './src/graphql/generated/graphql.gen.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
