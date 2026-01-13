@@ -106,7 +106,7 @@ type CompanyNote {
   id: UUID!
   note: String!
   createdAt: DateTime!
-  createdBy: UserProfile!
+  createdBy: UserAvatar!
 }
 
 input CompaniesOverviewFiltersInput {
