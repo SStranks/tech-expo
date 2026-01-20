@@ -219,5 +219,14 @@ export default defineConfig([
     plugins: { ...EslintConfigGraphQL.plugins },
     rules: { ...EslintConfigGraphQL.rules.server, 'prettier/prettier': 'error' },
   },
+  {
+    name: 'CRM: Shared; GraphQL',
+    files: ['apps/crm/shared/**/*.graphql'],
+    languageOptions: {
+      ...EslintConfigGraphQL.languageOptions,
+    },
+    plugins: { ...EslintConfigGraphQL.plugins },
+    rules: { ...EslintConfigGraphQL.rules.server, 'prettier/prettier': 'error' },
+  },
   ConfigPrettier,
 ]);

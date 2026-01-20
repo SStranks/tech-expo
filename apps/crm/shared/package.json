@@ -12,9 +12,9 @@
     "watch:graphql": "tsx ./src/utils/watcher.ts",
     "build": "pnpm run clean && pnpm run build:types && pnpm run build:graphql",
     "build:types": "tsc -p tsconfig.json",
-    "build:graphql": "tsx ./src/graphql/typedefs.ts"
+    "build:graphql": "tsx ./src/graphql/generateSchema.ts"
   },
-  "types": "dist/index.ts",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts"
