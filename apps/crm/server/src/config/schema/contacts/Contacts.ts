@@ -1,11 +1,12 @@
-import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
+import type { UUID } from '@apps/crm-shared';
+import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
-import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
-import { pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
+import { char, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { CONTACT_STAGE } from '#Models/contact/Contact.js';
+import { CONTACT_STAGE } from '#Models/domain/contact/contact.types.js';
 
 import CompaniesTable from '../companies/Companies.js';
 import PipelineDealsTable from '../pipeline/Deals.js';
@@ -35,6 +36,7 @@ export const ContactsTable = pgTable('contacts', {
   timezone: uuid('timezone_id')
     .references(() => TimeZoneTable.id)
     .$type<UUID>(),
+  image: char('profile_image', { length: 32 }), // MD5 hash of UUID (used as image name)
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 

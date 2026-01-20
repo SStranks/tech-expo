@@ -4,8 +4,8 @@ import type { SeedContactCompanies } from '../Contacts.js';
 
 import { faker } from '@faker-js/faker';
 
-import { CONTACT_STAGE } from '#Config/schema/contacts/Contacts.js';
 import DigitalIndustryJson from '#Data/DigitalIndustry.json';
+import { CONTACT_STAGE } from '#Models/domain/contact/contact.types.js';
 
 const { jobTitles } = DigitalIndustryJson;
 type JobTitles = typeof jobTitles;
