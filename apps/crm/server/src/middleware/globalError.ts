@@ -1,4 +1,4 @@
-import type { ApiResponseError } from '@apps/crm-shared/src/types/api/base.ts';
+import type { ApiResponseError } from '@apps/crm-shared';
 import type { ErrorRequestHandler, Response } from 'express';
 
 import postgres from 'postgres';
@@ -18,7 +18,7 @@ const getHttpCode = (error: unknown): number => {
   if (error instanceof ZodValidationError) return 400;
   if (error instanceof PostgresError) return postgresKindToHttp(error.kind);
   if (error instanceof BadRequestError) return 400;
-  if (error instanceof AppError) return error.statusCode;
+  if (error instanceof AppError) return error.httpStatus;
   return 500;
 };
 
@@ -75,7 +75,13 @@ const normalizeError = (error: unknown): NormalizedError => {
 
   if (error instanceof AppError) return error;
 
-  return new AppError({ isOperational: false, logging: true, message: 'Unknown error' });
+  return new AppError({
+    code: 'UNKNOWN_ERROR',
+    httpStatus: 500,
+    isOperational: false,
+    logging: true,
+    message: 'Unknown error',
+  });
 };
 
 const globalErrorHandler: ErrorRequestHandler = (error, _req, res: Response<ApiResponseError<unknown>>, next) => {

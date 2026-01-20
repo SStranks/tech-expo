@@ -1,12 +1,16 @@
+/* eslint-disable perfectionist/sort-objects */
 import AppError from './AppError.js';
 
 export class NotFoundError extends AppError {
-  constructor(params?: { message?: string; context?: Record<string, unknown>; logging?: boolean }) {
+  readonly name = 'NotFoundError';
+
+  constructor(params: { resource?: string; context?: Record<string, unknown>; logging?: boolean }) {
     super({
-      code: 404,
+      message: `${params.resource ?? 'Resource'} not found`,
+      code: 'RESOURCE_NOT_FOUND',
+      httpStatus: 404,
       context: params?.context,
       logging: params?.logging ?? false,
-      message: params?.message || 'Resource not found',
     });
 
     Object.setPrototypeOf(this, NotFoundError.prototype);
