@@ -1,5 +1,4 @@
-import type { UserRoles } from '@apps/crm-shared/src/types/api/auth.js';
-import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
+import type { UserRoles, UUID } from '@apps/crm-shared';
 
 export type AuthenticatedLocals = {
   user: {

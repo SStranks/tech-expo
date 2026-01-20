@@ -1,7 +1,9 @@
-export type Paginated<T> = {
-  items: T[];
-  totalCount: number;
+export type PaginationInput = {
   limit: number;
   offset: number;
-  hasNextPage: boolean;
+};
+
+export type PaginationResult<T> = {
+  items: T[];
+  totalCount: number;
 };
