@@ -1,4 +1,4 @@
-import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
+import type { UUID } from '@apps/crm-shared';
 
 import type { PostgresClient } from '#Config/dbPostgres.ts';
 import type { CountriesTableInsert } from '#Config/schema/Countries.ts';

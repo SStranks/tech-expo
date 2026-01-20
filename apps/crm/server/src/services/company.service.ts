@@ -78,7 +78,7 @@ export class CompanyService implements ICompanyService {
     const company = await this.getCompanyById(cmd.id);
 
     if (cmd.country) {
-      const country = await this.countryRepository.findById(cmd.country);
+      const country = await this.countryRepository.findCountryById(cmd.country);
       if (!country) throw new NotFoundError({ context: { countryId: cmd.country }, resource: 'Country' });
     }
 
