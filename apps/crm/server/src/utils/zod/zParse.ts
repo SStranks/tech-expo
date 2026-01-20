@@ -1,9 +1,12 @@
 import type { Request } from 'express';
+import type { z, ZodObject } from 'zod';
 
-import { z, ZodError, ZodObject } from 'zod';
+import { ZodError } from 'zod';
 
 import BadRequestError from '#Utils/errors/BadRequestError.js';
 import ZodValidationError from '#Utils/errors/ZodValidationError.js';
+
+import DomainError from '../errors/DomainError.js';
 
 // NOTE:  Change 'any' back to request when finished experimenting.
 export async function zParse<T extends ZodObject>(schema: T, req: Request): Promise<z.infer<T>> {
@@ -13,7 +16,18 @@ export async function zParse<T extends ZodObject>(schema: T, req: Request): Prom
     if (error instanceof ZodError) {
       throw new ZodValidationError({ context: { error }, logging: true, zod: { error } });
     }
-    throw new BadRequestError({ code: 404, context: { error }, logging: true });
+    throw new BadRequestError({ context: { error }, logging: true, message: 'Bad Request' });
+  }
+}
+
+export function zParseDomain<T>(schema: z.ZodType<T>, value: unknown): T {
+  try {
+    return schema.parse(value);
+  } catch (error) {
+    if (error instanceof ZodValidationError) {
+      throw new DomainError({ message: error.message });
+    }
+    throw new DomainError({ message: 'Domain error' });
   }
 }
 
