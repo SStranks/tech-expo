@@ -1,6 +1,5 @@
 # eslint-disable @graphql-eslint/require-description
 # lint-disable-line relay-page-info-spec
-# lint-disable types-have-descriptions, fields-have-descriptions
 
 type Query {
   company(id: UUID!): CompanyDetailed!
@@ -8,8 +7,12 @@ type Query {
 }
 
 type Mutation {
-  createCompany(input: CreateCompanyInput): Company!
-  updateCompany(input: UpdateCompanyInput): CompanyDetailed!
+  createCompany(input: CreateCompanyInput!): Company!
+  updateCompany(input: UpdateCompanyInput!): Company!
+  removeCompany(input: UpdateCompanyInput!): UUID!
+  createCompanyNote(input: CreateCompanyNoteInput!): CompanyNotePayload!
+  updateCompanyNote(input: UpdateCompanyNoteInput!): CompanyNotePayload!
+  removeCompanyNote(input: UpdateCompanyNoteInput!): UUID!
 }
 
 type Company {
@@ -21,6 +24,12 @@ type Company {
   businessType: BusinessType!
   country: Country!
   website: String
+}
+
+type CompanyNotePayload {
+  id: ID!
+  company: Company!
+  companyNote: CompanyNote!
 }
 
 type CompaniesOverviewPaginated {
@@ -139,12 +148,17 @@ input UpdateCompanyInput {
   totalRevenue: String
   country: UUID
   website: String
-  addNotes: [CreateCompanyNoteInput!]
-  removeNoteIds: [UUID!]
 }
 
 input CreateCompanyNoteInput {
-  body: String!
+  companyId: UUID!
+  note: String!
+}
+
+input UpdateCompanyNoteInput {
+  companyId: UUID!
+  companyNoteId: UUID!
+  note: String
 }
 
 enum CompanySize {
