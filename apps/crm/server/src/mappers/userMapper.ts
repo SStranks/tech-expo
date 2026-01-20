@@ -1,4 +1,4 @@
-import type { UserRoleDTO } from '@apps/crm-shared/src/types/api/auth.js';
+import type { UserRoleDTO } from '@apps/crm-shared';
 
 import type { SelectUserSchema } from '#Config/schema/user/User.js';
 

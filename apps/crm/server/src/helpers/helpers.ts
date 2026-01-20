@@ -1,4 +1,4 @@
-import { UUID } from '@apps/crm-shared/src/types/api/base.js';
+import type { UUID } from '@apps/crm-shared';
 
 export function toDbUUID(id: UUID): `${string}-${string}-${string}-${string}-${string}` {
   return id as `${string}-${string}-${string}-${string}-${string}`;

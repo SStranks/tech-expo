@@ -1,25 +1,46 @@
-import type { UserRoles } from '@apps/crm-shared/src/types/api/auth.js';
-import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
+import type { UserRoles, UUID } from '@apps/crm-shared';
 import type { Request, Response } from 'express';
 
-import type { CompanyDataLoader, ContactDataLoader, CountryDataLoader, QuoteDataLoader } from './loaders.ts';
+import type {
+  CompanyDataLoader,
+  ContactDataLoader,
+  CountryDataLoader,
+  QuoteDataLoader,
+  UserProfileDataLoader,
+} from './loaders.ts';
 
 import { GraphQLError } from 'graphql';
 
 import { postgresDB } from '#Config/dbPostgres.js';
 import { redisClient } from '#Config/dbRedis.js';
 import { secrets } from '#Config/secrets.js';
-import PostgresCompanyRepository from '#Models/company/PostgresCompanyRepository.js';
-import { PostgresContactRepository } from '#Models/contact/PostgresContactRepository.js';
-import PostgresCountryRepository from '#Models/country/PostgresCountryRepository.js';
-import { PostgresQuoteRepository } from '#Models/quote/PostgresQuoteRepository.js';
-import { CompanyService } from '#Services/Company.js';
-import { ContactService } from '#Services/Contact.js';
-import { CountryService } from '#Services/Country.js';
-import { QuoteService } from '#Services/Quote.js';
-import UserService from '#Services/User.js';
+import { PostgresCompanyRepository } from '#Models/domain/company/company.repository.postgres.js';
+import { PostgresContactRepository } from '#Models/domain/contact/contact.repository.postgres.js';
+import { PostgresCountryRepository } from '#Models/domain/country/country.repository.postgres.js';
+import { PostgresPipelineRepository } from '#Models/domain/pipeline/pipeline.repository.postgres.js';
+import { PostgresQuoteRepository } from '#Models/domain/quote/quote.postgres.repository.js';
+import { PostgresUserRepository } from '#Models/domain/user/user.repository.postgres.js';
+import { PostgresCompanyReadModel } from '#Models/query/company/companies.read-model.postgres.js';
+import { PostgresContactReadModel } from '#Models/query/contact/contacts.read-model.postgres.js';
+import { PostgresCountryReadModel } from '#Models/query/country/countries.read-model.postgres.js';
+import { PostgresPipelineReadModel } from '#Models/query/pipeline/pipeline.read-model.postgres.js';
+import { PostgresQuoteReadModel } from '#Models/query/quote/quotes.read-model.postgres.js';
+import { PostgresUserReadModel } from '#Models/query/user/users.read-model.postgres.js';
+import { CompanyService } from '#Services/company.service.js';
+import { ContactService } from '#Services/contact.service.js';
+import { CountryService } from '#Services/country.service.js';
+import { PipelineService } from '#Services/pipeline.service.js';
+import { QuoteService } from '#Services/quote.service.js';
+import { UserProfileService } from '#Services/user-profile.service.js';
+import { UserService } from '#Services/user.service.js';
 
-import { createCompanyLoader, createContactLoader, createCountryLoader, createQuoteLoader } from './loaders.js';
+import {
+  createCompanyLoader,
+  createContactLoader,
+  createCountryLoader,
+  createQuoteLoader,
+  createUserProfileLoader,
+} from './loaders.js';
 
 export interface GraphqlContext {
   auth: { client_id: UUID; role: UserRoles };
@@ -28,8 +49,15 @@ export interface GraphqlContext {
     Company: CompanyDataLoader;
     Contact: ContactDataLoader;
     Quote: QuoteDataLoader;
+    UserProfile: UserProfileDataLoader;
   };
-  services: { Company: CompanyService };
+  services: {
+    Company: CompanyService;
+    Contact: ContactService;
+    Pipeline: PipelineService;
+    Quote: QuoteService;
+    UserProfile: UserProfileService;
+  };
 }
 
 const { GRAPHQL_INTROSPECT_AUTH } = secrets;
@@ -66,26 +94,47 @@ const graphqlContext = async ({ req }: { req: Request; res: Response }): Promise
       },
     });
 
-  const userService = new UserService(redisClient, postgresDB);
+  const userRepository = new PostgresUserRepository();
+  const userService = new UserService(userRepository, redisClient, postgresDB);
   const { client_id, jti, role } = userService.verifyAuthToken(JWT);
   await userService.isTokenBlacklisted(jti);
 
-  const companyRepo = PostgresCompanyRepository;
-  const contactRepo = PostgresContactRepository;
-  const countryRepo = PostgresCountryRepository;
-  const quoteRepo = PostgresQuoteRepository;
-  const companyService = new CompanyService(companyRepo);
-  const contactService = new ContactService(contactRepo);
-  const countryService = new CountryService(countryRepo);
-  const quoteService = new QuoteService(quoteRepo);
+  const companyRepository = new PostgresCompanyRepository();
+  const contactRepository = new PostgresContactRepository();
+  const countryRepository = new PostgresCountryRepository();
+  const pipelineRepository = new PostgresPipelineRepository();
+  const quoteRepository = new PostgresQuoteRepository();
+
+  const companyReadModel = new PostgresCompanyReadModel();
+  const contactReadModel = new PostgresContactReadModel();
+  const countryReadModel = new PostgresCountryReadModel();
+  const pipelineReadModel = new PostgresPipelineReadModel();
+  const quoteReadModel = new PostgresQuoteReadModel();
+  const userReadModel = new PostgresUserReadModel();
+
+  // TODO: Make object parameter instead of single params
+  const companyService = new CompanyService(companyRepository, companyReadModel, countryRepository);
+  const contactService = new ContactService(contactRepository, contactReadModel);
+  const countryService = new CountryService(countryRepository);
+  const pipelineService = new PipelineService(pipelineRepository, pipelineReadModel);
+  const quoteService = new QuoteService(quoteRepository, quoteReadModel);
+  const userProfileService = new UserProfileService(userRepository, userReadModel);
 
   const loaders = {
-    Company: createCompanyLoader(companyService),
-    Contact: createContactLoader(contactService),
-    Country: createCountryLoader(countryService),
-    Quote: createQuoteLoader(quoteService),
+    Company: createCompanyLoader(companyReadModel),
+    Contact: createContactLoader(contactReadModel),
+    Country: createCountryLoader(countryReadModel),
+    Quote: createQuoteLoader(quoteReadModel),
+    UserProfile: createUserProfileLoader(userReadModel),
   };
-  const services = { Company: companyService, Contact: contactService, Country: countryService, Quote: quoteService };
+  const services = {
+    Company: companyService,
+    Contact: contactService,
+    Country: countryService,
+    Pipeline: pipelineService,
+    Quote: quoteService,
+    UserProfile: userProfileService,
+  };
 
   return { auth: { client_id, role }, loaders, services };
 };

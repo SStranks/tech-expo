@@ -1,10 +1,11 @@
+import type { GraphQLFormattedError, GraphQLFormattedErrorExtensions } from 'graphql';
+
 import { ApolloServerErrorCode } from '@apollo/server/errors';
-import { GraphQLError, GraphQLFormattedError, GraphQLFormattedErrorExtensions } from 'graphql';
+import { GraphQLError } from 'graphql';
 
 import pinoLogger from '#Lib/pinoLogger.js';
 import { mapPostgresKindToGraphQLCode, mapPostgresKindToHttp } from '#Mappers/errorMapper.js';
-import BadRequestError from '#Utils/errors/BadRequestError.js';
-import { NotFoundError } from '#Utils/errors/NotFoundError.js';
+import AppError from '#Utils/errors/AppError.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
 
 export type ExtendedApolloErrorCode = ApolloServerErrorCode | 'FORBIDDEN' | 'SERVICE_UNAVAILABLE' | 'NOT_FOUND';
@@ -53,15 +54,16 @@ const formatError = (formattedError: GraphQLFormattedError, error: unknown): Gra
     });
   }
 
-  if (error instanceof NotFoundError) {
-    return new GraphQLError(error.message, {
-      extensions: { code: 'NOT_FOUND', http: { status: 404 } },
-    });
-  }
+  if (error instanceof AppError) {
+    if (error.logging) {
+      pinoLogger.app.error(error, 'GraphQL APP_ERROR');
+    }
 
-  if (error instanceof BadRequestError) {
     return new GraphQLError(error.message, {
-      extensions: { code: 'BAD_REQUEST', http: { status: 400 } },
+      extensions: {
+        code: error.code,
+        httpStatus: error.httpStatus,
+      },
     });
   }
 
