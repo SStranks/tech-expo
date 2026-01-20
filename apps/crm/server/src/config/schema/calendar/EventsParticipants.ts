@@ -1,6 +1,7 @@
-import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
+import type { UUID } from '@apps/crm-shared';
+import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
-import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
+import { relations } from 'drizzle-orm';
 import { pgTable, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';

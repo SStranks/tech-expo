@@ -1,11 +1,12 @@
-import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
+import type { UUID } from '@apps/crm-shared';
+import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
-import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
+import { relations } from 'drizzle-orm';
 import { char, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-import { COMPANY_ROLES } from '#Models/user/UserProfile.js';
+import { COMPANY_ROLES } from '#Models/domain/user/profile/profile.types.js';
 
 import CompaniesTable from '../companies/Companies.js';
 import ContactsNotesTable from '../contacts/ContactsNotes.js';
