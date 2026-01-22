@@ -29,7 +29,7 @@ export abstract class Country {
   }
 
   static rehydrate(props: CountryHydrationProps): PersistedCountry {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Country.rehydrate() call!
     return new PersistedCountryImpl(props);
   }
 

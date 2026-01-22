@@ -67,11 +67,10 @@ export abstract class CompanyNote {
 
 class NewCompanyNoteImpl extends CompanyNote {
   constructor(props: CompanyNoteCreateProps) {
-    const { company, content, createdBy } = props;
-    super({ company, content, createdBy });
+    super(props);
   }
 
-  isPersisted(): this is PersistedCompanyNoteImpl {
+  isPersisted(): this is NewCompanyNoteImpl {
     return false;
   }
 }
@@ -81,8 +80,7 @@ class PersistedCompanyNoteImpl extends CompanyNote {
   private readonly _createdAt: Date;
 
   constructor(props: CompanyNoteHydrationProps) {
-    const { company, content, createdBy } = props;
-    super({ company, content, createdBy });
+    super(props);
     this._id = props.id;
     this._createdAt = props.createdAt;
   }

@@ -65,17 +65,17 @@ export abstract class Company {
   }
 
   static create(props: CompanyCreateProps): NewCompany {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Company.create() call!
     return new NewCompanyImpl(props);
   }
 
   static rehydrate(props: CompanyHydrationProps): PersistedCompany {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Company.rehydrate() call!
     return new PersistedCompanyImpl(props);
   }
 
   static rehydrateForWrite(props: CompanyHydrationProps, notes: PersistedCompanyNote[]): PersistedCompany {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Company.rehydrateForWrite() call!
     const company = new PersistedCompanyImpl(props);
     company.commit(notes);
     return company;
@@ -139,10 +139,11 @@ export abstract class Company {
   }
 
   rebrandCompany(newName: string) {
-    if (newName.trim().length === 0) {
+    const name = newName.trim();
+    if (name.length === 0) {
       throw new Error('Company name cannot be empty');
     }
-    this._name = newName;
+    this._name = name;
     this._rootDirty = true;
   }
 

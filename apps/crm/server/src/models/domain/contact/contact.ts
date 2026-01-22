@@ -79,12 +79,12 @@ export abstract class Contact {
   }
 
   static create(props: ContactCreateProps): NewContact {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Contact.create() call!
     return new NewContactImpl(props);
   }
 
   static rehydrate(props: ContactHydrationProps): PersistedContact {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Contact.rehydrate() call!
     return new PersistedContactImpl(props);
   }
 
