@@ -1,0 +1,92 @@
+# eslint-disable @graphql-eslint/require-description
+# lint-disable-line relay-page-info-spec
+# lint-disable types-have-descriptions, fields-have-descriptions
+
+type Query {
+  userProfile(input: UserProfileInput!): UserProfile!
+  userProfilesOverview(input: UserProfilesOverviewInput!): UserProfilesOverviewPaginated!
+}
+
+type Mutation {
+  createUserProfile(input: CreateUserProfileInput!): UserProfile!
+  updateUserProfile(input: UpdateUserProfileInput!): UserProfile!
+  removeUserProfile(input: RemoveUserProfileInput!): UUID!
+}
+
+type UserProfile {
+  id: UUID!
+  firstName: String!
+  lastName: String!
+  email: EmailAddress!
+  mobile: String
+  telephone: String
+  timezone: TimeZone!
+  country: Country!
+  company: Company!
+  companyRole: CompanyRole!
+  image: String
+}
+
+type UserAvatar {
+  id: UUID!
+  firstName: String!
+  lastName: String!
+  image: String
+}
+
+type UserProfilesOverviewPaginated {
+  id: ID!
+}
+
+input UserProfileInput {
+  id: UUID!
+}
+
+input UserProfilesOverviewInput {
+  filters: UserProfilesOverviewFilters
+  pagination: PaginationInput
+}
+
+input UserProfilesOverviewFilters {
+  searchUserProfileName: String
+  searchUserProfileJobTitle: String
+  searchUserProfileCompanyRole: CompanyRole
+}
+
+input CreateUserProfileInput {
+  firstName: String!
+  lastName: String!
+  email: EmailAddress!
+  mobile: String!
+  telephone: String!
+  timezone: UUID!
+  country: UUID!
+  company: UUID!
+  companyRole: CompanyRole!
+  image: String!
+}
+
+input UpdateUserProfileInput {
+  id: UUID!
+  firstName: String
+  lastName: String
+  email: EmailAddress
+  mobile: String
+  telephone: String
+  timezone: UUID
+  country: UUID
+  company: UUID
+  companyRole: CompanyRole
+  image: String
+}
+
+input RemoveUserProfileInput {
+  id: UUID!
+}
+
+enum CompanyRole {
+  ADMIN
+  SALES_MANAGER
+  SALES_PERSON
+  SALES_INTERN
+}

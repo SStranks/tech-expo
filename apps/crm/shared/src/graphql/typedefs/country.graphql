@@ -1,37 +1,12 @@
+# eslint-disable @graphql-eslint/require-description
 # lint-disable-line relay-page-info-spec
 # lint-disable types-have-descriptions, fields-have-descriptions
 
-"""
-Represents a country with standardized codes and names used for identification and classification.
-"""
 type Country {
-  """
-  A unique identifier for the country.
-  """
   id: UUID!
-
-  """
-  The numeric ISO 3166-1 code for the country (e.g., 840 for the United States).
-  """
   numCode: Int!
-
-  """
-  The two-letter ISO 3166-1 alpha-2 code for the country (e.g., "US").
-  """
   alpha2Code: String!
-
-  """
-  The three-letter ISO 3166-1 alpha-3 code for the country (e.g., "USA").
-  """
   alpha3Code: String!
-
-  """
-  The commonly used short name of the country (e.g., "United States").
-  """
   shortName: String!
-
-  """
-  The term used to describe a person from the country (e.g., "American").
-  """
   nationality: String!
 }

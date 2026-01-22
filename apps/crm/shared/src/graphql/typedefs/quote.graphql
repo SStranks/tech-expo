@@ -1,219 +1,164 @@
+# eslint-disable @graphql-eslint/require-description
 # lint-disable-line relay-page-info-spec
 # lint-disable types-have-descriptions, fields-have-descriptions
 
 type Query {
-  """
-  Fetches a specific quote by UUID.
-  """
-  quote(id: UUID!): Quote
-
-  """
-  Returns a paginated list of quotes with optional filters and search.
-  """
-  quotes(
-    title: String
-    companyId: UUID
-    stage: QuoteStage
-    preparedBy: UUID
-    page: Int = 1
-    pageSize: Int = 12
-  ): QuoteList
+  quote(input: QuoteInput!): QuoteDetailed!
+  quotesOverview(input: QuotesOverviewInput!): QuotesOverviewPaginated!
 }
 
-"""
-Represents a formal quote issued to a client for services or products,
-including financial details, associated company and contact, and current stage.
-"""
+type Mutation {
+  createQuote(input: CreateQuoteInput!): Quote!
+  updateQuote(input: UpdateQuoteInput!): Quote!
+  removeQuote(input: RemoveQuoteInput!): UUID!
+  createQuoteService(input: CreateQuoteServiceInput!): QuoteService!
+  updateQuoteService(input: UpdateQuoteServiceInput!): QuoteService!
+  removeQuoteService(input: RemoveQuoteServiceInput!): UUID!
+  updateQuoteNote(input: UpdateQuoteNoteInput!): QuoteNote!
+}
+
 type Quote {
-  """
-  Unique identifier for the quote (UUID format).
-  """
   id: UUID!
-
-  """
-  The title or reference name of the quote.
-  """
   title: String!
-
-  """
-  The company this quote is issued on behalf of.
-  """
   company: Company!
-
-  """
-  The total cost of the quote, including services and any applied discounts or taxes.
-  """
-  total: Float!
-
-  """
-  The amount of sales tax included in the quote total.
-  """
+  total: Money!
   salesTax: Float!
-
-  """
-  The current status of the quote (e.g., DRAFT, SENT, ACCEPTED).
-  """
   stage: QuoteStage!
-
-  """
-  The contact person the quote is prepared for.
-  """
   preparedFor: Contact!
-
-  """
-  The user who created and issued the quote.
-  """
   preparedBy: UserProfile!
-
-  """
-  The date when the quote was formally issued.
-  """
   issuedAt: DateTime
-
-  """
-  The due date by which the quote is expected to be accepted or responded to.
-  """
   dueAt: DateTime
+}
 
-  """
-  The date the quote record was created in the system.
-  """
-  createdAt: DateTime!
-
-  """
-  A list of services included in this quote, along with pricing and quantities.
-  """
+type QuoteDetailed {
+  id: UUID!
+  title: String!
+  company: Company!
+  total: Money!
+  salesTax: Float!
+  stage: QuoteStage!
+  preparedFor: Contact!
+  preparedBy: UserProfile!
+  issuedAt: DateTime
+  dueAt: DateTime
   services: [QuoteService!]!
-
-  """
-  A note associated with the quote, typically containing internal comments or additional instructions.
-  """
   note: QuoteNote!
 }
 
-"""
-Contains a list of quotes and pagination metadata.
-"""
-type QuoteList {
-  """
-  Synthetic unique identifier for the paginated list (to satisfy ESLint rules).
-  Can be a hash or string derived from query parameters.
-  """
-  id: ID!
-
-  """
-  The list of quotes for the current page.
-  """
-  items: [QuoteSummary!]!
-
-  """
-  The total number of quotes matching the filter.
-  """
-  totalCount: Int!
-}
-
-"""
-A lightweight version of a quote used in summary views or lists.
-Excludes detailed fields like services or notes for performance optimization.
-"""
-type QuoteSummary {
-  """
-  Unique identifier for the quote (UUID format).
-  """
+type QuoteOverview {
   id: UUID!
-
-  """
-  Title or reference name of the quote.
-  """
   title: String!
-
-  """
-  The company the quote is associated with.
-  """
   company: Company!
-
-  """
-  The total amount quoted, including any taxes or discounts.
-  """
-  total: Float!
-
-  """
-  The current stage of the quote (e.g., DRAFT, SENT, ACCEPTED).
-  """
+  total: Money!
   stage: QuoteStage!
-
-  """
-  The contact for whom the quote was prepared.
-  """
   preparedFor: Contact!
-
-  """
-  The user who prepared and issued the quote.
-  """
   preparedBy: UserProfile!
-
-  """
-  The creation timestamp of the quote.
-  """
   createdAt: DateTime!
 }
 
-"""
-A note attached to a quote, typically used for internal remarks or contextual details.
-"""
-type QuoteNote {
-  """
-  Unique identifier for the quote note (UUID format).
-  """
-  id: UUID!
+type QuotesOverviewPaginated {
+  id: ID!
+  items: [QuoteOverview!]!
+  totalCount: Int!
+}
 
-  """
-  The textual content of the note.
-  """
+type QuoteService {
+  id: UUID!
+  title: String!
+  price: Money!
+  quantity: Int!
+  discount: Float!
+  total: Money!
+}
+
+type QuoteNote {
+  id: UUID!
   note: String!
 }
 
-"""
-Represents an individual service or line item included in a quote.
-Each service contributes to the total value of the quote.
-"""
-type QuoteService {
-  """
-  Unique identifier for the service line item (UUID format).
-  """
+input QuoteInput {
   id: UUID!
-
-  """
-  Descriptive title of the service or product being quoted.
-  """
-  title: String!
-
-  """
-  Unit price of the service.
-  """
-  price: Float!
-
-  """
-  Quantity of the service units being quoted.
-  """
-  quantity: Float!
-
-  """
-  Discount applied to the service, if any.
-  """
-  discount: Float!
-
-  """
-  Total amount for this line item, factoring in price, quantity, and discount.
-  """
-  total: Float!
 }
 
-"""
-Enumerates the lifecycle stages of a quote.
-"""
+input QuotesOverviewInput {
+  filters: QuotesOverviewFiltersInput
+  sort: QuotesOverviewSortInput
+  pagination: QuotesOverviewPaginationInput
+}
+
+input QuotesOverviewFiltersInput {
+  searchQuoteTitle: String
+  searchCompanyName: String
+  searchStage: QuoteStage
+  searchPreparedBy: String
+}
+
+input QuotesOverviewSortInput {
+  sort: [QuoteOverviewSort]!
+}
+
+input QuoteOverviewSort {
+  field: QuoteSortableField!
+  direction: SortDirection
+}
+
+input QuotesOverviewPaginationInput {
+  id: UUID
+}
+
+input CreateQuoteInput {
+  title: String!
+  company: UUID!
+  preparedFor: UUID!
+  preparedBy: UUID!
+}
+
+input UpdateQuoteInput {
+  id: UUID!
+  title: String
+  company: UUID
+  preparedFor: UUID
+  preparedBy: UUID
+  stage: QuoteStage
+}
+
+input RemoveQuoteInput {
+  id: UUID!
+}
+
+input UpdateQuoteNoteInput {
+  id: UUID!
+  note: String
+}
+
+input CreateQuoteServiceInput {
+  title: String!
+  price: MoneyInput!
+  quantity: Int!
+  discount: Float!
+  total: MoneyInput!
+}
+
+input UpdateQuoteServiceInput {
+  id: UUID!
+  title: String!
+  price: MoneyInput!
+  quantity: Int!
+  discount: Float!
+  total: MoneyInput!
+}
+
+input RemoveQuoteServiceInput {
+  id: UUID!
+}
+
 enum QuoteStage {
   DRAFT
   SENT
   ACCEPTED
+}
+
+enum QuoteSortableField {
+  AMOUNT
+  CREATED_AT
 }

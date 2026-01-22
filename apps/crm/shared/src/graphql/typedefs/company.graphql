@@ -2,24 +2,24 @@
 # lint-disable-line relay-page-info-spec
 
 type Query {
-  company(id: UUID!): CompanyDetailed!
-  companiesOverview(filters: CompaniesOverviewFiltersInput, pagination: PaginationInput): CompaniesOverviewPaginated!
+  company(input: CompanyInput!): CompanyDetailed!
+  companiesOverview(input: CompaniesOverviewInput!): CompaniesOverviewPaginated!
 }
 
 type Mutation {
   createCompany(input: CreateCompanyInput!): Company!
   updateCompany(input: UpdateCompanyInput!): Company!
-  removeCompany(input: UpdateCompanyInput!): UUID!
+  removeCompany(input: RemoveCompanyInput!): UUID!
   createCompanyNote(input: CreateCompanyNoteInput!): CompanyNotePayload!
   updateCompanyNote(input: UpdateCompanyNoteInput!): CompanyNotePayload!
-  removeCompanyNote(input: UpdateCompanyNoteInput!): UUID!
+  removeCompanyNote(input: RemoveCompanyNoteInput!): UUID!
 }
 
 type Company {
   id: UUID!
   name: String!
   size: CompanySize!
-  totalRevenue: String!
+  totalRevenue: Money!
   industry: String!
   businessType: BusinessType!
   country: Country!
@@ -42,7 +42,7 @@ type CompanyOverview {
   id: UUID!
   name: String!
   salesOwner: UserAvatar!
-  openDealsAmount: String!
+  openDealsAmount: Money!
   relatedContacts(limit: Int = 5, offset: Int = 0): CompanyOverviewContacts!
 }
 
@@ -56,7 +56,7 @@ type CompanyDetailed {
   id: UUID!
   name: String!
   size: CompanySize!
-  totalRevenue: String!
+  totalRevenue: Money!
   industry: String!
   businessType: BusinessType!
   country: Country!
@@ -105,7 +105,7 @@ type CompanyPaginatedQuoteSummary {
 type CompanyQuoteSummary {
   id: UUID!
   title: String!
-  totalAmount: String!
+  totalAmount: Money!
   stage: String!
   preparedFor: ContactAvatar!
   preparedBy: UserAvatar!
@@ -118,15 +118,19 @@ type CompanyNote {
   createdBy: UserAvatar!
 }
 
+input CompanyInput {
+  id: UUID!
+}
+
+input CompaniesOverviewInput {
+  filters: CompaniesOverviewFiltersInput
+  pagination: PaginationInput
+}
+
 input CompaniesOverviewFiltersInput {
   searchCompanyName: String
   salesOwnerId: UUID
   contactIds: [UUID!]
-}
-
-input PaginationInput {
-  page: Int = 1
-  pageSize: Int = 12
 }
 
 input CreateCompanyInput {
@@ -150,6 +154,10 @@ input UpdateCompanyInput {
   website: String
 }
 
+input RemoveCompanyInput {
+  id: UUID!
+}
+
 input CreateCompanyNoteInput {
   companyId: UUID!
   note: String!
@@ -159,6 +167,10 @@ input UpdateCompanyNoteInput {
   companyId: UUID!
   companyNoteId: UUID!
   note: String
+}
+
+input RemoveCompanyNoteInput {
+  id: UUID!
 }
 
 enum CompanySize {

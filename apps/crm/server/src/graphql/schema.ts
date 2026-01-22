@@ -2,6 +2,7 @@ import type { GraphQLSchema } from 'graphql';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import {
+  CurrencyDefinition,
   DateTimeTypeDefinition,
   EmailAddressTypeDefinition,
   HexColorCodeDefinition,
@@ -20,6 +21,7 @@ import schemaTypeDefs from './typedefs.js';
  * but does not catch its errors/propagate into the available error handling API.
  */
 const customTypeDefs = [
+  CurrencyDefinition,
   DateTimeTypeDefinition,
   HexColorCodeDefinition,
   EmailAddressTypeDefinition,

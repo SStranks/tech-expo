@@ -1,0 +1,21 @@
+# eslint-disable @graphql-eslint/require-description
+type Money {
+  id: ID!
+  amount: String!
+  currency: Currency!
+}
+
+input MoneyInput {
+  amount: String!
+  currency: Currency!
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+input PaginationInput {
+  page: Int = 1
+  pageSize: Int = 12
+}

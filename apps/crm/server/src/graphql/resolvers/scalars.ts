@@ -1,12 +1,11 @@
-import type { Resolvers } from '#Graphql/generated/graphql.gen.js';
+import { CurrencyResolver, DateTimeResolver, HexColorCodeResolver, JSONResolver, UUIDResolver } from 'graphql-scalars';
 
-import { DateTimeResolver, HexColorCodeResolver, JSONResolver, UUIDResolver } from 'graphql-scalars';
-
-const companyResolver: Resolvers = {
+const scalars = {
+  Currency: CurrencyResolver,
   DateTime: DateTimeResolver,
   HexColorCode: HexColorCodeResolver,
   JSON: JSONResolver,
   UUID: UUIDResolver,
 };
 
-export default companyResolver;
+export default scalars;

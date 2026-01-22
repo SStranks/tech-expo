@@ -5,7 +5,7 @@ export default {
       schema: 'apps/crm/shared/src/graphql/typedefs/*.graphql',
       extensions: {
         languageService: {
-          enableValidation: false,
+          enableValidation: true,
         },
       },
     },

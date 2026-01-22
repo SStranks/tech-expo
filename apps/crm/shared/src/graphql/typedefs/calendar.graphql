@@ -1,123 +1,98 @@
+# eslint-disable @graphql-eslint/require-description
 # lint-disable-line relay-page-info-spec
 # lint-disable types-have-descriptions, fields-have-descriptions
 
 type Query {
-  """
-  Fetches the initial calendar data for a company, including all categories and events
-  within a given time range. Intended for initial page load.
-  """
-  calendarInitialData(companyId: UUID!, startDate: DateTime!, endDate: DateTime!): CalendarInitialData
-
-  """
-  Fetches events for a company's calendar within the specified date range.
-  Useful for updating events when switching views (e.g., day/week/month).
-  """
-  calendarEventsByCompany(companyId: UUID!, startDate: DateTime!, endDate: DateTime!): [CalendarEvent!]
+  calendarInitialData(input: CalendarIntitialDataInput!): CalendarInitialData
+  calendarByMonth(input: CalendarByMonthInput!): CalendarMonthData
+  calendarCategories(input: CalendarCategoriesInput!): CalendarCategories
 }
 
-"""
-Represents a calendar associated with a company.
-A company has a single calendar, which contains multiple categories and events.
-"""
-type Calendar {
-  """
-  Unique identifier for the calendar.
-  """
-  id: UUID!
-
-  """
-  The ID of the company that owns this calendar.
-  """
-  companyId: UUID!
-
-  """
-  A list of all event categories defined in the calendar.
-  """
-  categories: [CalendarCategory!]!
+type Mutation {
+  createEvent(input: CreateEventInput!): CalendarEvent!
+  updateEvent(input: UpdateEventInput!): CalendarEvent!
+  removeEvent(input: RemoveEventInput!): UUID!
+  createCategory(input: CreateCategoryInput!): CalendarCategories!
+  removeCategory(input: RemoveCategoryInput!): UUID!
 }
 
-"""
-Returned by the initial data query to provide all necessary information
-to render the calendar view on first load.
-"""
-type CalendarInitialData {
-  """
-  A synthetic ID representing this response (e.g., `${companyId}:${startDate}:${endDate}`).
-  """
+type CalendarMonthData {
   id: ID!
-
-  """
-  The calendar object associated with the given company.
-  """
-  calendar: Calendar!
-
-  """
-  All categories associated with the calendar.
-  """
-  categories: [CalendarCategory!]!
-
-  """
-  All events that fall within the specified start and end dates.
-  """
   events: [CalendarEvent!]!
 }
 
-"""
-Represents a category under which events can be grouped.
-"""
-type CalendarCategory {
-  """
-  Unique identifier for the category.
-  """
-  id: UUID!
+type CalendarInitialData {
+  id: ID!
+  categories: [CalendarCategory!]!
+  events: [CalendarEvent!]!
+}
 
-  """
-  The title of the category.
-  """
+type CalendarCategories {
+  id: ID!
+  categories: [CalendarCategory!]!
+}
+
+type CalendarCategory {
+  id: UUID!
   title: String!
 }
 
-"""
-Represents a single event in the calendar.
-"""
 type CalendarEvent {
-  """
-  Unique identifier for the event.
-  """
   id: UUID!
-
-  """
-  The title of the event.
-  """
   title: String!
-
-  """
-  A longer description or notes about the event.
-  """
   description: String
-
-  """
-  A hex color string (e.g. "#FF5733") used to visually represent this event.
-  """
   color: HexColorCode
-
-  """
-  Start time of the event in ISO 8601 format.
-  """
   startTime: DateTime!
-
-  """
-  End time of the event in ISO 8601 format.
-  """
   endTime: DateTime!
-
-  """
-  The category this event belongs to.
-  """
   category: CalendarCategory
-
-  """
-  A list of users participating in the event.
-  """
   participants: [UserProfile!]!
+}
+
+input CalendarIntitialDataInput {
+  companyId: UUID!
+  month: Int!
+  year: Int!
+}
+
+input CalendarByMonthInput {
+  companyId: UUID!
+  month: Int!
+  year: Int!
+}
+
+input CalendarCategoriesInput {
+  companyId: UUID!
+}
+
+input CreateEventInput {
+  title: String!
+  description: String!
+  color: HexColorCode!
+  startTime: DateTime!
+  endTime: DateTime!
+  category: String!
+  participants: [UUID!]!
+}
+
+input UpdateEventInput {
+  id: UUID!
+  title: String
+  description: String
+  color: HexColorCode
+  startTime: DateTime
+  endTime: DateTime
+  category: String
+  participants: [UUID]!
+}
+
+input RemoveEventInput {
+  id: UUID!
+}
+
+input CreateCategoryInput {
+  title: String!
+}
+
+input RemoveCategoryInput {
+  id: UUID!
 }

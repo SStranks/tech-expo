@@ -1,103 +1,64 @@
+# eslint-disable @graphql-eslint/require-description
 # lint-disable-line relay-page-info-spec
 # lint-disable types-have-descriptions, fields-have-descriptions
 
 type Query {
-  """
-  Fetches a single contact by its UUID.
-  Returns `null` if the contact is not found.
-  """
-  contact(id: UUID!): Contact
-
-  """
-  Returns a list of all contacts in the system.
-  """
-  contacts: [Contact]
+  contact(input: ContactInput!): ContactDetailed!
+  contactsOverview(input: ContactsOverviewInput!): ContactsOverviewPaginated!
 }
 
-# eslint-disable-next-line @graphql-eslint/require-description
+type Mutation {
+  createContact(input: CreateContactInput!): Contact!
+  updateContact(input: UpdateContactInput!): Contact!
+  removeContact(input: RemoveContactInput!): UUID!
+  createContactNote(input: CreateContactNoteInput!): ContactNotePayload!
+  updateContactNote(input: UpdateContactNoteInput!): ContactNotePayload!
+  removeContactNote(input: RemoveContactNoteInput!): UUID!
+}
+
 type Contact {
-  """
-  Unique identifier for the contact (UUID format).
-  """
   id: UUID!
-
-  """
-  Contact’s given name.
-  """
   firstName: String!
-
-  """
-  Contact’s family or surname.
-  """
   lastName: String!
-
-  """
-  Email address of the contact.
-  """
   email: EmailAddress!
-
-  """
-  Phone number of the contact.
-  """
   phone: String!
-
-  """
-  The company the contact is associated with.
-  """
   company: Company!
-
-  """
-  Job title or role of the contact at the company.
-  """
   jobTitle: String!
-
-  """
-  Current engagement stage of the contact in your workflow.
-  """
   stage: ContactStage!
-
-  """
-  IANA timezone string representing the contact's local timezone.
-  """
   timezone: TimeZone
+}
 
-  """
-  A list of notes associated with this contact, typically used to record interactions, updates, or important information.
-  """
+type ContactDetailed {
+  id: UUID!
+  firstName: String!
+  lastName: String!
+  email: EmailAddress!
+  phone: String!
+  company: Company!
+  jobTitle: String!
+  stage: ContactStage!
+  timezone: TimeZone!
   notes: [ContactNote!]!
 }
 
-"""
-Represents a note associated with a specific contact, used for tracking interactions or important details.
-"""
-type ContactNote {
-  """
-  Unique identifier for the contact note.
-  """
+type ContactOverview {
   id: UUID!
+  firstName: String!
+  lastName: String!
+  email: EmailAddress!
+  company: Company!
+  jobTitle: String!
+  stage: ContactStage!
+}
 
-  """
-  The content or body of the note.
-  """
+type ContactNote {
+  id: UUID!
   note: String!
-
-  """
-  The contact this note is associated with.
-  """
   contact: Contact!
-
-  """
-  The timestamp of when the note was created.
-  """
   createdAt: DateTime!
-
-  """
-  The user who created the note.
-  """
   createdBy: UserProfile!
 }
 
-# eslint-disable-next-line @graphql-eslint/require-description
 type ContactAvatar {
   id: UUID!
   firstName: String!
@@ -105,9 +66,87 @@ type ContactAvatar {
   image: String
 }
 
-"""
-Describes the current status of a contact in the sales or client lifecycle.
-"""
+type ContactsOverviewPaginated {
+  id: ID!
+  items: [ContactOverview!]!
+  totalCount: Int!
+}
+
+type ContactNotePayload {
+  id: ID!
+  contact: Contact!
+  contactNote: ContactNote!
+}
+
+input ContactInput {
+  id: UUID!
+}
+
+input ContactsOverviewInput {
+  filters: ContactsOverviewFiltersInput
+  sort: ContactsOverviewSortInput
+  pagination: PaginationInput
+}
+
+input ContactsOverviewFiltersInput {
+  searchContactName: String
+  searchContactEmail: String
+  searchCompanyName: String
+  searchContactJobTitle: String
+  searchContactStage: ContactStage
+}
+
+input ContactsOverviewSortInput {
+  sort: [ContactOverviewSort]!
+}
+
+input ContactOverviewSort {
+  field: ContactSortableField!
+  direction: SortDirection
+}
+
+input CreateContactInput {
+  firstName: String!
+  lastName: String!
+  email: EmailAddress!
+  phone: String!
+  company: UUID!
+  jobTitle: String!
+  stage: ContactStage!
+  timezone: UUID
+}
+
+input UpdateContactInput {
+  id: UUID!
+  firstName: String
+  lastName: String
+  email: EmailAddress
+  phone: String
+  company: UUID
+  jobTitle: String
+  stage: ContactStage
+  timezone: UUID
+}
+
+input RemoveContactInput {
+  id: UUID!
+}
+
+input CreateContactNoteInput {
+  contactId: UUID!
+  note: String!
+}
+
+input RemoveContactNoteInput {
+  id: UUID!
+}
+
+input UpdateContactNoteInput {
+  contactId: UUID!
+  contactNoteId: UUID!
+  note: String
+}
+
 enum ContactStage {
   NEW
   CONTACTED
@@ -118,4 +157,8 @@ enum ContactStage {
   LOST
   WON
   CHURNED
+}
+
+enum ContactSortableField {
+  STATUS
 }

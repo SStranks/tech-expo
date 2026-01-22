@@ -2,12 +2,9 @@
 # lint-disable-line relay-page-info-spec
 # lint-disable types-have-descriptions, fields-have-descriptions
 
-"""
-Imported from 'graphql-scalars'
-"""
-scalar Currency
-scalar DateTime
-scalar EmailAddress
-scalar HexColorCode
-scalar JSON
-scalar UUID
+type TimeZone {
+  id: UUID!
+  alpha2Code: String!
+  gmtOffset: String!
+  country: Country!
+}
