@@ -95,6 +95,10 @@ export abstract class Quote {
   get dueAt() {
     return this._dueAt;
   }
+
+  get isRootDirty() {
+    return this._rootDirty;
+  }
   // #endregion getters
 
   abstract isPersisted(): boolean;

@@ -1,0 +1,129 @@
+import type { UUID as UUIDv4 } from 'node:crypto';
+
+import type { CalendarId } from '../calendar.types.js';
+import type { CalendarCategoryId } from '../categories/categories.types.js';
+import type { CalendarEventId } from './event.types.js';
+
+import { randomUUID } from 'node:crypto';
+
+type EventProps = {
+  title: string;
+  calendar: CalendarId;
+  category: CalendarCategoryId;
+  description: string;
+  color: string | null;
+  eventStart: Date;
+  eventEnd: Date;
+  createdAt: Date;
+  symbol?: UUIDv4;
+};
+
+type EventCreateProps = EventProps;
+type EventHydrationProps = EventCreateProps & { id: CalendarEventId; createdAt: Date };
+
+export type NewEvent = InstanceType<typeof NewEventImpl>;
+export type PersistedEvent = InstanceType<typeof PersistedEventImpl>;
+
+export abstract class Event {
+  private readonly _calendar: CalendarId;
+  private readonly _category: CalendarCategoryId;
+  private readonly _symbol: UUIDv4;
+  private _title: string;
+  private _description: string;
+  private _color: string | null;
+  private _eventStart: Date;
+  private _eventEnd: Date;
+
+  constructor(props: EventProps) {
+    this._title = props.title;
+    this._calendar = props.calendar;
+    this._category = props.category;
+    this._description = props.description;
+    this._color = props.color;
+    this._eventStart = props.eventStart;
+    this._eventEnd = props.eventEnd;
+    this._symbol = props.symbol || randomUUID();
+  }
+
+  static create(props: EventCreateProps): NewEvent {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Event.create() call!
+    return new NewEventImpl(props);
+  }
+
+  static rehydrate(props: EventHydrationProps): PersistedEvent {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Event.rehydrate() call!
+    return new PersistedEventImpl(props);
+  }
+
+  // --------------------------
+  // Getters
+  // --------------------------
+  // #region getters
+  get title() {
+    return this._title;
+  }
+
+  get calendar() {
+    return this._calendar;
+  }
+
+  get category() {
+    return this._category;
+  }
+
+  get description() {
+    return this._description;
+  }
+
+  get color() {
+    return this._color;
+  }
+
+  get eventStart() {
+    return this._eventStart;
+  }
+
+  get eventEnd() {
+    return this._eventEnd;
+  }
+
+  get symbol() {
+    return this._symbol;
+  }
+  // #endregion getters
+
+  abstract isPersisted(): boolean;
+}
+
+class NewEventImpl extends Event {
+  constructor(props: EventCreateProps) {
+    super(props);
+  }
+
+  isPersisted(): this is NewEventImpl {
+    return false;
+  }
+}
+
+class PersistedEventImpl extends Event {
+  private readonly _id: CalendarEventId;
+  private readonly _createdAt: Date;
+
+  constructor(props: EventHydrationProps) {
+    super(props);
+    this._id = props.id;
+    this._createdAt = props.createdAt;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  get createdAt() {
+    return this._createdAt;
+  }
+
+  isPersisted(): this is PersistedEventImpl {
+    return true;
+  }
+}

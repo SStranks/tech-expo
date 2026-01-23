@@ -13,13 +13,6 @@ export type BusinessType = (typeof BUSINESS_TYPE)[number];
 
 export type CompanyId = UUID & { readonly __companyId: unique symbol };
 
-export type CompanyQuery = {
-  businessType?: BusinessType;
-  country?: CountryId;
-  industry?: string;
-  size?: CompanySize;
-};
-
 export type CreateCompanyCommand = {
   name: string;
   size: CompanySize;

@@ -14,5 +14,3 @@ export const CONTACT_STAGE = [
 ] as const;
 
 export type ContactId = UUID & { readonly __contactId: unique symbol };
-
-export type ContactQuery = {};

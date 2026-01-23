@@ -50,6 +50,34 @@ export abstract class Service {
     return new PersistedServiceImpl(props);
   }
 
+  get title() {
+    return this._title;
+  }
+
+  get total() {
+    return this._total;
+  }
+
+  get price() {
+    return this._price;
+  }
+
+  get quantity() {
+    return this._quantity;
+  }
+
+  get discount() {
+    return this._discount;
+  }
+
+  get quoteId() {
+    return this._quoteId;
+  }
+
+  get symbol() {
+    return this._symbol;
+  }
+
   abstract isPersisted(): boolean;
 }
 
