@@ -19,15 +19,17 @@ export type UserReadRow = {
 
 export type UserProfileReadRow = {
   id: UUID;
+  userId: UUID;
   firstName: string;
   lastName: string;
   email: string;
   mobile: string | null;
   telephone: string | null;
   timezone: string | null;
-  country: UUID;
-  company: UUID;
+  countryId: UUID;
+  companyId: UUID;
   companyRole: CompanyRoles;
   image: string | null;
+  createdAt: Date;
   updatedAt: Date;
 };

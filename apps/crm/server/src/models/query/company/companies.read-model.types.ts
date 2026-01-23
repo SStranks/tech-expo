@@ -18,7 +18,7 @@ export type CompanyReadRow = {
   totalRevenue: string;
   industry: string;
   businessType: BusinessType;
-  country: CountryId;
+  countryId: CountryId;
   website: string | null;
 };
 
@@ -33,14 +33,14 @@ export type CompaniesOverviewReadRow = {
 export type CompanyNoteReadRow = {
   id: CompanyNoteId;
   note: string;
-  company: CompanyId;
+  companyId: CompanyId;
   createdAt: Date;
-  createdBy: UserProfileId;
+  createdByUserProfileId: UserProfileId;
 };
 
 export type CompanyQuery = {
   businessType?: BusinessType;
-  country?: CountryId;
+  countryId?: CountryId;
   industry?: string;
   size?: CompanySize;
 };
@@ -63,7 +63,7 @@ export type PaginatedCompanyDealsQuery = {
   pagination: PaginationInput;
 };
 export type PaginatedCompanyPipelineDeals = PaginationResult<CompanyPipelineDealSummaryReadRow>;
-export type CompanyPipelineDealSummaryReadRow = Pick<PipelineDealReadRow, 'id' | 'title' | 'stage' | 'value'> & {
+export type CompanyPipelineDealSummaryReadRow = Pick<PipelineDealReadRow, 'id' | 'title' | 'stageId' | 'value'> & {
   dealOwner: {
     id: UUID;
     firstName: string;

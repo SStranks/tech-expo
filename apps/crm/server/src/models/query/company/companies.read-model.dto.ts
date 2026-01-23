@@ -16,7 +16,11 @@ export type CompanyOverviewDTO = {
     lastName: string;
     image: string;
   };
-  openDealsAmount: string;
+  openDealsAmount: {
+    id: string;
+    amount: string;
+    currency: string;
+  };
   relatedContacts: {
     id: string;
     items: { id: UUID; firstName: string; lastName: string; image: string }[];
@@ -61,7 +65,11 @@ export type CompanyContactSummaryDTO = {
 export type CompanyQuoteSummaryDTO = {
   id: UUID;
   title: string;
-  totalAmount: string;
+  totalAmount: {
+    id: string;
+    amount: string;
+    currency: string;
+  };
   stage: string;
   preparedFor: {
     id: UUID;

@@ -8,10 +8,10 @@ export type PipelineDealReadRow = {
   id: PipelineDealId;
   orderKey: string;
   title: string;
-  company: CompanyId;
-  stage: PipelineStageId;
+  companyId: CompanyId;
+  stageId: PipelineStageId;
   value: string;
-  dealOwner: UserProfileId;
-  dealContact: ContactId;
+  dealOwnerId: UserProfileId;
+  dealContactId: ContactId;
   createdAt: Date;
 };

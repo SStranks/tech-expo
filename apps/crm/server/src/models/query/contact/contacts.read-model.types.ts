@@ -11,25 +11,25 @@ export type ContactReadRow = {
   lastName: string;
   email: string;
   phone: string;
-  company: CompanyId;
+  companyId: CompanyId;
   jobTitle: string;
   stage: ContactStage;
-  timezone: TimeZoneId | null;
+  timezoneId: TimeZoneId | null;
   image: string | null;
 };
 
 export type ContactNoteReadRow = {
   id: ContactNoteId;
   note: string;
-  contact: ContactId;
+  contactId: ContactId;
   createdAt: Date;
-  createdBy: UserProfileId;
+  createdByUserProfileId: UserProfileId;
 };
 
 export type ContactQuery = {
-  company?: CompanyId;
+  companyId?: CompanyId;
   stage?: ContactStage;
-  timezone?: TimeZoneId;
+  timezoneId?: TimeZoneId;
 };
 
 export type PaginatedCompanyContactsQuery = {

@@ -50,7 +50,11 @@ export function toCompaniesOverviewDTO(row: CompaniesOverviewReadRow): CompanyOv
       lastName: row.owner.lastName,
       image: row.owner.image ? row.owner.image.toString() : '',
     },
-    openDealsAmount: row.openDealsAmount,
+    openDealsAmount: {
+      id: '',
+      amount: row.openDealsAmount,
+      currency: '', // TODO:
+    },
     relatedContacts: {
       id: `company-${row.id}-contacts`,
       items: row.relatedContacts.map((c) => ({
@@ -68,7 +72,7 @@ export const companyDealSummaryRowToDTO = (row: CompanyPipelineDealSummaryReadRo
   id: row.id,
   title: row.title,
   value: row.value,
-  stage: row.stage,
+  stage: row.stageId,
   dealOwner: {
     id: row.dealOwner.id,
     firstName: row.dealOwner.firstName,
@@ -93,7 +97,11 @@ export const companyContactSummaryRowToDTO = (row: CompanyContactSummaryReadRow)
 export const companyQuoteSummaryRowToDTO = (row: CompanyQuoteSummaryReadRow): CompanyQuoteSummaryDTO => ({
   id: row.id,
   title: row.title,
-  totalAmount: row.totalAmount,
+  totalAmount: {
+    id: '',
+    amount: row.totalAmount,
+    currency: '', // TODO: .
+  },
   stage: row.stage,
   preparedBy: {
     id: row.preparedBy.id,
