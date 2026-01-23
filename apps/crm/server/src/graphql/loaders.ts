@@ -57,7 +57,7 @@ export const createCompanyLoader = (companyReadModel: CompanyReadModel) =>
         totalRevenue: row.totalRevenue,
         industry: row.industry,
         businessType: row.businessType,
-        country: row.country,
+        countryId: row.countryId,
         website: row.website,
       };
       return dto;
@@ -80,10 +80,10 @@ export const createContactLoader = (contactReadModel: ContactReadModel) =>
         lastName: row.lastName,
         email: row.email,
         phone: row.phone,
-        company: row.company,
+        companyId: row.companyId,
         jobTitle: row.jobTitle,
         stage: row.stage,
-        timezone: row.timezone,
+        timezoneId: row.timezoneId,
         image: row.image,
       };
       return dto;
@@ -103,12 +103,12 @@ export const createQuoteLoader = (quoteReadModel: QuoteReadModel) =>
       const dto: QuoteDTO = {
         id: row.id,
         title: row.title,
-        company: row.company,
+        companyId: row.companyId,
         totalAmount: row.totalAmount,
         salesTax: row.salesTax,
         stage: row.stage,
-        preparedFor: row.preparedFor,
-        preparedBy: row.preparedBy,
+        preparedForContactId: row.preparedForContactId,
+        preparedByUserProfileId: row.preparedByUserProfileId,
         issuedAt: row.issuedAt,
         dueAt: row.dueAt,
         createdAt: row.createdAt,
@@ -135,8 +135,8 @@ export const createUserProfileLoader = (userReadModel: UserReadModel) =>
         mobile: row.mobile,
         telephone: row.telephone,
         timezone: row.timezone,
-        country: row.country,
-        company: row.company,
+        countryId: row.countryId,
+        companyId: row.companyId,
         companyRole: row.companyRole,
         image: row.image,
         updatedAt: row.updatedAt,

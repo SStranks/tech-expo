@@ -24,7 +24,8 @@ import { dbInconsistencyError, invalidInputError } from '../errors.js';
 
 const companyResolver: Resolvers = {
   Query: {
-    company: async (_, { id }, { services }) => {
+    company: async (_, { input }, { services }) => {
+      const { id } = input;
       const parsedArgs = z.object({ id: z.uuid() }).safeParse({ id });
       if (!parsedArgs.success) throw invalidInputError('Invalid company UUID');
 
@@ -32,7 +33,8 @@ const companyResolver: Resolvers = {
       return companyDomainToCompanyDTO(company);
     },
 
-    companiesOverview: async (_, { filters, pagination }, { services }) => {
+    companiesOverview: async (_, { input }, { services }) => {
+      const { filters, pagination } = input;
       const page = pagination?.page ?? 1;
       const pageSize = pagination?.pageSize ?? 12;
       const searchCompanyName = filters?.searchCompanyName ?? undefined;
@@ -86,7 +88,7 @@ const companyResolver: Resolvers = {
       const command = {
         ...result.data,
         id: asCompanyId(result.data.id),
-        country: result.data.country ? asCountryId(result.data.country) : undefined,
+        country: result.data.countryId ? asCountryId(result.data.countryId) : undefined,
         website: result.data.website ?? undefined,
       };
 
@@ -209,10 +211,10 @@ const companyResolver: Resolvers = {
     },
 
     country: async (company, _, { loaders }) => {
-      const result = await loaders.Country.load(company.country);
+      const result = await loaders.Country.load(company.countryId);
 
       if (!result) {
-        const errorMessage = `[GraphQL] DB integrity issue: Company ${company.id} has invalid country ID ${company.country}`;
+        const errorMessage = `[GraphQL] DB integrity issue: Company ${company.id} has invalid country ID ${company.countryId}`;
         const error = dbInconsistencyError(errorMessage);
         pinoLogger.server.error(error, errorMessage);
         throw error;
@@ -283,7 +285,7 @@ const companyResolver: Resolvers = {
 
     notes: async (company, _, { services, loaders }) => {
       const notes = await services.Company.findNotesForCompanyById(asCompanyId(company.id));
-      const userIds = notes.map((n) => n.createdBy);
+      const userIds = notes.map((n) => n.createdByUserProfileId);
       const userProfiles = await loaders.UserProfile.loadMany(userIds);
 
       return notes
@@ -292,7 +294,7 @@ const companyResolver: Resolvers = {
           const userProfile = userProfiles[i];
 
           if (!userProfile || userProfile instanceof Error) {
-            const errorMessage = `[GraphQL] DB integrity issue: Note ${note.id} has invalid createdBy ${note.createdBy}`;
+            const errorMessage = `[GraphQL] DB integrity issue: Note ${note.id} has invalid createdBy ${note.createdByUserProfileId}`;
             const error = dbInconsistencyError(errorMessage);
             pinoLogger.server.error(error, errorMessage);
             return null;
