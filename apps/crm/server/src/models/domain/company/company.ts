@@ -21,7 +21,7 @@ type CompanyProps = {
   totalRevenue: string;
   industry: string;
   businessType: BusinessType;
-  country: CountryId;
+  countryId: CountryId;
   website?: string;
 };
 
@@ -44,7 +44,7 @@ export abstract class Company {
   private _totalRevenue: string;
   private _industry: string;
   private _businessType: BusinessType;
-  private _country: CountryId;
+  private _countryId: CountryId;
   private _website?: string;
 
   private _notes: PersistedCompanyNote[] = [];
@@ -60,7 +60,7 @@ export abstract class Company {
     this._totalRevenue = props.totalRevenue;
     this._industry = props.industry;
     this._businessType = props.businessType;
-    this._country = props.country;
+    this._countryId = props.countryId;
     this._website = props.website;
   }
 
@@ -109,8 +109,8 @@ export abstract class Company {
     return this._businessType;
   }
 
-  get country() {
-    return this._country;
+  get countryId() {
+    return this._countryId;
   }
 
   get website() {
@@ -134,7 +134,7 @@ export abstract class Company {
     if (input.totalRevenue !== undefined) this.updateTotalRevenue(input.totalRevenue);
     if (input.industry !== undefined) this.changeIndustry(input.industry);
     if (input.businessType !== undefined) this.changeBusinessType(input.businessType);
-    if (input.country !== undefined) this.moveCountry(input.country);
+    if (input.countryId !== undefined) this.moveCountry(input.countryId);
     if (input.website !== undefined) this.updateWebsite(input.website);
   }
 
@@ -168,7 +168,7 @@ export abstract class Company {
   }
 
   moveCountry(country: CountryId) {
-    this._country = country;
+    this._countryId = country;
     this._rootDirty = true;
   }
 
@@ -193,7 +193,7 @@ export abstract class Company {
 
     if (noteIndex === -1) throw new DomainError({ message: 'Company-note not found' });
     // eslint-disable-next-line security/detect-object-injection
-    if (this._notes[noteIndex].createdBy !== actor)
+    if (this._notes[noteIndex].createdByUserProfileId !== actor)
       throw new DomainError({ message: 'Company-note not created by this user' });
 
     this._removedNoteIds.push(id);
@@ -201,7 +201,8 @@ export abstract class Company {
   }
 
   updateNote(props: CompanyNoteHydrationProps, actor: UserProfileId): PersistedCompanyNote {
-    if (props.createdBy !== actor) throw new DomainError({ message: 'Company-note not created by this user' });
+    if (props.createdByUserProfileId !== actor)
+      throw new DomainError({ message: 'Company-note not created by this user' });
 
     const note = CompanyNote.rehydrate(props);
     this._notes.push(note);

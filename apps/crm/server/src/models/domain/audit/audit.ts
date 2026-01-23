@@ -10,7 +10,7 @@ type AuditProps = {
   entityId: UUID;
   entityAction: AuditAction;
   changedAt: Date;
-  changedBy: UserProfileId;
+  changedByUserProfileId: UserProfileId;
   originalValues: JSON;
   newValues: JSON;
 };
@@ -25,7 +25,7 @@ export abstract class Audit {
   private readonly _tableName: string;
   private readonly _entityId: UUID;
   private readonly _entityAction: AuditAction;
-  private readonly _changedBy: UserProfileId;
+  private readonly _changedByUserProfileId: UserProfileId;
   private readonly _originalValues: JSON;
   private readonly _newValues: JSON;
 
@@ -35,7 +35,7 @@ export abstract class Audit {
     this._tableName = props.tableName;
     this._entityId = props.entityId;
     this._entityAction = props.entityAction;
-    this._changedBy = props.changedBy;
+    this._changedByUserProfileId = props.changedByUserProfileId;
     this._originalValues = props.originalValues;
     this._newValues = props.newValues;
   }
@@ -71,8 +71,8 @@ export abstract class Audit {
     return this._entityAction;
   }
 
-  get changedBy() {
-    return this._changedBy;
+  get changedByUserProfileId() {
+    return this._changedByUserProfileId;
   }
 
   get originalValues() {

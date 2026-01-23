@@ -10,8 +10,8 @@ export type UserProfileDTO = {
   mobile: string | null;
   telephone: string | null;
   timezone: string | null;
-  country: UUID;
-  company: UUID;
+  countryId: UUID;
+  companyId: UUID;
   companyRole: CompanyRoles;
   image: string | null;
   updatedAt: Date;

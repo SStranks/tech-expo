@@ -2,7 +2,7 @@ import type { CompanyId } from '../company/company.types.js';
 import type { CalendarId } from './calendar.types.js';
 
 type CalendarProps = {
-  company: CompanyId;
+  companyId: CompanyId;
 };
 
 type CalendarCreateProps = CalendarProps;
@@ -12,10 +12,10 @@ export type NewCalendar = InstanceType<typeof NewCalendarImpl>;
 export type PersistedCalendar = InstanceType<typeof PersistedCalendarImpl>;
 
 export abstract class Calendar {
-  private readonly _company: CompanyId;
+  private readonly _companyId: CompanyId;
 
   constructor(props: CalendarProps) {
-    this._company = props.company;
+    this._companyId = props.companyId;
   }
 
   static create(props: CalendarCreateProps): NewCalendar {
@@ -29,7 +29,7 @@ export abstract class Calendar {
   }
 
   get company() {
-    return this._company;
+    return this._companyId;
   }
 
   abstract isPersisted(): boolean;

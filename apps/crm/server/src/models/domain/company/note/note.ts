@@ -9,8 +9,8 @@ import { randomUUID } from 'node:crypto';
 
 type CompanyNoteProps = {
   content: string;
-  company: CompanyId;
-  createdBy: UserProfileId;
+  companyId: CompanyId;
+  createdByUserProfileId: UserProfileId;
   symbol?: UUIDv4;
 };
 
@@ -24,15 +24,15 @@ export type NewCompanyNote = InstanceType<typeof NewCompanyNoteImpl>;
 export type PersistedCompanyNote = InstanceType<typeof PersistedCompanyNoteImpl>;
 
 export abstract class CompanyNote {
-  private readonly _createdBy: UserProfileId;
-  private readonly _company: CompanyId;
+  private readonly _createdByUserProfileId: UserProfileId;
+  private readonly _companyId: CompanyId;
   private readonly _symbol: UUIDv4;
   private _content: string;
 
   protected constructor(props: CompanyNoteProps) {
     this._content = props.content;
-    this._createdBy = props.createdBy;
-    this._company = props.company;
+    this._createdByUserProfileId = props.createdByUserProfileId;
+    this._companyId = props.companyId;
     this._symbol = props.symbol || randomUUID();
   }
 
@@ -52,12 +52,12 @@ export abstract class CompanyNote {
     return this._content;
   }
 
-  get createdBy() {
-    return this._createdBy;
+  get createdByUserProfileId() {
+    return this._createdByUserProfileId;
   }
 
-  get company() {
-    return this._company;
+  get companyId() {
+    return this._companyId;
   }
 
   get symbol() {

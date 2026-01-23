@@ -24,9 +24,9 @@ export class InMemoryContactRepository implements ContactRepository {
   constructor(seed?: { contacts?: ContactsTableSelect[]; contactsNotes?: ContactsNotesTableSelect[] }) {
     this.contactsMap = new Map<string, ContactsTableSelect>(seed?.contacts?.map((c) => [c.id, c]));
     this.contactNotesMap = (seed?.contactsNotes ?? []).reduce((map, note) => {
-      const notes = map.get(note.contact) ?? [];
+      const notes = map.get(note.contactId) ?? [];
       notes.push(note);
-      map.set(note.contact, notes);
+      map.set(note.contactId, notes);
       return map;
     }, new Map<string, ContactsNotesTableSelect[]>());
   }
@@ -78,10 +78,10 @@ export class InMemoryContactRepository implements ContactRepository {
       lastName: contact.lastName,
       email: contact.email,
       phone: contact.phone,
-      company: contact.company,
+      companyId: contact.companyId,
       jobTitle: contact.jobTitle,
       stage: contact.stage,
-      timezone: contact.timezone,
+      timezoneId: contact.timezoneId,
       image: contact.image,
       createdAt: new Date(),
     };
@@ -108,10 +108,10 @@ export class InMemoryContactRepository implements ContactRepository {
         lastName: contact.lastName,
         email: contact.email,
         phone: contact.phone,
-        company: contact.company,
+        companyId: contact.companyId,
         jobTitle: contact.jobTitle,
         stage: contact.stage,
-        timezone: contact.timezone,
+        timezoneId: contact.timezoneId,
         image: contact.image,
       };
 
@@ -128,9 +128,9 @@ export class InMemoryContactRepository implements ContactRepository {
       for (const note of addedNotes) {
         const persistedNote: ContactNoteReadRow = {
           id: asContactNoteId(randomUUID()),
-          contact: contact.id,
+          contactId: contact.id,
           note: note.content,
-          createdBy: note.createdBy,
+          createdByUserProfileId: note.createdByUserProfileId,
           createdAt: new Date(),
         };
 
@@ -139,11 +139,11 @@ export class InMemoryContactRepository implements ContactRepository {
         persistedContactNotes.push(
           ContactNote.rehydrate({
             id: asContactNoteId(persistedNote.id),
-            contact: contact.id,
+            contactId: contact.id,
             content: persistedNote.note,
             createdAt: persistedNote.createdAt,
-            createdBy: asUserProfileId(persistedNote.createdBy),
-            symbol: note.symbol, // maps temp_id behavior
+            createdByUserProfileId: asUserProfileId(persistedNote.createdByUserProfileId),
+            symbol: note.symbol,
           })
         );
       }

@@ -8,9 +8,9 @@ export type ContactDTO = {
   lastName: string;
   email: string;
   phone: string;
-  company: UUID;
+  companyId: UUID;
   jobTitle: string;
   stage: ContactStage;
-  timezone: UUID | null;
+  timezoneId: UUID | null;
   image: string | null;
 };

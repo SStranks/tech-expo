@@ -7,8 +7,8 @@ import { randomUUID, type UUID as UUIDv4 } from 'node:crypto';
 
 type ContactNoteProps = {
   content: string;
-  contact: ContactId;
-  createdBy: UserProfileId;
+  contactId: ContactId;
+  createdByUserProfileId: UserProfileId;
   symbol?: UUIDv4;
 };
 
@@ -19,15 +19,15 @@ export type NewContactNote = InstanceType<typeof NewContactNoteImpl>;
 export type PersistedContactNote = InstanceType<typeof PersistedContactNoteImpl>;
 
 export abstract class ContactNote {
-  private readonly _createdBy: UserProfileId;
-  private readonly _contact: ContactId;
+  private readonly _createdByUserProfileId: UserProfileId;
+  private readonly _contactId: ContactId;
   private readonly _symbol: UUIDv4;
   private _content: string;
 
   protected constructor(props: ContactNoteProps) {
     this._content = props.content;
-    this._createdBy = props.createdBy;
-    this._contact = props.contact;
+    this._createdByUserProfileId = props.createdByUserProfileId;
+    this._contactId = props.contactId;
     this._symbol = props.symbol || randomUUID();
   }
 
@@ -47,12 +47,12 @@ export abstract class ContactNote {
     return this._content;
   }
 
-  get createdBy() {
-    return this._createdBy;
+  get createdByUserProfileId() {
+    return this._createdByUserProfileId;
   }
 
-  get contact() {
-    return this._contact;
+  get contactId() {
+    return this._contactId;
   }
 
   get symbol() {
@@ -75,8 +75,8 @@ class PersistedContactNoteImpl extends ContactNote {
   private readonly _createdAt: Date;
 
   constructor(props: ContactNoteHydrationProps) {
-    const { contact, content, createdBy } = props;
-    super({ contact, content, createdBy });
+    const { contactId: contact, content, createdByUserProfileId: createdBy } = props;
+    super({ contactId: contact, content, createdByUserProfileId: createdBy });
     this._id = props.id;
     this._createdAt = props.createdAt;
   }

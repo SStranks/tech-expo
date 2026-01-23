@@ -15,7 +15,7 @@ export function contactNoteReadRowToDTO(contactNote: ContactNoteReadRow): Contac
   return {
     id: contactNote.id,
     note: contactNote.note,
-    createdBy: contactNote.createdBy,
+    createdByUserProfileId: contactNote.createdByUserProfileId,
     createdAt: contactNote.createdAt,
   };
 }
@@ -25,6 +25,6 @@ export function contactNoteDomainToDTO(note: PersistedContactNote): ContactNoteD
     id: note.id,
     note: note.content,
     createdAt: note.createdAt,
-    createdBy: note.createdBy,
+    createdByUserProfileId: note.createdByUserProfileId,
   };
 }

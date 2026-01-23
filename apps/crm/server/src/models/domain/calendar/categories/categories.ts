@@ -7,7 +7,7 @@ import { randomUUID } from 'node:crypto';
 
 type CategoriesProps = {
   title: string;
-  calendar: CalendarId;
+  calendarId: CalendarId;
   symbol?: UUIDv4;
 };
 
@@ -15,13 +15,13 @@ type CategoriesCreateProps = CategoriesProps;
 type CategoriesHydrationProps = CategoriesCreateProps & { id: CalendarCategoryId; createdAt: Date };
 
 export abstract class Categories {
-  private readonly _calendar: CalendarId;
+  private readonly _calendarId: CalendarId;
   private readonly _symbol: UUIDv4;
   private _title: string;
 
   constructor(props: CategoriesProps) {
     this._title = props.title;
-    this._calendar = props.calendar;
+    this._calendarId = props.calendarId;
     this._symbol = props.symbol || randomUUID();
   }
 
@@ -39,8 +39,8 @@ export abstract class Categories {
     return this._title;
   }
 
-  get calendar() {
-    return this._calendar;
+  get calendarId() {
+    return this._calendarId;
   }
 
   get symbol() {

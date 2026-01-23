@@ -35,10 +35,10 @@ type ContactProps = {
   lastName: string;
   email: string;
   phone: string;
-  company: CompanyId;
+  companyId: CompanyId;
   jobTitle: string;
   stage: ContactStage;
-  timezone: TimeZoneId | null;
+  timezoneId: TimeZoneId | null;
   image: string | null;
 };
 
@@ -53,10 +53,10 @@ export abstract class Contact {
   private _lastName: string;
   private _email: string;
   private _phone: string;
-  private _company: CompanyId;
+  private _companyId: CompanyId;
   private _jobTitle: string;
   private _stage: ContactStage;
-  private _timezone: TimeZoneId | null;
+  private _timezoneId: TimeZoneId | null;
   private _image: string | null;
 
   private _notes: PersistedContactNote[] = [];
@@ -71,10 +71,10 @@ export abstract class Contact {
     this._lastName = props.lastName;
     this._email = props.email;
     this._phone = props.phone;
-    this._company = props.company;
+    this._companyId = props.companyId;
     this._jobTitle = props.jobTitle;
     this._stage = props.stage;
-    this._timezone = props.timezone;
+    this._timezoneId = props.timezoneId;
     this._image = props.image;
   }
 
@@ -112,8 +112,8 @@ export abstract class Contact {
     return this._phone;
   }
 
-  get company() {
-    return this._company;
+  get companyId() {
+    return this._companyId;
   }
 
   get jobTitle() {
@@ -124,8 +124,8 @@ export abstract class Contact {
     return this._stage;
   }
 
-  get timezone() {
-    return this._timezone;
+  get timezoneId() {
+    return this._timezoneId;
   }
 
   get image() {
@@ -144,9 +144,9 @@ export abstract class Contact {
     if (input.lastName !== undefined) this.changeFirstName(input.lastName);
     if (input.email !== undefined) this.changeEmail(input.email);
     if (input.phone !== undefined) this.changePhone(input.phone);
-    if (input.company !== undefined) this.changeCompany(input.company);
+    if (input.companyId !== undefined) this.changeCompany(input.companyId);
     if (input.jobTitle !== undefined) this.changeJobTitle(input.jobTitle);
-    if (input.timezone !== undefined) this.shiftTimeZone(input.timezone);
+    if (input.timezoneId !== undefined) this.shiftTimeZone(input.timezoneId);
     if (input.stage !== undefined) this.shiftStage(input.stage);
     if (input.image !== undefined) this.updateContactAvatar(input.image);
   }
@@ -185,9 +185,9 @@ export abstract class Contact {
 
   changeCompany(companyId: string) {
     const parsedCompanyId = zParseDomain(CompanyIdSchema, companyId);
-    if (this._company === parsedCompanyId) return;
+    if (this._companyId === parsedCompanyId) return;
 
-    this._company = asCompanyId(parsedCompanyId);
+    this._companyId = asCompanyId(parsedCompanyId);
     this._rootDirty = true;
   }
 
@@ -210,9 +210,9 @@ export abstract class Contact {
 
   shiftTimeZone(newTimeZone: TimeZoneId | null) {
     const parsedTimeZone = zParseDomain(TimezoneIdSchema, newTimeZone);
-    if (!parsedTimeZone || this._timezone === parsedTimeZone) return;
+    if (!parsedTimeZone || this._timezoneId === parsedTimeZone) return;
 
-    this._timezone = asTimeZoneId(parsedTimeZone);
+    this._timezoneId = asTimeZoneId(parsedTimeZone);
     this._rootDirty = true;
   }
 
@@ -240,7 +240,7 @@ export abstract class Contact {
 
     if (noteIndex === -1) throw new DomainError({ message: 'Contact-note not found' });
     // eslint-disable-next-line security/detect-object-injection
-    if (this._notes[noteIndex].createdBy !== actor)
+    if (this._notes[noteIndex].createdByUserProfileId !== actor)
       throw new DomainError({ message: 'Contact-note not created by this user' });
 
     this._removedNoteIds.push(id);
@@ -248,7 +248,8 @@ export abstract class Contact {
   }
 
   updateNote(props: ContactNoteHydrationProps, actor: UserProfileId): PersistedContactNote {
-    if (props.createdBy !== actor) throw new DomainError({ message: 'Contact-note not created by this user' });
+    if (props.createdByUserProfileId !== actor)
+      throw new DomainError({ message: 'Contact-note not created by this user' });
 
     const note = ContactNote.rehydrate(props);
     this._notes.push(note);

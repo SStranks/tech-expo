@@ -24,10 +24,10 @@ export function contactReadRowToDTO(contact: ContactReadRow): ContactDTO {
     lastName: contact.lastName,
     email: contact.email,
     phone: contact.phone,
-    company: contact.company,
+    companyId: contact.companyId,
     jobTitle: contact.jobTitle,
     stage: contact.stage,
-    timezone: contact.timezone,
+    timezoneId: contact.timezoneId,
     image: contact.image,
   };
 }
@@ -39,11 +39,12 @@ export function toContactDomain(row: ContactsTableSelect): PersistedContact {
     lastName: row.lastName,
     email: row.email,
     phone: row.phone,
-    company: asCompanyId(row.company),
+    companyId: asCompanyId(row.companyId),
     jobTitle: row.jobTitle,
     stage: row.stage,
-    timezone: row.timezone ? asTimeZoneId(row.timezone) : null,
+    timezoneId: row.timezoneId ? asTimeZoneId(row.timezoneId) : null,
     image: row.image,
+    createdAt: row.createdAt,
   });
 }
 
@@ -54,10 +55,10 @@ export function contactDomainToContactDTO(contact: PersistedContact): ContactDTO
     lastName: contact.lastName,
     email: contact.email,
     phone: contact.phone,
-    company: contact.company,
+    companyId: contact.companyId,
     jobTitle: contact.jobTitle,
     stage: contact.stage,
-    timezone: contact.timezone,
+    timezoneId: contact.timezoneId,
     image: contact.image,
   };
 }

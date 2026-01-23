@@ -8,8 +8,8 @@ import { randomUUID } from 'node:crypto';
 
 type EventProps = {
   title: string;
-  calendar: CalendarId;
-  category: CalendarCategoryId;
+  calendarId: CalendarId;
+  categoryId: CalendarCategoryId;
   description: string;
   color: string | null;
   eventStart: Date;
@@ -25,8 +25,8 @@ export type NewEvent = InstanceType<typeof NewEventImpl>;
 export type PersistedEvent = InstanceType<typeof PersistedEventImpl>;
 
 export abstract class Event {
-  private readonly _calendar: CalendarId;
-  private readonly _category: CalendarCategoryId;
+  private readonly _calendarId: CalendarId;
+  private readonly _categoryId: CalendarCategoryId;
   private readonly _symbol: UUIDv4;
   private _title: string;
   private _description: string;
@@ -36,8 +36,8 @@ export abstract class Event {
 
   constructor(props: EventProps) {
     this._title = props.title;
-    this._calendar = props.calendar;
-    this._category = props.category;
+    this._calendarId = props.calendarId;
+    this._categoryId = props.categoryId;
     this._description = props.description;
     this._color = props.color;
     this._eventStart = props.eventStart;
@@ -63,12 +63,12 @@ export abstract class Event {
     return this._title;
   }
 
-  get calendar() {
-    return this._calendar;
+  get calendarId() {
+    return this._calendarId;
   }
 
-  get category() {
-    return this._category;
+  get categoryId() {
+    return this._categoryId;
   }
 
   get description() {

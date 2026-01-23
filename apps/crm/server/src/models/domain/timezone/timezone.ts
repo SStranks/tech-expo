@@ -8,7 +8,7 @@ import { randomUUID } from 'node:crypto';
 type TimeZoneProps = {
   alpha2Code: string;
   gmtOffset: string;
-  country: CountryId;
+  countryId: CountryId;
   symbol?: UUIDv4;
 };
 
@@ -17,13 +17,13 @@ type TimeZoneHydrationProps = TimeZoneProps & { id: TimeZoneId; createdAt: Date 
 export abstract class TimeZone {
   private readonly _alpha2Code: string;
   private readonly _gmtOffset: string;
-  private readonly _country: CountryId;
+  private readonly _countryId: CountryId;
   private readonly _symbol: UUIDv4;
 
   constructor(props: TimeZoneProps) {
     this._alpha2Code = props.alpha2Code;
     this._gmtOffset = props.gmtOffset;
-    this._country = props.country;
+    this._countryId = props.countryId;
     this._symbol = props.symbol || randomUUID();
   }
 
@@ -40,8 +40,8 @@ export abstract class TimeZone {
     return this._gmtOffset;
   }
 
-  get country() {
-    return this._country;
+  get countryId() {
+    return this._countryId;
   }
 
   get symbol() {

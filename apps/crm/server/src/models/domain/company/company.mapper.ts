@@ -26,7 +26,7 @@ export function companyReadRowToDTO(row: CompanyReadRow): CompanyDTO {
     id: row.id,
     name: row.name,
     businessType: row.businessType,
-    country: row.country,
+    countryId: row.countryId,
     industry: row.industry,
     size: row.size,
     totalRevenue: row.totalRevenue,
@@ -39,7 +39,7 @@ export function companyDomainToCompanyDTO(company: PersistedCompany): CompanyDTO
     id: company.id,
     name: company.name,
     businessType: company.businessType,
-    country: company.country,
+    countryId: company.countryId,
     industry: company.industry,
     size: company.size,
     totalRevenue: company.totalRevenue,
@@ -55,7 +55,7 @@ export function toCompanyDomain(row: CompaniesTableSelect): PersistedCompany {
     totalRevenue: row.totalRevenue,
     industry: row.industry,
     businessType: row.businessType,
-    country: asCountryId(row.country),
+    countryId: asCountryId(row.countryId),
     website: row.website ?? undefined,
     createdAt: row.createdAt,
   });
@@ -65,8 +65,8 @@ export function toCompanyNoteDomain(row: CompaniesNotesTableSelect): PersistedCo
   return CompanyNote.rehydrate({
     id: asCompanyNoteId(row.id),
     content: row.note,
-    company: asCompanyId(row.company),
+    companyId: asCompanyId(row.companyId),
     createdAt: row.createdAt,
-    createdBy: asUserProfileId(row.createdBy),
+    createdByUserProfileId: asUserProfileId(row.createdByUserProfileId),
   });
 }

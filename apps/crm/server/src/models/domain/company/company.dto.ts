@@ -9,6 +9,6 @@ export type CompanyDTO = {
   totalRevenue: string;
   industry: string;
   businessType: BusinessType;
-  country: UUID;
+  countryId: UUID;
   website: string | null;
 };

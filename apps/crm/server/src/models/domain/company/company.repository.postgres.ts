@@ -67,7 +67,7 @@ export class PostgresCompanyRepository implements CompanyRepository {
           totalRevenue: company.totalRevenue,
           industry: company.industry,
           businessType: company.businessType,
-          country: company.country,
+          countryId: company.countryId,
           website: company.website?.toString() ?? null,
         })
         .returning();
@@ -89,7 +89,7 @@ export class PostgresCompanyRepository implements CompanyRepository {
               totalRevenue: company.totalRevenue,
               industry: company.industry,
               businessType: company.businessType,
-              country: company.country,
+              countryId: company.countryId,
               website: company.website?.toString() ?? null,
             })
             .where(eq(CompaniesTable.id, company.id));
@@ -99,29 +99,31 @@ export class PostgresCompanyRepository implements CompanyRepository {
 
         if (addedNotes.length > 0) {
           const valuesSql = sql.join(
-            addedNotes.map((note) => sql`(${company.id}, ${note.content}, ${note.createdBy}, ${note.symbol})`),
+            addedNotes.map(
+              (note) => sql`(${company.id}, ${note.content}, ${note.createdByUserProfileId}, ${note.symbol})`
+            ),
             sql`, `
           );
 
           const insertedNotes: (CompanyNoteReadRow & { temp_id: UUIDv4 })[] = await tx.execute(
             sql`
     WITH rows (
-      ${CompaniesNotesTable.company},
+      ${CompaniesNotesTable.companyId},
       ${CompaniesNotesTable.note},
-      ${CompaniesNotesTable.createdBy},
+      ${CompaniesNotesTable.createdByUserProfileId},
       temp_id
     ) AS (
       VALUES ${valuesSql}
     )
     INSERT INTO ${CompaniesNotesTable} (
-      ${CompaniesNotesTable.company},
+      ${CompaniesNotesTable.companyId},
       ${CompaniesNotesTable.note},
-      ${CompaniesNotesTable.createdBy}
+      ${CompaniesNotesTable.createdByUserProfileId}
     )
     SELECT
-      ${CompaniesNotesTable.company},
+      ${CompaniesNotesTable.companyId},
       ${CompaniesNotesTable.note},
-      ${CompaniesNotesTable.createdBy}
+      ${CompaniesNotesTable.createdByUserProfileId}
     FROM rows
     RETURNING
       ${CompaniesNotesTable.id},
@@ -132,10 +134,10 @@ export class PostgresCompanyRepository implements CompanyRepository {
           persistedCompanyNotes = insertedNotes.map((row) => {
             return CompanyNote.rehydrate({
               id: asCompanyNoteId(row.id),
-              company: asCompanyId(row.company),
+              companyId: asCompanyId(row.companyId),
               content: row.note,
               createdAt: row.createdAt,
-              createdBy: asUserProfileId(row.createdBy),
+              createdByUserProfileId: asUserProfileId(row.createdByUserProfileId),
               symbol: row.temp_id,
             });
           });

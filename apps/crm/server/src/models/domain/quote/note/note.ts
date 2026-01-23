@@ -8,7 +8,7 @@ import { randomUUID, type UUID as UUIDv4 } from 'node:crypto';
 type QuoteProps = {
   note: string;
   quote: QuoteId;
-  createdBy: UserProfileId;
+  createdByUserProfileId: UserProfileId;
   symbol?: UUIDv4;
 };
 
@@ -20,14 +20,14 @@ export type PersistedQuoteNote = InstanceType<typeof PersistedQuoteNoteImpl>;
 
 export abstract class QuoteNote {
   private readonly _quote: QuoteId;
-  private readonly _createdBy: UserProfileId;
+  private readonly _createdByUserProfileId: UserProfileId;
   private readonly _symbol: UUIDv4;
   private _note: string;
 
   constructor(props: QuoteProps) {
     this._note = props.note;
     this._quote = props.quote;
-    this._createdBy = props.createdBy;
+    this._createdByUserProfileId = props.createdByUserProfileId;
     this._symbol = props.symbol || randomUUID();
   }
 
@@ -49,8 +49,8 @@ export abstract class QuoteNote {
     return this._quote;
   }
 
-  get createdBy() {
-    return this._createdBy;
+  get createdByUserProfileId() {
+    return this._createdByUserProfileId;
   }
 
   get symbol() {

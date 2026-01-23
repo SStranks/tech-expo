@@ -65,10 +65,10 @@ export class PostgresContactRepository implements ContactRepository {
           lastName: contact.lastName,
           email: contact.email,
           phone: contact.phone,
-          company: contact.company,
+          companyId: contact.companyId,
           jobTitle: contact.jobTitle,
           stage: contact.stage,
-          timezone: contact.timezone,
+          timezoneId: contact.timezoneId,
           image: contact.image,
         })
         .returning();
@@ -89,10 +89,10 @@ export class PostgresContactRepository implements ContactRepository {
               lastName: contact.lastName,
               email: contact.email,
               phone: contact.phone,
-              company: contact.company,
+              companyId: contact.companyId,
               jobTitle: contact.jobTitle,
               stage: contact.stage,
-              timezone: contact.timezone,
+              timezoneId: contact.timezoneId,
               image: contact.image,
             })
             .where(eq(ContactsTable.id, contact.id));
@@ -102,29 +102,31 @@ export class PostgresContactRepository implements ContactRepository {
 
         if (addedNotes.length > 0) {
           const valuesSql = sql.join(
-            addedNotes.map((note) => sql`(${contact.id}, ${note.content}, ${note.createdBy}, ${note.symbol})`),
+            addedNotes.map(
+              (note) => sql`(${contact.id}, ${note.content}, ${note.createdByUserProfileId}, ${note.symbol})`
+            ),
             sql`, `
           );
 
           const insertedNotes: (ContactNoteReadRow & { temp_id: UUIDv4 })[] = await tx.execute(
             sql`
         WITH rows (
-          ${ContactsNotesTable.contact},
+          ${ContactsNotesTable.contactId},
           ${ContactsNotesTable.note},
-          ${ContactsNotesTable.createdBy},
+          ${ContactsNotesTable.createdByUserProfileId},
           temp_id
         ) AS (
           VALUES ${valuesSql}
         )
         INSERT INTO ${ContactsNotesTable} (
-          ${ContactsNotesTable.contact},
+          ${ContactsNotesTable.contactId},
           ${ContactsNotesTable.note},
-          ${ContactsNotesTable.createdBy}
+          ${ContactsNotesTable.createdByUserProfileId}
         )
         SELECT
-          ${ContactsNotesTable.contact},
+          ${ContactsNotesTable.contactId},
           ${ContactsNotesTable.note},
-          ${ContactsNotesTable.createdBy}
+          ${ContactsNotesTable.createdByUserProfileId}
         FROM rows
         RETURNING
           ${ContactsNotesTable.id},
@@ -135,10 +137,10 @@ export class PostgresContactRepository implements ContactRepository {
           persistedContactNotes = insertedNotes.map((row) => {
             return ContactNote.rehydrate({
               id: asContactNoteId(row.id),
-              contact: asContactId(row.contact),
+              contactId: asContactId(row.contactId),
               content: row.note,
               createdAt: row.createdAt,
-              createdBy: asUserProfileId(row.createdBy),
+              createdByUserProfileId: asUserProfileId(row.createdByUserProfileId),
               symbol: row.temp_id,
             });
           });

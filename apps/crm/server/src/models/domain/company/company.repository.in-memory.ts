@@ -34,9 +34,9 @@ export class InMemoryCompanyRepository implements CompanyRepository {
   }) {
     this.companiesMap = new Map<string, CompaniesTableSelect>(seed?.companies?.map((c) => [c.id, c]));
     this.companiesNotesMap = (seed?.companiesNotes ?? []).reduce((map, note) => {
-      const notes = map.get(note.company) ?? [];
+      const notes = map.get(note.companyId) ?? [];
       notes.push(note);
-      map.set(note.company, notes);
+      map.set(note.companyId, notes);
       return map;
     }, new Map<string, CompaniesNotesTableSelect[]>());
     this.contacts = seed?.contacts ?? [];
@@ -91,7 +91,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
       totalRevenue: company.totalRevenue ?? '0.00',
       industry: company.industry,
       businessType: company.businessType,
-      country: company.country,
+      countryId: company.countryId,
       website: company.website?.toString() ?? null,
       createdAt: new Date(),
     };
@@ -119,7 +119,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
         totalRevenue: company.totalRevenue,
         industry: company.industry,
         businessType: company.businessType,
-        country: company.country,
+        countryId: company.countryId,
         website: company.website?.toString() ?? null,
       };
 
@@ -136,9 +136,9 @@ export class InMemoryCompanyRepository implements CompanyRepository {
       for (const note of addedNotes) {
         const persistedNote: CompanyNoteReadRow = {
           id: asCompanyNoteId(randomUUID()),
-          company: company.id,
+          companyId: company.id,
           note: note.content,
-          createdBy: note.createdBy,
+          createdByUserProfileId: note.createdByUserProfileId,
           createdAt: new Date(),
         };
 
@@ -147,10 +147,10 @@ export class InMemoryCompanyRepository implements CompanyRepository {
         persistedCompanyNotes.push(
           CompanyNote.rehydrate({
             id: asCompanyNoteId(persistedNote.id),
-            company: company.id,
+            companyId: company.id,
             content: persistedNote.note,
             createdAt: persistedNote.createdAt,
-            createdBy: asUserProfileId(persistedNote.createdBy),
+            createdByUserProfileId: asUserProfileId(persistedNote.createdByUserProfileId),
             symbol: note.symbol, // maps temp_id behavior
           })
         );

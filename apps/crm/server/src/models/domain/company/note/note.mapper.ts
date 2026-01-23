@@ -15,7 +15,7 @@ export function companyNoteReadRowToDTO(companyNote: CompanyNoteReadRow): Compan
   return {
     id: companyNote.id,
     note: companyNote.note,
-    createdBy: companyNote.createdBy,
+    createdByUserProfileId: companyNote.createdByUserProfileId,
     createdAt: companyNote.createdAt,
   };
 }
@@ -25,6 +25,6 @@ export function companyNoteDomainToDTO(note: PersistedCompanyNote): CompanyNoteD
     id: note.id,
     note: note.content,
     createdAt: note.createdAt,
-    createdBy: note.createdBy,
+    createdByUserProfileId: note.createdByUserProfileId,
   };
 }

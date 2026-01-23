@@ -10,10 +10,10 @@ import type { CompanyRoles, UserProfileId } from './profile.types.js';
 import { randomUUID } from 'node:crypto';
 
 type UserProfileProps = {
-  timezone?: TimeZoneId;
-  country: CountryId;
-  company: CompanyId;
-  user: UserId;
+  timezoneId?: TimeZoneId;
+  countryId: CountryId;
+  companyId: CompanyId;
+  userId: UserId;
   email: string;
   firstName: string;
   lastName: string;
@@ -32,10 +32,10 @@ export type NewUserProfile = InstanceType<typeof NewUserProfileImpl>;
 export type PersistedUserProfile = InstanceType<typeof PersistedUserProfileImpl>;
 
 export abstract class UserProfile {
-  private readonly _timezone?: TimeZoneId;
-  private readonly _country: CountryId;
-  private readonly _company: CompanyId;
-  private readonly _user: UserId;
+  private readonly _timezoneId?: TimeZoneId;
+  private readonly _countryId: CountryId;
+  private readonly _companyId: CompanyId;
+  private readonly _userId: UserId;
   private readonly _symbol: UUIDv4;
   private _email: string;
   private _firstName: string;
@@ -47,10 +47,10 @@ export abstract class UserProfile {
   private _updatedAt: Date;
 
   constructor(props: UserProfileProps) {
-    this._timezone = props.timezone;
-    this._country = props.country;
-    this._company = props.company;
-    this._user = props.user;
+    this._timezoneId = props.timezoneId;
+    this._countryId = props.countryId;
+    this._companyId = props.companyId;
+    this._userId = props.userId;
     this._email = props.email;
     this._firstName = props.firstName;
     this._lastName = props.lastName;
@@ -77,19 +77,19 @@ export abstract class UserProfile {
   // --------------------------
   // #region getters
   get timezone() {
-    return this._timezone;
+    return this._timezoneId;
   }
 
-  get country() {
-    return this._country;
+  get countryId() {
+    return this._countryId;
   }
 
-  get company() {
-    return this._company;
+  get companyId() {
+    return this._companyId;
   }
 
-  get user() {
-    return this._user;
+  get userId() {
+    return this._userId;
   }
 
   get firstName() {
