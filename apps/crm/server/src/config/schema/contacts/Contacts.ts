@@ -27,13 +27,13 @@ export const ContactsTable = pgTable('contacts', {
   lastName: varchar('last_name', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull(),
   phone: varchar('telephone', { length: 255 }).notNull(),
-  company: uuid('company_id')
+  companyId: uuid('company_id')
     .references(() => CompaniesTable.id)
     .notNull()
     .$type<UUID>(),
   jobTitle: varchar('job_title', { length: 255 }).notNull(),
   stage: ContactStageEnum('stage').notNull(),
-  timezone: uuid('timezone_id')
+  timezoneId: uuid('timezone_id')
     .references(() => TimeZoneTable.id)
     .$type<UUID>(),
   image: char('profile_image', { length: 32 }), // MD5 hash of UUID (used as image name)
@@ -47,11 +47,11 @@ export const ContactsTableRelations = relations(ContactsTable, ({ many, one }) =
     pipelineDeals: many(PipelineDealsTable),
     quote: many(QuotesTable),
     company: one(CompaniesTable, {
-      fields: [ContactsTable.company],
+      fields: [ContactsTable.companyId],
       references: [CompaniesTable.id],
     }),
     timezone: one(TimeZoneTable, {
-      fields: [ContactsTable.timezone],
+      fields: [ContactsTable.timezoneId],
       references: [TimeZoneTable.id],
     }),
   };

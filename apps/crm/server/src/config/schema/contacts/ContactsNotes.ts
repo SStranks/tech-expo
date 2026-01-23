@@ -16,7 +16,7 @@ export type ContactsNotesTableUpdate = Partial<Omit<ContactsNotesTableInsert, 'i
 export const ContactsNotesTable = pgTable('contacts_notes', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   note: text('note_text').notNull(),
-  contact: uuid('contact_id')
+  contactId: uuid('contact_id')
     .references(() => ContactsTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
@@ -31,7 +31,7 @@ export const ContactsNotesTable = pgTable('contacts_notes', {
 export const ContactsNotesTableeRelations = relations(ContactsNotesTable, ({ one }) => {
   return {
     contact: one(ContactsTable, {
-      fields: [ContactsNotesTable.contact],
+      fields: [ContactsNotesTable.contactId],
       references: [ContactsTable.id],
     }),
     user: one(UserProfileTable, {

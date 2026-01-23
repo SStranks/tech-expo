@@ -24,7 +24,7 @@ export type QuotesTableUpdate = Partial<Omit<QuotesTableInsert, 'id'>>;
 export const QuotesTable = pgTable('quotes', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull().unique(),
-  company: uuid('company_id')
+  companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'no action' })
     .notNull(),
   total: numeric('total', { precision: 14, scale: 2 }).default('0.00').notNull(),
@@ -49,7 +49,7 @@ export const QuotesTableRelations = relations(QuotesTable, ({ many, one }) => {
     quoteNote: one(QuotesNotesTable),
     services: many(QuoteServicesTable),
     company: one(CompaniesTable, {
-      fields: [QuotesTable.company],
+      fields: [QuotesTable.companyId],
       references: [CompaniesTable.id],
     }),
     preparedBy: one(UserProfileTable, {

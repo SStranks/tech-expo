@@ -19,11 +19,11 @@ export const PipelineDealsTable = pgTable('pipeline_deals', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   orderKey: varchar({ length: 255 }).notNull(),
   title: varchar('title', { length: 255 }).notNull(),
-  company: uuid('company_name')
+  companyId: uuid('company_name')
     .references(() => CompaniesTable.id, { onDelete: 'no action' })
     .notNull()
     .$type<UUID>(),
-  stage: uuid('pipeline_stage')
+  stageId: uuid('pipeline_stage')
     .references(() => PipelineStagesTable.id, { onDelete: 'no action' })
     .notNull()
     .$type<UUID>(),
@@ -43,7 +43,7 @@ export const PipelineDealsTable = pgTable('pipeline_deals', {
 export const PipelineDealsTableRelations = relations(PipelineDealsTable, ({ one }) => {
   return {
     company: one(CompaniesTable, {
-      fields: [PipelineDealsTable.company],
+      fields: [PipelineDealsTable.companyId],
       references: [CompaniesTable.id],
     }),
     dealContact: one(ContactsTable, {
@@ -55,7 +55,7 @@ export const PipelineDealsTableRelations = relations(PipelineDealsTable, ({ one 
       references: [UserProfileTable.id],
     }),
     stage: one(PipelineStagesTable, {
-      fields: [PipelineDealsTable.stage],
+      fields: [PipelineDealsTable.stageId],
       references: [PipelineStagesTable.id],
     }),
   };

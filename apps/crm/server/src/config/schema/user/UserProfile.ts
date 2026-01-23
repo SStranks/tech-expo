@@ -35,16 +35,17 @@ export const UserProfileTable = pgTable('user_profile', {
   mobile: varchar('mobile', { length: 255 }),
   telephone: varchar('telephone', { length: 255 }),
   timezone: uuid('timezone_id').references(() => TimeZoneTable.id),
-  country: uuid('country_id')
+  countryId: uuid('country_id')
     .references(() => CountriesTable.id)
     .notNull()
     .$type<UUID>(),
-  company: uuid('company_id')
+  companyId: uuid('company_id')
     .references(() => CompaniesTable.id)
     .notNull()
     .$type<UUID>(),
   companyRole: CompanyRolesEnum('company_role').notNull(),
   image: char('profile_image', { length: 32 }), // MD5 hash of UUID (used as image name)
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
@@ -55,11 +56,11 @@ export const UserProfileTableRelations = relations(UserProfileTable, ({ many, on
     pipelineDeals: many(PipelineDealsTable),
     quote: many(QuotesTable),
     company: one(CompaniesTable, {
-      fields: [UserProfileTable.company],
+      fields: [UserProfileTable.companyId],
       references: [CompaniesTable.id],
     }),
     country: one(CountriesTable, {
-      fields: [UserProfileTable.country],
+      fields: [UserProfileTable.countryId],
       references: [CountriesTable.id],
     }),
     timezone: one(TimeZoneTable, {

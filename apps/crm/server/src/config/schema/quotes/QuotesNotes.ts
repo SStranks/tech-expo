@@ -16,7 +16,7 @@ export type QuotesNotesTableUpdate = Partial<Omit<QuotesNotesTableInsert, 'id'>>
 export const QuotesNotesTable = pgTable('quotes_notes', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
   note: text('note_text').notNull(),
-  quote: uuid('quote_id')
+  quoteId: uuid('quote_id')
     .references(() => QuotesTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
@@ -31,7 +31,7 @@ export const QuotesNotesTable = pgTable('quotes_notes', {
 export const QuotesNotesTableRelations = relations(QuotesNotesTable, ({ one }) => {
   return {
     quote: one(QuotesTable, {
-      fields: [QuotesNotesTable.quote],
+      fields: [QuotesNotesTable.quoteId],
       references: [QuotesTable.id],
     }),
     user: one(UserProfileTable, {
