@@ -23,16 +23,16 @@ export const PipelineDealsTable = pgTable('pipeline_deals', {
     .references(() => CompaniesTable.id, { onDelete: 'no action' })
     .notNull()
     .$type<UUID>(),
-  stageId: uuid('pipeline_stage')
+  stageId: uuid('pipeline_stage_id')
     .references(() => PipelineStagesTable.id, { onDelete: 'no action' })
     .notNull()
     .$type<UUID>(),
   value: numeric('total_revenue', { precision: 14, scale: 2 }).default('0.00').notNull(),
-  dealOwner: uuid('deal_owner')
+  dealOwnerUserProfileId: uuid('deal_owner_id')
     .references(() => UserProfileTable.id, { onDelete: 'no action' })
     .notNull()
     .$type<UUID>(),
-  dealContact: uuid('deal_contact')
+  dealContactId: uuid('deal_contact_id')
     .references(() => ContactsTable.id, { onDelete: 'no action' })
     .notNull()
     .$type<UUID>(),
@@ -47,11 +47,11 @@ export const PipelineDealsTableRelations = relations(PipelineDealsTable, ({ one 
       references: [CompaniesTable.id],
     }),
     dealContact: one(ContactsTable, {
-      fields: [PipelineDealsTable.dealContact],
+      fields: [PipelineDealsTable.dealContactId],
       references: [ContactsTable.id],
     }),
     dealOwner: one(UserProfileTable, {
-      fields: [PipelineDealsTable.dealOwner],
+      fields: [PipelineDealsTable.dealOwnerUserProfileId],
       references: [UserProfileTable.id],
     }),
     stage: one(PipelineStagesTable, {

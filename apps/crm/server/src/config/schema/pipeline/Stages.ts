@@ -17,7 +17,7 @@ export const PipelineStagesTable = pgTable('pipeline_stages', {
   title: varchar('title', { length: 255 }).notNull(),
   isPermanent: boolean().default(false),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
-  pipelineTableId: uuid('pipeline_table_id')
+  pipelineId: uuid('pipeline_id')
     .references(() => PipelineTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
@@ -27,7 +27,7 @@ export const PipelineStagesTable = pgTable('pipeline_stages', {
 export const PipelineStagesTableRelations = relations(PipelineStagesTable, ({ one }) => {
   return {
     pipeline: one(PipelineTable, {
-      fields: [PipelineStagesTable.pipelineTableId],
+      fields: [PipelineStagesTable.pipelineId],
       references: [PipelineTable.id],
     }),
   };

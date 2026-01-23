@@ -34,7 +34,7 @@ export const UserProfileTable = pgTable('user_profile', {
   email: varchar('email', { length: 255 }).notNull(), // TODO:  Option to sync with account email, or use separate one.
   mobile: varchar('mobile', { length: 255 }),
   telephone: varchar('telephone', { length: 255 }),
-  timezone: uuid('timezone_id').references(() => TimeZoneTable.id),
+  timezoneId: uuid('timezone_id').references(() => TimeZoneTable.id),
   countryId: uuid('country_id')
     .references(() => CountriesTable.id)
     .notNull()
@@ -64,7 +64,7 @@ export const UserProfileTableRelations = relations(UserProfileTable, ({ many, on
       references: [CountriesTable.id],
     }),
     timezone: one(TimeZoneTable, {
-      fields: [UserProfileTable.timezone],
+      fields: [UserProfileTable.timezoneId],
       references: [TimeZoneTable.id],
     }),
     user: one(UserTable, {

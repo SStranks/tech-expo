@@ -21,7 +21,7 @@ export const KanbanTaskCommentsTable = pgTable('kanban_task_comments', {
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { mode: 'date' }),
-  createdBy: uuid('created_by_user_id')
+  createdByUserProfileId: uuid('created_by_id')
     .references(() => UserProfileTable.id)
     .$type<UUID>(),
   comment: text('comment_text'),
@@ -35,7 +35,7 @@ export const KanbanTaskCommentsTableRelations = relations(KanbanTaskCommentsTabl
       references: [KanbanTasksTable.id],
     }),
     user: one(UserProfileTable, {
-      fields: [KanbanTaskCommentsTable.createdBy],
+      fields: [KanbanTaskCommentsTable.createdByUserProfileId],
       references: [UserProfileTable.id],
     }),
   };

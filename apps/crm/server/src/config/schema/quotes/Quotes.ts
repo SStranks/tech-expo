@@ -30,11 +30,11 @@ export const QuotesTable = pgTable('quotes', {
   total: numeric('total', { precision: 14, scale: 2 }).default('0.00').notNull(),
   salesTax: numeric('sales_tax', { precision: 4, scale: 2 }).default('20.00').notNull(),
   stage: QuoteStageEnum('quote_stage').notNull(),
-  preparedFor: uuid('prepared_for_contact_id')
+  preparedForContactId: uuid('prepared_for_id')
     .references(() => ContactsTable.id)
     .notNull()
     .$type<UUID>(),
-  preparedBy: uuid('prepared_by_user_id')
+  preparedByUserProfileId: uuid('prepared_by_id')
     .references(() => UserProfileTable.id)
     .notNull()
     .$type<UUID>(),
@@ -53,11 +53,11 @@ export const QuotesTableRelations = relations(QuotesTable, ({ many, one }) => {
       references: [CompaniesTable.id],
     }),
     preparedBy: one(UserProfileTable, {
-      fields: [QuotesTable.preparedBy],
+      fields: [QuotesTable.preparedByUserProfileId],
       references: [UserProfileTable.id],
     }),
     preparedFor: one(ContactsTable, {
-      fields: [QuotesTable.preparedFor],
+      fields: [QuotesTable.preparedForContactId],
       references: [ContactsTable.id],
     }),
   };

@@ -9,7 +9,6 @@ import { z } from 'zod';
 import CompaniesTable from '../companies/Companies.js';
 import KanbanStagesTable from './Stages.js';
 import KanbanTasksTable from './Tasks.js';
-import KanbanTasksOrderTable from './TasksOrder.js';
 
 // ---------- TABLES -------- //
 export type KanbanTableInsert = InferInsertModel<typeof KanbanTable>;
@@ -28,7 +27,6 @@ export const KanbanTable = pgTable('kanban', {
 export const KanbanTableRelations = relations(KanbanTable, ({ many, one }) => {
   return {
     stages: many(KanbanStagesTable),
-    taskOrder: many(KanbanTasksOrderTable),
     tasks: many(KanbanTasksTable),
     company: one(CompaniesTable, {
       fields: [KanbanTable.companyId],

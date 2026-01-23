@@ -4,7 +4,6 @@ import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import { relations } from 'drizzle-orm';
 import { boolean, pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 import UserProfileTable from '../user/UserProfile.js';
@@ -18,18 +17,16 @@ export type KanbanTasksTableSelect = InferSelectModel<typeof KanbanTasksTable>;
 export type KanbanTasksTableUpdate = Partial<Omit<KanbanTasksTableInsert, 'id'>>;
 export const KanbanTasksTable = pgTable('kanban_tasks', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  serial: varchar({ length: 6 })
-    .notNull()
-    .$defaultFn(() => nanoid(6)),
+  orderKey: varchar({ length: 255 }).notNull(),
   title: varchar('title', { length: 255 }).notNull(),
   completed: boolean('completed').default(false),
-  stage: uuid('stage')
+  stageId: uuid('stage_id')
     .references(() => KanbanStagesTable.id, { onDelete: 'cascade' })
     .notNull()
     .$type<UUID>(),
   description: text('description_text'),
   dueDate: timestamp('due_date', { mode: 'date' }),
-  assignedUser: uuid('assigned_user_id')
+  assignedUserProfileId: uuid('assignee_id')
     .references(() => UserProfileTable.id)
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -41,11 +38,11 @@ export const KanbanTaskTableRelations = relations(KanbanTasksTable, ({ many, one
     checklistItems: many(KanbanTaskChecklistItemTable),
     comments: many(KanbanTaskCommentsTable),
     assignedUser: one(UserProfileTable, {
-      fields: [KanbanTasksTable.assignedUser],
+      fields: [KanbanTasksTable.assignedUserProfileId],
       references: [UserProfileTable.id],
     }),
     taskStage: one(KanbanStagesTable, {
-      fields: [KanbanTasksTable.stage],
+      fields: [KanbanTasksTable.stageId],
       references: [KanbanStagesTable.id],
     }),
   };

@@ -27,8 +27,8 @@ export const CalendarEventsTable = pgTable('calendar_events', {
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   color: char('color_hex_6', { length: 7 }),
   description: text('description').notNull(),
-  eventStart: timestamp('event_start', { mode: 'date' }).notNull(),
-  eventEnd: timestamp('event_end', { mode: 'date' }).notNull(),
+  eventStartAt: timestamp('event_start_at', { mode: 'date' }).notNull(),
+  eventEndAt: timestamp('event_end_at', { mode: 'date' }).notNull(),
 });
 
 // -------- RELATIONS ------- //

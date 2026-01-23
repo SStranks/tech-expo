@@ -21,7 +21,7 @@ export const QuotesNotesTable = pgTable('quotes_notes', {
     .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
-  createdBy: uuid('created_by_user_id')
+  createdByUserProfileId: uuid('created_by_id')
     .references(() => UserProfileTable.id)
     .notNull()
     .$type<UUID>(),
@@ -35,7 +35,7 @@ export const QuotesNotesTableRelations = relations(QuotesNotesTable, ({ one }) =
       references: [QuotesTable.id],
     }),
     user: one(UserProfileTable, {
-      fields: [QuotesNotesTable.createdBy],
+      fields: [QuotesNotesTable.createdByUserProfileId],
       references: [UserProfileTable.id],
     }),
   };

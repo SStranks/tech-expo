@@ -23,7 +23,7 @@ export const AuditLogTable = pgTable('audit_log', {
   entityId: uuid('entity_id').notNull(),
   entityAction: EntityActionsEnum('entity_action').notNull(),
   changedAt: timestamp('entity_timestamp', { mode: 'date' }).defaultNow().notNull(),
-  changedBy: uuid('user_id')
+  changedByUserId: uuid('user_id')
     .references(() => UserTable.id)
     .notNull()
     .$type<UUID>(),
@@ -35,7 +35,7 @@ export const AuditLogTable = pgTable('audit_log', {
 export const AuditLogTableRelations = relations(AuditLogTable, ({ one }) => {
   return {
     user: one(UserTable, {
-      fields: [AuditLogTable.changedBy],
+      fields: [AuditLogTable.changedByUserId],
       references: [UserTable.id],
     }),
   };

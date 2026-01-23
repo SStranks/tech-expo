@@ -21,7 +21,7 @@ export const CompaniesNotesTable = pgTable('companies_notes', {
     .notNull()
     .$type<UUID>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
-  createdBy: uuid('created_by_user_id')
+  createdByUserProfileId: uuid('created_by_id')
     .references(() => UserProfileTable.id)
     .notNull()
     .$type<UUID>(),
@@ -35,7 +35,7 @@ export const CompaniesNotesTableRelations = relations(CompaniesNotesTable, ({ on
       references: [CompaniesTable.id],
     }),
     user: one(UserProfileTable, {
-      fields: [CompaniesNotesTable.createdBy],
+      fields: [CompaniesNotesTable.createdByUserProfileId],
       references: [UserProfileTable.id],
     }),
   };
