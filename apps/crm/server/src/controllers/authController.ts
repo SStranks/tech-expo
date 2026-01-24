@@ -31,7 +31,7 @@ import { UserService } from '#Services/user.service.js';
 import AppError from '#Utils/errors/AppError.js';
 import BadRequestError from '#Utils/errors/BadRequestError.js';
 import ForbiddenError from '#Utils/errors/ForbiddenError.js';
-import UnauthorizedError from '#Utils/errors/UnauthenticatedError.js';
+import UnauthorizedError from '#Utils/errors/UnauthorizedError.js';
 import { generateRandomInteger } from '#Utils/math.js';
 import { hoursFromNowInEpochSeconds } from '#Utils/time.js';
 

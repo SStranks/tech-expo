@@ -18,7 +18,7 @@ import { toDbUUID } from '#Helpers/helpers.js';
 import AppError from '#Utils/errors/AppError.js';
 import BadRequestError from '#Utils/errors/BadRequestError.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
-import UnauthorizedError from '#Utils/errors/UnauthenticatedError.js';
+import UnauthorizedError from '#Utils/errors/UnauthorizedError.js';
 
 import crypto from 'node:crypto';
 
