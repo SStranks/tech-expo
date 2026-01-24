@@ -1,4 +1,4 @@
-import type { RefreshTokenPayload } from '@apps/crm-shared/src/types/api/auth.js';
+import type { RefreshTokenPayload } from '@apps/crm-shared';
 import type { JwtPayload } from 'jsonwebtoken';
 
 import jwt from 'jsonwebtoken';
@@ -7,6 +7,7 @@ import { describe, expect, test, vi } from 'vitest';
 import { postgresDB } from '#Config/dbPostgres.js';
 import { redisClient } from '#Config/dbRedis.js';
 import { secrets } from '#Config/secrets.js';
+import { PostgresUserRepository } from '#Models/domain/user/user.repository.postgres.js';
 
 const { JWT_AUTH_SECRET, JWT_REFRESH_SECRET } = secrets;
 const MOCK_JWT_JTI = vi.fn();
@@ -26,8 +27,9 @@ vi.mock('#Config/secrets', () => ({
   },
 }));
 
-const { default: User } = await import('#Services/User.js');
-const UserService = new User(redisClient, postgresDB);
+const userRepository = new PostgresUserRepository();
+const { UserService } = await import('#Services/user.service.js');
+const userService = new UserService(userRepository, redisClient, postgresDB);
 
 describe('Signing Tokens: Auth Token', () => {
   const userId = 'user';
@@ -37,9 +39,9 @@ describe('Signing Tokens: Auth Token', () => {
   MOCK_JWT_JTI.mockReturnValue(jti);
 
   test('Sign Auth Token - is payload valid', async () => {
-    const jwt_encoded = UserService.signAuthToken(userId, userRole, iat);
+    const jwt_encoded = userService.signAuthToken(userId, userRole, iat);
 
-    const jwt_decoded = await UserService.decodeAuthToken(jwt_encoded);
+    const jwt_decoded = await userService.decodeAuthToken(jwt_encoded);
     if (!jwt_decoded) fail('JWT Encoding failed');
 
     expect((jwt_decoded?.payload)['client_id']).toEqual(userId);
@@ -50,7 +52,7 @@ describe('Signing Tokens: Auth Token', () => {
   });
 
   test('Sign Auth Token - is signature valid', async () => {
-    const jwt_encoded = UserService.signAuthToken(userId, userRole, iat);
+    const jwt_encoded = userService.signAuthToken(userId, userRole, iat);
 
     try {
       const jwt_decoded = jwt.verify(jwt_encoded, JWT_AUTH_SECRET, { complete: true });
@@ -77,7 +79,7 @@ describe('Signing Tokens: Refresh Token', () => {
   } as unknown as RefreshTokenPayload;
 
   test('Sign Refresh Token - is payload valid', () => {
-    const jwt_encoded = UserService.signRefreshToken(userId, iat, token_payload);
+    const jwt_encoded = userService.signRefreshToken(userId, iat, token_payload);
 
     const jwt_decoded = jwt.decode(jwt_encoded, { complete: true });
     if (!jwt_decoded) fail('JWT Encoding failed');
@@ -90,7 +92,7 @@ describe('Signing Tokens: Refresh Token', () => {
   });
 
   test('Sign Refresh Token - is signature valid', async () => {
-    const jwt_encoded = UserService.signRefreshToken(userId, iat, token_payload);
+    const jwt_encoded = userService.signRefreshToken(userId, iat, token_payload);
 
     try {
       const jwt_decoded = jwt.verify(jwt_encoded, JWT_REFRESH_SECRET, { complete: true });

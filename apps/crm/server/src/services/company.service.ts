@@ -67,7 +67,7 @@ export class CompanyService implements ICompanyService {
   async createCompany(cmd: CreateCompanyCommand): Promise<PersistedCompany> {
     const newCompany = Company.create({
       ...cmd,
-      country: asCountryId(cmd.country),
+      countryId: asCountryId(cmd.countryId),
       website: cmd.website ?? undefined,
     });
 
@@ -95,9 +95,9 @@ export class CompanyService implements ICompanyService {
     const company = await this.getCompanyById(cmd.companyId);
 
     const { symbol } = company.addNote({
-      company: company.id,
+      companyId: company.id,
       content: cmd.note,
-      createdBy: asUserProfileId(ctx.userProfile),
+      createdByUserProfileId: asUserProfileId(ctx.userProfile),
     });
 
     await this.companyRepository.save(company);
@@ -117,10 +117,10 @@ export class CompanyService implements ICompanyService {
     const { symbol } = company.updateNote(
       {
         id: cmd.companyNoteId,
-        company: company.id,
+        companyId: company.id,
         content: cmd.note,
         createdAt: companyNote.createdAt,
-        createdBy: ctx.userProfile,
+        createdByUserProfileId: ctx.userProfile,
       },
       ctx.userProfile
     );

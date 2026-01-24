@@ -8,7 +8,7 @@ export default class AppError extends CustomError {
   public readonly _logging: boolean;
 
   constructor(params: {
-    message: string;
+    message?: string;
     code: string;
     httpStatus: number;
     isOperational?: boolean;

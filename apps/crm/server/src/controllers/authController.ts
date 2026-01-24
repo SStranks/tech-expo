@@ -1,4 +1,6 @@
 import type {
+  ApiResponseSuccess,
+  ApiResponseSuccessData,
   ConfirmSignupRequestDTO,
   ConfirmSignupResponse,
   DeleteAccountRequestDTO,
@@ -13,8 +15,7 @@ import type {
   UpdatePasswordRequestDTO,
   UpdatePasswordResponse,
   UserRoles,
-} from '@apps/crm-shared/src/types/api/auth.js';
-import type { ApiResponseSuccess, ApiResponseSuccessData } from '@apps/crm-shared/src/types/api/base.js';
+} from '@apps/crm-shared';
 import type { NextFunction, Request, Response } from 'express';
 
 import type { AuthenticatedLocals } from '#Types/express.js';
@@ -25,8 +26,12 @@ import { postgresDB } from '#Config/dbPostgres.js';
 import { redisClient } from '#Config/dbRedis.js';
 import NodeMailer from '#Lib/nodemailer/NodeMailer.js';
 import { toUserRoleDTO } from '#Mappers/userMapper.js';
-import User from '#Services/User.js';
+import { PostgresUserRepository } from '#Models/domain/user/user.repository.postgres.js';
+import { UserService } from '#Services/user.service.js';
+import AppError from '#Utils/errors/AppError.js';
 import BadRequestError from '#Utils/errors/BadRequestError.js';
+import ForbiddenError from '#Utils/errors/ForbiddenError.js';
+import UnauthorizedError from '#Utils/errors/UnauthenticatedError.js';
 import { generateRandomInteger } from '#Utils/math.js';
 import { hoursFromNowInEpochSeconds } from '#Utils/time.js';
 
@@ -51,7 +56,8 @@ import { hoursFromNowInEpochSeconds } from '#Utils/time.js';
 
 const { JWT_COOKIE_AUTH_ID, JWT_COOKIE_REFRESH_ID } = process.env;
 
-const UserService = new User(redisClient, postgresDB);
+const userRepository = new PostgresUserRepository();
+const userService = new UserService(userRepository, redisClient, postgresDB);
 
 // TODO:  Make verification page on client; redirect to this page at end of THIS signup process.
 const signup = async (
@@ -66,11 +72,11 @@ const signup = async (
   if (!isEmailValid) return next(new BadRequestError({ message: 'Invalid email address' }));
 
   // Check for existing account. Generate 6-digit verification code, expiry time, and send email to client
-  await UserService.isExistingAccount(email);
+  await userService.isExistingAccount(email);
   const verificationCode = generateRandomInteger(6).toString();
   const verificationExpiry = new Date(hoursFromNowInEpochSeconds(24));
   await NodeMailer.sendAccountVerificationEmail(email, verificationCode, verificationExpiry);
-  await UserService.insertUser(email, verificationCode, verificationExpiry);
+  await userService.insertUser(email, verificationCode, verificationExpiry);
 
   res.status(200).json({
     status: 'success',
@@ -94,13 +100,13 @@ const confirmSignup = async (
   const isEmailValid = validator.isEmail(email);
   if (!isEmailValid) return next(new BadRequestError({ message: 'Invalid email address' }));
 
-  const user = await UserService.queryUserByEmail(email);
-  await UserService.verifyAccount(user, verificationCode);
-  await UserService.updatePassword(user.id, password);
-  const { authToken, refreshToken, refreshTokenPayload } = await UserService.generateClientTokens(user.id, user.role);
-  await UserService.insertRefreshToken(refreshTokenPayload);
-  UserService.createAuthCookie(res, authToken);
-  UserService.createRefreshCookie(res, refreshToken);
+  const user = await userService.queryUserByEmail(email);
+  await userService.verifyAccount(user, verificationCode);
+  await userService.updatePassword(user.id, password);
+  const { authToken, refreshToken, refreshTokenPayload } = await userService.generateClientTokens(user.id, user.role);
+  await userService.insertRefreshToken(refreshTokenPayload);
+  userService.createAuthCookie(res, authToken);
+  userService.createRefreshCookie(res, refreshToken);
 
   res.status(201).json({ status: 'success', message: 'Account verified', data: { tokens: { tokens: true } } });
 };
@@ -116,19 +122,19 @@ const login = async (
   const isEmailValid = validator.isEmail(email);
   if (!isEmailValid) return next(new BadRequestError({ message: 'Invalid email address' }));
 
-  const userRow = await UserService.loginAccount(email, password);
+  const userRow = await userService.loginAccount(email, password);
   if (userRow.accountFrozen && userRow.accountCreatedAt === userRow.accountFrozenAt)
     return res.status(401).redirect('/verify-account'); // TODO: Move this out to the frontend to handle instead
 
   const user = toUserRoleDTO(userRow);
 
-  const { authToken, refreshToken, refreshTokenPayload } = await UserService.generateClientTokens(
+  const { authToken, refreshToken, refreshTokenPayload } = await userService.generateClientTokens(
     user.client_id,
     user.role
   );
-  await UserService.insertRefreshToken(refreshTokenPayload);
-  await UserService.createAuthCookie(res, authToken);
-  await UserService.createRefreshCookie(res, refreshToken);
+  await userService.insertRefreshToken(refreshTokenPayload);
+  await userService.createAuthCookie(res, authToken);
+  await userService.createRefreshCookie(res, refreshToken);
 
   // TODO:  Send client to dashboard on success
   // TODO: . Amend DATA to send back actual details here.
@@ -145,15 +151,16 @@ const logout = async (req: Request<{}, {}, never>, res: Response<ApiResponseSucc
   } else if (authCookie) {
     JWT = authCookie;
   }
-  const { exp, jti } = await UserService.decodeAuthToken(JWT);
-  await UserService.blacklistToken(jti, exp);
-  UserService.clearCookies(res);
+  const { exp, jti } = await userService.decodeAuthToken(JWT);
+  await userService.blacklistToken(jti, exp);
+  userService.clearCookies(res);
   // TODO:  Redirect client to home
-  await UserService.logoutAccount(JWT).catch((error) =>
+  await userService.logoutAccount(JWT).catch((error) =>
     next(
-      new BadRequestError({
-        code: 500,
+      new AppError({
+        code: 'INTERNAL_ERROR',
         context: { error },
+        httpStatus: 500,
         logging: true,
         message: 'Error occured during logout',
       })
@@ -174,7 +181,7 @@ const forgotPassword = async (
   const isEmailValid = validator.isEmail(email);
   if (!isEmailValid) return next(new BadRequestError({ message: 'Invalid email address' }));
 
-  const unhashedResetToken = await UserService.forgotPassword(email);
+  const unhashedResetToken = await userService.forgotPassword(email);
   const resetURL = `${req.protocol}://${req.get('host')}/api/users/resetPassword/${unhashedResetToken}`;
   await NodeMailer.sendPasswordResetEmail(email, resetURL);
 
@@ -194,15 +201,15 @@ const resetPassword = async (
     return next(new BadRequestError({ message: 'Password and password confirm do not match' }));
   if (!token) return next(new BadRequestError({ message: 'Provide valid token' }));
 
-  const user = await UserService.isResetTokenValid(token);
-  await UserService.resetPassword(user.id, password);
-  const tokens = await UserService.deleteAllRefreshTokens(user.id);
-  await UserService.blacklistAllRefreshTokens(tokens);
+  const user = await userService.isResetTokenValid(token);
+  await userService.resetPassword(user.id, password);
+  const tokens = await userService.deleteAllRefreshTokens(user.id);
+  await userService.blacklistAllRefreshTokens(tokens);
 
-  const { authToken, refreshToken, refreshTokenPayload } = await UserService.generateClientTokens(user.id, user.role);
-  await UserService.insertRefreshToken(refreshTokenPayload);
-  UserService.createAuthCookie(res, authToken);
-  UserService.createRefreshCookie(res, refreshToken);
+  const { authToken, refreshToken, refreshTokenPayload } = await userService.generateClientTokens(user.id, user.role);
+  await userService.insertRefreshToken(refreshTokenPayload);
+  userService.createAuthCookie(res, authToken);
+  userService.createRefreshCookie(res, refreshToken);
 
   res.status(200).json({
     status: 'success',
@@ -232,18 +239,18 @@ const updatePassword = async (
     JWT = authCookie;
   }
 
-  const { client_id, exp, jti } = await UserService.decodeAuthToken(JWT);
-  const user = await UserService.queryUserById(client_id);
-  await UserService.isPasswordValid(user.password, oldPassword);
-  await UserService.updatePassword(user.id, newPassword);
-  const tokens = await UserService.deleteAllRefreshTokens(client_id);
-  await UserService.blacklistAllRefreshTokens(tokens);
-  await UserService.blacklistToken(jti, exp);
+  const { client_id, exp, jti } = await userService.decodeAuthToken(JWT);
+  const user = await userService.queryUserById(client_id);
+  await userService.isPasswordValid(user.password, oldPassword);
+  await userService.updatePassword(user.id, newPassword);
+  const tokens = await userService.deleteAllRefreshTokens(client_id);
+  await userService.blacklistAllRefreshTokens(tokens);
+  await userService.blacklistToken(jti, exp);
 
-  const { authToken, refreshToken, refreshTokenPayload } = await UserService.generateClientTokens(user.id, user.role);
-  await UserService.insertRefreshToken(refreshTokenPayload);
-  UserService.createAuthCookie(res, authToken);
-  UserService.createRefreshCookie(res, refreshToken);
+  const { authToken, refreshToken, refreshTokenPayload } = await userService.generateClientTokens(user.id, user.role);
+  await userService.insertRefreshToken(refreshTokenPayload);
+  userService.createAuthCookie(res, authToken);
+  userService.createRefreshCookie(res, refreshToken);
 
   res.status(200).json({ status: 'success', message: 'Password updated', data: { tokens: { tokens: true } } });
 };
@@ -259,12 +266,12 @@ const freezeAccount = async (req: Request<{}, {}, never>, res: Response<ApiRespo
     JWT = authCookie;
   }
 
-  const { client_id, exp, jti } = await UserService.decodeAuthToken(JWT);
-  await UserService.freezeAccount(client_id);
-  const tokens = await UserService.deleteAllRefreshTokens(client_id);
-  await UserService.blacklistAllRefreshTokens(tokens);
-  await UserService.blacklistToken(jti, exp);
-  UserService.clearCookies(res);
+  const { client_id, exp, jti } = await userService.decodeAuthToken(JWT);
+  await userService.freezeAccount(client_id);
+  const tokens = await userService.deleteAllRefreshTokens(client_id);
+  await userService.blacklistAllRefreshTokens(tokens);
+  await userService.blacklistToken(jti, exp);
+  userService.clearCookies(res);
 
   // TODO:  Redirect client to homepage (logged out).
   res.status(204).send();
@@ -287,12 +294,12 @@ const deleteAccount = async (
     JWT = authCookie;
   }
 
-  const { client_id, exp, jti } = await UserService.decodeAuthToken(JWT);
-  await UserService.deleteAccount(client_id, password);
-  const tokens = await UserService.deleteAllRefreshTokens(client_id);
-  await UserService.blacklistAllRefreshTokens(tokens);
-  await UserService.blacklistToken(jti, exp);
-  UserService.clearCookies(res);
+  const { client_id, exp, jti } = await userService.decodeAuthToken(JWT);
+  await userService.deleteAccount(client_id, password);
+  const tokens = await userService.deleteAllRefreshTokens(client_id);
+  await userService.blacklistAllRefreshTokens(tokens);
+  await userService.blacklistToken(jti, exp);
+  userService.clearCookies(res);
 
   // TODO:  Redirect client to homepage (logged out).
   res.status(204).send();
@@ -312,33 +319,36 @@ const generateAuthToken = async (
   } else if (refreshCookie) {
     JWT = refreshCookie;
   }
-  if (!JWT) return next(new BadRequestError({ code: 401, message: 'Unauthorized. Please login' }));
+  if (!JWT) return next(new UnauthorizedError({ message: 'Unauthorized. Please login' }));
 
-  const { acc, client_id, iat: oldIat, jti } = await UserService.verifyRefreshToken(JWT);
-  await UserService.isTokenBlacklisted(JWT);
+  const { acc, client_id, iat: oldIat, jti } = await userService.verifyRefreshToken(JWT);
+  await userService.isTokenBlacklisted(JWT);
 
   let role;
   if (authCookie) {
-    const { role: userRole } = await UserService.decodeAuthToken(authCookie);
+    const { role: userRole } = await userService.decodeAuthToken(authCookie);
     role = userRole;
   } else {
     // When Auth token expired and/or not provided
-    const { role: userRole } = await UserService.queryUserById(client_id);
+    const { role: userRole } = await userService.queryUserById(client_id);
     role = userRole;
   }
-  const refreshToken = await UserService.queryRefreshToken(client_id, jti);
-  if (!refreshToken) return next(new BadRequestError({ code: 500, message: 'Internal Error. Please login again' }));
+  const refreshToken = await userService.queryRefreshToken(client_id, jti);
+  if (!refreshToken)
+    return next(
+      new AppError({ code: 'INTERNAL_ERROR', httpStatus: 500, message: 'Internal Error. Please login again' })
+    );
 
   const iat = Math.floor(Date.now() / 1000);
 
   // Legitimate Request; push forward R token accumulator value
   if (refreshToken.acc === acc && refreshToken.activated) {
-    await UserService.updateRefreshToken(client_id, jti, acc + 1, iat, false);
-    const authToken = await UserService.signAuthToken(client_id, role, iat);
-    const refreshToken = await UserService.advanceRefreshToken(JWT, iat);
+    await userService.updateRefreshToken(client_id, jti, acc + 1, iat, false);
+    const authToken = await userService.signAuthToken(client_id, role, iat);
+    const refreshToken = await userService.advanceRefreshToken(JWT, iat);
 
-    await UserService.createAuthCookie(res, authToken);
-    await UserService.createRefreshCookie(res, refreshToken);
+    await userService.createAuthCookie(res, authToken);
+    await userService.createRefreshCookie(res, refreshToken);
     // TODO:  Return Expiry time
     res.status(201).json({ status: 'success', message: 'Auth token generated', data: { tokens: { tokens: true } } });
     return;
@@ -349,7 +359,7 @@ const generateAuthToken = async (
    * rollback optimistic DB update - allows client to resubmit their valid old refresh token again
    */
   if (refreshToken.acc === acc + 1 && !refreshToken.activated) {
-    await UserService.updateRefreshToken(client_id, jti, oldIat, acc, true);
+    await userService.updateRefreshToken(client_id, jti, oldIat, acc, true);
     return next(new BadRequestError({ message: 'Resubmit refresh token' }));
   }
 
@@ -358,13 +368,12 @@ const generateAuthToken = async (
 
   // Fraudulent request; R accumulator out-of-sync; freeze account
   if (refreshToken.acc !== acc && refreshToken.activated) {
-    await UserService.freezeAccount(client_id);
-    const tokens = await UserService.deleteAllRefreshTokens(client_id);
-    await UserService.blacklistAllRefreshTokens(tokens);
-    UserService.clearCookies(res);
+    await userService.freezeAccount(client_id);
+    const tokens = await userService.deleteAllRefreshTokens(client_id);
+    await userService.blacklistAllRefreshTokens(tokens);
+    userService.clearCookies(res);
     return next(
-      new BadRequestError({
-        code: 403,
+      new ForbiddenError({
         context: { 'Fraudulent Refresh Token Access': { client_id: client_id } },
         logging: true,
         message: 'Account frozen',
@@ -389,12 +398,12 @@ const activateRefreshToken = async (
   } else if (authCookie) {
     JWT = authCookie;
   } else {
-    return next(new BadRequestError({ code: 401, message: 'Unauthorized. Please login' }));
+    return next(new UnauthorizedError({ message: 'Unauthorized. Please login' }));
   }
 
-  await UserService.verifyAuthToken(JWT);
-  const { client_id, iat } = await UserService.decodeAuthToken(JWT);
-  await UserService.activateRefreshToken(client_id, iat);
+  await userService.verifyAuthToken(JWT);
+  const { client_id, iat } = await userService.decodeAuthToken(JWT);
+  await userService.activateRefreshToken(client_id, iat);
 
   res.status(204).send();
 };
@@ -405,7 +414,7 @@ const identify = async (
   _next: NextFunction
 ) => {
   // TODO:  Query profile table for user information.
-  const userRow = await UserService.queryUserById(res.locals.user.client_id);
+  const userRow = await userService.queryUserById(res.locals.user.client_id);
   // TEMP: . Need to add in user name, role title, minor details - information to hydrate FE on initial load.
   const user = toUserRoleDTO(userRow);
   res.status(200).json({ status: 'success', message: 'Account identified', data: { user } });
@@ -422,10 +431,10 @@ const protectedRoute = async (req: Request, res: Response<{}, AuthenticatedLocal
     JWT = authCookie;
   }
 
-  if (!JWT) return next(new BadRequestError({ code: 401, message: 'Unauthorized. Please login' }));
+  if (!JWT) return next(new UnauthorizedError({ message: 'Unauthorized. Please login' }));
 
-  const { client_id, jti, role } = await UserService.verifyAuthToken(JWT);
-  await UserService.isTokenBlacklisted(jti);
+  const { client_id, jti, role } = await userService.verifyAuthToken(JWT);
+  await userService.isTokenBlacklisted(jti);
   res.locals.user = { client_id, role };
   next();
 };
@@ -442,16 +451,16 @@ const restrictedRoute = (...roles: UserRoles[]) => {
       JWT = authCookie;
     }
 
-    const { client_id, role } = UserService.verifyAuthToken(JWT);
+    const { client_id, role } = userService.verifyAuthToken(JWT);
 
     if (!roles.includes(role)) {
-      return next(new BadRequestError({ code: 403, message: 'Forbidden' }));
+      return next(new ForbiddenError({ message: 'Forbidden' }));
     }
 
     // High-security routes; manadatory DB check for role
     if (roles.some((el) => el === 'ROOT' || el === 'ADMIN')) {
-      const { role } = await UserService.queryUserById(client_id);
-      if (role !== 'ROOT' && role !== 'ADMIN') return next(new BadRequestError({ code: 403, message: 'Forbidden' }));
+      const { role } = await userService.queryUserById(client_id);
+      if (role !== 'ROOT' && role !== 'ADMIN') return next(new ForbiddenError({ message: 'Forbidden' }));
     }
 
     next();

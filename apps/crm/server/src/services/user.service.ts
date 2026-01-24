@@ -1,10 +1,10 @@
-import type { AuthTokenPayload, RefreshTokenPayload } from '@apps/crm-shared/src/types/api/auth.js';
-import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
+import type { AuthTokenPayload, RefreshTokenPayload, UUID } from '@apps/crm-shared';
 import type { Response } from 'express';
 
 import type { PostgresClient } from '#Config/dbPostgres.js';
 import type { RedisClient } from '#Config/dbRedis.js';
 import type { SelectUserSchema } from '#Config/schema/user/User.ts';
+import type { UserRepository } from '#Models/domain/user/user.repository.js';
 
 import argon2 from 'argon2';
 import { and, eq } from 'drizzle-orm/pg-core/expressions';
@@ -18,6 +18,7 @@ import { toDbUUID } from '#Helpers/helpers.js';
 import AppError from '#Utils/errors/AppError.js';
 import BadRequestError from '#Utils/errors/BadRequestError.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
+import UnauthorizedError from '#Utils/errors/UnauthenticatedError.js';
 
 import crypto from 'node:crypto';
 
@@ -34,8 +35,10 @@ const {
   PASSWORD_RESET_EXPIRES,
 } = process.env;
 
-class User {
+// TODO: Wire up userRepo to the existing methods here
+export class UserService {
   constructor(
+    private readonly userRepository: UserRepository,
     private readonly redisClient: RedisClient,
     private readonly postgresClient: PostgresClient
   ) {}
@@ -77,12 +80,12 @@ class User {
       return { client_id, exp, iat, jti, role };
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
-        throw new BadRequestError({ code: 401, message: 'Invalid JWT' });
+        throw new UnauthorizedError({ message: 'Invalid JWT' });
       }
       if (error instanceof jwt.TokenExpiredError) {
-        throw new BadRequestError({ code: 401, message: 'Expired JWT' });
+        throw new UnauthorizedError({ message: 'Expired JWT' });
       }
-      throw new AppError({ context: { error }, logging: true });
+      throw new AppError({ code: 'INTERNAL_ERROR', context: { error }, httpStatus: 500, logging: true });
     }
   };
 
@@ -95,12 +98,12 @@ class User {
       return { acc, client_id, exp, iat, jti };
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
-        throw new BadRequestError({ code: 401, message: 'Invalid JWT' });
+        throw new UnauthorizedError({ message: 'Invalid JWT' });
       }
       if (error instanceof jwt.TokenExpiredError) {
-        throw new BadRequestError({ code: 401, message: 'Expired JWT' });
+        throw new UnauthorizedError({ message: 'Expired JWT' });
       }
-      throw new AppError({ context: { error, logging: true } });
+      throw new AppError({ code: 'INTERNAL_ERROR', context: { error, logging: true }, httpStatus: 500 });
     }
   };
 
@@ -221,7 +224,7 @@ class User {
       })
       .where(eq(UserTable.id, userId))
       .returning({ id: UserTable.id });
-    if (!user) throw new BadRequestError({ code: 500, message: 'Unable to update password' });
+    if (!user) throw new BadRequestError({ message: 'Unable to update password' });
   }
 
   async generateClientTokens(userId: UUID, role: string) {
@@ -234,7 +237,7 @@ class User {
 
   async getPasswordHash(password: string) {
     const hashedPassword = await argon2.hash(password, { secret: Buffer.from(POSTGRES_PEPPER) }).catch((error) => {
-      throw new AppError({ context: { error }, logging: true });
+      throw new AppError({ code: 'INTERNAL_ERROR', context: { error }, httpStatus: 500, logging: true });
     });
 
     return hashedPassword;
@@ -245,7 +248,7 @@ class User {
       secret: Buffer.from(POSTGRES_PEPPER),
     });
 
-    if (!isValid) throw new BadRequestError({ code: 401, message: 'Invalid password' });
+    if (!isValid) throw new UnauthorizedError({ message: 'Invalid password' });
   }
 
   async isExistingAccount(email: string): Promise<boolean> {
@@ -254,7 +257,7 @@ class User {
       where: (table, { eq }) => eq(table.email, email),
     });
 
-    if (account) throw new BadRequestError({ code: 401, message: 'Account already registered with that email' });
+    if (account) throw new BadRequestError({ message: 'Account already registered with that email' });
     return false;
   }
 
@@ -294,7 +297,7 @@ class User {
     const user = await this.postgresClient.query.UserTable.findFirst({
       where: (table, { eq }) => eq(table.email, email),
     });
-    if (!user) throw new BadRequestError({ code: 401, message: 'Invalid account' });
+    if (!user) throw new UnauthorizedError({ message: 'Invalid account' });
     return user;
   }
 
@@ -302,11 +305,11 @@ class User {
     const TIME_NOW = Date.now();
 
     if (user.accountFrozenAt === null || user.accountFrozenAt.getTime() !== user.accountCreatedAt.getTime())
-      throw new BadRequestError({ code: 400, message: 'Account already active' });
+      throw new BadRequestError({ message: 'Account already active' });
     if (user.passwordResetToken !== verificationCode)
-      throw new BadRequestError({ code: 401, message: 'Invalid verification token' });
+      throw new UnauthorizedError({ message: 'Invalid verification token' });
     if (user.passwordResetExpires && TIME_NOW > user.passwordResetExpires.getTime())
-      throw new BadRequestError({ code: 401, message: 'Expired verification token' });
+      throw new UnauthorizedError({ message: 'Expired verification token' });
 
     return user;
   }
@@ -328,7 +331,7 @@ class User {
       },
     });
 
-    if (!user || !user.accountActive) throw new BadRequestError({ code: 401, message: 'Invalid account' });
+    if (!user || !user.accountActive) throw new UnauthorizedError({ message: 'Invalid account' });
     await this.isPasswordValid(user.password, password);
 
     // TODO:  Maximum login sessions is 5; offer modal to force logout all sessions.
@@ -376,7 +379,7 @@ class User {
       where: (table, funcs) => funcs.eq(table.id, userId),
     });
 
-    if (!user) throw new BadRequestError({ code: 500, logging: true, message: 'User account not found' });
+    if (!user) throw new BadRequestError({ logging: true, message: 'User account not found' });
 
     const passwordHash = await this.getPasswordHash(password);
     const TIMESTAMP = new Date(Date.now());
@@ -410,9 +413,7 @@ class User {
       .where(eq(UserTable.email, email))
       .returning({ userId: UserTable.id });
 
-    if (!userId) throw new BadRequestError({ code: 401, message: 'Invalid account' });
+    if (!userId) throw new BadRequestError({ message: 'Invalid account' });
     return resetToken;
   }
 }
-
-export default User;

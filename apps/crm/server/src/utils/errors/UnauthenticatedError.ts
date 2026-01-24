@@ -1,18 +1,24 @@
 /* eslint-disable perfectionist/sort-objects */
 import AppError from './AppError.js';
 
-export default class UnauthenticatedError extends AppError {
+type ConstructorParams = {
+  message?: string;
+  context?: Record<string, unknown>;
+  logging?: boolean;
+};
+
+export default class UnauthorizedError extends AppError {
   readonly name = 'UnauthenticatedError';
 
-  constructor(params: { message: 'Authentication Required'; context?: Record<string, unknown>; logging?: boolean }) {
+  constructor({ message = 'Authentication Required', context, logging }: ConstructorParams) {
     super({
-      message: params.message,
+      message,
       code: 'UNAUTHENTICATED',
       httpStatus: 401,
-      context: params?.context,
-      logging: params?.logging ?? false,
+      context,
+      logging: logging ?? false,
     });
 
-    Object.setPrototypeOf(this, UnauthenticatedError.prototype);
+    Object.setPrototypeOf(this, UnauthorizedError.prototype);
   }
 }

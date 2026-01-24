@@ -16,7 +16,6 @@ import { KanbanTable, KanbanTableRelations } from './kanban/Kanban.js';
 import { KanbanStagesTable, KanbanStagesTableRelations } from './kanban/Stages.js';
 import { KanbanTasksTable, KanbanTaskTableRelations } from './kanban/Tasks.js';
 import { KanbanTaskCommentsTable, KanbanTaskCommentsTableRelations } from './kanban/TasksComments.js';
-import { KanbanTaskOrderTableRelations, KanbanTasksOrderTable } from './kanban/TasksOrder.js';
 import { PipelineDealsTable, PipelineDealsTableRelations } from './pipeline/Deals.js';
 import { PipelineTable, PipelineTableRelations } from './pipeline/Pipeline.js';
 import { PipelineStagesTable, PipelineStagesTableRelations } from './pipeline/Stages.js';
@@ -57,8 +56,6 @@ const schemas = {
   KanbanTaskChecklistItemTable,
   KanbanTaskCommentsTable,
   KanbanTaskCommentsTableRelations,
-  KanbanTaskOrderTableRelations,
-  KanbanTasksOrderTable,
   KanbanTasksTable,
   KanbanTaskTableRelations,
   PipelineDealsTable,

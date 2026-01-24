@@ -139,7 +139,7 @@ input CreateCompanyInput {
   industry: String!
   businessType: BusinessType!
   totalRevenue: String
-  country: UUID!
+  countryId: UUID!
   website: String
 }
 
@@ -150,7 +150,7 @@ input UpdateCompanyInput {
   industry: String
   businessType: BusinessType
   totalRevenue: String
-  country: UUID
+  countryId: UUID
   website: String
 }
 
@@ -170,7 +170,8 @@ input UpdateCompanyNoteInput {
 }
 
 input RemoveCompanyNoteInput {
-  id: UUID!
+  companyId: UUID!
+  companyNoteId: UUID!
 }
 
 enum CompanySize {

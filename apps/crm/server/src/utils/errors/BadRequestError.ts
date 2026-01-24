@@ -1,16 +1,22 @@
 /* eslint-disable perfectionist/sort-objects */
 import AppError from './AppError.js';
 
+type ConstructorParams = {
+  message?: string;
+  context?: Record<string, unknown>;
+  logging?: boolean;
+};
+
 export default class BadRequestError extends AppError {
   readonly name = 'BadRequestError';
 
-  constructor(params: { message: 'Bad Request'; context?: Record<string, unknown>; logging?: boolean }) {
+  constructor({ message = 'Bad Request', context, logging }: ConstructorParams) {
     super({
-      message: params.message,
+      message,
       code: 'BAD_REQUEST',
       httpStatus: 400,
-      context: params?.context,
-      logging: params?.logging ?? false,
+      context,
+      logging: logging ?? false,
     });
 
     Object.setPrototypeOf(this, BadRequestError.prototype);
