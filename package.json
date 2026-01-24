@@ -82,7 +82,7 @@
     "prettier": "^3.6.2",
     "secretlint": "^11.2.5",
     "serve": "^14.2.5",
-    "stylelint": "^16.25.0",
+    "stylelint": "^17.0.0",
     "typescript": "^5.9.3"
   }
 }
