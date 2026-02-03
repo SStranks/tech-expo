@@ -4,25 +4,25 @@
   // "extends": "./tsconfig.node.json",
   "extends": "@packages/typescript-config/nodejs",
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "#App/*": ["app/*"],
-      "#Config/*": ["config/*"],
-      "#Controllers/*": ["controllers/*"],
-      "#Data/*": ["data/*"],
-      "#Graphql/*": ["graphql/*"],
-      "#Helpers/*": ["helpers/*"],
-      "#Lib/*": ["lib/*"],
-      "#Log/*": ["log/*"],
-      "#Mappers/*": ["mappers/*"],
-      "#Middleware/*": ["middleware/*"],
-      "#Models/*": ["models/*"],
-      "#Routes/*": ["routes/*"],
-      "#Services/*": ["services/*"],
-      "#Tests/*": ["tests/*"],
-      "#Types/*": ["types/*"],
-      "#Utils/*": ["utils/*"],
-      "#Views/*": ["views/*"]
+      "#App/*": ["src/app/*"],
+      "#Config/*": ["src/config/*"],
+      "#Controllers/*": ["src/controllers/*"],
+      "#Data/*": ["src/data/*"],
+      "#Graphql/*": ["src/graphql/*"],
+      "#Helpers/*": ["src/helpers/*"],
+      "#Lib/*": ["src/lib/*"],
+      "#Log/*": ["src/log/*"],
+      "#Mappers/*": ["src/mappers/*"],
+      "#Middleware/*": ["src/middleware/*"],
+      "#Models/*": ["src/models/*"],
+      "#Routes/*": ["src/routes/*"],
+      "#Services/*": ["src/services/*"],
+      "#Tests/*": ["src/tests/*"],
+      "#Types/*": ["src/types/*"],
+      "#Utils/*": ["src/utils/*"],
+      "#Views/*": ["src/views/*"]
     },
     // "typeRoots": ["node_modules/@types", "node_modules/@testing-library"],
     "typeRoots": ["src/types", "node_modules/@types"],
@@ -46,6 +46,6 @@
     }
   },
 
-  "include": ["./src/**/*.ts"],
-  "exclude": ["./node_modules", "./dist", "./src/config/schema", "./**/private.*"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "src/config/schema", "**/private.*"]
 }
