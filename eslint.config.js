@@ -228,5 +228,20 @@ export default defineConfig([
     plugins: { ...EslintConfigGraphQL.plugins },
     rules: { ...EslintConfigGraphQL.rules.server, 'prettier/prettier': 'error' },
   },
+  {
+    name: 'CRM: Shared; NodeJS',
+    files: ['apps/crm/shared/src/**/*.[jt]s'],
+    languageOptions: {
+      parserOptions: { projectService: true },
+    },
+    settings: {
+      'import-x/resolver-next': [
+        createTypeScriptImportResolver({
+          alwaysTryTypes: true,
+          project: ['apps/crm/shared/tsconfig.json'],
+        }),
+      ],
+    },
+  },
   ConfigPrettier,
 ]);
