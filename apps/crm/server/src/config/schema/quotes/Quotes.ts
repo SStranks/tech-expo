@@ -27,7 +27,7 @@ export const QuotesTable = pgTable('quotes', {
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'no action' })
     .notNull(),
-  total: numeric('total', { precision: 14, scale: 2 }).default('0.00').notNull(),
+  totalAmount: numeric('total_amount', { precision: 14, scale: 2 }).default('0.00').notNull(),
   salesTax: numeric('sales_tax', { precision: 4, scale: 2 }).default('20.00').notNull(),
   stage: QuoteStageEnum('quote_stage').notNull(),
   preparedForContactId: uuid('prepared_for_id')

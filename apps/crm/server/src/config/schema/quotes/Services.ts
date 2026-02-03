@@ -18,7 +18,7 @@ export const QuoteServicesTable = pgTable('quotes_services', {
   price: numeric('price', { precision: 14, scale: 2 }).default('0.00').notNull(),
   quantity: integer('quantity').default(0).notNull(),
   discount: numeric('discount', { precision: 4, scale: 2 }).default('0.00').notNull(),
-  total: numeric('total', { precision: 14, scale: 2 }).default('0.00').notNull(),
+  totalAmount: numeric('total_amount', { precision: 14, scale: 2 }).default('0.00').notNull(),
   quoteId: uuid('quote_id')
     .references(() => QuotesTable.id, { onDelete: 'cascade' })
     .notNull()
