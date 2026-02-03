@@ -1,13 +1,14 @@
 import type { BaseEventPayload, ElementDragType } from '@atlaskit/pragmatic-drag-and-drop/dist/types/internal-types';
 
+import type { AriaLiveLevel } from '@Components/AriaAnnouncement';
 import type { KanbanStage, KanbanTask } from '@Data/MockScrumboardKanban';
 
+import { generateOrderKeyBetween } from '@apps/crm-shared/utils';
 import { extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { getReorderDestinationIndex } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
-import { AriaLiveLevel } from '@Components/AriaAnnouncement';
 import {
   makeSelectorTaskIdsSortedForKanban,
   moveTask,
@@ -18,7 +19,6 @@ import {
 } from '@Features/scrumboard/redux/kanbanSlice';
 import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 import { uiEventInsert } from '@Redux/reducers/uiSlice';
-import { generateOrderKeyBetween } from '@Utils/lexicographicalRanking';
 
 import ScrumboardKanbanStages from './ScrumboardKanbanStages';
 import { PRAGMATICDND_KANBAN_STAGE_TYPE, PRAGMATICDND_KANBAN_TASK_TYPE } from './types/pragmaticDndTypes';

@@ -1,18 +1,14 @@
-import type { PipelineDeal, PipelineStage } from '@Data/MockScrumboardPipeline';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-import {
-  createAsyncThunk,
-  createListenerMiddleware,
-  createSelector,
-  createSlice,
-  PayloadAction,
-} from '@reduxjs/toolkit';
+import type { PipelineDeal, PipelineStage } from '@Data/MockScrumboardPipeline';
+import type { ReduxRootState } from '@Redux/store';
+
+import { sortOrderKeys } from '@apps/crm-shared/utils';
+import { createAsyncThunk, createListenerMiddleware, createSelector, createSlice } from '@reduxjs/toolkit';
 
 import { initialData } from '@Data/MockScrumboardPipeline';
 import CompanyLogo from '@Img/CompanyLogo.png';
 import UserImage from '@Img/image-35.jpg'; // TEMP DEV: .
-import { ReduxRootState } from '@Redux/store';
-import { sortOrderKeys } from '@Utils/lexicographicalRanking';
 
 type MoveDealPayload = {
   destinationStageId: string;

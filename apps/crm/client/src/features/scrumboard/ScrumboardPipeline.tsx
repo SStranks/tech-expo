@@ -3,6 +3,7 @@ import type { BaseEventPayload, ElementDragType } from '@atlaskit/pragmatic-drag
 import type { AriaLiveLevel } from '@Components/AriaAnnouncement';
 import type { PipelineDeal, PipelineStage } from '@Data/MockScrumboardPipeline';
 
+import { generateOrderKeyBetween } from '@apps/crm-shared/utils';
 import { extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { getReorderDestinationIndex } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
@@ -18,7 +19,6 @@ import {
 } from '@Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 import { uiEventInsert } from '@Redux/reducers/uiSlice';
-import { generateOrderKeyBetween } from '@Utils/lexicographicalRanking';
 
 import ScrumboardPipelineStages from './ScrumboardPipelineStages';
 import { PRAGMATICDND_PIPELINE_DEAL_TYPE, PRAGMATICDND_PIPELINE_STAGE_TYPE } from './types/pragmaticDndTypes';

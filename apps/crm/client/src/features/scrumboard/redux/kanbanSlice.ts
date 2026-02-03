@@ -1,9 +1,12 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import type { KanbanStage, KanbanTask } from '@Data/MockScrumboardKanban';
 import type { ReduxRootState } from '@Redux/store';
 
-import { createAsyncThunk, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { sortOrderKeys } from '@apps/crm-shared/utils';
+import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 
-import { initialData, KanbanStage, KanbanTask } from '@Data/MockScrumboardKanban';
-import { sortOrderKeys } from '@Utils/lexicographicalRanking';
+import { initialData } from '@Data/MockScrumboardKanban';
 
 type MoveTaskPayload = {
   destinationStageId: string;
