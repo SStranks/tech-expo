@@ -59,7 +59,7 @@ export function generateContactNotes(
     const contactNote: ContactsNotesTableInsert = {
       contactId: contact.id,
       createdAt: commentsCreatedAt[i],
-      createdBy: users[i].id,
+      createdByUserProfileId: users[i].id,
       note: comment,
     };
 

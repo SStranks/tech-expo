@@ -74,8 +74,8 @@ export default async function seedCalendar(db: PostgresClient) {
         calendarId,
         categoryId,
         description: event.description,
-        eventEnd: new Date(event.end_timestamp),
-        eventStart: new Date(event.start_timestamp),
+        eventEndAt: new Date(event.end_timestamp),
+        eventStartAt: new Date(event.start_timestamp),
         title: event.title,
       });
     });

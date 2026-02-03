@@ -20,9 +20,9 @@ export default async function seedCompanies(db: PostgresClient) {
 
   // Append the CSV data with the applicable country UUID from DB
   companiesCSVData.forEach((company) => {
-    const country = allCountries.find((country) => country.alpha2Code === company.country);
+    const country = allCountries.find((country) => country.alpha2Code === company.countryId);
     if (!country) throw new Error('Could not locate country from company');
-    companiesData.push({ ...company, country: country.id });
+    companiesData.push({ ...company, countryId: country.id });
   });
 
   await db.insert(CompaniesTable).values(companiesData);

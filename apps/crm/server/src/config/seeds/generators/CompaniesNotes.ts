@@ -31,9 +31,9 @@ export function generateCompaniesNotes(company: CompaniesQueryCompaniesNotes, al
     comment = replaceCommentPlaceholders(comment, { companyName: name, industry, userName });
 
     const companyNote: CompaniesNotesTableInsert = {
-      company: company.id,
+      companyId: company.id,
       createdAt: commentsCreatedAt[i],
-      createdBy: userIds[i].id,
+      createdByUserProfileId: userIds[i].id,
       note: comment,
     };
 

@@ -1,20 +1,20 @@
 import type { PostgresClient } from '#Config/dbPostgres.ts';
+import type { KanbanTaskChecklistItemTableInsert } from '#Config/schema/kanban/ChecklistItems.js';
 import type { KanbanTableInsert } from '#Config/schema/kanban/Kanban.ts';
 import type { KanbanStagesTableInsert } from '#Config/schema/kanban/Stages.ts';
 import type { KanbanTasksTableInsert } from '#Config/schema/kanban/Tasks.ts';
+import type { KanbanTaskCommentsTableInsert } from '#Config/schema/kanban/TasksComments.js';
 
+import { generateOrderKeyBetween } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 import { eq } from 'drizzle-orm';
 
 import CompaniesTable from '#Config/schema/companies/Companies.js';
-import KanbanTaskChecklistItemTable, {
-  KanbanTaskChecklistItemTableInsert,
-} from '#Config/schema/kanban/ChecklistItems.js';
+import KanbanTaskChecklistItemTable from '#Config/schema/kanban/ChecklistItems.js';
 import { KanbanTable } from '#Config/schema/kanban/Kanban.js';
 import KanbanStagesTable from '#Config/schema/kanban/Stages.js';
 import KanbanTasksTable from '#Config/schema/kanban/Tasks.js';
-import KanbanTaskCommentsTable, { KanbanTaskCommentsTableInsert } from '#Config/schema/kanban/TasksComments.js';
-import KanbanTasksOrderTable, { KanbanTasksOrderTableInsert } from '#Config/schema/kanban/TasksOrder.js';
+import KanbanTaskCommentsTable from '#Config/schema/kanban/TasksComments.js';
 import { seedSettings } from '#Config/seedSettings.js';
 
 import {
@@ -60,7 +60,7 @@ export default async function seedKanban(db: PostgresClient) {
   const stagesInsertionData: KanbanStagesTableInsert[] = [];
 
   KANBAN_TASKS_STAGES.forEach((title) => {
-    stagesInsertionData.push({ kanbanTableId: PRIMARY_COMPANY_KANBAN_ID, title });
+    stagesInsertionData.push({ kanbanId: PRIMARY_COMPANY_KANBAN_ID, title });
   });
 
   const stagesReturnData = await db
@@ -75,8 +75,11 @@ export default async function seedKanban(db: PostgresClient) {
   stagesReturnData.forEach(({ id: stageId, title }) => {
     const randNumOfTasks = faker.number.int({ max: KANBAN_STAGE_TASKS_MAX, min: KANBAN_STAGE_TASKS_MIN });
 
+    let lastOrderKey: string | null = null;
     for (let i = 0; i < randNumOfTasks; i++) {
-      tasksInsertionData.push(generateKanbanTask(allUsers, stageId, title));
+      const orderKey = generateOrderKeyBetween(lastOrderKey, null);
+      tasksInsertionData.push(generateKanbanTask(orderKey, allUsers, stageId, title));
+      lastOrderKey = orderKey;
     }
   });
 
@@ -99,16 +102,6 @@ export default async function seedKanban(db: PostgresClient) {
   });
 
   await db.insert(KanbanTaskCommentsTable).values(taskCommentsInsertionData).returning();
-
-  // --------- KANBAN-TASKS-ORDER TABLE ---------- //
-  const kanbanTasksOrderInsertionData: KanbanTasksOrderTableInsert[] = [];
-
-  stagesReturnData.forEach(({ id: columnId }) => {
-    const taskOrder = tasksReturnData.filter((task) => task.stage === columnId).map((task) => task.serial);
-    kanbanTasksOrderInsertionData.push({ columnId, kanbanId: PRIMARY_COMPANY_KANBAN_ID, taskOrder });
-  });
-
-  await db.insert(KanbanTasksOrderTable).values(kanbanTasksOrderInsertionData);
 
   // --------- END OF SEEDING -------- //
   console.log('Seed Successful: Kanban.ts');

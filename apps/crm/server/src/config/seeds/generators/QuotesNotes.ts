@@ -27,9 +27,9 @@ export function generateQuoteNote(quote: SeedQuoteNotesQuotes) {
   note += informalNote.trimEnd();
 
   const quoteNote: QuotesNotesTableInsert = {
-    createdBy: quote.preparedBy,
+    createdByUserProfileId: quote.preparedByUserProfileId,
     note,
-    quote: quote.id,
+    quoteId: quote.id,
   };
 
   return quoteNote;

@@ -56,7 +56,7 @@ export default async function seedPipeline(db: PostgresClient) {
   const pipelineStagesInsertionData: PipelineStagesTableInsert[] = [];
 
   PIPELINE_DEAL_STAGES.forEach((title) => {
-    pipelineStagesInsertionData.push({ pipelineTableId: PRIMARY_COMPANY_PIPELINE_ID, title });
+    pipelineStagesInsertionData.push({ pipelineId: PRIMARY_COMPANY_PIPELINE_ID, title });
   });
 
   const stagesReturnData = await db

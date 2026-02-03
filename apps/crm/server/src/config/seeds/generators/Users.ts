@@ -7,9 +7,9 @@ import { randomUUID } from 'node:crypto';
 
 const { COMPANY_EMAIL_DOMAIN, USER_ENTRY_COUNT } = seedSettings;
 
-import type { UserRoles } from '@apps/crm-shared/src/types/api/auth.js';
+import type { UserRoles } from '@apps/crm-shared';
 
-import type { CompanyRoles } from '#Config/schema/user/UserProfile.js';
+import type { CompanyRoles } from '#Models/domain/user/profile/profile.types.js';
 
 import argon2 from 'argon2';
 

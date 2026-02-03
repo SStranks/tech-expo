@@ -1,11 +1,12 @@
 import type { PostgresClient } from '#Config/dbPostgres.js';
 import type { UserTableInsert } from '#Config/schema/user/User.ts';
+import type { UserProfileTableInsert } from '#Config/schema/user/UserProfile.js';
 
 import { eq } from 'drizzle-orm';
 
 import CompaniesTable from '#Config/schema/companies/Companies.js';
 import UserTable from '#Config/schema/user/User.js';
-import UserProfileTable, { UserProfileTableInsert } from '#Config/schema/user/UserProfile.js';
+import UserProfileTable from '#Config/schema/user/UserProfile.js';
 import { seedSettings } from '#Config/seedSettings.js';
 
 import { generateDemoUsers, generateUsers } from './generators/Users.js';
@@ -59,30 +60,30 @@ export default async function seedUsers(db: PostgresClient) {
 
   generatedUsers.forEach((user) => {
     userProfileInsertionData.push({
-      company: primaryCompany.id,
+      companyId: primaryCompany.id,
       companyRole: user.companyRole,
-      country: primaryCompany.country.id,
+      countryId: primaryCompany.country.id,
       email: user.companyEmail,
       firstName: user.firstName,
       lastName: user.lastName,
       mobile: user.mobile,
       telephone: user.telephone,
-      timezone: primaryCompany.country.timezone[0].id,
+      timezoneId: primaryCompany.country.timezone[0].id,
       userId: user.userId,
     });
   });
 
   generatedDemoUsers.forEach((user) => {
     demoUserProfileInsertionData.push({
-      company: primaryCompany.id,
+      companyId: primaryCompany.id,
       companyRole: user.companyRole,
-      country: primaryCompany.country.id,
+      countryId: primaryCompany.country.id,
       email: user.companyEmail,
       firstName: user.firstName,
       lastName: user.lastName,
       mobile: user.mobile,
       telephone: user.telephone,
-      timezone: primaryCompany.country.timezone[0].id,
+      timezoneId: primaryCompany.country.timezone[0].id,
       userId: user.userId,
     });
   });

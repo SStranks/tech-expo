@@ -1,4 +1,4 @@
-import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
+import type { UUID } from '@apps/crm-shared';
 
 import type { PipelineDealsTableInsert } from '#Config/schema/pipeline/Deals.ts';
 
@@ -12,21 +12,21 @@ import PipelineDealsTitles from '#Data/PipelineDeals.json';
 export function generatePipelineDeal(
   companies: SeedPipelineCompanies,
   users: SeedPipelineUsers,
-  stage: UUID
+  stageId: UUID
 ): PipelineDealsTableInsert {
   const title = faker.helpers.arrayElement(PipelineDealsTitles.deal_title);
-  const dealOwner = faker.helpers.arrayElement(users).id;
+  const dealOwnerUserProfileId = faker.helpers.arrayElement(users).id;
   const value = faker.commerce.price({ dec: 2, max: 10_000, min: 100 });
-  const { contacts, id: company } = faker.helpers.arrayElement(companies);
-  const { id: dealContact } = faker.helpers.arrayElement(contacts);
+  const { contacts, id: companyId } = faker.helpers.arrayElement(companies);
+  const { id: dealContactId } = faker.helpers.arrayElement(contacts);
   const orderKey = ''; // TODO: Needs to be lexicographically generated
 
   return {
-    company,
-    dealContact,
-    dealOwner,
+    companyId,
+    dealContactId,
+    dealOwnerUserProfileId,
     orderKey,
-    stage,
+    stageId,
     title,
     value,
   };

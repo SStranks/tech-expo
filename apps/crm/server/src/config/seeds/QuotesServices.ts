@@ -21,9 +21,9 @@ export default async function seedQuotesServices(db: PostgresClient) {
   // -------- QUOTES SERVICES -------- //
   quotes.forEach(async (quote) => {
     const services = generateQuoteServices(quote);
-    const quoteTotal = services.reduce((acc, service) => acc + Number(service.total), 0).toString();
+    const quoteTotal = services.reduce((acc, service) => acc + Number(service.totalAmount), 0).toString();
     quotesServicesInsertionData.push(...services);
-    await db.update(QuotesTable).set({ total: quoteTotal }).where(eq(QuotesTable.id, quote.id));
+    await db.update(QuotesTable).set({ totalAmount: quoteTotal }).where(eq(QuotesTable.id, quote.id));
   });
 
   await db.insert(QuoteServicesTable).values(quotesServicesInsertionData);

@@ -24,7 +24,7 @@ export function generateQuoteServices(quote: SeedQuoteServicesQuotes): QuoteServ
       const price = faker.commerce.price({ dec: 2, max: 10_000, min: 500 });
       const quantity = 1;
       const discount = faker.helpers.weightedArrayElement(DISCOUNTS).toString();
-      const total = (Number(price) * quantity - ((Number(price) * quantity) / 100) * Number(discount)).toString();
+      const totalAmount = (Number(price) * quantity - ((Number(price) * quantity) / 100) * Number(discount)).toString();
 
       const service: QuoteServicesTableInsert = {
         discount,
@@ -32,7 +32,7 @@ export function generateQuoteServices(quote: SeedQuoteServicesQuotes): QuoteServ
         quantity,
         quoteId: quote.id,
         title,
-        total,
+        totalAmount,
       };
 
       quoteServices.push(service);

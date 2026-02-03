@@ -1,4 +1,4 @@
-import type { UUID } from '@apps/crm-shared/src/types/api/base.js';
+import type { UUID } from '@apps/crm-shared';
 
 import type { KanbanTaskChecklistItemTableInsert } from '#Config/schema/kanban/ChecklistItems.ts';
 import type { KanbanTasksTableInsert } from '#Config/schema/kanban/Tasks.ts';
@@ -11,18 +11,24 @@ import { faker } from '@faker-js/faker';
 import KanbanTasks from '#Data/KanbanTasks.json';
 
 // TODO:  Possibility of duplicate task from faker.arrayElement calls; amend to ensure unique random value
-export function generateKanbanTask(users: SeedKanbanUsers, stageId: UUID, stageTitle: string): KanbanTasksTableInsert {
+export function generateKanbanTask(
+  orderKey: string,
+  users: SeedKanbanUsers,
+  stageId: UUID,
+  stageTitle: string
+): KanbanTasksTableInsert {
   const { description, title } = faker.helpers.arrayElement(KanbanTasks.tasks);
-  const assignedUser = faker.helpers.arrayElement(users).id;
+  const assignedUserProfileId = faker.helpers.arrayElement(users).id;
   const completed = stageTitle === 'done' ? true : false;
   const dueDate = faker.date.soon({ days: 60 });
 
   return {
-    assignedUser,
+    assignedUserProfileId,
     completed,
     description,
     dueDate,
-    stage: stageId,
+    orderKey,
+    stageId: stageId,
     title,
   };
 }
@@ -45,8 +51,8 @@ export function generateKanbanTaskComments(users: SeedKanbanUsers, taskId: UUID,
   if (!task) throw new Error(`Incongruency in JSON and SQL return data; task title`);
 
   task.comments.forEach((comment) => {
-    const createdBy = faker.helpers.arrayElement(users).id;
-    comments.push({ comment, createdBy, taskId });
+    const createdByUserProfileId = faker.helpers.arrayElement(users).id;
+    comments.push({ comment, createdByUserProfileId, taskId });
   });
 
   return comments;

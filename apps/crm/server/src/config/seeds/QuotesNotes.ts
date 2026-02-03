@@ -9,7 +9,7 @@ export type SeedQuoteNotesQuotes = Awaited<ReturnType<typeof getQuotes>>[number]
 
 const getQuotes = async (db: PostgresClient) => {
   return await db.query.QuotesTable.findMany({
-    columns: { id: true, dueAt: true, preparedBy: true },
+    columns: { id: true, dueAt: true, preparedByUserProfileId: true },
     with: { company: { columns: { name: true } }, preparedFor: { columns: { firstName: true } } },
   });
 };

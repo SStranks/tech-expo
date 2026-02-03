@@ -21,13 +21,13 @@ export function generateContact(company: SeedContactCompanies): ContactsTableIns
     throw new Error(`Data mismatch; check JSON structure and companies seeding; industry: ${industry}`);
 
   return {
-    company: company.id,
+    companyId: company.id,
     email: faker.internet.email({ firstName, lastName, provider }),
     firstName,
     jobTitle: faker.helpers.arrayElement(jobTitles[industry as keyof JobTitles]),
     lastName,
     phone: faker.phone.number({ style: 'international' }),
     stage,
-    timezone: company.timezone,
+    timezoneId: company.timezone,
   };
 }

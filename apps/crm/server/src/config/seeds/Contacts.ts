@@ -31,7 +31,7 @@ const getCompanies = async (db: PostgresClient) => {
     })
     .from(CompaniesTable)
     .where(ne(CompaniesTable.name, COMPANY_NAME))
-    .leftJoin(CountriesTable, eq(CountriesTable.id, CompaniesTable.country))
+    .leftJoin(CountriesTable, eq(CountriesTable.id, CompaniesTable.countryId))
     .leftJoin(TimeZoneTable, eq(TimeZoneTable.countryId, CountriesTable.id));
 };
 
