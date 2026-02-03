@@ -134,7 +134,7 @@ export const createUserProfileLoader = (userReadModel: UserReadModel) =>
         email: row.email,
         mobile: row.mobile,
         telephone: row.telephone,
-        timezone: row.timezone,
+        timezoneId: row.timezoneId,
         countryId: row.countryId,
         companyId: row.companyId,
         companyRole: row.companyRole,

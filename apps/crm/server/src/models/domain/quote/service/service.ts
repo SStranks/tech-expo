@@ -7,7 +7,7 @@ import { randomUUID } from 'node:crypto';
 
 type ServiceProps = {
   title: string;
-  total: string;
+  totalAmount: string;
   price: string;
   quantity: number;
   discount: string;
@@ -23,7 +23,7 @@ export type PersistedService = InstanceType<typeof PersistedServiceImpl>;
 
 export abstract class Service {
   private _title: string;
-  private _total: string;
+  private _totalAmount: string;
   private _price: string;
   private _quantity: number;
   private _discount: string;
@@ -32,7 +32,7 @@ export abstract class Service {
 
   constructor(props: ServiceProps) {
     this._title = props.title;
-    this._total = props.total;
+    this._totalAmount = props.totalAmount;
     this._price = props.price;
     this._quantity = props.quantity;
     this._discount = props.discount;
@@ -55,7 +55,7 @@ export abstract class Service {
   }
 
   get total() {
-    return this._total;
+    return this._totalAmount;
   }
 
   get price() {

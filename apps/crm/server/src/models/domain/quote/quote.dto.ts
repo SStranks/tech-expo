@@ -23,7 +23,7 @@ export const toQuoteDTO = (quote: QuotesTableSelect): QuoteDTO => ({
   id: quote.id,
   title: quote.title,
   companyId: quote.companyId,
-  totalAmount: quote.total,
+  totalAmount: quote.totalAmount,
   salesTax: quote.salesTax,
   stage: quote.stage,
   preparedForContactId: quote.preparedForContactId,

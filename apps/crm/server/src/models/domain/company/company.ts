@@ -18,7 +18,7 @@ import { CompanyNote } from './note/note.js';
 type CompanyProps = {
   name: string;
   size: CompanySize;
-  totalRevenue?: string;
+  totalRevenue: string;
   industry: string;
   businessType: BusinessType;
   countryId: CountryId;
@@ -41,7 +41,7 @@ export type PersistedCompany = InstanceType<typeof PersistedCompanyImpl>;
 export abstract class Company {
   private _name: string;
   private _size: CompanySize;
-  private _totalRevenue?: string;
+  private _totalRevenue: string;
   private _industry: string;
   private _businessType: BusinessType;
   private _countryId: CountryId;
@@ -153,6 +153,7 @@ export abstract class Company {
   }
 
   updateTotalRevenue(newRevenue: string) {
+    if (!/^\d+\.\d{2}$/.test(newRevenue)) throw new Error('Invalid revenue format');
     this._totalRevenue = newRevenue;
     this._rootDirty = true;
   }

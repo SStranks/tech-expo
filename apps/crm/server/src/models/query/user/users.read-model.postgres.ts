@@ -20,16 +20,18 @@ export class PostgresUserReadModel implements UserReadModel {
 
       return userProfiles.map((uP) => ({
         id: uP.id,
+        userId: uP.userId,
         firstName: uP.firstName,
         lastName: uP.lastName,
         email: uP.email,
         mobile: uP.mobile,
         telephone: uP.telephone,
-        timezone: uP.timezone,
-        country: uP.country,
-        company: uP.company,
+        timezoneId: uP.timezoneId,
+        countryId: uP.countryId,
+        companyId: uP.companyId,
         companyRole: uP.companyRole,
         image: uP.image,
+        createdAt: uP.createdAt,
         updatedAt: uP.updatedAt,
       }));
     });

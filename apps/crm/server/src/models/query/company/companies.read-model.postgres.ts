@@ -49,12 +49,12 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
         whereConditions.push(eq(CompaniesTable.businessType, query.businessType));
       }
 
-      if (query?.country) {
-        whereConditions.push(eq(CompaniesTable.country, query.country));
+      if (query?.countryId) {
+        whereConditions.push(eq(CompaniesTable.countryId, query.countryId));
       }
 
       if (query?.industry) {
-        whereConditions.push(eq(CompaniesTable.country, query.industry));
+        whereConditions.push(eq(CompaniesTable.countryId, query.industry));
       }
 
       if (query?.size) {
@@ -73,7 +73,7 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
   async findCompanyNoteByCompanyNoteId(id: CompanyId): Promise<PersistedCompanyNote | null> {
     return postgresDBCall(async () => {
       const companyNote = await postgresDB.query.CompaniesNotesTable.findFirst({
-        where: (companyNote, { eq }) => eq(companyNote.company, id),
+        where: (companyNote, { eq }) => eq(companyNote.companyId, id),
       });
 
       return companyNote ? toCompanyNoteDomain(companyNote) : null;
@@ -83,15 +83,15 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
   async findCompanyNotesByCompanyId(id: CompanyId): Promise<CompanyNoteReadRow[]> {
     return postgresDBCall(async () => {
       const companyNotes = await postgresDB.query.CompaniesNotesTable.findMany({
-        where: (companyNote, { eq }) => eq(companyNote.company, id),
+        where: (companyNote, { eq }) => eq(companyNote.companyId, id),
       });
 
       return companyNotes.map((cN) => ({
         id: asCompanyNoteId(cN.id),
         note: cN.note,
-        company: asCompanyId(cN.company),
+        companyId: asCompanyId(cN.companyId),
         createdAt: cN.createdAt,
-        createdBy: asUserProfileId(cN.createdBy),
+        createdByUserProfileId: asUserProfileId(cN.createdByUserProfileId),
       }));
     });
   }
@@ -116,7 +116,7 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
               .from(UserProfileTable)
               .where(
                 and(
-                  eq(UserProfileTable.company, CompaniesTable.id),
+                  eq(UserProfileTable.companyId, CompaniesTable.id),
                   eq(UserProfileTable.id, query.filters.salesOwnerId)
                 )
               )
@@ -131,7 +131,7 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
               .select()
               .from(ContactsTable)
               .where(
-                and(eq(ContactsTable.company, CompaniesTable.id), inArray(ContactsTable.id, query.filters.contactIds))
+                and(eq(ContactsTable.companyId, CompaniesTable.id), inArray(ContactsTable.id, query.filters.contactIds))
               )
           )
         );
@@ -154,19 +154,22 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
       const salesOwners = await postgresDB
         .select()
         .from(UserProfileTable)
-        .where(inArray(UserProfileTable.company, companyIds));
+        .where(inArray(UserProfileTable.companyId, companyIds));
 
       const openDealsTotals = await postgresDB
         .select({
-          companyId: PipelineDealsTable.company,
+          companyId: PipelineDealsTable.companyId,
           total: sql<string>`coalesce(sum(${PipelineDealsTable.value}), 0)`,
         })
         .from(PipelineDealsTable)
-        .where(inArray(PipelineDealsTable.company, companyIds))
-        .groupBy(PipelineDealsTable.company);
+        .where(inArray(PipelineDealsTable.companyId, companyIds))
+        .groupBy(PipelineDealsTable.companyId);
 
       // TODO: Need to get max 5 full contacts max, then the total count also;
-      const contacts = await postgresDB.select().from(ContactsTable).where(inArray(ContactsTable.company, companyIds));
+      const contacts = await postgresDB
+        .select()
+        .from(ContactsTable)
+        .where(inArray(ContactsTable.companyId, companyIds));
 
       const companyMap = new Map<string, CompanyWithRelations>();
 
@@ -175,7 +178,7 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
       }
 
       for (const owner of salesOwners) {
-        const entry = companyMap.get(owner.company);
+        const entry = companyMap.get(owner.companyId);
         if (entry) entry.salesOwner = owner;
       }
 
@@ -185,7 +188,7 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
       }
 
       for (const contact of contacts) {
-        const entry = companyMap.get(contact.company);
+        const entry = companyMap.get(contact.companyId);
         if (entry) entry.contacts.push(contact);
       }
 
@@ -209,7 +212,7 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
         totalRevenue: c.totalRevenue,
         industry: c.industry,
         businessType: c.businessType,
-        country: asCountryId(c.country),
+        countryId: asCountryId(c.countryId),
         website: c.website,
       }));
     });

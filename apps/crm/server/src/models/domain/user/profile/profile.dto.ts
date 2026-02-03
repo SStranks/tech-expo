@@ -9,7 +9,7 @@ export type UserProfileDTO = {
   email: string;
   mobile: string | null;
   telephone: string | null;
-  timezone: string | null;
+  timezoneId: UUID | null;
   countryId: UUID;
   companyId: UUID;
   companyRole: CompanyRoles;

@@ -6,7 +6,7 @@ type QuoteProps = {
   title: string;
   createdAt: Date;
   company: string;
-  total: string;
+  totalAmount: string;
   salesTax: string;
   stage: QuoteStage;
   preparedFor: ContactId;
@@ -24,7 +24,7 @@ export type PersistedQuote = InstanceType<typeof PersistedQuoteImpl>;
 export abstract class Quote {
   private _title: string;
   private _company: string;
-  private _total: string;
+  private _totalAmount: string;
   private _salesTax: string;
   private _stage: QuoteStage;
   private _preparedFor: ContactId;
@@ -37,7 +37,7 @@ export abstract class Quote {
   constructor(props: QuoteProps) {
     this._title = props.title;
     this._company = props.company;
-    this._total = props.total;
+    this._totalAmount = props.totalAmount;
     this._salesTax = props.salesTax;
     this._stage = props.stage;
     this._preparedFor = props.preparedFor;
@@ -69,7 +69,7 @@ export abstract class Quote {
   }
 
   get total() {
-    return this._total;
+    return this._totalAmount;
   }
 
   get salesTax() {

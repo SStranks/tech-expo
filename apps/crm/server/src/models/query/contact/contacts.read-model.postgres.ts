@@ -20,16 +20,16 @@ export class PostgresContactReadModel implements ContactReadModel {
       let sqlQuery = postgresDB.select({ count: count() }).from(ContactsTable).$dynamic();
       const whereConditions = [];
 
-      if (query?.company) {
-        whereConditions.push(eq(ContactsTable.company, query.company));
+      if (query?.companyId) {
+        whereConditions.push(eq(ContactsTable.companyId, query.companyId));
       }
 
       if (query?.stage) {
         whereConditions.push(eq(ContactsTable.stage, query.stage));
       }
 
-      if (query?.timezone) {
-        whereConditions.push(eq(ContactsTable.timezone, query.timezone));
+      if (query?.timezoneId) {
+        whereConditions.push(eq(ContactsTable.timezoneId, query.timezoneId));
       }
 
       if (whereConditions.length > 0) {
@@ -53,10 +53,10 @@ export class PostgresContactReadModel implements ContactReadModel {
         lastName: c.lastName,
         email: c.email,
         phone: c.phone,
-        company: asCompanyId(c.company),
+        companyId: asCompanyId(c.companyId),
         jobTitle: c.jobTitle,
         stage: c.stage,
-        timezone: c.timezone ? asTimeZoneId(c.timezone) : null,
+        timezoneId: c.timezoneId ? asTimeZoneId(c.timezoneId) : null,
         image: c.image,
       }));
     });

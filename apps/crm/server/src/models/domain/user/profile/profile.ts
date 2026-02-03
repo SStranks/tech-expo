@@ -76,7 +76,7 @@ export abstract class UserProfile {
   // Getters
   // --------------------------
   // #region getters
-  get timezone() {
+  get timezoneId() {
     return this._timezoneId;
   }
 

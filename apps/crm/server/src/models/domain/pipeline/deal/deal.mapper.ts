@@ -7,9 +7,9 @@ export const pipelineDealReadRowToDTO = (deal: PipelineDealReadRow): PipelineDea
   id: deal.id,
   orderKey: deal.orderKey,
   title: deal.title,
-  company: deal.company,
-  stage: deal.stage,
+  companyId: deal.companyId,
+  stageId: deal.stageId,
   value: deal.value,
-  dealOwner: deal.dealOwner,
-  dealContact: deal.dealContact,
+  dealOwnerId: deal.dealOwnerId,
+  dealContactId: deal.dealContactId,
 });
