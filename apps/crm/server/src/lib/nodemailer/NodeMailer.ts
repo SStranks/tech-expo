@@ -63,7 +63,6 @@ class NodeMailer {
     if (NODE_ENV === 'development') headers = { 'X-MT-Category': 'CRM Server: PasswordReset' };
     this.sendMail({ headers, html, subject, to: userEmail }).catch((error) => {
       throw new BadRequestError({
-        code: 500,
         context: { error },
         logging: true,
         message: 'Internal error sending reset email',

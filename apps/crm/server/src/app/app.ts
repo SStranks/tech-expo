@@ -68,9 +68,7 @@ app.get('/favicon.ico', (_req, res) => {
 });
 
 app.all(/(.*)/, (req: Request, _res: Response, next: NextFunction) => {
-  next(
-    new BadRequestError({ code: 404, logging: true, message: `Can't find route ${req.originalUrl} on this server!` })
-  );
+  next(new BadRequestError({ logging: true, message: `Can't find route ${req.originalUrl} on this server!` }));
 });
 
 app.use(globalErrorHandler);

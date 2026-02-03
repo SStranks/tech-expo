@@ -175,7 +175,13 @@ const postgresDBCall = async <T>(dbCall: () => Promise<T>): Promise<T> => {
       });
     }
 
-    throw new AppError({ context: { error }, logging: true, message: 'Unknown Postgres error' });
+    throw new AppError({
+      httpStatus: 500,
+      code: 'UNKNOWN_ERROR',
+      context: { error },
+      logging: true,
+      message: 'Unknown Postgres error',
+    });
   }
 };
 

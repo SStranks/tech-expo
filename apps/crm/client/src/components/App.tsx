@@ -1,5 +1,7 @@
+import type { NavigateOptions } from 'react-router-dom';
+
 import { RouterProvider } from 'react-aria-components';
-import { Navigate, NavigateOptions, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 
 import Header from '@Features/header/Header';
 import { Aside } from '@Features/sidebar/Aside';
