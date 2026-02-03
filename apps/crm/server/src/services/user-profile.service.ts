@@ -8,7 +8,7 @@ import type { UserReadModel } from '#Models/query/user/users.read-model.js';
 import { asUserProfileId, userProfileDomainToUserProfileDTO } from '#Models/domain/user/profile/profile.mapper.js';
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';
 
-export interface IUserProfileService {
+interface IUserProfileService {
   getUserProfilesByIds(userProfileIds: UserProfileId[]): Promise<UserProfileDTO[]>;
   findUserProfileByUserId(id: UserId): Promise<PersistedUserProfile>;
 }

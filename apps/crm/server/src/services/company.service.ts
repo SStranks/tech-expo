@@ -25,7 +25,7 @@ import { asCountryId } from '#Models/domain/country/country.mapper.js';
 import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';
 
-export interface ICompanyService {
+interface ICompanyService {
   getCompanyById(id: CompanyId): Promise<PersistedCompany>;
   getCompanyNoteById(id: CompanyNoteId): Promise<CompanyNote>;
   createCompany(cmd: CreateCompanyCommand): Promise<PersistedCompany>;
@@ -68,6 +68,7 @@ export class CompanyService implements ICompanyService {
     const newCompany = Company.create({
       ...cmd,
       countryId: asCountryId(cmd.countryId),
+      totalRevenue: cmd.totalRevenue ?? '0.00',
       website: cmd.website ?? undefined,
     });
 
