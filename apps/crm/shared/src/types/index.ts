@@ -1,2 +1,2 @@
-export * from './api/auth.ts';
-export * from './api/base.ts';
+export * from './api/auth.js';
+export * from './api/base.js';

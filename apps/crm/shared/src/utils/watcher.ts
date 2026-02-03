@@ -1,9 +1,9 @@
 import watcher from '@parcel/watcher';
 import logSymbols from 'log-symbols';
 
-import { outputFile, typeDefsDir } from '../graphql/paths.ts';
-import { tailPath } from './paths.ts';
-import { writeSchema } from './writeSchema.ts';
+import { outputFile, typeDefsDir } from '../graphql/paths.js';
+import { tailPath } from './paths.js';
+import { writeSchema } from './writeSchema.js';
 
 type LogCases = 'initialize' | 'success' | 'error' | 'watching' | 'shutdown';
 const log = (key: LogCases, { error, signal }: { signal?: string; error?: Error } = {}) => {

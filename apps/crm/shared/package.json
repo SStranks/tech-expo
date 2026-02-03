@@ -10,14 +10,19 @@
   "scripts": {
     "clean": "rm -rf dist",
     "watch:graphql": "tsx ./src/utils/watcher.ts",
-    "build": "pnpm run clean && pnpm run build:types && pnpm run build:graphql",
-    "build:types": "tsc -p tsconfig.json",
+    "build": "pnpm run clean && pnpm run build:js && pnpm run build:types && pnpm run build:graphql",
+    "build:js": "tsc -p tsconfig.json",
+    "build:types": "tsc -p tsconfig.types.json",
     "build:graphql": "tsx ./src/graphql/generateSchema.ts"
   },
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "default": "./dist/utils/index.js"
     },
     "./graphql/schema": "./dist/graphql/schema.graphql"
   },

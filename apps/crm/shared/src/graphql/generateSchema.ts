@@ -1,5 +1,5 @@
-import { writeSchema } from '../utils/writeSchema.ts';
-import { outputFile, typeDefsDir } from './paths.ts';
+import { writeSchema } from '../utils/writeSchema.js';
+import { outputFile, typeDefsDir } from './paths.js';
 
 writeSchema({ outputFile, typeDefsDir });
 
