@@ -4,6 +4,8 @@ packages:
 
 injectWorkspacePackages: true
 
+minimumReleaseAge: 7200
+
 allowBuilds:
   - argon2: true
   - core-js: true
