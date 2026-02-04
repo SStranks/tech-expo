@@ -1,4 +1,4 @@
-import { BaseContext, GraphQLRequestContext } from '@apollo/server';
+import type { BaseContext, GraphQLRequestContext } from '@apollo/server';
 
 import pinoLogger from '#Lib/pinoLogger.js';
 

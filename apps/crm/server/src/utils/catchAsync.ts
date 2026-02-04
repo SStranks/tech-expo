@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 
 // NOTE:  DEPRECIATED; Express v5 now inherently handles async errors
 const catchAsync = <T>(fn: (_req: Request, _res: Response, _next: NextFunction) => Promise<T>) => {

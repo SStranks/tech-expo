@@ -1,6 +1,10 @@
-import z, { ZodError, ZodFlattenedError } from 'zod';
+import type { ZodError, ZodFlattenedError } from 'zod';
 
-import CustomError, { CustomErrorContent } from './CustomError.js';
+import type { CustomErrorContent } from './CustomError.js';
+
+import z from 'zod';
+
+import CustomError from './CustomError.js';
 
 export default class ZodValidationError extends CustomError {
   private static readonly _statusCode = 400;

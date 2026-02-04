@@ -1,6 +1,8 @@
-import { DbErrorKind } from '#Config/dbPostgres.js';
+import type { DbErrorKind } from '#Config/dbPostgres.js';
 
-import CustomError, { CustomErrorContent } from './CustomError.js';
+import type { CustomErrorContent } from './CustomError.js';
+
+import CustomError from './CustomError.js';
 
 export default class PostgresError extends CustomError {
   private readonly _kind: DbErrorKind;
