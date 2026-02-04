@@ -1,6 +1,7 @@
+import type { PropsWithChildren } from 'react';
 import type { DefaultValues, FieldValues, Mode, SubmitHandler } from 'react-hook-form';
 
-import { PropsWithChildren, useId } from 'react';
+import { useId } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import FormProviderCombo from './components/FormProviderCombo';

@@ -1,5 +1,6 @@
+import type { ComponentType } from 'react';
+
 import { parseDate, parseTime } from '@internationalized/date';
-import { ComponentType } from 'react';
 
 /*
  * NOTE: InputCombo:

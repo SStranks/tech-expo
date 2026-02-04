@@ -1,7 +1,8 @@
+import type { HTMLAttributes, PropsWithChildren } from 'react';
+
 import type { ValidationRules } from './validationRules';
 
 import clsx from 'clsx';
-import { HTMLAttributes, PropsWithChildren } from 'react';
 import { useFormContext, useFormState } from 'react-hook-form';
 
 import styles from './InputUX.module.scss';

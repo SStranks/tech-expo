@@ -1,13 +1,8 @@
+import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
+
 import type { TableDataDeals } from '@Data/MockData';
 
-import {
-  ColumnFiltersState,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-} from '@tanstack/react-table';
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
 
 import ColumnCompaniesDeals from '@Components/tanstack-table/columns/ColumnCompaniesDeals';

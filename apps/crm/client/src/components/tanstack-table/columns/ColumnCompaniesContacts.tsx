@@ -1,6 +1,6 @@
-import { createColumnHelper } from '@tanstack/react-table';
+import type { TableDataContacts } from '@Data/MockData';
 
-import { TableDataContacts } from '@Data/MockData';
+import { createColumnHelper } from '@tanstack/react-table';
 
 import RowActionsControl from '../controls/actions-row/RowActionsControl';
 import ContactStatus from '../elements/ContactStatus';

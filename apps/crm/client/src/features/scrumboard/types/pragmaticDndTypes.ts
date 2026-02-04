@@ -1,7 +1,7 @@
 import type { KanbanStage, KanbanTask } from '@Data/MockScrumboardKanban';
 import type { PipelineDeal, PipelineStage } from '@Data/MockScrumboardPipeline';
 
-import {
+import type {
   SYMBOL_KANBAN_STAGE,
   SYMBOL_KANBAN_TASK,
   SYMBOL_PIPELINE_DEAL,

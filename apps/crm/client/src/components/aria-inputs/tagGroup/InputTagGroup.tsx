@@ -1,5 +1,7 @@
-import { Button, Key, Tag, TagGroup, TagList } from 'react-aria-components';
-import { FieldValues, UseFormTrigger } from 'react-hook-form';
+import type { Key } from 'react-aria-components';
+import type { FieldValues, UseFormTrigger } from 'react-hook-form';
+
+import { Button, Tag, TagGroup, TagList } from 'react-aria-components';
 
 import IconClose from '@Components/svg/IconClose';
 

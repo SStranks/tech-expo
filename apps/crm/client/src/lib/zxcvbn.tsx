@@ -1,4 +1,6 @@
-import { Score, zxcvbnAsync, zxcvbnOptions } from '@zxcvbn-ts/core';
+import type { Score } from '@zxcvbn-ts/core';
+
+import { zxcvbnAsync, zxcvbnOptions } from '@zxcvbn-ts/core';
 import * as zxcvbnCommonPackage from '@zxcvbn-ts/language-common';
 import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en';
 import { useDeferredValue, useEffect, useState } from 'react';

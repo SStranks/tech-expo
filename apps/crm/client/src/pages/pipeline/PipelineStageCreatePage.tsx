@@ -1,5 +1,6 @@
+import type { SubmitHandler } from 'react-hook-form';
+
 import { useState } from 'react';
-import { SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';

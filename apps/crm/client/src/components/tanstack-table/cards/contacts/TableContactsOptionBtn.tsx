@@ -1,12 +1,13 @@
 import type { CoreRow } from '@tanstack/react-table';
 
+import type { TableDataContacts } from '@Data/MockData';
+
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from 'react-aria-components';
 import { useNavigate } from 'react-router-dom';
 
 import IconDelete from '@Components/svg/IconDelete';
 import IconEye from '@Components/svg/IconEye';
 import IconMenuDots from '@Components/svg/IconMenuDots';
-import { TableDataContacts } from '@Data/MockData';
 
 import styles from './TableContactsOptionBtn.module.scss';
 

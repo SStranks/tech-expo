@@ -1,11 +1,8 @@
-import {
-  ColumnFiltersState,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-} from '@tanstack/react-table';
+import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
+
+import type { TableDataQuotes } from '@Data/MockData';
+
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,7 +10,6 @@ import ColumnQuotes from '@Components/tanstack-table/columns/ColumnQuotes';
 import TableControlsFooter from '@Components/tanstack-table/controls/ui/TableControlsFooter';
 import TableControlsHeader from '@Components/tanstack-table/controls/ui/TableControlsHeader';
 import TableListView from '@Components/tanstack-table/views/TableListView';
-import { TableDataQuotes } from '@Data/MockData';
 import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableQuotes.module.scss';

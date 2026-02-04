@@ -1,6 +1,6 @@
-import { createColumnHelper } from '@tanstack/react-table';
+import type { TableDataDeals } from '@Data/MockData';
 
-import { TableDataDeals } from '@Data/MockData';
+import { createColumnHelper } from '@tanstack/react-table';
 
 import RowActionsControl from '../controls/actions-row/RowActionsControl';
 import DealParticipants from '../elements/DealParticipants';

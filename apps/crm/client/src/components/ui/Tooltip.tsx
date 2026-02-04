@@ -1,4 +1,6 @@
-import { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+
+import { useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import ReactPortal from '@Components/modal/ReactPortal';

@@ -1,4 +1,4 @@
-import { Notification } from '@Data/MockData';
+import type { Notification } from '@Data/MockData';
 
 import styles from './NotificationsList.module.scss';
 

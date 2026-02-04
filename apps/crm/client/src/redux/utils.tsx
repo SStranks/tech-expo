@@ -1,9 +1,10 @@
 import type { RenderOptions } from '@testing-library/react';
+import type { PropsWithChildren } from 'react';
 
 import type { ReduxRootState, ReduxStore } from './store';
 
 import { render } from '@testing-library/react';
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 
 import { AxiosClient } from '@Lib/axios';

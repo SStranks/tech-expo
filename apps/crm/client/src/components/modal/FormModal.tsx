@@ -1,4 +1,6 @@
-import { createContext, PropsWithChildren, useContext, useMemo, useRef } from 'react';
+import type { PropsWithChildren } from 'react';
+
+import { createContext, useContext, useMemo, useRef } from 'react';
 
 import ButtonCancel from '@Components/buttons/ButtonCancel';
 import ButtonClose from '@Components/buttons/ButtonClose';

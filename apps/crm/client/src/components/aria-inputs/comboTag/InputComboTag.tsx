@@ -1,10 +1,12 @@
+import type { Key } from 'react-aria-components';
+import type { FieldValues, UseFormTrigger } from 'react-hook-form';
+
 import { useState } from 'react';
 import {
   Button,
   ComboBox,
   Group,
   Input,
-  Key,
   ListBox,
   ListBoxItem,
   Popover,
@@ -12,7 +14,6 @@ import {
   TagGroup,
   TagList,
 } from 'react-aria-components';
-import { FieldValues, UseFormTrigger } from 'react-hook-form';
 
 import IconArrowDownAlt from '@Components/svg/IconArrowDownAlt';
 import IconClose from '@Components/svg/IconClose';

@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import { createSlice } from '@reduxjs/toolkit';
 
 // TODO:  Check auth flow - what is IRequest supposed to be?
 type Request = {};

@@ -1,9 +1,10 @@
+import type { Key } from 'react-aria-components';
+
 import type { PipelineDeal, PipelineStage } from '@Data/MockScrumboardPipeline';
 
 import { useEffect, useMemo, useRef } from 'react';
 import {
   Button,
-  Key,
   Menu,
   MenuItem,
   MenuSection,

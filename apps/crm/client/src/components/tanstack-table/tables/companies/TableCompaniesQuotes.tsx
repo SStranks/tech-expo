@@ -1,6 +1,8 @@
+import type { ColumnFiltersState } from '@tanstack/react-table';
+
 import type { TableDataQuotes } from '@Data/MockData';
 
-import { ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getPaginationRowModel } from '@tanstack/react-table';
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
 
 import ColumnCompaniesQuotes from '@Components/tanstack-table/columns/ColumnCompaniesQuotes';

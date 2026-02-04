@@ -1,13 +1,8 @@
+import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
+
 import type { TableAuditLog } from '@Data/MockData';
 
-import {
-  ColumnFiltersState,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-} from '@tanstack/react-table';
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
 
 import ColumnAuditLog from '@Components/tanstack-table/columns/ColumnAuditLog';

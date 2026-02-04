@@ -1,4 +1,4 @@
-import { TableAuditLog } from '@Data/MockData';
+import type { TableAuditLog } from '@Data/MockData';
 
 import styles from './AuditAction.module.scss';
 

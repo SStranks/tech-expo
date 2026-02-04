@@ -1,7 +1,8 @@
 import type { Updater } from '@tanstack/react-table';
+import type { Key } from 'react-aria-components';
 
 import { useContext } from 'react';
-import { Button, Key, Label, ListBox, ListBoxItem, Popover, Select, SelectStateContext } from 'react-aria-components';
+import { Button, Label, ListBox, ListBoxItem, Popover, Select, SelectStateContext } from 'react-aria-components';
 
 import IconListDownArrow from '@Components/svg/IconListDownArrow';
 

@@ -1,9 +1,9 @@
 import type { InputHTMLAttributes } from 'react';
+import type { InputProps } from 'react-aria-components';
 
 import type { ValidationRules } from '@Components/react-hook-form/validationRules';
 
 import { useId } from 'react';
-import { InputProps } from 'react-aria-components';
 import { useFormContext, useFormState } from 'react-hook-form';
 
 import Input from '@Components/react-hook-form/input/Input';

@@ -1,6 +1,7 @@
+import type { ChangeEvent, InputHTMLAttributes } from 'react';
+
 import type { ValidationRules } from '../validationRules';
 
-import { ChangeEvent, InputHTMLAttributes } from 'react';
 import { useFormContext, useFormState } from 'react-hook-form';
 
 import styles from './TextArea.module.scss';

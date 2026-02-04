@@ -1,4 +1,6 @@
-import { flexRender, type Table, Updater } from '@tanstack/react-table';
+import type { Table, Updater } from '@tanstack/react-table';
+
+import { flexRender } from '@tanstack/react-table';
 
 import FilterRowControl from '../controls/filter-row/FilterRowControl';
 import PaginatorRangeControl from '../controls/pagination/PaginatorRangeControl';

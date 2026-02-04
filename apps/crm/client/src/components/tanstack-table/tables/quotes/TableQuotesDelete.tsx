@@ -1,9 +1,10 @@
+import type { TableDataQuotes } from '@Data/MockData';
+
 import { getCoreRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
 
 import ColumnQuotesDelete from '@Components/tanstack-table/columns/ColumnQuotesDelete';
 import TableModalView from '@Components/tanstack-table/views/TableModalView';
-import { TableDataQuotes } from '@Data/MockData';
 import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableQuotes.module.scss';

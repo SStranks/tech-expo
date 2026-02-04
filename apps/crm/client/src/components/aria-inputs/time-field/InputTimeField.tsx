@@ -1,14 +1,6 @@
-import {
-  DateInput,
-  DateSegment,
-  FieldError,
-  Label,
-  Text,
-  TimeField,
-  TimeFieldProps,
-  TimeValue,
-  ValidationResult,
-} from 'react-aria-components';
+import type { TimeFieldProps, TimeValue, ValidationResult } from 'react-aria-components';
+
+import { DateInput, DateSegment, FieldError, Label, Text, TimeField } from 'react-aria-components';
 
 import styles from './InputTimeField.module.scss';
 

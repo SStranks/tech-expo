@@ -1,6 +1,8 @@
+import type { EnhancedStore } from '@reduxjs/toolkit';
+
 import type { ServiceHttp } from '@Services/serviceHttp';
 
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
 import rootReducer from './reducers/rootReducer';
 

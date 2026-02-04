@@ -1,6 +1,8 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { ReduxRootState } from '@Redux/store';
+import type { ReduxRootState } from '@Redux/store';
+
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 export type UiEventScope = 'kanban' | 'pipeline' | 'auth' | 'global';
 
