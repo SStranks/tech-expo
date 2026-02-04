@@ -1,4 +1,4 @@
-import type { ApiResponseSuccessData } from '@Shared/src/types/api/base';
+import type { ApiResponseSuccessData } from '@apps/crm-shared';
 
 import axios, {
   type AxiosInstance,

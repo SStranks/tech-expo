@@ -1,5 +1,5 @@
-import type { AppThunkApiConfig, ReduxRootState } from '@Redux/store';
 import type {
+  ApiResponseSuccess,
   DeleteAccountRequestDTO,
   IdentifyResponse,
   LoginRequestDTO,
@@ -7,10 +7,13 @@ import type {
   UpdatePasswordRequestDTO,
   UpdatePasswordResponse,
   UserRoles,
-} from '@Shared/src/types/api/auth';
-import type { ApiResponseSuccess, UUID } from '@Shared/src/types/api/base';
+  UUID,
+} from '@apps/crm-shared';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { AppThunkApiConfig, ReduxRootState } from '@Redux/store';
+
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export type AuthInitialState = {
   user: {

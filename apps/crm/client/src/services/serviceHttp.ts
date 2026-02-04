@@ -1,5 +1,6 @@
-import type { AxiosClient } from '@Lib/axios';
 import type {
+  ApiResponseSuccess,
+  ApiResponseSuccessData,
   DeleteAccountRequestDTO,
   ForgotPasswordRequestDTO,
   IdentifyResponse,
@@ -7,8 +8,9 @@ import type {
   LoginResponse,
   UpdatePasswordRequestDTO,
   UpdatePasswordResponse,
-} from '@Shared/src/types/api/auth';
-import type { ApiResponseSuccess, ApiResponseSuccessData } from '@Shared/src/types/api/base';
+} from '@apps/crm-shared';
+
+import type { AxiosClient } from '@Lib/axios';
 
 export interface ServiceHttp {
   account: {

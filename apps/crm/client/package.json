@@ -19,6 +19,7 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
+    "compile": "tsc -p tsconfig.json --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
     "codegen:watch": "graphql-codegen --config codegen.ts --watch",
     "start": "webpack-dev-server --config ./webpack/webpack.dev.js",

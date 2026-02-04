@@ -1,8 +1,8 @@
+import type { ApiResponseSuccess } from '@apps/crm-shared';
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import type { AxiosClient } from '@Lib/axios';
 import type { ReduxAuthStateAdapter } from '@Redux/adapters/reduxAuthAdapter';
-import type { ApiResponseSuccess } from '@Shared/src/types/api/base';
 
 import AppError from '@Utils/AppError';
 

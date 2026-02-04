@@ -1,9 +1,9 @@
+import type { UserRoles } from '@apps/crm-shared';
 import type { PropsWithChildren } from 'react';
 
 import { Navigate, useLocation } from 'react-router-dom';
 
 import { useReduxSelector } from '@Redux/hooks';
-import { UserRoles } from '@Shared/src/types/api/auth';
 
 type Props = {
   allowedRoles: UserRoles[];
