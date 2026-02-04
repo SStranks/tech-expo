@@ -14,6 +14,8 @@ import EslintConfigTypescript, { createTypeScriptImportResolver } from '@package
 import EslintConfigYAML from '@packages/eslint-config-yaml';
 import { defineConfig } from 'eslint/config';
 
+import path from 'node:path';
+
 export default defineConfig([
   {
     name: 'Global Ignores',
@@ -232,7 +234,10 @@ export default defineConfig([
     name: 'CRM: Shared; NodeJS',
     files: ['apps/crm/shared/src/**/*.[jt]s'],
     languageOptions: {
-      parserOptions: { projectService: true },
+      parserOptions: {
+        project: ['tsconfig.json', 'tsconfig.types.json'],
+        tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/shared'),
+      },
     },
     settings: {
       'import-x/resolver-next': [
