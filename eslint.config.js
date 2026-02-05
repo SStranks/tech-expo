@@ -10,7 +10,7 @@ import { EslintConfigJSON, EslintConfigJSON5, EslintConfigJSONC } from '@package
 import EslintConfigReact from '@packages/eslint-config-react';
 import EslintConfigReactVitest from '@packages/eslint-config-react-vitest';
 import EslintConfigStorybook from '@packages/eslint-config-storybook';
-import EslintConfigTypescript, { createTypeScriptImportResolver } from '@packages/eslint-config-typescript';
+import EslintConfigTypescript, { createTypeScriptImportResolver, TSEslint } from '@packages/eslint-config-typescript';
 import EslintConfigYAML from '@packages/eslint-config-yaml';
 import { defineConfig } from 'eslint/config';
 
@@ -56,6 +56,7 @@ export default defineConfig([
   {
     name: 'Typescript Configuration',
     files: ['**/*.ts?(x)'],
+    extends: [TSEslint.configs.recommendedTypeChecked],
     languageOptions: { ...EslintConfigTypescript.languageOptions },
     plugins: { ...EslintConfigTypescript.plugins },
     rules: { ...EslintConfigTypescript.rules },
