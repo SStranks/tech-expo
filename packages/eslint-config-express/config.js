@@ -13,7 +13,6 @@ const EslintConfigExpress = {
     },
     parserOptions: {
       ecmaVersion: 2021,
-      requireConfigFile: false,
     },
   },
   plugins: {

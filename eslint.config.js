@@ -108,6 +108,7 @@ export default defineConfig([
       'apps/crm/client/codegen.ts',
       'apps/pnpm-outdated/client/src/*.ts',
     ],
+    ignores: ['apps/crm/client/src/**/?(*.)+(spec|test).[jt]s?(x)'],
     processor: EslintConfigGraphQL.processor,
     languageOptions: {
       parserOptions: { projectService: true },
@@ -121,6 +122,7 @@ export default defineConfig([
         createTypeScriptImportResolver({
           alwaysTryTypes: true,
           project: ['apps/crm/client/tsconfig.json'],
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
         }),
       ],
     },
@@ -145,6 +147,7 @@ export default defineConfig([
         createTypeScriptImportResolver({
           alwaysTryTypes: true,
           project: ['apps/crm/client/tsconfig.json'],
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
         }),
       ],
     },
@@ -169,6 +172,7 @@ export default defineConfig([
         createTypeScriptImportResolver({
           alwaysTryTypes: true,
           project: ['apps/crm/client/tsconfig.json'],
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
         }),
       ],
     },
@@ -185,6 +189,7 @@ export default defineConfig([
         createTypeScriptImportResolver({
           alwaysTryTypes: true,
           project: ['apps/crm/client/cypress/tsconfig.json'],
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
         }),
       ],
     },
@@ -204,6 +209,7 @@ export default defineConfig([
         createTypeScriptImportResolver({
           alwaysTryTypes: true,
           project: ['apps/crm/server/tsconfig.json'],
+          extensions: ['.js', '.ts'],
         }),
       ],
     },
@@ -244,7 +250,8 @@ export default defineConfig([
       'import-x/resolver-next': [
         createTypeScriptImportResolver({
           alwaysTryTypes: true,
-          project: ['apps/crm/shared/tsconfig.json'],
+          project: ['apps/crm/shared/tsconfig.json', 'apps/crm/shared/tsconfig.types.json'],
+          extensions: ['.js', '.ts'],
         }),
       ],
     },

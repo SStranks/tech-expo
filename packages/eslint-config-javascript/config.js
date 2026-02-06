@@ -27,7 +27,7 @@ const EslintConfigJavascript = {
     'import-x/parsers': {},
     'import-x/resolver': {
       node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs'],
+        extensions: ['.js', '.jsx', '.mjs', '.cjs'],
         moduleDirectory: ['node_modules', './'],
       },
     },

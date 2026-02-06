@@ -4,6 +4,7 @@ import PluginImportX, { flatConfigs as PluginImportXConfigs } from 'eslint-plugi
 import globals from 'globals';
 
 export { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
+export { createNodeResolver } from 'eslint-plugin-import-x';
 export { default as TSEslint } from 'typescript-eslint';
 
 const EslintConfigTypescript = {

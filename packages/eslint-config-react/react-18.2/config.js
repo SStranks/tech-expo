@@ -14,7 +14,6 @@ const EslintConfigReact = {
     },
     parserOptions: {
       ecmaVersion: 2021,
-      requireConfigFile: false,
       ecmaFeatures: {
         jsx: true,
       },
