@@ -17,7 +17,7 @@ export const WithFormProvider = <TFormValues extends FieldValues>({
 
   return (
     <FormProvider {...methods}>
-      <form noValidate onSubmit={methods.handleSubmit(() => {})}>
+      <form noValidate onSubmit={(e) => void methods.handleSubmit(() => {})(e)}>
         {children}
       </form>
     </FormProvider>

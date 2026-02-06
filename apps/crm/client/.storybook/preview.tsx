@@ -1,4 +1,3 @@
-/// <reference path="../global.d.ts" />
 import type { Preview } from '@storybook/react-webpack5';
 
 import '@Sass/global-imports.scss';
@@ -8,10 +7,9 @@ import SCSS_Exports from '@Sass/_exports.module.scss';
 
 const { storybook_background_dark, storybook_background_light } = SCSS_Exports;
 
-export type StorybookPreview = typeof preview;
-const preview: Preview = {
+const preview = {
   decorators: [ThemeToggleDecorator],
-  initialGlobals: { themeBg: { dark: storybook_background_dark, light: storybook_background_light } },
+  initialGlobals: { theme: 'light', themeBg: { dark: storybook_background_dark, light: storybook_background_light } },
   globalTypes: {
     theme: {
       name: 'Theme',
@@ -31,6 +29,10 @@ const preview: Preview = {
       name: 'Theme Background',
       description: 'Global background color for ThemeToggle',
       items: [{ title: 'light' }, { title: 'dark' }],
+      defaultValue: {
+        dark: storybook_background_dark,
+        light: storybook_background_light,
+      },
     },
   },
   parameters: {
@@ -51,6 +53,7 @@ const preview: Preview = {
       },
     },
   },
-};
+} satisfies Preview;
 
+export type StorybookGlobals = typeof preview.initialGlobals;
 export default preview;

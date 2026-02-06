@@ -116,11 +116,11 @@ export const Disabled: Story = {
 
     await step('Element should not receive tab focus', async () => {
       await userEvent.tab();
-      expect(uxWrapper!.contains(document.activeElement)).toBe(false);
+      await expect(uxWrapper!.contains(document.activeElement)).toBe(false);
     });
 
     await step('Element should be inert; children removed from navigation tree', async () => {
-      expect(uxWrapper).toHaveAttribute('inert');
+      await expect(uxWrapper).toHaveAttribute('inert');
     });
   },
 };
@@ -225,7 +225,7 @@ export const A11yTest: Story = {
   play: async ({ canvas, step, args }) => {
     await step('Check for label association', async () => {
       const emailInput = canvas.getByRole('textbox', { name: /email/i });
-      expect(emailInput).toHaveAccessibleName(args.label);
+      await expect(emailInput).toHaveAccessibleName(args.label);
     });
   },
 };

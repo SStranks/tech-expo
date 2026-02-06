@@ -33,6 +33,6 @@
       }
     ]
   },
-  "include": ["src/**/*", "global.d.ts", "jest.config.ts"],
+  "include": ["src/**/*", "global.d.ts", "jest.config.ts", ".storybook/*"],
   "exclude": ["node_modules", "public", "dist", "cypress.config.ts", "cypress", "src/graphql/generated/*"]
 }

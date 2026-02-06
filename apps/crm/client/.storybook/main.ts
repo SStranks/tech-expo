@@ -22,7 +22,7 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
-  viteFinal: async (config) => {
+  viteFinal: (config) => {
     return mergeConfig(config, {
       resolve: {
         // BUG: 'vite-tsconfig-paths' does not work here; upstream bug in Vite Sass preprocessor
