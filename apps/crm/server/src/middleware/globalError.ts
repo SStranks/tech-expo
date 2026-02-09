@@ -1,4 +1,4 @@
-import type { ApiResponseError } from '@apps/crm-shared';
+import type { ApiError, ApiErrorDev, ApiResponseError } from '@apps/crm-shared';
 import type { ErrorRequestHandler, Response } from 'express';
 
 import postgres from 'postgres';
@@ -22,7 +22,7 @@ const getHttpCode = (error: unknown): number => {
   return 500;
 };
 
-const devErrorResponse = (error: NormalizedError, res: Response) => {
+const devErrorResponse = (error: NormalizedError, res: Response<ApiErrorDev>) => {
   const httpCode = getHttpCode(error);
 
   if (error instanceof AppError && !error.isOperational) {
@@ -39,7 +39,7 @@ const devErrorResponse = (error: NormalizedError, res: Response) => {
   }
 };
 
-const prodErrorResponse = (error: NormalizedError, res: Response) => {
+const prodErrorResponse = (error: NormalizedError, res: Response<ApiError>) => {
   if (error instanceof AppError && !error.isOperational) {
     const errMsg = 'Non-Operational Error';
     pinoLogger.app.error(error, errMsg);
@@ -84,7 +84,7 @@ const normalizeError = (error: unknown): NormalizedError => {
   });
 };
 
-const globalErrorHandler: ErrorRequestHandler = (error, _req, res: Response<ApiResponseError<unknown>>, next) => {
+const globalErrorHandler: ErrorRequestHandler = (error, _req, res: Response<ApiResponseError>, next) => {
   if (res.headersSent) return next(error);
   const normalizedError = normalizeError(error);
 
