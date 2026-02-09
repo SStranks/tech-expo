@@ -1,3 +1,5 @@
+import type { FieldValues, Path } from 'react-hook-form';
+
 import type { ValidationRules } from '@Components/react-hook-form/validationRules';
 
 import { useId } from 'react';
@@ -7,18 +9,19 @@ import InputDatePicker from '@Components/aria-inputs/date-picker/InputDatePicker
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-type Props = {
-  name: string;
+type Props<T extends FieldValues> = {
+  name: Path<T>;
   label: string;
   rules?: ValidationRules;
 };
 
-function FormProviderDatePicker({ label, name, rules = {} }: Props): React.JSX.Element {
-  const { control } = useFormContext();
-  const { defaultValues } = useFormState({ name, control });
+function FormProviderDatePicker<T extends FieldValues>({ label, name, rules = {} }: Props<T>): React.JSX.Element {
+  const { control } = useFormContext<T>();
+  const { defaultValues } = useFormState<T>({ name, control });
   const id = useId();
 
-  const defaultValue = defaultValues?.[name];
+  const rawDefaultValue = defaultValues?.[name];
+  const defaultValue = typeof rawDefaultValue === 'string' ? rawDefaultValue : '';
   // const placeholder = today(getLocalTimeZone());
 
   return (

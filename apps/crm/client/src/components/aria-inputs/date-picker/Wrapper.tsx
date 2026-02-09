@@ -31,7 +31,7 @@ function Wrapper({ error, isDirty, isRequired, onChangeRHF, valueRHF, ...props }
   };
 
   // SEND to React-Aria-Component; convert from string to CalendarDate
-  const value = valueRHF === null || valueRHF === undefined || valueRHF === '' ? null : parseDate(valueRHF);
+  const value = valueRHF === null || valueRHF === '' ? null : parseDate(valueRHF);
 
   return (
     <div

@@ -11,7 +11,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   label: string;
   id: string;
   name: string;
-  defaultValue?: string | number;
+  defaultValue?: string;
   disabled: boolean;
   rules: ValidationRules | undefined;
 }
@@ -44,7 +44,7 @@ function InputUx(props: PropsWithChildren<Props>): React.JSX.Element {
       </label>
       {showErrorState && (
         <span id={`${id}-error`} className={styles.inputUX__errorMessage} role="alert">
-          {error?.message as string}
+          {error.message as string}
         </span>
       )}
     </div>

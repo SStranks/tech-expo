@@ -1,4 +1,5 @@
 import type { SelectProps } from 'react-aria-components';
+import type { FieldValues, Path } from 'react-hook-form';
 
 import type { ValidationRules } from '@Components/react-hook-form/validationRules';
 
@@ -9,25 +10,26 @@ import InputSelect from '@Components/aria-inputs/select/InputSelect';
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-type Props = {
-  name: string;
+type Props<T extends FieldValues> = {
+  name: Path<T>;
   label: string;
   items: { name: string }[];
   rules?: ValidationRules;
 };
 
-function FormProviderSelect<T extends object>({
+function FormProviderSelect<T extends object, R extends FieldValues>({
   items,
   label,
   name,
   rules = {},
   ...rest
-}: SelectProps<T> & Props): React.JSX.Element {
-  const { control } = useFormContext();
-  const { defaultValues } = useFormState({ name, control });
+}: SelectProps<T> & Props<R>): React.JSX.Element {
+  const { control } = useFormContext<R>();
+  const { defaultValues } = useFormState<R>({ name, control });
   const id = useId();
 
-  const defaultValue = defaultValues?.[name];
+  const rawDefaultValue = defaultValues?.[name];
+  const defaultValue = typeof rawDefaultValue === 'string' ? rawDefaultValue : '';
 
   return (
     <Controller

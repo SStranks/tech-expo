@@ -1,4 +1,5 @@
 import type { HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, InputHTMLAttributes } from 'react';
+import type { FieldValues, Path } from 'react-hook-form';
 
 import type { ValidationRules } from '../validationRules';
 
@@ -7,31 +8,31 @@ import { useFormContext, useFormState } from 'react-hook-form';
 
 import styles from './Input.module.scss';
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+interface Props<T extends FieldValues> extends InputHTMLAttributes<HTMLInputElement> {
   type: HTMLInputTypeAttribute;
   id: string;
-  name: string;
+  name: Path<T>;
   autoComplete?: HTMLInputAutoCompleteAttribute;
   rules: ValidationRules;
 }
 
-function Input(props: Props): React.JSX.Element {
+function Input<T extends FieldValues>(props: Props<T>): React.JSX.Element {
   const { id, name, rules, type, ...rest } = props;
-  const { control, register, trigger } = useFormContext();
-  const { defaultValues, errors } = useFormState({ name, control });
+  const { control, register, trigger } = useFormContext<T>();
+  const { defaultValues, errors } = useFormState<T>({ name, control });
 
-  // const { mode } = control._options;
-  const defaultValue = defaultValues?.[name];
-  const error = errors?.[name];
+  const rawDefaultValue = defaultValues?.[name];
+  const defaultValue = typeof rawDefaultValue === 'string' ? rawDefaultValue : '';
+  const error = errors[name];
 
   useEffect(() => {
-    if (defaultValue) trigger(name);
+    if (defaultValue) void trigger(name);
   }, [defaultValue, name, trigger]);
 
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown
   return (
     <input
-      {...register(name, { ...rules, onChange: () => trigger(name) })}
+      {...register(name, { ...rules, onChange: () => void trigger(name) })}
       {...rest}
       type={type}
       id={id}
@@ -39,7 +40,7 @@ function Input(props: Props): React.JSX.Element {
       defaultValue={defaultValue}
       placeholder=""
       aria-invalid={error ? true : false}
-      aria-required={!!rules?.required}
+      aria-required={!!rules.required}
     />
   );
 }

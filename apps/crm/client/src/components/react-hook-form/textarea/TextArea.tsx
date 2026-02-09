@@ -1,4 +1,5 @@
 import type { ChangeEvent, InputHTMLAttributes } from 'react';
+import type { FieldValues, Path } from 'react-hook-form';
 
 import type { ValidationRules } from '../validationRules';
 
@@ -12,28 +13,29 @@ const autoHeightResize = (e: ChangeEvent<HTMLTextAreaElement>) => {
   e.target.style.height = e.target.scrollHeight + 'px';
 };
 
-interface Props extends InputHTMLAttributes<HTMLTextAreaElement> {
+interface Props<T extends FieldValues> extends InputHTMLAttributes<HTMLTextAreaElement> {
   id: string;
-  name: string;
+  name: Path<T>;
   rules?: ValidationRules;
 }
 
-function TextArea(props: Props): React.JSX.Element {
+function TextArea<T extends FieldValues>(props: Props<T>): React.JSX.Element {
   const { id, name, rules, ...rest } = props;
-  const { control, register, trigger } = useFormContext();
-  const { defaultValues, errors } = useFormState({ name, control });
+  const { control, register, trigger } = useFormContext<T>();
+  const { defaultValues, errors } = useFormState<T>({ name, control });
 
-  const defaultValue = defaultValues?.[name];
-  const error = errors?.[name];
+  const rawDefaultValue = defaultValues?.[name];
+  const defaultValue = typeof rawDefaultValue === 'string' ? rawDefaultValue : '';
+  const error = errors[name];
 
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown
   return (
     <textarea
       {...register(name, {
         ...rules,
-        onChange: (e) => {
+        onChange: (e: ChangeEvent<HTMLTextAreaElement>) => {
           autoHeightResize(e);
-          trigger(name);
+          void trigger(name);
         },
       })}
       {...rest}

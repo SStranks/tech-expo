@@ -13,7 +13,7 @@ type Props = {
   setTableView: React.Dispatch<React.SetStateAction<'list' | 'grid'>>;
   columnFilters: ColumnFiltersState;
   setColumnFilters: (updater: Updater<ColumnFiltersState>) => void;
-  resetColumnFilters: (defaultState?: boolean | undefined) => void;
+  resetColumnFilters: (defaultState?: boolean) => void;
 };
 
 function ListGridToggle(props: Props): React.JSX.Element {

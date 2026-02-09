@@ -35,7 +35,7 @@ const DATE_TODAY = today(getLocalTimeZone());
 
 // Focus calendar on the date today
 function ButtonToday(): React.JSX.Element {
-  let state = useContext(DatePickerStateContext);
+  const state = useContext(DatePickerStateContext);
 
   return (
     <Button
@@ -58,7 +58,7 @@ type ButtonYearProps = {
 
 // Advance/Recess calendar view by one year
 function ButtonYear({ className = undefined, operation }: ButtonYearProps): React.JSX.Element {
-  let state = useContext(CalendarStateContext);
+  const state = useContext(CalendarStateContext);
 
   return (
     <Button

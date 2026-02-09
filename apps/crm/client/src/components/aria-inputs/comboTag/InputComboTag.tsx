@@ -62,7 +62,7 @@ function InputComboTag(props: Props): React.JSX.Element {
     setSelectedKeys((prev) => prev.filter((p) => !ids.has(p.id)));
     // const newList = value.filter((p) => !ids.has(p.id));
     onChange(selectedKeys);
-    trigger(name);
+    void trigger(name);
   };
 
   return (

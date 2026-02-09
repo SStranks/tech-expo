@@ -1,3 +1,5 @@
+import type { FieldValues, Path } from 'react-hook-form';
+
 import type { ValidationRules } from '@Components/react-hook-form/validationRules';
 
 import { useId } from 'react';
@@ -7,20 +9,22 @@ import InputTagGroup from '@Components/aria-inputs/tagGroup/InputTagGroup';
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-type Props = {
-  name: string;
+type Props<T extends FieldValues> = {
+  name: Path<T>;
   label: string;
   rules?: ValidationRules;
 };
 
-function FormProviderTagGroup({ label, name, rules = {} }: Props): React.JSX.Element {
-  const { control, trigger } = useFormContext();
-  const { defaultValues } = useFormState({ name, control });
+function FormProviderTagGroup<T extends FieldValues>({ label, name, rules }: Props<T>): React.JSX.Element {
+  const { control, trigger } = useFormContext<T>();
+  const { defaultValues } = useFormState<T>({ name, control });
   const id = useId();
 
-  const defaultValue = defaultValues?.[name];
+  const rawDefaultValue = defaultValues?.[name];
+  const defaultValue = typeof rawDefaultValue === 'string' ? rawDefaultValue : '';
+
   const validateFn = rules?.required
-    ? (v: any) => (Array.isArray(v) && v.length > 0) || 'This field is required'
+    ? (v: unknown) => (Array.isArray(v) && v.length > 0) || 'This field is required'
     : undefined;
   const mergedRules = {
     ...rules,
@@ -32,7 +36,6 @@ function FormProviderTagGroup({ label, name, rules = {} }: Props): React.JSX.Ele
   return (
     <Controller
       control={control}
-      defaultValue={defaultValue}
       name={name}
       rules={mergedRules}
       render={({ field: { name, onBlur, onChange, value }, fieldState: { invalid: isInvalid } }) => (

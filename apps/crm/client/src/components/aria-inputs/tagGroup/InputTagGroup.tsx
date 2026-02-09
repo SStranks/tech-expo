@@ -22,12 +22,12 @@ function InputTagGroup(props: Props): React.JSX.Element {
   const onRemove = (ids: Set<Key>) => {
     const newList = value.filter((p) => !ids.has(p.id));
     onChange(newList);
-    trigger(name);
+    void trigger(name);
   };
 
   return (
     <TagGroup onRemove={onRemove} aria-labelledby={id} className={styles.tagGroup} {...rest}>
-      <TagList items={value || []} className={styles.tagList}>
+      <TagList items={value} className={styles.tagList}>
         {(item: { id: number; name: string }) => (
           <Tag textValue={item.name} id={item.id} className={styles.tag}>
             {item.name}

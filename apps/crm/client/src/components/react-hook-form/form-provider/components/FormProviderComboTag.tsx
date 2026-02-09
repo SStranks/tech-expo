@@ -1,4 +1,5 @@
 import type { ComboBoxProps } from 'react-aria-components';
+import type { FieldValues, Path } from 'react-hook-form';
 
 import type { ValidationRules } from '@Components/react-hook-form/validationRules';
 
@@ -9,24 +10,25 @@ import InputComboTag from '@Components/aria-inputs/comboTag/InputComboTag';
 import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
-type Props = {
-  name: string;
+type Props<T extends FieldValues> = {
+  name: Path<T>;
   label: string;
   listItems: { id: string; name: string }[];
   rules?: ValidationRules;
 };
 
-function FormProviderComboTag<T extends object>({
+function FormProviderComboTag<T extends object, R extends FieldValues>({
   label,
   listItems,
   name,
   rules = {},
-}: ComboBoxProps<T> & Props): React.JSX.Element {
-  const { control, trigger } = useFormContext();
-  const { defaultValues } = useFormState({ name, control });
+}: ComboBoxProps<T> & Props<R>): React.JSX.Element {
+  const { control, trigger } = useFormContext<R>();
+  const { defaultValues } = useFormState<R>({ name, control });
   const id = useId();
 
-  const defaultValue = defaultValues?.[name];
+  const rawDefaultValue = defaultValues?.[name];
+  const defaultValue = typeof rawDefaultValue === 'string' ? rawDefaultValue : '';
 
   return (
     <Controller

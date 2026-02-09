@@ -19,17 +19,17 @@ const onChangeFunctions = {
 const valueFunctions = {
   InputCombo: (v: unknown) => v ?? '',
   InputComboTag: (v: unknown) => v,
-  InputDatePicker: (v: unknown) => (typeof v === 'string' && (v as string).length > 0 ? parseDate(v as string) : null),
+  InputDatePicker: (v: unknown) => (typeof v === 'string' && v.length > 0 ? parseDate(v) : null),
   InputNumber: (v: unknown) => v,
   InputSelect: (v: unknown) => v,
   InputTagGroup: (v: unknown) => v,
-  InputTimeField: (v: unknown) => (typeof v === 'string' && (v as string).length > 0 ? parseTime(v as string) : null),
+  InputTimeField: (v: unknown) => (typeof v === 'string' && v.length > 0 ? parseTime(v) : null),
 };
 
-interface Props<T> {
-  ReactAriaComponent: ComponentType<T>;
-  value: unknown;
-  onChange: (...event: any[]) => void;
+interface Props<TComponentProps, TValue> {
+  ReactAriaComponent: ComponentType<TComponentProps>;
+  value: TValue;
+  onChange: (value: TValue) => void;
 }
 
 /**
@@ -37,10 +37,13 @@ interface Props<T> {
  * @param ReactAriaComponent The React-Aria-Component component
  * @returns React-Aria-Component; React.JSX.Element
  */
-function InputParser<T>({ ReactAriaComponent, ...props }: Props<T>): React.JSX.Element {
+function InputParser<TComponentProps, TValue>({
+  ReactAriaComponent,
+  ...props
+}: Props<TComponentProps, TValue>): React.JSX.Element {
   // RETURN to React-Hook-Form; convert from CalendarDate to string
   const onChange = (...e: unknown[]): void => {
-    const convertedValue = onChangeFunctions[ReactAriaComponent.name as keyof typeof onChangeFunctions](e);
+    const convertedValue = onChangeFunctions[ReactAriaComponent.name as keyof typeof onChangeFunctions](e) as TValue;
     return props.onChange(convertedValue);
   };
 
@@ -53,7 +56,7 @@ function InputParser<T>({ ReactAriaComponent, ...props }: Props<T>): React.JSX.E
    * console.log(props);
    */
 
-  return <ReactAriaComponent {...(props as T)} {...{ onChange, value }} />;
+  return <ReactAriaComponent {...(props as TComponentProps)} {...{ onChange, value }} />;
 }
 
 export default InputParser;

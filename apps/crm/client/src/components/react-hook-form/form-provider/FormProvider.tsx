@@ -16,7 +16,7 @@ import FormProviderTextArea from './components/FormProviderTextArea';
 import FormProviderTimeField from './components/FormProviderTimeField';
 
 interface Props<T extends FieldValues> {
-  defaultValues?: DefaultValues<T>;
+  defaultValues?: DefaultValues<T>; // TODO: Set to non-optional; provide defaults on all forms
   onSubmit: SubmitHandler<T>;
   mode?: Mode;
 }
@@ -33,7 +33,7 @@ function RHFFormProvider<T extends FieldValues>({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)} id={`form-${genId}`}>
+      <form onSubmit={() => void methods.handleSubmit(onSubmit)} id={`form-${genId}`}>
         {children}
       </form>
     </FormProvider>
