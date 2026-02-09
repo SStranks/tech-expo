@@ -36,7 +36,7 @@ function Search(props: Props): React.JSX.Element {
   const onSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     // If search is empty just focus the input
-    if (searchInput === '' && searchInputRef.current) return searchInputRef?.current.focus();
+    if (searchInput === '' && searchInputRef.current) return searchInputRef.current.focus();
     console.log(`Search Submitted: ${searchInput}`);
   };
 

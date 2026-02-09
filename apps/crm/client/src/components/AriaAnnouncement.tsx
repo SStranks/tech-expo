@@ -25,13 +25,13 @@ function AriaAnnouncement({ scope, uiEvent }: Props): React.JSX.Element {
   const reduxDispatch = useReduxDispatch();
 
   useEffect(() => {
-    if (!uiEvent || scope !== uiEvent.scope || uiEvent.type !== 'aria') return;
+    if (scope !== uiEvent.scope || uiEvent.type !== 'aria') return;
     if (uiEvent.data.politeness === 'polite') setLiveRegion(setPoliteAnnouncement, uiEvent.data.message);
     if (uiEvent.data.politeness === 'assertive') setLiveRegion(setAssertiveAnnouncement, uiEvent.data.message);
     reduxDispatch(uiEventConsume(uiEvent));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps -- "uiEvent object immutable per id"
-  }, [scope, uiEvent?.id]);
+  }, [scope, uiEvent.id]);
 
   return (
     <div className="sr-only">

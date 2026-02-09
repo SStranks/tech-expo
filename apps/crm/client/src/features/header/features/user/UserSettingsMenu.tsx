@@ -29,9 +29,9 @@ const GET_MENU_PORTAL_BTN_RECT = (menuPortalButtonRef: React.RefObject<HTMLButto
 };
 
 const PORTAL_ONRESIZE = (menuPortalButtonRef: React.RefObject<HTMLButtonElement | null>) => {
-  const CSS_ROOT = document.querySelector(':root') as HTMLElement;
+  const CSS_ROOT = document.documentElement;
   const cssValue = GET_MENU_PORTAL_BTN_RECT(menuPortalButtonRef);
-  CSS_ROOT?.style.setProperty(CSS_ROOT_PROPERTY, cssValue);
+  CSS_ROOT.style.setProperty(CSS_ROOT_PROPERTY, cssValue);
 };
 
 type Props = {
@@ -59,10 +59,10 @@ function UserSettingsMenu(props: Props): React.JSX.Element {
     setSettingsPortalActive(true);
   };
 
-  const logoutBtnClickHandler = (e: React.MouseEvent) => {
+  const logoutBtnClickHandler = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    reduxDispatch(logout());
-    navigate('/');
+    await reduxDispatch(logout());
+    void navigate('/');
   };
 
   return (
@@ -103,7 +103,7 @@ function UserSettingsMenu(props: Props): React.JSX.Element {
                 <IconSettings svgClass={styles.userSettingsBtn__svg} />
                 User Settings
               </button>
-              <button type="button" onClick={logoutBtnClickHandler} className={styles.logoutBtn}>
+              <button type="button" onClick={(e) => void logoutBtnClickHandler(e)} className={styles.logoutBtn}>
                 <IconLogout svgClass={styles.logoutBtn__svg} />
                 Logout
               </button>

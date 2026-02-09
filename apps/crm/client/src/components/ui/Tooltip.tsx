@@ -19,29 +19,29 @@ const calculateFinalPosition = (childCoords: Coords | undefined, position: Posit
   if (childCoords === undefined || childCoords.width === undefined || childCoords.height === undefined) return;
   switch (true) {
     case position === 'top': {
-      top = childCoords?.top;
-      left = `calc(${childCoords?.left}px + ${childCoords?.width / 2}px)`;
+      top = childCoords.top;
+      left = `calc(${childCoords.left}px + ${childCoords.width / 2}px)`;
       translateX = '-50%';
       translateY = `calc(-100% - ${offset}px)`;
       break;
     }
     case position === 'bottom': {
-      top = `calc(${childCoords.top}px + ${childCoords?.height}px)`;
-      left = `calc(${childCoords?.left}px + ${childCoords?.width / 2}px)`;
+      top = `calc(${childCoords.top}px + ${childCoords.height}px)`;
+      left = `calc(${childCoords.left}px + ${childCoords.width / 2}px)`;
       translateX = '-50%';
       translateY = `${offset}px`;
       break;
     }
     case position === 'left': {
-      top = `calc(${childCoords?.top}px + ${childCoords?.height / 2}px)`;
-      left = childCoords?.left;
+      top = `calc(${childCoords.top}px + ${childCoords.height / 2}px)`;
+      left = childCoords.left;
       translateX = `calc(-100% - ${offset}px)`;
       translateY = '-50%';
       break;
     }
     case position === 'right': {
-      top = `calc(${childCoords?.top}px + ${childCoords?.height / 2}px)`;
-      left = `calc(${childCoords?.left}px + ${childCoords?.width}px)`;
+      top = `calc(${childCoords.top}px + ${childCoords.height / 2}px)`;
+      left = `calc(${childCoords.left}px + ${childCoords.width}px)`;
       translateX = `${offset}px`;
       translateY = '-50%';
       break;
@@ -55,7 +55,7 @@ const calculateFinalPosition = (childCoords: Coords | undefined, position: Posit
   };
 };
 
-interface Coords extends Partial<DOMRect> {}
+type Coords = Partial<DOMRect>;
 
 type Position = 'left' | 'right' | 'top' | 'bottom';
 
@@ -75,7 +75,7 @@ function ToolTip({ children = undefined, offset, position, text }: PropsWithChil
 
   useEffect(() => {
     return () => {
-      if (timeoutRef?.current) {
+      if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
     };
@@ -83,7 +83,7 @@ function ToolTip({ children = undefined, offset, position, text }: PropsWithChil
 
   // Invokes the exit transition animation
   const onMouseLeaveHandler = () => {
-    if (timeoutRef?.current) {
+    if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
     setActive(false);
@@ -92,7 +92,7 @@ function ToolTip({ children = undefined, offset, position, text }: PropsWithChil
   // Mouse must be stationary within the target element for 500ms before tooltip is triggered
   const onMouseMoveHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     const { height, left, top, width } = e.currentTarget.getBoundingClientRect();
-    if (timeoutRef?.current) {
+    if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
     timeoutRef.current = setTimeout(() => {

@@ -8,7 +8,7 @@ import IconFilter from '@Components/svg/IconFilter';
 import styles from './FilterRowControl.module.scss';
 
 type Props = {
-  column: Column<any, unknown>;
+  column: Column<unknown, unknown>;
   fieldName: string;
 };
 

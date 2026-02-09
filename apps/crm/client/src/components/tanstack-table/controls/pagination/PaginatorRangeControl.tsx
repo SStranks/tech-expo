@@ -32,10 +32,10 @@ function PaginatorRangeControl(props: Props): React.JSX.Element {
     let pageNumber;
     if (direction === 'previous') {
       pageNumber = pageIndex - amount;
-      pageNumber < 1 ? (pageNumber = 1) : null;
+      if (pageNumber < 1) pageNumber = 1;
     } else {
       pageNumber = pageIndex + amount;
-      pageNumber > pageCount ? (pageNumber = pageCount) : null;
+      if (pageNumber > pageCount) pageNumber = pageCount;
     }
     return setPageIndex(pageNumber);
   };

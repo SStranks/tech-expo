@@ -14,7 +14,7 @@ function usePortalClose(
 ): void {
   return useEffect(() => {
     const closePortal = (e: KeyboardEvent | MouseEvent) => {
-      if (portalContentRef === null || portalContentRef.current === null) return;
+      if (portalContentRef.current === null) return;
 
       /*
         Abort if an input element or textarea is in focus elsewhere in the document; used in conjunction with

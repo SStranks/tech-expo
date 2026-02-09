@@ -1,6 +1,6 @@
 import type { SvgIcon } from '@Components/svg';
 
-import { useId, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import styles from './MenuLink.module.scss';
@@ -19,29 +19,19 @@ function MenuLink(props: Props): React.JSX.Element {
   const menuLinkRef = useRef<HTMLLIElement>(null);
   const id = useId();
 
-  // Active route
-  let activeRoute;
-  if (location.pathname === href) activeRoute = true;
-  if (location.pathname.startsWith(`${href}/`)) activeRoute = true;
+  const activeRoute = location.pathname === href || location.pathname.startsWith(`${href}/`);
 
-  // Set animation (icon-translate) delay variable
-  menuLinkRef.current?.style.setProperty('--index', `${index}`);
+  useEffect(() => {
+    if (menuLinkRef.current) {
+      // Set animation (icon-translate) delay variable
+      menuLinkRef.current.style.setProperty('--index', `${index}`);
+    }
+  }, [index]);
 
   // Page load; minimize is undefined - no animation classes applied
-  let animatedStyles;
-  switch (true) {
-    case minimize === true: {
-      animatedStyles = styles['menuLink--minimize'];
-      break;
-    }
-    case minimize === false: {
-      animatedStyles = styles['menuLink--maximize'];
-      break;
-    }
-    default: {
-      ('');
-    }
-  }
+  let animatedStyles: string | undefined;
+  if (minimize === true) animatedStyles = styles['menuLink--minimize'];
+  if (minimize === false) animatedStyles = styles['menuLink--maximize'];
 
   return (
     <li

@@ -52,7 +52,7 @@ function TableQuotes(props: Props): React.JSX.Element {
   const tableName = options.meta?.tableName;
 
   const createQuote = () => {
-    navigate('create');
+    void navigate('create');
   };
 
   return (

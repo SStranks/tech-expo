@@ -20,8 +20,8 @@ function ForgotPasswordPage(): React.JSX.Element {
   const { serviceHttp } = useServicesContext();
 
   const onSubmit = methods.handleSubmit(async (data) => {
-    serviceHttp.account.forgotpassword({ ...data });
-    navigate('/login');
+    await serviceHttp.account.forgotpassword({ ...data });
+    void navigate('/login');
   });
 
   return (
@@ -29,7 +29,7 @@ function ForgotPasswordPage(): React.JSX.Element {
       <div className={styles.formContainer}>
         <form
           name="password reset form"
-          onSubmit={onSubmit}
+          onSubmit={(e) => void onSubmit(e)}
           aria-labelledby="heading"
           className={styles.resetPasswordForm}
           noValidate>

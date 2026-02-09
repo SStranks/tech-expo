@@ -58,7 +58,7 @@ describe('Functionality', () => {
     expect(dummyInput).toHaveValue('/');
     expect(searchBar).not.toHaveFocus();
     // Unfocus dummy input
-    await dummyInput.blur();
+    dummyInput.blur();
     await user.keyboard('/');
     const portalContent = screen.getByTestId('portal-search');
     expect(portalContent).toBeInTheDocument();

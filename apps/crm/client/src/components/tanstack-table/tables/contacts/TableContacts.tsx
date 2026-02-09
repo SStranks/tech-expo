@@ -57,7 +57,7 @@ function TableContacts(props: Props): React.JSX.Element {
   const tableName = options.meta?.tableName;
 
   const createContact = () => {
-    navigate('create');
+    void navigate('create');
   };
 
   const tableCards = table.getRowModel().rows.map((row) => {

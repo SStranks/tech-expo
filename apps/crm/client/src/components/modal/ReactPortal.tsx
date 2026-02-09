@@ -43,7 +43,7 @@ function ReactPortal({ children, wrapperId = 'react-portal-wrapper' }: PortalChi
 
     return () => {
       // delete the programatically created element
-      if (systemCreated && element?.parentNode) {
+      if (systemCreated && element.parentNode) {
         element.remove();
       }
     };

@@ -22,7 +22,7 @@ type Props = {
     setTableView: React.Dispatch<React.SetStateAction<'list' | 'grid'>>;
     columnFilters: ColumnFiltersState;
     setColumnFilters: React.Dispatch<React.SetStateAction<ColumnFiltersState>>;
-    resetColumnFilters: (defaultState?: boolean | undefined) => void;
+    resetColumnFilters: (defaultState?: boolean) => void;
   };
 };
 

@@ -1,9 +1,9 @@
-import type { ServiceHttp } from '@Services/serviceHttp';
+import type { IServiceHttp } from '@Services/serviceHttp';
 
 import { createContext, useContext } from 'react';
 
 type ServicesContext = {
-  serviceHttp: ServiceHttp;
+  serviceHttp: IServiceHttp;
 };
 
 export const ServicesContext = createContext<ServicesContext | null>(null);

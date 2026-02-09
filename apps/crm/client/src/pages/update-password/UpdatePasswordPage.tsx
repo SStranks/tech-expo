@@ -45,8 +45,8 @@ function UpdatePasswordPage(): React.JSX.Element {
   const { serviceHttp } = useServicesContext();
 
   const onSubmit = methods.handleSubmit(async (data) => {
-    serviceHttp.account.updatepassword({ ...data });
-    navigate('/login');
+    await serviceHttp.account.updatepassword({ ...data });
+    await navigate('/login');
   });
 
   return (
@@ -54,7 +54,7 @@ function UpdatePasswordPage(): React.JSX.Element {
       <div className={styles.formContainer}>
         <form
           name="password-update-form"
-          onSubmit={onSubmit}
+          onSubmit={() => void onSubmit}
           aria-labelledby="heading"
           className={styles.updatePasswordForm}
           noValidate>
@@ -62,7 +62,7 @@ function UpdatePasswordPage(): React.JSX.Element {
           <Suspense fallback={<InputPasswordSkeleton label="Password" />}>
             <InputPasswordStrength
               name="newPassword"
-              defaultValue={defaultValues?.['newPassword']}
+              defaultValue={defaultValues['newPassword']}
               reveal={false}
               label="Password"
             />
@@ -72,7 +72,7 @@ function UpdatePasswordPage(): React.JSX.Element {
             label="Confirm Password"
             name="newPasswordConfirm"
             rules={PASSWORDCONFIRM_RULES}
-            defaultValue={defaultValues?.['newPasswordConfirm']}
+            defaultValue={defaultValues['newPasswordConfirm']}
             disabled={false}>
             <Input
               id={confirmPasswordId}
@@ -94,7 +94,7 @@ function UpdatePasswordPage(): React.JSX.Element {
             label="Old Password"
             name="oldPassword"
             rules={PASSWORD_RULES}
-            defaultValue={defaultValues?.['oldPassword']}
+            defaultValue={defaultValues['oldPassword']}
             disabled={false}>
             <Input
               id={confirmPasswordId}

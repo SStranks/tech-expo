@@ -26,10 +26,10 @@ const GET_MENU_PORTAL_BTN_RECT = (portalButtonRef: React.RefObject<HTMLButtonEle
 };
 
 const PORTAL_ONRESIZE = (portalButtonRef: React.RefObject<HTMLButtonElement | null>) => {
-  const CSS_ROOT = document.querySelector(':root') as HTMLElement;
+  const CSS_ROOT = document.documentElement;
   const cssValue = GET_MENU_PORTAL_BTN_RECT(portalButtonRef);
   console.log(cssValue);
-  CSS_ROOT?.style.setProperty(CSS_ROOT_PROPERTY, cssValue);
+  CSS_ROOT.style.setProperty(CSS_ROOT_PROPERTY, cssValue);
 };
 
 type Props = {

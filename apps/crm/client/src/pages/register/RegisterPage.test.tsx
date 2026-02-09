@@ -36,7 +36,7 @@ vi.mock('@Services/serviceHttp', () => {
 afterEach(() => vi.clearAllMocks());
 
 describe('Initialization', () => {
-  test('Component should render correctly', async () => {
+  test('Component should render correctly', () => {
     render(<RegisterPage />, { wrapper: BrowserRouter });
     const headerH1 = screen.getByRole('heading', { name: /register account/i, level: 1 });
     const formElement = screen.getByRole('form', { name: /register account/i });
@@ -58,7 +58,7 @@ describe('Initialization', () => {
 describe('Functionality', () => {
   afterEach(() => vi.clearAllMocks());
 
-  test('Form links are valid', async () => {
+  test('Form links are valid', () => {
     render(<RegisterPage />, { wrapper: BrowserRouter });
 
     const loginLink = screen.getByRole('link', { name: /login/i });
@@ -67,7 +67,7 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; "required" errors on empty inputs', async () => {
-    vi.mocked(getStrength).mockResolvedValue(null);
+    vi.mocked(getStrength).mockResolvedValue(0);
     render(<RegisterPage />, { wrapper: BrowserRouter });
     const user = userEvent.setup({ delay: null });
 

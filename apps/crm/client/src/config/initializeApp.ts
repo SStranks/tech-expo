@@ -28,7 +28,7 @@ export async function initializeApp() {
   }
 
   await reduxStore.dispatch(authInitialize());
-  await reduxServices.serviceAuth.initInterceptors();
+  reduxServices.serviceAuth.initInterceptors();
 
   return { coreServices, reduxStore };
 }

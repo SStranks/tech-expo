@@ -9,7 +9,7 @@ const Icon = vi.fn();
 
 describe('Initialization', () => {
   beforeEach(() => {
-    vi.resetAllMocks;
+    vi.resetAllMocks();
   });
 
   test('Component should render correctly', () => {

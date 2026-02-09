@@ -34,8 +34,8 @@ function RegisterPage(): React.JSX.Element {
   const { serviceHttp } = useServicesContext();
 
   const onSubmit = methods.handleSubmit(async (data) => {
-    serviceHttp.account.login({ ...data });
-    navigate('/login');
+    await serviceHttp.account.login({ ...data });
+    void navigate('/login');
   });
 
   return (
@@ -43,7 +43,7 @@ function RegisterPage(): React.JSX.Element {
       <div className={styles.formContainer}>
         <form
           name="register form"
-          onSubmit={onSubmit}
+          onSubmit={(e) => void onSubmit(e)}
           aria-labelledby="heading"
           className={styles.registerForm}
           noValidate>
