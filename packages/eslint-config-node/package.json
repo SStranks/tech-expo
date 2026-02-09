@@ -1,0 +1,14 @@
+{
+  "name": "@packages/eslint-config-node",
+  "version": "1.0.0",
+  "private": true,
+  "description": "node eslint configuration",
+  "author": "Simon Stranks <sstranks0@gmail.com> <https://github.com/SStranks>",
+  "license": "ISC",
+  "type": "module",
+  "main": "config.js",
+  "devDependencies": {
+    "eslint-plugin-n": "^17.23.1",
+    "globals": "^16.5.0"
+  }
+}

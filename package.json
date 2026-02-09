@@ -57,6 +57,7 @@
     "@packages/eslint-config-html": "workspace:*",
     "@packages/eslint-config-javascript": "workspace:*",
     "@packages/eslint-config-json": "workspace:*",
+    "@packages/eslint-config-node": "workspace:*",
     "@packages/eslint-config-react": "workspace:*",
     "@packages/eslint-config-react-jest": "workspace:*",
     "@packages/eslint-config-react-vitest": "workspace:*",

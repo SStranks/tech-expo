@@ -134,7 +134,6 @@ const DevConfig = {
       template: path.resolve(__dirname, '../src/index-template.html.ejs'),
       favicon: path.resolve(__dirname, '../src/favicon.ico'),
       templateParameters: {
-        // eslint-disable-next-line no-undef
         PUBLIC_URL: process.env.PUBLIC_URL,
       },
     }),
@@ -146,6 +145,9 @@ const DevConfig = {
           semantic: true,
           syntactic: true,
         },
+      },
+      issue: {
+        exclude: [{ file: '**/private.*' }],
       },
     }),
     new CopyPlugin({ patterns: [{ from: path.resolve(__dirname, '../public'), noErrorOnMissing: true }] }),

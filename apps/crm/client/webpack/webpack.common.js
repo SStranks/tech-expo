@@ -6,6 +6,7 @@ import path from 'node:path';
 import url from 'node:url';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const { NODE_ENV } = process.env;
 
 /** @type { import('webpack').Configuration } */
 const CommonConfig = {
@@ -64,8 +65,9 @@ const CommonConfig = {
   plugins: [
     new ESLintPlugin({
       configType: 'flat',
-      failOnError: false,
-      failOnWarning: false,
+      cache: NODE_ENV === 'production',
+      failOnError: NODE_ENV === 'production',
+      failOnWarning: NODE_ENV === 'production',
       emitError: true,
       emitWarning: true,
       extensions: ['js', 'jsx', 'ts', 'tsx'],

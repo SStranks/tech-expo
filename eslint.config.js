@@ -6,6 +6,7 @@ import EslintConfigGraphQL from '@packages/eslint-config-graphql';
 import EslintConfigHTML from '@packages/eslint-config-html';
 import EslintConfigJavascript from '@packages/eslint-config-javascript';
 import { EslintConfigJSON, EslintConfigJSON5, EslintConfigJSONC } from '@packages/eslint-config-json';
+import EslintConfigNode from '@packages/eslint-config-node';
 // import EslintConfigReact_18p2 from '@packages/eslint-config-react/react-18.2/config.js';
 import EslintConfigReact from '@packages/eslint-config-react';
 import EslintConfigReactVitest from '@packages/eslint-config-react-vitest';
@@ -98,6 +99,13 @@ export default defineConfig([
     languageOptions: { ...EslintConfigYAML.languageOptions },
     plugins: { ...EslintConfigYAML.plugins },
     rules: { ...EslintConfigYAML.rules },
+  },
+  {
+    name: 'Node Configuration',
+    files: ['**/webpack*.[jt]s'],
+    languageOptions: { ...EslintConfigNode.languageOptions },
+    plugins: { ...EslintConfigNode.plugins },
+    rules: { ...EslintConfigNode.rules },
   },
   // === INDIVIDUAL PROJECTS ===
   {
@@ -198,11 +206,12 @@ export default defineConfig([
     name: 'CRM: Server; NodeJS Express + Testing (Node)',
     files: ['apps/crm/server/src/**/*.[jt]s'],
     languageOptions: {
+      ...EslintConfigNode.languageOptions,
       ...EslintConfigExpress.languageOptions,
       parserOptions: { projectService: true },
     },
-    plugins: { ...EslintConfigExpress.plugins },
-    rules: { ...EslintConfigExpress.rules },
+    plugins: { ...EslintConfigNode.plugins, ...EslintConfigExpress.plugins },
+    rules: { ...EslintConfigNode.rules, ...EslintConfigExpress.rules },
     settings: {
       ...EslintConfigExpress.settings,
       'import-x/resolver-next': [
