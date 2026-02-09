@@ -20,7 +20,7 @@ const preloadedState = {
 // TODO:  Set auth state as authorized to enable passage to main dashboard.
 describe('Initialization', () => {
   afterEach(() => {
-    vi.resetAllMocks;
+    vi.resetAllMocks();
   });
 
   test('App initializes without error or warnings', () => {

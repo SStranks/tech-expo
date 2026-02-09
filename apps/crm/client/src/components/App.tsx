@@ -67,7 +67,7 @@ function App(): React.JSX.Element {
   const nextUiEvent = uiEvent[0];
 
   return (
-    <RouterProvider navigate={navigate}>
+    <RouterProvider navigate={(to) => void navigate(to)}>
       <AriaAnnouncement scope="global" uiEvent={nextUiEvent} />
       <Routes>
         <Route
@@ -93,13 +93,13 @@ function App(): React.JSX.Element {
           </Route>
           <Route element={<PipelineRoute />}>
             <Route path="pipeline" element={<PipelinePage />}>
-              <Route path="deal/create" element={<PipelineDealCreatePage />} />
-              <Route path="deal/update/:id" element={<PipelineDealUpdatePage />} />
-              <Route path="deal/delete/:id" element={<PiplineDealDeletePage />} />
-              <Route path="deals/delete/:id" element={<PiplineDealsDeletePage />} />
+              <Route path="deal/create/:stageId" element={<PipelineDealCreatePage />} />
+              <Route path="deal/update/:stageId/:dealId" element={<PipelineDealUpdatePage />} />
+              <Route path="deal/delete/:stageId/:dealId" element={<PiplineDealDeletePage />} />
+              <Route path="deals/delete/:stageId/:dealId" element={<PiplineDealsDeletePage />} />
               <Route path="stage/create" element={<PipelineStageCreatePage />} />
-              <Route path="stage/update/:id" element={<PipelineStageUpdatePage />} />
-              <Route path="stage/delete/:id" element={<PiplineStageDeletePage />} />
+              <Route path="stage/update/:stageid" element={<PipelineStageUpdatePage />} />
+              <Route path="stage/delete/:stageid" element={<PiplineStageDeletePage />} />
             </Route>
           </Route>
           <Route path="companies" element={<CompaniesRoute />}>
@@ -119,8 +119,8 @@ function App(): React.JSX.Element {
           <Route path="quotes" element={<QuotesRoute />}>
             <Route path="" element={<QuotesPage />}>
               <Route path="create" element={<QuoteCreatePage />} />
-              <Route path="update/:id" element={<QuoteUpdatePage />} />
-              <Route path="delete/:id" element={<QuoteDeletePage />} />
+              <Route path="update/:quoteId" element={<QuoteUpdatePage />} />
+              <Route path="delete/:quoteId" element={<QuoteDeletePage />} />
             </Route>
             <Route path="read/:id" element={<QuoteReadPage />} />
           </Route>
