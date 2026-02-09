@@ -156,7 +156,7 @@ export const authSlice = createSlice({
     setRefreshTokenPending(state, action: PayloadAction<AuthInitialState['refreshTokenPending']>) {
       state.refreshTokenPending = action.payload;
     },
-    setUser(state, action) {
+    setUser(state, action: PayloadAction<AuthInitialState['user']>) {
       state.user = action.payload;
     },
   },
