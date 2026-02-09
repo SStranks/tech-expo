@@ -1,5 +1,5 @@
 import type { ApiResponseSuccess } from '@apps/crm-shared';
-import type { AxiosRequestConfig, AxiosResponse } from 'axios';
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import type { AxiosClient } from '@Lib/axios';
 import type { ReduxAuthStateAdapter } from '@Redux/adapters/reduxAuthAdapter';
@@ -7,16 +7,16 @@ import type { ReduxAuthStateAdapter } from '@Redux/adapters/reduxAuthAdapter';
 import AppError from '@Utils/AppError';
 
 type Request = {
-  config: AxiosRequestConfig<any>;
+  config: AxiosRequestConfig<unknown>;
 };
 
 class ServiceAuth {
-  private AuthState: ReduxAuthStateAdapter;
-  private ApiClient: AxiosClient;
+  private readonly AuthState: ReduxAuthStateAdapter;
+  private readonly ApiClient: AxiosClient;
   private PendingRequests: number;
   private RequestQueue: Request[];
-  private MaxRequests: number;
-  private MaxRetry = 5;
+  private readonly MaxRequests: number;
+  private readonly MaxRetry: number = 5;
   private CurrentRetry = 0;
   private Data: unknown;
 
@@ -35,30 +35,30 @@ class ServiceAuth {
     return this.AuthState.isAuthTokenPending();
   }
 
-  private authInterceptorSuccess = (response: AxiosResponse<ApiResponseSuccess>) => {
+  private readonly authInterceptorSuccess = async (response: AxiosResponse<ApiResponseSuccess>) => {
     this.Data = this.ApiClient.responseData(response);
 
     if (this.Data && typeof this.Data === 'object' && 'tokens' in this.Data) {
-      this.activateRefreshToken();
+      await this.activateRefreshToken();
     }
 
     return response;
   };
 
-  private authInterceptorFailure = async (error: any) => {
-    const prevRequest = error?.config;
+  private readonly authInterceptorFailure = async (error: AxiosError) => {
+    const prevRequest = error.config;
 
     // If unauthorized; try for new auth token and then retry request
-    if (error.response && error.response?.status === 401 && !prevRequest._retry) {
+    if (error.response?.status === 401 && prevRequest && !prevRequest._retry) {
       prevRequest._retry = true;
       if (!this.canRequestAuthToken()) {
         try {
           // Get new authToken
           await this.getAuthToken();
           // Retry all queued requests
-          this.RequestQueue.forEach(({ config }) => {
-            this.ApiClient.retryRequest(config);
-          });
+          for (const { config } of this.RequestQueue) {
+            await this.ApiClient.retryRequest(config);
+          }
           // Clear request queue
           this.clearQueue();
           // Retry original request
@@ -88,7 +88,7 @@ class ServiceAuth {
     this.RequestQueue = [];
   }
 
-  private pushQueue(config: AxiosRequestConfig<any>) {
+  private pushQueue(config: AxiosRequestConfig<unknown>) {
     this.RequestQueue.push({ config });
   }
 
@@ -106,14 +106,14 @@ class ServiceAuth {
           await new Promise((resolve) => {
             setTimeout(() => resolve(null), 2 ** this.CurrentRetry * 600);
           });
-          this.getAuthToken();
+          await this.getAuthToken();
         } else {
           // Unauthorized
           this.AuthState.clearAuth();
         }
       }
       if (error instanceof AppError && error.message === 'Please verify Refresh Token') {
-        return this.activateRefreshToken();
+        return await this.activateRefreshToken();
       }
       // Unspecified error; force logout state
       this.AuthState.clearAuth();
@@ -128,12 +128,13 @@ class ServiceAuth {
       this.CurrentRetry = 0;
       this.AuthState.setRefreshTokenActivated(true);
       this.AuthState.setRefreshTokenPending(false);
-    } catch (error: any) {
-      if (error.message === 'Token already activated') {
+    } catch (error: unknown) {
+      if (error instanceof AppError && error.message === 'Token already activated') {
         this.AuthState.setRefreshTokenActivated(true);
         this.AuthState.setRefreshTokenPending(false);
         return;
       }
+
       if (this.CurrentRetry < this.MaxRetry) {
         this.CurrentRetry++;
         await new Promise((resolve) => {
@@ -146,12 +147,12 @@ class ServiceAuth {
         });
       } else {
         // Retry process at 5min intervals; Auth Token valid for 15.
-        setTimeout(() => this.activateRefreshToken(), 1000 * 60 * 4.9);
+        setTimeout(() => void this.activateRefreshToken(), 1000 * 60 * 4.9);
       }
     }
   }
 
-  public async initInterceptors() {
+  public initInterceptors() {
     this.ApiClient.responseInterceptor().use(this.authInterceptorSuccess, this.authInterceptorFailure);
   }
 }

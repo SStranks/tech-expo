@@ -1,13 +1,15 @@
+import type { ApiError } from '@apps/crm-shared';
+
 import axios from 'axios';
 
 import AppError from '@Utils/AppError';
 
 export default function handleServiceError(error: unknown): AppError {
-  if (axios.isAxiosError(error)) {
+  if (axios.isAxiosError<ApiError>(error)) {
     if (error.response) {
       // The request was made and the server responded with a status code that falls out of the range of 2xx
       const { status, data } = error.response;
-      if (data?.message) {
+      if (data.message) {
         return new AppError({ code: status, message: data.message });
       }
       return new AppError({ code: status, message: 'Unspecified Server Error' });

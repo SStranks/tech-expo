@@ -12,7 +12,7 @@ import type {
 
 import type { AxiosClient } from '@Lib/axios';
 
-export interface ServiceHttp {
+export interface IServiceHttp {
   account: {
     delete: (body: DeleteAccountRequestDTO) => Promise<ApiResponseSuccess>;
     forgotpassword: (body: ForgotPasswordRequestDTO) => Promise<ApiResponseSuccess>;
@@ -24,7 +24,7 @@ export interface ServiceHttp {
   };
 }
 
-export class ServiceHttp implements ServiceHttp {
+export class ServiceHttp implements IServiceHttp {
   public ApiServiceClient: AxiosClient;
 
   constructor(apiClient: AxiosClient) {
