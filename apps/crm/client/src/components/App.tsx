@@ -1,7 +1,9 @@
 import type { NavigateOptions } from 'react-router-dom';
 
+import type { AuthRedirectState } from '@Types/navigation';
+
 import { RouterProvider } from 'react-aria-components';
-import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import Header from '@Features/header/Header';
 import { Aside } from '@Features/sidebar/Aside';
@@ -63,6 +65,7 @@ declare module 'react-aria-components' {
 function App(): React.JSX.Element {
   // NOTE:  RouterProvider: Integrates React-Aria-Components into React-Router
   const navigate = useNavigate();
+  const { hash, pathname, search } = useLocation();
   const uiEvent = useReduxSelector(selectorAriaEventsGlobal);
   const nextUiEvent = uiEvent[0];
 
@@ -72,7 +75,14 @@ function App(): React.JSX.Element {
       <Routes>
         <Route
           element={
-            <Authenticate fallback={<Navigate to="/login" />}>
+            <Authenticate
+              fallback={
+                <Navigate
+                  to="/login"
+                  state={{ from: { hash, pathname, search } } satisfies AuthRedirectState}
+                  replace
+                />
+              }>
               <DefaultLayout aside={<Aside />} header={<Header />}>
                 <Outlet />
               </DefaultLayout>

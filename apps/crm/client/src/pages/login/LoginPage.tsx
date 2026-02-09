@@ -1,3 +1,5 @@
+import type { AuthRedirectState } from '@Types/navigation';
+
 import { useId } from 'react';
 import { FormProvider, useForm, useFormState } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -27,14 +29,15 @@ function LoginPage(): React.JSX.Element {
   const passwordId = useId();
   const reduxDispatch = useReduxDispatch();
 
-  const fromURL = location.state?.from?.pathname || '/';
+  const state = location.state as AuthRedirectState | null;
+  const fromURL = state?.from?.pathname || '/';
 
   const onSubmit = methods.handleSubmit(async (data) => {
     try {
       // TODO:  Get back user details and store in redux
       await reduxDispatch(login({ email: data.email, password: data.password }));
       // Send user to requested protected route, or default to homepage
-      navigate(fromURL, { replace: true });
+      void navigate(fromURL, { replace: true });
     } catch (error) {
       // TODO:  Toast Notification
       console.log('ERROR*******', error);
@@ -44,7 +47,12 @@ function LoginPage(): React.JSX.Element {
   return (
     <FormProvider {...{ ...methods, control }}>
       <div className={styles.formContainer}>
-        <form name="sign-in form" onSubmit={onSubmit} aria-labelledby="heading" className={styles.loginForm} noValidate>
+        <form
+          name="sign-in form"
+          onSubmit={() => void onSubmit}
+          aria-labelledby="heading"
+          className={styles.loginForm}
+          noValidate>
           <h1 id="heading">Sign In</h1>
           <InputUx id={emailId} name="email" label="Email address" rules={EMAIL_RULES} disabled={false}>
             <Input id={emailId} type="email" name="email" rules={EMAIL_RULES} autoComplete="email" />
