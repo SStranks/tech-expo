@@ -87,7 +87,7 @@ type MoveTaskBody = {
 export const moveTask = createAsyncThunk('kanban/moveTask', async (_body: MoveTaskBody) => {
   try {
     // TODO: Submit to DB
-    new Promise((resolve) => setTimeout(() => resolve(''), 300));
+    await new Promise((resolve) => setTimeout(() => resolve(''), 300));
     return;
   } catch (error) {
     return error;
@@ -114,7 +114,7 @@ const kanbanSlice = createSlice({
     },
     deleteAllTasksInStage(state, action: PayloadAction<{ stageId: KanbanStage['id'] }>) {
       const { stageId } = action.payload;
-      const taskIdsToDeleteSet = new Set(state.tasks.byStageId[stageId] || []);
+      const taskIdsToDeleteSet = new Set(state.tasks.byStageId[stageId]);
       state.tasks.allIds = state.tasks.allIds.filter((id) => !taskIdsToDeleteSet.has(id));
       taskIdsToDeleteSet.forEach((taskId) => delete state.tasks.byId[taskId]);
       delete state.tasks.byStageId[stageId];
@@ -152,7 +152,7 @@ const kanbanSlice = createSlice({
 
     deleteStage(state, action: PayloadAction<{ stageId: KanbanStage['id'] }>) {
       const { stageId } = action.payload;
-      const taskIdsToDeleteSet = new Set(state.tasks.byStageId[stageId] || []);
+      const taskIdsToDeleteSet = new Set(state.tasks.byStageId[stageId]);
       state.tasks.allIds = state.tasks.allIds.filter((id) => !taskIdsToDeleteSet.has(id));
       taskIdsToDeleteSet.forEach((dealId) => delete state.tasks.byId[dealId]);
       delete state.tasks.byStageId[stageId];

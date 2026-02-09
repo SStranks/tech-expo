@@ -18,7 +18,6 @@ const preview = {
       toolbar: {
         dynamicTitle: true,
         icon: 'circlehollow',
-        showName: true,
         items: [
           { icon: 'sun', title: 'Light', value: 'light' },
           { icon: 'moon', title: 'Dark', value: 'dark' },

@@ -23,11 +23,9 @@ const options = {
 
 zxcvbnOptions.setOptions(options);
 
-const strengthCache: Record<string, Score> = {};
+const strengthCache: Record<string, Score | undefined> = {};
 
 export const getStrength = async (value: string) => {
-  if (!value) return null;
-
   if (strengthCache[value] !== undefined) {
     return strengthCache[value];
   }
@@ -45,9 +43,17 @@ export const usePasswordStrength = (password: string) => {
   useEffect(() => {
     let cancelled = false;
 
-    getStrength(deferredPassword).then((score) => {
-      if (!cancelled) setResult(score === null ? null : score);
-    });
+    async function calculateScore() {
+      if (!deferredPassword) {
+        if (!cancelled) setResult(null);
+        return;
+      }
+
+      const score = await getStrength(deferredPassword);
+      if (!cancelled) setResult(score);
+    }
+
+    void calculateScore();
 
     return () => {
       cancelled = true;

@@ -1,4 +1,4 @@
-import type { Column } from '@tanstack/react-table';
+import type { Column, RowData } from '@tanstack/react-table';
 
 import { useId, useState } from 'react';
 import { Button, DialogTrigger, Input, Popover, SearchField } from 'react-aria-components';
@@ -7,12 +7,12 @@ import IconFilter from '@Components/svg/IconFilter';
 
 import styles from './FilterRowControl.module.scss';
 
-type Props = {
-  column: Column<unknown, unknown>;
+type Props<T extends RowData> = {
+  column: Column<T, unknown>;
   fieldName: string;
 };
 
-function FilterRowControl(props: Props): React.JSX.Element {
+function FilterRowControl<T extends RowData>(props: Props<T>): React.JSX.Element {
   const { column, fieldName } = props;
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
   const [filterActive, setFilterActive] = useState<boolean>(column.getIsFiltered);
