@@ -17,6 +17,7 @@ export function generateOrderKeyBetween(left: string | null, right: string | nul
   let i = 0;
   let result = '';
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   while (true) {
     const leftChar = left?.[i];
     const rightChar = right?.[i];
