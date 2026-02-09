@@ -8,8 +8,10 @@
     "moduleResolution": "node16",
     "module": "node16",
     "target": "ES2022",
-    "types": []
+    "types": [],
+    "strict": true
   },
   "include": ["./src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "./**/private.*", "./src/types/**/*.ts"]
+  "exclude": ["node_modules", "dist", "./**/private.*", "./src/types/**/*.ts"],
+  "references": [{ "path": "./tsconfig.types.json" }]
 }

@@ -242,7 +242,7 @@ export default defineConfig([
     files: ['apps/crm/shared/src/**/*.[jt]s'],
     languageOptions: {
       parserOptions: {
-        project: ['tsconfig.json', 'tsconfig.types.json'],
+        // project: ['tsconfig.json', 'tsconfig.types.json'],
         tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/shared'),
       },
     },
