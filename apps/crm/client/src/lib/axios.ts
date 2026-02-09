@@ -7,19 +7,16 @@ import axios, {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from 'axios';
+import { isAxiosError } from 'axios';
 
 import { ENV } from '@Config/env';
 import handleServiceError from '@Services/serviceHttpErrors';
 
-export interface AxiosClient {
-  requestInterceptor(): AxiosInterceptorManager<InternalAxiosRequestConfig<any>>;
-  responseInterceptor(): AxiosInterceptorManager<AxiosResponse<any, any>>;
+export interface IAxiosClient {
+  requestInterceptor(): AxiosInterceptorManager<InternalAxiosRequestConfig>;
+  responseInterceptor(): AxiosInterceptorManager<AxiosResponse>;
   responseData<T>(response: AxiosResponse<ApiResponseSuccessData<T>>): ApiResponseSuccessData<T> | undefined;
-  retryRequest(
-    config: AxiosRequestConfig<any>,
-    retries?: number,
-    delay?: number
-  ): Promise<AxiosResponse<any, any> | void>;
+  retryRequest<T>(config: AxiosRequestConfig<T>, retries?: number, delay?: number): Promise<AxiosResponse<T> | void>;
   get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
   post<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T>;
   patch<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T>;
@@ -27,10 +24,10 @@ export interface AxiosClient {
   delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
 }
 
-export class AxiosClient implements AxiosClient {
-  private client: AxiosInstance;
-  private clientRequestInterceptor: AxiosInterceptorManager<InternalAxiosRequestConfig<any>>;
-  private clientResponseInterceptor: AxiosInterceptorManager<AxiosResponse<any, any>>;
+export class AxiosClient implements IAxiosClient {
+  private readonly client: AxiosInstance;
+  private readonly clientRequestInterceptor: AxiosInterceptorManager<InternalAxiosRequestConfig>;
+  private readonly clientResponseInterceptor: AxiosInterceptorManager<AxiosResponse>;
 
   protected createAxiosClient(): AxiosInstance {
     return axios.create({
@@ -59,13 +56,13 @@ export class AxiosClient implements AxiosClient {
     return response.data;
   }
 
-  async retryRequest(config: AxiosRequestConfig<any>, retries: number = 1, delay: number = 600) {
+  async retryRequest<T>(config: AxiosRequestConfig<T>, retries: number = 1, delay: number = 600) {
     return this.client(config)
       .then((response) => response)
       .catch((error) => {
-        if (retries > 0 && !error.response) {
+        if (isAxiosError(error) && !error.response && retries > 0) {
           setTimeout(() => {
-            return this.retryRequest(config, retries - 1, 2 ** retries * delay);
+            return void this.retryRequest(config, retries - 1, 2 ** retries * delay);
           }, delay);
         } else {
           throw error;
