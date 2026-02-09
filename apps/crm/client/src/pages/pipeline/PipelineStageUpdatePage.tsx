@@ -1,13 +1,13 @@
 import type { SubmitHandler } from 'react-hook-form';
 
-import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useMemo, useState } from 'react';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
 import { GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
-import { updateStage } from '@Features/scrumboard/redux/pipelineSlice';
-import { useReduxDispatch } from '@Redux/hooks';
+import { makeSelectorStageById, updateStage } from '@Features/scrumboard/redux/pipelineSlice';
+import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 
 type FormFieldData = {
   stageTitle: string;
@@ -17,20 +17,22 @@ function PipelineStageUpdatePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const [locationState] = useState(state);
+  const { stageId } = useParams();
+  const selectorStageById = useMemo(() => makeSelectorStageById(), []);
+  const stage = useReduxSelector((state) => (stageId ? selectorStageById(state, stageId) : undefined));
+
+  if (!stageId || !stage) return <Navigate to="/pipeline" replace />;
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    navigate(-1);
+    void navigate(-1);
   };
 
   const onSubmit: SubmitHandler<FormFieldData> = (data) => {
     const { stageTitle } = data;
-    const stageId = locationState.columnId;
     reduxDispatch(updateStage({ stageId, stageTitle }));
     setPortalActiveInternal(false);
-    navigate(-1);
+    void navigate(-1);
   };
 
   return (
@@ -40,7 +42,7 @@ function PipelineStageUpdatePage(): React.JSX.Element {
         <FormModal.Content>
           <FormProvider.Input
             type="text"
-            defaultValue={locationState.columnTitle}
+            defaultValue={stage.title}
             rules={GENERIC_TEXT_RULES}
             name="stageTitle"
             label="Stage Title"

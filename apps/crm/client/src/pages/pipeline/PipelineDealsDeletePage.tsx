@@ -1,7 +1,7 @@
 import type { SubmitHandler } from 'react-hook-form';
 
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
@@ -14,28 +14,28 @@ function PiplineDealsDeletePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
-  // TODO:  Change assertion to runtime check later, using type guard.
-  // TODO:  Apply this approach to the other components using useLocation.
-  const { state } = useLocation();
-  const [locationState] = useState(state);
+  const { stageId } = useParams();
 
   useEffect(() => {
-    const column = document.querySelector(`[data-rbd-droppable-id="${locationState.columnId}"]`);
+    if (!stageId) return;
+    const column = document.querySelector(`[data-rbd-droppable-id="${stageId}"]`);
     const cards = column?.querySelectorAll('[data-rbd-draggable-id]');
     cards?.forEach((card) => card.classList.add(ScrumboardCardStyles.dangerCard));
 
     return () => cards?.forEach((card) => card.classList.remove(ScrumboardCardStyles.dangerCard));
-  }, [locationState.columnId]);
+  }, [stageId]);
+
+  if (!stageId) return <Navigate to="/pipeline" replace />;
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    navigate(-1);
+    void navigate(-1);
   };
 
   const onSubmit: SubmitHandler<Record<string, never>> = () => {
-    reduxDispatch(deleteAllDealsInStage({ stageId: locationState.columnId }));
+    reduxDispatch(deleteAllDealsInStage({ stageId }));
     setPortalActiveInternal(false);
-    navigate(-1);
+    void navigate(-1);
   };
 
   return (

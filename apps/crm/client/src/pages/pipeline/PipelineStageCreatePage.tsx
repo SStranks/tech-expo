@@ -20,13 +20,13 @@ function PipelineStageCreatePage(): React.JSX.Element {
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    navigate(-1);
+    void navigate(-1);
   };
 
   const onSubmit: SubmitHandler<FormFieldData> = (data) => {
     reduxDispatch(createStage({ title: data.title }));
     setPortalActiveInternal(false);
-    navigate(-1);
+    void navigate(-1);
   };
 
   return (

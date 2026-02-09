@@ -1,12 +1,12 @@
 import type { SubmitHandler } from 'react-hook-form';
 
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
-import { deleteStage } from '@Features/scrumboard/redux/pipelineSlice';
-import { useReduxDispatch } from '@Redux/hooks';
+import { deleteStage, makeSelectorStageById } from '@Features/scrumboard/redux/pipelineSlice';
+import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 
 import ScrumboardColumnStyles from '@Features/scrumboard/ScrumboardColumn.module.scss';
 
@@ -14,33 +14,35 @@ function PiplineStageDeletePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
-  // TODO:  Change assertion to runtime check later, using type guard.
-  // TODO:  Apply this approach to the other components using useLocation.
-  const { state } = useLocation();
-  const [locationState] = useState(state);
+  const { stageId } = useParams();
+  const selectorStageById = useMemo(() => makeSelectorStageById(), []);
+  const stage = useReduxSelector((state) => (stageId ? selectorStageById(state, stageId) : undefined));
 
   useEffect(() => {
-    const column = document.querySelector(`[data-rbd-droppable-id="${locationState.columnId}"]`);
+    if (!stageId) return;
+    const column = document.querySelector(`[data-rbd-droppable-id="${stageId}"]`);
     column?.classList.add(ScrumboardColumnStyles.dangerColumn);
 
     return () => column?.classList.remove(ScrumboardColumnStyles.dangerColumn);
-  }, [locationState.columnId]);
+  }, [stageId]);
+
+  if (!stage || !stageId) return <Navigate to="/pipeline" replace />;
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    navigate(-1);
+    void navigate(-1);
   };
 
   const onSubmit: SubmitHandler<Record<string, never>> = () => {
-    reduxDispatch(deleteStage({ stageId: locationState.columnId }));
+    reduxDispatch(deleteStage({ stageId }));
     setPortalActiveInternal(false);
-    navigate(-1);
+    void navigate(-1);
   };
 
   return (
     <FormModal portalActive={portalActive} setPortalActive={setPortalActive}>
       <FormProvider onSubmit={onSubmit}>
-        <FormModal.Header title={`Delete Stage: ${locationState.columnTitle}`} />
+        <FormModal.Header title={`Delete Stage: ${stage.title}`} />
         <FormModal.Footer>
           <FormModal.CancelButton />
           <FormModal.DeleteButton />
