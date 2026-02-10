@@ -26,6 +26,16 @@ type CreateDealPayload = {
   dealValue: number;
 };
 
+type UpdateDealPayload = {
+  dealId: PipelineDeal['id'];
+  stageId: PipelineStage['id'];
+  companyTitle: string;
+  dealOwner: string;
+  dealStage: string;
+  dealTitle: string;
+  dealTotal: number;
+};
+
 type OperationalStatus = 'idle' | 'pending' | 'succeeded' | 'failed';
 type PipelineEntityType = 'task' | 'column';
 type SaveRequest = {
@@ -39,17 +49,18 @@ type PendingDealMove = {
   sourceDealId: PipelineDeal['id'];
   sourceDealOrderKey: PipelineDeal['orderKey'];
 };
+
 type PipelineInitialState = {
-  stages: { byId: { [id: string]: PipelineStage }; allIds: PipelineStage['id'][] };
+  stages: { byId: { [id: string]: PipelineStage | undefined }; allIds: PipelineStage['id'][] };
   stageOrder: string[];
-  error?: string;
-  pendingDealMoves: { [requestId: string]: PendingDealMove };
+  error?: string | undefined;
+  pendingDealMoves: { [requestId: string]: PendingDealMove | undefined };
   deals: {
-    byId: { [taskId: string]: PipelineDeal };
+    byId: { [taskId: string]: PipelineDeal | undefined };
     allIds: PipelineDeal['id'][];
-    byStageId: { [stageId: string]: PipelineDeal['id'][] };
+    byStageId: { [stageId: string]: PipelineDeal['id'][] | undefined };
   };
-  saveRequests: { [key: string]: SaveRequest };
+  saveRequests: { [key: string]: SaveRequest | undefined };
 };
 
 const initialState: PipelineInitialState = {
@@ -105,7 +116,7 @@ type MoveDealBody = {
 export const moveDeal = createAsyncThunk('pipeline/moveTask', async (_body: MoveDealBody) => {
   try {
     // TODO: Submit to DB
-    new Promise((resolve) => setTimeout(() => resolve(''), 300));
+    await new Promise((resolve) => setTimeout(() => resolve(''), 300));
     return;
   } catch (error) {
     return error;
@@ -141,13 +152,14 @@ const pipelineSlice = createSlice({
       state.deals.byId[newTaskId] = newTask;
       // state.stages.byId[columnId].taskIds.push(newTaskId);
       state.deals.allIds.push(newTaskId);
-      state.deals.byStageId[stageId].push(newTaskId);
+      state.deals.byStageId[stageId]!.push(newTaskId);
     },
     createStage(state, action: PayloadAction<{ title: PipelineStage['title'] }>) {
       // Add new column to scrumboard
       const { title } = action.payload;
 
       // Check if column name already exists
+      // TODO: Need to return this to calling component; therefore AsyncThunk not reducer for createStage
       if (title in state.stages) return;
 
       // Add new column and push ID to columnOrder
@@ -168,10 +180,11 @@ const pipelineSlice = createSlice({
       const { dealId, stageId } = action.payload;
       delete state.deals.byId[dealId];
       state.deals.allIds = state.deals.allIds.filter((id) => id !== dealId);
-      state.deals.byStageId[stageId] = state.deals.byStageId[stageId].filter((id) => id !== dealId);
+      state.deals.byStageId[stageId] = state.deals.byStageId[stageId]!.filter((id) => id !== dealId);
     },
-    deleteSaveRequest(state, action) {
-      delete state.saveRequests[action.payload];
+    deleteSaveRequest(state, action: PayloadAction<{ requestId: string }>) {
+      const { requestId } = action.payload;
+      delete state.saveRequests[requestId];
     },
     deleteStage(state, action: PayloadAction<{ stageId: PipelineStage['id'] }>) {
       const { stageId } = action.payload;
@@ -184,58 +197,52 @@ const pipelineSlice = createSlice({
     },
     undoTaskMove(state, action: PayloadAction<{ requestId: string }>) {
       const { requestId } = action.payload;
-      const request = state.pendingDealMoves[requestId];
-      state.deals.byId[request.sourceDealId].orderKey = state.pendingDealMoves[requestId].sourceDealOrderKey;
-      state.deals.byId[request.sourceDealId].stageId = state.pendingDealMoves[requestId].sourceStageId;
+      const request = state.pendingDealMoves[requestId]!;
+      state.deals.byId[request.sourceDealId]!.orderKey = request.sourceDealOrderKey;
+      state.deals.byId[request.sourceDealId]!.stageId = request.sourceStageId;
     },
-    updateDeal(state, action: PayloadAction<{ dealId: PipelineDeal['id']; stageId: PipelineStage['id'] }>) {
+    updateDeal(state, action: PayloadAction<UpdateDealPayload>) {
       // NOTE:  Deal owner is currently hardcoded in PipelineDeal[Create/Update]Page.
-      const { dealId, stageId } = action.payload;
-      const updateFields = { ...action.payload };
+      const { dealId, ...updateFields } = action.payload;
 
-      console.log(stageId); // TEMP: . Ignored for now.
-
-      const oldFields = state.deals.byId[dealId];
+      const oldFields = state.deals.byId[dealId]!;
       state.deals.byId[dealId] = { ...oldFields, ...updateFields };
     },
     updateStage(state, action: PayloadAction<{ stageId: PipelineStage['id']; stageTitle: PipelineStage['title'] }>) {
       const { stageId, stageTitle } = action.payload;
-      state.stages.byId[stageId].title = stageTitle;
+      state.stages.byId[stageId]!.title = stageTitle;
     },
     updateTaskHorizontalMove(state, action: PayloadAction<MoveDealPayload>) {
       const { destinationDealOrderKey, destinationStageId, sourceDealId } = action.payload;
-      state.deals.byId[sourceDealId].orderKey = destinationDealOrderKey;
-      state.deals.byId[sourceDealId].stageId = destinationStageId;
+      state.deals.byId[sourceDealId]!.orderKey = destinationDealOrderKey;
+      state.deals.byId[sourceDealId]!.stageId = destinationStageId;
     },
     updateTaskVerticalMove(state, action: PayloadAction<Omit<MoveDealPayload, 'destinationStageId'>>) {
       const { destinationDealOrderKey, sourceDealId } = action.payload;
-      state.deals.byId[sourceDealId].orderKey = destinationDealOrderKey;
+      state.deals.byId[sourceDealId]!.orderKey = destinationDealOrderKey;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(mockSaveState.pending, (state, action) => {
-        state.saveRequests[action.meta.requestId].status = 'pending';
+        state.saveRequests[action.meta.requestId]!.status = 'pending';
       })
       .addCase(mockSaveState.rejected, (state, action) => {
-        state.saveRequests[action.meta.requestId].status = 'failed';
+        state.saveRequests[action.meta.requestId]!.status = 'failed';
       })
       .addCase(mockSaveState.fulfilled, (state, action) => {
-        state.saveRequests[action.meta.requestId].status = 'succeeded';
+        state.saveRequests[action.meta.requestId]!.status = 'succeeded';
       })
       .addCase(moveDeal.pending, (state, action) => {
         const { sourceDealId, sourceDealOrderKey, sourceStageId } = action.meta.arg;
         state.pendingDealMoves[action.meta.requestId] = { sourceDealId, sourceDealOrderKey, sourceStageId };
       })
       .addCase(moveDeal.rejected, (state, action) => {
-        const pendingDealMove = state.pendingDealMoves[action.meta.requestId];
-
-        if (!pendingDealMove) return;
-
+        const pendingDealMove = state.pendingDealMoves[action.meta.requestId]!;
         const { sourceDealId, sourceDealOrderKey, sourceStageId } = pendingDealMove;
 
-        state.deals.byId[sourceDealId].orderKey = sourceDealOrderKey;
-        state.deals.byId[sourceDealId].stageId = sourceStageId;
+        state.deals.byId[sourceDealId]!.orderKey = sourceDealOrderKey;
+        state.deals.byId[sourceDealId]!.stageId = sourceStageId;
         delete state.pendingDealMoves[action.meta.requestId];
       })
       .addCase(moveDeal.fulfilled, (state, action) => {
@@ -250,7 +257,8 @@ listenerMiddleware.startListening({
   actionCreator: mockSaveState.fulfilled,
   effect: async (action, listenerApi) => {
     await listenerApi.delay(2000);
-    listenerApi.dispatch(pipelineSlice.actions.deleteSaveRequest(action.meta.requestId));
+    const { requestId } = action.meta;
+    listenerApi.dispatch(pipelineSlice.actions.deleteSaveRequest({ requestId }));
   },
 });
 
@@ -289,7 +297,7 @@ export const makeSelectorDealIdsForStage = () =>
       (state: ReduxRootState, _stageId: PipelineStage['id']) => state.scrumboardPipeline.deals.byStageId,
       (_state: ReduxRootState, stageId: PipelineStage['id']) => stageId,
     ],
-    (byStageId, stageId) => byStageId[stageId]
+    (byStageId, stageId) => byStageId[stageId] ?? []
   );
 
 export const selectorDealsById = createSelector([selectScrumboardPipeline], (state) => state.deals.byId);
@@ -297,12 +305,12 @@ export const selectorDealsById = createSelector([selectScrumboardPipeline], (sta
 export const selectorDealsByStageId = createSelector([selectScrumboardPipeline], (state) => state.deals.byStageId);
 
 export const selectorStagesByNotPermanent = createSelector([selectScrumboardPipeline], (state) =>
-  Object.values(state.stages.byId).filter((stage) => stage.isPermanent === false)
+  Object.values(state.stages.byId).filter((stage) => stage?.isPermanent === false)
 );
 
 export const selectorStagesByPermanent = createSelector([selectScrumboardPipeline], (state) =>
   Object.values(state.stages.byId).reduce(
-    (acc, stage) => (stage.isPermanent === true ? { ...acc, [stage.title]: { id: stage.id } } : acc),
+    (acc, stage) => (stage?.isPermanent === true ? { ...acc, [stage.title]: { id: stage.id } } : acc),
     {} as Record<'unassigned' | 'won' | 'lost', Record<'id', PipelineStage['id']>>
   )
 );
@@ -319,23 +327,22 @@ export const makeSelectorDealIdsSortedForStage = () =>
     ],
     (tasksById, stageId) =>
       Object.values(tasksById)
+        .filter((t): t is PipelineDeal => t !== undefined)
         .filter((t) => t.stageId === stageId)
         // eslint-disable-next-line unicorn/no-array-sort
         .sort((a, b) => sortOrderKeys(a.orderKey, b.orderKey))
         .map((t) => t.id)
   );
 
-type DealsById = {
-  [taskId: string]: PipelineDeal;
-};
 export const makeSelectorDealIdsSortedForPipeline = () =>
   createSelector(
     [
-      (dealsById: DealsById, _stageId: PipelineStage['id']) => dealsById,
-      (_dealsById: DealsById, stageId: PipelineStage['id']) => stageId,
+      (dealsById: ReduxRootState['scrumboardPipeline']['deals']['byId'], _stageId: PipelineStage['id']) => dealsById,
+      (_dealsById: ReduxRootState['scrumboardPipeline']['deals']['byId'], stageId: PipelineStage['id']) => stageId,
     ],
     (dealsById, stageId) =>
       Object.values(dealsById)
+        .filter((t): t is PipelineDeal => t !== undefined)
         .filter((t) => t.stageId === stageId)
         // eslint-disable-next-line unicorn/no-array-sort
         .sort((a, b) => sortOrderKeys(a.orderKey, b.orderKey))

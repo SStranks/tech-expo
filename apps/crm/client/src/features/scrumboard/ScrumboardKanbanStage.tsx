@@ -20,7 +20,7 @@ type Props = {
 
 function ScrumboardKanbanColumn({ stageId }: Props): React.JSX.Element {
   const [, setIsDraggedOver] = useState<boolean>(false);
-  const stageRef = useRef(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const selectorStageById = useMemo(() => makeSelectorStageById(), []);
   const selectorDealIdsLexiSorted = useMemo(() => makeSelectorTaskIdsSortedForStage(), []);
   const stage = useReduxSelector((state) => selectorStageById(state, stageId));
@@ -54,7 +54,7 @@ function ScrumboardKanbanColumn({ stageId }: Props): React.JSX.Element {
             )}
           </div>
           <div className={styles.headerControls}>
-            <ScrumboardColumnOptionsBtn stageId={stage.id} stageTitle={stage.title} />
+            <ScrumboardColumnOptionsBtn stageId={stage.id} />
             <ScrumboardColumnAddBtn stageId={stage.id} />
           </div>
         </div>

@@ -71,6 +71,7 @@ function App(): React.JSX.Element {
 
   return (
     <RouterProvider navigate={(to) => void navigate(to)}>
+      {/* TODO:  Aria component: internalize useLocation/useSelector to prevent top-level re-renders */}
       <AriaAnnouncement scope="global" uiEvent={nextUiEvent} />
       <Routes>
         <Route

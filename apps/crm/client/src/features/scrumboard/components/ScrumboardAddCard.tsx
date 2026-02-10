@@ -8,7 +8,7 @@ type Props = {
 
 function ScrumboardAddCard({ stageId }: Props): React.JSX.Element {
   return (
-    <Link to="deal/create" state={{ stageId }} className={styles.addCard}>
+    <Link to={`deal/create/${stageId}`} className={styles.addCard}>
       <span>Add New Card</span>
     </Link>
   );

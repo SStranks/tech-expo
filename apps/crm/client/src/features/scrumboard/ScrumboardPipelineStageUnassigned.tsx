@@ -21,9 +21,9 @@ type Props = {
   stageId: PipelineStage['id'];
 };
 
-function ScrumboardPipelineColumnUnassigned({ stageId }: Props): React.JSX.Element {
+function ScrumboardPipelineColumnUnassigned({ stageId }: Props) {
   const [, setIsDraggedOver] = useState<boolean>(false);
-  const stageRef = useRef(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const selectorStageById = useMemo(() => makeSelectorStageById(), []);
   const selectorDealsTotalForStage = useMemo(() => makeSelectorDealsTotalForStage(), []);
   const stage = useReduxSelector((state) => selectorStageById(state, stageId));
@@ -33,7 +33,7 @@ function ScrumboardPipelineColumnUnassigned({ stageId }: Props): React.JSX.Eleme
 
   useEffect(() => {
     const stageElement = stageRef.current;
-    if (!stageElement) return;
+    if (!stageElement || !stage) return;
 
     return dropTargetForElements({
       element: stageElement,
@@ -45,6 +45,8 @@ function ScrumboardPipelineColumnUnassigned({ stageId }: Props): React.JSX.Eleme
       onDrop: () => setIsDraggedOver(false),
     });
   }, [dealIdsLexiSorted, stage]);
+
+  if (!stage) return null;
 
   return (
     <div ref={stageRef} className={styles.column}>

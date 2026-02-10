@@ -1,9 +1,5 @@
-import type { CoreRow } from '@tanstack/react-table';
-
-import type { TableDataQuotes } from '@Data/MockData';
-
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
@@ -19,20 +15,19 @@ const listItems = [{ name: 'Adam' }, { name: 'Bob' }, { name: 'Chuck' }, { name:
 function QuoteUpdatePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const navigate = useNavigate();
-  // TODO:  Change assertion to runtime check later, using type guard.
-  // TODO:  Apply this approach to the other components using useLocation.
-  const state = useLocation().state as CoreRow<TableDataQuotes>['original'];
-  const [title] = useState(() => state.title);
+  const { quoteId } = useParams();
+
+  if (!quoteId) return <Navigate to="/quotes" replace />;
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    navigate(-1);
+    void navigate(-1);
   };
 
   const onSubmit = () => {
     alert('Quote Update Submitted');
     setPortalActiveInternal(false);
-    navigate(-1);
+    void navigate(-1);
   };
 
   return (
@@ -45,7 +40,7 @@ function QuoteUpdatePage(): React.JSX.Element {
             rules={GENERIC_TEXT_RULES}
             name="quoteTitle"
             label="Quote Title"
-            defaultValue={title}
+            // defaultValue={title} // TODO: Setup quote.title
           />
           <FormProvider.Combo items={listItems} rules={GENERIC_TEXT_RULES} name="salesOwner" label="Sales Owner" />
           <FormProvider.Combo items={listItems} rules={GENERIC_TEXT_RULES} name="company" label="Company" />

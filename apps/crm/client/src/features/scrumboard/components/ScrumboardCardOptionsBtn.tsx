@@ -51,21 +51,18 @@ function ScrumboardCardOptionsBtn({ deal, dealIndex, dealStatus, isFocused, stag
 
   const moveTaskHorizontalHandler = (destinationStage: PipelineStage) => {
     const destinationDealIndex = dealIds.length;
-    if (destinationDealIndex === undefined) return;
-
     return handleHorizontalMove({ destinationDealIndex, destinationStage, sourceDeal: deal });
   };
 
   const moveTaskVerticalHandler = (key: Key) => {
     if (typeof key !== 'string' || !(key in moveIndexMap)) return;
-    if (dealIds === undefined) return;
     const destinationDealIndex = moveIndexMap[key as MoveKey](dealIndex, dealIds.length);
 
     return handleVerticalMove({ destinationDealIndex, sourceDeal: deal, sourceStage: stage });
   };
 
   useEffect(() => {
-    if (isFocused && buttonRef.current) buttonRef.current?.focus();
+    if (isFocused && buttonRef.current) buttonRef.current.focus();
   }, [isFocused]);
 
   return (
@@ -79,10 +76,7 @@ function ScrumboardCardOptionsBtn({ deal, dealIndex, dealStatus, isFocused, stag
       <Popover placement="bottom start" className={styles.cardOptionsBtn__popover}>
         <Menu className={styles.cardOptionsBtn__menu}>
           <MenuSection>
-            <MenuItem
-              href={`pipeline/deal/update/${deal.id}`}
-              routerOptions={{ state: { sourceTaskId: deal.id } }}
-              className={styles.cardOptionsBtn__menuItem}>
+            <MenuItem href={`pipeline/deal/update/${stage.id}/${deal.id}`} className={styles.cardOptionsBtn__menuItem}>
               <IconEye svgClass={styles.cardOptionsBtn__menuItem__svg} />
               <span>View Card</span>
             </MenuItem>
@@ -92,7 +86,9 @@ function ScrumboardCardOptionsBtn({ deal, dealIndex, dealStatus, isFocused, stag
                 <IconArrowRightDoubleAlt svgClass={styles.cardOptionsBtn__menuItem__svg} />
               </MenuItem>
               <Popover placement="end top" className={styles.cardOptionsBtn__popover}>
-                <Menu onAction={(key: Key) => moveTaskVerticalHandler(key)} className={styles.cardOptionsBtn__menu}>
+                <Menu
+                  onAction={(key: Key) => void moveTaskVerticalHandler(key)}
+                  className={styles.cardOptionsBtn__menu}>
                   <MenuSection>
                     <MenuItem id="top" isDisabled={dealIndex === 0} className={styles.cardOptionsBtn__menuItem}>
                       <span className={styles.cardOptionsBtn__menuItem}>Move to top</span>
@@ -122,15 +118,17 @@ function ScrumboardCardOptionsBtn({ deal, dealIndex, dealStatus, isFocused, stag
                     <Popover placement="end top" className={styles.cardOptionsBtn__popover}>
                       <Menu>
                         <MenuSection>
-                          {stages.map((stage) => (
-                            <MenuItem
-                              key={stage.id}
-                              textValue={stage.title}
-                              onAction={() => moveTaskHorizontalHandler(stage)}
-                              className={styles.cardOptionsBtn__menuItem}>
-                              <span>{stage.title}</span>
-                            </MenuItem>
-                          ))}
+                          {stages
+                            .filter((s) => s !== undefined)
+                            .map((stage) => (
+                              <MenuItem
+                                key={stage.id}
+                                textValue={stage.title}
+                                onAction={() => void moveTaskHorizontalHandler(stage)}
+                                className={styles.cardOptionsBtn__menuItem}>
+                                <span>{stage.title}</span>
+                              </MenuItem>
+                            ))}
                         </MenuSection>
                       </Menu>
                     </Popover>
@@ -142,8 +140,7 @@ function ScrumboardCardOptionsBtn({ deal, dealIndex, dealStatus, isFocused, stag
           <Separator className={styles.cardOptionsBtn__separator} />
           <MenuSection>
             <MenuItem
-              href={`pipeline/deal/delete/${deal.id}`}
-              routerOptions={{ state: { columnId: stage, sourceTaskId: deal.id } }}
+              href={`pipeline/deal/delete/${stage.id}/${deal.id}`}
               className={styles.cardOptionsBtn__menuItemWarning}>
               <IconDelete svgClass={styles.cardOptionsBtn__menuItemWarning__svg} />
               <span>Delete Card</span>

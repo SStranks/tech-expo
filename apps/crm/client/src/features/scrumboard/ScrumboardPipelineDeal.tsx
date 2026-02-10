@@ -25,7 +25,7 @@ type Props = {
 };
 
 // TODO:  focused Id; get from UI State
-function ScrumBoardPipelineDeal({ dealId, dealIndex, dealStatus, stage }: Props): React.JSX.Element {
+function ScrumBoardPipelineDeal({ dealId, dealIndex, dealStatus, stage }: Props) {
   const { focusedId, setFocusedId } = useFocusContext();
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isDragEnter, setIsDragEnter] = useState<boolean>(false);
@@ -34,15 +34,9 @@ function ScrumBoardPipelineDeal({ dealId, dealIndex, dealStatus, stage }: Props)
   const selectorDealById = useMemo(() => makeSelectorDealById(), []);
   const deal = useReduxSelector((state) => selectorDealById(state, dealId));
 
-  const isFocused = focusedId === deal.id;
-
-  const onDoubleClickHandler = () => {
-    navigate(`deal/update/${deal.id}`, { state: { taskId: deal.id } });
-  };
-
   useEffect(() => {
     const dealElement = dealRef.current;
-    if (!dealElement) return;
+    if (!dealElement || !deal) return;
 
     return combine(
       draggable({
@@ -71,6 +65,14 @@ function ScrumBoardPipelineDeal({ dealId, dealIndex, dealStatus, stage }: Props)
       })
     );
   }, [dealIndex, setFocusedId, deal]);
+
+  if (!deal) return null;
+
+  const isFocused = focusedId === deal.id;
+
+  const onDoubleClickHandler = () => {
+    void navigate(`deal/update/${deal.id}`);
+  };
 
   return (
     <li

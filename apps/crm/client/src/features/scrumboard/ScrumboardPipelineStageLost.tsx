@@ -20,9 +20,9 @@ type Props = {
   stageId: PipelineStage['id'];
 };
 
-function ScrumboardPipelineStageLost({ stageId }: Props): React.JSX.Element {
+function ScrumboardPipelineStageLost({ stageId }: Props) {
   const [, setIsDraggedOver] = useState<boolean>(false);
-  const stageRef = useRef(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const selectorStageById = useMemo(() => makeSelectorStageById(), []);
   const selectorDealsTotalForStage = useMemo(() => makeSelectorDealsTotalForStage(), []);
   const selectorDealIdsLexiSorted = useMemo(() => makeSelectorDealIdsSortedForStage(), []);
@@ -33,7 +33,7 @@ function ScrumboardPipelineStageLost({ stageId }: Props): React.JSX.Element {
 
   useEffect(() => {
     const stageElement = stageRef.current;
-    if (!stageElement) return;
+    if (!stageElement || !stage) return;
 
     return dropTargetForElements({
       element: stageElement,
@@ -45,6 +45,8 @@ function ScrumboardPipelineStageLost({ stageId }: Props): React.JSX.Element {
       onDrop: () => setIsDraggedOver(false),
     });
   }, [dealIdsLexiSorted, stage]);
+
+  if (!stage) return null;
 
   return (
     <div ref={stageRef} className={`${styles.column} ${styles[`column--lost`]}`}>

@@ -35,7 +35,7 @@ function ScrumBoardKanbanTask({ stage, taskId, taskIndex, taskStatus }: Props): 
   const isFocused = focusedId === task.id;
 
   const onDoubleClickHandler = () => {
-    navigate(`deal/update/${taskId}`, { state: { taskId } });
+    void navigate(`deal/update/${taskId}`);
   };
 
   useEffect(() => {

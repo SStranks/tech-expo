@@ -40,14 +40,12 @@ function PipelineDealUpdatePage(): React.JSX.Element {
     void navigate(-1);
   };
 
-  const onSubmit: SubmitHandler<FormData> = () => {
-    // const { companyTitle, dealOwner, dealStage, dealTitle, dealTotal } = data;
-
+  const onSubmit: SubmitHandler<FormData> = (data) => {
     reduxDispatch(
       updateDeal({
         dealId,
         stageId,
-        // stageId: locationState.columnId, // TODO: Not correct
+        ...data,
       })
     );
     setPortalActiveInternal(false);

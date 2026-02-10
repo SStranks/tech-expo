@@ -199,7 +199,7 @@ function ScrumBoard(): React.JSX.Element {
 
   const onDrop = useCallback(
     async ({ location, source }: BaseEventPayload<ElementDragType>) => {
-      if (!source || location.current.dropTargets.length === 0) return;
+      if (location.current.dropTargets.length === 0) return;
       if (!isKanbanTaskDropData(source.data)) return;
 
       const stageDataInitial = location.initial.dropTargets.find(
@@ -260,13 +260,13 @@ function ScrumBoard(): React.JSX.Element {
               ? cardDataCurrent.data.taskIndex
               : cardDataCurrent.data.taskIndex + 1;
 
-          handleHorizontalMove({
+          await handleHorizontalMove({
             destinationStage: stageDataCurrent.data.stage,
             destinationTaskIndex: destinationTaskIndex,
             sourceTask: source.data.task,
           }); // Dragged over another card; move relative to it
         } else {
-          handleHorizontalMove({
+          await handleHorizontalMove({
             destinationStage: stageDataCurrent.data.stage,
             destinationTaskIndex: stageDataCurrent.data.taskIds.length,
             sourceTask: source.data.task,
@@ -379,7 +379,11 @@ function ScrumBoard(): React.JSX.Element {
   // }, [data.columns, reduxDispatch]);
 
   useEffect(() => {
-    return monitorForElements({ onDrop });
+    return monitorForElements({
+      onDrop: (payload) => {
+        void onDrop(payload);
+      },
+    });
   }, [onDrop]);
 
   return (

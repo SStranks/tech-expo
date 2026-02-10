@@ -85,10 +85,10 @@ function ScrumBoardPipeline(): React.JSX.Element {
       const prevId = dealIdsLexiSorted[destinationDealIndex - 1] ?? null;
       const nextId = dealIdsLexiSorted[destinationDealIndex] ?? null;
 
-      const prevKey = prevId ? dealsById[prevId].orderKey : null;
-      const nextKey = nextId ? dealsById[nextId].orderKey : null;
+      const prevKey = prevId ? dealsById[prevId]?.orderKey : null;
+      const nextKey = nextId ? dealsById[nextId]?.orderKey : null;
 
-      return generateOrderKeyBetween(prevKey, nextKey);
+      return generateOrderKeyBetween(prevKey ?? null, nextKey ?? null);
     },
     [dealsById]
   );
@@ -120,6 +120,7 @@ function ScrumBoardPipeline(): React.JSX.Element {
         dispatchUiAriaEvent(requestId, errorMessage, 'assertive');
       }
     },
+
     [reduxDispatch, dispatchUiAriaEvent]
   );
 
@@ -198,7 +199,7 @@ function ScrumBoardPipeline(): React.JSX.Element {
 
   const onDrop = useCallback(
     async ({ location, source }: BaseEventPayload<ElementDragType>) => {
-      if (!source || location.current.dropTargets.length === 0) return;
+      if (location.current.dropTargets.length === 0) return;
       if (!isPipelineDealDropData(source.data)) return;
 
       const stageDataInitial = location.initial.dropTargets.find(
@@ -259,13 +260,13 @@ function ScrumBoardPipeline(): React.JSX.Element {
               ? cardDataCurrent.data.dealIndex
               : cardDataCurrent.data.dealIndex + 1;
 
-          handleHorizontalMove({
+          await handleHorizontalMove({
             destinationDealIndex,
             destinationStage: stageDataCurrent.data.stage,
             sourceDeal: source.data.deal,
           }); // Dragged over another card; move relative to it
         } else {
-          handleHorizontalMove({
+          await handleHorizontalMove({
             destinationDealIndex: stageDataCurrent.data.dealIds.length,
             destinationStage: stageDataCurrent.data.stage,
             sourceDeal: source.data.deal,
@@ -278,7 +279,11 @@ function ScrumBoardPipeline(): React.JSX.Element {
   );
 
   useEffect(() => {
-    return monitorForElements({ onDrop });
+    return monitorForElements({
+      onDrop: (payload) => {
+        void onDrop(payload);
+      },
+    });
   }, [onDrop]);
 
   return (

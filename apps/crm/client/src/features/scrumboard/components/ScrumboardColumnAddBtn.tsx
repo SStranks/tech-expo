@@ -12,8 +12,7 @@ type Props = {
 function ScrumboardColumnAddBtn({ columnStyle, stageId }: Props): React.JSX.Element {
   return (
     <Link
-      to="deal/create"
-      state={{ stageId }}
+      to={`deal/create/${stageId}`}
       className={`${styles.addCardBtn} ${columnStyle ? styles[`addCardBtn--${columnStyle}`] : ''}`}>
       <IconOperatorPlus svgClass={styles.addCardBtn__svg} />
     </Link>

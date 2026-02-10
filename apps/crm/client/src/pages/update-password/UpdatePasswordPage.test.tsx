@@ -57,7 +57,7 @@ describe('Functionality', () => {
   afterEach(() => vi.clearAllMocks());
 
   test('Form; Input validation; "required" errors on empty inputs', async () => {
-    vi.mocked(getStrength).mockResolvedValue(null);
+    vi.mocked(getStrength).mockResolvedValue(0);
     render(<UpdatePasswordPage />, { wrapper: BrowserRouter });
     const user = userEvent.setup({ delay: null });
 

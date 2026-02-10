@@ -1,39 +1,35 @@
-import type { CoreRow } from '@tanstack/react-table';
-
-import type { TableDataQuotes } from '@Data/MockData';
-
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
-import TableQuotesDelete from '@Components/tanstack-table/tables/quotes/TableQuotesDelete';
+// import TableQuotesDelete from '@Components/tanstack-table/tables/quotes/TableQuotesDelete';
 
 import StylesTableListView from '@Components/tanstack-table/views/TableListView.module.scss';
 
 function QuoteDeletePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const navigate = useNavigate();
-  // TODO:  Change assertion to runtime check later, using type guard.
-  // TODO:  Apply this approach to the other components using useLocation.
-  const state = useLocation().state as CoreRow<TableDataQuotes>['original'];
-  const [id] = useState(() => state.id);
+  const { quoteId } = useParams();
 
   useEffect(() => {
-    const tableRow = document.querySelector(`tr[data-table-row-id="${id}"]`);
+    if (!quoteId) return;
+    const tableRow = document.querySelector(`tr[data-table-row-id="${quoteId}"]`);
     tableRow?.classList.add(StylesTableListView.dangerRow);
 
     return () => tableRow?.classList.remove(StylesTableListView.dangerRow);
-  }, [id]);
+  }, [quoteId]);
+
+  if (!quoteId) return <Navigate to="/quotes" replace />;
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    navigate(-1);
+    void navigate(-1);
   };
 
   return (
     <FormModal portalActive={portalActive} setPortalActive={setPortalActive}>
       <FormModal.Header title="Delete Quote: <INSERT DYNAMIC ID>" />
-      <TableQuotesDelete tableData={[state]} />
+      {/* <TableQuotesDelete tableData={[state]} /> */}
       <FormModal.Footer>
         <FormModal.CancelButton />
         <FormModal.DeleteButton />

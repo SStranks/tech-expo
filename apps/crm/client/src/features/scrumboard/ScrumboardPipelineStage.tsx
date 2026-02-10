@@ -23,9 +23,9 @@ type Props = {
   stageId: PipelineStage['id'];
 };
 
-function ScrumboardPipelineStage({ stageId }: Props): React.JSX.Element {
+function ScrumboardPipelineStage({ stageId }: Props) {
   const [isDraggedOver, setIsDraggedOver] = useState<boolean>(false);
-  const stageRef = useRef(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const selectorStageById = useMemo(() => makeSelectorStageById(), []);
   const selectorDealIdsLexiSorted = useMemo(() => makeSelectorDealIdsSortedForStage(), []);
   const selectorDealsTotalForStage = useMemo(() => makeSelectorDealsTotalForStage(), []);
@@ -35,7 +35,7 @@ function ScrumboardPipelineStage({ stageId }: Props): React.JSX.Element {
 
   useEffect(() => {
     const stageElement = stageRef.current;
-    if (!stageElement) return;
+    if (!stageElement || !stage) return;
 
     return dropTargetForElements({
       element: stageElement,
@@ -47,6 +47,8 @@ function ScrumboardPipelineStage({ stageId }: Props): React.JSX.Element {
       onDrop: () => setIsDraggedOver(false),
     });
   }, [stage, dealIdsLexiSorted]);
+
+  if (!stage) return null;
 
   return (
     <div ref={stageRef} className={clsx(`${styles.column}`, `${isDraggedOver ? styles['column--dragEnter'] : ''}`)}>
@@ -61,7 +63,7 @@ function ScrumboardPipelineStage({ stageId }: Props): React.JSX.Element {
             )}
           </div>
           <div className={styles.headerControls}>
-            <ScrumboardColumnOptionsBtn stageId={stage.id} stageTitle={stage.title} />
+            <ScrumboardColumnOptionsBtn stageId={stage.id} />
             <ScrumboardColumnAddBtn stageId={stage.id} />
           </div>
         </div>

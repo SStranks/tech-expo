@@ -19,7 +19,7 @@ type Props = {
 
 function ScrumboardKanbanColumnUnassigned({ stageId }: Props): React.JSX.Element {
   const [, setIsDraggedOver] = useState<boolean>(false);
-  const stageRef = useRef(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const selectorStageById = useMemo(() => makeSelectorStageById(), []);
   const stage = useReduxSelector((state) => selectorStageById(state, stageId));
   const selectorTaskIdsLexiSorted = useMemo(() => makeSelectorTaskIdsSortedForStage(), []);
