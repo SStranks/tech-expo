@@ -54,14 +54,12 @@ import { hoursFromNowInEpochSeconds } from '#Utils/time.js';
  * Activate R: Client sends A. Find R on DB using payload of A, and set to active.
  */
 
-const { JWT_COOKIE_AUTH_ID, JWT_COOKIE_REFRESH_ID } = process.env;
-
 const userRepository = new PostgresUserRepository();
 const userService = new UserService(userRepository, redisClient, postgresDB);
 
 // TODO:  Make verification page on client; redirect to this page at end of THIS signup process.
 const signup = async (
-  req: Request<{}, {}, SignupRequestDTO>,
+  req: Request<object, object, SignupRequestDTO>,
   res: Response<ApiResponseSuccess>,
   next: NextFunction
 ) => {
@@ -85,7 +83,7 @@ const signup = async (
 };
 
 const confirmSignup = async (
-  req: Request<{}, {}, ConfirmSignupRequestDTO>,
+  req: Request<object, object, ConfirmSignupRequestDTO>,
   res: Response<ApiResponseSuccessData<ConfirmSignupResponse>>,
   next: NextFunction
 ) => {
@@ -101,9 +99,9 @@ const confirmSignup = async (
   if (!isEmailValid) return next(new BadRequestError({ message: 'Invalid email address' }));
 
   const user = await userService.queryUserByEmail(email);
-  await userService.verifyAccount(user, verificationCode);
+  userService.verifyAccount(user, verificationCode);
   await userService.updatePassword(user.id, password);
-  const { authToken, refreshToken, refreshTokenPayload } = await userService.generateClientTokens(user.id, user.role);
+  const { authToken, refreshToken, refreshTokenPayload } = userService.generateClientTokens(user.id, user.role);
   await userService.insertRefreshToken(refreshTokenPayload);
   userService.createAuthCookie(res, authToken);
   userService.createRefreshCookie(res, refreshToken);
@@ -112,7 +110,7 @@ const confirmSignup = async (
 };
 
 const login = async (
-  req: Request<{}, {}, LoginRequestDTO>,
+  req: Request<object, object, LoginRequestDTO>,
   res: Response<ApiResponseSuccessData<LoginResponse>>,
   next: NextFunction
 ) => {
@@ -128,30 +126,36 @@ const login = async (
 
   const user = toUserRoleDTO(userRow);
 
-  const { authToken, refreshToken, refreshTokenPayload } = await userService.generateClientTokens(
-    user.client_id,
-    user.role
-  );
+  const { authToken, refreshToken, refreshTokenPayload } = userService.generateClientTokens(user.client_id, user.role);
   await userService.insertRefreshToken(refreshTokenPayload);
-  await userService.createAuthCookie(res, authToken);
-  await userService.createRefreshCookie(res, refreshToken);
+  userService.createAuthCookie(res, authToken);
+  userService.createRefreshCookie(res, refreshToken);
 
   // TODO:  Send client to dashboard on success
   // TODO: . Amend DATA to send back actual details here.
   res.status(200).json({ status: 'success', message: 'Logged in to CRM', data: { tokens: { tokens: true }, user } });
 };
 
-const logout = async (req: Request<{}, {}, never>, res: Response<ApiResponseSuccess>, next: NextFunction) => {
+const logout = async (req: Request<object, object, never>, res: Response<ApiResponseSuccess>, next: NextFunction) => {
   const { authorization } = req.headers;
-  const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 
-  let JWT;
+  let JWT: string | undefined;
   if (authorization && authorization.startsWith('Bearer')) {
     JWT = authorization.split(' ')[1];
-  } else if (authCookie) {
-    JWT = authCookie;
+  } else if (req.authJWT) {
+    JWT = req.authJWT;
   }
-  const { exp, jti } = await userService.decodeAuthToken(JWT);
+
+  if (!JWT)
+    return next(
+      new AppError({
+        code: 'OPERATIONAL_ERROR',
+        httpStatus: 401,
+        message: 'Unauthorized: JWT missing depsite route guard',
+      })
+    );
+
+  const { exp, jti } = userService.decodeAuthToken(JWT);
   await userService.blacklistToken(jti, exp);
   userService.clearCookies(res);
   // TODO:  Redirect client to home
@@ -171,7 +175,7 @@ const logout = async (req: Request<{}, {}, never>, res: Response<ApiResponseSucc
 };
 
 const forgotPassword = async (
-  req: Request<{}, {}, ForgotPasswordRequestDTO>,
+  req: Request<object, object, ForgotPasswordRequestDTO>,
   res: Response<ApiResponseSuccess>,
   next: NextFunction
 ) => {
@@ -189,7 +193,7 @@ const forgotPassword = async (
 };
 
 const resetPassword = async (
-  req: Request<{ token: string }, {}, ResetPasswordRequestDTO>,
+  req: Request<{ token: string }, object, ResetPasswordRequestDTO>,
   res: Response<ApiResponseSuccessData<ResetPasswordResponse>>,
   next: NextFunction
 ) => {
@@ -206,7 +210,7 @@ const resetPassword = async (
   const tokens = await userService.deleteAllRefreshTokens(user.id);
   await userService.blacklistAllRefreshTokens(tokens);
 
-  const { authToken, refreshToken, refreshTokenPayload } = await userService.generateClientTokens(user.id, user.role);
+  const { authToken, refreshToken, refreshTokenPayload } = userService.generateClientTokens(user.id, user.role);
   await userService.insertRefreshToken(refreshTokenPayload);
   userService.createAuthCookie(res, authToken);
   userService.createRefreshCookie(res, refreshToken);
@@ -219,13 +223,12 @@ const resetPassword = async (
 };
 
 const updatePassword = async (
-  req: Request<{}, {}, UpdatePasswordRequestDTO>,
+  req: Request<object, object, UpdatePasswordRequestDTO>,
   res: Response<ApiResponseSuccessData<UpdatePasswordResponse>>,
   next: NextFunction
 ) => {
   const { newPassword, newPasswordConfirm, oldPassword } = req.body;
   const { authorization } = req.headers;
-  const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 
   if (!newPassword || !newPasswordConfirm || !oldPassword)
     return next(new BadRequestError({ message: 'Provide all required fields' }));
@@ -235,11 +238,20 @@ const updatePassword = async (
   let JWT;
   if (authorization && authorization.startsWith('Bearer')) {
     JWT = authorization.split(' ')[1];
-  } else if (authCookie) {
-    JWT = authCookie;
+  } else if (req.authJWT) {
+    JWT = req.authJWT;
   }
 
-  const { client_id, exp, jti } = await userService.decodeAuthToken(JWT);
+  if (!JWT)
+    return next(
+      new AppError({
+        code: 'OPERATIONAL_ERROR',
+        httpStatus: 401,
+        message: 'Unauthorized: JWT missing depsite route guard',
+      })
+    );
+
+  const { client_id, exp, jti } = userService.decodeAuthToken(JWT);
   const user = await userService.queryUserById(client_id);
   await userService.isPasswordValid(user.password, oldPassword);
   await userService.updatePassword(user.id, newPassword);
@@ -247,7 +259,7 @@ const updatePassword = async (
   await userService.blacklistAllRefreshTokens(tokens);
   await userService.blacklistToken(jti, exp);
 
-  const { authToken, refreshToken, refreshTokenPayload } = await userService.generateClientTokens(user.id, user.role);
+  const { authToken, refreshToken, refreshTokenPayload } = userService.generateClientTokens(user.id, user.role);
   await userService.insertRefreshToken(refreshTokenPayload);
   userService.createAuthCookie(res, authToken);
   userService.createRefreshCookie(res, refreshToken);
@@ -255,18 +267,30 @@ const updatePassword = async (
   res.status(200).json({ status: 'success', message: 'Password updated', data: { tokens: { tokens: true } } });
 };
 
-const freezeAccount = async (req: Request<{}, {}, never>, res: Response<ApiResponseSuccess>, _next: NextFunction) => {
+const freezeAccount = async (
+  req: Request<object, object, never>,
+  res: Response<ApiResponseSuccess>,
+  next: NextFunction
+) => {
   const { authorization } = req.headers;
-  const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 
   let JWT;
   if (authorization && authorization.startsWith('Bearer')) {
     JWT = authorization.split(' ')[1];
-  } else if (authCookie) {
-    JWT = authCookie;
+  } else if (req.authJWT) {
+    JWT = req.authJWT;
   }
 
-  const { client_id, exp, jti } = await userService.decodeAuthToken(JWT);
+  if (!JWT)
+    return next(
+      new AppError({
+        code: 'OPERATIONAL_ERROR',
+        httpStatus: 401,
+        message: 'Unauthorized: JWT missing depsite route guard',
+      })
+    );
+
+  const { client_id, exp, jti } = userService.decodeAuthToken(JWT);
   await userService.freezeAccount(client_id);
   const tokens = await userService.deleteAllRefreshTokens(client_id);
   await userService.blacklistAllRefreshTokens(tokens);
@@ -278,23 +302,31 @@ const freezeAccount = async (req: Request<{}, {}, never>, res: Response<ApiRespo
 };
 
 const deleteAccount = async (
-  req: Request<{}, {}, DeleteAccountRequestDTO>,
+  req: Request<object, object, DeleteAccountRequestDTO>,
   res: Response<ApiResponseSuccess>,
   next: NextFunction
 ) => {
   const { password } = req.body;
   const { authorization } = req.headers;
-  const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
   if (!password) return next(new BadRequestError({ message: 'Provide all required fields' }));
 
   let JWT;
   if (authorization && authorization.startsWith('Bearer')) {
     JWT = authorization.split(' ')[1];
-  } else if (authCookie) {
-    JWT = authCookie;
+  } else if (req.authJWT) {
+    JWT = req.authJWT;
   }
 
-  const { client_id, exp, jti } = await userService.decodeAuthToken(JWT);
+  if (!JWT)
+    return next(
+      new AppError({
+        code: 'OPERATIONAL_ERROR',
+        httpStatus: 401,
+        message: 'Unauthorized: JWT missing depsite route guard',
+      })
+    );
+
+  const { client_id, exp, jti } = userService.decodeAuthToken(JWT);
   await userService.deleteAccount(client_id, password);
   const tokens = await userService.deleteAllRefreshTokens(client_id);
   await userService.blacklistAllRefreshTokens(tokens);
@@ -306,27 +338,26 @@ const deleteAccount = async (
 };
 
 const generateAuthToken = async (
-  req: Request<{}, {}, never>,
+  req: Request<object, object, never>,
   res: Response<ApiResponseSuccessData<GenerateAuthTokenResponse>>,
   next: NextFunction
 ) => {
   const { authorization } = req.headers;
-  const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie, [`${JWT_COOKIE_REFRESH_ID}`]: refreshCookie } = req.cookies;
 
   let JWT;
   if (authorization && authorization.startsWith('Bearer')) {
     JWT = authorization.split(' ')[1];
-  } else if (refreshCookie) {
-    JWT = refreshCookie;
+  } else if (req.refreshJWT) {
+    JWT = req.refreshJWT;
   }
   if (!JWT) return next(new UnauthorizedError({ message: 'Unauthorized. Please login' }));
 
-  const { acc, client_id, iat: oldIat, jti } = await userService.verifyRefreshToken(JWT);
+  const { acc, client_id, iat: oldIat, jti } = userService.verifyRefreshToken(JWT);
   await userService.isTokenBlacklisted(JWT);
 
   let role;
-  if (authCookie) {
-    const { role: userRole } = await userService.decodeAuthToken(authCookie);
+  if (req.authJWT) {
+    const { role: userRole } = userService.decodeAuthToken(req.authJWT);
     role = userRole;
   } else {
     // When Auth token expired and/or not provided
@@ -344,11 +375,11 @@ const generateAuthToken = async (
   // Legitimate Request; push forward R token accumulator value
   if (refreshToken.acc === acc && refreshToken.activated) {
     await userService.updateRefreshToken(client_id, jti, acc + 1, iat, false);
-    const authToken = await userService.signAuthToken(client_id, role, iat);
-    const refreshToken = await userService.advanceRefreshToken(JWT, iat);
+    const authToken = userService.signAuthToken(client_id, role, iat);
+    const refreshToken = userService.advanceRefreshToken(JWT, iat);
 
-    await userService.createAuthCookie(res, authToken);
-    await userService.createRefreshCookie(res, refreshToken);
+    userService.createAuthCookie(res, authToken);
+    userService.createRefreshCookie(res, refreshToken);
     // TODO:  Return Expiry time
     res.status(201).json({ status: 'success', message: 'Auth token generated', data: { tokens: { tokens: true } } });
     return;
@@ -367,7 +398,7 @@ const generateAuthToken = async (
   if (!refreshToken.activated) return next(new BadRequestError({ message: 'Please verify Refresh Token' }));
 
   // Fraudulent request; R accumulator out-of-sync; freeze account
-  if (refreshToken.acc !== acc && refreshToken.activated) {
+  if (refreshToken.acc !== acc) {
     await userService.freezeAccount(client_id);
     const tokens = await userService.deleteAllRefreshTokens(client_id);
     await userService.blacklistAllRefreshTokens(tokens);
@@ -383,33 +414,34 @@ const generateAuthToken = async (
 };
 
 const activateRefreshToken = async (
-  req: Request<{}, {}, never>,
+  req: Request<object, object, never> & {
+    cookies: Record<string, string | undefined>;
+  },
   res: Response<ApiResponseSuccess>,
   next: NextFunction
 ) => {
   // On receipt of AR tokens, send back A to /verifyToken - have setInterval on client to keep resending until 200 received.
   // Update R token active flag on DB
   const { authorization } = req.headers;
-  const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 
   let JWT;
   if (authorization && authorization.startsWith('Bearer')) {
     JWT = authorization.split(' ')[1];
-  } else if (authCookie) {
-    JWT = authCookie;
+  } else if (req.authJWT) {
+    JWT = req.authJWT;
   } else {
     return next(new UnauthorizedError({ message: 'Unauthorized. Please login' }));
   }
 
-  await userService.verifyAuthToken(JWT);
-  const { client_id, iat } = await userService.decodeAuthToken(JWT);
+  userService.verifyAuthToken(JWT);
+  const { client_id, iat } = userService.decodeAuthToken(JWT);
   await userService.activateRefreshToken(client_id, iat);
 
   res.status(204).send();
 };
 
 const identify = async (
-  _req: Request<{}, {}, never>,
+  _req: Request<object, object, never>,
   res: Response<ApiResponseSuccessData<IdentifyResponse>, AuthenticatedLocals>,
   _next: NextFunction
 ) => {
@@ -420,20 +452,19 @@ const identify = async (
   res.status(200).json({ status: 'success', message: 'Account identified', data: { user } });
 };
 
-const protectedRoute = async (req: Request, res: Response<{}, AuthenticatedLocals>, next: NextFunction) => {
+const protectedRoute = async (req: Request, res: Response<object, AuthenticatedLocals>, next: NextFunction) => {
   const { authorization } = req.headers;
-  const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
-  let JWT;
+  let JWT: string | undefined;
 
   if (authorization && authorization.startsWith('Bearer')) {
     JWT = authorization.split(' ')[1];
-  } else if (authCookie) {
-    JWT = authCookie;
+  } else if (req.authJWT) {
+    JWT = req.authJWT;
   }
 
   if (!JWT) return next(new UnauthorizedError({ message: 'Unauthorized. Please login' }));
 
-  const { client_id, jti, role } = await userService.verifyAuthToken(JWT);
+  const { client_id, jti, role } = userService.verifyAuthToken(JWT);
   await userService.isTokenBlacklisted(jti);
   res.locals.user = { client_id, role };
   next();
@@ -442,14 +473,22 @@ const protectedRoute = async (req: Request, res: Response<{}, AuthenticatedLocal
 const restrictedRoute = (...roles: UserRoles[]) => {
   return async (req: Request, _res: Response, next: NextFunction) => {
     const { authorization } = req.headers;
-    const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 
     let JWT;
     if (authorization && authorization.startsWith('Bearer')) {
       JWT = authorization.split(' ')[1];
-    } else if (authCookie) {
-      JWT = authCookie;
+    } else if (req.authJWT) {
+      JWT = req.authJWT;
     }
+
+    if (!JWT)
+      return next(
+        new AppError({
+          code: 'OPERATIONAL_ERROR',
+          httpStatus: 401,
+          message: 'Unauthorized: JWT missing depsite route guard',
+        })
+      );
 
     const { client_id, role } = userService.verifyAuthToken(JWT);
 

@@ -11,6 +11,7 @@ import { and, eq } from 'drizzle-orm/pg-core/expressions';
 import jwt from 'jsonwebtoken';
 import ms from 'ms';
 
+import { env } from '#Config/env.js';
 import { UserTable } from '#Config/schema/user/User.js';
 import UserRefreshTokensTable from '#Config/schema/user/UserRefreshTokens.js';
 import { secrets } from '#Config/secrets.js';
@@ -33,7 +34,7 @@ const {
   JWT_REFRESH_EXPIRES,
   NODE_ENV,
   PASSWORD_RESET_EXPIRES,
-} = process.env;
+} = env;
 
 // TODO: Wire up userRepo to the existing methods here
 export class UserService {
@@ -45,7 +46,7 @@ export class UserService {
 
   signAuthToken = (userId: string, role: string, iat: number) => {
     const UUIDv4 = crypto.randomUUID();
-    return jwt.sign({ client_id: userId, iat, role }, JWT_AUTH_SECRET as string, {
+    return jwt.sign({ client_id: userId, iat, role }, JWT_AUTH_SECRET, {
       expiresIn: JWT_AUTH_EXPIRES as ms.StringValue, // TODO: Valiator function? Env-zod schema checker?,
       jwtid: UUIDv4,
     });
@@ -61,7 +62,7 @@ export class UserService {
 
   signRefreshToken = (client_id: string, iat: number, refreshTokenPayload: RefreshTokenPayload) => {
     const { acc, exp, jti } = refreshTokenPayload;
-    return jwt.sign({ acc, client_id, exp, iat, jti }, JWT_REFRESH_SECRET as string);
+    return jwt.sign({ acc, client_id, exp, iat, jti }, JWT_REFRESH_SECRET);
   };
 
   blacklistToken = async (jti: UUID, exp: number) => {
@@ -69,14 +70,14 @@ export class UserService {
   };
 
   blacklistAllRefreshTokens = async (tokens: { jti: UUID; exp: number }[]) => {
-    tokens.forEach(({ exp, jti }) => {
-      this.redisClient.set(`${jti}`, 'Blacklisted', { EXAT: exp });
-    });
+    for (const { exp, jti } of tokens) {
+      await this.redisClient.set(`${jti}`, 'Blacklisted', { EXAT: exp });
+    }
   };
 
   verifyAuthToken = (authToken: string): AuthTokenPayload => {
     try {
-      const { client_id, exp, iat, jti, role } = jwt.verify(authToken, JWT_AUTH_SECRET as string) as AuthTokenPayload;
+      const { client_id, exp, iat, jti, role } = jwt.verify(authToken, JWT_AUTH_SECRET) as AuthTokenPayload;
       return { client_id, exp, iat, jti, role };
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
@@ -91,10 +92,7 @@ export class UserService {
 
   verifyRefreshToken = (refreshToken: string): RefreshTokenPayload => {
     try {
-      const { acc, client_id, exp, iat, jti } = jwt.verify(
-        refreshToken,
-        JWT_REFRESH_SECRET as string
-      ) as RefreshTokenPayload;
+      const { acc, client_id, exp, iat, jti } = jwt.verify(refreshToken, JWT_REFRESH_SECRET) as RefreshTokenPayload;
       return { acc, client_id, exp, iat, jti };
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
@@ -107,12 +105,14 @@ export class UserService {
     }
   };
 
-  decodeAuthToken = async (token: string) => {
-    return jwt.decode(token) as AuthTokenPayload;
+  decodeAuthToken = (token: string): AuthTokenPayload => {
+    const payload = jwt.decode(token) as AuthTokenPayload | null;
+    if (!payload) throw new UnauthorizedError({ message: 'Invalid JWT' });
+    return payload;
   };
 
-  decodeRefreshToken = async (token: string) => {
-    return jwt.decode(token) as RefreshTokenPayload;
+  decodeRefreshToken = (token: string): RefreshTokenPayload | null => {
+    return jwt.decode(token) as RefreshTokenPayload | null;
   };
 
   activateRefreshToken = async (client_id: UUID, iat: number) => {
@@ -133,29 +133,31 @@ export class UserService {
 
   advanceRefreshToken = (refreshToken: string, iat: number) => {
     const payload = jwt.decode(refreshToken);
-    let { acc, client_id, exp, jti } = payload as RefreshTokenPayload;
+    let { acc } = payload as RefreshTokenPayload;
+    const { client_id, exp, jti } = payload as RefreshTokenPayload;
 
     acc = acc + 1;
 
-    return jwt.sign({ acc, client_id, exp, iat, jti }, JWT_REFRESH_SECRET as string);
+    return jwt.sign({ acc, client_id, exp, iat, jti }, JWT_REFRESH_SECRET);
   };
 
   deleteAllRefreshTokens = async (client_id: UUID) => {
-    return await this.postgresClient
+    return this.postgresClient
       .delete(UserRefreshTokensTable)
       .where(eq(UserRefreshTokensTable.userId, toDbUUID(client_id)))
       .returning({ exp: UserRefreshTokensTable.exp, jti: UserRefreshTokensTable.jti });
   };
 
   queryRefreshToken = async (client_id: UUID, jti: UUID) => {
-    return await this.postgresClient.query.UserRefreshTokensTable.findFirst({
+    return this.postgresClient.query.UserRefreshTokensTable.findFirst({
       columns: { acc: true, activated: true, exp: true, iat: true, jti: true },
       where: (table, { and, eq }) => and(eq(table.userId, toDbUUID(client_id)), eq(table.jti, toDbUUID(jti))),
     });
   };
 
   insertRefreshToken = async (refreshTokenPayload: RefreshTokenPayload) => {
-    let { acc, client_id, exp, iat, jti } = refreshTokenPayload;
+    let { client_id, jti } = refreshTokenPayload;
+    const { acc, exp, iat } = refreshTokenPayload;
     jti = toDbUUID(jti);
     client_id = toDbUUID(client_id);
 
@@ -172,7 +174,7 @@ export class UserService {
   };
 
   createAuthCookie = (res: Response, authToken: string) => {
-    res.cookie(JWT_COOKIE_AUTH_ID as string, authToken, {
+    res.cookie(JWT_COOKIE_AUTH_ID, authToken, {
       httpOnly: true,
       maxAge: ms(JWT_COOKIE_AUTH_EXPIRES as ms.StringValue),
       sameSite: 'strict',
@@ -181,7 +183,7 @@ export class UserService {
   };
 
   createRefreshCookie = (res: Response, refreshToken: string) => {
-    res.cookie(JWT_COOKIE_REFRESH_ID as string, refreshToken, {
+    res.cookie(JWT_COOKIE_REFRESH_ID, refreshToken, {
       httpOnly: true,
       maxAge: ms(JWT_COOKIE_REFRESH_EXPIRES as ms.StringValue),
       path: '/api/users/generateAuthToken',
@@ -192,13 +194,13 @@ export class UserService {
 
   clearCookies = (res: Response) => {
     // Cookie options object structure must be identical to overwrite
-    res.cookie(JWT_COOKIE_AUTH_ID as string, 'loggedOut', {
+    res.cookie(JWT_COOKIE_AUTH_ID, 'loggedOut', {
       httpOnly: true,
       maxAge: ms('1000'),
       sameSite: 'strict',
       secure: NODE_ENV === 'production',
     });
-    res.cookie(JWT_COOKIE_REFRESH_ID as string, 'loggedOut', {
+    res.cookie(JWT_COOKIE_REFRESH_ID, 'loggedOut', {
       httpOnly: true,
       maxAge: ms('1000'),
       path: '/api/users/generateAuthToken',
@@ -224,10 +226,10 @@ export class UserService {
       })
       .where(eq(UserTable.id, userId))
       .returning({ id: UserTable.id });
-    if (!user) throw new BadRequestError({ message: 'Unable to update password' });
+    if (user.length === 0) throw new BadRequestError({ message: 'Unable to update password' });
   }
 
-  async generateClientTokens(userId: UUID, role: string) {
+  generateClientTokens(userId: UUID, role: string) {
     const iat = Math.floor(Date.now() / 1000);
     const authToken = this.signAuthToken(userId, role, iat);
     const refreshTokenPayload = this.signRefreshTokenPayload(userId, iat);
@@ -301,7 +303,7 @@ export class UserService {
     return user;
   }
 
-  async verifyAccount(user: SelectUserSchema, verificationCode: string) {
+  verifyAccount(user: SelectUserSchema, verificationCode: string) {
     const TIME_NOW = Date.now();
 
     if (user.accountFrozenAt === null || user.accountFrozenAt.getTime() !== user.accountCreatedAt.getTime())
@@ -343,7 +345,7 @@ export class UserService {
   async logoutAccount(authTokenJWT: string) {
     // A+R tokens are issued at same IAT (login and generateAuthToken routes)
     // Use A token to find R; blacklist R
-    const { client_id, iat } = await this.verifyAuthToken(authTokenJWT);
+    const { client_id, iat } = this.verifyAuthToken(authTokenJWT);
     const [{ exp, jti }] = await this.postgresClient
       .delete(UserRefreshTokensTable)
       .where(and(eq(UserRefreshTokensTable.userId, toDbUUID(client_id)), eq(UserRefreshTokensTable.iat, iat)))
