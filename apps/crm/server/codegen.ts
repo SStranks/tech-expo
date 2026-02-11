@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 import path from 'node:path';

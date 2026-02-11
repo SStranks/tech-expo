@@ -9,13 +9,15 @@ import url from 'node:url';
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 await esbuild.build({
-  bundle: false,
-  entryPoints: ['./src/**/*.ts'],
+  bundle: true,
+  splitting: true,
+  entryPoints: ['./src/main.ts'],
   outdir: path.resolve(__dirname, './dist'),
   platform: 'node',
   target: 'node18',
   format: 'esm',
   tsconfig: path.resolve(__dirname, './tsconfig.json'),
+  external: ['bcrypt', 'argon2', 'sharp', 'pino-mongodb', 'postgres'],
   plugins: [
     copy({
       assets: [

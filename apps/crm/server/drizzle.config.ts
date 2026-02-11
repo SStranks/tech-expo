@@ -1,5 +1,3 @@
-/// <reference types="node" />
-
 import { defineConfig } from 'drizzle-kit';
 import '@dotenvx/dotenvx/config';
 

@@ -1,0 +1,27 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+
+  "ts-node": {
+    "esm": true,
+    "require": ["tsconfig-paths/register"],
+    "experimentalSpecifierResolution": "node"
+  },
+
+  "tsc-alias": {
+    "verbose": true,
+    "resolveFullPaths": true,
+    "replacers": {
+      "base-url": {
+        "enabled": false
+      }
+    }
+  },
+
+  "include": ["src/**/*.ts"]
+}
