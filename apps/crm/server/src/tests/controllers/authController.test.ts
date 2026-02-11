@@ -1,6 +1,7 @@
 import httpMocks from 'node-mocks-http';
 import { describe, expect, test, vi } from 'vitest';
 
+import { env } from '#Config/env.js';
 import { createMockResponse } from '#Tests/mocks/mockResponse.js';
 import mockUser from '#Tests/mocks/mockUser.js';
 
@@ -32,7 +33,7 @@ vi.mock('#Services/User', () => ({
 }));
 
 const { default: authController } = await import('#Controllers/authController.js');
-const { JWT_COOKIE_AUTH_ID } = process.env;
+const { JWT_COOKIE_AUTH_ID } = env;
 
 describe('authController.protectedRoute', () => {
   test('No JWT credentials; return 401', async () => {

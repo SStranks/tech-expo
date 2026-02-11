@@ -1,11 +1,13 @@
 import type { ServerOptions } from 'node:https';
 
+import { env } from '#Config/env.js';
+
 import http from 'node:http';
 import https from 'node:https';
 
 import express from './express.js';
 
-const { NODE_ENV } = process.env;
+const { NODE_ENV } = env;
 
 import fs from 'node:fs';
 import { createSecureContext } from 'node:tls';

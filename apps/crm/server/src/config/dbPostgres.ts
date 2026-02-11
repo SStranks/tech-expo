@@ -12,10 +12,13 @@ import PostgresError from '#Utils/errors/PostgresError.js';
 import fs from 'node:fs';
 import { createSecureContext } from 'node:tls';
 
+import { env } from './env.js';
 import { secrets } from './secrets.js';
 
 const { POSTGRES_DATABASE: DATABASE, POSTGRES_PASSWORD_SERVICE: PASSWORD, POSTGRES_USER_SERVICE: USER } = secrets;
-const { DRIZZLE, NODE_ENV, POSTGRES_DOCKER_PORT: PORT, POSTGRES_HOST: HOST } = process.env;
+const { NODE_ENV, POSTGRES_DOCKER_PORT: PORT, POSTGRES_HOST: HOST } = env;
+const { DRIZZLE } = process.env;
+
 const POSTGRES_URL = `postgres://${USER}:${PASSWORD}@${HOST}:${PORT}/${DATABASE}`;
 
 // DANGER:  Ensure logger for current ENV is not storing credentials; level INFO or higher.
@@ -138,7 +141,7 @@ const errorCodesMap: Record<string, PostgresDomainError> = {
 export function postgresErrorDomainMapper(sqlState?: string): PostgresDomainError {
   if (!sqlState) return errorCodesMap.other;
 
-  // eslint-disable-next-line security/detect-object-injection
+  // eslint-disable-next-line security/detect-object-injection, @typescript-eslint/no-unnecessary-condition
   return errorCodesMap[sqlState] || errorCodesMap[sqlState.slice(0, 2)] || errorCodesMap.other;
 }
 

@@ -6,8 +6,10 @@ import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 
+import { env } from '#Config/env.js';
 import { apolloServer } from '#Graphql/apolloServer.js';
 import graphqlContext from '#Graphql/context.js';
+import { extractJwtCookies } from '#Middleware/cookies.js';
 import globalErrorHandler from '#Middleware/globalError.js';
 import userRouter from '#Routes/userRoutes.js';
 import { httpRequestCounter, httpRequestDurationSeconds, prometheusMetricsHandler } from '#Services/prometheus.js';
@@ -15,7 +17,7 @@ import BadRequestError from '#Utils/errors/BadRequestError.js';
 
 import expressApp from './express.js';
 
-const { NODE_ENV } = process.env;
+const { NODE_ENV } = env;
 
 const corsOrigins = () => {
   const devOrigins = ['http://localhost:3000', 'https://studio.apollographql.com'];
@@ -34,6 +36,7 @@ const app = expressApp;
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(cookieParser());
+app.use(extractJwtCookies);
 app.use(
   helmet({
     contentSecurityPolicy: !(NODE_ENV === 'development'),

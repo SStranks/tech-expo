@@ -6,6 +6,7 @@ import { z, ZodError } from 'zod';
 const { NODE_ENV } = process.env;
 const VALID_ENVIRONMENTS = ['development', 'production'] as const;
 
+// NOTE: See src/types/env.d.ts - ensure validation object keys match defined types
 // DANGER: Non-senstitive configuration values only; secrets parsed in ./secrets.ts
 const envSchemaProduction = z.object({
   EXPRESS_DOCKER_PORT: z.string().min(1).optional(),
@@ -61,10 +62,10 @@ const envSchemaDevelopment = z.object({
   ROLLBAR_POST_SERVER_ITEM: z.string().min(1),
 });
 
-const envSchemas: Record<(typeof VALID_ENVIRONMENTS)[number], z.ZodObject<any>> = {
+const envSchemas = {
   development: envSchemaDevelopment,
   production: envSchemaProduction,
-};
+} as const;
 
 function validateNodeEnvironment() {
   if (typeof NODE_ENV !== 'string') throw new Error('[env.js] FAILURE: NODE_ENV is empty string');
@@ -91,4 +92,16 @@ function validateEnvironmentVariables() {
   console.log(`[env.js] SUCCESS: environment variables loaded`);
 }
 
-export { validateEnvironmentVariables };
+type InferDev = z.infer<typeof envSchemaDevelopment>;
+type InferProd = z.infer<typeof envSchemaProduction>;
+
+type CommonUnion = keyof InferDev & keyof InferProd;
+type EnvCommon = Pick<InferDev & InferProd, CommonUnion>;
+type EnvUnique = Partial<Omit<InferDev & InferProd, CommonUnion>>;
+type Env = EnvCommon & EnvUnique;
+
+const nodeEnvironment = validateNodeEnvironment();
+const zodSchema = envSchemas[nodeEnvironment];
+const env: Env = Object.freeze(zodSchema.parse(process.env));
+
+export { env, validateEnvironmentVariables };

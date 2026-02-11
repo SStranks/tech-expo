@@ -6,10 +6,11 @@ import rollbar from '#Lib/rollbar.js';
 import fs from 'node:fs';
 import { createSecureContext } from 'node:tls';
 
+import { env } from './env.js';
 import { secrets } from './secrets.js';
 
 const { MONGO_DATABASE: DATABASE, MONGO_PASSWORD_SERVICE: PASSWORD, MONGO_USER_SERVICE: USER } = secrets;
-const { MONGO_ARGS: ARGS, MONGO_DOCKER_PORT: PORT, MONGO_HOST: HOST, MONGO_PROTOCOL: PROTOCOL } = process.env;
+const { MONGO_ARGS: ARGS, MONGO_DOCKER_PORT: PORT, MONGO_HOST: HOST, MONGO_PROTOCOL: PROTOCOL } = env;
 
 const MONGO_URI = `${PROTOCOL}://${USER}:${PASSWORD}@${HOST}:${PORT}/${DATABASE}${ARGS}`;
 
@@ -39,8 +40,8 @@ type MongoServerEvents = {
 };
 
 class ServerEventsLogger {
-  private MongoClient;
-  private eventNames;
+  private readonly MongoClient;
+  private readonly eventNames;
 
   constructor(mongoClient: MongoClient, eventName: MongoServerEvents) {
     this.MongoClient = mongoClient;

@@ -5,14 +5,11 @@ import postgres from 'postgres';
 import fs from 'node:fs';
 import { createSecureContext } from 'node:tls';
 
-const {
-  NODE_ENV,
-  POSTGRES_DATABASE: DATABASE,
-  POSTGRES_DOCKER_PORT: PORT,
-  POSTGRES_HOST: HOST,
-  POSTGRES_PASSWORD: PASSWORD,
-  POSTGRES_USER: USER,
-} = process.env;
+import { env } from './env.js';
+import { secrets } from './secrets.js';
+
+const { POSTGRES_DATABASE: DATABASE, POSTGRES_PASSWORD_SERVICE: PASSWORD, POSTGRES_USER_SERVICE: USER } = secrets;
+const { NODE_ENV, POSTGRES_DOCKER_PORT: PORT, POSTGRES_HOST: HOST } = env;
 const POSTGRES_URL = `postgres://${USER}:${PASSWORD}@${HOST}:${PORT}/${DATABASE}`;
 
 console.log(POSTGRES_URL);
@@ -43,7 +40,7 @@ const postgresClient = postgres(POSTGRES_URL, options);
 try {
   await migrate(drizzle(postgresClient), { migrationsFolder: './src/config/migrations' });
 } catch (error) {
-  console.log(`Migration Error: ${error}`);
+  console.error(`Migration Error: ${error as Error}`);
 } finally {
   await postgresClient.end();
 }

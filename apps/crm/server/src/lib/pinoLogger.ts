@@ -1,9 +1,10 @@
 import pino, { type Logger } from 'pino';
 
+import { env } from '#Config/env.js';
 import { secrets } from '#Config/secrets.js';
 
 const { MONGO_DATABASE, MONGO_PASSWORD_SERVICE, MONGO_USER_SERVICE } = secrets;
-const { MONGO_HOST, MONGO_PROTOCOL, NODE_ENV, PINO_LOG_LEVEL } = process.env;
+const { MONGO_HOST, MONGO_PROTOCOL, NODE_ENV, PINO_LOG_LEVEL } = env;
 
 // NOTE:  Logger levels: trace (10), debug (20), info (30), warn (40), error (50), and fatal (60).
 
@@ -39,16 +40,12 @@ const serverLoggerTargets: pino.TransportTargetOptions[] = [
 
 if (NODE_ENV === 'development') serverLoggerTargets.push(pinoPrettyTransport);
 
-const serverLogger: Logger = pino(
-  {
-    name: `Pino-${NODE_ENV}-ServerLogger`,
-    level: PINO_LOG_LEVEL || (NODE_ENV === 'development' ? 'trace' : 'info'),
-    timestamp: pino.stdTimeFunctions.isoTime,
-  },
-  pino.transport({
-    targets: serverLoggerTargets,
-  })
-);
+const serverLogger: Logger = pino({
+  name: `Pino-${NODE_ENV}-ServerLogger`,
+  level: PINO_LOG_LEVEL || (NODE_ENV === 'development' ? 'trace' : 'info'),
+  timestamp: pino.stdTimeFunctions.isoTime,
+  transport: { targets: serverLoggerTargets },
+});
 
 const securityLoggerTargets: pino.TransportTargetOptions[] = [
   {
@@ -59,16 +56,12 @@ const securityLoggerTargets: pino.TransportTargetOptions[] = [
 
 if (NODE_ENV === 'development') securityLoggerTargets.push(pinoPrettyTransport);
 
-const securityLogger: Logger = pino(
-  {
-    name: `Pino-${NODE_ENV}-securityLogger`,
-    level: PINO_LOG_LEVEL || (NODE_ENV === 'development' ? 'trace' : 'info'),
-    timestamp: pino.stdTimeFunctions.isoTime,
-  },
-  pino.transport({
-    targets: securityLoggerTargets,
-  })
-);
+const securityLogger: Logger = pino({
+  name: `Pino-${NODE_ENV}-securityLogger`,
+  level: PINO_LOG_LEVEL || (NODE_ENV === 'development' ? 'trace' : 'info'),
+  timestamp: pino.stdTimeFunctions.isoTime,
+  transport: { targets: securityLoggerTargets },
+});
 
 const appLoggerTargets: pino.TransportTargetOptions[] = [
   {
@@ -79,17 +72,22 @@ const appLoggerTargets: pino.TransportTargetOptions[] = [
 
 if (NODE_ENV === 'development') appLoggerTargets.push(pinoPrettyTransport);
 
-const appLogger: Logger = pino(
+const appLogger: Logger = pino({
+  name: `Pino-${NODE_ENV}-appLogger`,
+  level: PINO_LOG_LEVEL || (NODE_ENV === 'development' ? 'trace' : 'info'),
+  timestamp: pino.stdTimeFunctions.isoTime,
+  transport: { targets: appLoggerTargets },
+});
+
+const crashLogger = pino(
   {
-    name: `Pino-${NODE_ENV}-appLogger`,
-    level: PINO_LOG_LEVEL || (NODE_ENV === 'development' ? 'trace' : 'info'),
+    name: `Pino-${NODE_ENV}-crashLogger`,
+    level: 'fatal',
     timestamp: pino.stdTimeFunctions.isoTime,
   },
-  pino.transport({
-    targets: appLoggerTargets,
-  })
+  pino.destination(1)
 );
 
-const pinoLogger = { app: appLogger, security: securityLogger, server: serverLogger };
+const pinoLogger = { app: appLogger, crash: crashLogger, security: securityLogger, server: serverLogger };
 
 export default pinoLogger;

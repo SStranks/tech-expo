@@ -4,13 +4,14 @@ import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 
 import httpServer from '#App/httpServer.js';
+import { env } from '#Config/env.js';
 import pinoLogger from '#Lib/pinoLogger.js';
 import rollbar from '#Lib/rollbar.js';
 
 import formatError from './errors.js';
 import schema from './schema.js';
 
-const { NODE_ENV } = process.env;
+const { NODE_ENV } = env;
 
 const introspection = NODE_ENV !== 'production';
 const plugins = [ApolloServerPluginDrainHttpServer({ httpServer })];

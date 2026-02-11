@@ -5,6 +5,7 @@ import postgres from 'postgres';
 import { ZodError } from 'zod';
 
 import { postgresErrorDomainMapper, postgresKindToHttp } from '#Config/dbPostgres.js';
+import { env } from '#Config/env.js';
 import pinoLogger from '#Lib/pinoLogger.js';
 import rollbar from '#Lib/rollbar.js';
 import AppError from '#Utils/errors/AppError.js';
@@ -12,7 +13,7 @@ import BadRequestError from '#Utils/errors/BadRequestError.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
 import ZodValidationError from '#Utils/errors/ZodValidationError.js';
 
-const { NODE_ENV } = process.env;
+const { NODE_ENV } = env;
 
 const getHttpCode = (error: unknown): number => {
   if (error instanceof ZodValidationError) return 400;
