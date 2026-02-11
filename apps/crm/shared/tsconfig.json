@@ -12,6 +12,5 @@
     "strict": true
   },
   "include": ["./src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "./**/private.*", "./src/types/**/*.ts"],
-  "references": [{ "path": "./tsconfig.types.json" }]
+  "exclude": ["node_modules", "dist", "./**/private.*"]
 }
