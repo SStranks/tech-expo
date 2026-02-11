@@ -13,7 +13,7 @@ export type CompaniesQueryCompaniesNotes = Pick<CompaniesTableSelect, 'id' | 'na
 export type SeedCompaniesNotesAllUsers = Awaited<ReturnType<typeof getAllUsers>>[number];
 
 const getAllUsers = async (db: PostgresClient) => {
-  return await db.query.UserProfileTable.findMany({ columns: { id: true, firstName: true } });
+  return db.query.UserProfileTable.findMany({ columns: { id: true, firstName: true } });
 };
 
 export default async function seedCompaniesNotes(db: PostgresClient) {
@@ -21,10 +21,10 @@ export default async function seedCompaniesNotes(db: PostgresClient) {
     columns: { id: true, name: true, industry: true },
     where: (companies, { ne }) => ne(companies.name, COMPANY_NAME),
   });
-  if (!allCompanies) throw new Error('Users table returned no entries');
+  if (allCompanies.length === 0) throw new Error('Users table returned no entries');
 
   const allUsers = await getAllUsers(db);
-  if (!allUsers) throw new Error('Users table returned no entries');
+  if (allUsers.length === 0) throw new Error('Users table returned no entries');
 
   // --------- COMPANY NOTES TABLE --------- //
   const companyNotesInsertionData: CompaniesNotesTableInsert[] = [];

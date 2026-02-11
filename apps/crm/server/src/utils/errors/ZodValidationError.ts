@@ -20,13 +20,13 @@ export default class ZodValidationError extends CustomError {
     context?: { [key: string]: unknown };
     zod: { error: ZodError };
   }) {
-    const { code, logging, message } = params || {};
+    const { code, logging, message } = params;
 
     super(message || 'Validation Error');
     this._code = code || ZodValidationError._statusCode;
     this._logging = logging || false;
-    this._context = params?.context || {};
-    this._zod = { error: params?.zod.error };
+    this._context = params.context || {};
+    this._zod = { error: params.zod.error };
 
     Object.setPrototypeOf(this, ZodValidationError.prototype);
     Error.captureStackTrace(this, this.constructor);
@@ -37,7 +37,7 @@ export default class ZodValidationError extends CustomError {
   }
 
   get errors() {
-    const { fieldErrors, formErrors }: ZodFlattenedError<any> = z.flattenError(this._zod.error);
+    const { fieldErrors, formErrors }: ZodFlattenedError<unknown> = z.flattenError(this._zod.error);
     const result: CustomErrorContent[] = [];
 
     for (const message of formErrors) {
@@ -46,7 +46,7 @@ export default class ZodValidationError extends CustomError {
 
     for (const messages of Object.values(fieldErrors)) {
       if (messages) {
-        for (const message of messages) {
+        for (const message in messages) {
           result.push({ message });
         }
       }

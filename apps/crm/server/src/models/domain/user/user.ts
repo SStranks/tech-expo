@@ -23,17 +23,17 @@ export type NewUser = InstanceType<typeof NewUserImpl>;
 export type PersistedUser = InstanceType<typeof PersistedUserImpl>;
 
 export abstract class User {
-  private _email: string;
-  private _role: UserRoles;
-  private _password: string;
-  private _passwordChangedAt: Date;
-  private _passwordResetToken: string | null;
-  private _passwordResetExpires: Date | null;
-  private _accountCreatedAt: Date;
-  private _accountUpdatedAt: Date;
-  private _accountFrozenAt: Date | null;
-  private _accountFrozen: boolean;
-  private _accountActive: boolean;
+  private readonly _email: string;
+  private readonly _role: UserRoles;
+  private readonly _password: string;
+  private readonly _passwordChangedAt: Date;
+  private readonly _passwordResetToken: string | null;
+  private readonly _passwordResetExpires: Date | null;
+  private readonly _accountCreatedAt: Date;
+  private readonly _accountUpdatedAt: Date;
+  private readonly _accountFrozenAt: Date | null;
+  private readonly _accountFrozen: boolean;
+  private readonly _accountActive: boolean;
 
   constructor(props: UserProps) {
     this._email = props.email;

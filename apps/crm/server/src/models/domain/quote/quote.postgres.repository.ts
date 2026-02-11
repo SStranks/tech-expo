@@ -9,9 +9,10 @@ export class PostgresQuoteRepository implements QuoteRepository {
 
   async findByIds(ids: UUID[]) {
     return postgresDBCall(async () => {
-      return await postgresDB.query.QuotesTable.findMany({
+      const result = await postgresDB.query.QuotesTable.findMany({
         where: (quote, { inArray }) => inArray(quote.id, ids),
       });
+      return result;
     });
   }
 }

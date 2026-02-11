@@ -29,7 +29,7 @@ export abstract class Audit {
   private readonly _originalValues: JSON;
   private readonly _newValues: JSON;
 
-  private _rootDirty: boolean = false;
+  private readonly _rootDirty: boolean = false;
 
   constructor(props: AuditProps) {
     this._tableName = props.tableName;

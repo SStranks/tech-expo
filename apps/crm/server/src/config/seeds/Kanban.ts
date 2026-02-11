@@ -30,14 +30,15 @@ const { COMPANY_NAME, KANBAN_STAGE_TASKS_MAX, KANBAN_STAGE_TASKS_MIN } = seedSet
 const KANBAN_TASKS_STAGES = ['unassigned', 'todo', 'in progress', 'in review', 'done'] as const;
 
 const getPrimaryCompany = async (db: PostgresClient) => {
-  return await db.query.CompaniesTable.findFirst({
+  return db.query.CompaniesTable.findFirst({
     columns: { id: true },
     where: eq(CompaniesTable.name, COMPANY_NAME),
   });
 };
 
 const getAllUsers = async (db: PostgresClient) => {
-  return await db.query.UserProfileTable.findMany({});
+  const result = await db.query.UserProfileTable.findMany({});
+  return result;
 };
 
 export default async function seedKanban(db: PostgresClient) {

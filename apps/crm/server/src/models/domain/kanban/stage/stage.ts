@@ -20,7 +20,7 @@ export type PersistedStage = InstanceType<typeof PersistedStageImpl>;
 export abstract class Stage {
   private readonly _kanbanId: KanbanId;
   private readonly _symbol: UUIDv4;
-  private _title: string;
+  private readonly _title: string;
 
   constructor(props: StageProps) {
     this._title = props.title;

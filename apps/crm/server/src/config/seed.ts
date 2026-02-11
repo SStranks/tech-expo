@@ -62,7 +62,7 @@ try {
   await resetDB();
   await seedDB();
 } catch (error) {
-  console.log(`Error: ${error}`);
+  console.error(`Error: ${error as Error}`);
 } finally {
   await postgresClient.end();
 }

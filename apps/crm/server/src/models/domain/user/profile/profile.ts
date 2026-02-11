@@ -37,14 +37,14 @@ export abstract class UserProfile {
   private readonly _companyId: CompanyId;
   private readonly _userId: UserId;
   private readonly _symbol: UUIDv4;
-  private _email: string;
-  private _firstName: string;
-  private _lastName: string;
-  private _mobile?: string;
-  private _telephone?: string;
-  private _companyRole: CompanyRoles;
-  private _image?: string;
-  private _updatedAt: Date;
+  private readonly _email: string;
+  private readonly _firstName: string;
+  private readonly _lastName: string;
+  private readonly _mobile?: string;
+  private readonly _telephone?: string;
+  private readonly _companyRole: CompanyRoles;
+  private readonly _image?: string;
+  private readonly _updatedAt: Date;
 
   constructor(props: UserProfileProps) {
     this._timezoneId = props.timezoneId;

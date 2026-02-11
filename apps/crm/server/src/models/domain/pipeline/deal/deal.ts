@@ -29,12 +29,12 @@ export type PersistedDeal = InstanceType<typeof PersistedDealImpl>;
 export abstract class Deal {
   private readonly _companyId: CompanyId;
   private readonly _symbol: UUIDv4;
-  private _orderKey: string;
-  private _title: string;
-  private _stageId: PipelineStageId;
-  private _value: string;
-  private _dealOwner: UserProfileId;
-  private _dealContact: ContactId;
+  private readonly _orderKey: string;
+  private readonly _title: string;
+  private readonly _stageId: PipelineStageId;
+  private readonly _value: string;
+  private readonly _dealOwner: UserProfileId;
+  private readonly _dealContact: ContactId;
 
   constructor(props: DealProps) {
     this._companyId = props.companyId;

@@ -104,11 +104,11 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
         .$dynamic();
       const whereConditions = [];
 
-      if (query.filters?.searchCompanyName) {
+      if (query.filters.searchCompanyName) {
         whereConditions.push(ilike(CompaniesTable.name, `%${query.filters.searchCompanyName}%`));
       }
 
-      if (query.filters?.salesOwnerId) {
+      if (query.filters.salesOwnerId) {
         whereConditions.push(
           exists(
             postgresDB
@@ -124,7 +124,7 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
         );
       }
 
-      if (query.filters?.contactIds?.length) {
+      if (query.filters.contactIds?.length) {
         whereConditions.push(
           exists(
             postgresDB

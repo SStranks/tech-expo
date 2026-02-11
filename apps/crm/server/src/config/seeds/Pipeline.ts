@@ -22,18 +22,18 @@ const { COMPANY_NAME, PIPELINE_STAGE_DEALS_MAX, PIPELINE_STAGE_DEALS_MIN } = see
 const PIPELINE_DEAL_STAGES = ['unassigned', 'won', 'lost', 'new', 'follow-up', 'under review'] as const;
 
 const getPrimaryCompany = async (db: PostgresClient) => {
-  return await db.query.CompaniesTable.findFirst({
+  return db.query.CompaniesTable.findFirst({
     columns: { id: true },
     where: eq(CompaniesTable.name, COMPANY_NAME),
   });
 };
 
 const getAllUsers = async (db: PostgresClient) => {
-  return await db.query.UserProfileTable.findMany({});
+  return db.query.UserProfileTable.findMany({});
 };
 
 const getAllCompaniesWithContacts = async (db: PostgresClient) => {
-  return await db.query.CompaniesTable.findMany({ with: { contacts: { columns: { id: true } } } });
+  return db.query.CompaniesTable.findMany({ with: { contacts: { columns: { id: true } } } });
 };
 
 export default async function seedPipeline(db: PostgresClient) {
@@ -68,10 +68,7 @@ export default async function seedPipeline(db: PostgresClient) {
   const pipelineDealsInsertionData: PipelineDealsTableInsert[] = [];
   const allUsers = await getAllUsers(db);
   const allCompanies = await getAllCompaniesWithContacts(db);
-  if (!allUsers || !allCompanies)
-    throw new Error(
-      `Could not source users or companies. Users: ${allUsers?.length}. Companies: ${allCompanies?.length}`
-    );
+  if (allUsers.length === 0 || allCompanies.length === 0) throw new Error(`Could not source users or companies`);
 
   stagesReturnData.forEach(({ id: stageId }) => {
     const randNumOfDeals = faker.number.int({ max: PIPELINE_STAGE_DEALS_MAX, min: PIPELINE_STAGE_DEALS_MIN });

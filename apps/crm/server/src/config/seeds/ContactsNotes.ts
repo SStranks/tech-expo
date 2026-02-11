@@ -9,7 +9,7 @@ export type SeedContactNotesContact = Awaited<ReturnType<typeof getAllContacts>>
 export type SeedContactNotesUsers = Awaited<ReturnType<typeof getAllUsers>>;
 
 const getAllContacts = async (db: PostgresClient) => {
-  return await db.query.ContactsTable.findMany({
+  return db.query.ContactsTable.findMany({
     columns: { id: true, firstName: true, lastName: true, stage: true },
     with: {
       company: {
@@ -20,7 +20,7 @@ const getAllContacts = async (db: PostgresClient) => {
 };
 
 const getAllUsers = async (db: PostgresClient) => {
-  return await db.query.UserProfileTable.findMany({ columns: { id: true, firstName: true } });
+  return db.query.UserProfileTable.findMany({ columns: { id: true, firstName: true } });
 };
 
 export default async function seedContactsNotes(db: PostgresClient) {

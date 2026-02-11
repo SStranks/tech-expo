@@ -22,17 +22,17 @@ export type NewQuote = InstanceType<typeof NewQuoteImpl>;
 export type PersistedQuote = InstanceType<typeof PersistedQuoteImpl>;
 
 export abstract class Quote {
-  private _title: string;
-  private _company: string;
-  private _totalAmount: string;
-  private _salesTax: string;
-  private _stage: QuoteStage;
-  private _preparedFor: ContactId;
-  private _preparedBy: UserProfileId;
-  private _issuedAt: Date | null;
-  private _dueAt: Date | null;
+  private readonly _title: string;
+  private readonly _company: string;
+  private readonly _totalAmount: string;
+  private readonly _salesTax: string;
+  private readonly _stage: QuoteStage;
+  private readonly _preparedFor: ContactId;
+  private readonly _preparedBy: UserProfileId;
+  private readonly _issuedAt: Date | null;
+  private readonly _dueAt: Date | null;
 
-  private _rootDirty: boolean = false;
+  private readonly _rootDirty: boolean = false;
 
   constructor(props: QuoteProps) {
     this._title = props.title;

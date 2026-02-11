@@ -3,6 +3,7 @@ import type SMTPTransport from 'nodemailer/lib/smtp-transport/index.js';
 
 import nodemailer from 'nodemailer';
 
+import { env } from '#Config/env.js';
 import { secrets } from '#Config/secrets.js';
 import BadRequestError from '#Utils/errors/BadRequestError.js';
 
@@ -10,7 +11,7 @@ import { EMAIL_TEMPLATE_PASSWORD_RESET } from './templates/PasswordResetEmailTem
 import { EMAIL_TEMPLATE_VERIFICATION } from './templates/VerificationEmailTemplate.js';
 
 const { NODEMAILER_DEV_EMAIL, NODEMAILER_PASSWORD, NODEMAILER_USERNAME } = secrets;
-const { NODE_ENV, NODEMAILER_HOST, NODEMAILER_PORT, NODEMAILER_SECURE } = process.env;
+const { NODE_ENV, NODEMAILER_HOST, NODEMAILER_PORT, NODEMAILER_SECURE } = env;
 
 const senderDev = { name: 'CRM Server: Development', address: 'admin@techexpo-crm.org' };
 const senderProd = { name: 'CRM Server: Production', address: 'admin@techexpo-crm.org' };
@@ -21,9 +22,9 @@ const SMTPDefaultConfig: SMTPTransport.Options = {
   port: Number(NODEMAILER_PORT),
   secure: NODEMAILER_SECURE === 'true',
   auth: {
-    pass: NODEMAILER_PASSWORD as string,
+    pass: NODEMAILER_PASSWORD,
     type: 'login',
-    user: NODEMAILER_USERNAME as string,
+    user: NODEMAILER_USERNAME,
   },
 };
 
@@ -61,7 +62,7 @@ class NodeMailer {
 
     let headers = {};
     if (NODE_ENV === 'development') headers = { 'X-MT-Category': 'CRM Server: PasswordReset' };
-    this.sendMail({ headers, html, subject, to: userEmail }).catch((error) => {
+    await this.sendMail({ headers, html, subject, to: userEmail }).catch((error) => {
       throw new BadRequestError({
         context: { error },
         logging: true,

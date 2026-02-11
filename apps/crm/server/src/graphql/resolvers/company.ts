@@ -38,7 +38,7 @@ const companyResolver: Resolvers = {
       const page = pagination?.page ?? 1;
       const pageSize = pagination?.pageSize ?? 12;
       const searchCompanyName = filters?.searchCompanyName ?? undefined;
-      const salesOwnerId = filters?.salesOwnerId ? asUserProfileId(filters?.salesOwnerId) : undefined;
+      const salesOwnerId = filters?.salesOwnerId ? asUserProfileId(filters.salesOwnerId) : undefined;
       const query = {
         filters: {
           searchCompanyName,
@@ -301,9 +301,9 @@ const companyResolver: Resolvers = {
           }
 
           return {
-            id: note.id!,
+            id: note.id,
             note: note.note,
-            createdAt: note.createdAt!,
+            createdAt: note.createdAt,
             createdBy: userProfile,
           };
         })

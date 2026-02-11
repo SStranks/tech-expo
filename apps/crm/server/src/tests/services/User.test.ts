@@ -2,7 +2,7 @@ import type { RefreshTokenPayload } from '@apps/crm-shared';
 import type { JwtPayload } from 'jsonwebtoken';
 
 import jwt from 'jsonwebtoken';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, expectTypeOf, test, vi } from 'vitest';
 
 import { postgresDB } from '#Config/dbPostgres.js';
 import { redisClient } from '#Config/dbRedis.js';
@@ -38,25 +38,23 @@ describe('Signing Tokens: Auth Token', () => {
   const jti = '123';
   MOCK_JWT_JTI.mockReturnValue(jti);
 
-  test('Sign Auth Token - is payload valid', async () => {
+  test('Sign Auth Token - is payload valid', () => {
     const jwt_encoded = userService.signAuthToken(userId, userRole, iat);
+    const jwt_decoded = userService.decodeAuthToken(jwt_encoded);
 
-    const jwt_decoded = await userService.decodeAuthToken(jwt_encoded);
-    if (!jwt_decoded) fail('JWT Encoding failed');
-
-    expect((jwt_decoded?.payload)['client_id']).toEqual(userId);
-    expect((jwt_decoded?.payload).role).toEqual(userRole);
-    expect((jwt_decoded?.payload).iat).toEqual(iat);
-    expect((jwt_decoded?.payload).jti).toEqual(jti);
-    expect(typeof (jwt_decoded?.payload).exp).toBe('number');
+    expect(jwt_decoded.client_id).toEqual(userId);
+    expect(jwt_decoded.role).toEqual(userRole);
+    expect(jwt_decoded.iat).toEqual(iat);
+    expect(jwt_decoded.jti).toEqual(jti);
+    expectTypeOf(jwt_decoded.exp).toEqualTypeOf<number>();
   });
 
-  test('Sign Auth Token - is signature valid', async () => {
+  test('Sign Auth Token - is signature valid', () => {
     const jwt_encoded = userService.signAuthToken(userId, userRole, iat);
 
     try {
-      const jwt_decoded = jwt.verify(jwt_encoded, JWT_AUTH_SECRET, { complete: true });
-      expect((jwt_decoded?.payload as JwtPayload).jti).toEqual(jti);
+      const jwt_decoded = jwt.verify(jwt_encoded, JWT_AUTH_SECRET) as JwtPayload;
+      expect(jwt_decoded.jti).toEqual(jti);
     } catch {
       fail('JWT Signature Failure');
     }
@@ -76,29 +74,26 @@ describe('Signing Tokens: Refresh Token', () => {
     exp,
     iat,
     jti,
-  } as unknown as RefreshTokenPayload;
+  } as RefreshTokenPayload;
 
   test('Sign Refresh Token - is payload valid', () => {
     const jwt_encoded = userService.signRefreshToken(userId, iat, token_payload);
 
-    const jwt_decoded = jwt.decode(jwt_encoded, { complete: true });
-    if (!jwt_decoded) fail('JWT Encoding failed');
+    const refreshTokenPayload = jwt.decode(jwt_encoded) as RefreshTokenPayload | null;
+    if (!refreshTokenPayload) fail('JWT Encoding failed');
 
-    expect((jwt_decoded?.payload as RefreshTokenPayload)['client_id']).toEqual(userId);
-    expect((jwt_decoded?.payload as RefreshTokenPayload).acc).toEqual(acc);
-    expect((jwt_decoded?.payload as RefreshTokenPayload).iat).toEqual(iat);
-    expect((jwt_decoded?.payload as RefreshTokenPayload).jti).toEqual(jti);
-    expect(typeof (jwt_decoded?.payload as RefreshTokenPayload).exp).toBe('number');
+    expect(refreshTokenPayload['client_id']).toEqual(userId);
+    expect(refreshTokenPayload.acc).toEqual(acc);
+    expect(refreshTokenPayload.iat).toEqual(iat);
+    expect(refreshTokenPayload.jti).toEqual(jti);
+    expectTypeOf(refreshTokenPayload.exp).toEqualTypeOf<number>();
   });
 
-  test('Sign Refresh Token - is signature valid', async () => {
+  test('Sign Refresh Token - is signature valid', () => {
     const jwt_encoded = userService.signRefreshToken(userId, iat, token_payload);
+    const refreshTokenPayload = jwt.verify(jwt_encoded, JWT_REFRESH_SECRET) as RefreshTokenPayload | null;
+    if (!refreshTokenPayload) fail('JWT Encoding failed');
 
-    try {
-      const jwt_decoded = jwt.verify(jwt_encoded, JWT_REFRESH_SECRET, { complete: true });
-      expect((jwt_decoded?.payload as RefreshTokenPayload).jti).toEqual(jti);
-    } catch {
-      throw new Error('JWT Signature Failure');
-    }
+    expect(refreshTokenPayload.jti).toEqual(jti);
   });
 });

@@ -9,8 +9,8 @@ export class NotFoundError extends AppError {
       message: `${params.resource ?? 'Resource'} not found`,
       code: 'RESOURCE_NOT_FOUND',
       httpStatus: 404,
-      context: params?.context,
-      logging: params?.logging ?? false,
+      context: params.context,
+      logging: params.logging ?? false,
     });
 
     Object.setPrototypeOf(this, NotFoundError.prototype);

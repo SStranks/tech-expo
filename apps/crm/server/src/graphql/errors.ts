@@ -40,7 +40,7 @@ const formatError = (formattedError: GraphQLFormattedError, error: unknown): Gra
       extensions: {
         ...formattedError.extensions,
         code,
-        http: { status: apolloServerErrorsMap[`${code}`] ?? 400 },
+        http: { status: apolloServerErrorsMap[`${code as keyof typeof apolloServerErrorsMap}`] ?? 400 },
       },
     };
   }

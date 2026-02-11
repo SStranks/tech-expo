@@ -15,6 +15,7 @@ export class InMemoryCountryRepository implements CountryRepository {
 
   async findCountryById(id: CountryId): Promise<PersistedCountry | null> {
     const result = this.countriesMap.get(id);
-    return result ? toCountryDomain(result) : null;
+    // eslint-disable-next-line unicorn/no-useless-promise-resolve-reject
+    return Promise.resolve(result ? toCountryDomain(result) : null);
   }
 }

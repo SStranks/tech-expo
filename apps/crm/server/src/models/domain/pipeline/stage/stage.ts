@@ -21,8 +21,8 @@ export type PersistedStage = InstanceType<typeof PersistedStageImpl>;
 export abstract class Stage {
   private readonly _pipelineId: PipelineId;
   private readonly _symbol: UUIDv4;
-  private _title: string;
-  private _isPermanent: boolean | null;
+  private readonly _title: string;
+  private readonly _isPermanent: boolean | null;
 
   constructor(props: StageProps) {
     this._title = props.title;

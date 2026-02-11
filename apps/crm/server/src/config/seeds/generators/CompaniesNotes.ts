@@ -26,7 +26,8 @@ export function generateCompaniesNotes(company: CompaniesQueryCompaniesNotes, al
   const userIds = faker.helpers.arrayElements(allUsers, totalComments);
   const commentsCreatedAt = generateCommentDates(totalComments);
 
-  for (let [i, { comment }] of randChainNotesArray.entries()) {
+  for (const [i, note] of randChainNotesArray.entries()) {
+    let { comment } = note;
     const userName = userIds[i - 1]?.firstName;
     comment = replaceCommentPlaceholders(comment, { companyName: name, industry, userName });
 

@@ -26,13 +26,13 @@ export type PersistedTask = InstanceType<typeof PersistedTaskImpl>;
 
 export abstract class Task {
   private readonly _symbol: UUIDv4;
-  private _description: string | null;
-  private _title: string;
-  private _orderKey: string;
-  private _completed: boolean | null;
-  private _stageId: KanbanStageId;
-  private _dueDate: Date | null;
-  private _assignedUser: UserProfileId | null;
+  private readonly _description: string | null;
+  private readonly _title: string;
+  private readonly _orderKey: string;
+  private readonly _completed: boolean | null;
+  private readonly _stageId: KanbanStageId;
+  private readonly _dueDate: Date | null;
+  private readonly _assignedUser: UserProfileId | null;
 
   constructor(props: TaskProps) {
     this._description = props.description;

@@ -50,7 +50,8 @@ export function generateContactNotes(
   const users = faker.helpers.arrayElements(allUsers, totalComments);
   const commentsCreatedAt = generateCommentDates(totalComments);
 
-  for (let [i, { comment }] of randChainNotesArray.entries()) {
+  for (const [i, note] of randChainNotesArray.entries()) {
+    let { comment } = note;
     const companyName = contact.company.name;
     const contactName = contact.firstName;
     const userName = users[i - 1]?.firstName;

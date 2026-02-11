@@ -16,7 +16,7 @@ export default async function seedCompanies(db: PostgresClient) {
   const companiesCSVData = importCSVFile<CompaniesTableInsert>(COMPANIES_CSV);
 
   const allCountries = await db.query.CountriesTable.findMany({ columns: { id: true, alpha2Code: true } });
-  if (!allCountries) throw new Error('Countries table returned no entries');
+  if (allCountries.length === 0) throw new Error('Countries table returned no entries');
 
   // Append the CSV data with the applicable country UUID from DB
   companiesCSVData.forEach((company) => {

@@ -22,7 +22,7 @@ export abstract class ContactNote {
   private readonly _createdByUserProfileId: UserProfileId;
   private readonly _contactId: ContactId;
   private readonly _symbol: UUIDv4;
-  private _content: string;
+  private readonly _content: string;
 
   protected constructor(props: ContactNoteProps) {
     this._content = props.content;
@@ -33,7 +33,7 @@ export abstract class ContactNote {
 
   static create(props: ContactNoteCreateProps): NewContactNote {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level ContactNote.create() call!
-    return new NewContactNoteImpl(props) as NewContactNote;
+    return new NewContactNoteImpl(props);
   }
 
   static rehydrate(props: ContactNoteHydrationProps): PersistedContactNote {

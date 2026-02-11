@@ -11,7 +11,7 @@ import { generateQuoteServices } from './generators/QuotesServices.js';
 export type SeedQuoteServicesQuotes = Awaited<ReturnType<typeof getQuotes>>[number];
 
 const getQuotes = async (db: PostgresClient) => {
-  return await db.query.QuotesTable.findMany({ columns: { id: true } });
+  return db.query.QuotesTable.findMany({ columns: { id: true } });
 };
 
 export default async function seedQuotesServices(db: PostgresClient) {
@@ -19,12 +19,12 @@ export default async function seedQuotesServices(db: PostgresClient) {
   const quotes = await getQuotes(db);
 
   // -------- QUOTES SERVICES -------- //
-  quotes.forEach(async (quote) => {
+  for (const quote of quotes) {
     const services = generateQuoteServices(quote);
     const quoteTotal = services.reduce((acc, service) => acc + Number(service.totalAmount), 0).toString();
     quotesServicesInsertionData.push(...services);
     await db.update(QuotesTable).set({ totalAmount: quoteTotal }).where(eq(QuotesTable.id, quote.id));
-  });
+  }
 
   await db.insert(QuoteServicesTable).values(quotesServicesInsertionData);
 

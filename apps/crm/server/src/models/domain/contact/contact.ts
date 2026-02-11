@@ -204,7 +204,7 @@ export abstract class Contact {
 
     if (this._stage === parsedStage) return;
 
-    this._stage === parsedStage;
+    this._stage = parsedStage;
     this._rootDirty = true;
   }
 
@@ -220,7 +220,7 @@ export abstract class Contact {
     const parsedImage = zParseDomain(AvatarUrlSchema, newImage);
     if (!parsedImage || this._image === parsedImage) return;
 
-    this._image;
+    this._image = parsedImage;
     this._rootDirty = true;
   }
   // #endregion actions/profile

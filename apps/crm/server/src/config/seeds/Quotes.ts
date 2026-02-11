@@ -14,7 +14,7 @@ export type SeedQuoteUser = Awaited<ReturnType<typeof getUsers>>[number];
 const { COMPANY_NAME, COMPANY_QUOTES_MAX, COMPANY_QUOTES_MIN } = seedSettings;
 
 const getCompanies = async (db: PostgresClient) => {
-  return await db.query.CompaniesTable.findMany({
+  return db.query.CompaniesTable.findMany({
     columns: { id: true, name: true, countryId: true, website: true },
     with: { contacts: { columns: { id: true, firstName: true, lastName: true } } },
     where: (CompaniesTable, { ne }) => ne(CompaniesTable.name, COMPANY_NAME),
@@ -22,7 +22,7 @@ const getCompanies = async (db: PostgresClient) => {
 };
 
 const getUsers = async (db: PostgresClient) => {
-  return await db.query.UserProfileTable.findMany({
+  return db.query.UserProfileTable.findMany({
     columns: { id: true, firstName: true, lastName: true },
   });
 };

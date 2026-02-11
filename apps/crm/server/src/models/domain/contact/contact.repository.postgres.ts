@@ -35,9 +35,9 @@ export class PostgresContactRepository implements ContactRepository {
   async save(contact: NewContact | PersistedContact): Promise<PersistedContact> {
     // eslint-disable-next-line unicorn/prefer-ternary
     if (contact.isPersisted()) {
-      return await this.update(contact);
+      return this.update(contact);
     } else {
-      return await this.insert(contact);
+      return this.insert(contact);
     }
   }
 

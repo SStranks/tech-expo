@@ -22,7 +22,7 @@ export abstract class QuoteNote {
   private readonly _quote: QuoteId;
   private readonly _createdByUserProfileId: UserProfileId;
   private readonly _symbol: UUIDv4;
-  private _note: string;
+  private readonly _note: string;
 
   constructor(props: QuoteProps) {
     this._note = props.note;

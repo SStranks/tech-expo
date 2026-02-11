@@ -46,13 +46,13 @@ export class InMemoryCompanyRepository implements CompanyRepository {
   async save(company: NewCompany | PersistedCompany): Promise<PersistedCompany> {
     // eslint-disable-next-line unicorn/prefer-ternary
     if (company.isPersisted()) {
-      return await this.update(company);
+      return this.update(company);
     } else {
-      return await this.insert(company);
+      return this.insert(company);
     }
   }
 
-  async remove(id: CompanyId): Promise<CompanyId> {
+  remove(id: CompanyId): Promise<CompanyId> {
     const company = this.companiesMap.get(id);
 
     if (!company) throw new PostgresError({ kind: 'NOT_FOUND', message: `Company ${id} not found` });
@@ -66,15 +66,15 @@ export class InMemoryCompanyRepository implements CompanyRepository {
       });
     }
 
-    return id;
+    return Promise.resolve(id);
   }
 
-  async findCompanyById(id: CompanyId): Promise<PersistedCompany | null> {
+  findCompanyById(id: CompanyId): Promise<PersistedCompany | null> {
     const result = this.companiesMap.get(id);
-    return result ? toCompanyDomain(result) : null;
+    return Promise.resolve(result ? toCompanyDomain(result) : null);
   }
 
-  private async insert(company: NewCompany): Promise<PersistedCompany> {
+  private insert(company: NewCompany): Promise<PersistedCompany> {
     const id = randomUUID();
 
     if (this.companiesMap.has(id)) {
@@ -88,7 +88,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
       id,
       name: company.name,
       size: company.size,
-      totalRevenue: company.totalRevenue ?? '0.00',
+      totalRevenue: company.totalRevenue,
       industry: company.industry,
       businessType: company.businessType,
       countryId: company.countryId,
@@ -98,10 +98,10 @@ export class InMemoryCompanyRepository implements CompanyRepository {
 
     this.companiesMap.set(id, row);
 
-    return toCompanyDomain(row);
+    return Promise.resolve(toCompanyDomain(row));
   }
 
-  private async update(company: PersistedCompany): Promise<PersistedCompany> {
+  private update(company: PersistedCompany): Promise<PersistedCompany> {
     const existingCompany = this.companiesMap.get(company.id);
 
     if (!existingCompany) {
@@ -128,7 +128,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
 
     const { addedNotes, removedNoteIds, updatedNotes } = company.pullChanges();
 
-    let persistedCompanyNotes: PersistedCompanyNote[] = [];
+    const persistedCompanyNotes: PersistedCompanyNote[] = [];
 
     const existingNotes = this.companiesNotesMap.get(company.id) ?? [];
 
@@ -177,6 +177,6 @@ export class InMemoryCompanyRepository implements CompanyRepository {
 
     company.commit(persistedCompanyNotes);
 
-    return company;
+    return Promise.resolve(company);
   }
 }

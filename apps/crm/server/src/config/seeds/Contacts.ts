@@ -20,7 +20,7 @@ const getCompanies = async (db: PostgresClient) => {
   // Joins the associated country of the company
   // Joins the associated timezones of the country
   // SelectDistinctOn; countries can have multiple timezones; narrow the results by using the company ID
-  return await db
+  return db
     .selectDistinctOn([CompaniesTable.id], {
       id: CompaniesTable.id,
       companyName: CompaniesTable.name,

@@ -72,7 +72,7 @@ export class CompanyService implements ICompanyService {
       website: cmd.website ?? undefined,
     });
 
-    return await this.companyRepository.save(newCompany);
+    return this.companyRepository.save(newCompany);
   }
 
   async updateCompanyById(cmd: UpdateCompanyCommand): Promise<PersistedCompany> {
@@ -85,11 +85,11 @@ export class CompanyService implements ICompanyService {
 
     company.updateProfile(cmd);
 
-    return await this.companyRepository.save(company);
+    return this.companyRepository.save(company);
   }
 
   async removeCompanyById(id: CompanyId): Promise<CompanyId> {
-    return await this.companyRepository.remove(id);
+    return this.companyRepository.remove(id);
   }
 
   async addCompanyNote(cmd: AddCompanyNoteCommand, ctx: RequestContext): Promise<AddCompanyNoteReturn> {
@@ -148,10 +148,10 @@ export class CompanyService implements ICompanyService {
   // ------- QUERIES ------- //
 
   async findNotesForCompanyById(companyId: CompanyId): Promise<CompanyNoteReadRow[]> {
-    return await this.companyReadModel.findCompanyNotesByCompanyId(companyId);
+    return this.companyReadModel.findCompanyNotesByCompanyId(companyId);
   }
 
   async findCompaniesOverview(query: CompaniesOverviewQuery): Promise<CompaniesOverviewPaginated> {
-    return await this.companyReadModel.findCompanyOverview(query);
+    return this.companyReadModel.findCompanyOverview(query);
   }
 }

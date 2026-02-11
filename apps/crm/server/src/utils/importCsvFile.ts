@@ -24,7 +24,7 @@ function importCSVFile<T>(targetFilePath: string): T[] {
     skipEmptyLines: true,
   });
 
-  if (errors.length > 0) throw new Error(`Error parsing CSV file: ${CSVFileName}.\n Errors: ${errors}`);
+  if (errors.length > 0) throw new Error(`Error parsing CSV file: ${CSVFileName}.\n Errors: ${JSON.stringify(errors)}`);
   return data;
 }
 

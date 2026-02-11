@@ -1,8 +1,11 @@
+import type { ApiResponse } from '@apps/crm-shared';
+import type { Response } from 'supertest';
+
 import request from 'supertest';
 import { describe, test, vi } from 'vitest';
 
 vi.mock('@as-integrations/express5', () => ({
-  expressMiddleware: (a: any) => {
+  expressMiddleware: (a: unknown) => {
     return a;
   },
 }));
@@ -28,6 +31,8 @@ describe('PUBLIC Routes', () => {
       .get(`${URL}`)
       .expect(404)
       .expect('Content-Type', /json/)
-      .expect((res) => res.body.message === `Can't find route ${URL} on this server!`);
+      .expect(
+        (res: Response) => (res.body as ApiResponse<unknown>).message === `Can't find route ${URL} on this server!`
+      );
   });
 });

@@ -31,21 +31,21 @@ export class InMemoryContactRepository implements ContactRepository {
     }, new Map<string, ContactsNotesTableSelect[]>());
   }
 
-  async findContactById(id: ContactId): Promise<PersistedContact | null> {
+  findContactById(id: ContactId): Promise<PersistedContact | null> {
     const result = this.contactsMap.get(id);
-    return result ? toContactDomain(result) : null;
+    return Promise.resolve(result ? toContactDomain(result) : null);
   }
 
   async save(company: NewContact | PersistedContact): Promise<PersistedContact> {
     // eslint-disable-next-line unicorn/prefer-ternary
     if (company.isPersisted()) {
-      return await this.update(company);
+      return this.update(company);
     } else {
-      return await this.insert(company);
+      return this.insert(company);
     }
   }
 
-  async remove(id: ContactId): Promise<ContactId> {
+  remove(id: ContactId): Promise<ContactId> {
     const contact = this.contactsMap.get(id);
 
     if (!contact) throw new PostgresError({ kind: 'NOT_FOUND', message: `Company ${id} not found` });
@@ -59,10 +59,10 @@ export class InMemoryContactRepository implements ContactRepository {
       });
     }
 
-    return id;
+    return Promise.resolve(id);
   }
 
-  private async insert(contact: NewContact): Promise<PersistedContact> {
+  private insert(contact: NewContact): Promise<PersistedContact> {
     const id = randomUUID();
 
     if (this.contactsMap.has(id)) {
@@ -88,10 +88,10 @@ export class InMemoryContactRepository implements ContactRepository {
 
     this.contactsMap.set(id, row);
 
-    return toContactDomain(row);
+    return Promise.resolve(toContactDomain(row));
   }
 
-  private async update(contact: PersistedContact): Promise<PersistedContact> {
+  private update(contact: PersistedContact): Promise<PersistedContact> {
     const existingContact = this.contactsMap.get(contact.id);
 
     if (!existingContact) {
@@ -120,7 +120,7 @@ export class InMemoryContactRepository implements ContactRepository {
 
     const { addedNotes, removedNoteIds, updatedNotes } = contact.pullChanges();
 
-    let persistedContactNotes: PersistedContactNote[] = [];
+    const persistedContactNotes: PersistedContactNote[] = [];
 
     const existingNotes = this.contactNotesMap.get(contact.id) ?? [];
 
@@ -169,6 +169,6 @@ export class InMemoryContactRepository implements ContactRepository {
 
     contact.commit(persistedContactNotes);
 
-    return contact;
+    return Promise.resolve(contact);
   }
 }

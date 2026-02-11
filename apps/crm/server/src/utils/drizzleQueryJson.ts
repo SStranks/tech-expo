@@ -8,7 +8,7 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const pathToTempFolder = path.resolve(__dirname, '../temp');
 
 // Exports the results of a drizzle query to JSON; map to host in temp folder
-export async function drizzleQueryJSON(result: Record<string, unknown> | any[], fileName: string) {
+export function drizzleQueryJSON(result: Record<string, unknown> | unknown[], fileName: string) {
   const fullPath = path.resolve(pathToTempFolder, `${fileName}.json`);
   try {
     const jsonData = JSON.stringify(result, null, 2);
@@ -16,6 +16,6 @@ export async function drizzleQueryJSON(result: Record<string, unknown> | any[], 
       console.log(`Error: Could not write data to JSON: ${err}`);
     });
   } catch (error) {
-    throw new Error(`Error: Could not write data to JSON: ${error}`);
+    throw new Error(`Error: Could not write data to JSON: ${error as Error}`);
   }
 }

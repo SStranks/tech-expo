@@ -28,11 +28,11 @@ export abstract class Event {
   private readonly _calendarId: CalendarId;
   private readonly _categoryId: CalendarCategoryId;
   private readonly _symbol: UUIDv4;
-  private _title: string;
-  private _description: string;
-  private _color: string | null;
-  private _eventStart: Date;
-  private _eventEnd: Date;
+  private readonly _title: string;
+  private readonly _description: string;
+  private readonly _color: string | null;
+  private readonly _eventStart: Date;
+  private readonly _eventEnd: Date;
 
   constructor(props: EventProps) {
     this._title = props.title;

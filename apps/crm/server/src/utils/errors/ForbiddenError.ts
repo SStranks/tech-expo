@@ -9,8 +9,8 @@ export default class ForbiddenError extends AppError {
       message: params.message ?? 'Access Denied',
       code: 'FORBIDDEN',
       httpStatus: 403,
-      context: params?.context,
-      logging: params?.logging ?? false,
+      context: params.context,
+      logging: params.logging ?? false,
     });
 
     Object.setPrototypeOf(this, ForbiddenError.prototype);

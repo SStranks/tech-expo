@@ -8,7 +8,7 @@ import { generateQuoteNote } from './generators/QuotesNotes.js';
 export type SeedQuoteNotesQuotes = Awaited<ReturnType<typeof getQuotes>>[number];
 
 const getQuotes = async (db: PostgresClient) => {
-  return await db.query.QuotesTable.findMany({
+  return db.query.QuotesTable.findMany({
     columns: { id: true, dueAt: true, preparedByUserProfileId: true },
     with: { company: { columns: { name: true } }, preparedFor: { columns: { firstName: true } } },
   });
@@ -19,7 +19,7 @@ export default async function seedQuotesServices(db: PostgresClient) {
   const quotes = await getQuotes(db);
 
   // ---------- QUOTES NOTES --------- //
-  quotes.forEach(async (quote) => {
+  quotes.forEach((quote) => {
     const note = generateQuoteNote(quote);
     quotesNotesInsertionData.push(note);
   });

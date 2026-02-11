@@ -17,7 +17,7 @@ type CategoriesHydrationProps = CategoriesCreateProps & { id: CalendarCategoryId
 export abstract class Categories {
   private readonly _calendarId: CalendarId;
   private readonly _symbol: UUIDv4;
-  private _title: string;
+  private readonly _title: string;
 
   constructor(props: CategoriesProps) {
     this._title = props.title;

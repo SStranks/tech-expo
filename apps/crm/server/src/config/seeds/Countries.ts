@@ -32,13 +32,10 @@ export default async function seedCountries(db: PostgresClient) {
   const timeZonesCSVData = importCSVFile<TimeZonesCSV>(TIMEZONE_CSV);
 
   // Create dictionary of alpha-2 codes and country IDs
-  const countriesDict = countriesInsertReturnData.reduce(
-    (acc, cur) => {
-      acc[cur.alpha2code] = toDbUUID(cur.id);
-      return acc;
-    },
-    {} as { [key: string]: UUID }
-  );
+  const countriesDict = countriesInsertReturnData.reduce<{ [key: string]: UUID }>((acc, cur) => {
+    acc[cur.alpha2code] = toDbUUID(cur.id);
+    return acc;
+  }, {});
 
   // NOTE:  Countries can have more than one time-zone; separated tables for countries and time-zones.
   timeZonesCSVData.forEach((entry) => {

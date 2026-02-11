@@ -22,12 +22,12 @@ export type NewService = InstanceType<typeof NewServiceImpl>;
 export type PersistedService = InstanceType<typeof PersistedServiceImpl>;
 
 export abstract class Service {
-  private _title: string;
-  private _totalAmount: string;
-  private _price: string;
-  private _quantity: number;
-  private _discount: string;
-  private _quoteId: QuoteId;
+  private readonly _title: string;
+  private readonly _totalAmount: string;
+  private readonly _price: string;
+  private readonly _quantity: number;
+  private readonly _discount: string;
+  private readonly _quoteId: QuoteId;
   private readonly _symbol: UUIDv4;
 
   constructor(props: ServiceProps) {

@@ -36,9 +36,9 @@ export class PostgresCompanyRepository implements CompanyRepository {
   async save(company: NewCompany | PersistedCompany): Promise<PersistedCompany> {
     // eslint-disable-next-line unicorn/prefer-ternary
     if (company.isPersisted()) {
-      return await this.update(company);
+      return this.update(company);
     } else {
-      return await this.insert(company);
+      return this.insert(company);
     }
   }
 
