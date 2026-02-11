@@ -60,30 +60,37 @@ export interface GraphqlContext {
   };
 }
 
-const { GRAPHQL_INTROSPECT_AUTH } = secrets;
-const { JWT_COOKIE_AUTH_ID } = process.env;
+interface GraphQLRequestBody {
+  query?: string;
+}
 
-const isIntrospectionQuery = (req: Request) => {
+const { GRAPHQL_INTROSPECT_AUTH } = secrets;
+
+const isIntrospectionQuery = (req: Request<unknown, unknown, GraphQLRequestBody>) => {
   const { authorization, origin, 'user-agent': userAgent } = req.headers;
 
   if (!(origin === 'https://studio.apollographql.com' || (userAgent && userAgent.startsWith('PostmanClient'))))
     return false;
   if (!GRAPHQL_INTROSPECT_AUTH || authorization !== `Bearer ${GRAPHQL_INTROSPECT_AUTH}`) return false;
-  if (!req.body.query.includes('__schema') && !req.body.query?.includes('__type')) return false;
+  if (!req.body.query?.includes('__schema') && !req.body.query?.includes('__type')) return false;
   return true;
 };
 
-const graphqlContext = async ({ req }: { req: Request; res: Response }): Promise<GraphqlContext> => {
+const graphqlContext = async ({
+  req,
+}: {
+  req: Request<unknown, unknown, GraphQLRequestBody>;
+  res: Response;
+}): Promise<GraphqlContext> => {
   const { authorization } = req.headers;
-  const { [`${JWT_COOKIE_AUTH_ID}`]: authCookie } = req.cookies;
 
   if (isIntrospectionQuery(req)) return {} as GraphqlContext;
 
   let JWT;
   if (authorization && authorization.startsWith('Bearer')) {
     JWT = authorization.split(' ')[1];
-  } else if (authCookie) {
-    JWT = authCookie;
+  } else if (req.authJWT) {
+    JWT = req.authJWT;
   }
 
   if (!JWT)
