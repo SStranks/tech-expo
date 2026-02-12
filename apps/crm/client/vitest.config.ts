@@ -1,4 +1,3 @@
-/// <reference types="vitest/config" />
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
 import { loadEnv } from 'vite';

@@ -3,7 +3,8 @@
 import MenuToggle from '@Features/sidebar/components/MenuToggle';
 
 beforeEach(() => {
-  cy.mount(<MenuToggle sidebarMaximize={undefined} setSidebarMaximize={undefined} />);
+  const mockSetter = cy.stub();
+  cy.mount(<MenuToggle sidebarMaximize={undefined} setSidebarMaximize={mockSetter} />);
 });
 
 describe('MenuToggle functionality', () => {

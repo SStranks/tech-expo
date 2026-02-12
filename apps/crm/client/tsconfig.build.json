@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "allowImportingTsExtensions": false
+  },
+  "include": ["src/**/*", "global.d.ts"],
+  "exclude": ["node_modules", "src/graphql/generated/*", "src/**/private*", "src/**/*.test.*"]
+}

@@ -1,6 +1,8 @@
 {
   "extends": "@packages/typescript-config/react",
   "compilerOptions": {
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
     "baseUrl": "./",
     "paths": {
       "@Img/*": ["src/assets/img/*"],
@@ -24,7 +26,6 @@
       "@Types/*": ["src/types/*"],
       "@Utils/*": ["src/utils/*"]
     },
-    "typeRoots": ["node_modules/@types", "node_modules/@testing-library"],
     "plugins": [
       {
         "name": "@0no-co/graphqlsp",
@@ -33,6 +34,23 @@
       }
     ]
   },
-  "include": ["src/**/*", "global.d.ts", "jest.config.ts", ".storybook/*"],
-  "exclude": ["node_modules", "public", "dist", "cypress.config.ts", "cypress", "src/graphql/generated/*"]
+  "include": [
+    "src/**/*",
+    "global.d.ts",
+    ".storybook/*",
+    "cypress.config.ts",
+    "vitest.config.ts",
+    "vitest.setup.ts",
+    "codegen.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "public",
+    "dist",
+    "cypress",
+    "src/graphql/generated/*",
+    "src/**/*.test.*",
+    "src/**/*.spec.*"
+  ],
+  "references": [{ "path": "./tsconfig.test.json" }, { "path": "./cypress/tsconfig.json" }]
 }
