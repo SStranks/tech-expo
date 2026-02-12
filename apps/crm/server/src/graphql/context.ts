@@ -54,6 +54,7 @@ export interface GraphqlContext {
   services: {
     Company: CompanyService;
     Contact: ContactService;
+    Country: CountryService;
     Pipeline: PipelineService;
     Quote: QuoteService;
     UserProfile: UserProfileService;
@@ -143,7 +144,7 @@ const graphqlContext = async ({
     UserProfile: userProfileService,
   };
 
-  return { auth: { client_id, role }, loaders, services };
+  return { auth: { client_id, role }, loaders, services } satisfies GraphqlContext;
 };
 
 export default graphqlContext;

@@ -4,7 +4,7 @@ import BadRequestError from '#Utils/errors/BadRequestError.js';
 
 // API Versioning
 const version = function (version: number) {
-  return function (req: Request, _res: Response, next: NextFunction) {
+  return function (req: Request<{ version: string }>, _res: Response, next: NextFunction) {
     const requestVersion = Number.parseInt(req.params.version.slice(1));
 
     if (typeof requestVersion !== 'number') {
