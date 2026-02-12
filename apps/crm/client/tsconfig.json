@@ -38,9 +38,9 @@
     "src/**/*",
     "global.d.ts",
     ".storybook/*",
-    "cypress.config.ts",
     "vitest.config.ts",
     "vitest.setup.ts",
+    "cypress.config.ts",
     "codegen.ts"
   ],
   "exclude": [
@@ -52,5 +52,5 @@
     "src/**/*.test.*",
     "src/**/*.spec.*"
   ],
-  "references": [{ "path": "./tsconfig.test.json" }, { "path": "./cypress/tsconfig.json" }]
+  "references": [{ "path": "./tsconfig.test.json" }]
 }
