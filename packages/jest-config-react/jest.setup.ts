@@ -3,7 +3,6 @@ import { fn } from 'jest-mock';
 
 import { TextDecoder, TextEncoder } from 'node:util';
 
-// @ts-expect-error
 globalThis.TextDecoder = TextDecoder;
 globalThis.TextEncoder = TextEncoder;
 
@@ -22,19 +21,19 @@ Object.defineProperty(globalThis, 'matchMedia', {
 });
 
 const localStorageMock = (function () {
-  let store = {};
+  let store: Record<string, string> = {};
 
   return {
     clear: function () {
       store = {};
     },
-    getItem: function (key) {
+    getItem: function (key: string) {
       return store[key] || null;
     },
-    removeItem: function (key) {
+    removeItem: function (key: string) {
       delete store[key];
     },
-    setItem: function (key, value) {
+    setItem: function (key: string, value: string) {
       store[key] = value.toString();
     },
   };
