@@ -75,15 +75,15 @@
     "@packages/vitest-config": "workspace:*"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.1.0",
+    "@commitlint/cli": "^20.4.1",
     "eslint": "^9.39.2",
     "graphql-config": "^5.1.5",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
-    "prettier": "^3.6.2",
-    "secretlint": "^11.2.5",
+    "prettier": "^3.8.1",
+    "secretlint": "^11.3.1",
     "serve": "^14.2.5",
-    "stylelint": "^17.0.0",
+    "stylelint": "^17.1.1",
     "typescript": "^5.9.3"
   }
 }

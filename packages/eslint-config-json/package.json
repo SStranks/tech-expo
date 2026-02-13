@@ -9,6 +9,6 @@
   "main": "config.js",
   "devDependencies": {
     "eslint-plugin-jsonc": "^2.21.0",
-    "jsonc-eslint-parser": "^2.4.1"
+    "jsonc-eslint-parser": "^2.4.2"
   }
 }

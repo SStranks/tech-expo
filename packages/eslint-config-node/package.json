@@ -9,7 +9,7 @@
   "main": "config.js",
   "types": "index.d.ts",
   "devDependencies": {
-    "eslint-plugin-n": "^17.23.1",
+    "eslint-plugin-n": "^17.23.2",
     "globals": "^16.5.0"
   }
 }
