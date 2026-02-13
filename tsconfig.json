@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    // Configuration based on Node16 base: https://github.com/tsconfig/bases/blob/main/bases/node22.json
+    "lib": ["es2024", "ESNext.Array", "ESNext.Collection", "ESNext.Iterator"],
+    "module": "nodenext",
+    "target": "es2022",
+
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node16",
+    "strictNullChecks": true
+  },
+  "include": ["*.ts", "packages"],
+  "exclude": ["node_modules", "apps", "logs"]
+}
