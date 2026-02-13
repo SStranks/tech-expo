@@ -1,5 +1,6 @@
+import type { SummaryTableRow } from '@actions/core/lib/summary';
+
 import * as core from '@actions/core';
-import { SummaryTableRow } from '@actions/core/lib/summary';
 import semver from 'semver';
 
 import { spawnSync } from 'node:child_process';
@@ -29,18 +30,18 @@ interface IPnpmRecursiveOutdated {
   dependentPackages: { name: string; location: string }[];
 }
 
-const summaryNoOutdated = () => {
+const summaryNoOutdated = async () => {
   core.summary.addHeading('All dependencies are current');
-  core.summary.write();
+  await core.summary.write();
 };
 
-const summaryOutdated = (input: string) => {
-  let majorTableRows: SummaryTableRow[] = [];
-  let minorTableRows: SummaryTableRow[] = [];
-  let patchTableRows: SummaryTableRow[] = [];
+const summaryOutdated = async (input: string) => {
+  const majorTableRows: SummaryTableRow[] = [];
+  const minorTableRows: SummaryTableRow[] = [];
+  const patchTableRows: SummaryTableRow[] = [];
 
-  const json = JSON.parse(input);
-  const jsonEntries: [string, IPnpmRecursiveOutdated][] = Object.entries(json);
+  const json = JSON.parse(input) as JSON;
+  const jsonEntries = Object.entries(json) as [string, IPnpmRecursiveOutdated][];
   jsonEntries.forEach(([name, data]) => {
     const semverDiff = semver.diff(data.current, data.latest);
 
@@ -60,7 +61,7 @@ const summaryOutdated = (input: string) => {
 
   const tableMarkdown = markdownTableFormatter(majorTableRows, minorTableRows, patchTableRows);
   core.summary.addRaw(tableMarkdown);
-  core.summary.write();
+  await core.summary.write();
 };
 
 const main = async () => {
@@ -68,10 +69,10 @@ const main = async () => {
     const { status, stderr, stdout } = spawnSync('pnpm', ['outdated', '--format=json', '-r'], { cwd: process.cwd() });
 
     // Process completed; packages are all up-to-date
-    if (status === 0) return summaryNoOutdated();
+    if (status === 0) return await summaryNoOutdated();
     // Process terminated by PNPM; outdated packages
     if (status === 1) {
-      return summaryOutdated(stdout.toString('utf8'));
+      return await summaryOutdated(stdout.toString('utf8'));
     } else {
       const errorText = stderr.toString();
       throw new Error(errorText);
@@ -81,4 +82,4 @@ const main = async () => {
   }
 };
 
-main();
+await main();

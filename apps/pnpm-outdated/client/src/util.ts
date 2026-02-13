@@ -1,4 +1,4 @@
-import { SummaryTableRow } from '@actions/core/lib/summary';
+import type { SummaryTableRow } from '@actions/core/lib/summary';
 
 type TSemverVersion = 'Major' | 'Minor' | 'Patch';
 
@@ -17,7 +17,7 @@ const semverHTMLTable = (data: SummaryTableRow[] | [], tableVersion: TSemverVers
 
   const tableData = data
     .map((row: SummaryTableRow) => {
-      const cells = row.map((cell) => `<td>${cell}</td>`).join('');
+      const cells = row.map((cell) => `<td>${JSON.stringify(cell)}</td>`).join('');
       return `<tr>${cells}</tr>`;
     })
     .join('');
