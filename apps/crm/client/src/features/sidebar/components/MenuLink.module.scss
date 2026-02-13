@@ -82,6 +82,14 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
     }
   }
 
+  &:hover {
+    background-color: var(--thm-background-subtle);
+
+    & .menuLink__iconContainer {
+      transform: translateY(-10%);
+    }
+  }
+
   &__activeRoute {
     background-color: var(--thm-background-info);
 
@@ -99,14 +107,6 @@ $translate-icon-x: calc($list-item-centre-x - $icon-centre-offset-from-list-item
 
     & .menuLink__svg {
       color: var(--thm-icon-info);
-    }
-  }
-
-  &:hover {
-    background-color: var(--thm-background-subtle);
-
-    & .menuLink__iconContainer {
-      transform: translateY(-10%);
     }
   }
 }

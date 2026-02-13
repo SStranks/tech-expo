@@ -113,6 +113,13 @@
   &__body {
     padding: 32px;
 
+    &__table {
+      display: grid;
+      grid-template:
+        'table table table table table table'
+        '. . . . financials financials' / 25% 20% 10% 15% 25% 5%;
+    }
+
     &__titleBlock {
       display: flex;
       justify-content: space-between;
@@ -126,13 +133,7 @@
       }
     }
 
-    &__table {
-      display: grid;
-      grid-template:
-        'table table table table table table'
-        '. . . . financials financials' / 25% 20% 10% 15% 25% 5%;
-    }
-
+    /* stylelint-disable-next-line no-descending-specificity */
     &__financials {
       grid-area: financials;
       padding-left: 12px;
