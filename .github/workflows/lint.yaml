@@ -37,6 +37,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Build @crm-shared types
+        run: pnpm --filter "@apps/crm-shared" build
+
       - name: Generate graphql codegen files
         run: pnpm --filter "@apps/crm-client" --filter "@apps/crm-server" codegen
 
