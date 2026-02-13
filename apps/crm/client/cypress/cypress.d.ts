@@ -1,5 +1,5 @@
-import { MountOptions, MountReturn } from 'cypress/react';
-import { MemoryRouterProps } from 'react-router-dom';
+import type { MountOptions, MountReturn } from 'cypress/react';
+import type { MemoryRouterProps } from 'react-router-dom';
 
 declare global {
   namespace Cypress {
@@ -22,6 +22,12 @@ declare global {
        * @example cy.dataTest('greeting')
        */
       dataTest(value: string): Chainable<JQuery<HTMLElement>>;
+
+      /**
+       * Custom command
+       * @example cy.getByTestId('banner')
+       */
+      getByTestId(dataTestSelector: string): Chainable<JQuery<HTMLElement>>;
     }
   }
 }

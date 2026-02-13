@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "noEmit": true,
+    "strictNullChecks": true,
     "types": ["node", "webpack"]
   },
   "typeRoots": ["node_modules/@types"],

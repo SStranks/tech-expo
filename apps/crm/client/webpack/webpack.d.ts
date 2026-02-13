@@ -13,7 +13,7 @@ declare module 'webpack-stats-plugin' {
     interface TransformFunc {
       (
         data: {
-          [key: string]: any;
+          [key: string]: unknown;
         },
         options?: TransformOptions
       ): string | Promise<string>;
@@ -39,7 +39,7 @@ declare module 'webpack-stats-plugin' {
        * stats config object or string preset
        * @default {}
        */
-      stats?: { [key: string]: any } | string | undefined;
+      stats?: { [key: string]: unknown } | string | undefined;
       /**
        * transform stats obj
        * @default JSON.stringify()
@@ -52,6 +52,7 @@ declare module 'webpack-stats-plugin' {
 }
 
 declare module '@bundle-stats/plugin-webpack-filter' {
-  const _default: { default: typeof import('@bundle-stats/plugin-webpack-filter') };
+  import type WebpackFilterPlugin from '@bundle-stats/plugin-webpack-filter';
+  const _default: { default: typeof WebpackFilterPlugin };
   export default _default;
 }

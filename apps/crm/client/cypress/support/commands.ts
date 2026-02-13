@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -25,11 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-declare namespace Cypress {
-  interface Chainable {
-    getByTestId(dataTestSelector: string): Chainable<JQuery<HTMLElement>>;
-  }
-}
 
 Cypress.Commands.add('getByTestId', (dataTestSelector) => {
   return cy.get(`[data-test="${dataTestSelector}"]`);
