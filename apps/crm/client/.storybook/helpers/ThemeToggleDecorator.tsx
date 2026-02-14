@@ -1,6 +1,6 @@
 import type { Decorator } from '@storybook/react-webpack5';
 
-import type { StorybookGlobals } from '../../../.storybook/preview';
+import type { StorybookGlobals } from '../preview';
 
 import { useEffect, useRef } from 'react';
 import { useGlobals } from 'storybook/internal/preview-api';
