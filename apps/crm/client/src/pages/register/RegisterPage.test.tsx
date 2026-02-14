@@ -4,8 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { describe, vi } from 'vitest';
 
 import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
-import { MAX_PASSWORD } from '@Lib/__mocks__/zxcvbn';
 import { getStrength } from '@Lib/zxcvbn';
+import { MAX_PASSWORD } from '@Tests/consts';
 
 import RegisterPage from './RegisterPage';
 

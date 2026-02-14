@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 
-import { MAX_PASSWORD } from '@Lib/__mocks__/zxcvbn';
 import { usePasswordStrength } from '@Lib/zxcvbn';
+import { MAX_PASSWORD } from '@Tests/consts';
 
 import FormProvider from '../form-provider/FormProvider';
 import { VALIDATION_MESSAGES } from '../validationRules';

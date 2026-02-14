@@ -1,4 +1,4 @@
-import type { RenderOptions } from '@testing-library/react';
+import type { RenderOptions, RenderResult } from '@testing-library/react';
 import type { PropsWithChildren } from 'react';
 
 import type { ReduxRootState, ReduxStore } from './store';
@@ -22,7 +22,14 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   store?: ReduxStore;
 }
 
-export function renderWithProviders(ui: React.ReactElement, extendedRenderOptions: ExtendedRenderOptions = {}) {
+interface RenderWithProvidersResult extends RenderResult {
+  store: ReduxStore;
+}
+
+export function renderWithProviders(
+  ui: React.ReactElement,
+  extendedRenderOptions: ExtendedRenderOptions = {}
+): RenderWithProvidersResult {
   const {
     preloadedState = {},
     // Automatically create a store instance if no store was passed in
@@ -32,9 +39,8 @@ export function renderWithProviders(ui: React.ReactElement, extendedRenderOption
 
   const Wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>;
 
+  const result = render(ui, { wrapper: Wrapper, ...renderOptions });
+
   // Return an object with the store and all of RTL's query functions
-  return {
-    store,
-    ...render(ui, { wrapper: Wrapper, ...renderOptions }),
-  };
+  return Object.assign(result, { store });
 }
