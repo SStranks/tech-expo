@@ -1,6 +1,10 @@
+/* eslint-disable jsonc/no-comments */
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.base.json",
+  "include": ["src/**/*", "src/**/*.json"],
+  "exclude": ["**/private.*", "**/private/*"],
   "compilerOptions": {
+    "composite": true,
     "noEmit": false,
     "allowImportingTsExtensions": false,
     "outDir": "./dist",
@@ -21,7 +25,5 @@
         "enabled": false
       }
     }
-  },
-
-  "include": ["src/**/*.ts"]
+  }
 }

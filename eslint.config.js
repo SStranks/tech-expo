@@ -34,6 +34,7 @@ export default defineConfig([
       '**/graphql/generated/',
       '!**/.storybook/',
       '**/private.*',
+      '**/private/*',
       '**/migrations/meta/',
       'pnpm-lock.yaml',
       'pnpm-workspace.yaml',
@@ -113,7 +114,8 @@ export default defineConfig([
     files: [
       'apps/crm/client/src/**/*.[jt]s?(x)',
       'apps/crm/client/.storybook/**/*.[jt]s?(x)',
-      'apps/crm/client/codegen.ts',
+      'apps/crm/client/webpack/**/*.[jt]s?(x)',
+      'apps/crm/client/*.ts',
       'apps/pnpm-outdated/client/src/*.ts',
     ],
     ignores: ['apps/crm/client/src/**/?(*.)+(spec|test).[jt]s?(x)'],
@@ -204,7 +206,7 @@ export default defineConfig([
   },
   {
     name: 'CRM: Server; NodeJS Express + Testing (Node)',
-    files: ['apps/crm/server/src/**/*.[jt]s'],
+    files: ['apps/crm/server/src/**/*.[jt]s', 'apps/crm/server/*.[jt]s'],
     languageOptions: {
       ...EslintConfigNode.languageOptions,
       ...EslintConfigExpress.languageOptions,

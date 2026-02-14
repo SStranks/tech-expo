@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.base.json",
+  "include": ["**/*", "../global.d.ts"],
+  "exclude": [],
+  "references": [{ "path": "../webpack/tsconfig.json" }],
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "allowImportingTsExtensions": false
+  }
+}

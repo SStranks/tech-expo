@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.base.json",
+  "include": ["codegen.ts", "drizzle.config.ts", "vitest.config.ts", "vitest.setup.ts"],
+  "exclude": [],
+  "references": [{ "path": "./tsconfig.src.json" }],
+  "compilerOptions": { "composite": true, "noEmit": false, "allowImportingTsExtensions": false, "types": ["node"] }
+}

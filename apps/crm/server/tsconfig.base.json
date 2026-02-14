@@ -1,0 +1,33 @@
+/* eslint-disable jsonc/no-comments */
+{
+  // NOTE:  Does this bug still apply??
+  // "extends": "@packages/typescript-config/nodejs", // BUG:  PNPM/Docker/TS doesn't support symlink extends
+  // "extends": "./tsconfig.node.json",
+  "extends": "@packages/typescript-config/nodejs",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "baseUrl": "./",
+    "paths": {
+      "#App/*": ["src/app/*"],
+      "#Config/*": ["src/config/*"],
+      "#Controllers/*": ["src/controllers/*"],
+      "#Data/*": ["src/data/*"],
+      "#Graphql/*": ["src/graphql/*"],
+      "#Helpers/*": ["src/helpers/*"],
+      "#Lib/*": ["src/lib/*"],
+      "#Log/*": ["src/log/*"],
+      "#Mappers/*": ["src/mappers/*"],
+      "#Middleware/*": ["src/middleware/*"],
+      "#Models/*": ["src/models/*"],
+      "#Routes/*": ["src/routes/*"],
+      "#Services/*": ["src/services/*"],
+      "#Tests/*": ["src/tests/*"],
+      "#Types/*": ["src/types/*"],
+      "#Utils/*": ["src/utils/*"],
+      "#Views/*": ["src/views/*"]
+    }
+  },
+
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "mongo"]
+}

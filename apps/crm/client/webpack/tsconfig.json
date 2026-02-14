@@ -1,9 +1,15 @@
 {
+  "extends": "../tsconfig.base.json",
+  "include": ["**/*", "webpack.d.ts"],
+  "exclude": ["node_modules", "dist"],
   "compilerOptions": {
-    "noEmit": true,
+    "composite": true,
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
+    "strict": true,
     "strictNullChecks": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
     "types": ["node", "webpack"]
-  },
-  "typeRoots": ["node_modules/@types"],
-  "include": ["**/*.ts", "webpack.d.ts"]
+  }
 }

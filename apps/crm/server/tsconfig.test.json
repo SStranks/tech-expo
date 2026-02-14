@@ -1,12 +1,12 @@
 {
   "extends": "./tsconfig.base.json",
   "include": ["src/tests/*", "src/**/*.test.*", "src/**/*.spec.*", "global.d.ts"],
-  "exclude": ["node_modules", "src/**/private*"],
+  "exclude": ["node_modules", "src/**/private*", "**/private/*"],
   "references": [{ "path": "./tsconfig.src.json" }],
   "compilerOptions": {
     "composite": true,
     "noEmit": false,
     "allowImportingTsExtensions": false,
-    "types": ["vitest/globals", "@testing-library/jest-dom"]
+    "types": ["vitest/globals", "node"]
   }
 }
