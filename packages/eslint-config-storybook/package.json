@@ -9,6 +9,6 @@
   "types": "index.d.ts",
   "main": "config.js",
   "devDependencies": {
-    "eslint-plugin-storybook": "^10.2.7"
+    "eslint-plugin-storybook": "^10.2.8"
   }
 }

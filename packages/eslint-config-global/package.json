@@ -10,9 +10,9 @@
   "types": "index.d.ts",
   "devDependencies": {
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-perfectionist": "^4.15.1",
+    "eslint-plugin-perfectionist": "^5.5.0",
     "eslint-plugin-prettier": "^5.5.5",
-    "eslint-plugin-regexp": "^2.10.0",
+    "eslint-plugin-regexp": "^3.0.0",
     "eslint-plugin-unicorn": "^62.0.0"
   }
 }
