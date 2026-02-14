@@ -25,7 +25,7 @@ try {
   console.error('[dbRedis] Failed to create secure context:', error);
 }
 
-const redisClient = createClient({
+const redisClient: RedisClient = createClient({
   // url: `${REDIS_URL}`,
   socket: {
     host: `${REDIS_HOST}`,
@@ -85,5 +85,5 @@ const connectRedisDB = async () => {
   pinoLogger.server.info(`Connected to Redis: ${REDIS_HOST}:${REDIS_DOCKER_PORT}`);
 };
 
-export type RedisClient = typeof redisClient;
+export type RedisClient = ReturnType<typeof createClient>;
 export { connectRedisDB, redisClient };

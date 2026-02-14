@@ -16,7 +16,7 @@ await esbuild.build({
   platform: 'node',
   target: 'node18',
   format: 'esm',
-  tsconfig: path.resolve(__dirname, './tsconfig.json'),
+  tsconfig: path.resolve(__dirname, './tsconfig.src.json'),
   external: ['bcrypt', 'argon2', 'sharp', 'pino-mongodb', 'postgres'],
   plugins: [
     copy({

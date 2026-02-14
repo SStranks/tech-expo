@@ -15,8 +15,15 @@ type ContactNoteProps = {
 export type ContactNoteCreateProps = ContactNoteProps;
 export type ContactNoteHydrationProps = ContactNoteCreateProps & { id: ContactNoteId; createdAt: Date };
 
-export type NewContactNote = InstanceType<typeof NewContactNoteImpl>;
-export type PersistedContactNote = InstanceType<typeof PersistedContactNoteImpl>;
+export interface NewContactNote extends ContactNote {
+  isPersisted(): this is PersistedContactNote;
+}
+
+export interface PersistedContactNote extends ContactNote {
+  readonly id: ContactNoteId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedContactNote;
+}
 
 export abstract class ContactNote {
   private readonly _createdByUserProfileId: UserProfileId;
@@ -65,7 +72,7 @@ class NewContactNoteImpl extends ContactNote {
     super(props);
   }
 
-  isPersisted(): this is PersistedContactNoteImpl {
+  isPersisted(): this is PersistedContactNote {
     return false;
   }
 }
@@ -89,7 +96,7 @@ class PersistedContactNoteImpl extends ContactNote {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedContactNoteImpl {
+  isPersisted(): this is PersistedContactNote {
     return true;
   }
 }

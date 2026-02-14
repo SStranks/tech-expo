@@ -1,7 +1,7 @@
 import { defineConfig } from 'drizzle-kit';
 import '@dotenvx/dotenvx/config';
 
-import { initializeDockerSecrets, secrets } from './src/config/secrets.ts';
+import { initializeDockerSecrets, secrets } from './src/config/secrets.js';
 
 initializeDockerSecrets();
 const { POSTGRES_URL } = secrets;

@@ -28,8 +28,15 @@ type CompanyProps = {
 type CompanyCreateProps = CompanyProps;
 type CompanyHydrationProps = CompanyCreateProps & { id: CompanyId; createdAt: Date };
 
-export type NewCompany = InstanceType<typeof NewCompanyImpl>;
-export type PersistedCompany = InstanceType<typeof PersistedCompanyImpl>;
+export interface NewCompany extends Company {
+  isPersisted(): this is PersistedCompany;
+}
+
+export interface PersistedCompany extends Company {
+  readonly id: CompanyId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedCompany;
+}
 
 /*
   Hydration rules:
@@ -237,7 +244,7 @@ class NewCompanyImpl extends Company {
     super(props);
   }
 
-  isPersisted(): this is PersistedCompanyImpl {
+  isPersisted(): this is PersistedCompany {
     return false;
   }
 }
@@ -260,7 +267,7 @@ class PersistedCompanyImpl extends Company {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedCompanyImpl {
+  isPersisted(): this is PersistedCompany {
     return true;
   }
 }

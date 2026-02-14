@@ -45,8 +45,15 @@ type ContactProps = {
 type ContactCreateProps = ContactProps;
 type ContactHydrationProps = ContactCreateProps & { id: ContactId; createdAt: Date };
 
-export type NewContact = InstanceType<typeof NewContactImpl>;
-export type PersistedContact = InstanceType<typeof PersistedContactImpl>;
+export interface NewContact extends Contact {
+  isPersisted(): this is PersistedContact;
+}
+
+export interface PersistedContact extends Contact {
+  readonly id: ContactId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedContact;
+}
 
 export abstract class Contact {
   private _firstName: string;
@@ -283,7 +290,7 @@ class NewContactImpl extends Contact {
     super(props);
   }
 
-  isPersisted(): this is PersistedContactImpl {
+  isPersisted(): this is PersistedContact {
     return false;
   }
 }
@@ -306,7 +313,7 @@ class PersistedContactImpl extends Contact {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedContactImpl {
+  isPersisted(): this is PersistedContact {
     return true;
   }
 }

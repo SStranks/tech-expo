@@ -20,8 +20,15 @@ export type CompanyNoteHydrationProps = CompanyNoteCreateProps & {
   createdAt: Date;
 };
 
-export type NewCompanyNote = InstanceType<typeof NewCompanyNoteImpl>;
-export type PersistedCompanyNote = InstanceType<typeof PersistedCompanyNoteImpl>;
+export interface NewCompanyNote extends CompanyNote {
+  isPersisted(): this is PersistedCompanyNote;
+}
+
+export interface PersistedCompanyNote extends CompanyNote {
+  readonly id: CompanyNoteId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedCompanyNote;
+}
 
 export abstract class CompanyNote {
   private readonly _createdByUserProfileId: UserProfileId;
@@ -70,7 +77,7 @@ class NewCompanyNoteImpl extends CompanyNote {
     super(props);
   }
 
-  isPersisted(): this is NewCompanyNoteImpl {
+  isPersisted(): this is PersistedCompanyNote {
     return false;
   }
 }
@@ -93,7 +100,7 @@ class PersistedCompanyNoteImpl extends CompanyNote {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedCompanyNoteImpl {
+  isPersisted(): this is PersistedCompanyNote {
     return true;
   }
 }

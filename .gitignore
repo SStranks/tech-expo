@@ -41,6 +41,7 @@ logs/
 
 # Generated Files
 **/graphql/generated/
+**/*.tsbuildinfo
 
 # Private Files
 **/private.*
