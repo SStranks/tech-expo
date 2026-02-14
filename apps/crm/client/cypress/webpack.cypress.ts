@@ -1,4 +1,7 @@
 /* eslint-disable perfectionist/sort-objects */
+import 'webpack-dev-server';
+import type { Configuration } from 'webpack';
+
 import path from 'node:path';
 import url from 'node:url';
 
@@ -116,6 +119,6 @@ const config = {
       },
     ],
   },
-};
+} satisfies Configuration;
 
 export default config;

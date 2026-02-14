@@ -1,5 +1,7 @@
 /* eslint-disable perfectionist/sort-objects */
 /* eslint-disable unicorn/numeric-separators-style */
+import type { Configuration, StatsCompilation } from 'webpack';
+
 import CompressionPlugin from 'compression-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
@@ -16,12 +18,11 @@ import path from 'node:path';
 import url from 'node:url';
 import zlib from 'node:zlib';
 
-import filterWebpackStats from './filter/filterWebpackStats.js';
-import CommonConfig from './webpack.common.js';
+import filterWebpackStats from './filter/filterWebpackStats';
+import CommonConfig from './webpack.common';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
-/** @type { import('webpack').Configuration } */
 const ProdConfig = {
   mode: 'production',
   output: {
@@ -90,7 +91,7 @@ const ProdConfig = {
             loader: 'css-loader',
             options: {
               url: {
-                filter: (/** @type {string} */ assetUrl) => {
+                filter: (assetUrl: string) => {
                   if (assetUrl.startsWith('/public')) return false;
                   return true;
                 },
@@ -182,30 +183,34 @@ const ProdConfig = {
       new ImageMinimizerPlugin({
         test: /\.(jpeg|jpg|webp|avif|png|gif)$/i,
         exclude: /(favicon)/i,
-        minimizer: {
-          implementation: ImageMinimizerPlugin.sharpMinify,
-          options: {
-            encodeOptions: {
-              jpeg: { quality: 100 },
-              webp: { lossless: true },
-              avif: { lossless: true },
-              png: { compressionLevel: 8 },
-              gif: { progressive: true },
+        minimizer: [
+          {
+            implementation: ImageMinimizerPlugin.sharpMinify as ImageMinimizerPlugin.TransformerFunction<unknown>,
+            options: {
+              encodeOptions: {
+                jpeg: { quality: 100 },
+                webp: { lossless: true },
+                avif: { lossless: true },
+                png: { compressionLevel: 8 },
+                gif: { progressive: true },
+              },
             },
           },
-        },
+        ],
       }),
       new ImageMinimizerPlugin({
         test: /\.(svg)$/i,
-        minimizer: {
-          implementation: ImageMinimizerPlugin.svgoMinify,
-          options: {
-            encodeOptions: {
-              multiplass: true,
-              plugins: ['preset-default'],
+        minimizer: [
+          {
+            implementation: ImageMinimizerPlugin.svgoMinify as ImageMinimizerPlugin.TransformerFunction<unknown>,
+            options: {
+              encodeOptions: {
+                multiplass: true,
+                plugins: ['preset-default'],
+              },
             },
           },
-        },
+        ],
       }),
     ],
   },
@@ -217,7 +222,6 @@ const ProdConfig = {
       template: path.resolve(__dirname, '../src/index-template.html.ejs'),
       favicon: path.resolve(__dirname, '../src/favicon.ico'),
       templateParameters: {
-        // eslint-disable-next-line no-undef
         PUBLIC_URL: process.env.PUBLIC_URL,
       },
       minify: {
@@ -272,12 +276,12 @@ const ProdConfig = {
         chunks: true,
         modules: true,
       },
-      transform: (/** @type {import('webpack').StatsCompilation} */ webpackStats) => {
+      transform: (webpackStats: StatsCompilation) => {
         const filteredSource = filterWebpackStats(webpackStats);
         return JSON.stringify(filteredSource);
       },
     }),
   ],
-};
+} satisfies Configuration;
 
-export default merge(CommonConfig, ProdConfig);
+export default merge<Configuration>(CommonConfig, ProdConfig);

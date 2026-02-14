@@ -1,6 +1,7 @@
-// @ts-check
 /* eslint-disable perfectionist/sort-objects */
 import 'webpack-dev-server';
+import type { Configuration } from 'webpack';
+
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
@@ -12,11 +13,10 @@ import { merge } from 'webpack-merge';
 import path from 'node:path';
 import url from 'node:url';
 
-import CommonConfig from './webpack.common.js';
+import CommonConfig from './webpack.common';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
-/** @type { import('webpack').Configuration } */
 const DevConfig = {
   mode: 'development',
   output: {
@@ -116,7 +116,7 @@ const DevConfig = {
         generator: [
           {
             type: 'asset',
-            implementation: ImageMinimizerPlugin.sharpGenerate,
+            implementation: ImageMinimizerPlugin.sharpGenerate as ImageMinimizerPlugin.TransformerFunction<unknown>,
             options: {
               encodeOptions: {
                 webp: {
@@ -153,6 +153,6 @@ const DevConfig = {
     new CopyPlugin({ patterns: [{ from: path.resolve(__dirname, '../public'), noErrorOnMissing: true }] }),
     new Dotenv({ path: path.resolve(__dirname, '../.env.dev.client'), prefix: 'import.meta.env.' }),
   ],
-};
+} satisfies Configuration;
 
-export default merge(CommonConfig, DevConfig);
+export default merge<Configuration>(CommonConfig, DevConfig);

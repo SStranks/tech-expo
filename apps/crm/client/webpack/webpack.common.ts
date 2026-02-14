@@ -1,5 +1,6 @@
 /* eslint-disable perfectionist/sort-objects */
-// @ts-check
+import type { Configuration } from 'webpack';
+
 import ESLintPlugin from 'eslint-webpack-plugin';
 
 import path from 'node:path';
@@ -8,7 +9,6 @@ import url from 'node:url';
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const { NODE_ENV } = process.env;
 
-/** @type { import('webpack').Configuration } */
 const CommonConfig = {
   entry: path.resolve(__dirname, '../src/index.tsx'),
   target: 'web',
@@ -73,6 +73,6 @@ const CommonConfig = {
       extensions: ['js', 'jsx', 'ts', 'tsx'],
     }),
   ],
-};
+} satisfies Configuration;
 
 export default CommonConfig;
