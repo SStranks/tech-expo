@@ -12,7 +12,7 @@ import EslintConfigReact from '@packages/eslint-config-react';
 import EslintConfigReactVitest from '@packages/eslint-config-react-vitest';
 import EslintConfigStorybook from '@packages/eslint-config-storybook';
 import EslintConfigTypescript, { createTypeScriptImportResolver, TSEslint } from '@packages/eslint-config-typescript';
-import EslintConfigYAML from '@packages/eslint-config-yaml';
+import EslintConfigYAML, { PluginEslintYAML } from '@packages/eslint-config-yaml';
 import { defineConfig } from 'eslint/config';
 
 import path from 'node:path';
@@ -97,6 +97,7 @@ export default defineConfig([
   {
     name: 'YAML Configuration',
     files: ['**/*.yaml', '**/*.yml'],
+    extends: [PluginEslintYAML.configs.standard, PluginEslintYAML.configs.prettier],
     languageOptions: { ...EslintConfigYAML.languageOptions },
     plugins: { ...EslintConfigYAML.plugins },
     rules: { ...EslintConfigYAML.rules },

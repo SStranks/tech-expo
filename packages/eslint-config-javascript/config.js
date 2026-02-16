@@ -1,3 +1,4 @@
+// @ts-check
 import RecommendedEslint from '@eslint/js';
 import PluginStylistic from '@stylistic/eslint-plugin';
 import PluginImportX, { flatConfigs as PluginImportXConfigs } from 'eslint-plugin-import-x';

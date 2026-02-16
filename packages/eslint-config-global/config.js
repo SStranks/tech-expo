@@ -1,3 +1,4 @@
+// @ts-check
 /* eslint-disable perfectionist/sort-objects */
 import PluginPerfectionist from 'eslint-plugin-perfectionist';
 import PluginPrettier from 'eslint-plugin-prettier';
@@ -27,11 +28,20 @@ export const EslintConfigGlobal = {
       'error',
       {
         groups: ['status', 'message', 'data'],
-        customGroups: {
-          message: '^message$',
-          status: '^status$',
-          data: '^data$',
-        },
+        customGroups: [
+          {
+            groupName: 'message',
+            elementNamePattern: '^message$',
+          },
+          {
+            groupName: 'status',
+            elementNamePattern: '^status$',
+          },
+          {
+            groupName: 'data',
+            elementNamePattern: '^data$',
+          },
+        ],
         useConfigurationIf: {
           // Utilized in http response objects
           allNamesMatchPattern: '^(message|status|data)$',
@@ -42,23 +52,31 @@ export const EslintConfigGlobal = {
         type: 'unsorted',
         useConfigurationIf: {
           callingFunctionNamePattern: '^(createSlice|pgTable|findFirst|postgresDB|relations)$',
+          objectType: 'non-destructured',
         },
-        destructuredObjects: false,
       },
       {
         // Default/Fallback Configuration
-        destructuredObjects: { groups: false },
-        groups: ['top', 'unknown', ['multiline', 'method'], 'bottom'],
-        customGroups: {
-          top: ['^id$', '^name$'],
-          bottom: '.+_metadata$',
+        groups: ['top', 'member', 'multiline-member', 'unknown', 'method', 'multiline-method', 'bottom'],
+        customGroups: [
+          {
+            groupName: 'top',
+            elementNamePattern: ['^id$', '^name$'],
+          },
+          {
+            groupName: 'bottom',
+            elementNamePattern: '.+_metadata$',
+          },
+        ],
+        useConfigurationIf: {
+          objectType: 'non-destructured',
         },
       },
     ],
     'perfectionist/sort-exports': [
       'error',
       {
-        groupKind: 'types-first',
+        groups: [{ group: 'type-export', commentAbove: 'Type exports' }, 'value-export'],
       },
     ],
     'perfectionist/sort-named-exports': 'error',
@@ -70,17 +88,16 @@ export const EslintConfigGlobal = {
         order: 'asc',
         ignoreCase: true,
         internalPattern: [String.raw`^@[A-Z]\w*`, String.raw`^#[A-Z]\w*`],
-        newlinesBetween: 'always',
+        newlinesBetween: 1,
         environment: 'node',
         groups: [
-          ['external-type', 'builtin-type'],
-          'internal-type',
-          ['parent-type', 'sibling-type', 'index-type'],
+          ['type-external', 'type-builtin'],
+          'type-internal',
+          ['type-parent', 'type-sibling', 'type-index'],
           'external',
           'internal',
           'builtin',
           ['parent', 'sibling', 'index'],
-          'object',
           'unknown',
           'style',
         ],

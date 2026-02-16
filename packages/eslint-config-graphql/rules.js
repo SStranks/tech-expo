@@ -1,3 +1,4 @@
+// @ts-check
 import PluginGraphQL from '@graphql-eslint/eslint-plugin';
 
 export default {

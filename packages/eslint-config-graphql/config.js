@@ -1,3 +1,4 @@
+// @ts-check
 /* eslint-disable perfectionist/sort-objects */
 import PluginGraphQL from '@graphql-eslint/eslint-plugin';
 // https://github.com/dimaMachina/graphql-eslint/blob/master/examples/monorepo/eslint.config.js

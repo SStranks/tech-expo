@@ -1,3 +1,4 @@
+// @ts-check
 import PluginVitest from '@vitest/eslint-plugin';
 import PluginTestingLibrary from 'eslint-plugin-testing-library';
 

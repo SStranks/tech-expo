@@ -1,3 +1,4 @@
+// @ts-check
 /* eslint-disable perfectionist/sort-objects */
 import PluginStylistic from '@stylistic/eslint-plugin';
 import PluginImportX, { flatConfigs as PluginImportXConfigs } from 'eslint-plugin-import-x';

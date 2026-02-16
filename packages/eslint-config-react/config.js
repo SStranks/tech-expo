@@ -1,3 +1,4 @@
+// @ts-check
 import PluginQuery from '@tanstack/eslint-plugin-query';
 import PluginJSXA11Y from 'eslint-plugin-jsx-a11y';
 import PluginReact from 'eslint-plugin-react';
@@ -29,9 +30,12 @@ const EslintConfigReact = {
     ...PluginReact.configs.recommended.rules,
     ...PluginReactHooks.configs.recommended.rules,
     ...PluginJSXA11Y.flatConfigs.recommended.rules,
-    ...PluginQuery.configs['flat/recommended'].rules,
     '@tanstack/query/exhaustive-deps': 'error',
+    '@tanstack/query/infinite-query-property-order': 'error',
+    '@tanstack/query/mutation-property-order': 'error',
     '@tanstack/query/no-rest-destructuring': 'warn',
+    '@tanstack/query/no-unstable-deps': 'error',
+    '@tanstack/query/no-void-query-fn': 'error',
     '@tanstack/query/stable-query-client': 'error',
     'react/function-component-definition': 'off',
     'react/jsx-uses-react': 0,

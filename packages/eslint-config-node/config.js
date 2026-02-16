@@ -1,3 +1,4 @@
+// @ts-check
 /* eslint-disable perfectionist/sort-objects */
 import PluginNode from 'eslint-plugin-n';
 import globals from 'globals';

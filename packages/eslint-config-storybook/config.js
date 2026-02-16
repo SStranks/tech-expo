@@ -1,3 +1,4 @@
+// @ts-check
 import PluginStorybook from 'eslint-plugin-storybook';
 
 const EslintConfigStorybook = {

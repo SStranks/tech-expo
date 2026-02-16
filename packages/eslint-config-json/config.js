@@ -1,3 +1,4 @@
+// @ts-check
 import PluginEslintJSONC from 'eslint-plugin-jsonc';
 import ParserEslintJSONC from 'jsonc-eslint-parser';
 

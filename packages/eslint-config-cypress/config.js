@@ -1,3 +1,4 @@
+// @ts-check
 import PluginCypress from 'eslint-plugin-cypress';
 
 const EslintConfigCypress = {

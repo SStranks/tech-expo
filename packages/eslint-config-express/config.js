@@ -1,3 +1,4 @@
+// @ts-check
 import PluginSecurity from 'eslint-plugin-security';
 import globals from 'globals';
 

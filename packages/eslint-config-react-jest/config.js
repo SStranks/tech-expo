@@ -1,3 +1,4 @@
+// @ts-check
 import PluginJest from 'eslint-plugin-jest';
 import PluginJestDom from 'eslint-plugin-jest-dom';
 import PluginTestingLibrary from 'eslint-plugin-testing-library';

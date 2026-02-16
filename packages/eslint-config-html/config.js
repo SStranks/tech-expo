@@ -1,3 +1,4 @@
+// @ts-check
 import PluginHTML from '@html-eslint/eslint-plugin';
 import ParserHTML from '@html-eslint/parser';
 

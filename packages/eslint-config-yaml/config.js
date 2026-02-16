@@ -1,5 +1,7 @@
+// @ts-check
 import PluginEslintYAML from 'eslint-plugin-yml';
-import ParserEslintYAML from 'yaml-eslint-parser';
+import * as ParserEslintYAML from 'yaml-eslint-parser';
+export { default as PluginEslintYAML } from 'eslint-plugin-yml';
 
 const EslintConfigYAML = {
   languageOptions: {
@@ -7,10 +9,6 @@ const EslintConfigYAML = {
   },
   plugins: {
     yml: PluginEslintYAML,
-  },
-  rules: {
-    ...PluginEslintYAML.configs.standard.rules,
-    ...PluginEslintYAML.configs.prettier.rules,
   },
 };
 
