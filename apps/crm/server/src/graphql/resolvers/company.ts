@@ -7,16 +7,16 @@ import { insertCompaniesSchema, updateCompaniesSchema } from '#Config/schema/com
 import { updateCompaniesNotesSchema } from '#Config/schema/companies/CompanyNotes.js';
 import pinoLogger from '#Lib/pinoLogger.js';
 import { asCompanyId, companyDomainToCompanyDTO } from '#Models/domain/company/company.mapper.js';
-import { asCompanyNoteId, companyNoteDomainToDTO } from '#Models/domain/company/note/note.mapper.js';
+import { asCompanyNoteId, companyNoteDomainToCompanyNoteDTO } from '#Models/domain/company/note/note.mapper.js';
 import { asContactId } from '#Models/domain/contact/contact.mapper.js';
 import { asCountryId } from '#Models/domain/country/country.mapper.js';
 import { asUserProfileId, userProfileDomainToAvatarDTO } from '#Models/domain/user/profile/profile.mapper.js';
 import { asUserId } from '#Models/domain/user/user.mapper.js';
 import {
-  companyContactSummaryRowToDTO,
-  companyDealSummaryRowToDTO,
-  companyQuoteSummaryRowToDTO,
-  toCompaniesOverviewDTO,
+  companyContactSummaryRowToCompanyContactSummaryDTO,
+  companyDealSummaryRowToCompanyDealSummaryDTO,
+  companyOverviewRowToCompanyOverviewDTO,
+  companyQuoteSummaryRowToCompanyQuoteSummaryDTO,
 } from '#Models/query/company/companies.read-model.mapper.js';
 import { stableId } from '#Utils/stableId.js';
 
@@ -55,7 +55,7 @@ const companyResolver: Resolvers = {
 
       return {
         id: stableId('companies-overview', { page, pageSize, searchCompanyName, salesOwnerId }),
-        items: result.items.map((r) => toCompaniesOverviewDTO(r)),
+        items: result.items.map((r) => companyOverviewRowToCompanyOverviewDTO(r)),
         totalCount: result.totalCount,
       };
     },
@@ -130,7 +130,7 @@ const companyResolver: Resolvers = {
         id: `companies-note:create:${companyNote.id}`,
         company: companyDomainToCompanyDTO(company),
         companyNote: {
-          ...companyNoteDomainToDTO(companyNote),
+          ...companyNoteDomainToCompanyNoteDTO(companyNote),
           createdBy: userProfileDomainToAvatarDTO(userProfile),
         },
       };
@@ -165,7 +165,7 @@ const companyResolver: Resolvers = {
         id: `companies-note:update:${companyNote.id}`,
         company: companyDomainToCompanyDTO(company),
         companyNote: {
-          ...companyNoteDomainToDTO(companyNote),
+          ...companyNoteDomainToCompanyNoteDTO(companyNote),
           createdBy: userProfileDomainToAvatarDTO(userProfile),
         },
       };
@@ -238,7 +238,7 @@ const companyResolver: Resolvers = {
 
       return {
         id: stableId('companies-contacts', { page, pageSize, companyId: company.id }),
-        items: result.items.map((r) => companyContactSummaryRowToDTO(r)),
+        items: result.items.map((r) => companyContactSummaryRowToCompanyContactSummaryDTO(r)),
         totalCount: result.totalCount,
       };
     },
@@ -258,7 +258,7 @@ const companyResolver: Resolvers = {
 
       return {
         id: stableId('companies-deals', { page, pageSize, companyId: company.id }),
-        items: result.items.map((r) => companyDealSummaryRowToDTO(r)),
+        items: result.items.map((r) => companyDealSummaryRowToCompanyDealSummaryDTO(r)),
         totalCount: result.totalCount,
       };
     },
@@ -278,7 +278,7 @@ const companyResolver: Resolvers = {
 
       return {
         id: stableId('companies-quotes', { page, pageSize, companyId: company.id }),
-        items: result.items.map((r) => companyQuoteSummaryRowToDTO(r)),
+        items: result.items.map((r) => companyQuoteSummaryRowToCompanyQuoteSummaryDTO(r)),
         totalCount: result.totalCount,
       };
     },

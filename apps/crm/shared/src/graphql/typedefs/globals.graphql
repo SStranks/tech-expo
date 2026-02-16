@@ -1,4 +1,9 @@
 # eslint-disable @graphql-eslint/require-description
+
+# NOTE: "Amount" in Money types is smallest unit of currency e.g. cents, pence
+"""
+Type Money
+"""
 type Money {
   id: ID!
   amount: String!

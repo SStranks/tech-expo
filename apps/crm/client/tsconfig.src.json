@@ -1,15 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "include": ["src/**/*", "global.d.ts"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "src/graphql/generated/*",
-    "src/**/private*",
-    "src/**/private/*",
-    "src/**/*.test.*",
-    "src/**/*.spec.*"
-  ],
+  "exclude": ["node_modules", "dist", "src/**/private*", "src/**/private/*", "src/**/*.test.*", "src/**/*.spec.*"],
   "compilerOptions": {
     "composite": true,
     "noEmit": false,
