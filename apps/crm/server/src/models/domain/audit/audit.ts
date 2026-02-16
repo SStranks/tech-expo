@@ -18,8 +18,15 @@ type AuditProps = {
 type AuditCreateProps = AuditProps;
 type AuditHydrationProps = AuditCreateProps & { id: AuditId; createdAt: Date };
 
-export type NewAudit = InstanceType<typeof NewAuditImpl>;
-export type PersistedAudit = InstanceType<typeof PersistedAuditImpl>;
+export interface NewAudit extends Audit {
+  isPersisted(): this is PersistedAudit;
+}
+
+export interface PersistedAudit extends Audit {
+  readonly id: AuditId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedAudit;
+}
 
 export abstract class Audit {
   private readonly _tableName: string;
@@ -92,7 +99,7 @@ class NewAuditImpl extends Audit {
     super(props);
   }
 
-  isPersisted(): this is NewAuditImpl {
+  isPersisted(): this is PersistedAudit {
     return false;
   }
 }
@@ -115,7 +122,7 @@ class PersistedAuditImpl extends Audit {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedAuditImpl {
+  isPersisted(): this is PersistedAudit {
     return true;
   }
 }

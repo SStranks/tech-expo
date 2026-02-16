@@ -23,8 +23,15 @@ type DealProps = {
 type DealCreateProps = DealProps;
 type DealHydrationProps = DealCreateProps & { id: PipelineDealId; createdAt: Date };
 
-export type NewDeal = InstanceType<typeof NewDealImpl>;
-export type PersistedDeal = InstanceType<typeof PersistedDealImpl>;
+export interface NewDeal extends Deal {
+  isPersisted(): this is PersistedDeal;
+}
+
+export interface PersistedDeal extends Deal {
+  readonly id: PipelineDealId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedDeal;
+}
 
 export abstract class Deal {
   private readonly _companyId: CompanyId;
@@ -97,7 +104,7 @@ class NewDealImpl extends Deal {
     super(props);
   }
 
-  isPersisted(): this is NewDealImpl {
+  isPersisted(): this is PersistedDeal {
     return false;
   }
 }
@@ -120,7 +127,7 @@ class PersistedDealImpl extends Deal {
     return this._createdAt;
   }
 
-  isPersisted(): this is NewDealImpl {
+  isPersisted(): this is PersistedDeal {
     return false;
   }
 }

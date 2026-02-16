@@ -11,7 +11,10 @@ type CountryProps = {
 type NewCountryProps = CountryProps;
 type CountryHydrationProps = NewCountryProps & { id: CountryId };
 
-export type PersistedCountry = InstanceType<typeof PersistedCountryImpl>;
+export interface PersistedCountry extends Country {
+  readonly id: CountryId;
+  isPersisted(): this is PersistedCountry;
+}
 
 export abstract class Country {
   private readonly _numCode: number;
@@ -73,7 +76,7 @@ class PersistedCountryImpl extends Country {
     return this._id;
   }
 
-  isPersisted(): this is PersistedCountryImpl {
+  isPersisted(): this is PersistedCountry {
     return true;
   }
 }

@@ -8,8 +8,15 @@ type CalendarProps = {
 type CalendarCreateProps = CalendarProps;
 type CalendarHydrationProps = CalendarCreateProps & { id: CalendarId; createdAt: Date };
 
-export type NewCalendar = InstanceType<typeof NewCalendarImpl>;
-export type PersistedCalendar = InstanceType<typeof PersistedCalendarImpl>;
+export interface NewCalendar extends Calendar {
+  isPersisted(): this is PersistedCalendar;
+}
+
+export interface PersistedCalendar extends Calendar {
+  readonly id: CalendarId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedCalendar;
+}
 
 export abstract class Calendar {
   private readonly _companyId: CompanyId;
@@ -40,7 +47,7 @@ class NewCalendarImpl extends Calendar {
     super(props);
   }
 
-  isPersisted(): this is NewCalendarImpl {
+  isPersisted(): this is PersistedCalendar {
     return false;
   }
 }
@@ -63,7 +70,7 @@ class PersistedCalendarImpl extends Calendar {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedCalendarImpl {
+  isPersisted(): this is PersistedCalendar {
     return false;
   }
 }

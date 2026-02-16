@@ -28,8 +28,15 @@ type UserProfileProps = {
 type UserProfileCreateProps = UserProfileProps;
 type UserProfileHydrationProps = UserProfileCreateProps & { id: UserProfileId; createdAt: Date };
 
-export type NewUserProfile = InstanceType<typeof NewUserProfileImpl>;
-export type PersistedUserProfile = InstanceType<typeof PersistedUserProfileImpl>;
+export interface NewUserProfile extends UserProfile {
+  isPersisted(): this is PersistedUserProfile;
+}
+
+export interface PersistedUserProfile extends UserProfile {
+  readonly id: UserProfileId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedUserProfile;
+}
 
 export abstract class UserProfile {
   private readonly _timezoneId?: TimeZoneId;
@@ -137,7 +144,7 @@ class NewUserProfileImpl extends UserProfile {
     super(props);
   }
 
-  isPersisted(): this is NewUserProfileImpl {
+  isPersisted(): this is PersistedUserProfile {
     return false;
   }
 }
@@ -160,7 +167,7 @@ class PersistedUserProfileImpl extends UserProfile {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedUserProfileImpl {
+  isPersisted(): this is PersistedUserProfile {
     return true;
   }
 }

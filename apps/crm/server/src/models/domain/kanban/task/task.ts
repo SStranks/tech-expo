@@ -21,8 +21,15 @@ type TaskProps = {
 type TaskCreateProps = TaskProps;
 type TaskHydrationProps = TaskCreateProps & { id: KanbanTaskId; createdAt: Date };
 
-export type NewTask = InstanceType<typeof NewTaskImpl>;
-export type PersistedTask = InstanceType<typeof PersistedTaskImpl>;
+export interface NewTask extends Task {
+  isPersisted(): this is PersistedTask;
+}
+
+export interface PersistedTask extends Task {
+  readonly id: KanbanTaskId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedTask;
+}
 
 export abstract class Task {
   private readonly _symbol: UUIDv4;
@@ -96,7 +103,7 @@ class NewTaskImpl extends Task {
     super(props);
   }
 
-  isPersisted(): this is NewTaskImpl {
+  isPersisted(): this is PersistedTask {
     return false;
   }
 }
@@ -119,7 +126,7 @@ class PersistedTaskImpl extends Task {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedTaskImpl {
+  isPersisted(): this is PersistedTask {
     return true;
   }
 }

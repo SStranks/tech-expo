@@ -21,8 +21,15 @@ type EventProps = {
 type EventCreateProps = EventProps;
 type EventHydrationProps = EventCreateProps & { id: CalendarEventId; createdAt: Date };
 
-export type NewEvent = InstanceType<typeof NewEventImpl>;
-export type PersistedEvent = InstanceType<typeof PersistedEventImpl>;
+export interface NewEvent extends Event {
+  isPersisted(): this is PersistedEvent;
+}
+
+export interface PersistedEvent extends Event {
+  readonly id: CalendarEventId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedEvent;
+}
 
 export abstract class Event {
   private readonly _calendarId: CalendarId;
@@ -100,7 +107,7 @@ class NewEventImpl extends Event {
     super(props);
   }
 
-  isPersisted(): this is NewEventImpl {
+  isPersisted(): this is PersistedEvent {
     return false;
   }
 }
@@ -123,7 +130,7 @@ class PersistedEventImpl extends Event {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedEventImpl {
+  isPersisted(): this is PersistedEvent {
     return true;
   }
 }

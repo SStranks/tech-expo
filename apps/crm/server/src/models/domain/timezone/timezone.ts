@@ -14,6 +14,12 @@ type TimeZoneProps = {
 
 type TimeZoneHydrationProps = TimeZoneProps & { id: TimeZoneId; createdAt: Date };
 
+export interface PersistedTimeZone extends TimeZone {
+  readonly id: TimeZoneId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedTimeZone;
+}
+
 export abstract class TimeZone {
   private readonly _alpha2Code: string;
   private readonly _gmtOffset: string;
@@ -69,7 +75,7 @@ class PersistedTimeZoneImpl extends TimeZone {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedTimeZoneImpl {
+  isPersisted(): this is PersistedTimeZone {
     return true;
   }
 }

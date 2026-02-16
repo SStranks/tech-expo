@@ -8,8 +8,15 @@ type KanbanProps = {
 type KanbanCreateProps = KanbanProps;
 type KanbanHydrationProps = KanbanCreateProps & { id: KanbanId; createdAt: Date };
 
-export type NewKanban = InstanceType<typeof NewKanbanImpl>;
-export type PersistedKanban = InstanceType<typeof PersistedKanbanImpl>;
+export interface NewKanban extends Kanban {
+  isPersisted(): this is PersistedKanban;
+}
+
+export interface PersistedKanban extends Kanban {
+  readonly id: KanbanId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedKanban;
+}
 
 export abstract class Kanban {
   private readonly _companyId: CompanyId;
@@ -40,7 +47,7 @@ class NewKanbanImpl extends Kanban {
     super(props);
   }
 
-  isPersisted(): this is NewKanban {
+  isPersisted(): this is PersistedKanban {
     return false;
   }
 }

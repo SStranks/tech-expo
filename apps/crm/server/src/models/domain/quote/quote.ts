@@ -18,8 +18,15 @@ type QuoteProps = {
 type QuoteCreateProps = QuoteProps;
 type QuoteHydrationProps = QuoteCreateProps & { id: QuoteId; createdAt: Date };
 
-export type NewQuote = InstanceType<typeof NewQuoteImpl>;
-export type PersistedQuote = InstanceType<typeof PersistedQuoteImpl>;
+export interface NewQuote extends Quote {
+  isPersisted(): this is PersistedQuote;
+}
+
+export interface PersistedQuote extends Quote {
+  readonly id: QuoteId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedQuote;
+}
 
 export abstract class Quote {
   private readonly _title: string;
@@ -127,7 +134,7 @@ class NewQuoteImpl extends Quote {
     super(props);
   }
 
-  isPersisted(): this is PersistedQuoteImpl {
+  isPersisted(): this is PersistedQuote {
     return false;
   }
 }
@@ -150,7 +157,7 @@ class PersistedQuoteImpl extends Quote {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedQuoteImpl {
+  isPersisted(): this is PersistedQuote {
     return true;
   }
 }

@@ -18,8 +18,15 @@ type ServiceProps = {
 type ServiceCreateProps = ServiceProps;
 type ServiceHydrationProps = ServiceCreateProps & { id: QuoteServiceId; createdAt: Date };
 
-export type NewService = InstanceType<typeof NewServiceImpl>;
-export type PersistedService = InstanceType<typeof PersistedServiceImpl>;
+export interface NewService extends Service {
+  isPersisted(): this is PersistedService;
+}
+
+export interface PersistedService extends Service {
+  readonly id: QuoteServiceId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedService;
+}
 
 export abstract class Service {
   private readonly _title: string;
@@ -86,7 +93,7 @@ class NewServiceImpl extends Service {
     super(props);
   }
 
-  isPersisted(): this is NewServiceImpl {
+  isPersisted(): this is PersistedService {
     return false;
   }
 }
@@ -109,7 +116,7 @@ class PersistedServiceImpl extends Service {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedServiceImpl {
+  isPersisted(): this is PersistedService {
     return true;
   }
 }

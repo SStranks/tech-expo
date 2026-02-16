@@ -107,7 +107,7 @@
     "ms": "^2.1.3",
     "multer": "2.0.2",
     "nanoid": "^5.1.6",
-    "nodemailer": "^7.0.10",
+    "nodemailer": "^8.0.1",
     "pino": "^10.3.0",
     "pino-http": "^11.0.0",
     "pino-mongodb": "^5.0.0",

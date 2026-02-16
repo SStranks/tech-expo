@@ -14,6 +14,15 @@ type CategoriesProps = {
 type CategoriesCreateProps = CategoriesProps;
 type CategoriesHydrationProps = CategoriesCreateProps & { id: CalendarCategoryId; createdAt: Date };
 
+export interface NewCategories extends Categories {
+  isPersisted(): this is PersistedCategories;
+}
+export interface PersistedCategories extends Categories {
+  readonly id: CalendarCategoryId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedCategories;
+}
+
 export abstract class Categories {
   private readonly _calendarId: CalendarId;
   private readonly _symbol: UUIDv4;
@@ -55,7 +64,7 @@ class NewCategoriesImpl extends Categories {
     super(props);
   }
 
-  isPersisted(): this is NewCategoriesImpl {
+  isPersisted(): this is PersistedCategories {
     return false;
   }
 }
@@ -78,7 +87,7 @@ class PersistedCategoriesImpl extends Categories {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedCategoriesImpl {
+  isPersisted(): this is PersistedCategories {
     return true;
   }
 }

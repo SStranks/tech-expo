@@ -8,8 +8,15 @@ type PipelineProps = {
 type PipelineCreateProps = PipelineProps;
 type PipelineHydrationProps = PipelineCreateProps & { id: PipelineId; createdAt: Date };
 
-export type NewPipeline = InstanceType<typeof NewPipelineImpl>;
-export type PersistedPipeline = InstanceType<typeof PersistedPipelineImpl>;
+export interface NewPipeline extends Pipeline {
+  isPersisted(): this is PersistedPipeline;
+}
+
+export interface PersistedPipeline extends Pipeline {
+  readonly id: PipelineId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedPipeline;
+}
 
 export abstract class Pipeline {
   private readonly _companyId: CompanyId;
@@ -40,7 +47,7 @@ class NewPipelineImpl extends Pipeline {
     super(props);
   }
 
-  isPersisted(): this is NewPipelineImpl {
+  isPersisted(): this is PersistedPipeline {
     return false;
   }
 }
@@ -63,7 +70,7 @@ class PersistedPipelineImpl extends Pipeline {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedPipelineImpl {
+  isPersisted(): this is PersistedPipeline {
     return true;
   }
 }

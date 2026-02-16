@@ -19,8 +19,14 @@ type UserProps = {
 type UserCreateProps = UserProps;
 type UserHydrationProps = UserCreateProps & { id: UserId };
 
-export type NewUser = InstanceType<typeof NewUserImpl>;
-export type PersistedUser = InstanceType<typeof PersistedUserImpl>;
+export interface NewUser extends User {
+  isPersisted(): this is PersistedUser;
+}
+
+export interface PersistedUser extends User {
+  readonly id: UserId;
+  isPersisted(): this is PersistedUser;
+}
 
 export abstract class User {
   private readonly _email: string;
@@ -116,7 +122,7 @@ class NewUserImpl extends User {
     super(props);
   }
 
-  isPersisted(): this is NewUserImpl {
+  isPersisted(): this is PersistedUser {
     return false;
   }
 }
@@ -133,7 +139,7 @@ class PersistedUserImpl extends User {
     return this._id;
   }
 
-  isPersisted(): this is PersistedUserImpl {
+  isPersisted(): this is PersistedUser {
     return false;
   }
 }

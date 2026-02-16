@@ -14,8 +14,15 @@ type StageProps = {
 type StageCreateProps = StageProps;
 type StageHydrationProps = StageCreateProps & { id: KanbanStageId; createdAt: Date };
 
-export type NewStage = InstanceType<typeof NewStageImpl>;
-export type PersistedStage = InstanceType<typeof PersistedStageImpl>;
+export interface NewStage extends Stage {
+  isPersisted(): this is PersistedStage;
+}
+
+export interface PersistedStage extends Stage {
+  readonly id: KanbanStageId;
+  readonly createdAt: Date;
+  isPersisted(): this is PersistedStage;
+}
 
 export abstract class Stage {
   private readonly _kanbanId: KanbanId;
@@ -58,7 +65,7 @@ class NewStageImpl extends Stage {
     super(props);
   }
 
-  isPersisted(): this is NewStageImpl {
+  isPersisted(): this is PersistedStage {
     return false;
   }
 }
@@ -81,7 +88,7 @@ class PersistedStageImpl extends Stage {
     return this._createdAt;
   }
 
-  isPersisted(): this is PersistedStageImpl {
+  isPersisted(): this is PersistedStage {
     return true;
   }
 }
