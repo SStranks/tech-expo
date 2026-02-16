@@ -3,6 +3,8 @@
 /* eslint-disable security/detect-object-injection */
 import { z, ZodError } from 'zod';
 
+import { msString } from '#Utils/zod/msString.js';
+
 const { NODE_ENV } = process.env;
 const VALID_ENVIRONMENTS = ['development', 'production'] as const;
 
@@ -11,12 +13,12 @@ const VALID_ENVIRONMENTS = ['development', 'production'] as const;
 const envSchemaProduction = z.object({
   EXPRESS_DOCKER_PORT: z.string().min(1).optional(),
   EXPRESS_LOCAL_PORT: z.string().min(1),
-  JWT_AUTH_EXPIRES: z.string().min(1),
-  JWT_COOKIE_AUTH_EXPIRES: z.string().min(1),
-  JWT_COOKIE_AUTH_ID: z.string().min(1),
-  JWT_COOKIE_REFRESH_EXPIRES: z.string().min(1),
-  JWT_COOKIE_REFRESH_ID: z.string().min(1),
-  JWT_REFRESH_EXPIRES: z.string().min(1),
+  JWT_AUTH_EXPIRES: msString(),
+  JWT_COOKIE_AUTH_EXPIRES: msString(),
+  JWT_COOKIE_AUTH_ID: msString(),
+  JWT_COOKIE_REFRESH_EXPIRES: msString(),
+  JWT_COOKIE_REFRESH_ID: msString(),
+  JWT_REFRESH_EXPIRES: msString(),
   MONGO_ARGS: z.string().min(1),
   MONGO_DOCKER_PORT: z.string().min(1),
   MONGO_HOST: z.string().min(1),
@@ -38,12 +40,12 @@ const envSchemaProduction = z.object({
 const envSchemaDevelopment = z.object({
   EXPRESS_DOCKER_PORT: z.string().min(1).optional(),
   EXPRESS_LOCAL_PORT: z.string().min(1),
-  JWT_AUTH_EXPIRES: z.string().min(1),
-  JWT_COOKIE_AUTH_EXPIRES: z.string().min(1),
-  JWT_COOKIE_AUTH_ID: z.string().min(1),
-  JWT_COOKIE_REFRESH_EXPIRES: z.string().min(1),
-  JWT_COOKIE_REFRESH_ID: z.string().min(1),
-  JWT_REFRESH_EXPIRES: z.string().min(1),
+  JWT_AUTH_EXPIRES: msString(),
+  JWT_COOKIE_AUTH_EXPIRES: msString(),
+  JWT_COOKIE_AUTH_ID: msString(),
+  JWT_COOKIE_REFRESH_EXPIRES: msString(),
+  JWT_COOKIE_REFRESH_ID: msString(),
+  JWT_REFRESH_EXPIRES: msString(),
   MONGO_ARGS: z.string().min(1),
   MONGO_DOCKER_PORT: z.string().min(1),
   MONGO_HOST: z.string().min(1),

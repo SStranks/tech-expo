@@ -47,14 +47,14 @@ export class UserService {
   signAuthToken = (userId: string, role: string, iat: number) => {
     const UUIDv4 = crypto.randomUUID();
     return jwt.sign({ client_id: userId, iat, role }, JWT_AUTH_SECRET, {
-      expiresIn: JWT_AUTH_EXPIRES as ms.StringValue, // TODO: Valiator function? Env-zod schema checker?,
+      expiresIn: ms(JWT_AUTH_EXPIRES),
       jwtid: UUIDv4,
     });
   };
 
   signRefreshTokenPayload = (client_id: UUID, iat: number) => {
     const jti = crypto.randomUUID();
-    const exp = Math.floor((Date.now() + ms(JWT_REFRESH_EXPIRES as ms.StringValue)) / 1000);
+    const exp = Math.floor((Date.now() + ms(JWT_REFRESH_EXPIRES)) / 1000);
     const acc = 0; // Incrementer; Parent-Child token chain
 
     return { acc, client_id, exp, iat, jti };
@@ -176,7 +176,7 @@ export class UserService {
   createAuthCookie = (res: Response, authToken: string) => {
     res.cookie(JWT_COOKIE_AUTH_ID, authToken, {
       httpOnly: true,
-      maxAge: ms(JWT_COOKIE_AUTH_EXPIRES as ms.StringValue),
+      maxAge: ms(JWT_COOKIE_AUTH_EXPIRES),
       sameSite: 'strict',
       secure: NODE_ENV === 'production',
     });
@@ -185,7 +185,7 @@ export class UserService {
   createRefreshCookie = (res: Response, refreshToken: string) => {
     res.cookie(JWT_COOKIE_REFRESH_ID, refreshToken, {
       httpOnly: true,
-      maxAge: ms(JWT_COOKIE_REFRESH_EXPIRES as ms.StringValue),
+      maxAge: ms(JWT_COOKIE_REFRESH_EXPIRES),
       path: '/api/users/generateAuthToken',
       sameSite: 'strict',
       secure: NODE_ENV === 'production',
