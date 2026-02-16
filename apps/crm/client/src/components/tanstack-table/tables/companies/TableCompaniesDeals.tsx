@@ -30,12 +30,12 @@ function TableCompaniesDeals(props: Props): React.JSX.Element {
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
-    getRowId: (originalRow) => originalRow.id,
     state: {
       columnFilters,
       pagination,
       sorting,
     },
+    getRowId: (originalRow) => originalRow.id,
   });
 
   const { getPageCount, setPageIndex } = table;

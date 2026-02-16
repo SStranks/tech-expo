@@ -31,10 +31,10 @@ const columnQuotesDef = [
   }),
   columnHelper.accessor((row) => ({ preparedBy: row['prepared by'], preparedFor: row['prepared for'] }), {
     id: 'participants',
+    header: () => <span>Participants</span>,
     cell: (info) => (
       <QuoteParticipants participantBy={info.getValue().preparedBy} participantFor={info.getValue().preparedFor} />
     ),
-    header: () => <span>Participants</span>,
   }),
   columnHelper.accessor('created at', {
     enableColumnFilter: false,
@@ -44,6 +44,7 @@ const columnQuotesDef = [
   }),
   columnHelper.display({
     id: 'Actions',
+    header: () => <span>Actions</span>,
     cell: ({ row }) => (
       <RowActionsControl>
         <RowActionsControl.ViewControl entryId={row.id} />
@@ -51,7 +52,6 @@ const columnQuotesDef = [
         <RowActionsControl.DeleteControl rowOriginal={row.original} />
       </RowActionsControl>
     ),
-    header: () => <span>Actions</span>,
   }),
 ];
 

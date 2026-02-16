@@ -27,11 +27,11 @@ function TableCompaniesContacts(props: Props): React.JSX.Element {
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
-    getRowId: (originalRow) => originalRow.id,
     state: {
       columnFilters,
       pagination,
     },
+    getRowId: (originalRow) => originalRow.id,
   });
 
   const { getPageCount, setPageIndex } = table;

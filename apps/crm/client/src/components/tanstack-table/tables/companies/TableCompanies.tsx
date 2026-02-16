@@ -44,13 +44,13 @@ function TableCompanies(props: Props): React.JSX.Element {
     onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
-    getRowId: (originalRow) => originalRow.id,
     state: {
       columnFilters,
       globalFilter,
       pagination,
       sorting,
     },
+    getRowId: (originalRow) => originalRow.id,
   });
 
   const { getPageCount, getRowCount, options, resetColumnFilters, setPageIndex, setPageSize } = table;

@@ -24,6 +24,7 @@ const columnContactsDef = [
   }),
   columnHelper.display({
     id: 'Actions',
+    header: () => <span>Actions</span>,
     cell: ({ row }) => (
       <RowActionsControl>
         <RowActionsControl.ViewControl entryId={row.id} />
@@ -31,7 +32,6 @@ const columnContactsDef = [
         <RowActionsControl.DeleteControl rowOriginal={row.original} />
       </RowActionsControl>
     ),
-    header: () => <span>Actions</span>,
   }),
 ];
 

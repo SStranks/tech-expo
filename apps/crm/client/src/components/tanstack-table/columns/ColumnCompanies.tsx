@@ -35,13 +35,13 @@ const columnCompaniesDef = [
   }),
   columnHelper.display({
     id: 'Actions',
+    header: ({ column }) => <span>{column.id}</span>,
     cell: ({ row }) => (
       <RowActionsControl>
         <RowActionsControl.ViewControl entryId={row.id} />
         <RowActionsControl.DeleteControl rowOriginal={row.original} />
       </RowActionsControl>
     ),
-    header: ({ column }) => <span>{column.id}</span>,
   }),
 ];
 

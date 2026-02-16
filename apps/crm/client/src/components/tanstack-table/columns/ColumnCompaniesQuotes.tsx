@@ -32,19 +32,19 @@ const columnCompaniesQuotesDef = [
   columnHelper.accessor((row) => ({ preparedBy: row['prepared by'], preparedFor: row['prepared for'] }), {
     id: 'participants',
     enableSorting: false,
+    header: () => <span>Participants</span>,
     cell: (info) => (
       <QuoteParticipants participantBy={info.getValue().preparedBy} participantFor={info.getValue().preparedFor} />
     ),
-    header: () => <span>Participants</span>,
   }),
   columnHelper.display({
     id: 'Actions',
+    header: ({ column }) => <span>{column.id}</span>,
     cell: ({ row }) => (
       <RowActionsControl>
         <RowActionsControl.ViewControl entryId={row.id} />
       </RowActionsControl>
     ),
-    header: ({ column }) => <span>{column.id}</span>,
   }),
 ];
 

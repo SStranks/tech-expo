@@ -327,10 +327,10 @@ export class UserService {
         password: true,
         role: true,
       },
-      where: (table, funcs) => funcs.eq(table.email, email),
       with: {
         refreshTokens: { columns: { jti: true } },
       },
+      where: (table, funcs) => funcs.eq(table.email, email),
     });
 
     if (!user || !user.accountActive) throw new UnauthorizedError({ message: 'Invalid account' });
