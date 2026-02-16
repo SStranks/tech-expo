@@ -7,7 +7,7 @@ import type { UserReadModel } from './users.read-model.js';
 import type { UserProfileReadRow } from './users.read-model.types.js';
 
 import { postgresDB, postgresDBCall } from '#Config/dbPostgres.js';
-import { toUserProfileDomain } from '#Models/domain/user/profile/profile.mapper.js';
+import { userProfileRowToDomain } from '#Models/domain/user/profile/profile.mapper.js';
 
 export class PostgresUserReadModel implements UserReadModel {
   constructor() {}
@@ -43,7 +43,7 @@ export class PostgresUserReadModel implements UserReadModel {
         where: (userProfile, { eq }) => eq(userProfile.userId, id),
       });
 
-      return result ? toUserProfileDomain(result) : null;
+      return result ? userProfileRowToDomain(result) : null;
     });
   }
 }

@@ -1,6 +1,4 @@
 /* eslint-disable perfectionist/sort-objects */
-import type { UUID } from '@apps/crm-shared';
-
 import type { CompaniesTableSelect } from '#Config/schema/companies/Companies.js';
 import type { ContactsTableSelect } from '#Config/schema/contacts/Contacts.js';
 import type { UserProfileTableSelect } from '#Config/schema/user/UserProfile.js';
@@ -23,12 +21,12 @@ import CompaniesTable from '#Config/schema/companies/Companies.js';
 import ContactsTable from '#Config/schema/contacts/Contacts.js';
 import PipelineDealsTable from '#Config/schema/pipeline/Deals.js';
 import UserProfileTable from '#Config/schema/user/UserProfile.js';
-import { asCompanyId, toCompanyNoteDomain } from '#Models/domain/company/company.mapper.js';
-import { asCompanyNoteId } from '#Models/domain/company/note/note.mapper.js';
+import { asCompanyId } from '#Models/domain/company/company.mapper.js';
+import { asCompanyNoteId, companyNoteRowToDomain } from '#Models/domain/company/note/note.mapper.js';
 import { asCountryId } from '#Models/domain/country/country.mapper.js';
 import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 
-import { toCompaniesOverviewRow } from './companies.read-model.mapper.js';
+import { companyWithRelationsToOverviewRow } from './companies.read-model.mapper.js';
 
 export type CompanyWithRelations = {
   company: CompaniesTableSelect;
@@ -76,7 +74,7 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
         where: (companyNote, { eq }) => eq(companyNote.companyId, id),
       });
 
-      return companyNote ? toCompanyNoteDomain(companyNote) : null;
+      return companyNote ? companyNoteRowToDomain(companyNote) : null;
     });
   }
 
@@ -193,28 +191,31 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
       }
 
       return {
-        items: [...companyMap.values()].map((c) => toCompaniesOverviewRow(c)),
+        items: [...companyMap.values()].map((c) => companyWithRelationsToOverviewRow(c)),
         totalCount: companies[0].totalCount,
       };
     });
   }
 
-  async findCompaniesByIds(ids: UUID[]): Promise<CompanyReadRow[]> {
+  async findCompaniesByIds(ids: CompanyId[]): Promise<CompanyReadRow[]> {
     return postgresDBCall(async () => {
       const companies = await postgresDB.query.CompaniesTable.findMany({
         where: (company, { inArray }) => inArray(company.id, ids),
       });
 
-      return companies.map((c) => ({
-        id: asCompanyId(c.id),
-        name: c.name,
-        size: c.size,
-        totalRevenue: c.totalRevenue,
-        industry: c.industry,
-        businessType: c.businessType,
-        countryId: asCountryId(c.countryId),
-        website: c.website,
-      }));
+      return companies.map(
+        (c) =>
+          ({
+            id: asCompanyId(c.id),
+            name: c.name,
+            size: c.size,
+            totalRevenue: c.totalRevenue,
+            industry: c.industry,
+            businessType: c.businessType,
+            countryId: asCountryId(c.countryId),
+            website: c.website,
+          }) satisfies CompanyReadRow
+      );
     });
   }
 }

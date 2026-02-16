@@ -17,7 +17,7 @@ export function asContactId(id: UUID): ContactId {
   return id as ContactId;
 }
 
-export function contactReadRowToDTO(contact: ContactReadRow): ContactDTO {
+export function contactReadRowToContactDTO(contact: ContactReadRow): ContactDTO {
   return {
     id: contact.id,
     firstName: contact.firstName,
@@ -32,7 +32,7 @@ export function contactReadRowToDTO(contact: ContactReadRow): ContactDTO {
   };
 }
 
-export function toContactDomain(row: ContactsTableSelect): PersistedContact {
+export function contactRowToDomain(row: ContactsTableSelect): PersistedContact {
   return Contact.rehydrate({
     id: asContactId(row.id),
     firstName: row.firstName,

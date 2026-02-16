@@ -1,8 +1,8 @@
 /* eslint-disable perfectionist/sort-objects */
 import type { UUID } from '@apps/crm-shared';
 
+import type { UserProfileTableSelect } from '#Config/schema/user/UserProfile.js';
 import type { UserAvatar } from '#Graphql/generated/graphql.gen.js';
-import type { UserProfileReadRow } from '#Models/query/user/users.read-model.types.js';
 
 import type { UserProfileDTO } from './profile.dto.js';
 import type { PersistedUserProfile } from './profile.js';
@@ -36,7 +36,7 @@ export function userProfileDomainToUserProfileDTO(userProfile: PersistedUserProf
   };
 }
 
-export function toUserProfileDomain(row: UserProfileReadRow): PersistedUserProfile {
+export function userProfileRowToDomain(row: UserProfileTableSelect): PersistedUserProfile {
   return UserProfile.rehydrate({
     id: asUserProfileId(row.id),
     firstName: row.firstName,

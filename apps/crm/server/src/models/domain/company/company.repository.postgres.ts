@@ -17,7 +17,7 @@ import CompaniesNotesTable from '#Config/schema/companies/CompanyNotes.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
 
 import { asUserProfileId } from '../user/profile/profile.mapper.js';
-import { asCompanyId, toCompanyDomain } from './company.mapper.js';
+import { asCompanyId, companyRowToDomain } from './company.mapper.js';
 import { CompanyNote } from './note/note.js';
 import { asCompanyNoteId } from './note/note.mapper.js';
 
@@ -29,7 +29,7 @@ export class PostgresCompanyRepository implements CompanyRepository {
       const result = await postgresDB.query.CompaniesTable.findFirst({
         where: (company, { eq }) => eq(company.id, id),
       });
-      return result ? toCompanyDomain(result) : null;
+      return result ? companyRowToDomain(result) : null;
     });
   }
 
@@ -72,7 +72,7 @@ export class PostgresCompanyRepository implements CompanyRepository {
         })
         .returning();
 
-      return toCompanyDomain(row);
+      return companyRowToDomain(row);
     });
   }
 

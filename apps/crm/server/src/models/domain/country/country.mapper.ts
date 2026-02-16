@@ -14,7 +14,7 @@ export function asCountryId(id: UUID): CountryId {
   return id as CountryId;
 }
 
-export function countryReadRowToDTO(country: CountryReadRow): CountryDTO {
+export function countryReadRowToCountryDTO(country: CountryReadRow): CountryDTO {
   return {
     id: country.id,
     alpha2Code: country.alpha2Code,
@@ -36,7 +36,7 @@ export function countryDomainToCountryDTO(country: PersistedCountry): CountryDTO
   };
 }
 
-export function toCountryDomain(row: CountriesTableSelect): PersistedCountry {
+export function countryRowToDomain(row: CountriesTableSelect): PersistedCountry {
   return Country.rehydrate({
     id: asCountryId(row.id),
     numCode: row.numCode,

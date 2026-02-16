@@ -2,26 +2,21 @@
 import type { UUID } from '@apps/crm-shared';
 
 import type { CompaniesTableSelect } from '#Config/schema/companies/Companies.js';
-import type { CompaniesNotesTableSelect } from '#Config/schema/companies/CompanyNotes.js';
 import type { CompanyReadRow } from '#Models/query/company/companies.read-model.types.js';
 
 import type { CompanyDTO } from './company.dto.js';
 import type { PersistedCompany } from './company.js';
 import type { CompanyId } from './company.types.js';
-import type { PersistedCompanyNote } from './note/note.js';
 
 import { asCountryId } from '#Models/domain/country/country.mapper.js';
 
-import { asUserProfileId } from '../user/profile/profile.mapper.js';
 import { Company } from './company.js';
-import { CompanyNote } from './note/note.js';
-import { asCompanyNoteId } from './note/note.mapper.js';
 
 export function asCompanyId(id: UUID): CompanyId {
   return id as CompanyId;
 }
 
-export function companyReadRowToDTO(row: CompanyReadRow): CompanyDTO {
+export function companyReadRowToCompanyDTO(row: CompanyReadRow): CompanyDTO {
   return {
     id: row.id,
     name: row.name,
@@ -47,7 +42,7 @@ export function companyDomainToCompanyDTO(company: PersistedCompany): CompanyDTO
   };
 }
 
-export function toCompanyDomain(row: CompaniesTableSelect): PersistedCompany {
+export function companyRowToDomain(row: CompaniesTableSelect): PersistedCompany {
   return Company.rehydrate({
     id: asCompanyId(row.id),
     name: row.name,
@@ -58,15 +53,5 @@ export function toCompanyDomain(row: CompaniesTableSelect): PersistedCompany {
     countryId: asCountryId(row.countryId),
     website: row.website ?? undefined,
     createdAt: row.createdAt,
-  });
-}
-
-export function toCompanyNoteDomain(row: CompaniesNotesTableSelect): PersistedCompanyNote {
-  return CompanyNote.rehydrate({
-    id: asCompanyNoteId(row.id),
-    content: row.note,
-    companyId: asCompanyId(row.companyId),
-    createdAt: row.createdAt,
-    createdByUserProfileId: asUserProfileId(row.createdByUserProfileId),
   });
 }

@@ -8,8 +8,8 @@ import type {
 } from './companies.read-model.dto.js';
 import type { CompanyWithRelations } from './companies.read-model.postgres.js';
 import type {
-  CompaniesOverviewReadRow,
   CompanyContactSummaryReadRow,
+  CompanyOverviewReadRow,
   CompanyPipelineDealSummaryReadRow,
   CompanyQuoteSummaryReadRow,
 } from './companies.read-model.types.js';
@@ -18,7 +18,7 @@ import { asCompanyId } from '#Models/domain/company/company.mapper.js';
 import { asContactId } from '#Models/domain/contact/contact.mapper.js';
 import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 
-export function toCompaniesOverviewRow(data: CompanyWithRelations): CompaniesOverviewReadRow {
+export function companyWithRelationsToOverviewRow(data: CompanyWithRelations): CompanyOverviewReadRow {
   if (!data.salesOwner) throw new Error(`Company ${data.company.id} has no owner`);
 
   return {
@@ -40,7 +40,7 @@ export function toCompaniesOverviewRow(data: CompanyWithRelations): CompaniesOve
   };
 }
 
-export function toCompaniesOverviewDTO(row: CompaniesOverviewReadRow): CompanyOverviewDTO {
+export function companyOverviewRowToCompanyOverviewDTO(row: CompanyOverviewReadRow): CompanyOverviewDTO {
   return {
     id: row.id,
     name: row.name,
@@ -68,7 +68,9 @@ export function toCompaniesOverviewDTO(row: CompaniesOverviewReadRow): CompanyOv
   };
 }
 
-export const companyDealSummaryRowToDTO = (row: CompanyPipelineDealSummaryReadRow): CompanyPipelineDealSummaryDTO => ({
+export const companyDealSummaryRowToCompanyDealSummaryDTO = (
+  row: CompanyPipelineDealSummaryReadRow
+): CompanyPipelineDealSummaryDTO => ({
   id: row.id,
   title: row.title,
   value: row.value,
@@ -85,7 +87,9 @@ export const companyDealSummaryRowToDTO = (row: CompanyPipelineDealSummaryReadRo
   },
 });
 
-export const companyContactSummaryRowToDTO = (row: CompanyContactSummaryReadRow): CompanyContactSummaryDTO => ({
+export const companyContactSummaryRowToCompanyContactSummaryDTO = (
+  row: CompanyContactSummaryReadRow
+): CompanyContactSummaryDTO => ({
   id: row.id,
   firstName: row.firstName,
   lastName: row.lastName,
@@ -94,7 +98,9 @@ export const companyContactSummaryRowToDTO = (row: CompanyContactSummaryReadRow)
   image: row.image,
 });
 
-export const companyQuoteSummaryRowToDTO = (row: CompanyQuoteSummaryReadRow): CompanyQuoteSummaryDTO => ({
+export const companyQuoteSummaryRowToCompanyQuoteSummaryDTO = (
+  row: CompanyQuoteSummaryReadRow
+): CompanyQuoteSummaryDTO => ({
   id: row.id,
   title: row.title,
   totalAmount: {

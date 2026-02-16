@@ -1,17 +1,22 @@
 /* eslint-disable perfectionist/sort-objects */
 import type { UUID } from '@apps/crm-shared';
 
+import type { CompaniesNotesTableSelect } from '#Config/schema/companies/CompanyNotes.js';
 import type { CompanyNoteReadRow } from '#Models/query/company/companies.read-model.types.js';
 
 import type { CompanyNoteDTO } from './note.dto.js';
-import type { PersistedCompanyNote } from './note.js';
 import type { CompanyNoteId } from './note.types.js';
+
+import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
+
+import { asCompanyId } from '../company.mapper.js';
+import { CompanyNote, type PersistedCompanyNote } from './note.js';
 
 export function asCompanyNoteId(id: UUID): CompanyNoteId {
   return id as CompanyNoteId;
 }
 
-export function companyNoteReadRowToDTO(companyNote: CompanyNoteReadRow): CompanyNoteDTO {
+export function companyNoteReadRowToCompanyDTO(companyNote: CompanyNoteReadRow): CompanyNoteDTO {
   return {
     id: companyNote.id,
     note: companyNote.note,
@@ -20,11 +25,21 @@ export function companyNoteReadRowToDTO(companyNote: CompanyNoteReadRow): Compan
   };
 }
 
-export function companyNoteDomainToDTO(note: PersistedCompanyNote): CompanyNoteDTO {
+export function companyNoteDomainToCompanyNoteDTO(companyNote: PersistedCompanyNote): CompanyNoteDTO {
   return {
-    id: note.id,
-    note: note.content,
-    createdAt: note.createdAt,
-    createdByUserProfileId: note.createdByUserProfileId,
+    id: companyNote.id,
+    note: companyNote.content,
+    createdAt: companyNote.createdAt,
+    createdByUserProfileId: companyNote.createdByUserProfileId,
   };
+}
+
+export function companyNoteRowToDomain(row: CompaniesNotesTableSelect): PersistedCompanyNote {
+  return CompanyNote.rehydrate({
+    id: asCompanyNoteId(row.id),
+    content: row.note,
+    companyId: asCompanyId(row.companyId),
+    createdAt: row.createdAt,
+    createdByUserProfileId: asUserProfileId(row.createdByUserProfileId),
+  });
 }

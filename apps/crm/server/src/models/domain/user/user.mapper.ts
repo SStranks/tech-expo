@@ -1,7 +1,8 @@
 import type { UUID } from '@apps/crm-shared';
 
-import type { UserReadRow } from '#Models/query/user/users.read-model.types.js';
+import type { UserTableSelect } from '#Config/schema/user/User.js';
 
+import type { PersistedUser } from './user.js';
 import type { UserId } from './user.types.js';
 
 import { User } from './user.js';
@@ -10,19 +11,19 @@ export function asUserId(id: UUID): UserId {
   return id as UserId;
 }
 
-export function toUserDomain(user: UserReadRow): User {
+export function userRowToDomain(row: UserTableSelect): PersistedUser {
   return User.rehydrate({
-    id: asUserId(user.id),
-    accountActive: user.accountActive,
-    accountCreatedAt: user.accountCreatedAt,
-    accountFrozen: user.accountFrozen,
-    accountFrozenAt: user.accountFrozenAt,
-    accountUpdatedAt: user.accountUpdatedAt,
-    email: user.email,
-    password: user.password,
-    passwordChangedAt: user.passwordChangedAt,
-    passwordResetExpires: user.passwordResetExpires,
-    passwordResetToken: user.passwordResetToken,
-    role: user.role,
+    id: asUserId(row.id),
+    accountActive: row.accountActive,
+    accountCreatedAt: row.accountCreatedAt,
+    accountFrozen: row.accountFrozen,
+    accountFrozenAt: row.accountFrozenAt,
+    accountUpdatedAt: row.accountUpdatedAt,
+    email: row.email,
+    password: row.password,
+    passwordChangedAt: row.passwordChangedAt,
+    passwordResetExpires: row.passwordResetExpires,
+    passwordResetToken: row.passwordResetToken,
+    role: row.role,
   });
 }

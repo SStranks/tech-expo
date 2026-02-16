@@ -22,7 +22,7 @@ export type CompanyReadRow = {
   website: string | null;
 };
 
-export type CompaniesOverviewReadRow = {
+export type CompanyOverviewReadRow = {
   id: CompanyId;
   name: string;
   owner: { id: UserProfileId; firstName: string; lastName: string; image: string | null };
@@ -56,7 +56,7 @@ export type CompaniesOverviewQuery = {
   pagination: PaginationInput;
 };
 
-export type CompaniesOverviewPaginated = PaginationResult<CompaniesOverviewReadRow>;
+export type CompaniesOverviewPaginated = PaginationResult<CompanyOverviewReadRow>;
 
 export type PaginatedCompanyDealsQuery = {
   companyId: CompanyId;

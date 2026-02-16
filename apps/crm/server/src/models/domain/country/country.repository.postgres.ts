@@ -4,7 +4,7 @@ import type { CountryId } from './country.types.js';
 
 import { postgresDB, postgresDBCall } from '#Config/dbPostgres.js';
 
-import { toCountryDomain } from './country.mapper.js';
+import { countryRowToDomain } from './country.mapper.js';
 
 export class PostgresCountryRepository implements CountryRepository {
   constructor() {}
@@ -15,7 +15,7 @@ export class PostgresCountryRepository implements CountryRepository {
         where: (country, { eq }) => eq(country.id, id),
       });
 
-      return result ? toCountryDomain(result) : null;
+      return result ? countryRowToDomain(result) : null;
     });
   }
 }

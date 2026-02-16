@@ -3,13 +3,13 @@ import type { PipelineDealReadRow } from '#Models/query/pipeline/pipeline.read-m
 
 import type { PipelineDealDTO } from '../pipeline.dto.js';
 
-export const pipelineDealReadRowToDTO = (deal: PipelineDealReadRow): PipelineDealDTO => ({
-  id: deal.id,
-  orderKey: deal.orderKey,
-  title: deal.title,
-  companyId: deal.companyId,
-  stageId: deal.stageId,
-  value: deal.value,
-  dealOwnerId: deal.dealOwnerId,
-  dealContactId: deal.dealContactId,
+export const pipelineDealReadRowToPipelineDealDTO = (pipelineDeal: PipelineDealReadRow): PipelineDealDTO => ({
+  id: pipelineDeal.id,
+  orderKey: pipelineDeal.orderKey,
+  title: pipelineDeal.title,
+  companyId: pipelineDeal.companyId,
+  stageId: pipelineDeal.stageId,
+  value: pipelineDeal.value,
+  dealOwnerId: pipelineDeal.dealOwnerId,
+  dealContactId: pipelineDeal.dealContactId,
 });

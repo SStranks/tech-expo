@@ -15,7 +15,7 @@ import ContactsNotesTable from '#Config/schema/contacts/ContactsNotes.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
 
 import { asUserProfileId } from '../user/profile/profile.mapper.js';
-import { asContactId, toContactDomain } from './contact.mapper.js';
+import { asContactId, contactRowToDomain } from './contact.mapper.js';
 import { ContactNote, type PersistedContactNote } from './note/note.js';
 import { asContactNoteId } from './note/note.mapper.js';
 
@@ -28,7 +28,7 @@ export class PostgresContactRepository implements ContactRepository {
         where: (contact, { eq }) => eq(contact.id, id),
       });
 
-      return result ? toContactDomain(result) : null;
+      return result ? contactRowToDomain(result) : null;
     });
   }
 
@@ -73,7 +73,7 @@ export class PostgresContactRepository implements ContactRepository {
         })
         .returning();
 
-      return toContactDomain(row);
+      return contactRowToDomain(row);
     });
   }
 

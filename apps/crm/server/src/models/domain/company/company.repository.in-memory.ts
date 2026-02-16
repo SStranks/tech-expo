@@ -14,7 +14,7 @@ import PostgresError from '#Utils/errors/PostgresError.js';
 import { randomUUID } from 'node:crypto';
 
 import { asUserProfileId } from '../user/profile/profile.mapper.js';
-import { toCompanyDomain } from './company.mapper.js';
+import { companyRowToDomain } from './company.mapper.js';
 import { CompanyNote, type PersistedCompanyNote } from './note/note.js';
 import { asCompanyNoteId } from './note/note.mapper.js';
 
@@ -71,7 +71,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
 
   findCompanyById(id: CompanyId): Promise<PersistedCompany | null> {
     const result = this.companiesMap.get(id);
-    return Promise.resolve(result ? toCompanyDomain(result) : null);
+    return Promise.resolve(result ? companyRowToDomain(result) : null);
   }
 
   private insert(company: NewCompany): Promise<PersistedCompany> {
@@ -98,7 +98,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
 
     this.companiesMap.set(id, row);
 
-    return Promise.resolve(toCompanyDomain(row));
+    return Promise.resolve(companyRowToDomain(row));
   }
 
   private update(company: PersistedCompany): Promise<PersistedCompany> {

@@ -13,7 +13,7 @@ import PostgresError from '#Utils/errors/PostgresError.js';
 import { randomUUID } from 'node:crypto';
 
 import { asUserProfileId } from '../user/profile/profile.mapper.js';
-import { toContactDomain } from './contact.mapper.js';
+import { contactRowToDomain } from './contact.mapper.js';
 import { ContactNote } from './note/note.js';
 import { asContactNoteId } from './note/note.mapper.js';
 
@@ -33,7 +33,7 @@ export class InMemoryContactRepository implements ContactRepository {
 
   findContactById(id: ContactId): Promise<PersistedContact | null> {
     const result = this.contactsMap.get(id);
-    return Promise.resolve(result ? toContactDomain(result) : null);
+    return Promise.resolve(result ? contactRowToDomain(result) : null);
   }
 
   async save(company: NewContact | PersistedContact): Promise<PersistedContact> {
@@ -88,7 +88,7 @@ export class InMemoryContactRepository implements ContactRepository {
 
     this.contactsMap.set(id, row);
 
-    return Promise.resolve(toContactDomain(row));
+    return Promise.resolve(contactRowToDomain(row));
   }
 
   private update(contact: PersistedContact): Promise<PersistedContact> {

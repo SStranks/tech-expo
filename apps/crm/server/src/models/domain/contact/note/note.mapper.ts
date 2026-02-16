@@ -11,7 +11,7 @@ export function asContactNoteId(id: UUID): ContactNoteId {
   return id as ContactNoteId;
 }
 
-export function contactNoteReadRowToDTO(contactNote: ContactNoteReadRow): ContactNoteDTO {
+export function contactNoteReadRowToContactNoteDTO(contactNote: ContactNoteReadRow): ContactNoteDTO {
   return {
     id: contactNote.id,
     note: contactNote.note,
@@ -20,11 +20,11 @@ export function contactNoteReadRowToDTO(contactNote: ContactNoteReadRow): Contac
   };
 }
 
-export function contactNoteDomainToDTO(note: PersistedContactNote): ContactNoteDTO {
+export function contactNoteDomainToContactNoteDTO(contactNote: PersistedContactNote): ContactNoteDTO {
   return {
-    id: note.id,
-    note: note.content,
-    createdAt: note.createdAt,
-    createdByUserProfileId: note.createdByUserProfileId,
+    id: contactNote.id,
+    note: contactNote.content,
+    createdAt: contactNote.createdAt,
+    createdByUserProfileId: contactNote.createdByUserProfileId,
   };
 }
