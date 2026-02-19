@@ -17,7 +17,7 @@
 !**/certs/**/README.md
 
 # Env files
-**/.env
+**/*.env
 **/.env.*
 
 # Dependencies

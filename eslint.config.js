@@ -7,7 +7,6 @@ import EslintConfigHTML from '@packages/eslint-config-html';
 import EslintConfigJavascript from '@packages/eslint-config-javascript';
 import { EslintConfigJSON, EslintConfigJSON5, EslintConfigJSONC } from '@packages/eslint-config-json';
 import EslintConfigNode from '@packages/eslint-config-node';
-// import EslintConfigReact_18p2 from '@packages/eslint-config-react/react-18.2/config.js';
 import EslintConfigReact from '@packages/eslint-config-react';
 import EslintConfigReactVitest from '@packages/eslint-config-react-vitest';
 import EslintConfigStorybook from '@packages/eslint-config-storybook';
@@ -45,7 +44,21 @@ export default defineConfig([
     languageOptions: { ...EslintConfigGlobal.languageOptions },
     plugins: { ...EslintConfigGlobal.plugins },
     rules: { ...EslintConfigGlobal.rules },
-    settings: { ...EslintConfigGlobal.settings },
+    settings: {
+      ...EslintConfigGlobal.settings,
+      'import-x/resolver-next': [
+        createTypeScriptImportResolver({
+          alwaysTryTypes: true,
+          project: [
+            'apps/crm/client/tsconfig.json',
+            'apps/crm/server/tsconfig.json',
+            'apps/crm/shared/tsconfig.json',
+            'apps/crm/client/cypress/tsconfig.json',
+          ],
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        }),
+      ],
+    },
   },
   {
     name: 'Javascript Configuration',
@@ -129,13 +142,6 @@ export default defineConfig([
     rules: { ...EslintConfigReact.rules },
     settings: {
       ...EslintConfigReact.settings,
-      'import-x/resolver-next': [
-        createTypeScriptImportResolver({
-          alwaysTryTypes: true,
-          project: ['apps/crm/client/tsconfig.json'],
-          extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        }),
-      ],
     },
   },
   {
@@ -154,23 +160,8 @@ export default defineConfig([
     rules: { ...EslintConfigStorybook.rules },
     settings: {
       ...EslintConfigStorybook.settings,
-      'import-x/resolver-next': [
-        createTypeScriptImportResolver({
-          alwaysTryTypes: true,
-          project: ['apps/crm/client/tsconfig.json'],
-          extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        }),
-      ],
     },
   },
-  // {
-  //   name: 'CRM: Client; Testing (Jest + RTL)',
-  //   files: ['apps/crm/client/src/**/?(*.jest.)+(spec|test).[jt]s?(x)'],
-  //   languageOptions: { ...EslintConfigReact.languageOptions },
-  //   plugins: { ...EslintConfigReact.plugins, ...EslintConfigReactJest.plugins },
-  //   rules: { ...EslintConfigReact.rules, ...EslintConfigReactJest.rules },
-  //   settings: { ...EslintConfigReact.settings },
-  // },
   {
     name: 'CRM: Client; Testing (Vitest + RTL)',
     files: ['apps/crm/client/src/**/?(*.)+(spec|test).[jt]s?(x)'],
@@ -179,13 +170,6 @@ export default defineConfig([
     rules: { ...EslintConfigReact.rules, ...EslintConfigReactVitest.rules },
     settings: {
       ...EslintConfigReact.settings,
-      'import-x/resolver-next': [
-        createTypeScriptImportResolver({
-          alwaysTryTypes: true,
-          project: ['apps/crm/client/tsconfig.json'],
-          extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        }),
-      ],
     },
   },
   {
@@ -196,13 +180,6 @@ export default defineConfig([
     rules: { ...EslintConfigCypress.rules },
     settings: {
       ...EslintConfigCypress.settings,
-      'import-x/resolver-next': [
-        createTypeScriptImportResolver({
-          alwaysTryTypes: true,
-          project: ['apps/crm/client/cypress/tsconfig.json'],
-          extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        }),
-      ],
     },
   },
   {
@@ -217,13 +194,6 @@ export default defineConfig([
     rules: { ...EslintConfigNode.rules, ...EslintConfigExpress.rules },
     settings: {
       ...EslintConfigExpress.settings,
-      'import-x/resolver-next': [
-        createTypeScriptImportResolver({
-          alwaysTryTypes: true,
-          project: ['apps/crm/server/tsconfig.json'],
-          extensions: ['.js', '.ts'],
-        }),
-      ],
     },
   },
   {
@@ -258,15 +228,7 @@ export default defineConfig([
         tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/shared'),
       },
     },
-    settings: {
-      'import-x/resolver-next': [
-        createTypeScriptImportResolver({
-          alwaysTryTypes: true,
-          project: ['apps/crm/shared/tsconfig.json', 'apps/crm/shared/tsconfig.types.json'],
-          extensions: ['.js', '.ts'],
-        }),
-      ],
-    },
+    settings: {},
   },
   ConfigPrettier,
 ]);

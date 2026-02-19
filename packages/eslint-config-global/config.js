@@ -76,7 +76,7 @@ export const EslintConfigGlobal = {
     'perfectionist/sort-exports': [
       'error',
       {
-        groups: [{ group: 'type-export', commentAbove: 'Type exports' }, 'value-export'],
+        groups: ['type-export', 'value-export'],
       },
     ],
     'perfectionist/sort-named-exports': 'error',

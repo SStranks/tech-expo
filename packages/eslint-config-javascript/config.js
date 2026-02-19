@@ -26,12 +26,6 @@ const EslintConfigJavascript = {
   settings: {
     'import-x/ignore': ['node_modules'],
     'import-x/parsers': {},
-    'import-x/resolver': {
-      node: {
-        extensions: ['.js', '.jsx', '.mjs', '.cjs'],
-        moduleDirectory: ['node_modules', './'],
-      },
-    },
   },
 };
 
