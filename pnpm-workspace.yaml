@@ -7,13 +7,13 @@ injectWorkspacePackages: true
 minimumReleaseAge: 7200
 
 allowBuilds:
-  - argon2: true
-  - core-js: true
-  - cypress: true
-  - esbuild: true
-  - msw: true
-  - sharp: true
-  - unrs-resolver: true
-  - '@apollo/protobufjs': true
-  - bcrypt: true
-  - secp256k1: true
+  argon2: true
+  core-js: true
+  cypress: true
+  esbuild: true
+  msw: true
+  sharp: true
+  unrs-resolver: true
+  '@apollo/protobufjs': true
+  bcrypt: true
+  secp256k1: true
