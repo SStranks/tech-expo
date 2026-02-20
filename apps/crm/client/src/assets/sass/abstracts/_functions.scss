@@ -32,8 +32,11 @@
   @if math.is-unitless($pixel) {
     /* stylelint-disable-next-line length-zero-no-unit */
     $rem-value: math.div($pixel, 16) + 0rem;
-    $zero-safe-rem: if($pixel == 0, 0, $rem-value);
-    @return $zero-safe-rem;
+    @if $pixel == 0 {
+      @return 0;
+    } @else {
+      @return $rem-value;
+    }
   } @else {
     @error 'Do not use units when using the rem() function';
   }
@@ -45,8 +48,12 @@
   @if math.is-unitless($pixel) {
     /* stylelint-disable-next-line length-zero-no-unit */
     $em-value: math.div($pixel, 16) + 0em;
-    $zero-safe-em: if($pixel == 0, 0, $em-value);
-    @return $zero-safe-em;
+
+    @if $pixel == 0 {
+      @return 0;
+    } @else {
+      @return $em-value;
+    }
   } @else {
     @error 'Do not use units when using the em() function';
   }
@@ -63,8 +70,12 @@
 
   /* stylelint-disable-next-line length-zero-no-unit */
   $em-value: math.div($val1, ($val2 * 16)) + 0em;
-  $zero-safe-em: if($val1 == 0, 0, $em-value);
-  @return $zero-safe-em;
+
+  @if $val1 == 0 {
+    @return 0;
+  } @else {
+    @return $em-value;
+  }
 }
 
 /// Removes the unit from a number

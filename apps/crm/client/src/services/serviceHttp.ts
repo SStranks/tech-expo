@@ -93,7 +93,7 @@ export class ServiceHttp implements IServiceHttp {
       const response = await this.ApiServiceClient.patch<
         ApiResponseSuccessData<UpdatePasswordResponse>,
         UpdatePasswordRequestDTO
-      >('/api/users/identify', body, {
+      >('/api/users/updatePassword', body, {
         withCredentials: true,
       });
       return response;

@@ -1,28 +1,20 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 
 import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
+import { mockSuccess } from '@Tests/mocks/api';
+import { renderWithAllProviders } from '@Tests/providers';
 
 import ForgotPasswordPage from './ForgotPasswordPage';
 
 const { EMAIL_RULES } = VALIDATION_MESSAGES;
 
-const forgotPasswordMock = vi.fn();
-vi.mock('@Services/serviceHttp', () => {
-  return {
-    ServiceHttp: vi.fn().mockImplementation(() => ({
-      account: {
-        forgotpassword: forgotPasswordMock,
-      },
-    })),
-  };
-});
-
 describe('Initialization', () => {
   test('Component should render correctly', () => {
-    render(<ForgotPasswordPage />, { wrapper: BrowserRouter });
+    renderWithAllProviders(<ForgotPasswordPage />, {
+      providers: { withRouter: true, withServices: true },
+    });
 
     const headerH1 = screen.getByRole('heading', { name: /password reset/i, level: 1 });
     const formElement = screen.getByRole('form', { name: /password reset/i });
@@ -46,7 +38,9 @@ describe('Functionality', () => {
   });
 
   test('Form links are valid', () => {
-    render(<ForgotPasswordPage />, { wrapper: BrowserRouter });
+    renderWithAllProviders(<ForgotPasswordPage />, {
+      providers: { withRouter: true, withServices: true },
+    });
 
     const loginLink = screen.getByRole('link', { name: /login/i });
 
@@ -54,7 +48,10 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; "required" errors on empty inputs', async () => {
-    render(<ForgotPasswordPage />, { wrapper: BrowserRouter });
+    const { serviceHttp } = renderWithAllProviders(<ForgotPasswordPage />, {
+      providers: { withRouter: true, withServices: true },
+    });
+    const forgotPasswordMock = vi.spyOn(serviceHttp!.account, 'forgotpassword').mockResolvedValue(mockSuccess({}));
     const user = userEvent.setup({ delay: null });
 
     const resetPasswordButton = screen.getByRole('button', { name: /email reset instructions/i });
@@ -67,7 +64,10 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; error message on invalid email pattern', async () => {
-    render(<ForgotPasswordPage />, { wrapper: BrowserRouter });
+    const { serviceHttp } = renderWithAllProviders(<ForgotPasswordPage />, {
+      providers: { withRouter: true, withServices: true },
+    });
+    const forgotPasswordMock = vi.spyOn(serviceHttp!.account, 'forgotpassword').mockResolvedValue(mockSuccess({}));
     const user = userEvent.setup({ delay: null });
 
     const emailInput = screen.getByRole('textbox', { name: /email/i });
@@ -83,7 +83,10 @@ describe('Functionality', () => {
   });
 
   test('Form; Submission success', async () => {
-    render(<ForgotPasswordPage />, { wrapper: BrowserRouter });
+    const { serviceHttp } = renderWithAllProviders(<ForgotPasswordPage />, {
+      providers: { withRouter: true, withServices: true },
+    });
+    const forgotPasswordMock = vi.spyOn(serviceHttp!.account, 'forgotpassword').mockResolvedValue(mockSuccess({}));
     const user = userEvent.setup({ delay: null });
 
     const emailInput = screen.getByRole('textbox', { name: /email/i });

@@ -49,7 +49,7 @@ function LoginPage(): React.JSX.Element {
       <div className={styles.formContainer}>
         <form
           name="sign-in form"
-          onSubmit={() => void onSubmit}
+          onSubmit={(e) => void onSubmit(e)}
           aria-labelledby="heading"
           className={styles.loginForm}
           noValidate>

@@ -1,11 +1,14 @@
-import { render, screen } from '@testing-library/react';
+import type { LoginResponse } from '@apps/crm-shared';
+
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
 import { describe, vi } from 'vitest';
 
 import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
 import { getStrength } from '@Lib/zxcvbn';
 import { MAX_PASSWORD } from '@Tests/consts';
+import { mockSuccess } from '@Tests/mocks/api';
+import { renderWithAllProviders } from '@Tests/providers';
 
 import RegisterPage from './RegisterPage';
 
@@ -22,22 +25,14 @@ vi.mock('@Components/react-hook-form/input-password/InputPasswordStrength', asyn
   return actual;
 });
 
-const loginMock = vi.fn();
-vi.mock('@Services/serviceHttp', () => {
-  return {
-    ServiceHttp: vi.fn().mockImplementation(() => ({
-      account: {
-        login: loginMock,
-      },
-    })),
-  };
-});
-
 afterEach(() => vi.clearAllMocks());
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
-    render(<RegisterPage />, { wrapper: BrowserRouter });
+    renderWithAllProviders(<RegisterPage />, {
+      providers: { withRouter: true, withServices: true },
+    });
+
     const headerH1 = screen.getByRole('heading', { name: /register account/i, level: 1 });
     const formElement = screen.getByRole('form', { name: /register account/i });
     const emailInput = screen.getByRole('textbox', { name: /email/i });
@@ -59,7 +54,9 @@ describe('Functionality', () => {
   afterEach(() => vi.clearAllMocks());
 
   test('Form links are valid', () => {
-    render(<RegisterPage />, { wrapper: BrowserRouter });
+    renderWithAllProviders(<RegisterPage />, {
+      providers: { withRouter: true, withServices: true },
+    });
 
     const loginLink = screen.getByRole('link', { name: /login/i });
 
@@ -67,8 +64,11 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; "required" errors on empty inputs', async () => {
+    const { serviceHttp } = renderWithAllProviders(<RegisterPage />, {
+      providers: { withRouter: true, withServices: true },
+    });
+    const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));
     vi.mocked(getStrength).mockResolvedValue(0);
-    render(<RegisterPage />, { wrapper: BrowserRouter });
     const user = userEvent.setup({ delay: null });
 
     const registerAccountButton = screen.getByRole('button', { name: /register account/i });
@@ -80,8 +80,11 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; error message on invalid email pattern', async () => {
+    const { serviceHttp } = renderWithAllProviders(<RegisterPage />, {
+      providers: { withRouter: true, withServices: true },
+    });
+    const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));
     vi.mocked(getStrength).mockResolvedValue(4);
-    render(<RegisterPage />, { wrapper: BrowserRouter });
     const user = userEvent.setup({ delay: null });
 
     const emailInput = screen.getByRole('textbox', { name: /email/i });
@@ -97,8 +100,11 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; error message on invalid password strength', async () => {
+    const { serviceHttp } = renderWithAllProviders(<RegisterPage />, {
+      providers: { withRouter: true, withServices: true },
+    });
+    const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));
     vi.mocked(getStrength).mockResolvedValue(0);
-    render(<RegisterPage />, { wrapper: BrowserRouter });
     const user = userEvent.setup({ delay: null });
 
     const emailInput = screen.getByRole('textbox', { name: /email/i });
@@ -114,8 +120,11 @@ describe('Functionality', () => {
   });
 
   test('Form; Submission success', async () => {
+    const { serviceHttp } = renderWithAllProviders(<RegisterPage />, {
+      providers: { withRouter: true, withServices: true },
+    });
+    const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));
     vi.mocked(getStrength).mockResolvedValue(4);
-    render(<RegisterPage />, { wrapper: BrowserRouter });
     const user = userEvent.setup({ delay: null });
 
     const emailInput = screen.getByRole('textbox', { name: /email/i });

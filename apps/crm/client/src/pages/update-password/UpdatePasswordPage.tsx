@@ -54,7 +54,8 @@ function UpdatePasswordPage(): React.JSX.Element {
       <div className={styles.formContainer}>
         <form
           name="password-update-form"
-          onSubmit={() => void onSubmit}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onSubmit={onSubmit}
           aria-labelledby="heading"
           className={styles.updatePasswordForm}
           noValidate>
@@ -97,7 +98,7 @@ function UpdatePasswordPage(): React.JSX.Element {
             defaultValue={defaultValues['oldPassword']}
             disabled={false}>
             <Input
-              id={confirmPasswordId}
+              id={oldPasswordId}
               type="password"
               name="oldPassword"
               rules={{ ...PASSWORD_RULES }}
@@ -108,7 +109,7 @@ function UpdatePasswordPage(): React.JSX.Element {
             Update Password
           </button>
         </form>
-      </div>{' '}
+      </div>
     </FormProvider>
   );
 }

@@ -1,21 +1,11 @@
+import type { LoginResponse } from '@apps/crm-shared';
+
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
-import { vi } from 'vitest';
-
-const loginMock = vi.fn();
-vi.mock('@Services/serviceHttp', () => {
-  return {
-    ServiceHttp: vi.fn().mockImplementation(() => ({
-      account: {
-        login: loginMock,
-      },
-    })),
-  };
-});
 
 import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
-import { renderWithProviders } from '@Redux/utils';
+import { mockSuccess } from '@Tests/mocks/api';
+import { renderWithAllProviders } from '@Tests/providers';
 
 import LoginPage from './LoginPage';
 
@@ -23,11 +13,9 @@ const { EMAIL_RULES } = VALIDATION_MESSAGES;
 
 describe('Initialization', () => {
   test('Component should render correctly', () => {
-    renderWithProviders(
-      <BrowserRouter>
-        <LoginPage />
-      </BrowserRouter>
-    );
+    renderWithAllProviders(<LoginPage />, {
+      providers: { withRedux: true, withRouter: true, withServices: true },
+    });
 
     const headerH1 = screen.getByRole('heading', { name: /sign in/i, level: 1 });
     const formElement = screen.getByRole('form', { name: /sign in/i });
@@ -51,11 +39,9 @@ describe('Initialization', () => {
 
 describe('Functionality', () => {
   test('Form links are valid', () => {
-    renderWithProviders(
-      <BrowserRouter>
-        <LoginPage />
-      </BrowserRouter>
-    );
+    renderWithAllProviders(<LoginPage />, {
+      providers: { withRedux: true, withRouter: true, withServices: true },
+    });
 
     const forgotPasswordLink = screen.getByRole('link', { name: /forgot password/i });
     const signUpLink = screen.getByRole('link', { name: /sign up/i });
@@ -65,11 +51,10 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; empty inputs should not trigger submission', async () => {
-    renderWithProviders(
-      <BrowserRouter>
-        <LoginPage />
-      </BrowserRouter>
-    );
+    const { serviceHttp } = renderWithAllProviders(<LoginPage />, {
+      providers: { withRedux: true, withRouter: true, withServices: true },
+    });
+    const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));
     const user = userEvent.setup({ delay: null });
 
     const signInButton = screen.getByRole('button', { name: /sign in/i });
@@ -80,11 +65,10 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; error message on invalid email pattern', async () => {
-    renderWithProviders(
-      <BrowserRouter>
-        <LoginPage />
-      </BrowserRouter>
-    );
+    const { serviceHttp } = renderWithAllProviders(<LoginPage />, {
+      providers: { withRedux: true, withRouter: true, withServices: true },
+    });
+    const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));
     const user = userEvent.setup({ delay: null });
 
     const emailInput = screen.getByRole('textbox', { name: /email address/i });
@@ -100,11 +84,10 @@ describe('Functionality', () => {
   });
 
   test('Form; Submission success', async () => {
-    renderWithProviders(
-      <BrowserRouter>
-        <LoginPage />
-      </BrowserRouter>
-    );
+    const { serviceHttp } = renderWithAllProviders(<LoginPage />, {
+      providers: { withRedux: true, withRouter: true, withServices: true },
+    });
+    const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));
     const user = userEvent.setup({ delay: null });
 
     const emailInput = screen.getByRole('textbox', { name: /email/i });
