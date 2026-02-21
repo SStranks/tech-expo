@@ -10,15 +10,24 @@ import { secrets } from '#Config/secrets.js';
 import { PostgresUserRepository } from '#Models/domain/user/user.repository.postgres.js';
 
 const { JWT_AUTH_SECRET, JWT_REFRESH_SECRET } = secrets;
-const MOCK_JWT_JTI = vi.fn();
 
 vi.stubEnv('JWT_AUTH_EXPIRES', '1m');
 
-vi.mock('node:crypto', () => ({
-  default: {
-    randomUUID: MOCK_JWT_JTI,
-  },
+const { MOCK_JWT_JTI } = vi.hoisted(() => ({
+  MOCK_JWT_JTI: vi.fn(),
 }));
+
+vi.mock('node:crypto', async () => {
+  const actual = await vi.importActual('node:crypto');
+
+  return {
+    __esModule: true,
+    default: {
+      ...actual,
+      randomUUID: MOCK_JWT_JTI,
+    },
+  };
+});
 
 vi.mock('#Config/secrets', () => ({
   secrets: {

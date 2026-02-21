@@ -1,4 +1,4 @@
-import type { ApiResponse } from '@apps/crm-shared';
+import type { ApiResponseError, ApiResponseSuccess } from '@apps/crm-shared';
 import type { Response } from 'supertest';
 
 import request from 'supertest';
@@ -28,41 +28,47 @@ vi.mock('#Lib/nodemailer/NodeMailer.ts', () => ({
   },
 }));
 
-vi.mock('#Services/User.ts', () => ({
-  default: {
-    activateRefreshToken: vi.fn(),
-    advanceRefreshToken: vi.fn(),
-    blacklistAllRefreshTokens: vi.fn(),
-    blacklistToken: vi.fn(),
-    clearCookies: vi.fn(),
-    createAuthCookie: vi.fn(),
-    createRefreshCookie: vi.fn(),
-    decodeAuthToken: vi.fn().mockReturnValue({}),
-    deleteAccount: vi.fn(),
-    deleteAllRefreshTokens: vi.fn().mockReturnValue({}),
-    forgotPassword: vi.fn().mockReturnValue(''),
-    freezeAccount: vi.fn(),
-    generateClientTokens: vi.fn().mockReturnValue({}),
-    insertRefreshToken: vi.fn(),
-    insertUser: vi.fn(),
-    isExistingAccount: vi.fn(),
-    isPasswordValid: vi.fn(),
-    isResetTokenValid: vi.fn().mockReturnValue({}),
-    isTokenBlacklisted: vi.fn(),
-    loginAccount: vi.fn().mockReturnValue({}),
-    logoutAccount: vi.fn().mockReturnValue(Promise.resolve()),
-    queryRefreshToken: MOCK_QUERYREFRESHTOKEN,
-    queryUserByEmail: vi.fn().mockReturnValue({}),
-    queryUserById: MOCK_QUERYUSERBYID,
-    resetPassword: vi.fn(),
-    signAuthToken: vi.fn(),
-    updatePassword: vi.fn(),
-    updateRefreshToken: vi.fn(),
-    verifyAccount: vi.fn(),
-    verifyAuthToken: MOCK_VERIFYAUTHTOKEN,
-    verifyRefreshToken: MOCK_VERIFYREFRESHTOKEN,
-  },
-}));
+vi.mock('#Services/user.service.ts', () => {
+  class MockUserService {
+    constructor() {}
+
+    activateRefreshToken = vi.fn();
+    advanceRefreshToken = vi.fn();
+    blacklistAllRefreshTokens = vi.fn();
+    blacklistToken = vi.fn();
+    clearCookies = vi.fn();
+    createAuthCookie = vi.fn();
+    createRefreshCookie = vi.fn();
+    decodeAuthToken = vi.fn().mockReturnValue({});
+    deleteAccount = vi.fn();
+    deleteAllRefreshTokens = vi.fn().mockReturnValue({});
+    forgotPassword = vi.fn().mockReturnValue('');
+    freezeAccount = vi.fn();
+    generateClientTokens = vi.fn().mockReturnValue({});
+    insertRefreshToken = vi.fn();
+    insertUser = vi.fn();
+    isExistingAccount = vi.fn();
+    isPasswordValid = vi.fn();
+    isResetTokenValid = vi.fn().mockReturnValue({});
+    isTokenBlacklisted = vi.fn();
+    loginAccount = vi.fn().mockReturnValue({});
+    logoutAccount = vi.fn().mockReturnValue(Promise.resolve());
+    queryRefreshToken = MOCK_QUERYREFRESHTOKEN;
+    queryUserByEmail = vi.fn().mockReturnValue({});
+    queryUserById = MOCK_QUERYUSERBYID;
+    resetPassword = vi.fn();
+    signAuthToken = vi.fn();
+    updatePassword = vi.fn();
+    updateRefreshToken = vi.fn();
+    verifyAccount = vi.fn();
+    verifyAuthToken = MOCK_VERIFYAUTHTOKEN;
+    verifyRefreshToken = MOCK_VERIFYREFRESHTOKEN;
+  }
+
+  return {
+    UserService: MockUserService,
+  };
+});
 
 const { default: app } = await import('#App/app.js');
 
@@ -82,7 +88,7 @@ describe('PUBLIC Routes', () => {
         .send({})
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
     test('Invalid email provided; should return 401', async () => {
@@ -90,9 +96,9 @@ describe('PUBLIC Routes', () => {
         .post('/api/users/signup')
         .set('Content-Type', 'application/json')
         .send({ email: INVALID_EMAIL })
-        .expect(401)
+        .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Invalid email address');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Invalid email address');
     });
 
     test('Valid email provided; should return 200', async () => {
@@ -103,7 +109,7 @@ describe('PUBLIC Routes', () => {
         .expect(200)
         .expect('Content-Type', /json/)
         .expect(
-          (res: Response) => (res.body as ApiResponse<unknown>).message === 'Signup email with verification code sent'
+          (res: Response) => (res.body as ApiResponseSuccess).message === 'Signup email with verification code sent'
         );
     });
   });
@@ -120,7 +126,7 @@ describe('PUBLIC Routes', () => {
         })
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
     test('No password provided; should return 400', async () => {
@@ -130,7 +136,7 @@ describe('PUBLIC Routes', () => {
         .send({ email: VALID_EMAIL, passwordConfirm: VALID_CONFIRM_PASSWORD, verificationCode: VERIFICATION_CODE })
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
     test('No passwordConfirm provided; should return 400', async () => {
@@ -140,7 +146,7 @@ describe('PUBLIC Routes', () => {
         .send({ email: VALID_EMAIL, password: VALID_PASSWORD, verificationCode: VERIFICATION_CODE })
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
     test('No verificationCode provided; should return 400', async () => {
@@ -150,10 +156,10 @@ describe('PUBLIC Routes', () => {
         .send({ email: VALID_EMAIL, password: VALID_PASSWORD, passwordConfirm: VALID_CONFIRM_PASSWORD })
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
-    test('Password and passwordConfirm do not match; should return 401', async () => {
+    test('Password and passwordConfirm do not match; should return 400', async () => {
       await request(app)
         .post('/api/users/confirmSignup')
         .set('Content-Type', 'application/json')
@@ -163,14 +169,14 @@ describe('PUBLIC Routes', () => {
           passwordConfirm: INVALID_CONFIRM_PASSWORD,
           verificationCode: VERIFICATION_CODE,
         })
-        .expect(401)
+        .expect(400)
         .expect('Content-Type', /json/)
         .expect(
-          (res: Response) => (res.body as ApiResponse<unknown>).message === 'Password and password confirm do not match'
+          (res: Response) => (res.body as ApiResponseError).message === 'Password and password confirm do not match'
         );
     });
 
-    test('Invalid email; should return 401', async () => {
+    test('Invalid email; should return 400', async () => {
       await request(app)
         .post('/api/users/confirmSignup')
         .set('Content-Type', 'application/json')
@@ -180,9 +186,9 @@ describe('PUBLIC Routes', () => {
           passwordConfirm: VALID_CONFIRM_PASSWORD,
           verificationCode: VERIFICATION_CODE,
         })
-        .expect(401)
+        .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Invalid email address');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Invalid email address');
     });
 
     test('Valid credentials provided; return 201', async () => {
@@ -197,7 +203,7 @@ describe('PUBLIC Routes', () => {
         })
         .expect(201)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Account verified');
+        .expect((res: Response) => (res.body as ApiResponseSuccess).message === 'Account verified');
     });
   });
 
@@ -209,7 +215,7 @@ describe('PUBLIC Routes', () => {
         .send({ password: VALID_PASSWORD })
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
     test('No password provided; return 400', async () => {
@@ -219,17 +225,17 @@ describe('PUBLIC Routes', () => {
         .send({ email: VALID_EMAIL })
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
-    test('Invalid email; return 401', async () => {
+    test('Invalid email; return 400', async () => {
       await request(app)
         .post('/api/users/login')
         .set('Content-Type', 'application/json')
         .send({ email: INVALID_EMAIL, password: VALID_PASSWORD })
-        .expect(401)
+        .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Invalid email address');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Invalid email address');
     });
 
     test('Valid crendentials; return 200', async () => {
@@ -239,7 +245,7 @@ describe('PUBLIC Routes', () => {
         .send({ email: VALID_EMAIL, password: VALID_PASSWORD })
         .expect(200)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Account verified');
+        .expect((res: Response) => (res.body as ApiResponseSuccess).message === 'Account verified');
     });
   });
 
@@ -249,7 +255,7 @@ describe('PUBLIC Routes', () => {
         .get('/api/users/logout')
         .set('Authorization', 'Bearer token')
         .expect(200)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Logged out');
+        .expect((res: Response) => (res.body as ApiResponseSuccess).message === 'Logged out');
     });
   });
 
@@ -261,17 +267,17 @@ describe('PUBLIC Routes', () => {
         .send({})
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
-    test('Invalid email provided; return 401', async () => {
+    test('Invalid email provided; return 400', async () => {
       await request(app)
         .post('/api/users/forgotPassword')
         .set('Content-Type', 'application/json')
         .send({ email: INVALID_EMAIL })
-        .expect(401)
+        .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Invalid email address');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Invalid email address');
     });
 
     test('Valid credentials provided; return 200', async () => {
@@ -281,7 +287,7 @@ describe('PUBLIC Routes', () => {
         .send({ email: VALID_EMAIL })
         .expect(200)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Reset token sent to email');
+        .expect((res: Response) => (res.body as ApiResponseSuccess).message === 'Reset token sent to email');
     });
   });
 
@@ -293,7 +299,7 @@ describe('PUBLIC Routes', () => {
         .send({ passwordConfirm: VALID_CONFIRM_PASSWORD })
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
     test('No passwordConfirm provided; return 400', async () => {
@@ -303,18 +309,18 @@ describe('PUBLIC Routes', () => {
         .send({ password: VALID_PASSWORD })
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
-    test('Password and passwordConfirm do not match; return 401', async () => {
+    test('Password and passwordConfirm do not match; return 400', async () => {
       await request(app)
         .patch('/api/users/resetPassword/token')
         .set('Content-Type', 'application/json')
         .send({ password: VALID_PASSWORD, passwordConfirm: INVALID_CONFIRM_PASSWORD })
-        .expect(401)
+        .expect(400)
         .expect('Content-Type', /json/)
         .expect(
-          (res: Response) => (res.body as ApiResponse<unknown>).message === 'Password and password confirm do not match'
+          (res: Response) => (res.body as ApiResponseError).message === 'Password and password confirm do not match'
         );
     });
 
@@ -325,7 +331,7 @@ describe('PUBLIC Routes', () => {
         .send({ password: VALID_PASSWORD, passwordConfirm: VALID_CONFIRM_PASSWORD })
         .expect(200)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Password Reset Successful');
+        .expect((res: Response) => (res.body as ApiResponseSuccess).message === 'Password Reset Successful');
     });
   });
 
@@ -342,7 +348,7 @@ describe('PUBLIC Routes', () => {
         .get('/api/users/generateAuthToken')
         .set('Authorization', 'Bearer token')
         .expect(500)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Internal Error. Please login again');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Internal Error. Please login again');
     });
 
     test('Legitimate Request; return 201', async () => {
@@ -353,29 +359,29 @@ describe('PUBLIC Routes', () => {
         .get('/api/users/generateAuthToken')
         .set('Authorization', 'Bearer token')
         .expect(201)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Auth token generated');
+        .expect((res: Response) => (res.body as ApiResponseSuccess).message === 'Auth token generated');
     });
 
-    test('Legitimate Request but tokens not received by client; return 401', async () => {
+    test('Legitimate Request but tokens not received by client; return 400', async () => {
       MOCK_VERIFYREFRESHTOKEN.mockReturnValue({ acc: 1 });
       MOCK_QUERYREFRESHTOKEN.mockReturnValue({ acc: 2, activated: false });
 
       await request(app)
         .get('/api/users/generateAuthToken')
         .set('Authorization', 'Bearer token')
-        .expect(401)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Resubmit refresh token');
+        .expect(400)
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Resubmit refresh token');
     });
 
-    test('Client has not yet validated RefreshToken; return 401', async () => {
+    test('Client has not yet validated RefreshToken; return 400', async () => {
       MOCK_VERIFYREFRESHTOKEN.mockReturnValue({ acc: 1 });
       MOCK_QUERYREFRESHTOKEN.mockReturnValue({ acc: 1, activated: false });
 
       await request(app)
         .get('/api/users/generateAuthToken')
         .set('Authorization', 'Bearer token')
-        .expect(401)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Please verify Refresh Token');
+        .expect(400)
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Please verify Refresh Token');
     });
 
     test('Fraudulent request; return 403', async () => {
@@ -386,7 +392,7 @@ describe('PUBLIC Routes', () => {
         .get('/api/users/generateAuthToken')
         .set('Authorization', 'Bearer token')
         .expect(403)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Account frozen');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Account frozen');
     });
   });
 });
@@ -401,7 +407,7 @@ describe('PROTECTED Routes', () => {
         .send({ newPasswordConfirm: VALID_CONFIRM_PASSWORD, oldPassword: VALID_PASSWORD })
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
     test('No newPasswordConfirm provided; return 400', async () => {
@@ -412,7 +418,7 @@ describe('PROTECTED Routes', () => {
         .send({ oldPassword: VALID_PASSWORD, password: VALID_CONFIRM_PASSWORD })
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
     test('No oldPassword provided; return 400', async () => {
@@ -423,10 +429,10 @@ describe('PROTECTED Routes', () => {
         .send({ newPasswordConfirm: VALID_CONFIRM_PASSWORD, password: VALID_PASSWORD })
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
-    test('New password and newPasswordConfirm do not match; return 401', async () => {
+    test('New password and newPasswordConfirm do not match; return 400', async () => {
       await request(app)
         .patch('/api/users/updatePassword')
         .set('Content-Type', 'application/json')
@@ -436,10 +442,10 @@ describe('PROTECTED Routes', () => {
           newPasswordConfirm: INVALID_CONFIRM_PASSWORD,
           oldPassword: VALID_PASSWORD,
         })
-        .expect(401)
+        .expect(400)
         .expect('Content-Type', /json/)
         .expect(
-          (res: Response) => (res.body as ApiResponse<unknown>).message === 'Password and password confirm do not match'
+          (res: Response) => (res.body as ApiResponseError).message === 'Password and password confirm do not match'
         );
     });
 
@@ -451,7 +457,7 @@ describe('PROTECTED Routes', () => {
         .send({ newPassword: VALID_PASSWORD, newPasswordConfirm: VALID_CONFIRM_PASSWORD, oldPassword: VALID_PASSWORD })
         .expect(200)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Password updated');
+        .expect((res: Response) => (res.body as ApiResponseSuccess).message === 'Password updated');
     });
   });
 
@@ -475,7 +481,7 @@ describe('PROTECTED Routes', () => {
         .send()
         .expect(400)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Provide all required fields');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Provide all required fields');
     });
 
     test('Valid credentials provided; return 204', async () => {
@@ -503,7 +509,7 @@ describe('PROTECTED Routes', () => {
         .get('/api/users/activateRefreshToken')
         .set('Content-Type', 'application/json')
         .expect(401)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Unauthorized');
+        .expect((res: Response) => (res.body as ApiResponseError).message === 'Unauthorized');
     });
   });
 });
@@ -525,7 +531,7 @@ describe('RESTRICTED Routes', () => {
         .set('Authorization', 'Bearer token')
         .expect(200)
         .expect('Content-Type', /json/)
-        .expect((res: Response) => (res.body as ApiResponse<unknown>).message === 'Restricted Route Accessed');
+        .expect((res: Response) => (res.body as ApiResponseSuccess).message === 'Restricted Route Accessed');
     });
 
     test('Invalid credentials provided; return 403', async () => {
