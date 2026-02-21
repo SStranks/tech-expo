@@ -9,7 +9,7 @@ import { env } from './env.js';
 import { secrets } from './secrets.js';
 
 const { POSTGRES_DATABASE: DATABASE, POSTGRES_PASSWORD_SERVICE: PASSWORD, POSTGRES_USER_SERVICE: USER } = secrets;
-const { NODE_ENV, POSTGRES_DOCKER_PORT: PORT, POSTGRES_HOST: HOST } = env;
+const { NODE_ENV, POSTGRES_DOCKER_PORT: PORT, POSTGRES_HOST: HOST } = env();
 const POSTGRES_URL = `postgres://${USER}:${PASSWORD}@${HOST}:${PORT}/${DATABASE}`;
 
 console.log(POSTGRES_URL);

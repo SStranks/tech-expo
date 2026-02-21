@@ -4,7 +4,7 @@ import { env } from '#Config/env.js';
 import pinoLogger from '#Lib/pinoLogger.js';
 import rollbar from '#Lib/rollbar.js';
 
-const { EXPRESS_DOCKER_PORT, EXPRESS_LOCAL_PORT, NODE_ENV } = env;
+const { EXPRESS_DOCKER_PORT, EXPRESS_LOCAL_PORT, NODE_ENV } = env();
 const PORT = EXPRESS_DOCKER_PORT || EXPRESS_LOCAL_PORT || 4000;
 
 // ------------------------------------------------------------------------

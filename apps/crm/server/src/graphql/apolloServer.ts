@@ -11,7 +11,7 @@ import rollbar from '#Lib/rollbar.js';
 import formatError from './errors.js';
 import schema from './schema.js';
 
-const { NODE_ENV } = env;
+const { NODE_ENV } = env();
 
 const introspection = NODE_ENV !== 'production';
 const plugins = [ApolloServerPluginDrainHttpServer({ httpServer })];

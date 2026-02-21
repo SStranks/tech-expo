@@ -2,7 +2,7 @@ import Rollbar from 'rollbar';
 
 import { env } from '#Config/env.js';
 
-const { NODE_ENV, ROLLBAR_ENABLED, ROLLBAR_POST_SERVER_ITEM } = env;
+const { NODE_ENV, ROLLBAR_ENABLED, ROLLBAR_POST_SERVER_ITEM } = env();
 
 const rollbarConfig: Rollbar.Configuration = {
   accessToken: ROLLBAR_POST_SERVER_ITEM,

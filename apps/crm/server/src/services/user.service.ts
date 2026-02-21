@@ -34,7 +34,7 @@ const {
   JWT_REFRESH_EXPIRES,
   NODE_ENV,
   PASSWORD_RESET_EXPIRES,
-} = env;
+} = env();
 
 // TODO: Wire up userRepo to the existing methods here
 export class UserService {

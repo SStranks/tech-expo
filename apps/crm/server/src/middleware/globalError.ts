@@ -13,7 +13,7 @@ import BadRequestError from '#Utils/errors/BadRequestError.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
 import ZodValidationError from '#Utils/errors/ZodValidationError.js';
 
-const { NODE_ENV } = env;
+const { NODE_ENV } = env();
 
 const getHttpCode = (error: unknown): number => {
   if (error instanceof ZodValidationError) return 400;

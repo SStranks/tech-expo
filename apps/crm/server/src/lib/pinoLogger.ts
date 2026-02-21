@@ -4,7 +4,7 @@ import { env } from '#Config/env.js';
 import { secrets } from '#Config/secrets.js';
 
 const { MONGO_DATABASE, MONGO_PASSWORD_SERVICE, MONGO_USER_SERVICE } = secrets;
-const { MONGO_HOST, MONGO_PROTOCOL, NODE_ENV, PINO_LOG_LEVEL } = env;
+const { MONGO_HOST, MONGO_PROTOCOL, NODE_ENV, PINO_LOG_LEVEL } = env();
 
 // NOTE:  Logger levels: trace (10), debug (20), info (30), warn (40), error (50), and fatal (60).
 

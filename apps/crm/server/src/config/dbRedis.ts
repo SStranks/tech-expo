@@ -10,7 +10,7 @@ import { env } from './env.js';
 import { secrets } from './secrets.js';
 
 const { REDIS_PASSWORD, REDIS_USERNAME } = secrets;
-const { REDIS_DOCKER_PORT, REDIS_HOST } = env;
+const { REDIS_DOCKER_PORT, REDIS_HOST } = env();
 const REDIS_URL = `redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_DOCKER_PORT}`;
 
 let secureContext;

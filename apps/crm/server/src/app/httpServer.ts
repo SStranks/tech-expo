@@ -7,7 +7,7 @@ import https from 'node:https';
 
 import express from './express.js';
 
-const { NODE_ENV } = env;
+const { NODE_ENV } = env();
 
 import fs from 'node:fs';
 import { createSecureContext } from 'node:tls';

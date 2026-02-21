@@ -11,7 +11,7 @@ import { EMAIL_TEMPLATE_PASSWORD_RESET } from './templates/PasswordResetEmailTem
 import { EMAIL_TEMPLATE_VERIFICATION } from './templates/VerificationEmailTemplate.js';
 
 const { NODEMAILER_DEV_EMAIL, NODEMAILER_PASSWORD, NODEMAILER_USERNAME } = secrets;
-const { NODE_ENV, NODEMAILER_HOST, NODEMAILER_PORT, NODEMAILER_SECURE } = env;
+const { NODE_ENV, NODEMAILER_HOST, NODEMAILER_PORT, NODEMAILER_SECURE } = env();
 
 const senderDev = { name: 'CRM Server: Development', address: 'admin@techexpo-crm.org' };
 const senderProd = { name: 'CRM Server: Production', address: 'admin@techexpo-crm.org' };

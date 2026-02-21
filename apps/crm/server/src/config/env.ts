@@ -6,7 +6,7 @@ import { z, ZodError } from 'zod';
 import { msString } from '#Utils/zod/msString.js';
 
 const { NODE_ENV } = process.env;
-const VALID_ENVIRONMENTS = ['development', 'production'] as const;
+const VALID_ENVIRONMENTS = ['development', 'production', 'test'] as const;
 
 // NOTE: See src/types/env.d.ts - ensure validation object keys match defined types
 // DANGER: Non-senstitive configuration values only; secrets parsed in ./secrets.ts
@@ -64,9 +64,23 @@ const envSchemaDevelopment = z.object({
   ROLLBAR_POST_SERVER_ITEM: z.string().min(1),
 });
 
+const envSchemaTesting = z.object({
+  JWT_AUTH_EXPIRES: msString(),
+  JWT_COOKIE_AUTH_EXPIRES: msString(),
+  JWT_COOKIE_AUTH_ID: msString(),
+  JWT_COOKIE_REFRESH_EXPIRES: msString(),
+  JWT_COOKIE_REFRESH_ID: msString(),
+  JWT_REFRESH_EXPIRES: msString(),
+  NODE_ENV: z.string().min(1),
+  PASSWORD_RESET_EXPIRES: z.string().min(1),
+  PINO_LOG_LEVEL: z.string().min(1),
+  ROLLBAR_ENABLED: z.string().min(1),
+});
+
 const envSchemas = {
   development: envSchemaDevelopment,
   production: envSchemaProduction,
+  test: envSchemaTesting,
 } as const;
 
 function validateNodeEnvironment() {
@@ -96,14 +110,20 @@ function validateEnvironmentVariables() {
 
 type InferDev = z.infer<typeof envSchemaDevelopment>;
 type InferProd = z.infer<typeof envSchemaProduction>;
+type InferTest = z.infer<typeof envSchemaTesting>;
 
-type CommonUnion = keyof InferDev & keyof InferProd;
-type EnvCommon = Pick<InferDev & InferProd, CommonUnion>;
-type EnvUnique = Partial<Omit<InferDev & InferProd, CommonUnion>>;
+type CommonUnion = keyof InferDev & keyof InferProd & keyof InferTest;
+type EnvCommon = Pick<InferDev & InferProd & InferTest, CommonUnion>;
+type EnvUnique = Partial<Omit<InferDev & InferProd & InferTest, CommonUnion>>;
 type Env = EnvCommon & EnvUnique;
 
 const nodeEnvironment = validateNodeEnvironment();
 const zodSchema = envSchemas[nodeEnvironment];
-const env: Env = Object.freeze(zodSchema.parse(process.env));
+
+let envCache: Env | null;
+const env = () => {
+  if (!envCache) envCache = Object.freeze(zodSchema.parse(process.env));
+  return envCache;
+};
 
 export { env, validateEnvironmentVariables };

@@ -13,11 +13,11 @@ import { extractJwtCookies } from '#Middleware/cookies.js';
 import globalErrorHandler from '#Middleware/globalError.js';
 import userRouter from '#Routes/userRoutes.js';
 import { httpRequestCounter, httpRequestDurationSeconds, prometheusMetricsHandler } from '#Services/prometheus.js';
-import BadRequestError from '#Utils/errors/BadRequestError.js';
+import { NotFoundError } from '#Utils/errors/NotFoundError.js';
 
 import expressApp from './express.js';
 
-const { NODE_ENV } = env;
+const { NODE_ENV } = env();
 
 const corsOrigins = () => {
   const devOrigins = ['http://localhost:3000', 'https://studio.apollographql.com'];
@@ -71,7 +71,7 @@ app.get('/favicon.ico', (_req, res) => {
 });
 
 app.all(/(.*)/, (req: Request, _res: Response, next: NextFunction) => {
-  next(new BadRequestError({ logging: true, message: `Can't find route ${req.originalUrl} on this server!` }));
+  next(new NotFoundError({ logging: true }));
 });
 
 app.use(globalErrorHandler);
