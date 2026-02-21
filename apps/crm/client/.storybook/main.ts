@@ -3,10 +3,12 @@ import type { StorybookConfig } from '@storybook/react-vite';
 
 import { mergeConfig } from 'vite';
 
+import fs from 'node:fs';
 import path from 'node:path';
 import url from 'node:url';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const publicDir = path.resolve(__dirname, '../public');
 
 const config: StorybookConfig = {
   framework: '@storybook/react-vite',
@@ -18,7 +20,7 @@ const config: StorybookConfig = {
     '@storybook/addon-vitest',
     '@storybook/addon-webpack5-compiler-babel',
   ],
-  staticDirs: ['../public'],
+  staticDirs: fs.existsSync(publicDir) ? ['../public'] : [],
   core: {
     disableTelemetry: true,
   },

@@ -53,11 +53,24 @@ jobs:
           key: cypress-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: cypress-${{ runner.os }}-
 
+      - name: Cache Playwright Binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: playwright-${{ runner.os }}-
+
       - name: Install dependencies
         run: pnpm install
 
       - name: Ensure Cypress binary
         run: pnpm --filter @apps/crm-client exec cypress install
+
+      - name: Ensure Playwright binary
+        run: pnpm --filter @apps/crm-client exec playwright install --with-deps
+
+      - name: Build @apps/crm-shared types
+        run: pnpm --filter @apps/crm-shared build
 
       - name: CRM Client - Cypress Testing
         run: pnpm --filter @apps/crm-client cypress:e2e
