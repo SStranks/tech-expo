@@ -45,9 +45,9 @@
     "drizzle:drop": "pnpm drizzle-kit drop",
     "drizzle:push": "NODE_OPTIONS='--import tsx' drizzle-kit push",
     "dotenv:lint": "docker run --rm -v \"$(pwd)\":/app -w /app dotenvlinter/dotenv-linter:3.3.0 dotenv-linter .env* -r",
-    "vitest:test": "vitest run --config ./vitest.config.ts",
-    "vitest:watch": "vitest watch --config ./vitest.config.ts",
-    "vitest:list": "vitest list --filesOnly --config ./vitest.config.ts"
+    "vitest:test": "vitest run --mode test --config ./vitest.config.ts",
+    "vitest:watch": "vitest watch --mode test --config ./vitest.config.ts",
+    "vitest:list": "vitest list --filesOnly --mode test --config ./vitest.config.ts"
   },
   "config": {
     "dockerImageRepo": "techexpo/server",

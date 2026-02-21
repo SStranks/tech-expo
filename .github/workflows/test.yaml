@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 ---
 name: Test
 permissions: read-all
@@ -16,6 +17,9 @@ jobs:
   test:
     name: test
     runs-on: ubuntu-latest
+    environment: testing
+    env:
+      NODE_ENV: test
 
     permissions:
       contents: read
@@ -25,6 +29,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+
+      - name: Recreate .env.test.server
+        run: |
+          printf "%s" "${{ secrets.ENV_TEST_SERVER_FILE }}" > apps/crm/server/.env.test.server
+          chmod 600 apps/crm/server/.env.test.server
 
       - name: Setup PNPM
         uses: pnpm/action-setup@v4
@@ -51,10 +60,14 @@ jobs:
         run: pnpm --filter @apps/crm-client cypress:e2e
 
       - name: CRM Client - Vitest
-        run: pnpm --filter "./apps/crm/client" vitest:test
+        run: pnpm --filter "./apps/crm/client" vitest:all
 
       - name: CRM Server - Vitest
         run: pnpm --filter "./apps/crm/server" vitest:test
+
+      - name: Cleanup
+        if: always()
+        run: rm -f apps/crm/server/.env.test.server
 #
 # https://github.com/cypress-io/github-action/issues/1590
 # NOTE: Bug with cypress-action; relies on npx to source binary cache;
