@@ -207,7 +207,6 @@ It includes core CRM capabilities like customer management, secure authenticatio
 
 [![Cypress](https://img.shields.io/badge/-cypress-%23E5E5E5?style=for-the-badge&logo=cypress&logoColor=058a5e)](https://www.cypress.io/)
 [![Vitest](https://img.shields.io/badge/-Vitest-252529?style=for-the-badge&logo=vitest&logoColor=FCC72B)](https://vitest.dev/)
-[![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)](https://jestjs.io/)
 [![Testing Library](https://img.shields.io/badge/-Testing%20Library-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white)](https://testing-library.com/)
 [![Google Chrome](https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white)](https://developer.chrome.com/)
 [![Firefox Browser](https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&logo=Firefox-Browser&logoColor=white)](https://www.firefox.com/en-GB/channel/desktop/developer/)
@@ -371,11 +370,11 @@ cd tech-expo/apps/crm/docker
 
 ###### PNPM
 
-- Version: 10.13.1 as defined in [`package.json`](./package.json#packagemanager)
+- Version: 10.26.0 as defined in [`package.json`](./package.json#packagemanager)
 - Install via:
 
 ```bash
-curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=<10.13.1> sh -
+curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=<10.26.0> sh -
 ```
 
 - For further information and alternative installation options: [PNPM](https://pnpm.io/installation)
@@ -389,7 +388,7 @@ curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=<10.13.1> sh -
 
 ###### Oxsecurity/Megalinter
 
-- Version: 8
+- Version: 9
 - Warning: Large image (11Gb)
 - Used for pre-commit linting and security scans
 - Installation: `docker pull oxsecurity/megalinter:v9`
