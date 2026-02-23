@@ -141,13 +141,11 @@ const DevConfig = {
     new ForkTsCheckerWebpackPlugin({
       async: true,
       typescript: {
+        configFile: path.resolve(__dirname, '../tsconfig.src.json'),
         diagnosticOptions: {
           semantic: true,
           syntactic: true,
         },
-      },
-      issue: {
-        exclude: [{ file: '**/private.*' }],
       },
     }),
     new CopyPlugin({ patterns: [{ from: path.resolve(__dirname, '../public'), noErrorOnMissing: true }] }),

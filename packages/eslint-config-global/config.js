@@ -48,6 +48,12 @@ export const EslintConfigGlobal = {
         },
       },
       {
+        type: 'unsorted',
+        useConfigurationIf: {
+          declarationMatchesPattern: { pattern: 'Resolver$', scope: 'deep' }, // graphql resolvers
+        },
+      },
+      {
         // Ignore objects passed to fn calls; regexp name
         type: 'unsorted',
         useConfigurationIf: {
