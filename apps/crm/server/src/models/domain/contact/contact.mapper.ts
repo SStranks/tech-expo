@@ -42,8 +42,8 @@ export function contactRowToDomain(row: ContactsTableSelect): PersistedContact {
     companyId: asCompanyId(row.companyId),
     jobTitle: row.jobTitle,
     stage: row.stage,
-    timezoneId: row.timezoneId ? asTimeZoneId(row.timezoneId) : null,
-    image: row.image,
+    timezoneId: row.timezoneId ? asTimeZoneId(row.timezoneId) : undefined,
+    image: row.image ?? undefined,
     createdAt: row.createdAt,
   });
 }
@@ -58,8 +58,8 @@ export function contactDomainToContactDTO(contact: PersistedContact): ContactDTO
     companyId: contact.companyId,
     jobTitle: contact.jobTitle,
     stage: contact.stage,
-    timezoneId: contact.timezoneId,
-    image: contact.image,
+    timezoneId: contact.timezoneId ?? null,
+    image: contact.image ?? null,
   };
 }
 

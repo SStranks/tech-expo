@@ -21,7 +21,6 @@ import type {
 import type { RequestContext } from '#Types/request-context.js';
 
 import { Company, type PersistedCompany } from '#Models/domain/company/company.js';
-import { asCountryId } from '#Models/domain/country/country.mapper.js';
 import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';
 
@@ -29,7 +28,7 @@ interface ICompanyService {
   getCompanyById(id: CompanyId): Promise<PersistedCompany>;
   getCompanyNoteById(id: CompanyNoteId): Promise<CompanyNote>;
   createCompany(cmd: CreateCompanyCommand): Promise<PersistedCompany>;
-  updateCompanyById(cmd: UpdateCompanyCommand, ctx: RequestContext): Promise<PersistedCompany>;
+  updateCompanyById(cmd: UpdateCompanyCommand): Promise<PersistedCompany>;
   removeCompanyById(id: CompanyId): Promise<CompanyId>;
   findNotesForCompanyById(id: CompanyId): Promise<CompanyNoteReadRow[]>;
   findCompaniesOverview(query: CompaniesOverviewQuery): Promise<CompaniesOverviewPaginated>;
@@ -67,7 +66,6 @@ export class CompanyService implements ICompanyService {
   async createCompany(cmd: CreateCompanyCommand): Promise<PersistedCompany> {
     const newCompany = Company.create({
       ...cmd,
-      countryId: asCountryId(cmd.countryId),
       totalRevenue: cmd.totalRevenue ?? '0.00',
       website: cmd.website ?? undefined,
     });
@@ -88,7 +86,7 @@ export class CompanyService implements ICompanyService {
     return this.companyRepository.save(company);
   }
 
-  async removeCompanyById(id: CompanyId): Promise<CompanyId> {
+  removeCompanyById(id: CompanyId): Promise<CompanyId> {
     return this.companyRepository.remove(id);
   }
 

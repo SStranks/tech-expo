@@ -5,17 +5,20 @@ import type { CompanyDTO } from '#Models/domain/company/company.dto.js';
 import type { ContactDTO } from '#Models/domain/contact/contact.dto.js';
 import type { CountryDTO } from '#Models/domain/country/country.dto.js';
 import type { QuoteDTO } from '#Models/domain/quote/quote.dto.js';
+import type { TimezoneDTO } from '#Models/domain/timezone/timezone.dto.js';
 import type { UserProfileDTO } from '#Models/domain/user/profile/profile.dto.js';
 import type { CompanyReadModel } from '#Models/query/company/companies.read-model.js';
 import type { ContactReadModel } from '#Models/query/contact/contacts.read-model.js';
 import type { CountryReadModel } from '#Models/query/country/countries.read-model.js';
 import type { QuoteReadModel } from '#Models/query/quote/quotes.read-model.js';
+import type { TimezoneReadModel } from '#Models/query/timezone/timezone.read-model.js';
 import type { UserReadModel } from '#Models/query/user/users.read-model.js';
 
 import DataLoader from 'dataloader';
 
 import { asCompanyId } from '#Models/domain/company/company.mapper.js';
 import { asContactId } from '#Models/domain/contact/contact.mapper.js';
+import { asTimeZoneId } from '#Models/domain/timezone/timezone.mapper.js';
 import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 
 export type CountryDataLoader = DataLoader<UUID, CountryDTO | null>;
@@ -112,6 +115,26 @@ export const createQuoteLoader = (quoteReadModel: QuoteReadModel) =>
         issuedAt: row.issuedAt,
         dueAt: row.dueAt,
         createdAt: row.createdAt,
+      };
+      return dto;
+    });
+  });
+
+export type TimezoneDataLoader = DataLoader<UUID, TimezoneDTO | null>;
+export const createTimezoneLoader = (timezoneReadModel: TimezoneReadModel) =>
+  new DataLoader<UUID, TimezoneDTO | null>(async (ids) => {
+    const uniqueIds = [...new Set(ids.map((id) => asTimeZoneId(id)))];
+    const timezones = await timezoneReadModel.getTimezonesByIds(uniqueIds);
+    const timezonesMap = new Map(timezones.map((q) => [q.id, q]));
+
+    return ids.map((id) => {
+      const row = timezonesMap.get(id);
+      if (!row) return null;
+      const dto: TimezoneDTO = {
+        id: row.id,
+        alpha2Code: row.alpha2Code,
+        gmtOffset: row.gmtOffset,
+        countryId: row.countryId,
       };
       return dto;
     });

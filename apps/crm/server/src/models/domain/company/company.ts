@@ -200,8 +200,7 @@ export abstract class Company {
     const noteIndex = this._notes.findIndex((n) => n.id === id);
 
     if (noteIndex === -1) throw new DomainError({ message: 'Company-note not found' });
-    // eslint-disable-next-line security/detect-object-injection
-    if (this._notes[noteIndex].createdByUserProfileId !== actor)
+    if (this._notes[`${noteIndex}`].createdByUserProfileId !== actor)
       throw new DomainError({ message: 'Company-note not created by this user' });
 
     this._removedNoteIds.push(id);
@@ -209,11 +208,10 @@ export abstract class Company {
   }
 
   updateNote(props: CompanyNoteHydrationProps, actor: UserProfileId): PersistedCompanyNote {
-    if (props.createdByUserProfileId !== actor)
-      throw new DomainError({ message: 'Company-note not created by this user' });
+    const note = this.notes.find((note) => note.id === props.id);
+    if (!note) throw new DomainError({ message: 'Note not found' });
 
-    const note = CompanyNote.rehydrate(props);
-    this._notes.push(note);
+    note.updateContent(props.content, actor);
     this._updatedNotes.push(note);
     return note;
   }

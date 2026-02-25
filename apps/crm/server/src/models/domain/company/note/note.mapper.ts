@@ -16,7 +16,7 @@ export function asCompanyNoteId(id: UUID): CompanyNoteId {
   return id as CompanyNoteId;
 }
 
-export function companyNoteReadRowToCompanyDTO(companyNote: CompanyNoteReadRow): CompanyNoteDTO {
+export function companyNoteReadRowToCompanyNoteDTO(companyNote: CompanyNoteReadRow): CompanyNoteDTO {
   return {
     id: companyNote.id,
     note: companyNote.note,

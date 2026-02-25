@@ -81,8 +81,8 @@ export class InMemoryContactRepository implements ContactRepository {
       companyId: contact.companyId,
       jobTitle: contact.jobTitle,
       stage: contact.stage,
-      timezoneId: contact.timezoneId,
-      image: contact.image,
+      timezoneId: contact.timezoneId ?? null,
+      image: contact.image ?? null,
       createdAt: new Date(),
     };
 
@@ -111,8 +111,8 @@ export class InMemoryContactRepository implements ContactRepository {
         companyId: contact.companyId,
         jobTitle: contact.jobTitle,
         stage: contact.stage,
-        timezoneId: contact.timezoneId,
-        image: contact.image,
+        timezoneId: contact.timezoneId ?? null,
+        image: contact.image ?? null,
       };
 
       this.contactsMap.set(contact.id, updatedContact);

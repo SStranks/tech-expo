@@ -192,7 +192,7 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
 
       return {
         items: [...companyMap.values()].map((c) => companyWithRelationsToOverviewRow(c)),
-        totalCount: companies[0].totalCount,
+        totalCount: companies[0]?.totalCount ?? 0,
       };
     });
   }

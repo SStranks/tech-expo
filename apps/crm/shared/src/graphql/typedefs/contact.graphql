@@ -37,7 +37,7 @@ type ContactDetailed {
   company: Company!
   jobTitle: String!
   stage: ContactStage!
-  timezone: TimeZone!
+  timezone: TimeZone
   notes: [ContactNote!]!
 }
 
@@ -54,9 +54,8 @@ type ContactOverview {
 type ContactNote {
   id: UUID!
   note: String!
-  contact: Contact!
   createdAt: DateTime!
-  createdBy: UserProfile!
+  createdBy: UserAvatar!
 }
 
 type ContactAvatar {
@@ -91,9 +90,9 @@ input ContactsOverviewInput {
 input ContactsOverviewFiltersInput {
   searchContactName: String
   searchContactEmail: String
-  searchCompanyName: String
   searchContactJobTitle: String
   searchContactStage: ContactStage
+  companyId: UUID
 }
 
 input ContactsOverviewSortInput {
@@ -138,7 +137,8 @@ input CreateContactNoteInput {
 }
 
 input RemoveContactNoteInput {
-  id: UUID!
+  contactId: UUID!
+  contactNoteId: UUID!
 }
 
 input UpdateContactNoteInput {

@@ -38,8 +38,8 @@ type ContactProps = {
   companyId: CompanyId;
   jobTitle: string;
   stage: ContactStage;
-  timezoneId: TimeZoneId | null;
-  image: string | null;
+  timezoneId?: TimeZoneId;
+  image?: string;
 };
 
 type ContactCreateProps = ContactProps;
@@ -63,8 +63,8 @@ export abstract class Contact {
   private _companyId: CompanyId;
   private _jobTitle: string;
   private _stage: ContactStage;
-  private _timezoneId: TimeZoneId | null;
-  private _image: string | null;
+  private _timezoneId?: TimeZoneId;
+  private _image?: string;
 
   private _notes: PersistedContactNote[] = [];
   private _addedNotes: NewContactNote[] = [];
@@ -246,8 +246,7 @@ export abstract class Contact {
     const noteIndex = this._notes.findIndex((n) => n.id === id);
 
     if (noteIndex === -1) throw new DomainError({ message: 'Contact-note not found' });
-    // eslint-disable-next-line security/detect-object-injection
-    if (this._notes[noteIndex].createdByUserProfileId !== actor)
+    if (this._notes.at(noteIndex)?.createdByUserProfileId !== actor)
       throw new DomainError({ message: 'Contact-note not created by this user' });
 
     this._removedNoteIds.push(id);

@@ -46,7 +46,9 @@ export const insertContactsNotesSchema = createInsertSchema(ContactsNotesTable);
 export const selectContactsNotesSchema = createSelectSchema(ContactsNotesTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
-export const updateContactsNotesSchema = insertContactsNotesSchema.omit({ id: true }).partial();
+export const updateContactsNotesSchema = insertContactsNotesSchema
+  .partial()
+  .extend({ id: z.uuid() as z.ZodType<UUID> });
 export type InsertContactsNotesSchema = z.infer<typeof insertContactsNotesSchema>;
 export type SelectContactsNotesSchema = z.infer<typeof selectContactsNotesSchema>;
 

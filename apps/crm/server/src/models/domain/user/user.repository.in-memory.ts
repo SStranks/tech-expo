@@ -1,12 +1,12 @@
 import type { PersistedUserProfile } from './profile/profile.js';
 import type { UserProfileId } from './profile/profile.types.js';
-import type { User } from './user.js';
+import type { PersistedUser } from './user.js';
 import type { UserRepository } from './user.repository.js';
 import type { UserId } from './user.types.js';
 
 export class InMemoryUserRepository implements UserRepository {
   constructor() {}
-  findUsersByIds(_ids: UserId[]): Promise<User[]> {
+  findUsersByIds(_ids: UserId[]): Promise<PersistedUser[]> {
     throw new Error('Method not implemented.');
   }
 

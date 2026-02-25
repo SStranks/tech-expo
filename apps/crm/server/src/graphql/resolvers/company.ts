@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { Resolvers } from '#Graphql/generated/graphql.gen.js';
 
 import { z } from 'zod';
@@ -71,6 +70,7 @@ const companyResolver: Resolvers = {
 
       const command = {
         ...result.data,
+        countryId: asCountryId(result.data.countryId),
         website: result.data.website ?? undefined,
       };
 

@@ -18,7 +18,7 @@ export type CreateCompanyCommand = {
   size: CompanySize;
   industry: string;
   businessType: BusinessType;
-  countryId: string;
+  countryId: CountryId;
   totalRevenue?: string;
   website?: string;
   createdAt?: Date;

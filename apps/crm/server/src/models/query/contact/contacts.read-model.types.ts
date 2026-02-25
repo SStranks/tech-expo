@@ -5,6 +5,8 @@ import type { TimeZoneId } from '#Models/domain/timezone/timezone.types.js';
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 import type { PaginationInput, PaginationResult } from '#Types/graphql.js';
 
+import type { CompanyReadRow } from '../company/companies.read-model.types.js';
+
 export type ContactReadRow = {
   id: ContactId;
   firstName: string;
@@ -16,6 +18,16 @@ export type ContactReadRow = {
   stage: ContactStage;
   timezoneId: TimeZoneId | null;
   image: string | null;
+};
+
+export type ContactOverviewReadRow = {
+  id: ContactId;
+  firstName: string;
+  lastName: string;
+  email: string;
+  company: CompanyReadRow;
+  jobTitle: string;
+  stage: ContactStage;
 };
 
 export type ContactNoteReadRow = {
@@ -38,3 +50,18 @@ export type PaginatedCompanyContactsQuery = {
 };
 
 export type PaginatedCompanyContacts = PaginationResult<ContactReadRow>;
+
+export type ContactFilters = {
+  searchContactName?: string;
+  searchContactEmail?: string;
+  searchContactJobTitle?: string;
+  searchContactStage?: ContactStage;
+  companyId?: CompanyId;
+};
+
+export type ContactsOverviewQuery = {
+  filters: ContactFilters;
+  pagination: PaginationInput;
+};
+
+export type ContactsOverviewPaginated = PaginationResult<ContactOverviewReadRow>;

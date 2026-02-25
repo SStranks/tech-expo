@@ -5,6 +5,8 @@ import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js
 import type { CompanyId } from '../company.types.js';
 import type { CompanyNoteId } from './note.types.js';
 
+import DomainError from '#Utils/errors/DomainError.js';
+
 import { randomUUID } from 'node:crypto';
 
 type CompanyNoteProps = {
@@ -34,7 +36,7 @@ export abstract class CompanyNote {
   private readonly _createdByUserProfileId: UserProfileId;
   private readonly _companyId: CompanyId;
   private readonly _symbol: UUIDv4;
-  private readonly _content: string;
+  private _content: string;
 
   protected constructor(props: CompanyNoteProps) {
     this._content = props.content;
@@ -69,6 +71,15 @@ export abstract class CompanyNote {
 
   get symbol() {
     return this._symbol;
+  }
+
+  updateContent(newMessage: string, actor: UserProfileId) {
+    if (this.createdByUserProfileId !== actor)
+      throw new DomainError({ message: 'Company-note not created by this user' });
+
+    if (!newMessage || newMessage.trim() === '') throw new DomainError({ message: 'Message cannot be empty' });
+
+    this._content = newMessage;
   }
 }
 

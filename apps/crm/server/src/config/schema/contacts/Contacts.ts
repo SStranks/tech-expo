@@ -60,7 +60,7 @@ export const ContactsTableRelations = relations(ContactsTable, ({ many, one }) =
 // ----------- ZOD ---------- //
 export const insertContactsSchema = createInsertSchema(ContactsTable);
 export const selectContactsSchema = createSelectSchema(ContactsTable).extend({ id: z.uuid() as z.ZodType<UUID> });
-export const updateContactsTableSchema = insertContactsSchema.omit({ id: true }).partial();
+export const updateContactsSchema = insertContactsSchema.partial().extend({ id: z.uuid() as z.ZodType<UUID> });
 export type InsertContactsSchema = z.infer<typeof insertContactsSchema>;
 export type SelectContactsSchema = z.infer<typeof selectContactsSchema>;
 

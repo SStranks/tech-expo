@@ -6,6 +6,7 @@ import type {
   ContactDataLoader,
   CountryDataLoader,
   QuoteDataLoader,
+  TimezoneDataLoader,
   UserProfileDataLoader,
 } from './loaders.ts';
 
@@ -25,6 +26,7 @@ import { PostgresContactReadModel } from '#Models/query/contact/contacts.read-mo
 import { PostgresCountryReadModel } from '#Models/query/country/countries.read-model.postgres.js';
 import { PostgresPipelineReadModel } from '#Models/query/pipeline/pipeline.read-model.postgres.js';
 import { PostgresQuoteReadModel } from '#Models/query/quote/quotes.read-model.postgres.js';
+import { PostgresTimezoneReadModel } from '#Models/query/timezone/timezone.postgres.js';
 import { PostgresUserReadModel } from '#Models/query/user/users.read-model.postgres.js';
 import { CompanyService } from '#Services/company.service.js';
 import { ContactService } from '#Services/contact.service.js';
@@ -39,6 +41,7 @@ import {
   createContactLoader,
   createCountryLoader,
   createQuoteLoader,
+  createTimezoneLoader,
   createUserProfileLoader,
 } from './loaders.js';
 
@@ -49,6 +52,7 @@ export interface GraphqlContext {
     Company: CompanyDataLoader;
     Contact: ContactDataLoader;
     Quote: QuoteDataLoader;
+    Timezone: TimezoneDataLoader;
     UserProfile: UserProfileDataLoader;
   };
   services: {
@@ -118,11 +122,12 @@ const graphqlContext = async ({
   const countryReadModel = new PostgresCountryReadModel();
   const pipelineReadModel = new PostgresPipelineReadModel();
   const quoteReadModel = new PostgresQuoteReadModel();
+  const timezoneReadModel = new PostgresTimezoneReadModel();
   const userReadModel = new PostgresUserReadModel();
 
   // TODO: Make object parameter instead of single params
   const companyService = new CompanyService(companyRepository, companyReadModel, countryRepository);
-  const contactService = new ContactService(contactRepository, contactReadModel);
+  const contactService = new ContactService(contactRepository, contactReadModel, companyRepository);
   const countryService = new CountryService(countryRepository);
   const pipelineService = new PipelineService(pipelineRepository, pipelineReadModel);
   const quoteService = new QuoteService(quoteRepository, quoteReadModel);
@@ -133,6 +138,7 @@ const graphqlContext = async ({
     Contact: createContactLoader(contactReadModel),
     Country: createCountryLoader(countryReadModel),
     Quote: createQuoteLoader(quoteReadModel),
+    Timezone: createTimezoneLoader(timezoneReadModel),
     UserProfile: createUserProfileLoader(userReadModel),
   };
   const services = {
