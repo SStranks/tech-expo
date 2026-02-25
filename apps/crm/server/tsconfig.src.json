@@ -2,7 +2,7 @@
 {
   "extends": "./tsconfig.base.json",
   "include": ["src/**/*", "src/**/*.json"],
-  "exclude": ["**/private.*", "**/private/*"],
+  "exclude": ["node_modules", "dist", "mongo", "**/private.*", "**/private/*"],
   "compilerOptions": {
     "composite": true,
     "noEmit": false,

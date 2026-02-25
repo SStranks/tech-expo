@@ -22,12 +22,16 @@ const config: CodegenConfig = {
           BusinessType: '../../models/domain/company/company.types.ts#BusinessType',
           CompanyRole: '../../models/domain/user/profile/profile.types.ts#CompanyRoles',
           CompanySize: '../../models/domain/company/company.types.ts#CompanySize',
+          ContactStage: '../../models/domain/contact/contact.types.ts#ContactStage',
         },
         mappers: {
           // NOTE: Key = Schema Type name. Value = What the Parent object is.
           Company: '../../models/domain/company/company.dto.ts#CompanyDTO',
           CompanyDetailed: '../../models/domain/company/company.dto.ts#CompanyDTO',
+          Contact: '../../models/domain/contact/contact.dto.ts#ContactDTO',
+          ContactDetailed: '../../models/domain/contact/contact.dto.ts#ContactDTO',
           Country: '../../models/domain/country/country.dto.ts#CountryDTO',
+          TimeZone: '../../models/domain/timezone/timezone.dto.ts#TimezoneDTO',
           UserProfile: '../../models/domain/user/profile/profile.dto.ts#UserProfileDTO',
         },
         scalars: {
