@@ -204,7 +204,7 @@ export abstract class Company {
       throw new DomainError({ message: 'Company-note not created by this user' });
 
     this._removedNoteIds.push(id);
-    this._notes = this._notes.splice(noteIndex, 1);
+    this._notes.splice(noteIndex, 1);
   }
 
   updateNote(props: CompanyNoteHydrationProps, actor: UserProfileId): PersistedCompanyNote {
@@ -219,7 +219,12 @@ export abstract class Company {
   findNoteBySymbol(symbol: UUIDv4) {
     return this._notes.find((n) => n.symbol === symbol);
   }
+  // #endregion actions/notes
 
+  // --------------------------
+  // Domain actions – Commit
+  // --------------------------
+  // #region actions/commit
   pullChanges() {
     return {
       addedNotes: this._addedNotes,
@@ -234,7 +239,7 @@ export abstract class Company {
     this._updatedNotes = [];
     this._removedNoteIds = [];
   }
-  // #endregion actions/notes
+  // #endregion actions/commit
 }
 
 class NewCompanyImpl extends Company {

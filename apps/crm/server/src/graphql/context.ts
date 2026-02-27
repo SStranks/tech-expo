@@ -15,12 +15,14 @@ import { GraphQLError } from 'graphql';
 import { postgresDB } from '#Config/dbPostgres.js';
 import { redisClient } from '#Config/dbRedis.js';
 import { secrets } from '#Config/secrets.js';
+import { PostgresCalendarRepository } from '#Models/domain/calendar/calendar.repository.postgres.js';
 import { PostgresCompanyRepository } from '#Models/domain/company/company.repository.postgres.js';
 import { PostgresContactRepository } from '#Models/domain/contact/contact.repository.postgres.js';
 import { PostgresCountryRepository } from '#Models/domain/country/country.repository.postgres.js';
 import { PostgresPipelineRepository } from '#Models/domain/pipeline/pipeline.repository.postgres.js';
 import { PostgresQuoteRepository } from '#Models/domain/quote/quote.postgres.repository.js';
 import { PostgresUserRepository } from '#Models/domain/user/user.repository.postgres.js';
+import { PostgresCalendarReadModel } from '#Models/query/calendar/calendar.read-model.postgres.js';
 import { PostgresCompanyReadModel } from '#Models/query/company/companies.read-model.postgres.js';
 import { PostgresContactReadModel } from '#Models/query/contact/contacts.read-model.postgres.js';
 import { PostgresCountryReadModel } from '#Models/query/country/countries.read-model.postgres.js';
@@ -28,6 +30,7 @@ import { PostgresPipelineReadModel } from '#Models/query/pipeline/pipeline.read-
 import { PostgresQuoteReadModel } from '#Models/query/quote/quotes.read-model.postgres.js';
 import { PostgresTimezoneReadModel } from '#Models/query/timezone/timezone.postgres.js';
 import { PostgresUserReadModel } from '#Models/query/user/users.read-model.postgres.js';
+import { CalendarService } from '#Services/calendar.service.js';
 import { CompanyService } from '#Services/company.service.js';
 import { ContactService } from '#Services/contact.service.js';
 import { CountryService } from '#Services/country.service.js';
@@ -56,6 +59,7 @@ export interface GraphqlContext {
     UserProfile: UserProfileDataLoader;
   };
   services: {
+    Calendar: CalendarService;
     Company: CompanyService;
     Contact: ContactService;
     Country: CountryService;
@@ -111,12 +115,14 @@ const graphqlContext = async ({
   const { client_id, jti, role } = userService.verifyAuthToken(JWT);
   await userService.isTokenBlacklisted(jti);
 
+  const calendarRepository = new PostgresCalendarRepository();
   const companyRepository = new PostgresCompanyRepository();
   const contactRepository = new PostgresContactRepository();
   const countryRepository = new PostgresCountryRepository();
   const pipelineRepository = new PostgresPipelineRepository();
   const quoteRepository = new PostgresQuoteRepository();
 
+  const calendarReadModel = new PostgresCalendarReadModel();
   const companyReadModel = new PostgresCompanyReadModel();
   const contactReadModel = new PostgresContactReadModel();
   const countryReadModel = new PostgresCountryReadModel();
@@ -125,13 +131,13 @@ const graphqlContext = async ({
   const timezoneReadModel = new PostgresTimezoneReadModel();
   const userReadModel = new PostgresUserReadModel();
 
-  // TODO: Make object parameter instead of single params
-  const companyService = new CompanyService(companyRepository, companyReadModel, countryRepository);
-  const contactService = new ContactService(contactRepository, contactReadModel, companyRepository);
-  const countryService = new CountryService(countryRepository);
-  const pipelineService = new PipelineService(pipelineRepository, pipelineReadModel);
-  const quoteService = new QuoteService(quoteRepository, quoteReadModel);
-  const userProfileService = new UserProfileService(userRepository, userReadModel);
+  const calendarService = new CalendarService({ calendarReadModel, calendarRepository, userReadModel });
+  const companyService = new CompanyService({ companyReadModel, companyRepository, countryRepository, userReadModel });
+  const contactService = new ContactService({ companyRepository, contactReadModel, contactRepository, userReadModel });
+  const countryService = new CountryService({ countryRepository });
+  const pipelineService = new PipelineService({ pipelineReadModel, pipelineRepository });
+  const quoteService = new QuoteService({ quoteReadModel, quoteRepository });
+  const userProfileService = new UserProfileService({ userReadModel, userRepository });
 
   const loaders = {
     Company: createCompanyLoader(companyReadModel),
@@ -142,6 +148,7 @@ const graphqlContext = async ({
     UserProfile: createUserProfileLoader(userReadModel),
   };
   const services = {
+    Calendar: calendarService,
     Company: companyService,
     Contact: contactService,
     Country: countryService,

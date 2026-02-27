@@ -19,11 +19,19 @@ import type {
   PaginatedCompanyContacts,
   PaginatedCompanyContactsQuery,
 } from '#Models/query/contact/contacts.read-model.types.js';
+import type { UserReadModel } from '#Models/query/user/users.read-model.js';
 import type { RequestContext } from '#Types/request-context.js';
 
 import { Contact, type PersistedContact } from '#Models/domain/contact/contact.js';
 import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';
+
+interface ContactServicesDependencies {
+  contactRepository: ContactRepository;
+  contactReadModel: ContactReadModel;
+  companyRepository: CompanyRepository;
+  userReadModel: UserReadModel;
+}
 
 interface IContactService {
   getContactById(id: ContactId): Promise<PersistedContact>;
@@ -38,11 +46,17 @@ interface IContactService {
 }
 
 export class ContactService implements IContactService {
-  constructor(
-    private readonly contactRepository: ContactRepository,
-    private readonly contactReadModel: ContactReadModel,
-    private readonly companyRepository: CompanyRepository
-  ) {}
+  private readonly contactRepository: ContactRepository;
+  private readonly contactReadModel: ContactReadModel;
+  private readonly companyRepository: CompanyRepository;
+  private readonly userReadModel: UserReadModel;
+
+  constructor({ companyRepository, contactReadModel, contactRepository, userReadModel }: ContactServicesDependencies) {
+    this.contactRepository = contactRepository;
+    this.contactReadModel = contactReadModel;
+    this.companyRepository = companyRepository;
+    this.userReadModel = userReadModel;
+  }
 
   // ------- COMMANDs ------ //
 
@@ -81,12 +95,15 @@ export class ContactService implements IContactService {
   }
 
   async addContactNote(cmd: AddContactNoteCommand, ctx: RequestContext): Promise<AddContactNoteReturn> {
+    const userProfile = await this.userReadModel.findUserProfileByUserId(ctx.user);
+    if (!userProfile) throw new NotFoundError({ context: { userId: ctx.user }, resource: `Userprofile by UserId` });
+
     const contact = await this.getContactById(cmd.contactId);
 
     const { symbol } = contact.addNote({
       contactId: contact.id,
       content: cmd.note,
-      createdByUserProfileId: asUserProfileId(ctx.userProfile),
+      createdByUserProfileId: asUserProfileId(userProfile.id),
     });
 
     await this.contactRepository.save(contact);
@@ -97,6 +114,9 @@ export class ContactService implements IContactService {
   }
 
   async updateContactNote(cmd: UpdateContactNoteCommand, ctx: RequestContext): Promise<UpdateContactNoteReturn> {
+    const userProfile = await this.userReadModel.findUserProfileByUserId(ctx.user);
+    if (!userProfile) throw new NotFoundError({ context: { userId: ctx.user }, resource: `Userprofile by UserId` });
+
     const contact = await this.getContactById(cmd.contactId);
     const contactNote = await this.contactReadModel.findContactNoteByContactNoteId(cmd.contactNoteId);
 
@@ -109,9 +129,9 @@ export class ContactService implements IContactService {
         contactId: contact.id,
         content: cmd.note,
         createdAt: contactNote.createdAt,
-        createdByUserProfileId: ctx.userProfile,
+        createdByUserProfileId: userProfile.id,
       },
-      ctx.userProfile
+      userProfile.id
     );
 
     await this.contactRepository.save(contact);
@@ -122,13 +142,16 @@ export class ContactService implements IContactService {
   }
 
   async removeContactNote(cmd: RemoveContactNoteCommand, ctx: RequestContext): Promise<ContactNoteId> {
+    const userProfile = await this.userReadModel.findUserProfileByUserId(ctx.user);
+    if (!userProfile) throw new NotFoundError({ context: { userId: ctx.user }, resource: `Userprofile by UserId` });
+
     const contact = await this.getContactById(cmd.contactId);
     const contactNote = await this.contactReadModel.findContactNoteByContactNoteId(cmd.contactNoteId);
 
     if (!contactNote)
       throw new NotFoundError({ context: { contactNoteId: cmd.contactNoteId }, resource: 'Contact-note' });
 
-    contact.removeNote(cmd.contactNoteId, ctx.userProfile);
+    contact.removeNote(cmd.contactNoteId, userProfile.id);
     await this.contactRepository.save(contact);
     return cmd.contactNoteId;
   }

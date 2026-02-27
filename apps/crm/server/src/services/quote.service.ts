@@ -5,15 +5,23 @@ import type {
 } from '#Models/query/company/companies.read-model.types.js';
 import type { QuoteReadModel } from '#Models/query/quote/quotes.read-model.js';
 
+interface QuoteServiceDependencies {
+  quoteRepository: QuoteRepository;
+  quoteReadModel: QuoteReadModel;
+}
+
 interface IQuoteService {
   getPaginatedQuotesForCompany(query: PaginatedCompanyQuotesQuery): Promise<PaginatedCompanyQuotes>;
 }
 
 export class QuoteService implements IQuoteService {
-  constructor(
-    private readonly quoteRepository: QuoteRepository,
-    private readonly quoteReadModel: QuoteReadModel
-  ) {}
+  private readonly quoteRepository: QuoteRepository;
+  private readonly quoteReadModel: QuoteReadModel;
+
+  constructor({ quoteReadModel, quoteRepository }: QuoteServiceDependencies) {
+    this.quoteReadModel = quoteReadModel;
+    this.quoteRepository = quoteRepository;
+  }
 
   // ------- COMMANDs ------ //
   // ------- QUERIES ------- //

@@ -1,6 +1,7 @@
 import type { UUID } from '@apps/crm-shared';
 
 import type { CountryId } from '../country/country.types.js';
+import type { PersistedUserProfile } from '../user/profile/profile.js';
 import type { PersistedCompany } from './company.js';
 import type { PersistedCompanyNote } from './note/note.js';
 import type { CompanyNoteId } from './note/note.types.js';
@@ -43,8 +44,17 @@ export type AddCompanyNoteCommand = {
   note: string;
 };
 
-export type AddCompanyNoteReturn = { company: PersistedCompany; companyNote: PersistedCompanyNote };
-export type UpdateCompanyNoteReturn = { company: PersistedCompany; companyNote: PersistedCompanyNote };
+export type AddCompanyNoteReturn = {
+  company: PersistedCompany;
+  companyNote: PersistedCompanyNote;
+  userProfile: PersistedUserProfile;
+};
+
+export type UpdateCompanyNoteReturn = {
+  company: PersistedCompany;
+  companyNote: PersistedCompanyNote;
+  userProfile: PersistedUserProfile;
+};
 
 export type UpdateCompanyNoteCommand = {
   companyId: CompanyId;

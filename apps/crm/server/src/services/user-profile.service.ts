@@ -8,16 +8,24 @@ import type { UserReadModel } from '#Models/query/user/users.read-model.js';
 import { asUserProfileId, userProfileDomainToUserProfileDTO } from '#Models/domain/user/profile/profile.mapper.js';
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';
 
+interface UserProfileServiceDependencies {
+  userRepository: UserRepository;
+  userReadModel: UserReadModel;
+}
+
 interface IUserProfileService {
   getUserProfilesByIds(userProfileIds: UserProfileId[]): Promise<UserProfileDTO[]>;
   findUserProfileByUserId(id: UserId): Promise<PersistedUserProfile>;
 }
 
 export class UserProfileService implements IUserProfileService {
-  constructor(
-    private readonly userRepository: UserRepository,
-    private readonly userReadModel: UserReadModel
-  ) {}
+  private readonly userRepository: UserRepository;
+  private readonly userReadModel: UserReadModel;
+
+  constructor({ userReadModel, userRepository }: UserProfileServiceDependencies) {
+    this.userReadModel = userReadModel;
+    this.userRepository = userRepository;
+  }
 
   // ------- COMMANDs ------ //
 

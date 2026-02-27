@@ -18,11 +18,19 @@ import type {
   CompaniesOverviewQuery,
   CompanyNoteReadRow,
 } from '#Models/query/company/companies.read-model.types.js';
+import type { UserReadModel } from '#Models/query/user/users.read-model.js';
 import type { RequestContext } from '#Types/request-context.js';
 
 import { Company, type PersistedCompany } from '#Models/domain/company/company.js';
 import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';
+
+interface CompanyServiceDependencies {
+  companyRepository: CompanyRepository;
+  companyReadModel: CompanyReadModel;
+  countryRepository: CountryRepository;
+  userReadModel: UserReadModel;
+}
 
 interface ICompanyService {
   getCompanyById(id: CompanyId): Promise<PersistedCompany>;
@@ -39,11 +47,17 @@ interface ICompanyService {
 }
 
 export class CompanyService implements ICompanyService {
-  constructor(
-    private readonly companyRepository: CompanyRepository,
-    private readonly companyReadModel: CompanyReadModel,
-    private readonly countryRepository: CountryRepository
-  ) {}
+  private readonly companyRepository: CompanyRepository;
+  private readonly companyReadModel: CompanyReadModel;
+  private readonly countryRepository: CountryRepository;
+  private readonly userReadModel: UserReadModel;
+
+  constructor({ companyReadModel, companyRepository, countryRepository, userReadModel }: CompanyServiceDependencies) {
+    this.companyReadModel = companyReadModel;
+    this.companyRepository = companyRepository;
+    this.countryRepository = countryRepository;
+    this.userReadModel = userReadModel;
+  }
 
   // ------- COMMANDs ------ //
 
@@ -91,25 +105,29 @@ export class CompanyService implements ICompanyService {
   }
 
   async addCompanyNote(cmd: AddCompanyNoteCommand, ctx: RequestContext): Promise<AddCompanyNoteReturn> {
+    const userProfile = await this.userReadModel.findUserProfileByUserId(ctx.user);
+    if (!userProfile) throw new NotFoundError({ context: { userId: ctx.user }, resource: `Userprofile by UserId` });
     const company = await this.getCompanyById(cmd.companyId);
 
     const { symbol } = company.addNote({
       companyId: company.id,
       content: cmd.note,
-      createdByUserProfileId: asUserProfileId(ctx.userProfile),
+      createdByUserProfileId: asUserProfileId(userProfile.id),
     });
 
     await this.companyRepository.save(company);
     const companyNote = company.findNoteBySymbol(symbol);
     if (!companyNote) throw new NotFoundError({ resource: 'Company-note' });
 
-    return { company, companyNote };
+    return { company, companyNote, userProfile };
   }
 
   async updateCompanyNote(cmd: UpdateCompanyNoteCommand, ctx: RequestContext): Promise<UpdateCompanyNoteReturn> {
+    const userProfile = await this.userReadModel.findUserProfileByUserId(ctx.user);
+    if (!userProfile) throw new NotFoundError({ context: { userId: ctx.user }, resource: `Userprofile by UserId` });
+
     const company = await this.getCompanyById(cmd.companyId);
     const companyNote = await this.companyReadModel.findCompanyNoteByCompanyNoteId(cmd.companyNoteId);
-
     if (!companyNote)
       throw new NotFoundError({ context: { companyNoteId: cmd.companyNoteId }, resource: 'Company-note' });
 
@@ -119,26 +137,28 @@ export class CompanyService implements ICompanyService {
         companyId: company.id,
         content: cmd.note,
         createdAt: companyNote.createdAt,
-        createdByUserProfileId: ctx.userProfile,
+        createdByUserProfileId: userProfile.id,
       },
-      ctx.userProfile
+      userProfile.id
     );
 
     await this.companyRepository.save(company);
     const updatedCompanyNote = company.findNoteBySymbol(symbol);
     if (!updatedCompanyNote) throw new NotFoundError({ resource: 'Company-note' });
 
-    return { company, companyNote: updatedCompanyNote };
+    return { company, companyNote: updatedCompanyNote, userProfile };
   }
 
   async removeCompanyNote(cmd: RemoveCompanyNoteCommand, ctx: RequestContext): Promise<CompanyNoteId> {
+    const userProfile = await this.userReadModel.findUserProfileByUserId(ctx.user);
+    if (!userProfile) throw new NotFoundError({ context: { userId: ctx.user }, resource: `Userprofile by UserId` });
+
     const company = await this.getCompanyById(cmd.companyId);
     const companyNote = await this.companyReadModel.findCompanyNoteByCompanyNoteId(cmd.companyNoteId);
-
     if (!companyNote)
       throw new NotFoundError({ context: { companyNoteId: cmd.companyNoteId }, resource: 'Company-note' });
 
-    company.removeNote(cmd.companyNoteId, ctx.userProfile);
+    company.removeNote(cmd.companyNoteId, userProfile.id);
     await this.companyRepository.save(company);
     return cmd.companyNoteId;
   }

@@ -77,7 +77,7 @@ export const UserProfileTableRelations = relations(UserProfileTable, ({ many, on
 // ----------- ZOD ---------- //
 export const insertUserProfileSchema = createInsertSchema(UserProfileTable);
 export const selectUserProfileSchema = createSelectSchema(UserProfileTable).extend({ id: z.uuid() as z.ZodType<UUID> });
-export const updateUserProfileSchema = insertUserProfileSchema.omit({ id: true }).partial();
+export const updateUserProfileSchema = insertUserProfileSchema.partial().extend({ id: z.uuid() as z.ZodType<UUID> });
 export type InsertUserProfileSchema = z.infer<typeof insertUserProfileSchema>;
 export type SelectUserProfileSchema = z.infer<typeof selectUserProfileSchema>;
 

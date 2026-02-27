@@ -26,7 +26,7 @@ const companyResolver: Resolvers = {
     company: async (_, { input }, { services }) => {
       const { id } = input;
       const parsedArgs = z.object({ id: z.uuid() }).safeParse({ id });
-      if (!parsedArgs.success) throw invalidInputError('Invalid company UUID');
+      if (!parsedArgs.success) throw invalidInputError('Invalid UUID');
 
       const company = await services.Company.getCompanyById(asCompanyId(id));
       return companyDomainToCompanyDTO(company);
@@ -34,6 +34,7 @@ const companyResolver: Resolvers = {
 
     companiesOverview: async (_, { input }, { services }) => {
       const { filters, pagination } = input;
+      // TODO: Validate inputs
       const page = pagination?.page ?? 1;
       const pageSize = pagination?.pageSize ?? 12;
       const searchCompanyName = filters?.searchCompanyName ?? undefined;
@@ -121,10 +122,9 @@ const companyResolver: Resolvers = {
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const userProfile = await services.UserProfile.findUserProfileByUserId(asUserId(auth.client_id));
       const command = { companyId: asCompanyId(inputCompanyId.data.id), note: inputNote.data.note };
-      const context = { user: asUserId(auth.client_id), role: auth.role, userProfile: asUserProfileId(userProfile.id) };
-      const { company, companyNote } = await services.Company.addCompanyNote(command, context);
+      const context = { user: asUserId(auth.client_id), role: auth.role };
+      const { company, companyNote, userProfile } = await services.Company.addCompanyNote(command, context);
 
       return {
         id: `companies-note:create:${companyNote.id}`,
@@ -152,14 +152,13 @@ const companyResolver: Resolvers = {
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const userProfile = await services.UserProfile.findUserProfileByUserId(asUserId(auth.client_id));
       const command = {
         companyId: asCompanyId(inputCompanyId.data.id),
         companyNoteId: asCompanyNoteId(inputNote.data.id),
         note: inputNote.data.note,
       };
-      const context = { user: asUserId(auth.client_id), role: auth.role, userProfile: asUserProfileId(userProfile.id) };
-      const { company, companyNote } = await services.Company.updateCompanyNote(command, context);
+      const context = { user: asUserId(auth.client_id), role: auth.role };
+      const { company, companyNote, userProfile } = await services.Company.updateCompanyNote(command, context);
 
       return {
         id: `companies-note:update:${companyNote.id}`,
@@ -184,12 +183,11 @@ const companyResolver: Resolvers = {
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const userProfile = await services.UserProfile.findUserProfileByUserId(asUserId(auth.client_id));
       const command = {
         companyId: asCompanyId(inputCompanyId.data.id),
         companyNoteId: asCompanyNoteId(inputCompanyNoteId.data.id),
       };
-      const context = { user: asUserId(auth.client_id), role: auth.role, userProfile: asUserProfileId(userProfile.id) };
+      const context = { user: asUserId(auth.client_id), role: auth.role };
       const companyNoteIdReturn = await services.Company.removeCompanyNote(command, context);
 
       return companyNoteIdReturn;
