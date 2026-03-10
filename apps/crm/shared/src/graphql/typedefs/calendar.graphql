@@ -3,33 +3,39 @@
 # lint-disable types-have-descriptions, fields-have-descriptions
 
 type Query {
-  calendarInitialData(input: CalendarIntitialDataInput!): CalendarInitialData
-  calendarByMonth(input: CalendarByMonthInput!): CalendarMonthData
-  calendarCategories(input: CalendarCategoriesInput!): CalendarCategories
+  calendarInitialData(input: CalendarIntitialDataInput!): CalendarInitialPayload
+  calendarByMonth(input: CalendarByMonthInput!): CalendarByMonthPayload
+  calendarCategories(input: CalendarCategoriesInput!): CalendarCategoriesPayload
+  calendarEvent(input: CalendarEventInput!): CalendarEventPayload
 }
 
 type Mutation {
-  createEvent(input: CreateEventInput!): CalendarEvent!
-  updateEvent(input: UpdateEventInput!): CalendarEvent!
+  createEvent(input: CreateEventInput!): CalendarEventPayload!
+  updateEvent(input: UpdateEventInput!): CalendarEventPayload!
   removeEvent(input: RemoveEventInput!): UUID!
-  createCategory(input: CreateCategoryInput!): CalendarCategories!
+  createCategory(input: CreateCategoryInput!): CalendarCategoryPayload!
   removeCategory(input: RemoveCategoryInput!): UUID!
 }
 
-type CalendarMonthData {
+type CalendarByMonthPayload {
   id: ID!
   events: [CalendarEvent!]!
 }
 
-type CalendarInitialData {
+type CalendarInitialPayload {
   id: ID!
   categories: [CalendarCategory!]!
   events: [CalendarEvent!]!
 }
 
-type CalendarCategories {
+type CalendarCategoriesPayload {
   id: ID!
-  categories: [CalendarCategory!]!
+  calendarCategories: [CalendarCategory!]!
+}
+
+type CalendarCategoryPayload {
+  id: ID!
+  calendarCategory: CalendarCategory!
 }
 
 type CalendarCategory {
@@ -45,32 +51,47 @@ type CalendarEvent {
   startTime: DateTime!
   endTime: DateTime!
   category: CalendarCategory
-  participants: [UserProfile!]!
+  participants: [UserAvatar!]!
+}
+
+type CalendarEventPayload {
+  id: ID!
+  calendarEvent: CalendarEvent!
+  participants: [UserAvatar!]!
 }
 
 input CalendarIntitialDataInput {
+  calendarId: UUID!
   companyId: UUID!
   month: Int!
   year: Int!
 }
 
 input CalendarByMonthInput {
+  calendarId: UUID!
   companyId: UUID!
   month: Int!
   year: Int!
 }
 
 input CalendarCategoriesInput {
+  calendarId: UUID!
   companyId: UUID!
 }
 
+input CalendarEventInput {
+  calendarId: UUID!
+  calendarEventId: UUID!
+}
+
 input CreateEventInput {
+  calendarId: UUID!
+  categoryId: UUID!
   title: String!
   description: String!
   color: HexColorCode!
   startTime: DateTime!
   endTime: DateTime!
-  category: String!
   participants: [UUID!]!
 }
 
@@ -86,13 +107,16 @@ input UpdateEventInput {
 }
 
 input RemoveEventInput {
-  id: UUID!
+  calendarId: UUID!
+  calendarEventId: UUID!
 }
 
 input CreateCategoryInput {
+  calendarId: UUID!
   title: String!
 }
 
 input RemoveCategoryInput {
-  id: UUID!
+  calendarId: UUID!
+  calendarCategoryId: UUID!
 }

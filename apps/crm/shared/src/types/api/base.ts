@@ -1,6 +1,6 @@
 import type { ApiError, ApiErrorDev } from './errors.js';
 
-export type UUID = string & { __uuid?: never };
+export type UUID = string & { readonly __uuid: unique symbol };
 
 // https://jsonapi.org/
 export type ApiResponse<T> = ApiResponseSuccessData<T> | ApiResponseError;
