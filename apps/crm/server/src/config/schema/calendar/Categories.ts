@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
 import { relations } from 'drizzle-orm';
-import { pgTable, unique, uuid, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
@@ -17,11 +17,13 @@ export const CalendarCategoriesTable = pgTable(
   'calendar_event_categories',
   {
     id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
+    clientTemporaryId: uuid('client_temp_id').unique().$type<UUID>(),
     title: varchar('title', { length: 255 }).notNull(),
     calendarId: uuid('calendar_id')
       .references(() => CalendarTable.id, { onDelete: 'cascade' })
       .notNull()
       .$type<UUID>(),
+    createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   },
   // Prevent duplicate category titles per calendar table
   (table) => [unique().on(table.title, table.calendarId)]
@@ -43,7 +45,9 @@ export const insertCalendarCategoriesSchema = createInsertSchema(CalendarCategor
 export const selectCalendarCategoriesSchema = createSelectSchema(CalendarCategoriesTable).extend({
   id: z.uuid() as z.ZodType<UUID>,
 });
-export const updateCalendarCategoriesSchema = insertCalendarCategoriesSchema.omit({ id: true }).partial();
+export const updateCalendarCategoriesSchema = insertCalendarCategoriesSchema
+  .partial()
+  .extend({ id: z.uuid() as z.ZodType<UUID> });
 export type InsertCalendarCategoriesSchema = z.infer<typeof insertCalendarCategoriesSchema>;
 export type SelectCalendarCategoriesSchema = z.infer<typeof selectCalendarCategoriesSchema>;
 

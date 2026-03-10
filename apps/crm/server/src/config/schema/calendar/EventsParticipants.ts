@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
 import { relations } from 'drizzle-orm';
-import { pgTable, uuid } from 'drizzle-orm/pg-core';
+import { pgTable, primaryKey, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
@@ -12,16 +12,20 @@ import { CalendarEventsTable } from './Events.js';
 // ---------- TABLES -------- //
 export type CalendarEventsParticipantsTableInsert = InferInsertModel<typeof CalendarEventsParticipantsTable>;
 export type CalendarEventsParticipantsTableSelect = InferSelectModel<typeof CalendarEventsParticipantsTable>;
-export const CalendarEventsParticipantsTable = pgTable('calendar_event_participants', {
-  eventId: uuid('event_id')
-    .references(() => CalendarEventsTable.id, { onDelete: 'cascade' })
-    .notNull()
-    .$type<UUID>(),
-  userId: uuid('user_id')
-    .references(() => UserProfileTable.id, { onDelete: 'cascade' })
-    .notNull()
-    .$type<UUID>(),
-});
+export const CalendarEventsParticipantsTable = pgTable(
+  'calendar_event_participants',
+  {
+    eventId: uuid('event_id')
+      .references(() => CalendarEventsTable.id, { onDelete: 'cascade' })
+      .notNull()
+      .$type<UUID>(),
+    userId: uuid('user_id')
+      .references(() => UserProfileTable.id, { onDelete: 'cascade' })
+      .notNull()
+      .$type<UUID>(),
+  },
+  (table) => [primaryKey({ columns: [table.eventId, table.userId] })]
+);
 
 // -------- RELATIONS ------- //
 export const CalendarEventsParticipantsTableRelations = relations(CalendarEventsParticipantsTable, ({ one }) => {

@@ -14,6 +14,7 @@ export type KanbanTaskChecklistItemTableSelect = InferSelectModel<typeof KanbanT
 export type KanbanTaskChecklistItemTableUpdate = Partial<Omit<KanbanTaskChecklistItemTableInsert, 'id'>>;
 export const KanbanTaskChecklistItemTable = pgTable('kanban_task_checklist', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<UUID>(),
   title: varchar('title', { length: 255 }).notNull(),
   completed: boolean('completed').default(false).notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),

@@ -8,6 +8,7 @@ import { z } from 'zod';
 
 import { COMPANY_ROLES } from '#Models/domain/user/profile/profile.types.js';
 
+import CalendarEventsParticipantsTable from '../calendar/EventsParticipants.js';
 import CompaniesTable from '../companies/Companies.js';
 import ContactsNotesTable from '../contacts/ContactsNotes.js';
 import CountriesTable from '../Countries.js';
@@ -52,6 +53,7 @@ export const UserProfileTable = pgTable('user_profile', {
 // -------- RELATIONS ------- //
 export const UserProfileTableRelations = relations(UserProfileTable, ({ many, one }) => {
   return {
+    calendarEvents: many(CalendarEventsParticipantsTable),
     contactsNotes: many(ContactsNotesTable),
     pipelineDeals: many(PipelineDealsTable),
     quote: many(QuotesTable),

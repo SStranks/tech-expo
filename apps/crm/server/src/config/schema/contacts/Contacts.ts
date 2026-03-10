@@ -23,6 +23,7 @@ export type ContactsTableSelect = InferSelectModel<typeof ContactsTable>;
 export type ContactsTableUpdate = Partial<Omit<ContactsTableInsert, 'id'>>;
 export const ContactsTable = pgTable('contacts', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<UUID>(),
   firstName: varchar('first_name', { length: 255 }).notNull(),
   lastName: varchar('last_name', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull(),
