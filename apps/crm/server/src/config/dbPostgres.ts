@@ -1,4 +1,8 @@
 /* eslint-disable perfectionist/sort-objects */
+import type { ExtractTablesWithRelations } from 'drizzle-orm';
+import type { PgTransaction } from 'drizzle-orm/pg-core';
+import type { PostgresJsQueryResultHKT } from 'drizzle-orm/postgres-js';
+
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
@@ -189,4 +193,9 @@ const postgresDBCall = async <T>(dbCall: () => Promise<T>): Promise<T> => {
 };
 
 export type PostgresClient = typeof postgresDB;
+export type PostgresTransaction = PgTransaction<
+  PostgresJsQueryResultHKT,
+  typeof schema,
+  ExtractTablesWithRelations<typeof schema>
+>;
 export { connectPostgresDB, postgresClient, postgresDB, postgresDBCall, postgresErrorHTTPMapper };

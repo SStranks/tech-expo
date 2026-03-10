@@ -26,6 +26,7 @@ const config: CodegenConfig = {
         },
         mappers: {
           // NOTE: Key = Schema Type name. Value = What the Parent object is.
+          CalendarEvent: '../../models/domain/calendar/event/events.dto.ts#CalendarEventDTO',
           Company: '../../models/domain/company/company.dto.ts#CompanyDTO',
           CompanyDetailed: '../../models/domain/company/company.dto.ts#CompanyDTO',
           Contact: '../../models/domain/contact/contact.dto.ts#ContactDTO',
