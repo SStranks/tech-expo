@@ -1,10 +1,10 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import { CalendarTable } from './Calendar.js';
 import { CalendarEventsTable } from './Events.js';
@@ -41,13 +41,30 @@ export const CalendarCategoriesTableRelations = relations(CalendarCategoriesTabl
 });
 
 // ----------- ZOD ---------- //
-export const insertCalendarCategoriesSchema = createInsertSchema(CalendarCategoriesTable);
-export const selectCalendarCategoriesSchema = createSelectSchema(CalendarCategoriesTable).extend({
-  id: z.uuid() as z.ZodType<UUID>,
-});
-export const updateCalendarCategoriesSchema = insertCalendarCategoriesSchema
+export const insertCalendarCategoriesSchema = createInsertSchema(CalendarCategoriesTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  calendarId: v.calendarId as UUID,
+  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
+}));
+
+export const selectCalendarCategoriesSchema = createSelectSchema(CalendarCategoriesTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  calendarId: v.calendarId as UUID,
+  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
+}));
+
+export const updateCalendarCategoriesSchema = createInsertSchema(CalendarCategoriesTable)
   .partial()
-  .extend({ id: z.uuid() as z.ZodType<UUID> });
+  .required({ calendarId: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    calendarId: v.calendarId as UUID,
+    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
+  }));
+
 export type InsertCalendarCategoriesSchema = z.infer<typeof insertCalendarCategoriesSchema>;
 export type SelectCalendarCategoriesSchema = z.infer<typeof selectCalendarCategoriesSchema>;
 

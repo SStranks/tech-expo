@@ -1,10 +1,10 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import CompaniesTable from '../companies/Companies.js';
 import CalendarCategoriesTable from './Categories.js';
@@ -38,9 +38,30 @@ export const CalendarTableRelations = relations(CalendarTable, ({ many, one }) =
 });
 
 // ----------- ZOD ---------- //
-export const insertCalendarSchema = createInsertSchema(CalendarTable);
-export const selectCalendarSchema = createSelectSchema(CalendarTable).extend({ id: z.uuid() as z.ZodType<UUID> });
-export const updateCalendarSchema = insertCalendarSchema.partial().extend({ id: z.uuid() as z.ZodType<UUID> });
+export const insertCalendarSchema = createInsertSchema(CalendarTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
+  companyId: v.companyId as UUID,
+}));
+
+export const selectCalendarSchema = createSelectSchema(CalendarTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
+  companyId: v.companyId as UUID,
+}));
+
+export const updateCalendarSchema = createInsertSchema(CalendarTable)
+  .partial()
+  .required({ companyId: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
+    companyId: v.companyId as UUID,
+  }));
+
 export type InsertCalendarSchema = z.infer<typeof insertCalendarSchema>;
 export type SelectCalendarSchema = z.infer<typeof selectCalendarSchema>;
 

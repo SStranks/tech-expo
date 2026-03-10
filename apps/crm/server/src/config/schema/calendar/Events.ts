@@ -1,10 +1,10 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
 
 import { relations } from 'drizzle-orm';
 import { char, pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import { CalendarTable } from './Calendar.js';
 import { CalendarCategoriesTable } from './Categories.js';
@@ -49,14 +49,33 @@ export const CalendarEventsTableRelations = relations(CalendarEventsTable, ({ ma
 });
 
 // ----------- ZOD ---------- //
-export const insertCalendarEventsSchema = createInsertSchema(CalendarEventsTable);
-export const selectCalendarEventsSchema = createSelectSchema(CalendarEventsTable).extend({
-  id: z.uuid() as z.ZodType<UUID>,
-});
-export const updateCalendarEventsSchema = insertCalendarEventsSchema
+export const insertCalendarEventsSchema = createInsertSchema(CalendarEventsTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  calendarId: v.calendarId as UUID,
+  categoryId: v.categoryId as UUID,
+  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
+}));
+
+export const selectCalendarEventsSchema = createSelectSchema(CalendarEventsTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  calendarId: v.calendarId as UUID,
+  categoryId: v.categoryId as UUID,
+  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
+}));
+
+export const updateCalendarEventsSchema = createInsertSchema(CalendarEventsTable)
   .partial()
   .required({ calendarId: true, categoryId: true })
-  .extend({ id: z.uuid() as z.ZodType<UUID> });
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    calendarId: v.calendarId as UUID,
+    categoryId: v.categoryId as UUID,
+    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
+  }));
+
 export type InsertCalendarEventsSchema = z.infer<typeof insertCalendarEventsSchema>;
 export type SelectCalendarEventsSchema = z.infer<typeof selectCalendarEventsSchema>;
 
