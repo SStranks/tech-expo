@@ -1,10 +1,10 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
 
 import { relations } from 'drizzle-orm';
 import { integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import CompaniesTable from './companies/Companies.js';
 import TimeZoneTable from './TimeZones.js';
@@ -33,9 +33,15 @@ export const CountriesTablerelations = relations(CountriesTable, ({ many }) => {
 });
 
 // ----------- ZOD ---------- //
-export const insertCountriesSchema = createInsertSchema(CountriesTable);
-export const selectCountriesSchema = createSelectSchema(CountriesTable).extend({ id: z.uuid() as z.ZodType<UUID> });
-export const updateCountriesSchema = insertCountriesSchema.partial().extend({ id: z.uuid() as z.ZodType<UUID> });
+export const insertCountriesSchema = createInsertSchema(CountriesTable).omit({ id: true });
+
+export const selectCountriesSchema = createSelectSchema(CountriesTable).transform((v) => ({ ...v, id: v.id as UUID }));
+
+export const updateCountriesSchema = createInsertSchema(CountriesTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({ ...v, id: v.id as UUID }));
+
 export type InsertCountriesSchema = z.infer<typeof insertCountriesSchema>;
 export type SelectCountriesSchema = z.infer<typeof selectCountriesSchema>;
 

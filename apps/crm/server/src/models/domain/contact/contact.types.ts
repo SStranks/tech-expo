@@ -20,6 +20,7 @@ export const CONTACT_STAGE = [
 ] as const;
 
 export type ContactId = UUID & { readonly __contactId: unique symbol };
+export type ContactSymbol = UUID & { readonly __contactSymbol: unique symbol };
 
 export type CreateContactCommand = {
   firstName: string;

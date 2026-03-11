@@ -1,10 +1,12 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
+
+import type { QuoteSymbol } from '#Models/domain/quote/quote.types.js';
 
 import { relations } from 'drizzle-orm';
 import { numeric, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import { QUOTE_STAGE } from '#Models/domain/quote/quote.types.js';
 
@@ -65,9 +67,37 @@ export const QuotesTableRelations = relations(QuotesTable, ({ many, one }) => {
 });
 
 // ----------- ZOD ---------- //
-export const insertQuotesSchema = createInsertSchema(QuotesTable);
-export const selectQuotesSchema = createSelectSchema(QuotesTable).extend({ id: z.uuid() as z.ZodType<UUID> });
-export const updateQuotesSchema = insertQuotesSchema.omit({ id: true }).partial();
+export const insertQuotesSchema = createInsertSchema(QuotesTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    clientTemporaryId: v.clientTemporaryId as QuoteSymbol,
+    companyId: v.companyId as UUID,
+    preparedByUserProfileId: v.preparedByUserProfileId as UUID,
+    preparedForContactId: v.preparedForContactId as UUID,
+  }));
+
+export const selectQuotesSchema = createSelectSchema(QuotesTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  clientTemporaryId: v.clientTemporaryId as QuoteSymbol,
+  companyId: v.companyId as UUID,
+  preparedByUserProfileId: v.preparedByUserProfileId as UUID,
+  preparedForContactId: v.preparedForContactId as UUID,
+}));
+
+export const updateQuotesSchema = createSelectSchema(QuotesTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    clientTemporaryId: v.clientTemporaryId as QuoteSymbol,
+    companyId: v.companyId as UUID,
+    preparedByUserProfileId: v.preparedByUserProfileId as UUID,
+    preparedForContactId: v.preparedForContactId as UUID,
+  }));
+
 export type InsertQuotesSchema = z.infer<typeof insertQuotesSchema>;
 export type SelectQuotesSchema = z.infer<typeof selectQuotesSchema>;
 

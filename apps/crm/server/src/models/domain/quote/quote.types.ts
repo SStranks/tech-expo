@@ -4,3 +4,4 @@ export type QuoteStage = (typeof QUOTE_STAGE)[number];
 export const QUOTE_STAGE = ['DRAFT', 'SENT', 'ACCEPTED'] as const;
 
 export type QuoteId = UUID & { readonly __quoteId: unique symbol };
+export type QuoteSymbol = UUID & { readonly __quoteSymbol: unique symbol };

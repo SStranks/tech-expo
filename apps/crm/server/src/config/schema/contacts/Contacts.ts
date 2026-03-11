@@ -1,10 +1,12 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
+
+import type { ContactSymbol } from '#Models/domain/contact/contact.types.js';
 
 import { relations } from 'drizzle-orm';
 import { char, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import { CONTACT_STAGE } from '#Models/domain/contact/contact.types.js';
 
@@ -59,9 +61,34 @@ export const ContactsTableRelations = relations(ContactsTable, ({ many, one }) =
 });
 
 // ----------- ZOD ---------- //
-export const insertContactsSchema = createInsertSchema(ContactsTable);
-export const selectContactsSchema = createSelectSchema(ContactsTable).extend({ id: z.uuid() as z.ZodType<UUID> });
-export const updateContactsSchema = insertContactsSchema.partial().extend({ id: z.uuid() as z.ZodType<UUID> });
+export const insertContactsSchema = createInsertSchema(ContactsTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    clientTemporaryId: v.clientTemporaryId as ContactSymbol,
+    companyId: v.companyId as UUID,
+    timezoneId: v.timezoneId as UUID,
+  }));
+
+export const selectContactsSchema = createSelectSchema(ContactsTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  clientTemporaryId: v.clientTemporaryId as ContactSymbol,
+  companyId: v.companyId as UUID,
+  timezoneId: v.timezoneId as UUID,
+}));
+
+export const updateContactsSchema = createInsertSchema(ContactsTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    clientTemporaryId: v.clientTemporaryId as ContactSymbol,
+    companyId: v.companyId as UUID,
+    timezoneId: v.timezoneId as UUID,
+  }));
+
 export type InsertContactsSchema = z.infer<typeof insertContactsSchema>;
 export type SelectContactsSchema = z.infer<typeof selectContactsSchema>;
 

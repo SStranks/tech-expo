@@ -1,10 +1,12 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
+
+import type { KanbanTaskChecklistSymbol } from '#Models/domain/kanban/task/task.types.js';
 
 import { relations } from 'drizzle-orm';
 import { boolean, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import KanbanTasksTable from './Tasks.js';
 
@@ -35,11 +37,31 @@ export const KanbanTaskChecklistItemRelations = relations(KanbanTaskChecklistIte
 });
 
 // ----------- ZOD ---------- //
-export const insertKanbanTaskChecklistItemSchema = createInsertSchema(KanbanTaskChecklistItemTable);
-export const selectKanbanTaskChecklistItemSchema = createSelectSchema(KanbanTaskChecklistItemTable).extend({
-  id: z.uuid() as z.ZodType<UUID>,
-});
-export const updateKanbanTaskChecklistItemSchema = insertKanbanTaskChecklistItemSchema.omit({ id: true }).partial();
+export const insertKanbanTaskChecklistItemSchema = createInsertSchema(KanbanTaskChecklistItemTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistSymbol,
+    taskId: v.taskId as UUID,
+  }));
+
+export const selectKanbanTaskChecklistItemSchema = createSelectSchema(KanbanTaskChecklistItemTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistSymbol,
+  taskId: v.taskId as UUID,
+}));
+
+export const updateKanbanTaskChecklistItemSchema = createInsertSchema(KanbanTaskChecklistItemTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistSymbol,
+    taskId: v.taskId as UUID,
+  }));
+
 export type InsertKanbanTaskChecklistItemsSchema = z.infer<typeof insertKanbanTaskChecklistItemSchema>;
 export type SelectKanbanTaskChecklistItemsSchema = z.infer<typeof selectKanbanTaskChecklistItemSchema>;
 

@@ -1,10 +1,10 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
 
 import { relations } from 'drizzle-orm';
 import { jsonb, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import { ENTITY_ACTION } from '#Models/domain/audit/auditlog.types.js';
 
@@ -42,9 +42,25 @@ export const AuditLogTableRelations = relations(AuditLogTable, ({ one }) => {
 });
 
 // ----------- ZOD ---------- //
-export const insertAuditLogSchema = createInsertSchema(AuditLogTable);
-export const selectAuditLogSchema = createSelectSchema(AuditLogTable).extend({ id: z.uuid() as z.ZodType<UUID> });
-export const updateAuditLogSchema = insertAuditLogSchema.omit({ id: true }).partial();
+export const insertAuditLogSchema = createInsertSchema(AuditLogTable)
+  .omit({ id: true })
+  .transform((v) => ({ ...v, changedByUserId: v.changedByUserId as UUID }));
+
+export const selectAuditLogSchema = createSelectSchema(AuditLogTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  changedByUserId: v.changedByUserId as UUID,
+}));
+
+export const updateAuditLogSchema = createInsertSchema(AuditLogTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    changedByUserId: v.changedByUserId as UUID,
+  }));
+
 export type InsertAuditSchema = z.infer<typeof insertAuditLogSchema>;
 export type SelectAuditSchema = z.infer<typeof selectAuditLogSchema>;
 

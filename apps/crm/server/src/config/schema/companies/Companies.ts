@@ -1,6 +1,8 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
+import type { CompanySymbol } from '#Models/domain/company/company.types.js';
+
 import { relations } from 'drizzle-orm';
 import { numeric, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
@@ -59,21 +61,50 @@ export const CompaniesTableRelations = relations(CompaniesTable, ({ many, one })
 });
 
 // ----------- ZOD ---------- //
-export const insertCompaniesSchema = createInsertSchema(CompaniesTable);
-export const selectCompaniesSchema = createSelectSchema(CompaniesTable).extend({ id: z.uuid() as z.ZodType<UUID> });
-export const updateCompaniesSchema = insertCompaniesSchema.partial().extend({ id: z.uuid() as z.ZodType<UUID> });
+export const insertCompaniesSchema = createInsertSchema(CompaniesTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    clientTemporaryId: v.clientTemporaryId as CompanySymbol,
+    countryId: v.countryId as UUID,
+  }));
+
+export const selectCompaniesSchema = createSelectSchema(CompaniesTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  clientTemporaryId: v.clientTemporaryId as CompanySymbol,
+  countryId: v.countryId as UUID,
+}));
+
+export const updateCompaniesSchema = createSelectSchema(CompaniesTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    clientTemporaryId: v.clientTemporaryId as CompanySymbol,
+    countryId: v.countryId as UUID,
+  }));
+
+export const updateCompaniesCommandSchema = createInsertSchema(CompaniesTable)
+  .partial()
+  .extend({
+    addNotes: z
+      .array(
+        z.object({
+          body: z.string().min(1),
+        })
+      )
+      .optional(),
+  })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    clientTemporaryId: v.clientTemporaryId as CompanySymbol,
+    countryId: v.countryId as UUID,
+  }));
+
 export type InsertCompaniesSchema = z.infer<typeof insertCompaniesSchema>;
 export type SelectCompaniesSchema = z.infer<typeof selectCompaniesSchema>;
-export const updateCompaniesCommandSchema = insertCompaniesSchema.partial().extend({
-  id: z.uuid() as z.ZodType<UUID>,
-  removeNoteIds: z.array(z.uuid() as z.ZodType<UUID>).optional(),
-  addNotes: z
-    .array(
-      z.object({
-        body: z.string().min(1),
-      })
-    )
-    .optional(),
-});
 
 export default CompaniesTable;

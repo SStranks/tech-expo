@@ -1,10 +1,12 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
+
+import type { QuoteServiceSymbol } from '#Models/domain/quote/service/service.types.js';
 
 import { relations } from 'drizzle-orm';
 import { integer, numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import QuotesTable from './Quotes.js';
 
@@ -38,11 +40,31 @@ export const QuoteServicesTableRelations = relations(QuoteServicesTable, ({ one 
 });
 
 // ----------- ZOD ---------- //
-export const insertQuoteServicesSchema = createInsertSchema(QuoteServicesTable);
-export const selectQuoteServicesSchema = createSelectSchema(QuoteServicesTable).extend({
-  id: z.uuid() as z.ZodType<UUID>,
-});
-export const updateQuoteServicesSchema = insertQuoteServicesSchema.omit({ id: true }).partial();
+export const insertQuoteServicesSchema = createInsertSchema(QuoteServicesTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    clientTemporaryId: v.clientTemporaryId as QuoteServiceSymbol,
+    quoteId: v.quoteId as UUID,
+  }));
+
+export const selectQuoteServicesSchema = createSelectSchema(QuoteServicesTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  clientTemporaryId: v.clientTemporaryId as QuoteServiceSymbol,
+  quoteId: v.quoteId as UUID,
+}));
+
+export const updateQuoteServicesSchema = createInsertSchema(QuoteServicesTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    clientTemporaryId: v.clientTemporaryId as QuoteServiceSymbol,
+    quoteId: v.quoteId as UUID,
+  }));
+
 export type InsertQuoteServicesSchema = z.infer<typeof insertQuoteServicesSchema>;
 export type SelectQuoteServicesSchema = z.infer<typeof selectQuoteServicesSchema>;
 

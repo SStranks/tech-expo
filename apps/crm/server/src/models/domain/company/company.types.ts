@@ -14,6 +14,8 @@ export type BusinessType = (typeof BUSINESS_TYPE)[number];
 
 export type CompanyId = UUID & { readonly __companyId: unique symbol };
 
+export type CompanySymbol = UUID & { readonly __companySymbol: unique symbol };
+
 export type CreateCompanyCommand = {
   name: string;
   size: CompanySize;

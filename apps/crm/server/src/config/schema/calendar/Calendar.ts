@@ -2,6 +2,8 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
+import type { CalendarSymbol } from '#Models/domain/calendar/calendar.types.js';
+
 import { relations } from 'drizzle-orm';
 import { pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
@@ -16,7 +18,7 @@ export type CalendarTableSelect = InferSelectModel<typeof CalendarTable>;
 export type CalendarTableUpdate = Partial<Omit<CalendarTableSelect, 'id'>>;
 export const CalendarTable = pgTable('calendar', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<UUID>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<CalendarSymbol>(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'cascade' })
     .notNull()
@@ -38,27 +40,28 @@ export const CalendarTableRelations = relations(CalendarTable, ({ many, one }) =
 });
 
 // ----------- ZOD ---------- //
-export const insertCalendarSchema = createInsertSchema(CalendarTable).transform((v) => ({
-  ...v,
-  id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
-  companyId: v.companyId as UUID,
-}));
+export const insertCalendarSchema = createInsertSchema(CalendarTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarSymbol) : null,
+    companyId: v.companyId as UUID,
+  }));
 
 export const selectCalendarSchema = createSelectSchema(CalendarTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
+  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarSymbol) : null,
   companyId: v.companyId as UUID,
 }));
 
 export const updateCalendarSchema = createInsertSchema(CalendarTable)
   .partial()
-  .required({ companyId: true })
+  .required({ id: true })
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
+    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarSymbol) : null,
     companyId: v.companyId as UUID,
   }));
 

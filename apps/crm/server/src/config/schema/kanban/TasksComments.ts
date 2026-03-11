@@ -1,10 +1,12 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
+
+import type { KanbanTaskCommentSymbol } from '#Models/domain/kanban/task/task.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import UserProfileTable from '../user/UserProfile.js';
 import KanbanTasksTable from './Tasks.js';
@@ -43,11 +45,34 @@ export const KanbanTaskCommentsTableRelations = relations(KanbanTaskCommentsTabl
 });
 
 // ----------- ZOD ---------- //
-export const insertKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskCommentsTable);
-export const selectKanbanTaskCommentsSchema = createSelectSchema(KanbanTaskCommentsTable).extend({
-  id: z.uuid() as z.ZodType<UUID>,
-});
-export const updateKanbanTaskCommentsSchema = insertKanbanTaskCommentsSchema.omit({ id: true }).partial();
+export const insertKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskCommentsTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentSymbol,
+    createdByUserProfileId: v.createdByUserProfileId as UUID,
+    taskId: v.taskId as UUID,
+  }));
+
+export const selectKanbanTaskCommentsSchema = createSelectSchema(KanbanTaskCommentsTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentSymbol,
+  createdByUserProfileId: v.createdByUserProfileId as UUID,
+  taskId: v.taskId as UUID,
+}));
+
+export const updateKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskCommentsTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentSymbol,
+    createdByUserProfileId: v.createdByUserProfileId as UUID,
+    taskId: v.taskId as UUID,
+  }));
+
 export type InsertKanbanTaskCommentsSchema = z.infer<typeof insertKanbanTaskCommentsSchema>;
 export type SelectKanbanTaskCommentsSchema = z.infer<typeof selectKanbanTaskCommentsSchema>;
 

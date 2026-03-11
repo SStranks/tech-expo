@@ -1,10 +1,12 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
+
+import type { KanbanTaskSymbol } from '#Models/domain/kanban/task/task.types.js';
 
 import { relations } from 'drizzle-orm';
 import { boolean, pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import UserProfileTable from '../user/UserProfile.js';
 import KanbanTaskChecklistItemTable from './ChecklistItems.js';
@@ -50,9 +52,34 @@ export const KanbanTaskTableRelations = relations(KanbanTasksTable, ({ many, one
 });
 
 // ----------- ZOD ---------- //
-export const insertKanbanTasksSchema = createInsertSchema(KanbanTasksTable);
-export const selectKanbanTasksSchema = createSelectSchema(KanbanTasksTable).extend({ id: z.uuid() as z.ZodType<UUID> });
-export const updateKanbanTasksSchema = insertKanbanTasksSchema.omit({ id: true }).partial();
+export const insertKanbanTasksSchema = createInsertSchema(KanbanTasksTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    assignedUserProfileId: v.assignedUserProfileId as UUID,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskSymbol,
+    stageId: v.stageId as UUID,
+  }));
+
+export const selectKanbanTasksSchema = createSelectSchema(KanbanTasksTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  assignedUserProfileId: v.assignedUserProfileId as UUID,
+  clientTemporaryId: v.clientTemporaryId as KanbanTaskSymbol,
+  stageId: v.stageId as UUID,
+}));
+
+export const updateKanbanTasksSchema = createInsertSchema(KanbanTasksTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    assignedUserProfileId: v.assignedUserProfileId as UUID,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskSymbol,
+    stageId: v.stageId as UUID,
+  }));
+
 export type InsertKanbanTasksSchema = z.infer<typeof insertKanbanTasksSchema>;
 export type SelectKanbanTasksSchema = z.infer<typeof selectKanbanTasksSchema>;
 

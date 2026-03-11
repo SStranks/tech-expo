@@ -1,10 +1,12 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
+
+import type { ContactNoteSymbol } from '#Models/domain/contact/note/note.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import UserProfileTable from '../user/UserProfile.js';
 import ContactsTable from './Contacts.js';
@@ -43,13 +45,34 @@ export const ContactsNotesTableeRelations = relations(ContactsNotesTable, ({ one
 });
 
 // ----------- ZOD ---------- //
-export const insertContactsNotesSchema = createInsertSchema(ContactsNotesTable);
-export const selectContactsNotesSchema = createSelectSchema(ContactsNotesTable).extend({
-  id: z.uuid() as z.ZodType<UUID>,
-});
-export const updateContactsNotesSchema = insertContactsNotesSchema
+export const insertContactsNotesSchema = createInsertSchema(ContactsNotesTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    clientTemporaryId: v.clientTemporaryId as ContactNoteSymbol,
+    contactId: v.contactId as UUID,
+    createdByUserProfileId: v.createdByUserProfileId as UUID,
+  }));
+
+export const selectContactsNotesSchema = createSelectSchema(ContactsNotesTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  clientTemporaryId: v.clientTemporaryId as ContactNoteSymbol,
+  contactId: v.contactId as UUID,
+  createdByUserProfileId: v.createdByUserProfileId as UUID,
+}));
+
+export const updateContactsNotesSchema = createInsertSchema(ContactsNotesTable)
   .partial()
-  .extend({ id: z.uuid() as z.ZodType<UUID> });
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    clientTemporaryId: v.clientTemporaryId as ContactNoteSymbol,
+    contactId: v.contactId as UUID,
+    createdByUserProfileId: v.createdByUserProfileId as UUID,
+  }));
+
 export type InsertContactsNotesSchema = z.infer<typeof insertContactsNotesSchema>;
 export type SelectContactsNotesSchema = z.infer<typeof selectContactsNotesSchema>;
 

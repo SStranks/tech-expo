@@ -1,10 +1,12 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
+
+import type { KanbanStageSymbol } from '#Models/domain/kanban/stage/stage.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import KanbanTable from './Kanban.js';
 
@@ -34,11 +36,31 @@ export const KanbanStagesTableRelations = relations(KanbanStagesTable, ({ one })
 });
 
 // ----------- ZOD ---------- //
-export const insertKanbanStagesSchema = createInsertSchema(KanbanStagesTable);
-export const selectKanbanStagesSchema = createSelectSchema(KanbanStagesTable).extend({
-  id: z.uuid() as z.ZodType<UUID>,
-});
-export const updateKanbanStagesSchema = insertKanbanStagesSchema.omit({ id: true }).partial();
+export const insertKanbanStagesSchema = createInsertSchema(KanbanStagesTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    clientTemporaryId: v.clientTemporaryId as KanbanStageSymbol,
+    kanbanId: v.kanbanId as UUID,
+  }));
+
+export const selectKanbanStagesSchema = createSelectSchema(KanbanStagesTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  clientTemporaryId: v.clientTemporaryId as KanbanStageSymbol,
+  kanbanId: v.kanbanId as UUID,
+}));
+
+export const updateKanbanStagesSchema = createInsertSchema(KanbanStagesTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    clientTemporaryId: v.clientTemporaryId as KanbanStageSymbol,
+    kanbanId: v.kanbanId as UUID,
+  }));
+
 export type InsertKanbanStagesSchema = z.infer<typeof insertKanbanStagesSchema>;
 export type SelectKanbanStagesSchema = z.infer<typeof selectKanbanStagesSchema>;
 

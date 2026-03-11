@@ -1,10 +1,10 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type z from 'zod';
 
 import { relations } from 'drizzle-orm';
 import { char, pgTable, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import z from 'zod';
 
 import ContactsTable from './contacts/Contacts.js';
 import CountriesTable from './Countries.js';
@@ -37,9 +37,28 @@ export const TimeZoneTableRelations = relations(TimeZoneTable, ({ many, one }) =
 });
 
 // ----------- ZOD ---------- //
-export const insertTimeZoneSchema = createInsertSchema(TimeZoneTable);
-export const selectTimeZoneSchema = createSelectSchema(TimeZoneTable).extend({ id: z.uuid() as z.ZodType<UUID> });
-export const updateTimeZoneSchema = insertTimeZoneSchema.omit({ id: true }).partial();
+export const insertTimeZoneSchema = createInsertSchema(TimeZoneTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    countryId: v.countryId as UUID,
+  }));
+
+export const selectTimeZoneSchema = createSelectSchema(TimeZoneTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  countryId: v.countryId as UUID,
+}));
+
+export const updateTimeZoneSchema = createInsertSchema(TimeZoneTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    countryId: v.countryId as UUID,
+  }));
+
 export type InsertTimeZoneSchema = z.infer<typeof insertTimeZoneSchema>;
 export type SelectTimeZoneSchema = z.infer<typeof selectTimeZoneSchema>;
 

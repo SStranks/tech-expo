@@ -2,6 +2,8 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
+import type { CalendarEventSymbol } from '#Models/domain/calendar/events/event.types.js';
+
 import { relations } from 'drizzle-orm';
 import { char, pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
@@ -16,7 +18,7 @@ export type CalendarEventsTableSelect = InferSelectModel<typeof CalendarEventsTa
 export type CalendarEventsTableUpdate = Partial<Omit<CalendarEventsTableInsert, 'id'>>;
 export const CalendarEventsTable = pgTable('calendar_events', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<UUID>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<CalendarEventSymbol>(),
   title: varchar('title', { length: 255 }).notNull(),
   calendarId: uuid('calendar_id')
     .references(() => CalendarTable.id, { onDelete: 'cascade' })
@@ -49,31 +51,32 @@ export const CalendarEventsTableRelations = relations(CalendarEventsTable, ({ ma
 });
 
 // ----------- ZOD ---------- //
-export const insertCalendarEventsSchema = createInsertSchema(CalendarEventsTable).transform((v) => ({
-  ...v,
-  id: v.id as UUID,
-  calendarId: v.calendarId as UUID,
-  categoryId: v.categoryId as UUID,
-  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
-}));
+export const insertCalendarEventsSchema = createInsertSchema(CalendarEventsTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    calendarId: v.calendarId as UUID,
+    categoryId: v.categoryId as UUID,
+    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarEventSymbol) : null,
+  }));
 
 export const selectCalendarEventsSchema = createSelectSchema(CalendarEventsTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
   calendarId: v.calendarId as UUID,
   categoryId: v.categoryId as UUID,
-  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
+  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarEventSymbol) : null,
 }));
 
 export const updateCalendarEventsSchema = createInsertSchema(CalendarEventsTable)
   .partial()
-  .required({ calendarId: true, categoryId: true })
+  .required({ id: true })
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
     calendarId: v.calendarId as UUID,
     categoryId: v.categoryId as UUID,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as UUID) : null,
+    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarEventSymbol) : null,
   }));
 
 export type InsertCalendarEventsSchema = z.infer<typeof insertCalendarEventsSchema>;

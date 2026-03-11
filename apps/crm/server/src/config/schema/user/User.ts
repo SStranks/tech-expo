@@ -1,11 +1,11 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
 
 import { USER_ROLES } from '@apps/crm-shared';
 import { relations } from 'drizzle-orm';
 import { boolean, pgEnum, pgTable, timestamp, uniqueIndex, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import AuditLogTable from '../AuditLog.js';
 import UserProfileTable from './UserProfile.js';
@@ -49,9 +49,15 @@ export const UserTableRelations = relations(UserTable, ({ many, one }) => {
 });
 
 // ----------- ZOD ---------- //
-export const insertUserSchema = createInsertSchema(UserTable);
-export const selectUserSchema = createSelectSchema(UserTable).extend({ id: z.uuid() as z.ZodType<UUID> });
-export const updateUserSchema = insertUserSchema.omit({ id: true }).partial();
+export const insertUserSchema = createInsertSchema(UserTable).omit({ id: true });
+
+export const selectUserSchema = createSelectSchema(UserTable).transform((v) => ({ ...v, id: v.id as UUID }));
+
+export const updateUserSchema = createInsertSchema(UserTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({ ...v, id: v.id as UUID }));
+
 export type InsertUserSchema = z.infer<typeof insertUserSchema>;
 export type SelectUserSchema = z.infer<typeof selectUserSchema>;
 

@@ -1,10 +1,12 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
+
+import type { PipelineStageSymbol } from '#Models/domain/pipeline/stage/stage.types.js';
 
 import { relations } from 'drizzle-orm';
 import { boolean, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import PipelineTable from './Pipeline.js';
 
@@ -35,11 +37,31 @@ export const PipelineStagesTableRelations = relations(PipelineStagesTable, ({ on
 });
 
 // ----------- ZOD ---------- //
-export const insertPipelineStagesSchema = createInsertSchema(PipelineStagesTable);
-export const selectPipelineStagesSchema = createSelectSchema(PipelineStagesTable).extend({
-  id: z.uuid() as z.ZodType<UUID>,
-});
-export const updatePipelineStagesSchema = insertPipelineStagesSchema.omit({ id: true }).partial();
+export const insertPipelineStagesSchema = createInsertSchema(PipelineStagesTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    clientTemporaryId: v.clientTemporaryId as PipelineStageSymbol,
+    pipelineId: v.pipelineId as UUID,
+  }));
+
+export const selectPipelineStagesSchema = createSelectSchema(PipelineStagesTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  clientTemporaryId: v.clientTemporaryId as PipelineStageSymbol,
+  pipelineId: v.pipelineId as UUID,
+}));
+
+export const updatePipelineStagesSchema = createInsertSchema(PipelineStagesTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    clientTemporaryId: v.clientTemporaryId as PipelineStageSymbol,
+    pipelineId: v.pipelineId as UUID,
+  }));
+
 export type InsertPiplineStagesSchema = z.infer<typeof insertPipelineStagesSchema>;
 export type SelectPiplineStagesSchema = z.infer<typeof selectPipelineStagesSchema>;
 

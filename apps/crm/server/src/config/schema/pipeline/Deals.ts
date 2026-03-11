@@ -1,10 +1,12 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
+
+import type { PipelineDealSymbol } from '#Models/domain/pipeline/deal/deal.types.js';
 
 import { relations } from 'drizzle-orm';
 import { numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import CompaniesTable from '../companies/Companies.js';
 import ContactsTable from '../contacts/Contacts.js';
@@ -63,11 +65,40 @@ export const PipelineDealsTableRelations = relations(PipelineDealsTable, ({ one 
 });
 
 // ----------- ZOD ---------- //
-export const insertPipelineDealsSchema = createInsertSchema(PipelineDealsTable);
-export const selectPipelineDealsSchema = createSelectSchema(PipelineDealsTable).extend({
-  id: z.uuid() as z.ZodType<UUID>,
-});
-export const updatePipelineDealsSchema = insertPipelineDealsSchema.omit({ id: true }).partial();
+export const insertPipelineDealsSchema = createInsertSchema(PipelineDealsTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    clientTemporaryId: v.clientTemporaryId as PipelineDealSymbol,
+    companyId: v.companyId as UUID,
+    dealContactId: v.dealContactId as UUID,
+    dealOwnerUserProfileId: v.dealOwnerUserProfileId as UUID,
+    stageId: v.stageId as UUID,
+  }));
+
+export const selectPipelineDealsSchema = createSelectSchema(PipelineDealsTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  clientTemporaryId: v.clientTemporaryId as PipelineDealSymbol,
+  companyId: v.companyId as UUID,
+  dealContactId: v.dealContactId as UUID,
+  dealOwnerUserProfileId: v.dealOwnerUserProfileId as UUID,
+  stageId: v.stageId as UUID,
+}));
+
+export const updatePipelineDealsSchema = createInsertSchema(PipelineDealsTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    clientTemporaryId: v.clientTemporaryId as PipelineDealSymbol,
+    companyId: v.companyId as UUID,
+    dealContactId: v.dealContactId as UUID,
+    dealOwnerUserProfileId: v.dealOwnerUserProfileId as UUID,
+    stageId: v.stageId as UUID,
+  }));
+
 export type InsertPipelineDealsSchema = z.infer<typeof insertPipelineDealsSchema>;
 export type SelectPipelineDealsSchema = z.infer<typeof selectPipelineDealsSchema>;
 

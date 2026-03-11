@@ -1,10 +1,10 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { z } from 'zod';
 
 import { relations } from 'drizzle-orm';
 import { char, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { z } from 'zod';
 
 import { COMPANY_ROLES } from '#Models/domain/user/profile/profile.types.js';
 
@@ -35,7 +35,9 @@ export const UserProfileTable = pgTable('user_profile', {
   email: varchar('email', { length: 255 }).notNull(), // TODO:  Option to sync with account email, or use separate one.
   mobile: varchar('mobile', { length: 255 }),
   telephone: varchar('telephone', { length: 255 }),
-  timezoneId: uuid('timezone_id').references(() => TimeZoneTable.id),
+  timezoneId: uuid('timezone_id')
+    .references(() => TimeZoneTable.id)
+    .$type<UUID>(),
   countryId: uuid('country_id')
     .references(() => CountriesTable.id)
     .notNull()
@@ -77,9 +79,37 @@ export const UserProfileTableRelations = relations(UserProfileTable, ({ many, on
 });
 
 // ----------- ZOD ---------- //
-export const insertUserProfileSchema = createInsertSchema(UserProfileTable);
-export const selectUserProfileSchema = createSelectSchema(UserProfileTable).extend({ id: z.uuid() as z.ZodType<UUID> });
-export const updateUserProfileSchema = insertUserProfileSchema.partial().extend({ id: z.uuid() as z.ZodType<UUID> });
+export const insertUserProfileSchema = createInsertSchema(UserProfileTable)
+  .omit({ id: true })
+  .transform((v) => ({
+    ...v,
+    companyId: v.companyId as UUID,
+    countryId: v.countryId as UUID,
+    timezoneId: v.timezoneId as UUID,
+    userId: v.userId as UUID,
+  }));
+
+export const selectUserProfileSchema = createSelectSchema(UserProfileTable).transform((v) => ({
+  ...v,
+  id: v.id as UUID,
+  companyId: v.companyId as UUID,
+  countryId: v.countryId as UUID,
+  timezoneId: v.timezoneId as UUID,
+  userId: v.userId as UUID,
+}));
+
+export const updateUserProfileSchema = createInsertSchema(UserProfileTable)
+  .partial()
+  .required({ id: true })
+  .transform((v) => ({
+    ...v,
+    id: v.id as UUID,
+    companyId: v.companyId as UUID,
+    countryId: v.countryId as UUID,
+    timezoneId: v.timezoneId as UUID,
+    userId: v.userId as UUID,
+  }));
+
 export type InsertUserProfileSchema = z.infer<typeof insertUserProfileSchema>;
 export type SelectUserProfileSchema = z.infer<typeof selectUserProfileSchema>;
 
