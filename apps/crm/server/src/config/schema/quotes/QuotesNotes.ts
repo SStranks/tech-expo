@@ -17,7 +17,7 @@ export type QuotesNotesTableSelect = InferSelectModel<typeof QuotesNotesTable>;
 export type QuotesNotesTableUpdate = Partial<Omit<QuotesNotesTableInsert, 'id'>>;
 export const QuotesNotesTable = pgTable('quotes_notes', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<UUID>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<QuoteNoteClientId>(),
   note: text('note_text').notNull(),
   quoteId: uuid('quote_id')
     .references(() => QuotesTable.id, { onDelete: 'cascade' })

@@ -17,7 +17,7 @@ export type KanbanTaskCommentsTableSelect = InferSelectModel<typeof KanbanTaskCo
 export type KanbanTaskCommentsTableUpdate = Partial<Omit<KanbanTaskCommentsTableInsert, 'id'>>;
 export const KanbanTaskCommentsTable = pgTable('kanban_task_comments', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<UUID>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<KanbanTaskCommentClientId>(),
   taskId: uuid('task_id')
     .references(() => KanbanTasksTable.id, { onDelete: 'cascade' })
     .notNull()

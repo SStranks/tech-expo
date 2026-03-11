@@ -29,7 +29,7 @@ export type CompaniesTableSelect = InferSelectModel<typeof CompaniesTable>;
 export type CompaniesTableUpdate = Partial<Omit<CompaniesTableInsert, 'id'>>;
 export const CompaniesTable = pgTable('companies', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<UUID>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<CompanyClientId>(),
   name: varchar('company_name', { length: 255 }).notNull().unique(),
   size: CompanySizeEnum('company_size').notNull(),
   totalRevenue: numeric('total_revenue', { precision: 14, scale: 2 }).notNull().default('0.00'),
