@@ -1,5 +1,3 @@
-import type { UUID as UUIDv4 } from 'node:crypto';
-
 import type { CountryId } from '../country/country.types.js';
 import type { UserProfileId } from '../user/profile/profile.types.js';
 import type { BusinessType, CompanyId, CompanySize } from './company.types.js';
@@ -9,7 +7,7 @@ import type {
   NewCompanyNote,
   PersistedCompanyNote,
 } from './note/note.js';
-import type { CompanyNoteId } from './note/note.types.js';
+import type { CompanyNoteClientId, CompanyNoteId } from './note/note.types.js';
 
 import DomainError from '#Utils/errors/DomainError.js';
 
@@ -205,12 +203,12 @@ export abstract class Company {
     return note;
   }
 
-  findNoteBySymbol(symbol: UUIDv4) {
-    return this._internal.notes.find((n) => n.symbol === symbol);
+  findNoteByClientId(clientId: CompanyNoteClientId) {
+    return this._internal.notes.find((n) => n.clientId === clientId);
   }
 
-  getNoteBySymbol(symbol: UUIDv4) {
-    const note = this._internal.notes.find((n) => n.symbol === symbol);
+  getNoteByClientId(clientId: CompanyNoteClientId) {
+    const note = this._internal.notes.find((n) => n.clientId === clientId);
     if (!note) throw new DomainError({ message: 'Note not found' });
     return note;
   }

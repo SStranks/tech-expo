@@ -1,15 +1,15 @@
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import type { ContactId } from '../contact.types.js';
-import type { ContactNoteId } from './note.types.js';
+import type { ContactNoteClientId, ContactNoteId } from './note.types.js';
 
-import { randomUUID, type UUID as UUIDv4 } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 
 type ContactNoteProps = {
   content: string;
   contactId: ContactId;
   createdByUserProfileId: UserProfileId;
-  symbol?: UUIDv4;
+  clientId?: ContactNoteClientId;
 };
 
 export type ContactNoteCreateProps = ContactNoteProps;
@@ -28,14 +28,14 @@ export interface PersistedContactNote extends ContactNote {
 export abstract class ContactNote {
   private readonly _createdByUserProfileId: UserProfileId;
   private readonly _contactId: ContactId;
-  private readonly _symbol: UUIDv4;
+  private readonly _clientId: ContactNoteClientId;
   private readonly _content: string;
 
   protected constructor(props: ContactNoteProps) {
     this._content = props.content;
     this._createdByUserProfileId = props.createdByUserProfileId;
     this._contactId = props.contactId;
-    this._symbol = props.symbol || randomUUID();
+    this._clientId = props.clientId || (randomUUID() as ContactNoteClientId);
   }
 
   static create(props: ContactNoteCreateProps): NewContactNote {
@@ -62,8 +62,8 @@ export abstract class ContactNote {
     return this._contactId;
   }
 
-  get symbol() {
-    return this._symbol;
+  get clientId() {
+    return this._clientId;
   }
 }
 

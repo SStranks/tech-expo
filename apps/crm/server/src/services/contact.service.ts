@@ -100,14 +100,14 @@ export class ContactService implements IContactService {
 
     const contact = await this.getContactById(cmd.contactId);
 
-    const { symbol } = contact.addNote({
+    const { clientId } = contact.addNote({
       contactId: contact.id,
       content: cmd.note,
       createdByUserProfileId: asUserProfileId(userProfile.id),
     });
 
     await this.contactRepository.save(contact);
-    const contactNote = contact.findNoteBySymbol(symbol);
+    const contactNote = contact.findNoteByClientId(clientId);
     if (!contactNote) throw new NotFoundError({ resource: 'Contact-note' });
 
     return { contact, contactNote };
@@ -123,7 +123,7 @@ export class ContactService implements IContactService {
     if (!contactNote)
       throw new NotFoundError({ context: { contactNoteId: cmd.contactNoteId }, resource: 'Contact-note' });
 
-    const { symbol } = contact.updateNote(
+    const { clientId } = contact.updateNote(
       {
         id: cmd.contactNoteId,
         contactId: contact.id,
@@ -135,7 +135,7 @@ export class ContactService implements IContactService {
     );
 
     await this.contactRepository.save(contact);
-    const updatedContactNote = contact.findNoteBySymbol(symbol);
+    const updatedContactNote = contact.findNoteByClientId(clientId);
     if (!updatedContactNote) throw new NotFoundError({ resource: 'Contact-note' });
 
     return { contact, contactNote: updatedContactNote };

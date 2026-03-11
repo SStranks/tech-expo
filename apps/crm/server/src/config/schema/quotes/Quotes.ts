@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { QuoteSymbol } from '#Models/domain/quote/quote.types.js';
+import type { QuoteClientId } from '#Models/domain/quote/quote.types.js';
 
 import { relations } from 'drizzle-orm';
 import { numeric, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -71,7 +71,7 @@ export const insertQuotesSchema = createInsertSchema(QuotesTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as QuoteSymbol,
+    clientTemporaryId: v.clientTemporaryId as QuoteClientId,
     companyId: v.companyId as UUID,
     preparedByUserProfileId: v.preparedByUserProfileId as UUID,
     preparedForContactId: v.preparedForContactId as UUID,
@@ -80,7 +80,7 @@ export const insertQuotesSchema = createInsertSchema(QuotesTable)
 export const selectQuotesSchema = createSelectSchema(QuotesTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as QuoteSymbol,
+  clientTemporaryId: v.clientTemporaryId as QuoteClientId,
   companyId: v.companyId as UUID,
   preparedByUserProfileId: v.preparedByUserProfileId as UUID,
   preparedForContactId: v.preparedForContactId as UUID,
@@ -92,7 +92,7 @@ export const updateQuotesSchema = createSelectSchema(QuotesTable)
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as QuoteSymbol,
+    clientTemporaryId: v.clientTemporaryId as QuoteClientId,
     companyId: v.companyId as UUID,
     preparedByUserProfileId: v.preparedByUserProfileId as UUID,
     preparedForContactId: v.preparedForContactId as UUID,

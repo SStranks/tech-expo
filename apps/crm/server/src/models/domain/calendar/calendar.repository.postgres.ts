@@ -97,7 +97,7 @@ export class PostgresCalendarRepository implements CalendarRepository {
             (c): CalendarCategoriesTableInsert => ({
               title: c.title,
               calendarId: c.calendarId,
-              clientTemporaryId: c.symbol,
+              clientTemporaryId: c.clientId,
             })
           )
         )
@@ -160,7 +160,7 @@ export class PostgresCalendarRepository implements CalendarRepository {
               color: e.color,
               eventStartAt: e.eventStartAt,
               eventEndAt: e.eventEndAt,
-              clientTemporaryId: e.symbol,
+              clientTemporaryId: e.clientId,
             })
           )
         )

@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { CalendarEventSymbol } from '#Models/domain/calendar/events/event.types.js';
+import type { CalendarEventClientId } from '#Models/domain/calendar/events/event.types.js';
 
 import { relations } from 'drizzle-orm';
 import { char, pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -18,7 +18,7 @@ export type CalendarEventsTableSelect = InferSelectModel<typeof CalendarEventsTa
 export type CalendarEventsTableUpdate = Partial<Omit<CalendarEventsTableInsert, 'id'>>;
 export const CalendarEventsTable = pgTable('calendar_events', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<CalendarEventSymbol>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<CalendarEventClientId>(),
   title: varchar('title', { length: 255 }).notNull(),
   calendarId: uuid('calendar_id')
     .references(() => CalendarTable.id, { onDelete: 'cascade' })
@@ -57,7 +57,7 @@ export const insertCalendarEventsSchema = createInsertSchema(CalendarEventsTable
     ...v,
     calendarId: v.calendarId as UUID,
     categoryId: v.categoryId as UUID,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarEventSymbol) : null,
+    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarEventClientId) : null,
   }));
 
 export const selectCalendarEventsSchema = createSelectSchema(CalendarEventsTable).transform((v) => ({
@@ -65,7 +65,7 @@ export const selectCalendarEventsSchema = createSelectSchema(CalendarEventsTable
   id: v.id as UUID,
   calendarId: v.calendarId as UUID,
   categoryId: v.categoryId as UUID,
-  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarEventSymbol) : null,
+  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarEventClientId) : null,
 }));
 
 export const updateCalendarEventsSchema = createInsertSchema(CalendarEventsTable)
@@ -76,7 +76,7 @@ export const updateCalendarEventsSchema = createInsertSchema(CalendarEventsTable
     id: v.id as UUID,
     calendarId: v.calendarId as UUID,
     categoryId: v.categoryId as UUID,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarEventSymbol) : null,
+    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarEventClientId) : null,
   }));
 
 export type InsertCalendarEventsSchema = z.infer<typeof insertCalendarEventsSchema>;

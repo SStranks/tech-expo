@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { KanbanTaskChecklistSymbol } from '#Models/domain/kanban/task/task.types.js';
+import type { KanbanTaskChecklistClientId } from '#Models/domain/kanban/task/task.types.js';
 
 import { relations } from 'drizzle-orm';
 import { boolean, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -41,14 +41,14 @@ export const insertKanbanTaskChecklistItemSchema = createInsertSchema(KanbanTask
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistSymbol,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistClientId,
     taskId: v.taskId as UUID,
   }));
 
 export const selectKanbanTaskChecklistItemSchema = createSelectSchema(KanbanTaskChecklistItemTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistSymbol,
+  clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistClientId,
   taskId: v.taskId as UUID,
 }));
 
@@ -58,7 +58,7 @@ export const updateKanbanTaskChecklistItemSchema = createInsertSchema(KanbanTask
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistSymbol,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistClientId,
     taskId: v.taskId as UUID,
   }));
 

@@ -1,12 +1,12 @@
 import type { CalendarId } from '../calendar.types.js';
-import type { CalendarCategoryId, CalendarCategorySymbol } from './categories.types.js';
+import type { CalendarCategoryClientId, CalendarCategoryId } from './categories.types.js';
 
 import { randomUUID } from 'node:crypto';
 
 type CalendarCategoryProps = {
   title: string;
   calendarId: CalendarId;
-  symbol?: CalendarCategorySymbol;
+  clientId?: CalendarCategoryClientId;
 };
 
 export type CalendarCategoryCreateProps = CalendarCategoryProps;
@@ -27,11 +27,11 @@ class CalendarCategoryState {
 }
 
 export abstract class CalendarCategory {
-  private readonly _props: CalendarCategoryProps & { symbol: CalendarCategorySymbol };
+  private readonly _props: CalendarCategoryProps & { clientId: CalendarCategoryClientId };
   protected _internal: CalendarCategoryState;
 
   constructor(props: CalendarCategoryProps, newCategory?: NewCalendarCategoryImpl) {
-    this._props = { ...props, symbol: props.symbol ?? (randomUUID() as CalendarCategorySymbol) };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CalendarCategoryClientId) };
     this._internal = newCategory?._internal ?? new CalendarCategoryState();
   }
 
@@ -66,8 +66,8 @@ export abstract class CalendarCategory {
     return this._props.calendarId;
   }
 
-  get symbol(): CalendarCategorySymbol {
-    return this._props.symbol;
+  get clientId(): CalendarCategoryClientId {
+    return this._props.clientId;
   }
   // #endregion getters
 

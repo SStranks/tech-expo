@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { ContactSymbol } from '#Models/domain/contact/contact.types.js';
+import type { ContactClientId } from '#Models/domain/contact/contact.types.js';
 
 import { relations } from 'drizzle-orm';
 import { char, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -65,7 +65,7 @@ export const insertContactsSchema = createInsertSchema(ContactsTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as ContactSymbol,
+    clientTemporaryId: v.clientTemporaryId as ContactClientId,
     companyId: v.companyId as UUID,
     timezoneId: v.timezoneId as UUID,
   }));
@@ -73,7 +73,7 @@ export const insertContactsSchema = createInsertSchema(ContactsTable)
 export const selectContactsSchema = createSelectSchema(ContactsTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as ContactSymbol,
+  clientTemporaryId: v.clientTemporaryId as ContactClientId,
   companyId: v.companyId as UUID,
   timezoneId: v.timezoneId as UUID,
 }));
@@ -84,7 +84,7 @@ export const updateContactsSchema = createInsertSchema(ContactsTable)
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as ContactSymbol,
+    clientTemporaryId: v.clientTemporaryId as ContactClientId,
     companyId: v.companyId as UUID,
     timezoneId: v.timezoneId as UUID,
   }));

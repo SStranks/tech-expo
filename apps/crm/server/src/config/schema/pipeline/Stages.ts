@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { PipelineStageSymbol } from '#Models/domain/pipeline/stage/stage.types.js';
+import type { PipelineStageClientId } from '#Models/domain/pipeline/stage/stage.types.js';
 
 import { relations } from 'drizzle-orm';
 import { boolean, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -41,14 +41,14 @@ export const insertPipelineStagesSchema = createInsertSchema(PipelineStagesTable
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as PipelineStageSymbol,
+    clientTemporaryId: v.clientTemporaryId as PipelineStageClientId,
     pipelineId: v.pipelineId as UUID,
   }));
 
 export const selectPipelineStagesSchema = createSelectSchema(PipelineStagesTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as PipelineStageSymbol,
+  clientTemporaryId: v.clientTemporaryId as PipelineStageClientId,
   pipelineId: v.pipelineId as UUID,
 }));
 
@@ -58,7 +58,7 @@ export const updatePipelineStagesSchema = createInsertSchema(PipelineStagesTable
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as PipelineStageSymbol,
+    clientTemporaryId: v.clientTemporaryId as PipelineStageClientId,
     pipelineId: v.pipelineId as UUID,
   }));
 

@@ -1,7 +1,5 @@
-import type { UUID as UUIDv4 } from 'node:crypto';
-
 import type { QuoteId } from '../quote.types.js';
-import type { QuoteServiceId } from './service.types.js';
+import type { QuoteServiceClientId, QuoteServiceId } from './service.types.js';
 
 import { randomUUID } from 'node:crypto';
 
@@ -12,7 +10,7 @@ type ServiceProps = {
   quantity: number;
   discount: string;
   quoteId: QuoteId;
-  symbol?: UUIDv4;
+  clientId?: QuoteServiceClientId;
 };
 
 type ServiceCreateProps = ServiceProps;
@@ -35,7 +33,7 @@ export abstract class Service {
   private readonly _quantity: number;
   private readonly _discount: string;
   private readonly _quoteId: QuoteId;
-  private readonly _symbol: UUIDv4;
+  private readonly _clientId: QuoteServiceClientId;
 
   constructor(props: ServiceProps) {
     this._title = props.title;
@@ -44,7 +42,7 @@ export abstract class Service {
     this._quantity = props.quantity;
     this._discount = props.discount;
     this._quoteId = props.quoteId;
-    this._symbol = props.symbol || randomUUID();
+    this._clientId = props.clientId || (randomUUID() as QuoteServiceClientId);
   }
 
   static create(props: ServiceCreateProps) {
@@ -81,8 +79,8 @@ export abstract class Service {
     return this._quoteId;
   }
 
-  get symbol() {
-    return this._symbol;
+  get clientId() {
+    return this._clientId;
   }
 
   abstract isPersisted(): boolean;

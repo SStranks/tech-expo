@@ -1,15 +1,15 @@
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import type { QuoteId } from '../quote.types.js';
-import type { QuoteNoteId } from './note.types.js';
+import type { QuoteNoteClientId, QuoteNoteId } from './note.types.js';
 
-import { randomUUID, type UUID as UUIDv4 } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 
 type QuoteProps = {
   note: string;
   quote: QuoteId;
   createdByUserProfileId: UserProfileId;
-  symbol?: UUIDv4;
+  clientId?: QuoteNoteClientId;
 };
 
 type QuoteNoteCreateProps = QuoteProps;
@@ -28,14 +28,14 @@ export interface PersistedQuoteNote extends QuoteNote {
 export abstract class QuoteNote {
   private readonly _quote: QuoteId;
   private readonly _createdByUserProfileId: UserProfileId;
-  private readonly _symbol: UUIDv4;
+  private readonly _clientId: QuoteNoteClientId;
   private readonly _note: string;
 
   constructor(props: QuoteProps) {
     this._note = props.note;
     this._quote = props.quote;
     this._createdByUserProfileId = props.createdByUserProfileId;
-    this._symbol = props.symbol || randomUUID();
+    this._clientId = props.clientId || (randomUUID() as QuoteNoteClientId);
   }
 
   static create(props: QuoteNoteCreateProps) {
@@ -60,8 +60,8 @@ export abstract class QuoteNote {
     return this._createdByUserProfileId;
   }
 
-  get symbol() {
-    return this._symbol;
+  get clientId() {
+    return this._clientId;
   }
 
   abstract isPersisted(): boolean;

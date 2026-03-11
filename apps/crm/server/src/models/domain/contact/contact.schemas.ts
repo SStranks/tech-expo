@@ -1,10 +1,14 @@
+import type { CompanyId } from '../company/company.types.js';
+import type { TimeZoneId } from '../timezone/timezone.types.js';
+import type { ContactId } from './contact.types.js';
+
 import { z } from 'zod';
 
 import { zErrorMessages } from '#Utils/zod/zSchemaErrorMapper.js';
 
 import { CONTACT_STAGE } from './contact.types.js';
 
-export const ContactIdSchema = z.uuid(zErrorMessages.UUID);
+export const ContactIdSchema = z.uuid(zErrorMessages.UUID).transform((v) => v as ContactId);
 
 export const FirstNameSchema = z.string().trim().min(1, zErrorMessages.EMPTY('First name'));
 
@@ -22,8 +26,11 @@ export const JobTitleSchema = z.string().trim().min(1);
 
 export const ContactStageSchema = z.enum(CONTACT_STAGE);
 
-export const CompanyIdSchema = z.uuid(zErrorMessages.UUID);
+export const CompanyIdSchema = z.uuid(zErrorMessages.UUID).transform((v) => v as CompanyId);
 
-export const TimezoneIdSchema = z.uuid(zErrorMessages.UUID).nullable();
+export const TimezoneIdSchema = z
+  .uuid(zErrorMessages.UUID)
+  .transform((v) => v as TimeZoneId)
+  .nullable();
 
 export const AvatarUrlSchema = z.url(zErrorMessages.URL('Contact avatar')).nullable();

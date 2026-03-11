@@ -5,7 +5,7 @@ import type { CalendarCategoriesTableSelect } from '#Config/schema/calendar/Cate
 
 import type { CalendarCategoryDTO } from './categories.dto.js';
 import type { PersistedCalendarCategory } from './categories.js';
-import type { CalendarCategoryId, CalendarCategorySymbol } from './categories.types.js';
+import type { CalendarCategoryClientId, CalendarCategoryId } from './categories.types.js';
 
 import { asCalendarId } from '../calendar.mapper.js';
 import { CalendarCategory } from './categories.js';
@@ -14,8 +14,8 @@ export function asCalendarCategoryId(id: UUID): CalendarCategoryId {
   return id as CalendarCategoryId;
 }
 
-export function asCalendarCategorySymbol(id: UUID): CalendarCategorySymbol {
-  return id as CalendarCategorySymbol;
+export function asCalendarCategoryClientId(id: UUID): CalendarCategoryClientId {
+  return id as CalendarCategoryClientId;
 }
 
 export function calendarCategoryRowToDomain(row: CalendarCategoriesTableSelect): PersistedCalendarCategory {

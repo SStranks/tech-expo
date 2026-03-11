@@ -1,11 +1,9 @@
-import type { UUID as UUIDv4 } from 'node:crypto';
-
 import type { CompanyId } from '#Models/domain/company/company.types.js';
 import type { CountryId } from '#Models/domain/country/country.types.js';
 import type { TimeZoneId } from '#Models/domain/timezone/timezone.types.js';
 
 import type { UserId } from '../user.types.js';
-import type { CompanyRoles, UserProfileId } from './profile.types.js';
+import type { CompanyRoles, UserProfileClientId, UserProfileId } from './profile.types.js';
 
 import { randomUUID } from 'node:crypto';
 
@@ -22,7 +20,7 @@ type UserProfileProps = {
   companyRole: CompanyRoles;
   image?: string;
   updatedAt: Date;
-  symbol?: UUIDv4;
+  clientId?: UserProfileClientId;
 };
 
 type UserProfileCreateProps = UserProfileProps;
@@ -43,7 +41,7 @@ export abstract class UserProfile {
   private readonly _countryId: CountryId;
   private readonly _companyId: CompanyId;
   private readonly _userId: UserId;
-  private readonly _symbol: UUIDv4;
+  private readonly _clientId: UserProfileClientId;
   private readonly _email: string;
   private readonly _firstName: string;
   private readonly _lastName: string;
@@ -66,7 +64,7 @@ export abstract class UserProfile {
     this._companyRole = props.companyRole;
     this._image = props.image;
     this._updatedAt = props.updatedAt;
-    this._symbol = props.symbol || randomUUID();
+    this._clientId = props.clientId || (randomUUID() as UserProfileClientId);
   }
 
   static create(props: UserProfileCreateProps): NewUserProfile {
@@ -131,8 +129,8 @@ export abstract class UserProfile {
     return this._updatedAt;
   }
 
-  get symbol() {
-    return this._symbol;
+  get clientId() {
+    return this._clientId;
   }
   // #endregion getters
 

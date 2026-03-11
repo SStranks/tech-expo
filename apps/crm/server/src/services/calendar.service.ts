@@ -99,10 +99,10 @@ export class CalendarService implements ICalendarService {
   async addCalendarEvent(cmd: AddCalendarEventCommand, ctx: RequestContext): Promise<AddCalendarEventReturn> {
     const { calendar } = await this.authorizeCalendarAccess(cmd.calendarId, ctx);
 
-    const { symbol } = calendar.addCalendarEvent({ ...cmd });
+    const { clientId } = calendar.addCalendarEvent({ ...cmd });
 
     await this.calendarRepository.save(calendar);
-    const calendarEvent = calendar.getCalendarEventBySymbol(symbol);
+    const calendarEvent = calendar.getCalendarEventByClientId(clientId);
     const participants = await this.userReadModel.findUserProfilesByUserProfileIds(calendarEvent.participants);
 
     return { calendarEvent, participants };
@@ -111,10 +111,10 @@ export class CalendarService implements ICalendarService {
   async updateCalendarEvent(cmd: UpdateCalendarEventCommand, ctx: RequestContext): Promise<UpdateCalendarEventReturn> {
     const { calendar } = await this.authorizeCalendarAccess(cmd.calendarId, ctx);
 
-    const { symbol } = calendar.updateCalendarEvent({ ...cmd });
+    const { clientId } = calendar.updateCalendarEvent({ ...cmd });
 
     await this.calendarRepository.save(calendar);
-    const calendarEvent = calendar.getCalendarEventBySymbol(symbol);
+    const calendarEvent = calendar.getCalendarEventByClientId(clientId);
     const participants = await this.userReadModel.findUserProfilesByUserProfileIds(calendarEvent.participants);
 
     return { calendarEvent, participants };
@@ -131,13 +131,13 @@ export class CalendarService implements ICalendarService {
   async addCalendarCategory(cmd: AddCalendarCategoryCommand, ctx: RequestContext): Promise<PersistedCalendarCategory> {
     const { calendar } = await this.authorizeCalendarAccess(cmd.calendarId, ctx);
 
-    const { symbol } = calendar.addCalendarCategory({
+    const { clientId } = calendar.addCalendarCategory({
       calendarId: cmd.calendarId,
       title: cmd.title,
     });
 
     await this.calendarRepository.save(calendar);
-    const calendarCategory = calendar.getCalendarCategoryBySymbol(symbol);
+    const calendarCategory = calendar.getCalendarCategoryByClientId(clientId);
 
     return calendarCategory;
   }

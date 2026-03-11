@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { KanbanTaskCommentSymbol } from '#Models/domain/kanban/task/task.types.js';
+import type { KanbanTaskCommentClientId } from '#Models/domain/kanban/task/task.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
@@ -49,7 +49,7 @@ export const insertKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskComme
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentSymbol,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentClientId,
     createdByUserProfileId: v.createdByUserProfileId as UUID,
     taskId: v.taskId as UUID,
   }));
@@ -57,7 +57,7 @@ export const insertKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskComme
 export const selectKanbanTaskCommentsSchema = createSelectSchema(KanbanTaskCommentsTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentSymbol,
+  clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentClientId,
   createdByUserProfileId: v.createdByUserProfileId as UUID,
   taskId: v.taskId as UUID,
 }));
@@ -68,7 +68,7 @@ export const updateKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskComme
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentSymbol,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentClientId,
     createdByUserProfileId: v.createdByUserProfileId as UUID,
     taskId: v.taskId as UUID,
   }));

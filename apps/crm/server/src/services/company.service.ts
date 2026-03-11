@@ -109,14 +109,14 @@ export class CompanyService implements ICompanyService {
     if (!userProfile) throw new NotFoundError({ context: { userId: ctx.user }, resource: `Userprofile by UserId` });
     const company = await this.getCompanyById(cmd.companyId);
 
-    const { symbol } = company.addNote({
+    const { clientId } = company.addNote({
       companyId: company.id,
       content: cmd.note,
       createdByUserProfileId: asUserProfileId(userProfile.id),
     });
 
     await this.companyRepository.save(company);
-    const companyNote = company.findNoteBySymbol(symbol);
+    const companyNote = company.findNoteByClientId(clientId);
     if (!companyNote) throw new NotFoundError({ resource: 'Company-note' });
 
     return { company, companyNote, userProfile };
@@ -131,7 +131,7 @@ export class CompanyService implements ICompanyService {
     if (!companyNote)
       throw new NotFoundError({ context: { companyNoteId: cmd.companyNoteId }, resource: 'Company-note' });
 
-    const { symbol } = company.updateNote(
+    const { clientId } = company.updateNote(
       {
         id: cmd.companyNoteId,
         companyId: company.id,
@@ -143,7 +143,7 @@ export class CompanyService implements ICompanyService {
     );
 
     await this.companyRepository.save(company);
-    const updatedCompanyNote = company.findNoteBySymbol(symbol);
+    const updatedCompanyNote = company.findNoteByClientId(clientId);
     if (!updatedCompanyNote) throw new NotFoundError({ resource: 'Company-note' });
 
     return { company, companyNote: updatedCompanyNote, userProfile };

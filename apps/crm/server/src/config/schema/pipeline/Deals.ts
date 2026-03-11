@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { PipelineDealSymbol } from '#Models/domain/pipeline/deal/deal.types.js';
+import type { PipelineDealClientId } from '#Models/domain/pipeline/deal/deal.types.js';
 
 import { relations } from 'drizzle-orm';
 import { numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -69,7 +69,7 @@ export const insertPipelineDealsSchema = createInsertSchema(PipelineDealsTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as PipelineDealSymbol,
+    clientTemporaryId: v.clientTemporaryId as PipelineDealClientId,
     companyId: v.companyId as UUID,
     dealContactId: v.dealContactId as UUID,
     dealOwnerUserProfileId: v.dealOwnerUserProfileId as UUID,
@@ -79,7 +79,7 @@ export const insertPipelineDealsSchema = createInsertSchema(PipelineDealsTable)
 export const selectPipelineDealsSchema = createSelectSchema(PipelineDealsTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as PipelineDealSymbol,
+  clientTemporaryId: v.clientTemporaryId as PipelineDealClientId,
   companyId: v.companyId as UUID,
   dealContactId: v.dealContactId as UUID,
   dealOwnerUserProfileId: v.dealOwnerUserProfileId as UUID,
@@ -92,7 +92,7 @@ export const updatePipelineDealsSchema = createInsertSchema(PipelineDealsTable)
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as PipelineDealSymbol,
+    clientTemporaryId: v.clientTemporaryId as PipelineDealClientId,
     companyId: v.companyId as UUID,
     dealContactId: v.dealContactId as UUID,
     dealOwnerUserProfileId: v.dealOwnerUserProfileId as UUID,

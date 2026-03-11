@@ -1,11 +1,9 @@
-import type { UUID as UUIDv4 } from 'node:crypto';
-
 import type { CompanyId } from '#Models/domain/company/company.types.js';
 import type { ContactId } from '#Models/domain/contact/contact.types.js';
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import type { PipelineStageId } from '../stage/stage.types.js';
-import type { PipelineDealId } from './deal.types.js';
+import type { PipelineDealClientId, PipelineDealId } from './deal.types.js';
 
 import { randomUUID } from 'node:crypto';
 
@@ -17,7 +15,7 @@ type DealProps = {
   value: string;
   dealOwner: UserProfileId;
   dealContact: ContactId;
-  symbol?: UUIDv4;
+  clientId?: PipelineDealClientId;
 };
 
 type DealCreateProps = DealProps;
@@ -35,7 +33,7 @@ export interface PersistedDeal extends Deal {
 
 export abstract class Deal {
   private readonly _companyId: CompanyId;
-  private readonly _symbol: UUIDv4;
+  private readonly _clientId: PipelineDealClientId;
   private readonly _orderKey: string;
   private readonly _title: string;
   private readonly _stageId: PipelineStageId;
@@ -51,7 +49,7 @@ export abstract class Deal {
     this._value = props.value;
     this._dealOwner = props.dealOwner;
     this._dealContact = props.dealContact;
-    this._symbol = props.symbol || randomUUID();
+    this._clientId = props.clientId || (randomUUID() as PipelineDealClientId);
   }
 
   static create(props: DealCreateProps): NewDeal {
@@ -92,8 +90,8 @@ export abstract class Deal {
     return this._dealContact;
   }
 
-  get symbol() {
-    return this._symbol;
+  get clientId() {
+    return this._clientId;
   }
 
   abstract isPersisted(): boolean;

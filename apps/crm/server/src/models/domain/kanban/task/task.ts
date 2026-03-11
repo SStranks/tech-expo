@@ -1,9 +1,7 @@
-import type { UUID as UUIDv4 } from 'node:crypto';
-
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import type { KanbanStageId } from '../stage/stage.types.js';
-import type { KanbanTaskId } from './task.types.js';
+import type { KanbanTaskClientId, KanbanTaskId } from './task.types.js';
 
 import { randomUUID } from 'node:crypto';
 
@@ -15,7 +13,7 @@ type TaskProps = {
   stageId: KanbanStageId;
   dueDate: Date | null;
   assignedUser: UserProfileId | null;
-  symbol?: UUIDv4;
+  clientId?: KanbanTaskClientId;
 };
 
 type TaskCreateProps = TaskProps;
@@ -32,7 +30,7 @@ export interface PersistedTask extends Task {
 }
 
 export abstract class Task {
-  private readonly _symbol: UUIDv4;
+  private readonly _clientId: KanbanTaskClientId;
   private readonly _description: string | null;
   private readonly _title: string;
   private readonly _orderKey: string;
@@ -49,7 +47,7 @@ export abstract class Task {
     this._stageId = props.stageId;
     this._dueDate = props.dueDate;
     this._assignedUser = props.assignedUser;
-    this._symbol = props.symbol || randomUUID();
+    this._clientId = props.clientId || (randomUUID() as KanbanTaskClientId);
   }
 
   static create(props: TaskCreateProps): NewTask {

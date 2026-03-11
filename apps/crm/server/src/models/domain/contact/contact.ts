@@ -1,5 +1,3 @@
-import type { UUID as UUIDv4 } from 'node:crypto';
-
 import type { CompanyId } from '../company/company.types.js';
 import type { TimeZoneId } from '../timezone/timezone.types.js';
 import type { UserProfileId } from '../user/profile/profile.types.js';
@@ -10,7 +8,7 @@ import type {
   NewContactNote,
   PersistedContactNote,
 } from './note/note.js';
-import type { ContactNoteId } from './note/note.types.js';
+import type { ContactNoteClientId, ContactNoteId } from './note/note.types.js';
 
 import DomainError from '#Utils/errors/DomainError.js';
 import { zParseDomain } from '#Utils/zod/zParse.js';
@@ -263,8 +261,8 @@ export abstract class Contact {
     return note;
   }
 
-  findNoteBySymbol(symbol: UUIDv4) {
-    return this._notes.find((n) => n.symbol === symbol);
+  findNoteByClientId(clientId: ContactNoteClientId) {
+    return this._notes.find((n) => n.clientId === clientId);
   }
 
   pullChanges() {

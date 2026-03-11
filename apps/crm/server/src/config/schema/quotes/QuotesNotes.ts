@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { QuoteNoteSymbol } from '#Models/domain/quote/note/note.types.js';
+import type { QuoteNoteClientId } from '#Models/domain/quote/note/note.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
@@ -49,7 +49,7 @@ export const insertQuotesNotesSchema = createInsertSchema(QuotesNotesTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as QuoteNoteSymbol,
+    clientTemporaryId: v.clientTemporaryId as QuoteNoteClientId,
     createdByUserProfileId: v.createdByUserProfileId as UUID,
     quoteId: v.quoteId as UUID,
   }));
@@ -57,7 +57,7 @@ export const insertQuotesNotesSchema = createInsertSchema(QuotesNotesTable)
 export const selectQuotesNotesSchema = createSelectSchema(QuotesNotesTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as QuoteNoteSymbol,
+  clientTemporaryId: v.clientTemporaryId as QuoteNoteClientId,
   createdByUserProfileId: v.createdByUserProfileId as UUID,
   quoteId: v.quoteId as UUID,
 }));
@@ -68,7 +68,7 @@ export const updateQuotesNotesSchema = createInsertSchema(QuotesNotesTable)
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as QuoteNoteSymbol,
+    clientTemporaryId: v.clientTemporaryId as QuoteNoteClientId,
     createdByUserProfileId: v.createdByUserProfileId as UUID,
     quoteId: v.quoteId as UUID,
   }));

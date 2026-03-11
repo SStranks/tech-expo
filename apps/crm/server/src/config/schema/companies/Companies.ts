@@ -1,7 +1,7 @@
 import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
-import type { CompanySymbol } from '#Models/domain/company/company.types.js';
+import type { CompanyClientId } from '#Models/domain/company/company.types.js';
 
 import { relations } from 'drizzle-orm';
 import { numeric, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -65,14 +65,14 @@ export const insertCompaniesSchema = createInsertSchema(CompaniesTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as CompanySymbol,
+    clientTemporaryId: v.clientTemporaryId as CompanyClientId,
     countryId: v.countryId as UUID,
   }));
 
 export const selectCompaniesSchema = createSelectSchema(CompaniesTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as CompanySymbol,
+  clientTemporaryId: v.clientTemporaryId as CompanyClientId,
   countryId: v.countryId as UUID,
 }));
 
@@ -82,7 +82,7 @@ export const updateCompaniesSchema = createSelectSchema(CompaniesTable)
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as CompanySymbol,
+    clientTemporaryId: v.clientTemporaryId as CompanyClientId,
     countryId: v.countryId as UUID,
   }));
 
@@ -100,7 +100,7 @@ export const updateCompaniesCommandSchema = createInsertSchema(CompaniesTable)
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as CompanySymbol,
+    clientTemporaryId: v.clientTemporaryId as CompanyClientId,
     countryId: v.countryId as UUID,
   }));
 

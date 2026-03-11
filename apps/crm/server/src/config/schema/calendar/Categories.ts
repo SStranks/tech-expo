@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { CalendarCategorySymbol } from '#Models/domain/calendar/categories/categories.types.js';
+import type { CalendarCategoryClientId } from '#Models/domain/calendar/categories/categories.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -19,7 +19,7 @@ export const CalendarCategoriesTable = pgTable(
   'calendar_event_categories',
   {
     id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-    clientTemporaryId: uuid('client_temp_id').unique().$type<CalendarCategorySymbol>(),
+    clientTemporaryId: uuid('client_temp_id').unique().$type<CalendarCategoryClientId>(),
     title: varchar('title', { length: 255 }).notNull(),
     calendarId: uuid('calendar_id')
       .references(() => CalendarTable.id, { onDelete: 'cascade' })
@@ -48,14 +48,14 @@ export const insertCalendarCategoriesSchema = createInsertSchema(CalendarCategor
   .transform((v) => ({
     ...v,
     calendarId: v.calendarId as UUID,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarCategorySymbol) : null,
+    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarCategoryClientId) : null,
   }));
 
 export const selectCalendarCategoriesSchema = createSelectSchema(CalendarCategoriesTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
   calendarId: v.calendarId as UUID,
-  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarCategorySymbol) : null,
+  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarCategoryClientId) : null,
 }));
 
 export const updateCalendarCategoriesSchema = createInsertSchema(CalendarCategoriesTable)
@@ -64,7 +64,7 @@ export const updateCalendarCategoriesSchema = createInsertSchema(CalendarCategor
   .transform((v) => ({
     ...v,
     calendarId: v.calendarId as UUID,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarCategorySymbol) : null,
+    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarCategoryClientId) : null,
   }));
 
 export type InsertCalendarCategoriesSchema = z.infer<typeof insertCalendarCategoriesSchema>;

@@ -1,14 +1,12 @@
-import type { UUID as UUIDv4 } from 'node:crypto';
-
 import type { KanbanId } from '../kanban.types.js';
-import type { KanbanStageId } from './stage.types.js';
+import type { KanbanStageClientId, KanbanStageId } from './stage.types.js';
 
 import { randomUUID } from 'node:crypto';
 
 type StageProps = {
   title: string;
   kanbanId: KanbanId;
-  symbol?: UUIDv4;
+  clientId?: KanbanStageClientId;
 };
 
 type StageCreateProps = StageProps;
@@ -26,13 +24,13 @@ export interface PersistedStage extends Stage {
 
 export abstract class Stage {
   private readonly _kanbanId: KanbanId;
-  private readonly _symbol: UUIDv4;
+  private readonly _clientId: KanbanStageClientId;
   private readonly _title: string;
 
   constructor(props: StageProps) {
     this._title = props.title;
     this._kanbanId = props.kanbanId;
-    this._symbol = props.symbol || randomUUID();
+    this._clientId = props.clientId || (randomUUID() as KanbanStageClientId);
   }
 
   static create(props: StageCreateProps): NewStage {
@@ -53,8 +51,8 @@ export abstract class Stage {
     return this._kanbanId;
   }
 
-  get symbol() {
-    return this._symbol;
+  get clientId() {
+    return this._clientId;
   }
 
   abstract isPersisted(): boolean;

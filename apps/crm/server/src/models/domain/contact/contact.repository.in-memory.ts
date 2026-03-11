@@ -143,7 +143,7 @@ export class InMemoryContactRepository implements ContactRepository {
             content: persistedNote.note,
             createdAt: persistedNote.createdAt,
             createdByUserProfileId: asUserProfileId(persistedNote.createdByUserProfileId),
-            symbol: note.symbol,
+            clientId: note.clientId,
           })
         );
       }

@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { KanbanTaskSymbol } from '#Models/domain/kanban/task/task.types.js';
+import type { KanbanTaskClientId } from '#Models/domain/kanban/task/task.types.js';
 
 import { relations } from 'drizzle-orm';
 import { boolean, pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -57,7 +57,7 @@ export const insertKanbanTasksSchema = createInsertSchema(KanbanTasksTable)
   .transform((v) => ({
     ...v,
     assignedUserProfileId: v.assignedUserProfileId as UUID,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskSymbol,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskClientId,
     stageId: v.stageId as UUID,
   }));
 
@@ -65,7 +65,7 @@ export const selectKanbanTasksSchema = createSelectSchema(KanbanTasksTable).tran
   ...v,
   id: v.id as UUID,
   assignedUserProfileId: v.assignedUserProfileId as UUID,
-  clientTemporaryId: v.clientTemporaryId as KanbanTaskSymbol,
+  clientTemporaryId: v.clientTemporaryId as KanbanTaskClientId,
   stageId: v.stageId as UUID,
 }));
 
@@ -76,7 +76,7 @@ export const updateKanbanTasksSchema = createInsertSchema(KanbanTasksTable)
     ...v,
     id: v.id as UUID,
     assignedUserProfileId: v.assignedUserProfileId as UUID,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskSymbol,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskClientId,
     stageId: v.stageId as UUID,
   }));
 

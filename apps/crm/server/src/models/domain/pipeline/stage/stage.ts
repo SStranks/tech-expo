@@ -1,7 +1,5 @@
-import type { UUID as UUIDv4 } from 'node:crypto';
-
 import type { PipelineId } from '../pipeline.types.js';
-import type { PipelineStageId } from './stage.types.js';
+import type { PipelineStageClientId, PipelineStageId } from './stage.types.js';
 
 import { randomUUID } from 'node:crypto';
 
@@ -9,7 +7,7 @@ type StageProps = {
   title: string;
   isPermanent: boolean | null;
   pipelineId: PipelineId;
-  symbol?: UUIDv4;
+  clientId?: PipelineStageClientId;
 };
 
 type StageCreateProps = StageProps;
@@ -27,7 +25,7 @@ export interface PersistedStage extends Stage {
 
 export abstract class Stage {
   private readonly _pipelineId: PipelineId;
-  private readonly _symbol: UUIDv4;
+  private readonly _clientId: PipelineStageClientId;
   private readonly _title: string;
   private readonly _isPermanent: boolean | null;
 
@@ -35,7 +33,7 @@ export abstract class Stage {
     this._title = props.title;
     this._isPermanent = props.isPermanent;
     this._pipelineId = props.pipelineId;
-    this._symbol = props.symbol || randomUUID();
+    this._clientId = props.clientId || (randomUUID() as PipelineStageClientId);
   }
 
   static create(props: StageCreateProps): NewStage {
@@ -60,8 +58,8 @@ export abstract class Stage {
     return this._pipelineId;
   }
 
-  get symbol() {
-    return this._symbol;
+  get clientId() {
+    return this._clientId;
   }
 
   abstract isPersisted(): boolean;

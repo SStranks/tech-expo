@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { QuoteServiceSymbol } from '#Models/domain/quote/service/service.types.js';
+import type { QuoteServiceClientId } from '#Models/domain/quote/service/service.types.js';
 
 import { relations } from 'drizzle-orm';
 import { integer, numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -44,14 +44,14 @@ export const insertQuoteServicesSchema = createInsertSchema(QuoteServicesTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as QuoteServiceSymbol,
+    clientTemporaryId: v.clientTemporaryId as QuoteServiceClientId,
     quoteId: v.quoteId as UUID,
   }));
 
 export const selectQuoteServicesSchema = createSelectSchema(QuoteServicesTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as QuoteServiceSymbol,
+  clientTemporaryId: v.clientTemporaryId as QuoteServiceClientId,
   quoteId: v.quoteId as UUID,
 }));
 
@@ -61,7 +61,7 @@ export const updateQuoteServicesSchema = createInsertSchema(QuoteServicesTable)
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as QuoteServiceSymbol,
+    clientTemporaryId: v.clientTemporaryId as QuoteServiceClientId,
     quoteId: v.quoteId as UUID,
   }));
 

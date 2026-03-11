@@ -2,7 +2,7 @@ import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js
 
 import type { CalendarId } from '../calendar.types.js';
 import type { CalendarCategoryId } from '../categories/categories.types.js';
-import type { CalendarEventId, CalendarEventSymbol } from './event.types.js';
+import type { CalendarEventClientId, CalendarEventId } from './event.types.js';
 
 import { randomUUID } from 'node:crypto';
 
@@ -14,7 +14,7 @@ type CalendarEventProps = {
   color: string | null;
   eventStartAt: Date;
   eventEndAt: Date;
-  symbol?: CalendarEventSymbol;
+  clientId?: CalendarEventClientId;
 };
 
 export type CalendarEventCreateProps = CalendarEventProps;
@@ -39,11 +39,11 @@ export interface PersistedCalendarEvent extends CalendarEvent {
 }
 
 export abstract class CalendarEvent {
-  private readonly _props: CalendarEventProps & { symbol: CalendarEventSymbol };
+  private readonly _props: CalendarEventProps & { clientId: CalendarEventClientId };
   protected _internal: CalendarEventState;
 
   constructor(props: CalendarEventProps, newEvent?: NewCalendarEventImpl) {
-    this._props = { ...props, symbol: props.symbol ?? (randomUUID() as CalendarEventSymbol) };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CalendarEventClientId) };
     this._internal = newEvent?._internal ?? new CalendarEventState();
   }
 
@@ -98,8 +98,8 @@ export abstract class CalendarEvent {
     return this._props.eventEndAt;
   }
 
-  get symbol(): CalendarEventSymbol {
-    return this._props.symbol;
+  get clientId(): CalendarEventClientId {
+    return this._props.clientId;
   }
 
   get participants() {

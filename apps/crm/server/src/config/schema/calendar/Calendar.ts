@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { CalendarSymbol } from '#Models/domain/calendar/calendar.types.js';
+import type { CalendarClientId } from '#Models/domain/calendar/calendar.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
@@ -18,7 +18,7 @@ export type CalendarTableSelect = InferSelectModel<typeof CalendarTable>;
 export type CalendarTableUpdate = Partial<Omit<CalendarTableSelect, 'id'>>;
 export const CalendarTable = pgTable('calendar', {
   id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<CalendarSymbol>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<CalendarClientId>(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'cascade' })
     .notNull()
@@ -44,14 +44,14 @@ export const insertCalendarSchema = createInsertSchema(CalendarTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarSymbol) : null,
+    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarClientId) : null,
     companyId: v.companyId as UUID,
   }));
 
 export const selectCalendarSchema = createSelectSchema(CalendarTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarSymbol) : null,
+  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarClientId) : null,
   companyId: v.companyId as UUID,
 }));
 
@@ -61,7 +61,7 @@ export const updateCalendarSchema = createInsertSchema(CalendarTable)
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarSymbol) : null,
+    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarClientId) : null,
     companyId: v.companyId as UUID,
   }));
 

@@ -13,7 +13,7 @@ import type { PersistedCalendarEvent } from './events/events.js';
 
 export type CalendarId = UUID & { readonly __calendarId: unique symbol };
 
-export type CalendarSymbol = UUID & { readonly __calendarSymbol: unique symbol };
+export type CalendarClientId = UUID & { readonly __calendarClientId: unique symbol };
 
 export type InitialCalendarCommand = {
   calendarId: CalendarId;

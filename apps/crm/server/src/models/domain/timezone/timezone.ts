@@ -1,7 +1,5 @@
-import type { UUID as UUIDv4 } from 'node:crypto';
-
 import type { CountryId } from '../country/country.types.js';
-import type { TimeZoneId } from './timezone.types.js';
+import type { TimeZoneClientId, TimeZoneId } from './timezone.types.js';
 
 import { randomUUID } from 'node:crypto';
 
@@ -9,7 +7,7 @@ type TimeZoneProps = {
   alpha2Code: string;
   gmtOffset: string;
   countryId: CountryId;
-  symbol?: UUIDv4;
+  clientId?: TimeZoneClientId;
 };
 
 type TimeZoneHydrationProps = TimeZoneProps & { id: TimeZoneId; createdAt: Date };
@@ -24,13 +22,13 @@ export abstract class TimeZone {
   private readonly _alpha2Code: string;
   private readonly _gmtOffset: string;
   private readonly _countryId: CountryId;
-  private readonly _symbol: UUIDv4;
+  private readonly _clientId: TimeZoneClientId;
 
   constructor(props: TimeZoneProps) {
     this._alpha2Code = props.alpha2Code;
     this._gmtOffset = props.gmtOffset;
     this._countryId = props.countryId;
-    this._symbol = props.symbol || randomUUID();
+    this._clientId = props.clientId || (randomUUID() as TimeZoneClientId);
   }
 
   static rehydrate(props: TimeZoneHydrationProps) {
@@ -50,8 +48,8 @@ export abstract class TimeZone {
     return this._countryId;
   }
 
-  get symbol() {
-    return this._symbol;
+  get clientId() {
+    return this._clientId;
   }
 
   abstract isPersisted(): boolean;

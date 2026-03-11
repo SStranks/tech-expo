@@ -1,9 +1,7 @@
-import type { UUID as UUIDv4 } from 'node:crypto';
-
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import type { CompanyId } from '../company.types.js';
-import type { CompanyNoteId } from './note.types.js';
+import type { CompanyNoteClientId, CompanyNoteId } from './note.types.js';
 
 import DomainError from '#Utils/errors/DomainError.js';
 
@@ -13,7 +11,7 @@ type CompanyNoteProps = {
   content: string;
   companyId: CompanyId;
   createdByUserProfileId: UserProfileId;
-  symbol?: UUIDv4;
+  clientId?: CompanyNoteClientId;
 };
 
 export type CompanyNoteCreateProps = CompanyNoteProps;
@@ -32,17 +30,15 @@ export interface PersistedCompanyNote extends CompanyNote {
   isPersisted(): this is PersistedCompanyNote;
 }
 
-export abstract class CompanyNote {
-  private readonly _createdByUserProfileId: UserProfileId;
-  private readonly _companyId: CompanyId;
-  private readonly _symbol: UUIDv4;
-  private _content: string;
+class CompanyNoteState {}
 
-  protected constructor(props: CompanyNoteProps) {
-    this._content = props.content;
-    this._createdByUserProfileId = props.createdByUserProfileId;
-    this._companyId = props.companyId;
-    this._symbol = props.symbol || randomUUID();
+export abstract class CompanyNote {
+  private readonly _props: CompanyNoteProps & { clientId: CompanyNoteClientId };
+  protected _internal: CompanyNoteState;
+
+  protected constructor(props: CompanyNoteProps, newNote?: NewCompanyNoteImpl) {
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CompanyNoteClientId) };
+    this._internal = newNote?._internal ?? new CompanyNoteState();
   }
 
   static create(props: CompanyNoteCreateProps): NewCompanyNote {
@@ -55,22 +51,28 @@ export abstract class CompanyNote {
     return new PersistedCompanyNoteImpl(props);
   }
 
+  static promote(newNote: NewCompanyNoteImpl, persisted: { id: CompanyNoteId; createdAt: Date }): PersistedCompanyNote {
+    const props = { ...newNote._props, ...persisted };
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Calendar.promote() call!
+    return new PersistedCompanyNoteImpl(props, newNote);
+  }
+
   abstract isPersisted(): boolean;
 
   get content() {
-    return this._content;
+    return this._props.content;
   }
 
   get createdByUserProfileId() {
-    return this._createdByUserProfileId;
+    return this._props.createdByUserProfileId;
   }
 
   get companyId() {
-    return this._companyId;
+    return this._props.companyId;
   }
 
-  get symbol() {
-    return this._symbol;
+  get clientId(): CompanyNoteClientId {
+    return this._props.clientId;
   }
 
   updateContent(newMessage: string, actor: UserProfileId) {
@@ -79,7 +81,7 @@ export abstract class CompanyNote {
 
     if (!newMessage || newMessage.trim() === '') throw new DomainError({ message: 'Message cannot be empty' });
 
-    this._content = newMessage;
+    this._props.content = newMessage;
   }
 }
 
@@ -97,8 +99,8 @@ class PersistedCompanyNoteImpl extends CompanyNote {
   private readonly _id: CompanyNoteId;
   private readonly _createdAt: Date;
 
-  constructor(props: CompanyNoteHydrationProps) {
-    super(props);
+  constructor(props: CompanyNoteHydrationProps, newNote?: NewCompanyNoteImpl) {
+    super(props, newNote);
     this._id = props.id;
     this._createdAt = props.createdAt;
   }

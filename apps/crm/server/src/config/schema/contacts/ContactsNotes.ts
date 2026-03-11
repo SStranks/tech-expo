@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { ContactNoteSymbol } from '#Models/domain/contact/note/note.types.js';
+import type { ContactNoteClientId } from '#Models/domain/contact/note/note.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
@@ -49,7 +49,7 @@ export const insertContactsNotesSchema = createInsertSchema(ContactsNotesTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as ContactNoteSymbol,
+    clientTemporaryId: v.clientTemporaryId as ContactNoteClientId,
     contactId: v.contactId as UUID,
     createdByUserProfileId: v.createdByUserProfileId as UUID,
   }));
@@ -57,7 +57,7 @@ export const insertContactsNotesSchema = createInsertSchema(ContactsNotesTable)
 export const selectContactsNotesSchema = createSelectSchema(ContactsNotesTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as ContactNoteSymbol,
+  clientTemporaryId: v.clientTemporaryId as ContactNoteClientId,
   contactId: v.contactId as UUID,
   createdByUserProfileId: v.createdByUserProfileId as UUID,
 }));
@@ -68,7 +68,7 @@ export const updateContactsNotesSchema = createInsertSchema(ContactsNotesTable)
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as ContactNoteSymbol,
+    clientTemporaryId: v.clientTemporaryId as ContactNoteClientId,
     contactId: v.contactId as UUID,
     createdByUserProfileId: v.createdByUserProfileId as UUID,
   }));
