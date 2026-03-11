@@ -20,8 +20,8 @@ import PostgresError from '#Utils/errors/PostgresError.js';
 import { Calendar } from './calendar.js';
 import { asCalendarId, calendarRowToDomain } from './calendar.mapper.js';
 import { CalendarCategory } from './categories/categories.js';
-import { asCalendarCategoryId, asCalendarCategorySymbol } from './categories/category.mapper.js';
-import { asCalendarEventId, asCalendarEventSymbol } from './events/event.mapper.js';
+import { asCalendarCategoryId } from './categories/category.mapper.js';
+import { asCalendarEventId } from './events/event.mapper.js';
 import { CalendarEvent } from './events/events.js';
 
 export class PostgresCalendarRepository implements CalendarRepository {
@@ -89,11 +89,11 @@ export class PostgresCalendarRepository implements CalendarRepository {
     const { addedCategory, removedCategoryIds, updatedCategory } = calendar.pullCategoryChanges();
     let persistedCategories: PersistedCalendarCategory[] = [];
 
-    if (addedCategory.length > 0) {
+    if (addedCategory.size > 0) {
       const rows = await tx
         .insert(CalendarCategoriesTable)
         .values(
-          addedCategory.map(
+          [...addedCategory.values()].map(
             (c): CalendarCategoriesTableInsert => ({
               title: c.title,
               calendarId: c.calendarId,
@@ -104,31 +104,39 @@ export class PostgresCalendarRepository implements CalendarRepository {
         .returning();
 
       persistedCategories = rows.map((row) => {
-        return CalendarCategory.rehydrate({
+        const tempId = row.clientTemporaryId;
+        if (!tempId) {
+          throw new PostgresError({
+            kind: 'INTERNAL_ERROR',
+            message: 'Inserted category missing clientTemporaryId',
+          });
+        }
+
+        const category = addedCategory.get(tempId);
+        if (!category) {
+          throw new PostgresError({
+            kind: 'INTERNAL_ERROR',
+            message: `No category found for temporary id ${tempId}`,
+          });
+        }
+
+        return CalendarCategory.promote(category, {
           id: asCalendarCategoryId(row.id),
-          title: row.title,
-          calendarId: asCalendarId(row.calendarId),
           createdAt: row.createdAt,
-          symbol: row.clientTemporaryId ? asCalendarCategorySymbol(row.clientTemporaryId) : undefined,
         });
       });
     }
 
-    if (removedCategoryIds.length > 0) {
-      await tx.delete(CalendarCategoriesTable).where(
-        inArray(
-          CalendarCategoriesTable.id,
-          removedCategoryIds.map((id) => id)
-        )
-      );
+    if (removedCategoryIds.size > 0) {
+      await tx.delete(CalendarCategoriesTable).where(inArray(CalendarCategoriesTable.id, [...removedCategoryIds]));
     }
 
-    if (updatedCategory.length > 0) {
-      for (const category of updatedCategory) {
+    if (updatedCategory.size > 0) {
+      for (const [UUID, category] of updatedCategory) {
         await tx
           .update(CalendarCategoriesTable)
           .set(category.pullDirtyFields())
-          .where(eq(CalendarCategoriesTable.id, category.id));
+          .where(eq(CalendarCategoriesTable.id, UUID));
       }
     }
 
@@ -139,11 +147,11 @@ export class PostgresCalendarRepository implements CalendarRepository {
     const { addedEvent, removedEventIds, updatedEvent } = calendar.pullEventChanges();
     let persistedEvents: PersistedCalendarEvent[] = [];
 
-    if (addedEvent.length > 0) {
+    if (addedEvent.size > 0) {
       const rows = await tx
         .insert(CalendarEventsTable)
         .values(
-          addedEvent.map(
+          [...addedEvent.values()].map(
             (e): CalendarEventsTableInsert => ({
               title: e.title,
               calendarId: e.calendarId,
@@ -159,33 +167,36 @@ export class PostgresCalendarRepository implements CalendarRepository {
         .returning();
 
       persistedEvents = rows.map((row) => {
-        return CalendarEvent.rehydrate({
+        const tempId = row.clientTemporaryId;
+        if (!tempId) {
+          throw new PostgresError({
+            kind: 'INTERNAL_ERROR',
+            message: 'Inserted event missing clientTemporaryId',
+          });
+        }
+
+        const event = addedEvent.get(tempId);
+        if (!event) {
+          throw new PostgresError({
+            kind: 'INTERNAL_ERROR',
+            message: `No event found for temporary id ${tempId}`,
+          });
+        }
+
+        return CalendarEvent.promote(event, {
           id: asCalendarEventId(row.id),
-          calendarId: asCalendarId(row.calendarId),
-          categoryId: asCalendarCategoryId(row.categoryId),
-          title: row.title,
-          description: row.description,
-          color: row.color,
-          eventStartAt: row.eventStartAt,
-          eventEndAt: row.eventEndAt,
           createdAt: row.createdAt,
-          symbol: row.clientTemporaryId ? asCalendarEventSymbol(row.clientTemporaryId) : undefined,
         });
       });
     }
 
-    if (removedEventIds.length > 0) {
-      await tx.delete(CalendarEventsTable).where(
-        inArray(
-          CalendarEventsTable.id,
-          removedEventIds.map((id) => id)
-        )
-      );
+    if (removedEventIds.size > 0) {
+      await tx.delete(CalendarEventsTable).where(inArray(CalendarEventsTable.id, [...removedEventIds]));
     }
 
-    if (updatedEvent.length > 0) {
-      for (const event of updatedEvent) {
-        await tx.update(CalendarEventsTable).set(event.pullDirtyFields()).where(eq(CalendarEventsTable.id, event.id));
+    if (updatedEvent.size > 0) {
+      for (const [UUID, event] of updatedEvent) {
+        await tx.update(CalendarEventsTable).set(event.pullDirtyFields()).where(eq(CalendarEventsTable.id, UUID));
       }
     }
 

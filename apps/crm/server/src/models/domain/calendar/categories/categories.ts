@@ -22,12 +22,17 @@ export interface PersistedCalendarCategory extends CalendarCategory {
   isPersisted(): this is PersistedCalendarCategory;
 }
 
+class CalendarCategoryState {
+  dirtyFields: Set<keyof CalendarCategoryProps> = new Set();
+}
+
 export abstract class CalendarCategory {
   private readonly _props: CalendarCategoryProps & { symbol: CalendarCategorySymbol };
-  private readonly _dirtyFields = new Set<keyof CalendarCategoryProps>();
+  protected _internal: CalendarCategoryState;
 
-  constructor(props: CalendarCategoryProps) {
+  constructor(props: CalendarCategoryProps, newCategory?: NewCalendarCategoryImpl) {
     this._props = { ...props, symbol: props.symbol ?? (randomUUID() as CalendarCategorySymbol) };
+    this._internal = newCategory?._internal ?? new CalendarCategoryState();
   }
 
   static create(props: CalendarCategoryCreateProps) {
@@ -38,6 +43,15 @@ export abstract class CalendarCategory {
   static rehydrate(props: CalendarCategoryHydrationProps) {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Categories.rehydrate() call!
     return new PersistedCalendarCategoryImpl(props);
+  }
+
+  static promote(
+    newEvent: NewCalendarCategoryImpl,
+    persisted: { id: CalendarCategoryId; createdAt: Date }
+  ): PersistedCalendarCategory {
+    const props = { ...newEvent._props, ...persisted };
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Calendar.promote() call!
+    return new PersistedCalendarCategoryImpl(props, newEvent);
   }
 
   // --------------------------
@@ -72,7 +86,7 @@ export abstract class CalendarCategory {
     const title = newTitle.trim();
     if (title.length === 0) throw new Error('Category title cannot be empty');
     this._props.title = newTitle;
-    this._dirtyFields.add('title');
+    this._internal.dirtyFields.add('title');
   }
   // #endregion actions/categories
 
@@ -81,17 +95,17 @@ export abstract class CalendarCategory {
   // --------------------------
   // #region actions/commit
   commit() {
-    this._dirtyFields.clear();
+    this._internal.dirtyFields.clear();
   }
 
   getDirtyRootFields(): (keyof CalendarCategoryProps)[] {
-    return [...this._dirtyFields];
+    return [...this._internal.dirtyFields];
   }
 
   pullDirtyFields(): Partial<CalendarCategoryProps> {
     const update: Partial<CalendarCategoryProps> = {};
 
-    this._dirtyFields.forEach(<K extends keyof CalendarCategoryProps>(key: K) => {
+    this._internal.dirtyFields.forEach(<K extends keyof CalendarCategoryProps>(key: K) => {
       // eslint-disable-next-line security/detect-object-injection
       update[key] = this._props[key];
     });
@@ -102,7 +116,7 @@ export abstract class CalendarCategory {
   }
 
   isRootDirty(): boolean {
-    return this._dirtyFields.size > 0;
+    return this._internal.dirtyFields.size > 0;
   }
   // #endregion actions/commit
 }
@@ -121,8 +135,8 @@ class PersistedCalendarCategoryImpl extends CalendarCategory {
   private readonly _id: CalendarCategoryId;
   private readonly _createdAt: Date;
 
-  constructor(props: CalendarCategoryHydrationProps) {
-    super(props);
+  constructor(props: CalendarCategoryHydrationProps, newCategory?: NewCalendarCategoryImpl) {
+    super(props, newCategory);
     this._id = props.id;
     this._createdAt = props.createdAt;
   }

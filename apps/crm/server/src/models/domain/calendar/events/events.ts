@@ -25,6 +25,13 @@ export interface NewCalendarEvent extends CalendarEvent {
   isPersisted(): this is PersistedCalendarEvent;
 }
 
+class CalendarEventState {
+  participants: Set<UserProfileId> = new Set();
+  addedParticipants: Set<UserProfileId> = new Set();
+  removedParticipants: Set<UserProfileId> = new Set();
+  dirtyFields: Set<keyof CalendarEventProps> = new Set();
+}
+
 export interface PersistedCalendarEvent extends CalendarEvent {
   readonly id: CalendarEventId;
   readonly createdAt: Date;
@@ -33,14 +40,11 @@ export interface PersistedCalendarEvent extends CalendarEvent {
 
 export abstract class CalendarEvent {
   private readonly _props: CalendarEventProps & { symbol: CalendarEventSymbol };
-  private readonly _dirtyFields = new Set<keyof CalendarEventProps>();
+  protected _internal: CalendarEventState;
 
-  private readonly _participants = new Set<UserProfileId>();
-  private readonly _addedParticipants = new Set<UserProfileId>();
-  private readonly _removedParticipants = new Set<UserProfileId>();
-
-  constructor(props: CalendarEventProps) {
+  constructor(props: CalendarEventProps, newEvent?: NewCalendarEventImpl) {
     this._props = { ...props, symbol: props.symbol ?? (randomUUID() as CalendarEventSymbol) };
+    this._internal = newEvent?._internal ?? new CalendarEventState();
   }
 
   static create(props: CalendarEventCreateProps): NewCalendarEvent {
@@ -51,6 +55,15 @@ export abstract class CalendarEvent {
   static rehydrate(props: CalendarEventHydrationProps): PersistedCalendarEvent {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Event.rehydrate() call!
     return new PersistedCalendarEventImpl(props);
+  }
+
+  static promote(
+    newEvent: NewCalendarEventImpl,
+    persisted: { id: CalendarEventId; createdAt: Date }
+  ): PersistedCalendarEvent {
+    const props = { ...newEvent._props, ...persisted };
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Calendar.promote() call!
+    return new PersistedCalendarEventImpl(props, newEvent);
   }
 
   // --------------------------
@@ -90,7 +103,7 @@ export abstract class CalendarEvent {
   }
 
   get participants() {
-    return [...this._participants];
+    return [...this._internal.participants];
   }
   // #endregion getters
 
@@ -115,19 +128,19 @@ export abstract class CalendarEvent {
     const title = newTitle.trim();
     if (title.length === 0) throw new Error('Event title cannot be empty');
     this._props.title = newTitle;
-    this._dirtyFields.add('title');
+    this._internal.dirtyFields.add('title');
   }
 
   changeCalendar(newCalendar: CalendarId) {
     if (this._props.calendarId === newCalendar) return;
     this._props.calendarId = newCalendar;
-    this._dirtyFields.add('calendarId');
+    this._internal.dirtyFields.add('calendarId');
   }
 
   changeCategory(category: CalendarCategoryId) {
     if (this._props.categoryId === category) return;
     this._props.categoryId = category;
-    this._dirtyFields.add('categoryId');
+    this._internal.dirtyFields.add('categoryId');
   }
 
   changeDescription(newDescription: string) {
@@ -135,7 +148,7 @@ export abstract class CalendarEvent {
     const description = newDescription.trim();
     if (description.length === 0) throw new Error('Event description cannot be empty');
     this._props.description = description;
-    this._dirtyFields.add('description');
+    this._internal.dirtyFields.add('description');
   }
 
   changeColor(newColorHex: string | null) {
@@ -150,7 +163,7 @@ export abstract class CalendarEvent {
       }
       this._props.color = normalized.toUpperCase();
     }
-    this._dirtyFields.add('color');
+    this._internal.dirtyFields.add('color');
   }
 
   changeDate(newStart: Date, newEnd: Date) {
@@ -158,8 +171,8 @@ export abstract class CalendarEvent {
     if (Number.isNaN(newStart.getTime()) || Number.isNaN(newEnd.getTime())) throw new Error('Invalid time formats');
     this._props.eventStartAt = newStart;
     this._props.eventEndAt = newEnd;
-    this._dirtyFields.add('eventStartAt');
-    this._dirtyFields.add('eventEndAt');
+    this._internal.dirtyFields.add('eventStartAt');
+    this._internal.dirtyFields.add('eventEndAt');
   }
   // #endregion actions/events
 
@@ -168,17 +181,17 @@ export abstract class CalendarEvent {
   // --------------------------
   // #region actions/commit
   commit() {
-    this._dirtyFields.clear();
+    this._internal.dirtyFields.clear();
   }
 
   getDirtyRootFields(): (keyof CalendarEventProps)[] {
-    return [...this._dirtyFields];
+    return [...this._internal.dirtyFields];
   }
 
   pullDirtyFields(): Partial<CalendarEventProps> {
     const update: Partial<CalendarEventProps> = {};
 
-    this._dirtyFields.forEach(<K extends keyof CalendarEventProps>(key: K) => {
+    this._internal.dirtyFields.forEach(<K extends keyof CalendarEventProps>(key: K) => {
       // eslint-disable-next-line security/detect-object-injection
       update[key] = this._props[key];
     });
@@ -187,7 +200,7 @@ export abstract class CalendarEvent {
   }
 
   isRootDirty(): boolean {
-    return this._dirtyFields.size > 0;
+    return this._internal.dirtyFields.size > 0;
   }
   // #endregion actions/commit
 }
@@ -206,8 +219,8 @@ class PersistedCalendarEventImpl extends CalendarEvent {
   private readonly _id: CalendarEventId;
   private readonly _createdAt: Date;
 
-  constructor(props: CalendarEventHydrationProps) {
-    super(props);
+  constructor(props: CalendarEventHydrationProps, newEvent?: NewCalendarEventImpl) {
+    super(props, newEvent);
     this._id = props.id;
     this._createdAt = props.createdAt;
   }

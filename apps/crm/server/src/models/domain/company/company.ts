@@ -38,6 +38,14 @@ export interface PersistedCompany extends Company {
   isPersisted(): this is PersistedCompany;
 }
 
+class CompanyState {
+  notes: PersistedCompanyNote[] = [];
+  addedNotes: NewCompanyNote[] = [];
+  removedNoteIds: CompanyNoteId[] = [];
+  updatedNotes: PersistedCompanyNote[] = [];
+  dirtyFields: Set<keyof CompanyProps> = new Set();
+}
+
 /*
   Hydration rules:
     - By default, Company is rehydrated WITHOUT notes.
@@ -46,29 +54,12 @@ export interface PersistedCompany extends Company {
     - This prevents loading large note collections during queries.
  */
 export abstract class Company {
-  private _name: string;
-  private _size: CompanySize;
-  private _totalRevenue: string;
-  private _industry: string;
-  private _businessType: BusinessType;
-  private _countryId: CountryId;
-  private _website?: string;
+  private readonly _props: CompanyProps;
+  protected _internal: CompanyState;
 
-  private _notes: PersistedCompanyNote[] = [];
-  private _addedNotes: NewCompanyNote[] = [];
-  private _removedNoteIds: CompanyNoteId[] = [];
-  private _updatedNotes: PersistedCompanyNote[] = [];
-
-  private _rootDirty: boolean = false;
-
-  protected constructor(props: CompanyProps) {
-    this._name = props.name;
-    this._size = props.size;
-    this._totalRevenue = props.totalRevenue;
-    this._industry = props.industry;
-    this._businessType = props.businessType;
-    this._countryId = props.countryId;
-    this._website = props.website;
+  protected constructor(props: CompanyProps, newCompany?: NewCompanyImpl) {
+    this._props = { ...props };
+    this._internal = newCompany?._internal ?? new CompanyState();
   }
 
   static create(props: CompanyCreateProps): NewCompany {
@@ -81,10 +72,16 @@ export abstract class Company {
     return new PersistedCompanyImpl(props);
   }
 
+  static promote(newCompany: NewCompanyImpl, persisted: { id: CompanyId; createdAt: Date }): PersistedCompany {
+    const props = { ...newCompany._props, ...persisted };
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Calendar.promote() call!
+    return new PersistedCompanyImpl(props, newCompany);
+  }
+
   static rehydrateForWrite(props: CompanyHydrationProps, notes: PersistedCompanyNote[]): PersistedCompany {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Company.rehydrateForWrite() call!
     const company = new PersistedCompanyImpl(props);
-    company.commit(notes);
+    company.commitNotes(notes);
     return company;
   }
 
@@ -92,40 +89,32 @@ export abstract class Company {
   // Getters
   // --------------------------
   // #region getters
-  get isRootDirty() {
-    return this._rootDirty;
-  }
-
   get name() {
-    return this._name;
+    return this._props.name;
   }
 
   get size() {
-    return this._size;
+    return this._props.size;
   }
 
   get totalRevenue() {
-    return this._totalRevenue;
+    return this._props.totalRevenue;
   }
 
   get industry() {
-    return this._industry;
+    return this._props.industry;
   }
 
   get businessType() {
-    return this._businessType;
+    return this._props.businessType;
   }
 
   get countryId() {
-    return this._countryId;
+    return this._props.countryId;
   }
 
   get website() {
-    return this._website;
-  }
-
-  get notes() {
-    return this._notes;
+    return this._props.website;
   }
   // #endregion getters
 
@@ -150,39 +139,39 @@ export abstract class Company {
     if (name.length === 0) {
       throw new Error('Company name cannot be empty');
     }
-    this._name = name;
-    this._rootDirty = true;
+    this._props.name = name;
+    this._internal.dirtyFields.add('name');
   }
 
   updateMarketTier(newTier: CompanySize) {
-    this._size = newTier;
-    this._rootDirty = true;
+    this._props.size = newTier;
+    this._internal.dirtyFields.add('size');
   }
 
   updateTotalRevenue(newRevenue: string) {
     if (!/^\d+\.\d{2}$/.test(newRevenue)) throw new Error('Invalid revenue format');
-    this._totalRevenue = newRevenue;
-    this._rootDirty = true;
+    this._props.totalRevenue = newRevenue;
+    this._internal.dirtyFields.add('totalRevenue');
   }
 
   changeIndustry(industry: string) {
-    this._industry = industry;
-    this._rootDirty = true;
+    this._props.industry = industry;
+    this._internal.dirtyFields.add('industry');
   }
 
   changeBusinessType(businessType: BusinessType) {
-    this._businessType = businessType;
-    this._rootDirty = true;
+    this._props.businessType = businessType;
+    this._internal.dirtyFields.add('businessType');
   }
 
   moveCountry(country: CountryId) {
-    this._countryId = country;
-    this._rootDirty = true;
+    this._props.countryId = country;
+    this._internal.dirtyFields.add('countryId');
   }
 
   updateWebsite(website: string) {
-    this._website = website;
-    this._rootDirty = true;
+    this._props.website = website;
+    this._internal.dirtyFields.add('website');
   }
   // #endregion actions/profile
 
@@ -192,32 +181,38 @@ export abstract class Company {
   // #region actions/notes
   addNote(props: CompanyNoteCreateProps): NewCompanyNote {
     const note = CompanyNote.create(props);
-    this._addedNotes.push(note);
+    this._internal.addedNotes.push(note);
     return note;
   }
 
   removeNote(id: CompanyNoteId, actor: UserProfileId) {
-    const noteIndex = this._notes.findIndex((n) => n.id === id);
+    const noteIndex = this._internal.notes.findIndex((n) => n.id === id);
 
     if (noteIndex === -1) throw new DomainError({ message: 'Company-note not found' });
-    if (this._notes[`${noteIndex}`].createdByUserProfileId !== actor)
+    if (this._internal.notes[`${noteIndex}`].createdByUserProfileId !== actor)
       throw new DomainError({ message: 'Company-note not created by this user' });
 
-    this._removedNoteIds.push(id);
-    this._notes.splice(noteIndex, 1);
+    this._internal.removedNoteIds.push(id);
+    this._internal.notes.splice(noteIndex, 1);
   }
 
   updateNote(props: CompanyNoteHydrationProps, actor: UserProfileId): PersistedCompanyNote {
-    const note = this.notes.find((note) => note.id === props.id);
+    const note = this._internal.notes.find((note) => note.id === props.id);
     if (!note) throw new DomainError({ message: 'Note not found' });
 
     note.updateContent(props.content, actor);
-    this._updatedNotes.push(note);
+    this._internal.updatedNotes.push(note);
     return note;
   }
 
   findNoteBySymbol(symbol: UUIDv4) {
-    return this._notes.find((n) => n.symbol === symbol);
+    return this._internal.notes.find((n) => n.symbol === symbol);
+  }
+
+  getNoteBySymbol(symbol: UUIDv4) {
+    const note = this._internal.notes.find((n) => n.symbol === symbol);
+    if (!note) throw new DomainError({ message: 'Note not found' });
+    return note;
   }
   // #endregion actions/notes
 
@@ -225,19 +220,42 @@ export abstract class Company {
   // Domain actions – Commit
   // --------------------------
   // #region actions/commit
-  pullChanges() {
+  pullNoteChanges() {
     return {
-      addedNotes: this._addedNotes,
-      removedNoteIds: this._removedNoteIds,
-      updatedNotes: this._updatedNotes,
+      addedNotes: this._internal.addedNotes,
+      removedNoteIds: this._internal.removedNoteIds,
+      updatedNotes: this._internal.updatedNotes,
     };
   }
 
-  commit(notes: PersistedCompanyNote[]) {
-    this._notes = [...this._notes, ...notes];
-    this._addedNotes = [];
-    this._updatedNotes = [];
-    this._removedNoteIds = [];
+  commit() {
+    this._internal.dirtyFields.clear();
+  }
+
+  commitNotes(newNotes: PersistedCompanyNote[]) {
+    this._internal.notes.push(...newNotes);
+    this._internal.addedNotes = [];
+    this._internal.updatedNotes = [];
+    this._internal.removedNoteIds = [];
+  }
+
+  hasDirtyFields() {
+    return this._internal.dirtyFields.size > 0;
+  }
+
+  getDirtyRootFields(): (keyof CompanyProps)[] {
+    return [...this._internal.dirtyFields];
+  }
+
+  pullDirtyFields(): Partial<CompanyProps> {
+    const update: Partial<CompanyProps> = {};
+
+    this._internal.dirtyFields.forEach(<K extends keyof CompanyProps>(key: K) => {
+      // eslint-disable-next-line security/detect-object-injection
+      update[key] = this._props[key];
+    });
+
+    return update;
   }
   // #endregion actions/commit
 }
@@ -256,8 +274,8 @@ class PersistedCompanyImpl extends Company {
   private readonly _id: CompanyId;
   private readonly _createdAt: Date;
 
-  constructor(props: CompanyHydrationProps) {
-    super(props);
+  constructor(props: CompanyHydrationProps, newCompany?: NewCompanyImpl) {
+    super(props, newCompany);
     this._id = props.id;
     this._createdAt = props.createdAt;
   }

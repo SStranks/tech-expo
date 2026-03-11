@@ -1,3 +1,5 @@
+import type { UUID } from '@apps/crm-shared';
+
 import type { CompanyId } from '../company/company.types.js';
 import type { CalendarId } from './calendar.types.js';
 import type {
@@ -38,14 +40,16 @@ export interface PersistedCalendar extends Calendar {
 }
 
 class CalendarState {
-  event: PersistedCalendarEvent[] = [];
-  addedEvent: NewCalendarEvent[] = [];
-  removedEventIds: CalendarEventId[] = [];
-  updatedEvent: PersistedCalendarEvent[] = [];
-  category: PersistedCalendarCategory[] = [];
-  addedCategory: NewCalendarCategory[] = [];
-  removedCategoryIds: CalendarCategoryId[] = [];
-  updatedCategory: PersistedCalendarCategory[] = [];
+  eventById: Map<UUID, PersistedCalendarEvent> = new Map();
+  eventBySymbol: Map<CalendarEventSymbol, UUID> = new Map();
+  addedEvent: Map<CalendarEventSymbol, NewCalendarEvent> = new Map();
+  removedEventIds: Set<CalendarEventId> = new Set();
+  updatedEvent: Map<UUID, PersistedCalendarEvent> = new Map();
+  categoryById: Map<UUID, PersistedCalendarCategory> = new Map();
+  categoryBySymbol: Map<CalendarCategorySymbol, UUID> = new Map();
+  addedCategory: Map<CalendarCategorySymbol, NewCalendarCategory> = new Map();
+  removedCategoryIds: Set<CalendarCategoryId> = new Set();
+  updatedCategory: Map<UUID, PersistedCalendarCategory> = new Map();
   dirtyFields: Set<keyof CalendarProps> = new Set();
 }
 
@@ -110,23 +114,29 @@ export abstract class Calendar {
   }
 
   commitCategories(newCategories: PersistedCalendarCategory[]) {
-    this._internal.category.push(...newCategories);
-    this._internal.addedCategory = [];
-    this._internal.updatedCategory = [];
-    this._internal.removedCategoryIds = [];
+    for (const category of newCategories) {
+      this._internal.categoryById.set(category.id, category);
+      this._internal.categoryBySymbol.set(category.symbol, category.id);
+    }
+    this._internal.addedCategory.clear();
+    this._internal.updatedCategory.clear();
+    this._internal.removedCategoryIds.clear();
 
-    for (const category of this._internal.category) {
+    for (const category of this._internal.categoryById.values()) {
       category.commit();
     }
   }
 
   commitEvents(newEvents: PersistedCalendarEvent[]) {
-    this._internal.event.push(...newEvents);
-    this._internal.addedEvent = [];
-    this._internal.updatedEvent = [];
-    this._internal.removedEventIds = [];
+    for (const event of newEvents) {
+      this._internal.eventById.set(event.id, event);
+      this._internal.eventBySymbol.set(event.symbol, event.id);
+    }
+    this._internal.addedEvent.clear();
+    this._internal.updatedEvent.clear();
+    this._internal.removedEventIds.clear();
 
-    for (const event of this._internal.event) {
+    for (const event of this._internal.eventById.values()) {
       event.commit();
     }
   }
@@ -157,33 +167,36 @@ export abstract class Calendar {
   // #region actions/category
   addCalendarCategory(props: CalendarCategoryCreateProps): NewCalendarCategory {
     const calendarCategory = CalendarCategory.create(props);
-    this._internal.addedCategory.push(calendarCategory);
+    this._internal.addedCategory.set(calendarCategory.symbol, calendarCategory);
     return calendarCategory;
   }
 
   updateCalendarCategory(props: CalendarCategoryUpdateProps): PersistedCalendarCategory {
-    const calendarCategory = this._internal.category.find((category) => category.id === props.id);
+    const calendarCategory = this._internal.categoryById.get(props.id);
     if (!calendarCategory) throw new DomainError({ message: 'Calendar-category not found' });
 
     calendarCategory.updateCategory(props);
-    this._internal.updatedCategory.push(calendarCategory);
+    this._internal.updatedCategory.set(calendarCategory.id, calendarCategory);
     return calendarCategory;
   }
 
   removeCalendarCategory(id: CalendarCategoryId) {
-    const calendarCategoryIndex = this._internal.category.findIndex((n) => n.id === id);
-    if (calendarCategoryIndex === -1) throw new DomainError({ message: 'Calendar-category not found' });
+    const calendarCategory = this._internal.categoryById.get(id);
+    if (!calendarCategory) throw new DomainError({ message: 'Calendar-category not found' });
 
-    this._internal.removedCategoryIds.push(id);
-    this._internal.category.splice(calendarCategoryIndex, 1);
+    this._internal.removedCategoryIds.add(id);
+    this._internal.categoryById.delete(id);
+    this._internal.categoryBySymbol.delete(calendarCategory.symbol);
   }
 
   findCalendarCategoryBySymbol(symbol: CalendarCategorySymbol) {
-    return this._internal.category.find((c) => c.symbol === symbol);
+    return this._internal.categoryBySymbol.get(symbol);
   }
 
   getCalendarCategoryBySymbol(symbol: CalendarCategorySymbol) {
-    const calendarCategory = this._internal.category.find((c) => c.symbol === symbol);
+    const calendarCategoryUUID = this.findCalendarCategoryBySymbol(symbol);
+    if (!calendarCategoryUUID) throw new DomainError({ message: 'Calendar-category not found' });
+    const calendarCategory = this._internal.categoryById.get(calendarCategoryUUID);
     if (!calendarCategory) throw new DomainError({ message: 'Calendar-category not found' });
     return calendarCategory;
   }
@@ -195,34 +208,37 @@ export abstract class Calendar {
   // #region actions/event
   addCalendarEvent(props: CalendarEventCreateProps): NewCalendarEvent {
     const calendarEvent = CalendarEvent.create(props);
-    this._internal.addedEvent.push(calendarEvent);
+    this._internal.addedEvent.set(calendarEvent.symbol, calendarEvent);
     return calendarEvent;
   }
 
   updateCalendarEvent(props: CalendarEventUpdateProps): PersistedCalendarEvent {
-    const calendarEvent = this._internal.event.find((event) => event.id === props.id);
+    const calendarEvent = this._internal.eventById.get(props.id);
     if (!calendarEvent) throw new DomainError({ message: 'Calendar-event not found' });
 
     calendarEvent.updateEvent(props);
-    this._internal.updatedEvent.push(calendarEvent);
+    this._internal.updatedEvent.set(calendarEvent.id, calendarEvent);
     return calendarEvent;
   }
 
   removeCalendarEvent(id: CalendarEventId) {
-    const calendarEventIndex = this._internal.event.findIndex((n) => n.id === id);
-    if (calendarEventIndex === -1) throw new DomainError({ message: 'Calendar-event not found' });
+    const calendarEvent = this._internal.eventById.get(id);
+    if (!calendarEvent) throw new DomainError({ message: 'Calendar-event not found' });
 
-    this._internal.removedEventIds.push(id);
-    this._internal.event.splice(calendarEventIndex, 1);
+    this._internal.removedEventIds.add(id);
+    this._internal.eventById.delete(id);
+    this._internal.eventBySymbol.delete(calendarEvent.symbol);
   }
 
   findCalendarEventBySymbol(symbol: CalendarEventSymbol) {
-    return this._internal.event.find((e) => e.symbol === symbol);
+    return this._internal.eventBySymbol.get(symbol);
   }
 
   getCalendarEventBySymbol(symbol: CalendarEventSymbol) {
-    const calendarEvent = this._internal.event.find((e) => e.symbol === symbol);
-    if (!calendarEvent) throw new DomainError({ message: 'CalendarEvent not found' });
+    const calendarEventUUID = this.findCalendarEventBySymbol(symbol);
+    if (!calendarEventUUID) throw new DomainError({ message: 'Calendar-event not found' });
+    const calendarEvent = this._internal.eventById.get(calendarEventUUID);
+    if (!calendarEvent) throw new DomainError({ message: 'Calendar-event not found' });
     return calendarEvent;
   }
   // #endregion actions/event
