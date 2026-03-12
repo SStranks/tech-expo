@@ -10,6 +10,6 @@
   "main": "config.js",
   "devDependencies": {
     "@vitest/eslint-plugin": "^1.6.6",
-    "eslint-plugin-testing-library": "^7.15.4"
+    "eslint-plugin-testing-library": "^7.16.0"
   }
 }
