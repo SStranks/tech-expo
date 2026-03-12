@@ -1,42 +1,33 @@
 // @ts-check
 import PluginEslintJSONC from 'eslint-plugin-jsonc';
-import ParserEslintJSONC from 'jsonc-eslint-parser';
+import * as ParserEslintJSONC from 'jsonc-eslint-parser';
 
 export const EslintConfigJSON = {
+  extends: [PluginEslintJSONC.configs['recommended-with-json'], PluginEslintJSONC.configs['prettier']],
   languageOptions: {
     parser: ParserEslintJSONC,
   },
   plugins: {
     jsonc: PluginEslintJSONC,
-  },
-  rules: {
-    ...PluginEslintJSONC.configs['recommended-with-json'].rules,
-    ...PluginEslintJSONC.configs['prettier'].rules,
   },
 };
 
 export const EslintConfigJSONC = {
+  extends: [PluginEslintJSONC.configs['recommended-with-jsonc'], PluginEslintJSONC.configs['prettier']],
   languageOptions: {
     parser: ParserEslintJSONC,
   },
   plugins: {
     jsonc: PluginEslintJSONC,
-  },
-  rules: {
-    ...PluginEslintJSONC.configs['recommended-with-jsonc'].rules,
-    ...PluginEslintJSONC.configs['prettier'].rules,
   },
 };
 
 export const EslintConfigJSON5 = {
+  extends: [PluginEslintJSONC.configs['recommended-with-json5'], PluginEslintJSONC.configs['prettier']],
   languageOptions: {
     parser: ParserEslintJSONC,
   },
   plugins: {
     jsonc: PluginEslintJSONC,
-  },
-  rules: {
-    ...PluginEslintJSONC.configs['recommended-with-json5'].rules,
-    ...PluginEslintJSONC.configs['prettier'].rules,
   },
 };
