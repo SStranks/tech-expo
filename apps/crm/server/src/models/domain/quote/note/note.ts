@@ -5,15 +5,16 @@ import type { QuoteNoteClientId, QuoteNoteId } from './note.types.js';
 
 import { randomUUID } from 'node:crypto';
 
-type QuoteProps = {
-  note: string;
+type QuoteNoteProps = {
+  content: string;
   quote: QuoteId;
   createdByUserProfileId: UserProfileId;
   clientId?: QuoteNoteClientId;
 };
 
-type QuoteNoteCreateProps = QuoteProps;
-type QuoteNoteHydrationProps = QuoteProps & { id: QuoteNoteId; createdAt: Date };
+export type QuoteNoteCreateProps = QuoteNoteProps;
+export type QuoteNoteHydrationProps = QuoteNoteProps & { id: QuoteNoteId; createdAt: Date };
+export type QuoteNoteUpdateProps = Partial<QuoteNoteProps> & { id: QuoteNoteId };
 
 export interface NewQuoteNote extends QuoteNote {
   isPersisted(): this is PersistedQuoteNote;
@@ -25,17 +26,17 @@ export interface PersistedQuoteNote extends QuoteNote {
   isPersisted(): this is PersistedQuoteNote;
 }
 
-export abstract class QuoteNote {
-  private readonly _quote: QuoteId;
-  private readonly _createdByUserProfileId: UserProfileId;
-  private readonly _clientId: QuoteNoteClientId;
-  private readonly _note: string;
+class QuoteNoteState {
+  dirtyFields: Set<keyof QuoteNoteProps> = new Set();
+}
 
-  constructor(props: QuoteProps) {
-    this._note = props.note;
-    this._quote = props.quote;
-    this._createdByUserProfileId = props.createdByUserProfileId;
-    this._clientId = props.clientId || (randomUUID() as QuoteNoteClientId);
+export abstract class QuoteNote {
+  private readonly _props: QuoteNoteProps & { clientId: QuoteNoteClientId };
+  protected _internal: QuoteNoteState;
+
+  constructor(props: QuoteNoteProps, newQuoteNote?: NewQuoteNoteImpl) {
+    this._props = { ...props, clientId: props.clientId || (randomUUID() as QuoteNoteClientId) };
+    this._internal = newQuoteNote?._internal ?? new QuoteNoteState();
   }
 
   static create(props: QuoteNoteCreateProps) {
@@ -48,23 +49,87 @@ export abstract class QuoteNote {
     return new PersistedQuoteNoteImpl(props);
   }
 
-  get note() {
-    return this._note;
-  }
-
-  get quote() {
-    return this._quote;
-  }
-
-  get createdByUserProfileId() {
-    return this._createdByUserProfileId;
-  }
-
-  get clientId() {
-    return this._clientId;
+  static promote(newNote: NewQuoteNoteImpl, persisted: { id: QuoteNoteId; createdAt: Date }): PersistedQuoteNote {
+    const props = { ...newNote._props, ...persisted };
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Contact.promote() call!
+    return new PersistedQuoteNoteImpl(props, newNote);
   }
 
   abstract isPersisted(): boolean;
+
+  // --------------------------
+  // Getters
+  // --------------------------
+  // #region getters
+
+  get note() {
+    return this._props.content;
+  }
+
+  get quote() {
+    return this._props.quote;
+  }
+
+  get createdByUserProfileId() {
+    return this._props.createdByUserProfileId;
+  }
+
+  get clientId(): QuoteNoteClientId {
+    return this._props.clientId;
+  }
+  // #endregion getters
+
+  // --------------------------
+  // Domain actions – Internal
+  // --------------------------
+  // #region actions/internal
+
+  hasDirtyFields() {
+    return this._internal.dirtyFields.size > 0;
+  }
+
+  getDirtyRootFields(): (keyof QuoteNoteProps)[] {
+    return [...this._internal.dirtyFields];
+  }
+
+  pullDirtyFields(): Partial<QuoteNoteProps> {
+    const update: Partial<QuoteNoteProps> = {};
+
+    this._internal.dirtyFields.forEach(<K extends keyof QuoteNoteProps>(key: K) => {
+      // eslint-disable-next-line security/detect-object-injection
+      update[key] = this._props[key];
+    });
+
+    return update;
+  }
+  // #endregion actions/internal
+
+  // --------------------------
+  // Domain actions – Commit
+  // --------------------------
+  // #region actions/commit
+
+  commit() {
+    this._internal.dirtyFields.clear();
+  }
+  // #endregion actions/commit
+
+  // --------------------------
+  // Domain actions – Note
+  // --------------------------
+  // #region actions/note
+
+  updateNote(input: QuoteNoteUpdateProps) {
+    if (input.content !== undefined) this.changeContent(input.content);
+  }
+
+  changeContent(newContent: string) {
+    if (this._props.content === newContent) return;
+    const content = newContent.trim();
+    if (content.length === 0) throw new Error('Quote-note cannot be empty');
+    this._props.content = content;
+    this._internal.dirtyFields.add('content');
+  }
 }
 
 class NewQuoteNoteImpl extends QuoteNote {
@@ -81,8 +146,8 @@ class PersistedQuoteNoteImpl extends QuoteNote {
   private readonly _id: QuoteNoteId;
   private readonly _createdAt: Date;
 
-  constructor(props: QuoteNoteHydrationProps) {
-    super(props);
+  constructor(props: QuoteNoteHydrationProps, newQuoteNote?: NewQuoteNoteImpl) {
+    super(props, newQuoteNote);
     this._id = props.id;
     this._createdAt = props.createdAt;
   }

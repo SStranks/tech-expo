@@ -66,10 +66,13 @@ export abstract class CalendarEvent {
     return new PersistedCalendarEventImpl(props, newEvent);
   }
 
+  abstract isPersisted(): boolean;
+
   // --------------------------
   // Getters
   // --------------------------
   // #region getters
+
   get title() {
     return this._props.title;
   }
@@ -107,7 +110,40 @@ export abstract class CalendarEvent {
   }
   // #endregion getters
 
-  abstract isPersisted(): boolean;
+  // --------------------------
+  // Domain actions – Internal
+  // --------------------------
+  // #region actions/internal
+
+  hasDirtyFields() {
+    return this._internal.dirtyFields.size > 0;
+  }
+
+  getDirtyRootFields(): (keyof CalendarEventProps)[] {
+    return [...this._internal.dirtyFields];
+  }
+
+  pullDirtyFields(): Partial<CalendarEventProps> {
+    const update: Partial<CalendarEventProps> = {};
+
+    this._internal.dirtyFields.forEach(<K extends keyof CalendarEventProps>(key: K) => {
+      // eslint-disable-next-line security/detect-object-injection
+      update[key] = this._props[key];
+    });
+
+    return update;
+  }
+  // #endregion actions/internal
+
+  // --------------------------
+  // Domain actions – Commit
+  // --------------------------
+  // #region actions/commit
+
+  commit() {
+    this._internal.dirtyFields.clear();
+  }
+  // #endregion actions/commit
 
   // --------------------------
   // Domain actions – events
@@ -175,34 +211,6 @@ export abstract class CalendarEvent {
     this._internal.dirtyFields.add('eventEndAt');
   }
   // #endregion actions/events
-
-  // --------------------------
-  // Domain actions – Commit
-  // --------------------------
-  // #region actions/commit
-  commit() {
-    this._internal.dirtyFields.clear();
-  }
-
-  getDirtyRootFields(): (keyof CalendarEventProps)[] {
-    return [...this._internal.dirtyFields];
-  }
-
-  pullDirtyFields(): Partial<CalendarEventProps> {
-    const update: Partial<CalendarEventProps> = {};
-
-    this._internal.dirtyFields.forEach(<K extends keyof CalendarEventProps>(key: K) => {
-      // eslint-disable-next-line security/detect-object-injection
-      update[key] = this._props[key];
-    });
-
-    return update;
-  }
-
-  isRootDirty(): boolean {
-    return this._internal.dirtyFields.size > 0;
-  }
-  // #endregion actions/commit
 }
 
 class NewCalendarEventImpl extends CalendarEvent {

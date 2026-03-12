@@ -30,7 +30,9 @@ export interface PersistedCompanyNote extends CompanyNote {
   isPersisted(): this is PersistedCompanyNote;
 }
 
-class CompanyNoteState {}
+class CompanyNoteState {
+  dirtyFields: Set<keyof CompanyNoteProps> = new Set();
+}
 
 export abstract class CompanyNote {
   private readonly _props: CompanyNoteProps & { clientId: CompanyNoteClientId };
@@ -53,11 +55,16 @@ export abstract class CompanyNote {
 
   static promote(newNote: NewCompanyNoteImpl, persisted: { id: CompanyNoteId; createdAt: Date }): PersistedCompanyNote {
     const props = { ...newNote._props, ...persisted };
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Calendar.promote() call!
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level CompanyNote.promote() call!
     return new PersistedCompanyNoteImpl(props, newNote);
   }
 
   abstract isPersisted(): boolean;
+
+  // --------------------------
+  // Getters
+  // --------------------------
+  // #region getters
 
   get content() {
     return this._props.content;
@@ -74,6 +81,47 @@ export abstract class CompanyNote {
   get clientId(): CompanyNoteClientId {
     return this._props.clientId;
   }
+  // #endregion getters
+
+  // --------------------------
+  // Domain actions – Internal
+  // --------------------------
+  // #region actions/internal
+
+  hasDirtyFields() {
+    return this._internal.dirtyFields.size > 0;
+  }
+
+  getDirtyRootFields(): (keyof CompanyNoteProps)[] {
+    return [...this._internal.dirtyFields];
+  }
+
+  pullDirtyFields(): Partial<CompanyNoteProps> {
+    const update: Partial<CompanyNoteProps> = {};
+
+    this._internal.dirtyFields.forEach(<K extends keyof CompanyNoteProps>(key: K) => {
+      // eslint-disable-next-line security/detect-object-injection
+      update[key] = this._props[key];
+    });
+
+    return update;
+  }
+  // #endregion actions/internal
+
+  // --------------------------
+  // Domain actions – Commit
+  // --------------------------
+  // #region actions/commit
+
+  commit() {
+    this._internal.dirtyFields.clear();
+  }
+  // #endregion actions/commit
+
+  // --------------------------
+  // Domain actions – Note
+  // --------------------------
+  // #region actions/note
 
   updateContent(newMessage: string, actor: UserProfileId) {
     if (this.createdByUserProfileId !== actor)
@@ -82,6 +130,7 @@ export abstract class CompanyNote {
     if (!newMessage || newMessage.trim() === '') throw new DomainError({ message: 'Message cannot be empty' });
 
     this._props.content = newMessage;
+    // #endregion actions/note
   }
 }
 

@@ -17,18 +17,10 @@ export interface PersistedCountry extends Country {
 }
 
 export abstract class Country {
-  private readonly _numCode: number;
-  private readonly _alpha2Code: string;
-  private readonly _alpha3Code: string;
-  private readonly _shortName: string;
-  private readonly _nationality: string;
+  private readonly _props: CountryProps;
 
   constructor(props: CountryProps) {
-    this._numCode = props.numCode;
-    this._alpha2Code = props.alpha2Code;
-    this._alpha3Code = props.alpha3Code;
-    this._shortName = props.shortName;
-    this._nationality = props.nationality;
+    this._props = { ...props };
   }
 
   static rehydrate(props: CountryHydrationProps): PersistedCountry {
@@ -42,24 +34,25 @@ export abstract class Country {
   // Getters
   // --------------------------
   // #region getters
+
   get numCode() {
-    return this._numCode;
+    return this._props.numCode;
   }
 
   get alpha2Code() {
-    return this._alpha2Code;
+    return this._props.alpha2Code;
   }
 
   get alpha3Code() {
-    return this._alpha3Code;
+    return this._props.alpha3Code;
   }
 
   get shortName() {
-    return this._shortName;
+    return this._props.shortName;
   }
 
   get nationality() {
-    return this._nationality;
+    return this._props.nationality;
   }
   // #endregion getters
 }

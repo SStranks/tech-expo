@@ -28,23 +28,19 @@ export interface PersistedAudit extends Audit {
   isPersisted(): this is PersistedAudit;
 }
 
+class AuditState {
+  dirtyFields: Set<keyof AuditProps> = new Set();
+}
+
 export abstract class Audit {
-  private readonly _tableName: string;
-  private readonly _entityId: UUID;
-  private readonly _entityAction: AuditAction;
-  private readonly _changedByUserProfileId: UserProfileId;
-  private readonly _originalValues: JSON;
-  private readonly _newValues: JSON;
+  private readonly _props: AuditProps;
+  protected _internal: AuditState;
 
   private readonly _rootDirty: boolean = false;
 
-  constructor(props: AuditProps) {
-    this._tableName = props.tableName;
-    this._entityId = props.entityId;
-    this._entityAction = props.entityAction;
-    this._changedByUserProfileId = props.changedByUserProfileId;
-    this._originalValues = props.originalValues;
-    this._newValues = props.newValues;
+  constructor(props: AuditProps, newAudit?: NewAuditImpl) {
+    this._props = { ...props };
+    this._internal = newAudit?._internal ?? new AuditState();
   }
 
   static create(props: AuditCreateProps): NewAudit {
@@ -57,41 +53,78 @@ export abstract class Audit {
     return new PersistedAuditImpl(props);
   }
 
+  static promote(newAudit: NewAuditImpl, persisted: { id: AuditId; createdAt: Date }): PersistedAudit {
+    const props = { ...newAudit._props, ...persisted };
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Audit.promote() call!
+    return new PersistedAuditImpl(props, newAudit);
+  }
+
+  abstract isPersisted(): boolean;
+
   // --------------------------
   // Getters
   // --------------------------
   // #region getters
 
-  get isRootDirty() {
-    return this._rootDirty;
-  }
-
   get tableName() {
-    return this._tableName;
+    return this._props.tableName;
   }
 
   get entityId() {
-    return this._entityId;
+    return this._props.entityId;
   }
 
   get entityAction() {
-    return this._entityAction;
+    return this._props.entityAction;
   }
 
   get changedByUserProfileId() {
-    return this._changedByUserProfileId;
+    return this._props.changedByUserProfileId;
   }
 
   get originalValues() {
-    return this._originalValues;
+    return this._props.originalValues;
   }
 
   get newValues() {
-    return this._newValues;
+    return this._props.newValues;
   }
   // #endregion getters
 
-  abstract isPersisted(): boolean;
+  // --------------------------
+  // Domain actions – Internal
+  // --------------------------
+  // #region actions/internal
+
+  getDirtyRootFields(): (keyof AuditProps)[] {
+    return [...this._internal.dirtyFields];
+  }
+
+  hasDirtyFields() {
+    return this._internal.dirtyFields.size > 0;
+  }
+
+  pullDirtyFields(): Partial<AuditProps> {
+    const update: Partial<AuditProps> = {};
+
+    this._internal.dirtyFields.forEach(<K extends keyof AuditProps>(key: K) => {
+      // eslint-disable-next-line security/detect-object-injection
+      update[key] = this._props[key];
+    });
+
+    return update;
+  }
+  // #endregion actions/internal
+
+  // --------------------------
+  // Domain actions – Commit
+  // --------------------------
+  // #region actions/commit
+
+  commit() {
+    this._internal.dirtyFields.clear();
+  }
+  // #endregion actions/audit
 }
 
 class NewAuditImpl extends Audit {
@@ -108,8 +141,8 @@ class PersistedAuditImpl extends Audit {
   private readonly _id: AuditId;
   private readonly _createdAt: Date;
 
-  constructor(props: AuditHydrationProps) {
-    super(props);
+  constructor(props: AuditHydrationProps, newAudit?: NewAuditImpl) {
+    super(props, newAudit);
     this._id = props.id;
     this._createdAt = props.createdAt;
   }

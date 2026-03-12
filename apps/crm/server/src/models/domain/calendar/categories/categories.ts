@@ -54,6 +54,8 @@ export abstract class CalendarCategory {
     return new PersistedCalendarCategoryImpl(props, newEvent);
   }
 
+  abstract isPersisted(): boolean;
+
   // --------------------------
   // Getters
   // --------------------------
@@ -71,31 +73,13 @@ export abstract class CalendarCategory {
   }
   // #endregion getters
 
-  abstract isPersisted(): boolean;
+  // --------------------------
+  // Domain actions – Internal
+  // --------------------------
+  // #region actions/internal
 
-  // --------------------------
-  // Domain actions – categories
-  // --------------------------
-  // #region actions/categories
-  updateCategory(input: CalendarCategoryUpdateProps) {
-    if (input.title !== undefined) this.changeTitle(input.title);
-  }
-
-  changeTitle(newTitle: string) {
-    if (this._props.title === newTitle) return;
-    const title = newTitle.trim();
-    if (title.length === 0) throw new Error('Category title cannot be empty');
-    this._props.title = newTitle;
-    this._internal.dirtyFields.add('title');
-  }
-  // #endregion actions/categories
-
-  // --------------------------
-  // Domain actions – Commit
-  // --------------------------
-  // #region actions/commit
-  commit() {
-    this._internal.dirtyFields.clear();
+  hasDirtyFields() {
+    return this._internal.dirtyFields.size > 0;
   }
 
   getDirtyRootFields(): (keyof CalendarCategoryProps)[] {
@@ -110,15 +94,37 @@ export abstract class CalendarCategory {
       update[key] = this._props[key];
     });
 
-    // this._dirtyFields.clear();
-
     return update;
   }
+  // #endregion actions/internal
 
-  isRootDirty(): boolean {
-    return this._internal.dirtyFields.size > 0;
+  // --------------------------
+  // Domain actions – Commit
+  // --------------------------
+  // #region actions/commit
+
+  commit() {
+    this._internal.dirtyFields.clear();
   }
   // #endregion actions/commit
+
+  // --------------------------
+  // Domain actions – categories
+  // --------------------------
+  // #region actions/categories
+
+  updateCategory(input: CalendarCategoryUpdateProps) {
+    if (input.title !== undefined) this.changeTitle(input.title);
+  }
+
+  changeTitle(newTitle: string) {
+    if (this._props.title === newTitle) return;
+    const title = newTitle.trim();
+    if (title.length === 0) throw new Error('Category title cannot be empty');
+    this._props.title = newTitle;
+    this._internal.dirtyFields.add('title');
+  }
+  // #endregion actions/categories
 }
 
 class NewCalendarCategoryImpl extends CalendarCategory {

@@ -1,5 +1,3 @@
-import type { UUID } from '@apps/crm-shared';
-
 import type { CompanyId } from '../company/company.types.js';
 import type { CalendarId } from './calendar.types.js';
 import type {
@@ -40,16 +38,16 @@ export interface PersistedCalendar extends Calendar {
 }
 
 class CalendarState {
-  eventById: Map<UUID, PersistedCalendarEvent> = new Map();
-  eventByClientId: Map<CalendarEventClientId, UUID> = new Map();
+  eventById: Map<CalendarEventId, PersistedCalendarEvent> = new Map();
+  eventByClientId: Map<CalendarEventClientId, CalendarEventId> = new Map();
   addedEvent: Map<CalendarEventClientId, NewCalendarEvent> = new Map();
   removedEventIds: Set<CalendarEventId> = new Set();
-  updatedEvent: Map<UUID, PersistedCalendarEvent> = new Map();
-  categoryById: Map<UUID, PersistedCalendarCategory> = new Map();
-  categoryByClientId: Map<CalendarCategoryClientId, UUID> = new Map();
+  updatedEvent: Map<CalendarEventId, PersistedCalendarEvent> = new Map();
+  categoryById: Map<CalendarCategoryId, PersistedCalendarCategory> = new Map();
+  categoryByClientId: Map<CalendarCategoryClientId, CalendarCategoryId> = new Map();
   addedCategory: Map<CalendarCategoryClientId, NewCalendarCategory> = new Map();
   removedCategoryIds: Set<CalendarCategoryId> = new Set();
-  updatedCategory: Map<UUID, PersistedCalendarCategory> = new Map();
+  updatedCategory: Map<CalendarCategoryId, PersistedCalendarCategory> = new Map();
   dirtyFields: Set<keyof CalendarProps> = new Set();
 }
 
@@ -78,21 +76,31 @@ export abstract class Calendar {
     return new PersistedCalendarImpl(props, newCalendar);
   }
 
+  abstract isPersisted(): boolean;
+
   // --------------------------
   // Getters
   // --------------------------
   // #region getters
+
   get companyId() {
     return this._props.companyId;
   }
   // #endregion getters
 
-  abstract isPersisted(): boolean;
+  // --------------------------
+  // Domain actions – Internal
+  // --------------------------
+  // #region actions/internal
 
-  // --------------------------
-  // Domain actions – Calendar
-  // --------------------------
-  // #region actions/calendar
+  hasDirtyFields() {
+    return this._internal.dirtyFields.size > 0;
+  }
+
+  getDirtyRootFields(): (keyof CalendarProps)[] {
+    return [...this._internal.dirtyFields];
+  }
+
   pullCategoryChanges() {
     return {
       addedCategory: this._internal.addedCategory,
@@ -109,46 +117,6 @@ export abstract class Calendar {
     };
   }
 
-  commit() {
-    this._internal.dirtyFields.clear();
-  }
-
-  commitCategories(newCategories: PersistedCalendarCategory[]) {
-    for (const category of newCategories) {
-      this._internal.categoryById.set(category.id, category);
-      this._internal.categoryByClientId.set(category.clientId, category.id);
-    }
-    this._internal.addedCategory.clear();
-    this._internal.updatedCategory.clear();
-    this._internal.removedCategoryIds.clear();
-
-    for (const category of this._internal.categoryById.values()) {
-      category.commit();
-    }
-  }
-
-  commitEvents(newEvents: PersistedCalendarEvent[]) {
-    for (const event of newEvents) {
-      this._internal.eventById.set(event.id, event);
-      this._internal.eventByClientId.set(event.clientId, event.id);
-    }
-    this._internal.addedEvent.clear();
-    this._internal.updatedEvent.clear();
-    this._internal.removedEventIds.clear();
-
-    for (const event of this._internal.eventById.values()) {
-      event.commit();
-    }
-  }
-
-  hasDirtyFields() {
-    return this._internal.dirtyFields.size > 0;
-  }
-
-  getDirtyRootFields(): (keyof CalendarProps)[] {
-    return [...this._internal.dirtyFields];
-  }
-
   pullDirtyFields(): Partial<CalendarProps> {
     const update: Partial<CalendarProps> = {};
 
@@ -159,7 +127,41 @@ export abstract class Calendar {
 
     return update;
   }
-  // #endregion actions/calendar
+  // #endregion actions/internal
+
+  // --------------------------
+  // Domain actions – Commit
+  // --------------------------
+  // #region actions/commit
+
+  commit() {
+    this._internal.dirtyFields.clear();
+  }
+
+  commitCategories(newCategories: PersistedCalendarCategory[]) {
+    for (const category of newCategories) {
+      this._internal.categoryById.set(category.id, category);
+      this._internal.categoryByClientId.set(category.clientId, category.id);
+      category.commit();
+    }
+
+    this._internal.addedCategory.clear();
+    this._internal.updatedCategory.clear();
+    this._internal.removedCategoryIds.clear();
+  }
+
+  commitEvents(newEvents: PersistedCalendarEvent[]) {
+    for (const event of newEvents) {
+      this._internal.eventById.set(event.id, event);
+      this._internal.eventByClientId.set(event.clientId, event.id);
+      event.commit();
+    }
+
+    this._internal.addedEvent.clear();
+    this._internal.updatedEvent.clear();
+    this._internal.removedEventIds.clear();
+  }
+  // #endregion actions/commit
 
   // --------------------------
   // Domain actions – Category

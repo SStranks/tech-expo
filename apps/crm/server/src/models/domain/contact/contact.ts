@@ -4,7 +4,7 @@ import type { UserProfileId } from '../user/profile/profile.types.js';
 import type { ContactId, ContactStage } from './contact.types.js';
 import type {
   ContactNoteCreateProps,
-  ContactNoteHydrationProps,
+  ContactNoteUpdateProps,
   NewContactNote,
   PersistedContactNote,
 } from './note/note.js';
@@ -53,34 +53,22 @@ export interface PersistedContact extends Contact {
   isPersisted(): this is PersistedContact;
 }
 
+class ContactState {
+  noteById: Map<ContactNoteId, PersistedContactNote> = new Map();
+  noteByClientId: Map<ContactNoteClientId, ContactNoteId> = new Map();
+  addedNotes: Map<ContactNoteClientId, NewContactNote> = new Map();
+  removedNoteIds: Set<ContactNoteId> = new Set();
+  updatedNotes: Map<ContactNoteId, PersistedContactNote> = new Map();
+  dirtyFields: Set<keyof ContactProps> = new Set();
+}
+
 export abstract class Contact {
-  private _firstName: string;
-  private _lastName: string;
-  private _email: string;
-  private _phone: string;
-  private _companyId: CompanyId;
-  private _jobTitle: string;
-  private _stage: ContactStage;
-  private _timezoneId?: TimeZoneId;
-  private _image?: string;
+  private readonly _props: ContactProps;
+  protected _internal: ContactState;
 
-  private _notes: PersistedContactNote[] = [];
-  private _addedNotes: NewContactNote[] = [];
-  private _removedNoteIds: ContactNoteId[] = [];
-  private _updatedNotes: PersistedContactNote[] = [];
-
-  private _rootDirty: boolean = false;
-
-  constructor(props: ContactProps) {
-    this._firstName = props.firstName;
-    this._lastName = props.lastName;
-    this._email = props.email;
-    this._phone = props.phone;
-    this._companyId = props.companyId;
-    this._jobTitle = props.jobTitle;
-    this._stage = props.stage;
-    this._timezoneId = props.timezoneId;
-    this._image = props.image;
+  constructor(props: ContactProps, newContact?: NewContactImpl) {
+    this._props = { ...props };
+    this._internal = newContact?._internal ?? new ContactState();
   }
 
   static create(props: ContactCreateProps): NewContact {
@@ -93,57 +81,115 @@ export abstract class Contact {
     return new PersistedContactImpl(props);
   }
 
-  // --------------------------
-  // Getters
-  // --------------------------
-  // #region getters
-  get isRootDirty() {
-    return this._rootDirty;
+  static promote(newContact: NewContactImpl, persisted: { id: ContactId; createdAt: Date }): PersistedContact {
+    const props = { ...newContact._props, ...persisted };
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Contact.promote() call!
+    return new PersistedContactImpl(props, newContact);
   }
-
-  get firstName() {
-    return this._firstName;
-  }
-
-  get lastName() {
-    return this._lastName;
-  }
-
-  get email() {
-    return this._email;
-  }
-
-  get phone() {
-    return this._phone;
-  }
-
-  get companyId() {
-    return this._companyId;
-  }
-
-  get jobTitle() {
-    return this._jobTitle;
-  }
-
-  get stage() {
-    return this._stage;
-  }
-
-  get timezoneId() {
-    return this._timezoneId;
-  }
-
-  get image() {
-    return this._image;
-  }
-  // #endregion getters
 
   abstract isPersisted(): boolean;
 
   // --------------------------
-  // Domain actions – Profile updates
+  // Getters
   // --------------------------
-  // #region actions/profile
+  // #region getters
+
+  get firstName() {
+    return this._props.firstName;
+  }
+
+  get lastName() {
+    return this._props.lastName;
+  }
+
+  get email() {
+    return this._props.email;
+  }
+
+  get phone() {
+    return this._props.phone;
+  }
+
+  get companyId() {
+    return this._props.companyId;
+  }
+
+  get jobTitle() {
+    return this._props.jobTitle;
+  }
+
+  get stage() {
+    return this._props.stage;
+  }
+
+  get timezoneId() {
+    return this._props.timezoneId;
+  }
+
+  get image() {
+    return this._props.image;
+  }
+  // #endregion getters
+
+  // --------------------------
+  // Domain actions – Internal
+  // --------------------------
+  // #region actions/internal
+
+  hasDirtyFields() {
+    return this._internal.dirtyFields.size > 0;
+  }
+
+  getDirtyRootFields(): (keyof ContactProps)[] {
+    return [...this._internal.dirtyFields];
+  }
+
+  pullDirtyFields(): Partial<ContactProps> {
+    const update: Partial<ContactProps> = {};
+
+    this._internal.dirtyFields.forEach(<K extends keyof ContactProps>(key: K) => {
+      // eslint-disable-next-line security/detect-object-injection
+      update[key] = this._props[key];
+    });
+
+    return update;
+  }
+
+  pullNoteChanges() {
+    return {
+      addedNotes: this._internal.addedNotes,
+      removedNoteIds: this._internal.removedNoteIds,
+      updatedNotes: this._internal.updatedNotes,
+    };
+  }
+  // #endregion actions/internal
+
+  // --------------------------
+  // Domain actions – Commit
+  // --------------------------
+  // #region actions/commit
+
+  commit() {
+    this._internal.dirtyFields.clear();
+  }
+
+  commitNotes(newNotes: PersistedContactNote[]) {
+    for (const note of newNotes) {
+      this._internal.noteById.set(note.id, note);
+      this._internal.noteByClientId.set(note.clientId, note.id);
+    }
+
+    this._internal.addedNotes.clear();
+    this._internal.updatedNotes.clear();
+    this._internal.removedNoteIds.clear();
+  }
+  // #endregion actions/commit
+
+  // --------------------------
+  // Domain actions – Contact
+  // --------------------------
+  // #region actions/contact
+
   updateProfile(input: Partial<Omit<ContactCreateProps, 'id'>>) {
     if (input.firstName !== undefined) this.changeFirstName(input.firstName);
     if (input.lastName !== undefined) this.changeFirstName(input.lastName);
@@ -158,126 +204,121 @@ export abstract class Contact {
 
   changeFirstName(newFirstName: string) {
     const firstName = zParseDomain(FirstNameSchema, newFirstName);
-    if (this._firstName === firstName) return;
+    if (this._props.firstName === firstName) return;
 
-    this._firstName = firstName;
-    this._rootDirty = true;
+    this._props.firstName = firstName;
+    this._internal.dirtyFields.add('firstName');
   }
 
   changeLastName(newLastName: string) {
     const lastName = zParseDomain(LastNameSchema, newLastName);
-    if (this._lastName === lastName) return;
+    if (this._props.lastName === lastName) return;
 
-    this._lastName = lastName;
-    this._rootDirty = true;
+    this._props.lastName = lastName;
+    this._internal.dirtyFields.add('lastName');
   }
 
   changeEmail(newEmail: string) {
     const email = zParseDomain(EmailSchema, newEmail);
-    if (this._email === email) return;
+    if (this._props.email === email) return;
 
-    this._email = email;
-    this._rootDirty = true;
+    this._props.email = email;
+    this._internal.dirtyFields.add('email');
   }
 
   changePhone(newPhone: string) {
     const phone = zParseDomain(PhoneSchema, newPhone);
-    if (this._phone === phone) return;
+    if (this._props.phone === phone) return;
 
-    this._phone = phone;
-    this._rootDirty = true;
+    this._props.phone = phone;
+    this._internal.dirtyFields.add('phone');
   }
 
   changeCompany(companyId: string) {
     const parsedCompanyId = zParseDomain(CompanyIdSchema, companyId);
-    if (this._companyId === parsedCompanyId) return;
+    if (this._props.companyId === parsedCompanyId) return;
 
-    this._companyId = asCompanyId(parsedCompanyId);
-    this._rootDirty = true;
+    this._props.companyId = asCompanyId(parsedCompanyId);
+    this._internal.dirtyFields.add('companyId');
   }
 
   changeJobTitle(jobTitle: string) {
     const parsedJobTitle = zParseDomain(JobTitleSchema, jobTitle);
-    if (this._jobTitle === parsedJobTitle) return;
+    if (this._props.jobTitle === parsedJobTitle) return;
 
-    this._jobTitle = parsedJobTitle;
-    this._rootDirty = true;
+    this._props.jobTitle = parsedJobTitle;
+    this._internal.dirtyFields.add('jobTitle');
   }
 
   shiftStage(newStage: ContactStage) {
     const parsedStage = zParseDomain(ContactStageSchema, newStage);
 
-    if (this._stage === parsedStage) return;
+    if (this._props.stage === parsedStage) return;
 
-    this._stage = parsedStage;
-    this._rootDirty = true;
+    this._props.stage = parsedStage;
+    this._internal.dirtyFields.add('stage');
   }
 
   shiftTimeZone(newTimeZone: TimeZoneId | null) {
     const parsedTimeZone = zParseDomain(TimezoneIdSchema, newTimeZone);
-    if (!parsedTimeZone || this._timezoneId === parsedTimeZone) return;
+    if (!parsedTimeZone || this._props.timezoneId === parsedTimeZone) return;
 
-    this._timezoneId = asTimeZoneId(parsedTimeZone);
-    this._rootDirty = true;
+    this._props.timezoneId = asTimeZoneId(parsedTimeZone);
+    this._internal.dirtyFields.add('timezoneId');
   }
 
   updateContactAvatar(newImage: string | null) {
     const parsedImage = zParseDomain(AvatarUrlSchema, newImage);
-    if (!parsedImage || this._image === parsedImage) return;
+    if (!parsedImage || this._props.image === parsedImage) return;
 
-    this._image = parsedImage;
-    this._rootDirty = true;
+    this._props.image = parsedImage;
+    this._internal.dirtyFields.add('image');
   }
-  // #endregion actions/profile
+  // #endregion actions/contact
 
   // --------------------------
   // Domain actions – Contact Notes
   // --------------------------
   // #region actions/notes
+
   addNote(props: ContactNoteCreateProps): NewContactNote {
     const note = ContactNote.create(props);
-    this._addedNotes.push(note);
+    this._internal.addedNotes.set(note.clientId, note);
+    return note;
+  }
+
+  updateNote(props: ContactNoteUpdateProps, actor: UserProfileId): PersistedContactNote {
+    const note = this._internal.noteById.get(props.id);
+    if (!note) throw new DomainError({ message: 'Contact-note not found' });
+    if (props.createdByUserProfileId !== actor)
+      throw new DomainError({ message: 'Contact-note not created by this user' });
+
+    note.updateNote(props);
+    this._internal.updatedNotes.set(note.id, note);
     return note;
   }
 
   removeNote(id: ContactNoteId, actor: UserProfileId) {
-    const noteIndex = this._notes.findIndex((n) => n.id === id);
-
-    if (noteIndex === -1) throw new DomainError({ message: 'Contact-note not found' });
-    if (this._notes.at(noteIndex)?.createdByUserProfileId !== actor)
+    const note = this._internal.noteById.get(id);
+    if (!note) throw new DomainError({ message: 'Contact-note not found' });
+    if (note.createdByUserProfileId !== actor)
       throw new DomainError({ message: 'Contact-note not created by this user' });
 
-    this._removedNoteIds.push(id);
-    this._notes = this._notes.splice(noteIndex, 1);
-  }
-
-  updateNote(props: ContactNoteHydrationProps, actor: UserProfileId): PersistedContactNote {
-    if (props.createdByUserProfileId !== actor)
-      throw new DomainError({ message: 'Contact-note not created by this user' });
-
-    const note = ContactNote.rehydrate(props);
-    this._notes.push(note);
-    this._updatedNotes.push(note);
-    return note;
+    this._internal.removedNoteIds.add(id);
+    this._internal.noteById.delete(id);
+    this._internal.noteByClientId.delete(note.clientId);
   }
 
   findNoteByClientId(clientId: ContactNoteClientId) {
-    return this._notes.find((n) => n.clientId === clientId);
+    return this._internal.noteByClientId.get(clientId);
   }
 
-  pullChanges() {
-    return {
-      addedNotes: this._addedNotes,
-      removedNoteIds: this._removedNoteIds,
-      updatedNotes: this._updatedNotes,
-    };
-  }
-
-  commit(notes: PersistedContactNote[]) {
-    this._notes = [...this._notes, ...notes];
-    this._addedNotes = [];
-    this._updatedNotes = [];
-    this._removedNoteIds = [];
+  getNoteByClientId(clientId: ContactNoteClientId) {
+    const contactNoteUUID = this.findNoteByClientId(clientId);
+    if (!contactNoteUUID) throw new DomainError({ message: 'Contact-note not found' });
+    const contactNote = this._internal.noteById.get(contactNoteUUID);
+    if (!contactNote) throw new DomainError({ message: 'Contact-note not found' });
+    return contactNote;
   }
   // #endregion actions/notes
 }
@@ -296,8 +337,8 @@ class PersistedContactImpl extends Contact {
   private readonly _id: ContactId;
   private readonly _createdAt: Date;
 
-  constructor(props: ContactHydrationProps) {
-    super(props);
+  constructor(props: ContactHydrationProps, newContact?: NewContactImpl) {
+    super(props, newContact);
     this._id = props.id;
     this._createdAt = props.createdAt;
   }

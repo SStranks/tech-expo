@@ -18,6 +18,7 @@ type UserProps = {
 
 type UserCreateProps = UserProps;
 type UserHydrationProps = UserCreateProps & { id: UserId };
+type UserUpdateProps = Partial<UserProps> & { id: UserProps };
 
 export interface NewUser extends User {
   isPersisted(): this is PersistedUser;
@@ -28,31 +29,17 @@ export interface PersistedUser extends User {
   isPersisted(): this is PersistedUser;
 }
 
-export abstract class User {
-  private readonly _email: string;
-  private readonly _role: UserRoles;
-  private readonly _password: string;
-  private readonly _passwordChangedAt: Date;
-  private readonly _passwordResetToken: string | null;
-  private readonly _passwordResetExpires: Date | null;
-  private readonly _accountCreatedAt: Date;
-  private readonly _accountUpdatedAt: Date;
-  private readonly _accountFrozenAt: Date | null;
-  private readonly _accountFrozen: boolean;
-  private readonly _accountActive: boolean;
+class UserState {
+  dirtyFields: Set<keyof UserProps> = new Set();
+}
 
-  constructor(props: UserProps) {
-    this._email = props.email;
-    this._role = props.role;
-    this._password = props.password;
-    this._passwordChangedAt = props.passwordChangedAt;
-    this._passwordResetToken = props.passwordResetToken;
-    this._passwordResetExpires = props.passwordResetExpires;
-    this._accountCreatedAt = props.accountCreatedAt;
-    this._accountUpdatedAt = props.accountUpdatedAt;
-    this._accountFrozenAt = props.accountFrozenAt;
-    this._accountFrozen = props.accountFrozen;
-    this._accountActive = props.accountActive;
+export abstract class User {
+  private readonly _props: UserProps;
+  protected _internal: UserState;
+
+  constructor(props: UserProps, newUser?: NewUserImpl) {
+    this._props = { ...props };
+    this._internal = newUser?._internal ?? new UserState();
   }
 
   static create(props: UserCreateProps): NewUser {
@@ -65,56 +52,105 @@ export abstract class User {
     return new PersistedUserImpl(props);
   }
 
+  static promote(newUser: NewUserImpl, persisted: { id: UserId; createdAt: Date }): PersistedUser {
+    const props = { ...newUser._props, ...persisted };
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Contact.promote() call!
+    return new PersistedUserImpl(props, newUser);
+  }
+
+  abstract isPersisted(): boolean;
+
   // --------------------------
   // Getters
   // --------------------------
   // #region getters
+
   get email() {
-    return this._email;
+    return this._props.email;
   }
 
   get role() {
-    return this._role;
+    return this._props.role;
   }
 
   get password() {
-    return this._password;
+    return this._props.password;
   }
 
   get passwordChangedAt() {
-    return this._passwordChangedAt;
+    return this._props.passwordChangedAt;
   }
 
   get passwordResetToken() {
-    return this._passwordResetToken;
+    return this._props.passwordResetToken;
   }
 
   get passwordResetExpires() {
-    return this._passwordResetExpires;
+    return this._props.passwordResetExpires;
   }
 
   get accountCreatedAt() {
-    return this._accountCreatedAt;
+    return this._props.accountCreatedAt;
   }
 
   get accountUpdatedAt() {
-    return this._accountUpdatedAt;
+    return this._props.accountUpdatedAt;
   }
 
   get accountFrozenAt() {
-    return this._accountFrozenAt;
+    return this._props.accountFrozenAt;
   }
 
   get accountFrozen() {
-    return this._accountFrozen;
+    return this._props.accountFrozen;
   }
 
   get accountActive() {
-    return this._accountActive;
+    return this._props.accountActive;
   }
   // #endregion getters
 
-  abstract isPersisted(): boolean;
+  // --------------------------
+  // Domain actions – Internal
+  // --------------------------
+  // #region actions/internal
+
+  hasDirtyFields() {
+    return this._internal.dirtyFields.size > 0;
+  }
+
+  getDirtyRootFields(): (keyof UserProps)[] {
+    return [...this._internal.dirtyFields];
+  }
+
+  pullDirtyFields(): Partial<UserProps> {
+    const update: Partial<UserProps> = {};
+
+    this._internal.dirtyFields.forEach(<K extends keyof UserProps>(key: K) => {
+      // eslint-disable-next-line security/detect-object-injection
+      update[key] = this._props[key];
+    });
+
+    return update;
+  }
+  // #endregion actions/internal
+
+  // --------------------------
+  // Domain actions – Commit
+  // --------------------------
+  // #region actions/commit
+
+  commit() {
+    this._internal.dirtyFields.clear();
+  }
+  // #endregion actions/commit
+
+  // --------------------------
+  // Domain actions – User
+  // --------------------------
+  // #region actions/user
+  updateUser(_input: UserUpdateProps) {}
+  // #endregion actions/user
 }
 
 class NewUserImpl extends User {
@@ -130,8 +166,8 @@ class NewUserImpl extends User {
 class PersistedUserImpl extends User {
   private readonly _id: UserId;
 
-  constructor(props: UserHydrationProps) {
-    super(props);
+  constructor(props: UserHydrationProps, newUser?: NewUserImpl) {
+    super(props, newUser);
     this._id = props.id;
   }
 

@@ -19,16 +19,10 @@ export interface PersistedTimeZone extends TimeZone {
 }
 
 export abstract class TimeZone {
-  private readonly _alpha2Code: string;
-  private readonly _gmtOffset: string;
-  private readonly _countryId: CountryId;
-  private readonly _clientId: TimeZoneClientId;
+  private readonly _props: TimeZoneProps;
 
   constructor(props: TimeZoneProps) {
-    this._alpha2Code = props.alpha2Code;
-    this._gmtOffset = props.gmtOffset;
-    this._countryId = props.countryId;
-    this._clientId = props.clientId || (randomUUID() as TimeZoneClientId);
+    this._props = { ...props, clientId: props.clientId || (randomUUID() as TimeZoneClientId) };
   }
 
   static rehydrate(props: TimeZoneHydrationProps) {
@@ -36,23 +30,29 @@ export abstract class TimeZone {
     return new PersistedTimeZoneImpl(props);
   }
 
+  abstract isPersisted(): boolean;
+
+  // --------------------------
+  // Getters
+  // --------------------------
+  // #region getters
+
   get alpha2Code() {
-    return this._alpha2Code;
+    return this._props.alpha2Code;
   }
 
   get gmtOffset() {
-    return this._gmtOffset;
+    return this._props.gmtOffset;
   }
 
   get countryId() {
-    return this._countryId;
+    return this._props.countryId;
   }
 
   get clientId() {
-    return this._clientId;
+    return this._props.clientId;
   }
-
-  abstract isPersisted(): boolean;
+  // #endregion getters
 }
 
 class PersistedTimeZoneImpl extends TimeZone {
@@ -77,14 +77,3 @@ class PersistedTimeZoneImpl extends TimeZone {
     return true;
   }
 }
-
-// type TimeZoneTableSelect = {
-//     id: string & {
-//         __uuid?: undefined;
-//     };
-// alpha2Code: string;
-// gmtOffset: string;
-// countryId: string & {
-//     __uuid?: undefined;
-// };
-// }

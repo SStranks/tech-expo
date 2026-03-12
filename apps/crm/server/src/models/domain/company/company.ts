@@ -1,3 +1,5 @@
+import type { UUID } from '@apps/crm-shared';
+
 import type { CountryId } from '../country/country.types.js';
 import type { UserProfileId } from '../user/profile/profile.types.js';
 import type { BusinessType, CompanyId, CompanySize } from './company.types.js';
@@ -37,10 +39,11 @@ export interface PersistedCompany extends Company {
 }
 
 class CompanyState {
-  notes: PersistedCompanyNote[] = [];
-  addedNotes: NewCompanyNote[] = [];
-  removedNoteIds: CompanyNoteId[] = [];
-  updatedNotes: PersistedCompanyNote[] = [];
+  notesById: Map<UUID, PersistedCompanyNote> = new Map();
+  notesByClientId: Map<CompanyNoteClientId, UUID> = new Map();
+  addedNotes: Map<CompanyNoteClientId, NewCompanyNote> = new Map();
+  removedNoteIds: Set<CompanyNoteId> = new Set();
+  updatedNotes: Map<UUID, PersistedCompanyNote> = new Map();
   dirtyFields: Set<keyof CompanyProps> = new Set();
 }
 
@@ -72,7 +75,7 @@ export abstract class Company {
 
   static promote(newCompany: NewCompanyImpl, persisted: { id: CompanyId; createdAt: Date }): PersistedCompany {
     const props = { ...newCompany._props, ...persisted };
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Calendar.promote() call!
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Company.promote() call!
     return new PersistedCompanyImpl(props, newCompany);
   }
 
@@ -83,10 +86,13 @@ export abstract class Company {
     return company;
   }
 
+  abstract isPersisted(): boolean;
+
   // --------------------------
   // Getters
   // --------------------------
   // #region getters
+
   get name() {
     return this._props.name;
   }
@@ -116,12 +122,66 @@ export abstract class Company {
   }
   // #endregion getters
 
-  abstract isPersisted(): boolean;
+  // --------------------------
+  // Domain actions – Internal
+  // --------------------------
+  // #region actions/internal
+
+  getDirtyRootFields(): (keyof CompanyProps)[] {
+    return [...this._internal.dirtyFields];
+  }
+
+  hasDirtyFields() {
+    return this._internal.dirtyFields.size > 0;
+  }
+
+  pullDirtyFields(): Partial<CompanyProps> {
+    const update: Partial<CompanyProps> = {};
+
+    this._internal.dirtyFields.forEach(<K extends keyof CompanyProps>(key: K) => {
+      // eslint-disable-next-line security/detect-object-injection
+      update[key] = this._props[key];
+    });
+
+    return update;
+  }
+
+  pullNoteChanges() {
+    return {
+      addedNotes: this._internal.addedNotes,
+      removedNoteIds: this._internal.removedNoteIds,
+      updatedNotes: this._internal.updatedNotes,
+    };
+  }
+  // #endregion actions/internal
 
   // --------------------------
-  // Domain actions – Profile updates
+  // Domain actions – Commit
   // --------------------------
-  // #region actions/profile
+  // #region actions/commit
+
+  commit() {
+    this._internal.dirtyFields.clear();
+  }
+
+  commitNotes(newNotes: PersistedCompanyNote[]) {
+    for (const note of newNotes) {
+      this._internal.notesById.set(note.id, note);
+      this._internal.notesByClientId.set(note.clientId, note.id);
+      note.commit();
+    }
+
+    this._internal.addedNotes.clear();
+    this._internal.updatedNotes.clear();
+    this._internal.removedNoteIds.clear();
+  }
+  // #endregion actions/commit
+
+  // --------------------------
+  // Domain actions – Company
+  // --------------------------
+  // #region actions/company
+
   updateProfile(input: Partial<Omit<CompanyCreateProps, 'id'>>) {
     if (input.name !== undefined) this.rebrandCompany(input.name);
     if (input.size !== undefined) this.updateMarketTier(input.size);
@@ -171,91 +231,51 @@ export abstract class Company {
     this._props.website = website;
     this._internal.dirtyFields.add('website');
   }
-  // #endregion actions/profile
+  // #endregion actions/company
 
   // --------------------------
   // Domain actions – Company Notes
   // --------------------------
   // #region actions/notes
+
   addNote(props: CompanyNoteCreateProps): NewCompanyNote {
     const note = CompanyNote.create(props);
-    this._internal.addedNotes.push(note);
+    this._internal.addedNotes.set(note.clientId, note);
+    return note;
+  }
+
+  updateNote(props: CompanyNoteHydrationProps, actor: UserProfileId): PersistedCompanyNote {
+    const note = this._internal.notesById.get(props.id);
+    if (!note) throw new DomainError({ message: 'Company-Note not found' });
+
+    note.updateContent(props.content, actor);
+    this._internal.updatedNotes.set(note.id, note);
     return note;
   }
 
   removeNote(id: CompanyNoteId, actor: UserProfileId) {
-    const noteIndex = this._internal.notes.findIndex((n) => n.id === id);
-
-    if (noteIndex === -1) throw new DomainError({ message: 'Company-note not found' });
-    if (this._internal.notes[`${noteIndex}`].createdByUserProfileId !== actor)
+    const note = this._internal.notesById.get(id);
+    if (!note) throw new DomainError({ message: 'Company-note not found' });
+    if (note.createdByUserProfileId !== actor)
       throw new DomainError({ message: 'Company-note not created by this user' });
 
-    this._internal.removedNoteIds.push(id);
-    this._internal.notes.splice(noteIndex, 1);
-  }
-
-  updateNote(props: CompanyNoteHydrationProps, actor: UserProfileId): PersistedCompanyNote {
-    const note = this._internal.notes.find((note) => note.id === props.id);
-    if (!note) throw new DomainError({ message: 'Note not found' });
-
-    note.updateContent(props.content, actor);
-    this._internal.updatedNotes.push(note);
-    return note;
+    this._internal.removedNoteIds.add(id);
+    this._internal.notesById.delete(id);
+    this._internal.notesByClientId.delete(note.clientId);
   }
 
   findNoteByClientId(clientId: CompanyNoteClientId) {
-    return this._internal.notes.find((n) => n.clientId === clientId);
+    return this._internal.notesByClientId.get(clientId);
   }
 
   getNoteByClientId(clientId: CompanyNoteClientId) {
-    const note = this._internal.notes.find((n) => n.clientId === clientId);
-    if (!note) throw new DomainError({ message: 'Note not found' });
+    const noteUUID = this.findNoteByClientId(clientId);
+    if (!noteUUID) throw new DomainError({ message: 'Company-note not found' });
+    const note = this._internal.notesById.get(noteUUID);
+    if (!note) throw new DomainError({ message: 'Company-note not found' });
     return note;
   }
   // #endregion actions/notes
-
-  // --------------------------
-  // Domain actions – Commit
-  // --------------------------
-  // #region actions/commit
-  pullNoteChanges() {
-    return {
-      addedNotes: this._internal.addedNotes,
-      removedNoteIds: this._internal.removedNoteIds,
-      updatedNotes: this._internal.updatedNotes,
-    };
-  }
-
-  commit() {
-    this._internal.dirtyFields.clear();
-  }
-
-  commitNotes(newNotes: PersistedCompanyNote[]) {
-    this._internal.notes.push(...newNotes);
-    this._internal.addedNotes = [];
-    this._internal.updatedNotes = [];
-    this._internal.removedNoteIds = [];
-  }
-
-  hasDirtyFields() {
-    return this._internal.dirtyFields.size > 0;
-  }
-
-  getDirtyRootFields(): (keyof CompanyProps)[] {
-    return [...this._internal.dirtyFields];
-  }
-
-  pullDirtyFields(): Partial<CompanyProps> {
-    const update: Partial<CompanyProps> = {};
-
-    this._internal.dirtyFields.forEach(<K extends keyof CompanyProps>(key: K) => {
-      // eslint-disable-next-line security/detect-object-injection
-      update[key] = this._props[key];
-    });
-
-    return update;
-  }
-  // #endregion actions/commit
 }
 
 class NewCompanyImpl extends Company {
