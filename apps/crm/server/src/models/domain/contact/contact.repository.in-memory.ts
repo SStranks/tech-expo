@@ -1,4 +1,6 @@
 /* eslint-disable perfectionist/sort-objects */
+import type { UUID } from '@apps/crm-shared';
+
 import type { ContactsTableSelect } from '#Config/schema/contacts/Contacts.js';
 import type { ContactsNotesTableSelect } from '#Config/schema/contacts/ContactsNotes.js';
 import type { ContactNoteReadRow } from '#Models/query/contact/contacts.read-model.types.js';
@@ -63,7 +65,7 @@ export class InMemoryContactRepository implements ContactRepository {
   }
 
   private insert(contact: NewContact): Promise<PersistedContact> {
-    const id = randomUUID();
+    const id = randomUUID() as UUID;
 
     if (this.contactsMap.has(id)) {
       throw new PostgresError({
@@ -74,6 +76,7 @@ export class InMemoryContactRepository implements ContactRepository {
 
     const row: ContactsTableSelect = {
       id,
+      clientTemporaryId: contact.clientId,
       firstName: contact.firstName,
       lastName: contact.lastName,
       email: contact.email,
@@ -101,7 +104,7 @@ export class InMemoryContactRepository implements ContactRepository {
       });
     }
 
-    if (contact.isRootDirty) {
+    if (contact.hasDirtyFields()) {
       const updatedContact: ContactsTableSelect = {
         ...existingContact,
         firstName: contact.firstName,
@@ -118,21 +121,22 @@ export class InMemoryContactRepository implements ContactRepository {
       this.contactsMap.set(contact.id, updatedContact);
     }
 
-    const { addedNotes, removedNoteIds, updatedNotes } = contact.pullChanges();
+    const { addedNotes, removedNoteIds, updatedNotes } = contact.pullNoteChanges();
 
     const persistedContactNotes: PersistedContactNote[] = [];
 
     const existingNotes = this.contactNotesMap.get(contact.id) ?? [];
 
-    if (addedNotes.length > 0) {
-      for (const note of addedNotes) {
-        const persistedNote: ContactNoteReadRow = {
-          id: asContactNoteId(randomUUID()),
+    if (addedNotes.size > 0) {
+      for (const [clientId, note] of addedNotes) {
+        const persistedNote = {
+          id: asContactNoteId(randomUUID() as UUID),
+          clientTemporaryId: clientId,
           contactId: contact.id,
           note: note.content,
           createdByUserProfileId: note.createdByUserProfileId,
           createdAt: new Date(),
-        };
+        } satisfies ContactNoteReadRow;
 
         existingNotes.push(persistedNote);
 
@@ -149,16 +153,16 @@ export class InMemoryContactRepository implements ContactRepository {
       }
     }
 
-    if (removedNoteIds.length > 0) {
+    if (removedNoteIds.size > 0) {
       for (const id of removedNoteIds) {
         const index = existingNotes.findIndex((n) => n.id === id);
         if (index !== -1) existingNotes.splice(index, 1);
       }
     }
 
-    if (updatedNotes.length > 0) {
-      for (const note of updatedNotes) {
-        const existing = existingNotes.find((n) => n.id === note.id);
+    if (updatedNotes.size > 0) {
+      for (const [contactNoteId, note] of updatedNotes) {
+        const existing = existingNotes.find((n) => n.id === contactNoteId);
         if (existing) {
           existing.note = note.content;
         }
@@ -167,7 +171,7 @@ export class InMemoryContactRepository implements ContactRepository {
 
     this.contactNotesMap.set(contact.id, existingNotes);
 
-    contact.commit(persistedContactNotes);
+    contact.commitNotes(persistedContactNotes);
 
     return Promise.resolve(contact);
   }

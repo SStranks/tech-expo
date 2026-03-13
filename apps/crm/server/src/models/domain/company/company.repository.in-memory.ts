@@ -1,4 +1,6 @@
 /* eslint-disable perfectionist/sort-objects */
+import type { UUID } from '@apps/crm-shared';
+
 import type { CompaniesTableSelect } from '#Config/schema/companies/Companies.js';
 import type { CompaniesNotesTableSelect } from '#Config/schema/companies/CompanyNotes.js';
 import type { ContactsTableSelect } from '#Config/schema/contacts/Contacts.js';
@@ -75,7 +77,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
   }
 
   private insert(company: NewCompany): Promise<PersistedCompany> {
-    const id = randomUUID();
+    const id = randomUUID() as UUID;
 
     if (this.companiesMap.has(id)) {
       throw new PostgresError({
@@ -86,6 +88,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
 
     const row: CompaniesTableSelect = {
       id,
+      clientTemporaryId: company.clientId,
       name: company.name,
       size: company.size,
       totalRevenue: company.totalRevenue,
@@ -111,7 +114,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
       });
     }
 
-    if (company.isRootDirty) {
+    if (company.hasDirtyFields()) {
       const updatedCompany: CompaniesTableSelect = {
         ...existingCompany,
         name: company.name,
@@ -126,21 +129,22 @@ export class InMemoryCompanyRepository implements CompanyRepository {
       this.companiesMap.set(company.id, updatedCompany);
     }
 
-    const { addedNotes, removedNoteIds, updatedNotes } = company.pullChanges();
+    const { addedNotes, removedNoteIds, updatedNotes } = company.pullNoteChanges();
 
     const persistedCompanyNotes: PersistedCompanyNote[] = [];
 
     const existingNotes = this.companiesNotesMap.get(company.id) ?? [];
 
-    if (addedNotes.length > 0) {
-      for (const note of addedNotes) {
-        const persistedNote: CompanyNoteReadRow = {
-          id: asCompanyNoteId(randomUUID()),
+    if (addedNotes.size > 0) {
+      for (const [clientId, note] of addedNotes) {
+        const persistedNote = {
+          id: asCompanyNoteId(randomUUID() as UUID),
+          clientTemporaryId: clientId,
           companyId: company.id,
           note: note.content,
           createdByUserProfileId: note.createdByUserProfileId,
           createdAt: new Date(),
-        };
+        } satisfies CompanyNoteReadRow;
 
         existingNotes.push(persistedNote);
 
@@ -151,22 +155,22 @@ export class InMemoryCompanyRepository implements CompanyRepository {
             content: persistedNote.note,
             createdAt: persistedNote.createdAt,
             createdByUserProfileId: asUserProfileId(persistedNote.createdByUserProfileId),
-            symbol: note.symbol, // maps temp_id behavior
+            clientId: note.clientId,
           })
         );
       }
     }
 
-    if (removedNoteIds.length > 0) {
+    if (removedNoteIds.size > 0) {
       for (const id of removedNoteIds) {
         const index = existingNotes.findIndex((n) => n.id === id);
         if (index !== -1) existingNotes.splice(index, 1);
       }
     }
 
-    if (updatedNotes.length > 0) {
-      for (const note of updatedNotes) {
-        const existing = existingNotes.find((n) => n.id === note.id);
+    if (updatedNotes.size > 0) {
+      for (const [UUID, note] of updatedNotes) {
+        const existing = existingNotes.find((n) => n.id === UUID);
         if (existing) {
           existing.note = note.content;
         }
@@ -175,7 +179,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
 
     this.companiesNotesMap.set(company.id, existingNotes);
 
-    company.commit(persistedCompanyNotes);
+    company.commitNotes(persistedCompanyNotes);
 
     return Promise.resolve(company);
   }

@@ -1,22 +1,20 @@
 /* eslint-disable perfectionist/sort-objects */
-
-import type { UUID as UUIDv4 } from 'node:crypto';
-
-import type { CompanyNoteReadRow } from '#Models/query/company/companies.read-model.types.js';
+import type { PostgresTransaction } from '#Config/dbPostgres.js';
+import type { CompaniesNotesTableInsert } from '#Config/schema/companies/CompanyNotes.js';
 
 import type { NewCompany, PersistedCompany } from './company.js';
 import type { CompanyRepository } from './company.repository.js';
 import type { CompanyId } from './company.types.js';
 import type { PersistedCompanyNote } from './note/note.js';
 
-import { eq, inArray, sql } from 'drizzle-orm';
+import { eq, inArray } from 'drizzle-orm';
 
 import { postgresDB, postgresDBCall } from '#Config/dbPostgres.js';
 import CompaniesTable from '#Config/schema/companies/Companies.js';
 import CompaniesNotesTable from '#Config/schema/companies/CompanyNotes.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
 
-import { asUserProfileId } from '../user/profile/profile.mapper.js';
+import { Company } from './company.js';
 import { asCompanyId, companyRowToDomain } from './company.mapper.js';
 import { CompanyNote } from './note/note.js';
 import { asCompanyNoteId } from './note/note.mapper.js';
@@ -34,12 +32,20 @@ export class PostgresCompanyRepository implements CompanyRepository {
   }
 
   async save(company: NewCompany | PersistedCompany): Promise<PersistedCompany> {
-    // eslint-disable-next-line unicorn/prefer-ternary
-    if (company.isPersisted()) {
-      return this.update(company);
-    } else {
-      return this.insert(company);
-    }
+    return postgresDBCall(async () => {
+      const persistedCompany = await postgresDB.transaction(async (tx) => {
+        const persistedCompany = company.isPersisted() ? company : await this.insert(tx, company);
+
+        if (persistedCompany.hasDirtyFields()) await this.update(tx, persistedCompany);
+
+        await this.syncNotes(tx, persistedCompany);
+
+        persistedCompany.commit();
+        return persistedCompany;
+      });
+
+      return persistedCompany;
+    });
   }
 
   async remove(id: CompanyId): Promise<CompanyId> {
@@ -57,9 +63,9 @@ export class PostgresCompanyRepository implements CompanyRepository {
     });
   }
 
-  private async insert(company: NewCompany): Promise<PersistedCompany> {
+  private async insert(tx: PostgresTransaction, company: NewCompany): Promise<PersistedCompany> {
     return postgresDBCall(async () => {
-      const [row] = await postgresDB
+      const [row] = await tx
         .insert(CompaniesTable)
         .values({
           name: company.name,
@@ -72,96 +78,69 @@ export class PostgresCompanyRepository implements CompanyRepository {
         })
         .returning();
 
-      return companyRowToDomain(row);
+      return Company.promote(company, { id: asCompanyId(row.id), createdAt: row.createdAt });
     });
   }
 
-  private async update(company: PersistedCompany): Promise<PersistedCompany> {
-    return postgresDBCall(async () => {
-      let persistedCompanyNotes: PersistedCompanyNote[] = [];
+  private async update(tx: PostgresTransaction, company: PersistedCompany): Promise<PersistedCompany> {
+    await tx.update(CompaniesTable).set(company.pullDirtyFields()).where(eq(CompaniesTable.id, company.id));
+    return company;
+  }
 
-      await postgresDB.transaction(async (tx) => {
-        if (company.isRootDirty) {
-          tx.update(CompaniesTable)
-            .set({
-              name: company.name,
-              size: company.size,
-              totalRevenue: company.totalRevenue,
-              industry: company.industry,
-              businessType: company.businessType,
-              countryId: company.countryId,
-              website: company.website?.toString() ?? null,
+  private async syncNotes(tx: PostgresTransaction, company: PersistedCompany) {
+    const { addedNotes, removedNoteIds, updatedNotes } = company.pullNoteChanges();
+    let persistedNotes: PersistedCompanyNote[] = [];
+
+    if (addedNotes.size > 0) {
+      const rows = await tx
+        .insert(CompaniesNotesTable)
+        .values(
+          [...addedNotes.values()].map(
+            (n): CompaniesNotesTableInsert => ({
+              companyId: n.companyId,
+              createdByUserProfileId: n.createdByUserProfileId,
+              clientTemporaryId: n.clientId,
+              note: n.content,
             })
-            .where(eq(CompaniesTable.id, company.id));
-        }
+          )
+        )
+        .returning();
 
-        const { addedNotes, removedNoteIds, updatedNotes } = company.pullChanges();
-
-        if (addedNotes.length > 0) {
-          const valuesSql = sql.join(
-            addedNotes.map(
-              (note) => sql`(${company.id}, ${note.content}, ${note.createdByUserProfileId}, ${note.symbol})`
-            ),
-            sql`, `
-          );
-
-          const insertedNotes: (CompanyNoteReadRow & { temp_id: UUIDv4 })[] = await tx.execute(
-            sql`
-    WITH rows (
-      ${CompaniesNotesTable.companyId},
-      ${CompaniesNotesTable.note},
-      ${CompaniesNotesTable.createdByUserProfileId},
-      temp_id
-    ) AS (
-      VALUES ${valuesSql}
-    )
-    INSERT INTO ${CompaniesNotesTable} (
-      ${CompaniesNotesTable.companyId},
-      ${CompaniesNotesTable.note},
-      ${CompaniesNotesTable.createdByUserProfileId}
-    )
-    SELECT
-      ${CompaniesNotesTable.companyId},
-      ${CompaniesNotesTable.note},
-      ${CompaniesNotesTable.createdByUserProfileId}
-    FROM rows
-    RETURNING
-      ${CompaniesNotesTable.id},
-      rows.temp_id;
-  `
-          );
-
-          persistedCompanyNotes = insertedNotes.map((row) => {
-            return CompanyNote.rehydrate({
-              id: asCompanyNoteId(row.id),
-              companyId: asCompanyId(row.companyId),
-              content: row.note,
-              createdAt: row.createdAt,
-              createdByUserProfileId: asUserProfileId(row.createdByUserProfileId),
-              symbol: row.temp_id,
-            });
+      persistedNotes = rows.map((row) => {
+        const tempId = row.clientTemporaryId;
+        if (!tempId) {
+          throw new PostgresError({
+            kind: 'INTERNAL_ERROR',
+            message: 'Inserted company-note missing clientTemporaryId',
           });
         }
 
-        if (removedNoteIds.length > 0) {
-          tx.delete(CompaniesNotesTable).where(
-            inArray(
-              CompaniesNotesTable.id,
-              removedNoteIds.map((id) => id)
-            )
-          );
+        const note = addedNotes.get(tempId);
+        if (!note) {
+          throw new PostgresError({
+            kind: 'INTERNAL_ERROR',
+            message: `No company-note found for temporary id ${tempId}`,
+          });
         }
 
-        if (updatedNotes.length > 0) {
-          for (const note of updatedNotes) {
-            await tx.update(CompaniesNotesTable).set({ note: note.content }).where(eq(CompaniesNotesTable.id, note.id));
-          }
-        }
+        return CompanyNote.promote(note, {
+          id: asCompanyNoteId(row.id),
+          createdAt: row.createdAt,
+        });
       });
+    }
 
-      company.commit(persistedCompanyNotes);
-      return company;
-    });
+    if (removedNoteIds.size > 0) {
+      await tx.delete(CompaniesNotesTable).where(inArray(CompaniesNotesTable.id, [...removedNoteIds]));
+    }
+
+    if (updatedNotes.size > 0) {
+      for (const [UUID, note] of updatedNotes) {
+        await tx.update(CompaniesNotesTable).set(note.pullDirtyFields()).where(eq(CompaniesNotesTable.id, UUID));
+      }
+    }
+
+    company.commitNotes(persistedNotes);
   }
 }
 

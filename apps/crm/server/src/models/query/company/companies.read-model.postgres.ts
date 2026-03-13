@@ -23,10 +23,9 @@ import PipelineDealsTable from '#Config/schema/pipeline/Deals.js';
 import UserProfileTable from '#Config/schema/user/UserProfile.js';
 import { asCompanyId } from '#Models/domain/company/company.mapper.js';
 import { asCompanyNoteId, companyNoteRowToDomain } from '#Models/domain/company/note/note.mapper.js';
-import { asCountryId } from '#Models/domain/country/country.mapper.js';
 import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 
-import { companyWithRelationsToOverviewRow } from './companies.read-model.mapper.js';
+import { companyRowToReadRow, companyWithRelationsToOverviewRow } from './companies.read-model.mapper.js';
 
 export type CompanyWithRelations = {
   company: CompaniesTableSelect;
@@ -52,7 +51,7 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
       }
 
       if (query?.industry) {
-        whereConditions.push(eq(CompaniesTable.countryId, query.industry));
+        whereConditions.push(eq(CompaniesTable.industry, query.industry));
       }
 
       if (query?.size) {
@@ -203,19 +202,7 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
         where: (company, { inArray }) => inArray(company.id, ids),
       });
 
-      return companies.map(
-        (c) =>
-          ({
-            id: asCompanyId(c.id),
-            name: c.name,
-            size: c.size,
-            totalRevenue: c.totalRevenue,
-            industry: c.industry,
-            businessType: c.businessType,
-            countryId: asCountryId(c.countryId),
-            website: c.website,
-          }) satisfies CompanyReadRow
-      );
+      return companies.map((c) => companyRowToReadRow(c));
     });
   }
 }

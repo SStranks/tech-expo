@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 
 import type { CountryId } from '../country/country.types.js';
 import type { UserProfileId } from '../user/profile/profile.types.js';
-import type { BusinessType, CompanyId, CompanySize } from './company.types.js';
+import type { BusinessType, CompanyClientId, CompanyId, CompanySize } from './company.types.js';
 import type {
   CompanyNoteCreateProps,
   CompanyNoteHydrationProps,
@@ -12,6 +12,8 @@ import type {
 import type { CompanyNoteClientId, CompanyNoteId } from './note/note.types.js';
 
 import DomainError from '#Utils/errors/DomainError.js';
+
+import { randomUUID } from 'node:crypto';
 
 import { CompanyNote } from './note/note.js';
 
@@ -23,6 +25,7 @@ type CompanyProps = {
   businessType: BusinessType;
   countryId: CountryId;
   website?: string;
+  clientId?: CompanyClientId;
 };
 
 type CompanyCreateProps = CompanyProps;
@@ -55,11 +58,11 @@ class CompanyState {
     - This prevents loading large note collections during queries.
  */
 export abstract class Company {
-  private readonly _props: CompanyProps;
+  private readonly _props: CompanyProps & { clientId: CompanyClientId };
   protected _internal: CompanyState;
 
   protected constructor(props: CompanyProps, newCompany?: NewCompanyImpl) {
-    this._props = { ...props };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CompanyClientId) };
     this._internal = newCompany?._internal ?? new CompanyState();
   }
 
@@ -119,6 +122,10 @@ export abstract class Company {
 
   get website() {
     return this._props.website;
+  }
+
+  get clientId(): CompanyClientId {
+    return this._props.clientId;
   }
   // #endregion getters
 

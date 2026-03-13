@@ -1,20 +1,18 @@
 /* eslint-disable perfectionist/sort-objects */
-import type { UUID as UUIDv4 } from 'node:crypto';
+import type { PostgresTransaction } from '#Config/dbPostgres.js';
+import type { ContactsNotesTableInsert } from '#Config/schema/contacts/ContactsNotes.js';
 
-import type { ContactNoteReadRow } from '#Models/query/contact/contacts.read-model.types.js';
-
-import type { NewContact, PersistedContact } from './contact.js';
 import type { ContactRepository } from './contact.repository.js';
 import type { ContactId } from './contact.types.js';
 
-import { eq, inArray, sql } from 'drizzle-orm';
+import { eq, inArray } from 'drizzle-orm';
 
 import { postgresDB, postgresDBCall } from '#Config/dbPostgres.js';
 import ContactsTable from '#Config/schema/contacts/Contacts.js';
 import ContactsNotesTable from '#Config/schema/contacts/ContactsNotes.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
 
-import { asUserProfileId } from '../user/profile/profile.mapper.js';
+import { Contact, type NewContact, type PersistedContact } from './contact.js';
 import { asContactId, contactRowToDomain } from './contact.mapper.js';
 import { ContactNote, type PersistedContactNote } from './note/note.js';
 import { asContactNoteId } from './note/note.mapper.js';
@@ -33,12 +31,20 @@ export class PostgresContactRepository implements ContactRepository {
   }
 
   async save(contact: NewContact | PersistedContact): Promise<PersistedContact> {
-    // eslint-disable-next-line unicorn/prefer-ternary
-    if (contact.isPersisted()) {
-      return this.update(contact);
-    } else {
-      return this.insert(contact);
-    }
+    return postgresDBCall(async () => {
+      const persistedContact = await postgresDB.transaction(async (tx) => {
+        const persistedContact = contact.isPersisted() ? contact : await this.insert(tx, contact);
+
+        if (persistedContact.hasDirtyFields()) await this.update(tx, persistedContact);
+
+        await this.syncNotes(tx, persistedContact);
+
+        persistedContact.commit();
+        return persistedContact;
+      });
+
+      return persistedContact;
+    });
   }
 
   async remove(id: ContactId): Promise<ContactId> {
@@ -56,9 +62,9 @@ export class PostgresContactRepository implements ContactRepository {
     });
   }
 
-  private async insert(contact: NewContact): Promise<PersistedContact> {
+  private async insert(tx: PostgresTransaction, contact: NewContact): Promise<PersistedContact> {
     return postgresDBCall(async () => {
-      const [row] = await postgresDB
+      const [row] = await tx
         .insert(ContactsTable)
         .values({
           firstName: contact.firstName,
@@ -73,97 +79,68 @@ export class PostgresContactRepository implements ContactRepository {
         })
         .returning();
 
-      return contactRowToDomain(row);
+      return Contact.promote(contact, { id: asContactId(row.id), createdAt: row.createdAt });
     });
   }
 
-  private async update(contact: PersistedContact): Promise<PersistedContact> {
-    return postgresDBCall(async () => {
-      let persistedContactNotes: PersistedContactNote[] = [];
+  private async update(tx: PostgresTransaction, contact: PersistedContact): Promise<PersistedContact> {
+    await tx.update(ContactsTable).set(contact.pullDirtyFields()).where(eq(ContactsTable.id, contact.id));
+    return contact;
+  }
 
-      await postgresDB.transaction(async (tx) => {
-        if (contact.isRootDirty) {
-          tx.update(ContactsTable)
-            .set({
-              firstName: contact.firstName,
-              lastName: contact.lastName,
-              email: contact.email,
-              phone: contact.phone,
-              companyId: contact.companyId,
-              jobTitle: contact.jobTitle,
-              stage: contact.stage,
-              timezoneId: contact.timezoneId,
-              image: contact.image,
+  private async syncNotes(tx: PostgresTransaction, contact: PersistedContact) {
+    const { addedNotes, removedNoteIds, updatedNotes } = contact.pullNoteChanges();
+    let persistedNotes: PersistedContactNote[] = [];
+
+    if (addedNotes.size > 0) {
+      const rows = await tx
+        .insert(ContactsNotesTable)
+        .values(
+          [...addedNotes.values()].map(
+            (n): ContactsNotesTableInsert => ({
+              contactId: n.contactId,
+              createdByUserProfileId: n.createdByUserProfileId,
+              clientTemporaryId: n.clientId,
+              note: n.content,
             })
-            .where(eq(ContactsTable.id, contact.id));
-        }
-
-        const { addedNotes, removedNoteIds, updatedNotes } = contact.pullChanges();
-
-        if (addedNotes.length > 0) {
-          const valuesSql = sql.join(
-            addedNotes.map(
-              (note) => sql`(${contact.id}, ${note.content}, ${note.createdByUserProfileId}, ${note.symbol})`
-            ),
-            sql`, `
-          );
-
-          const insertedNotes: (ContactNoteReadRow & { temp_id: UUIDv4 })[] = await tx.execute(
-            sql`
-        WITH rows (
-          ${ContactsNotesTable.contactId},
-          ${ContactsNotesTable.note},
-          ${ContactsNotesTable.createdByUserProfileId},
-          temp_id
-        ) AS (
-          VALUES ${valuesSql}
+          )
         )
-        INSERT INTO ${ContactsNotesTable} (
-          ${ContactsNotesTable.contactId},
-          ${ContactsNotesTable.note},
-          ${ContactsNotesTable.createdByUserProfileId}
-        )
-        SELECT
-          ${ContactsNotesTable.contactId},
-          ${ContactsNotesTable.note},
-          ${ContactsNotesTable.createdByUserProfileId}
-        FROM rows
-        RETURNING
-          ${ContactsNotesTable.id},
-          rows.temp_id;
-      `
-          );
+        .returning();
 
-          persistedContactNotes = insertedNotes.map((row) => {
-            return ContactNote.rehydrate({
-              id: asContactNoteId(row.id),
-              contactId: asContactId(row.contactId),
-              content: row.note,
-              createdAt: row.createdAt,
-              createdByUserProfileId: asUserProfileId(row.createdByUserProfileId),
-              symbol: row.temp_id,
-            });
+      persistedNotes = rows.map((row) => {
+        const tempId = row.clientTemporaryId;
+        if (!tempId) {
+          throw new PostgresError({
+            kind: 'INTERNAL_ERROR',
+            message: 'Inserted contact-note missing clientTemporaryId',
           });
         }
 
-        if (removedNoteIds.length > 0) {
-          tx.delete(ContactsNotesTable).where(
-            inArray(
-              ContactsNotesTable.id,
-              removedNoteIds.map((id) => id)
-            )
-          );
+        const note = addedNotes.get(tempId);
+        if (!note) {
+          throw new PostgresError({
+            kind: 'INTERNAL_ERROR',
+            message: `No contact-note found for temporary id ${tempId}`,
+          });
         }
 
-        if (updatedNotes.length > 0) {
-          for (const note of updatedNotes) {
-            await tx.update(ContactsNotesTable).set({ note: note.content }).where(eq(ContactsNotesTable.id, note.id));
-          }
-        }
+        return ContactNote.promote(note, {
+          id: asContactNoteId(row.id),
+          createdAt: row.createdAt,
+        });
       });
+    }
 
-      contact.commit(persistedContactNotes);
-      return contact;
-    });
+    if (removedNoteIds.size > 0) {
+      await tx.delete(ContactsNotesTable).where(inArray(ContactsNotesTable.id, [...removedNoteIds]));
+    }
+
+    if (updatedNotes.size > 0) {
+      for (const [UUID, note] of updatedNotes) {
+        await tx.update(ContactsNotesTable).set(note.pullDirtyFields()).where(eq(ContactsNotesTable.id, UUID));
+      }
+    }
+
+    contact.commitNotes(persistedNotes);
   }
 }

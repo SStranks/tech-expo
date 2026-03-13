@@ -1,7 +1,7 @@
 import type { CompanyId } from '../company/company.types.js';
 import type { TimeZoneId } from '../timezone/timezone.types.js';
 import type { UserProfileId } from '../user/profile/profile.types.js';
-import type { ContactId, ContactStage } from './contact.types.js';
+import type { ContactClientId, ContactId, ContactStage } from './contact.types.js';
 import type {
   ContactNoteCreateProps,
   ContactNoteUpdateProps,
@@ -12,6 +12,8 @@ import type { ContactNoteClientId, ContactNoteId } from './note/note.types.js';
 
 import DomainError from '#Utils/errors/DomainError.js';
 import { zParseDomain } from '#Utils/zod/zParse.js';
+
+import { randomUUID } from 'node:crypto';
 
 import { asCompanyId } from '../company/company.mapper.js';
 import { asTimeZoneId } from '../timezone/timezone.mapper.js';
@@ -38,6 +40,7 @@ type ContactProps = {
   stage: ContactStage;
   timezoneId?: TimeZoneId;
   image?: string;
+  clientId?: ContactClientId;
 };
 
 type ContactCreateProps = ContactProps;
@@ -63,11 +66,11 @@ class ContactState {
 }
 
 export abstract class Contact {
-  private readonly _props: ContactProps;
+  private readonly _props: ContactProps & { clientId: ContactClientId };
   protected _internal: ContactState;
 
   constructor(props: ContactProps, newContact?: NewContactImpl) {
-    this._props = { ...props };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as ContactClientId) };
     this._internal = newContact?._internal ?? new ContactState();
   }
 
@@ -128,6 +131,10 @@ export abstract class Contact {
 
   get image() {
     return this._props.image;
+  }
+
+  get clientId(): ContactClientId {
+    return this._props.clientId;
   }
   // #endregion getters
 
