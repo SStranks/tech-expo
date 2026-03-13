@@ -9,19 +9,21 @@ import { insertCalendarCategoriesSchema, selectCalendarCategoriesSchema } from '
 import { insertCalendarEventsSchema, updateCalendarEventsSchema } from '#Config/schema/calendar/Events.js';
 import { invalidInputError } from '#Graphql/errors.js';
 import { asCalendarId } from '#Models/domain/calendar/calendar.mapper.js';
-import {
-  asCalendarCategoryId,
-  calendarCategoryDomainToCalendarCategoryDTO,
-} from '#Models/domain/calendar/categories/category.mapper.js';
-import {
-  asCalendarEventId,
-  calendarEventDomainToCalendarEventDTO,
-} from '#Models/domain/calendar/events/event.mapper.js';
 import { asCompanyId } from '#Models/domain/company/company.mapper.js';
 import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 import { asUserId } from '#Models/domain/user/user.mapper.js';
 import { userProfileReadRowToAvatarDTO } from '#Models/query/user/users.read-model.mapper.js';
 import { stableId } from '#Utils/stableId.js';
+
+import {
+  asCalendarCategoryId,
+  calendarCategoryDomainToCalendarCategoryDTO,
+} from '../../models/domain/calendar/category/category.mapper.js';
+import {
+  asCalendarEventId,
+  calendarEventDomainToCalendarEventDTO,
+  calendarEventReadRowToCalendarEventDTO,
+} from '../../models/domain/calendar/event/event.mapper.js';
 
 const calendarResolver: Resolvers = {
   Query: {
@@ -47,7 +49,7 @@ const calendarResolver: Resolvers = {
       return {
         id: stableId('calendar-initial', { companyId, month, year }),
         categories,
-        events,
+        events: events.map((e) => calendarEventReadRowToCalendarEventDTO(e)),
       };
     },
 
@@ -73,7 +75,7 @@ const calendarResolver: Resolvers = {
 
       return {
         id: stableId('calendar-month', { companyId, month, year }),
-        events,
+        events: events.map((e) => calendarEventReadRowToCalendarEventDTO(e)),
       };
     },
 
@@ -119,7 +121,7 @@ const calendarResolver: Resolvers = {
 
       return {
         id: stableId('calendar-event', { calendarEventId }),
-        calendarEvent,
+        calendarEvent: calendarEventReadRowToCalendarEventDTO(calendarEvent),
         participants: participants.map((p) => userProfileReadRowToAvatarDTO(p)),
       };
     },

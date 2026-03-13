@@ -1,7 +1,7 @@
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import type { CalendarId } from '../calendar.types.js';
-import type { CalendarCategoryId } from '../categories/categories.types.js';
+import type { CalendarCategoryId } from '../category/category.types.js';
 import type { CalendarEventClientId, CalendarEventId } from './event.types.js';
 
 import { randomUUID } from 'node:crypto';

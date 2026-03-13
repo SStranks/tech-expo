@@ -7,9 +7,9 @@ import type {
 import type { UserProfileReadRow } from '#Models/query/user/users.read-model.types.js';
 
 import type { CompanyId } from '../company/company.types.js';
-import type { CalendarCategoryId } from './categories/categories.types.js';
-import type { CalendarEventId } from './events/event.types.js';
-import type { PersistedCalendarEvent } from './events/events.js';
+import type { CalendarCategoryId } from './category/category.types.js';
+import type { PersistedCalendarEvent } from './event/event.js';
+import type { CalendarEventId } from './event/event.types.js';
 
 export type CalendarId = UUID & { readonly __calendarId: unique symbol };
 

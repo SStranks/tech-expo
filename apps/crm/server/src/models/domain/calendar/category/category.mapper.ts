@@ -3,12 +3,12 @@ import type { UUID } from '@apps/crm-shared';
 
 import type { CalendarCategoriesTableSelect } from '#Config/schema/calendar/Categories.js';
 
-import type { CalendarCategoryDTO } from './categories.dto.js';
-import type { PersistedCalendarCategory } from './categories.js';
-import type { CalendarCategoryClientId, CalendarCategoryId } from './categories.types.js';
+import type { CalendarCategoryDTO } from './category.dto.js';
+import type { PersistedCalendarCategory } from './category.js';
+import type { CalendarCategoryClientId, CalendarCategoryId } from './category.types.js';
 
 import { asCalendarId } from '../calendar.mapper.js';
-import { CalendarCategory } from './categories.js';
+import { CalendarCategory } from './category.js';
 
 export function asCalendarCategoryId(id: UUID): CalendarCategoryId {
   return id as CalendarCategoryId;

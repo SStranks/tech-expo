@@ -1,27 +1,30 @@
 import type { CompanyId } from '../company/company.types.js';
-import type { CalendarId } from './calendar.types.js';
+import type { CalendarClientId, CalendarId } from './calendar.types.js';
 import type {
   CalendarCategoryCreateProps,
   CalendarCategoryUpdateProps,
   NewCalendarCategory,
   PersistedCalendarCategory,
-} from './categories/categories.js';
-import type { CalendarCategoryClientId, CalendarCategoryId } from './categories/categories.types.js';
-import type { CalendarEventClientId, CalendarEventId } from './events/event.types.js';
+} from './category/category.js';
+import type { CalendarCategoryClientId, CalendarCategoryId } from './category/category.types.js';
 import type {
   CalendarEventCreateProps,
   CalendarEventUpdateProps,
   NewCalendarEvent,
   PersistedCalendarEvent,
-} from './events/events.js';
+} from './event/event.js';
+import type { CalendarEventClientId, CalendarEventId } from './event/event.types.js';
 
 import DomainError from '#Utils/errors/DomainError.js';
 
-import { CalendarCategory } from './categories/categories.js';
-import { CalendarEvent } from './events/events.js';
+import { randomUUID } from 'node:crypto';
+
+import { CalendarCategory } from './category/category.js';
+import { CalendarEvent } from './event/event.js';
 
 type CalendarProps = {
   companyId: CompanyId;
+  clientId?: CalendarClientId;
 };
 
 type CalendarCreateProps = CalendarProps;
@@ -56,7 +59,7 @@ export abstract class Calendar {
   protected _internal: CalendarState;
 
   constructor(props: CalendarProps, newCalendar?: NewCalendarImpl) {
-    this._props = { ...props };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CalendarClientId) };
     this._internal = newCalendar?._internal ?? new CalendarState();
   }
 
@@ -85,6 +88,10 @@ export abstract class Calendar {
 
   get companyId() {
     return this._props.companyId;
+  }
+
+  get clientId() {
+    return this._props.clientId;
   }
   // #endregion getters
 

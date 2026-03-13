@@ -6,8 +6,8 @@ import type { CalendarEventsTableInsert } from '#Config/schema/calendar/Events.j
 import type { NewCalendar, PersistedCalendar } from './calendar.js';
 import type { CalendarRepository } from './calendar.repository.js';
 import type { CalendarId } from './calendar.types.js';
-import type { PersistedCalendarCategory } from './categories/categories.js';
-import type { PersistedCalendarEvent } from './events/events.js';
+import type { PersistedCalendarCategory } from './category/category.js';
+import type { PersistedCalendarEvent } from './event/event.js';
 
 import { eq, inArray } from 'drizzle-orm';
 
@@ -19,10 +19,10 @@ import PostgresError from '#Utils/errors/PostgresError.js';
 
 import { Calendar } from './calendar.js';
 import { asCalendarId, calendarRowToDomain } from './calendar.mapper.js';
-import { CalendarCategory } from './categories/categories.js';
-import { asCalendarCategoryId } from './categories/category.mapper.js';
-import { asCalendarEventId } from './events/event.mapper.js';
-import { CalendarEvent } from './events/events.js';
+import { CalendarCategory } from './category/category.js';
+import { asCalendarCategoryId } from './category/category.mapper.js';
+import { CalendarEvent } from './event/event.js';
+import { asCalendarEventId } from './event/event.mapper.js';
 
 export class PostgresCalendarRepository implements CalendarRepository {
   constructor() {}

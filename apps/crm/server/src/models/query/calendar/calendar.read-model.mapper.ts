@@ -4,8 +4,9 @@ import type { CalendarEventsTableSelect } from '#Config/schema/calendar/Events.j
 import type { CalendarCategoryReadRow, CalendarEventReadRow } from './calendar.read-model.types.js';
 
 import { asCalendarId } from '#Models/domain/calendar/calendar.mapper.js';
-import { asCalendarCategoryId } from '#Models/domain/calendar/categories/category.mapper.js';
-import { asCalendarEventId } from '#Models/domain/calendar/events/event.mapper.js';
+
+import { asCalendarCategoryId } from '../../domain/calendar/category/category.mapper.js';
+import { asCalendarEventId } from '../../domain/calendar/event/event.mapper.js';
 
 export function calendarCategoryRowToReadRow(row: CalendarCategoriesTableSelect): CalendarCategoryReadRow {
   return {

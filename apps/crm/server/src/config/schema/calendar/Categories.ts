@@ -2,7 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { CalendarCategoryClientId } from '#Models/domain/calendar/categories/categories.types.js';
+import type { CalendarCategoryClientId } from '../../../models/domain/calendar/category/category.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';

@@ -1,7 +1,7 @@
 import type { CalendarId } from '#Models/domain/calendar/calendar.types.js';
-import type { CalendarCategoryId } from '#Models/domain/calendar/categories/categories.types.js';
-import type { CalendarEventId } from '#Models/domain/calendar/events/event.types.js';
 
+import type { CalendarCategoryId } from '../../domain/calendar/category/category.types.js';
+import type { CalendarEventId } from '../../domain/calendar/event/event.types.js';
 import type { CalendarReadModel } from './calendar.read-model.js';
 import type {
   CalendarCategoryReadRow,

@@ -111,12 +111,12 @@ const companyResolver: Resolvers = {
 
     createCompanyNote: async (_, { input }, { auth, services }) => {
       const { companyId, note } = input;
-      const inputCompanyId = updateCompaniesSchema.pick({ id: true }).safeParse({ id: companyId });
+      const inputCompanyId = updateCompaniesSchema.safeParse({ id: companyId });
       if (!inputCompanyId.success) {
         const { fieldErrors, formErrors } = z.flattenError(inputCompanyId.error);
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
-      const inputNote = updateCompaniesNotesSchema.pick({ note: true }).required({ note: true }).safeParse({ note });
+      const inputNote = updateCompaniesNotesSchema.safeParse({ note });
       if (!inputNote.success) {
         const { fieldErrors, formErrors } = z.flattenError(inputNote.error);
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
@@ -143,10 +143,7 @@ const companyResolver: Resolvers = {
         const { fieldErrors, formErrors } = z.flattenError(inputCompanyId.error);
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
-      const inputNote = updateCompaniesNotesSchema
-        .pick({ id: true, note: true })
-        .required({ note: true })
-        .safeParse({ id: companyNoteId, note });
+      const inputNote = updateCompaniesNotesSchema.safeParse({ id: companyNoteId, note });
       if (!inputNote.success) {
         const { fieldErrors, formErrors } = z.flattenError(inputNote.error);
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);

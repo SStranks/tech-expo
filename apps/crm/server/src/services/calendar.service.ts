@@ -14,9 +14,6 @@ import type {
   UpdateCalendarEventCommand,
   UpdateCalendarEventReturn,
 } from '#Models/domain/calendar/calendar.types.js';
-import type { PersistedCalendarCategory } from '#Models/domain/calendar/categories/categories.js';
-import type { CalendarCategoryId } from '#Models/domain/calendar/categories/categories.types.js';
-import type { CalendarEventId } from '#Models/domain/calendar/events/event.types.js';
 import type { PersistedUserProfile } from '#Models/domain/user/profile/profile.js';
 import type { CalendarReadModel } from '#Models/query/calendar/calendar.read-model.js';
 import type {
@@ -27,6 +24,10 @@ import type {
 } from '#Models/query/calendar/calendar.read-model.types.js';
 import type { UserReadModel } from '#Models/query/user/users.read-model.js';
 import type { RequestContext } from '#Types/request-context.js';
+
+import type { PersistedCalendarCategory } from '../models/domain/calendar/category/category.js';
+import type { CalendarCategoryId } from '../models/domain/calendar/category/category.types.js';
+import type { CalendarEventId } from '../models/domain/calendar/event/event.types.js';
 
 import ForbiddenError from '#Utils/errors/ForbiddenError.js';
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';

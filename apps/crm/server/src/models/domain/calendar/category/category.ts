@@ -1,5 +1,5 @@
 import type { CalendarId } from '../calendar.types.js';
-import type { CalendarCategoryClientId, CalendarCategoryId } from './categories.types.js';
+import type { CalendarCategoryClientId, CalendarCategoryId } from './category.types.js';
 
 import { randomUUID } from 'node:crypto';
 
