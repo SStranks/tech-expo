@@ -36,8 +36,6 @@ export abstract class Audit {
   private readonly _props: AuditProps;
   protected _internal: AuditState;
 
-  private readonly _rootDirty: boolean = false;
-
   constructor(props: AuditProps, newAudit?: NewAuditImpl) {
     this._props = { ...props };
     this._internal = newAudit?._internal ?? new AuditState();
