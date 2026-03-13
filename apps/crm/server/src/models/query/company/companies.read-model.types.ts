@@ -1,7 +1,7 @@
 import type { UUID } from '@apps/crm-shared';
 
 import type { BusinessType, CompanyId, CompanySize } from '#Models/domain/company/company.types.js';
-import type { CompanyNoteId } from '#Models/domain/company/note/note.types.js';
+import type { CompanyNoteClientId, CompanyNoteId } from '#Models/domain/company/note/note.types.js';
 import type { ContactId } from '#Models/domain/contact/contact.types.js';
 import type { CountryId } from '#Models/domain/country/country.types.js';
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
@@ -32,6 +32,7 @@ export type CompanyOverviewReadRow = {
 
 export type CompanyNoteReadRow = {
   id: CompanyNoteId;
+  clientTemporaryId?: CompanyNoteClientId;
   note: string;
   companyId: CompanyId;
   createdAt: Date;

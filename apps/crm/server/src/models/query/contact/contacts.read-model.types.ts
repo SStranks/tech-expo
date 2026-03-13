@@ -1,6 +1,6 @@
 import type { CompanyId } from '#Models/domain/company/company.types.js';
 import type { ContactId, ContactStage } from '#Models/domain/contact/contact.types.js';
-import type { ContactNoteId } from '#Models/domain/contact/note/note.types.js';
+import type { ContactNoteClientId, ContactNoteId } from '#Models/domain/contact/note/note.types.js';
 import type { TimeZoneId } from '#Models/domain/timezone/timezone.types.js';
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 import type { PaginationInput, PaginationResult } from '#Types/graphql.js';
@@ -32,6 +32,7 @@ export type ContactOverviewReadRow = {
 
 export type ContactNoteReadRow = {
   id: ContactNoteId;
+  clientTemporaryId?: ContactNoteClientId;
   note: string;
   contactId: ContactId;
   createdAt: Date;
