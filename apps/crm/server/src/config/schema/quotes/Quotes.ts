@@ -29,7 +29,8 @@ export const QuotesTable = pgTable('quotes', {
   title: varchar('title', { length: 255 }).notNull().unique(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'no action' })
-    .notNull(),
+    .notNull()
+    .$type<UUID>(),
   totalAmount: numeric('total_amount', { precision: 14, scale: 2 }).default('0.00').notNull(),
   salesTax: numeric('sales_tax', { precision: 4, scale: 2 }).default('20.00').notNull(),
   stage: QuoteStageEnum('quote_stage').notNull(),

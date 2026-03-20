@@ -19,12 +19,12 @@ export const CalendarEventsParticipantsTable = pgTable(
       .references(() => CalendarEventsTable.id, { onDelete: 'cascade' })
       .notNull()
       .$type<UUID>(),
-    userId: uuid('user_id')
+    userProfileId: uuid('user_profile_id')
       .references(() => UserProfileTable.id, { onDelete: 'cascade' })
       .notNull()
       .$type<UUID>(),
   },
-  (table) => [primaryKey({ columns: [table.eventId, table.userId] })]
+  (table) => [primaryKey({ columns: [table.eventId, table.userProfileId] })]
 );
 
 // -------- RELATIONS ------- //
@@ -34,8 +34,8 @@ export const CalendarEventsParticipantsTableRelations = relations(CalendarEvents
       fields: [CalendarEventsParticipantsTable.eventId],
       references: [CalendarEventsTable.id],
     }),
-    user: one(UserProfileTable, {
-      fields: [CalendarEventsParticipantsTable.userId],
+    userProfile: one(UserProfileTable, {
+      fields: [CalendarEventsParticipantsTable.userProfileId],
       references: [UserProfileTable.id],
     }),
   };
@@ -43,11 +43,11 @@ export const CalendarEventsParticipantsTableRelations = relations(CalendarEvents
 
 // ----------- ZOD ---------- //
 export const insertCalendarEventsParticipantsSchema = createInsertSchema(CalendarEventsParticipantsTable).transform(
-  (v) => ({ ...v, eventId: v.eventId as UUID, userId: v.userId as UUID })
+  (v) => ({ ...v, eventId: v.eventId as UUID, userId: v.userProfileId as UUID })
 );
 
 export const selectCalendarEventsParticipantsSchema = createSelectSchema(CalendarEventsParticipantsTable).transform(
-  (v) => ({ ...v, eventId: v.eventId as UUID, userId: v.userId as UUID })
+  (v) => ({ ...v, eventId: v.eventId as UUID, userId: v.userProfileId as UUID })
 );
 
 export type InsertCalendarEventsParticipantsSchema = z.infer<typeof insertCalendarEventsParticipantsSchema>;
