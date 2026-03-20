@@ -17,17 +17,7 @@ import { randomUUID } from 'node:crypto';
 
 import { asCompanyId } from '../company/company.mapper.js';
 import { asTimeZoneId } from '../timezone/timezone.mapper.js';
-import {
-  AvatarUrlSchema,
-  CompanyIdSchema,
-  ContactStageSchema,
-  EmailSchema,
-  FirstNameSchema,
-  JobTitleSchema,
-  LastNameSchema,
-  PhoneSchema,
-  TimezoneIdSchema,
-} from './contact.schemas.js';
+import { contactShape } from './contact.schemas.js';
 import { ContactNote } from './note/note.js';
 
 type ContactProps = {
@@ -38,8 +28,8 @@ type ContactProps = {
   companyId: CompanyId;
   jobTitle: string;
   stage: ContactStage;
-  timezoneId?: TimeZoneId;
-  image?: string;
+  timezoneId: TimeZoneId | null;
+  image: string | null;
   clientId?: ContactClientId;
 };
 
@@ -210,7 +200,7 @@ export abstract class Contact {
   }
 
   changeFirstName(newFirstName: string) {
-    const firstName = zParseDomain(FirstNameSchema, newFirstName);
+    const firstName = zParseDomain(contactShape.firstName, newFirstName);
     if (this._props.firstName === firstName) return;
 
     this._props.firstName = firstName;
@@ -218,7 +208,7 @@ export abstract class Contact {
   }
 
   changeLastName(newLastName: string) {
-    const lastName = zParseDomain(LastNameSchema, newLastName);
+    const lastName = zParseDomain(contactShape.lastName, newLastName);
     if (this._props.lastName === lastName) return;
 
     this._props.lastName = lastName;
@@ -226,7 +216,7 @@ export abstract class Contact {
   }
 
   changeEmail(newEmail: string) {
-    const email = zParseDomain(EmailSchema, newEmail);
+    const email = zParseDomain(contactShape.email, newEmail);
     if (this._props.email === email) return;
 
     this._props.email = email;
@@ -234,7 +224,7 @@ export abstract class Contact {
   }
 
   changePhone(newPhone: string) {
-    const phone = zParseDomain(PhoneSchema, newPhone);
+    const phone = zParseDomain(contactShape.phone, newPhone);
     if (this._props.phone === phone) return;
 
     this._props.phone = phone;
@@ -242,7 +232,7 @@ export abstract class Contact {
   }
 
   changeCompany(companyId: string) {
-    const parsedCompanyId = zParseDomain(CompanyIdSchema, companyId);
+    const parsedCompanyId = zParseDomain(contactShape.companyId, companyId);
     if (this._props.companyId === parsedCompanyId) return;
 
     this._props.companyId = asCompanyId(parsedCompanyId);
@@ -250,7 +240,7 @@ export abstract class Contact {
   }
 
   changeJobTitle(jobTitle: string) {
-    const parsedJobTitle = zParseDomain(JobTitleSchema, jobTitle);
+    const parsedJobTitle = zParseDomain(contactShape.jobTitle, jobTitle);
     if (this._props.jobTitle === parsedJobTitle) return;
 
     this._props.jobTitle = parsedJobTitle;
@@ -258,7 +248,7 @@ export abstract class Contact {
   }
 
   shiftStage(newStage: ContactStage) {
-    const parsedStage = zParseDomain(ContactStageSchema, newStage);
+    const parsedStage = zParseDomain(contactShape.stage, newStage);
 
     if (this._props.stage === parsedStage) return;
 
@@ -267,7 +257,7 @@ export abstract class Contact {
   }
 
   shiftTimeZone(newTimeZone: TimeZoneId | null) {
-    const parsedTimeZone = zParseDomain(TimezoneIdSchema, newTimeZone);
+    const parsedTimeZone = zParseDomain(contactShape.timezoneId, newTimeZone);
     if (!parsedTimeZone || this._props.timezoneId === parsedTimeZone) return;
 
     this._props.timezoneId = asTimeZoneId(parsedTimeZone);
@@ -275,7 +265,7 @@ export abstract class Contact {
   }
 
   updateContactAvatar(newImage: string | null) {
-    const parsedImage = zParseDomain(AvatarUrlSchema, newImage);
+    const parsedImage = zParseDomain(contactShape.image, newImage);
     if (!parsedImage || this._props.image === parsedImage) return;
 
     this._props.image = parsedImage;

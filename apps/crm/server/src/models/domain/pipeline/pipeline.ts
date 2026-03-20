@@ -1,12 +1,15 @@
 import type { CompanyId } from '../company/company.types.js';
 import type { NewPipelineDeal, PersistedPipelineDeal } from './deal/deal.js';
 import type { PipelineDealClientId, PipelineDealId } from './deal/deal.types.js';
-import type { PipelineId } from './pipeline.types.js';
+import type { PipelineClientId, PipelineId } from './pipeline.types.js';
 import type { NewPipelineStage, PersistedPipelineStage } from './stage/stage.js';
 import type { PipelineStageClientId, PipelineStageId } from './stage/stage.types.js';
 
+import { randomUUID } from 'node:crypto';
+
 type PipelineProps = {
   companyId: CompanyId;
+  clientId?: PipelineClientId;
 };
 
 type PipelineCreateProps = PipelineProps;
@@ -37,11 +40,11 @@ class PipelineState {
 }
 
 export abstract class Pipeline {
-  private readonly _props: PipelineProps;
+  private readonly _props: PipelineProps & { clientId: PipelineClientId };
   protected _internal: PipelineState;
 
   constructor(props: PipelineProps, newPipeline?: NewPipelineImpl) {
-    this._props = { ...props };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as PipelineClientId) };
     this._internal = newPipeline?._internal ?? new PipelineState();
   }
 
@@ -64,6 +67,10 @@ export abstract class Pipeline {
 
   get companyId() {
     return this._props.companyId;
+  }
+
+  get clientId(): PipelineClientId {
+    return this._props.clientId;
   }
   // #endregion getters
 

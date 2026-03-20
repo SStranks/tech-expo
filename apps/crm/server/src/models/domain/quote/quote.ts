@@ -2,9 +2,11 @@ import type { ContactId } from '../contact/contact.types.js';
 import type { UserProfileId } from '../user/profile/profile.types.js';
 import type { NewQuoteNote, PersistedQuoteNote, QuoteNoteCreateProps, QuoteNoteUpdateProps } from './note/note.js';
 import type { QuoteNoteClientId, QuoteNoteId } from './note/note.types.js';
-import type { QuoteId, QuoteStage } from './quote.types.js';
+import type { QuoteClientId, QuoteId, QuoteStage } from './quote.types.js';
 
 import DomainError from '#Utils/errors/DomainError.js';
+
+import { randomUUID } from 'node:crypto';
 
 import { QuoteNote } from './note/note.js';
 
@@ -19,6 +21,7 @@ type QuoteProps = {
   preparedBy: UserProfileId;
   issuedAt: Date | null;
   dueAt: Date | null;
+  clientId?: QuoteClientId;
 };
 
 type QuoteCreateProps = QuoteProps;
@@ -44,11 +47,11 @@ class QuoteState {
 }
 
 export abstract class Quote {
-  private readonly _props: QuoteProps;
+  private readonly _props: QuoteProps & { clientId: QuoteClientId };
   protected _internal: QuoteState;
 
   constructor(props: QuoteProps, newQuote?: NewQuoteImpl) {
-    this._props = { ...props };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as QuoteClientId) };
     this._internal = newQuote?._internal ?? new QuoteState();
   }
 
@@ -109,6 +112,10 @@ export abstract class Quote {
 
   get dueAt() {
     return this._props.dueAt;
+  }
+
+  get clientId(): QuoteClientId {
+    return this._props.clientId;
   }
   // #endregion getters
 

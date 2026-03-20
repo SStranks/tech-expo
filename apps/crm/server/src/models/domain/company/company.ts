@@ -24,7 +24,7 @@ type CompanyProps = {
   industry: string;
   businessType: BusinessType;
   countryId: CountryId;
-  website?: string;
+  website: string | null;
   clientId?: CompanyClientId;
 };
 
@@ -196,7 +196,7 @@ export abstract class Company {
     if (input.industry !== undefined) this.changeIndustry(input.industry);
     if (input.businessType !== undefined) this.changeBusinessType(input.businessType);
     if (input.countryId !== undefined) this.moveCountry(input.countryId);
-    if (input.website !== undefined) this.updateWebsite(input.website);
+    if (input.website !== undefined && input.website !== null) this.updateWebsite(input.website);
   }
 
   rebrandCompany(newName: string) {

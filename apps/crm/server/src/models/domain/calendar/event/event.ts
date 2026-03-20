@@ -17,7 +17,7 @@ type CalendarEventProps = {
   clientId?: CalendarEventClientId;
 };
 
-export type CalendarEventCreateProps = CalendarEventProps;
+export type CalendarEventCreateProps = CalendarEventProps & { participants?: UserProfileId[] };
 export type CalendarEventHydrationProps = CalendarEventCreateProps & { id: CalendarEventId; createdAt: Date };
 export type CalendarEventUpdateProps = Partial<CalendarEventProps> & { id: CalendarEventId };
 
@@ -49,7 +49,15 @@ export abstract class CalendarEvent {
 
   static create(props: CalendarEventCreateProps): NewCalendarEvent {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Event.create() call!
-    return new NewCalendarEventImpl(props);
+    const event = new NewCalendarEventImpl(props);
+
+    if (props.participants) {
+      for (const id of props.participants) {
+        event._internal.addedParticipants.add(id);
+      }
+    }
+
+    return event;
   }
 
   static rehydrate(props: CalendarEventHydrationProps): PersistedCalendarEvent {
@@ -133,6 +141,13 @@ export abstract class CalendarEvent {
 
     return update;
   }
+
+  pullParticipantChanges() {
+    return {
+      addedParticipants: this._internal.addedParticipants,
+      removedParticipants: this._internal.removedParticipants,
+    };
+  }
   // #endregion actions/internal
 
   // --------------------------
@@ -142,6 +157,19 @@ export abstract class CalendarEvent {
 
   commit() {
     this._internal.dirtyFields.clear();
+  }
+
+  commitEventParticipants() {
+    for (const participant of this._internal.addedParticipants) {
+      this._internal.participants.add(participant);
+    }
+
+    for (const participant of this._internal.removedParticipants) {
+      this._internal.participants.delete(participant);
+    }
+
+    this._internal.addedParticipants.clear();
+    this._internal.removedParticipants.clear();
   }
   // #endregion actions/commit
 

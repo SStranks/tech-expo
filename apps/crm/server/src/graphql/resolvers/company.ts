@@ -2,14 +2,20 @@ import type { Resolvers } from '#Graphql/generated/graphql.gen.js';
 
 import { z } from 'zod';
 
-import { insertCompaniesSchema, updateCompaniesSchema } from '#Config/schema/companies/Companies.js';
-import { updateCompaniesNotesSchema } from '#Config/schema/companies/CompanyNotes.js';
 import pinoLogger from '#Lib/pinoLogger.js';
 import { asCompanyId, companyDomainToCompanyDTO } from '#Models/domain/company/company.mapper.js';
-import { asCompanyNoteId, companyNoteDomainToCompanyNoteDTO } from '#Models/domain/company/note/note.mapper.js';
-import { asContactId } from '#Models/domain/contact/contact.mapper.js';
-import { asCountryId } from '#Models/domain/country/country.mapper.js';
-import { asUserProfileId, userProfileDomainToAvatarDTO } from '#Models/domain/user/profile/profile.mapper.js';
+import {
+  mutationCreateCompanyNoteSchema,
+  mutationCreateCompanySchema,
+  mutationRemoveCompanyNoteSchema,
+  mutationRemoveCompanySchema,
+  mutationUpdateCompanyNoteSchema,
+  mutationUpdateCompanySchema,
+  queryCompanyOverviewSchema,
+  queryCompanySchema,
+} from '#Models/domain/company/company.schemas.js';
+import { companyNoteDomainToCompanyNoteDTO } from '#Models/domain/company/note/note.mapper.js';
+import { userProfileDomainToAvatarDTO } from '#Models/domain/user/profile/profile.mapper.js';
 import { asUserId } from '#Models/domain/user/user.mapper.js';
 import {
   companyContactSummaryRowToCompanyContactSummaryDTO,
@@ -24,29 +30,33 @@ import { dbInconsistencyError, invalidInputError } from '../errors.js';
 const companyResolver: Resolvers = {
   Query: {
     company: async (_, { input }, { services }) => {
-      const { id } = input;
-      const parsedArgs = z.object({ id: z.uuid() }).safeParse({ id });
-      if (!parsedArgs.success) throw invalidInputError('Invalid UUID');
+      const { data, error, success } = queryCompanySchema.safeParse(input);
+      if (!success) {
+        const { fieldErrors, formErrors } = z.flattenError(error);
+        throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
+      }
 
-      const company = await services.Company.getCompanyById(asCompanyId(id));
+      const company = await services.Company.getCompanyById(asCompanyId(data.id));
       return companyDomainToCompanyDTO(company);
     },
 
     companiesOverview: async (_, { input }, { services }) => {
-      const { filters, pagination } = input;
-      // TODO: Validate inputs
-      const page = pagination?.page ?? 1;
-      const pageSize = pagination?.pageSize ?? 12;
-      const searchCompanyName = filters?.searchCompanyName ?? undefined;
-      const salesOwnerId = filters?.salesOwnerId ? asUserProfileId(filters.salesOwnerId) : undefined;
+      const { data, error, success } = queryCompanyOverviewSchema.safeParse(input);
+      if (!success) {
+        const { fieldErrors, formErrors } = z.flattenError(error);
+        throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
+      }
+      const { page, pageSize } = data.pagination;
+      const { searchCompanyName, salesOwnerId, contactIds } = data.filters;
+
       const query = {
         filters: {
           searchCompanyName,
           salesOwnerId,
-          contactIds: filters?.contactIds?.map((cI) => asContactId(cI)),
+          contactIds,
         },
         pagination: {
-          limit: pageSize,
+          limit: data.pagination.pageSize,
           offset: (page - 1) * pageSize,
         },
       };
@@ -63,66 +73,48 @@ const companyResolver: Resolvers = {
 
   Mutation: {
     createCompany: async (_, { input }, { services }) => {
-      const result = insertCompaniesSchema.safeParse(input);
-      if (!result.success) {
-        const { fieldErrors, formErrors } = z.flattenError(result.error);
+      const { data, error, success } = mutationCreateCompanySchema.safeParse(input);
+      if (!success) {
+        const { fieldErrors, formErrors } = z.flattenError(error);
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const command = {
-        ...result.data,
-        countryId: asCountryId(result.data.countryId),
-        website: result.data.website ?? undefined,
-      };
-
+      const command = { ...data };
       const company = await services.Company.createCompany(command);
       return companyDomainToCompanyDTO(company);
     },
 
     updateCompany: async (_, { input }, { services }) => {
-      const result = updateCompaniesSchema.safeParse(input);
-      if (!result.success) {
-        const { fieldErrors, formErrors } = z.flattenError(result.error);
+      const { data, error, success } = mutationUpdateCompanySchema.safeParse(input);
+      if (!success) {
+        const { fieldErrors, formErrors } = z.flattenError(error);
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const command = {
-        ...result.data,
-        id: asCompanyId(result.data.id),
-        country: result.data.countryId ? asCountryId(result.data.countryId) : undefined,
-        website: result.data.website ?? undefined,
-      };
-
+      const command = { ...data };
       const company = await services.Company.updateCompanyById(command);
       return companyDomainToCompanyDTO(company);
     },
 
     removeCompany: async (_, { input }, { services }) => {
-      const result = updateCompaniesSchema.safeParse(input);
-      if (!result.success) {
-        const { fieldErrors, formErrors } = z.flattenError(result.error);
+      const { data, error, success } = mutationRemoveCompanySchema.safeParse(input);
+      if (!success) {
+        const { fieldErrors, formErrors } = z.flattenError(error);
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const companyId = asCompanyId(result.data.id);
-      const companyIdReturn = await services.Company.removeCompanyById(companyId);
+      const companyIdReturn = await services.Company.removeCompanyById(data.id);
       return companyIdReturn;
     },
 
     createCompanyNote: async (_, { input }, { auth, services }) => {
-      const { companyId, note } = input;
-      const inputCompanyId = updateCompaniesSchema.safeParse({ id: companyId });
-      if (!inputCompanyId.success) {
-        const { fieldErrors, formErrors } = z.flattenError(inputCompanyId.error);
-        throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
-      }
-      const inputNote = updateCompaniesNotesSchema.safeParse({ note });
-      if (!inputNote.success) {
-        const { fieldErrors, formErrors } = z.flattenError(inputNote.error);
+      const { data, error, success } = mutationCreateCompanyNoteSchema.safeParse(input);
+      if (!success) {
+        const { fieldErrors, formErrors } = z.flattenError(error);
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const command = { companyId: asCompanyId(inputCompanyId.data.id), note: inputNote.data.note };
+      const command = { ...data };
       const context = { user: asUserId(auth.client_id), role: auth.role };
       const { company, companyNote, userProfile } = await services.Company.addCompanyNote(command, context);
 
@@ -137,23 +129,13 @@ const companyResolver: Resolvers = {
     },
 
     updateCompanyNote: async (_, { input }, { auth, services }) => {
-      const { companyId, companyNoteId, note } = input;
-      const inputCompanyId = updateCompaniesSchema.safeParse({ id: companyId });
-      if (!inputCompanyId.success) {
-        const { fieldErrors, formErrors } = z.flattenError(inputCompanyId.error);
-        throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
-      }
-      const inputNote = updateCompaniesNotesSchema.safeParse({ id: companyNoteId, note });
-      if (!inputNote.success) {
-        const { fieldErrors, formErrors } = z.flattenError(inputNote.error);
+      const { data, error, success } = mutationUpdateCompanyNoteSchema.safeParse(input);
+      if (!success) {
+        const { fieldErrors, formErrors } = z.flattenError(error);
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const command = {
-        companyId: asCompanyId(inputCompanyId.data.id),
-        companyNoteId: asCompanyNoteId(inputNote.data.id),
-        note: inputNote.data.note,
-      };
+      const command = { ...data };
       const context = { user: asUserId(auth.client_id), role: auth.role };
       const { company, companyNote, userProfile } = await services.Company.updateCompanyNote(command, context);
 
@@ -168,22 +150,13 @@ const companyResolver: Resolvers = {
     },
 
     removeCompanyNote: async (_, { input }, { auth, services }) => {
-      const { companyId, companyNoteId } = input;
-      const inputCompanyId = updateCompaniesSchema.safeParse({ id: companyId });
-      if (!inputCompanyId.success) {
-        const { fieldErrors, formErrors } = z.flattenError(inputCompanyId.error);
-        throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
-      }
-      const inputCompanyNoteId = updateCompaniesNotesSchema.safeParse({ id: companyNoteId });
-      if (!inputCompanyNoteId.success) {
-        const { fieldErrors, formErrors } = z.flattenError(inputCompanyNoteId.error);
+      const { data, error, success } = mutationRemoveCompanyNoteSchema.safeParse(input);
+      if (!success) {
+        const { fieldErrors, formErrors } = z.flattenError(error);
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const command = {
-        companyId: asCompanyId(inputCompanyId.data.id),
-        companyNoteId: asCompanyNoteId(inputCompanyNoteId.data.id),
-      };
+      const command = { ...data };
       const context = { user: asUserId(auth.client_id), role: auth.role };
       const companyNoteIdReturn = await services.Company.removeCompanyNote(command, context);
 

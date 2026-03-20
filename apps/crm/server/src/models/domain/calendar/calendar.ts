@@ -55,7 +55,7 @@ class CalendarState {
 }
 
 export abstract class Calendar {
-  private readonly _props: CalendarProps;
+  private readonly _props: CalendarProps & { clientId: CalendarClientId };
   protected _internal: CalendarState;
 
   constructor(props: CalendarProps, newCalendar?: NewCalendarImpl) {
@@ -90,7 +90,7 @@ export abstract class Calendar {
     return this._props.companyId;
   }
 
-  get clientId() {
+  get clientId(): CalendarClientId {
     return this._props.clientId;
   }
   // #endregion getters
@@ -113,6 +113,12 @@ export abstract class Calendar {
       addedCategory: this._internal.addedCategory,
       removedCategoryIds: this._internal.removedCategoryIds,
       updatedCategory: this._internal.updatedCategory,
+    };
+  }
+
+  pullEvents() {
+    return {
+      events: this._internal.eventById,
     };
   }
 

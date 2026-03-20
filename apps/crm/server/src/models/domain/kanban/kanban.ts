@@ -1,5 +1,5 @@
 import type { CompanyId } from '../company/company.types.js';
-import type { KanbanId } from './kanban.types.js';
+import type { KanbanClientId, KanbanId } from './kanban.types.js';
 import type {
   KanbanStageCreateProps,
   KanbanStageUpdateProps,
@@ -12,11 +12,14 @@ import type { KanbanTaskClientId, KanbanTaskId } from './task/task.types.js';
 
 import DomainError from '#Utils/errors/DomainError.js';
 
+import { randomUUID } from 'node:crypto';
+
 import { KanbanStage } from './stage/stage.js';
 import { KanbanTask } from './task/task.js';
 
 type KanbanProps = {
   companyId: CompanyId;
+  clientId?: KanbanClientId;
 };
 
 type KanbanCreateProps = KanbanProps;
@@ -47,11 +50,11 @@ class KanbanState {
 }
 
 export abstract class Kanban {
-  private readonly _props: KanbanProps;
+  private readonly _props: KanbanProps & { clientId: KanbanClientId };
   protected _internal: KanbanState;
 
   constructor(props: KanbanProps, newKanban?: NewKanbanImpl) {
-    this._props = { ...props };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as KanbanClientId) };
     this._internal = newKanban?._internal ?? new KanbanState();
   }
 
@@ -80,6 +83,10 @@ export abstract class Kanban {
 
   get companyId() {
     return this._props.companyId;
+  }
+
+  get clientId(): KanbanClientId {
+    return this._props.clientId;
   }
   // #endregion getters
 

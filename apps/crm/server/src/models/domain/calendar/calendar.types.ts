@@ -7,6 +7,7 @@ import type {
 import type { UserProfileReadRow } from '#Models/query/user/users.read-model.types.js';
 
 import type { CompanyId } from '../company/company.types.js';
+import type { UserProfileId } from '../user/profile/profile.types.js';
 import type { CalendarCategoryId } from './category/category.types.js';
 import type { PersistedCalendarEvent } from './event/event.js';
 import type { CalendarEventId } from './event/event.types.js';
@@ -34,7 +35,8 @@ export type AddCalendarEventCommand = {
   title: string;
   eventStartAt: Date;
   eventEndAt: Date;
-  color: string | null;
+  color?: string | null;
+  participants: UserProfileId[];
 };
 
 export type AddCalendarEventReturn = {
@@ -51,6 +53,7 @@ export type UpdateCalendarEventCommand = {
   eventStartAt?: Date;
   eventEndAt?: Date;
   color?: string | null;
+  participants?: UserProfileId[];
 };
 
 export type UpdateCalendarEventReturn = {

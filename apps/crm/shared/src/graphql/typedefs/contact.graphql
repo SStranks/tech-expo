@@ -109,10 +109,11 @@ input CreateContactInput {
   lastName: String!
   email: EmailAddress!
   phone: String!
-  company: UUID!
+  companyId: UUID!
   jobTitle: String!
   stage: ContactStage!
   timezone: UUID
+  image: String
 }
 
 input UpdateContactInput {
@@ -121,10 +122,11 @@ input UpdateContactInput {
   lastName: String
   email: EmailAddress
   phone: String
-  company: UUID
+  companyId: UUID
   jobTitle: String
   stage: ContactStage
   timezone: UUID
+  image: String
 }
 
 input RemoveContactInput {

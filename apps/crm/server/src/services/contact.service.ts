@@ -71,7 +71,8 @@ export class ContactService implements IContactService {
   async createContact(cmd: CreateContactCommand): Promise<PersistedContact> {
     const newContact = Contact.create({
       ...cmd,
-      image: cmd.image ?? undefined,
+      image: cmd.image ?? null,
+      timezoneId: cmd.timezoneId ?? null,
     });
 
     return this.contactRepository.save(newContact);
@@ -107,8 +108,7 @@ export class ContactService implements IContactService {
     });
 
     await this.contactRepository.save(contact);
-    const contactNote = contact.findNoteByClientId(clientId);
-    if (!contactNote) throw new NotFoundError({ resource: 'Contact-note' });
+    const contactNote = contact.getNoteByClientId(clientId);
 
     return { contact, contactNote };
   }
@@ -128,15 +128,13 @@ export class ContactService implements IContactService {
         id: cmd.contactNoteId,
         contactId: contact.id,
         content: cmd.note,
-        createdAt: contactNote.createdAt,
         createdByUserProfileId: userProfile.id,
       },
       userProfile.id
     );
 
     await this.contactRepository.save(contact);
-    const updatedContactNote = contact.findNoteByClientId(clientId);
-    if (!updatedContactNote) throw new NotFoundError({ resource: 'Contact-note' });
+    const updatedContactNote = contact.getNoteByClientId(clientId);
 
     return { contact, contactNote: updatedContactNote };
   }

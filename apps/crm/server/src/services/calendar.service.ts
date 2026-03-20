@@ -100,7 +100,7 @@ export class CalendarService implements ICalendarService {
   async addCalendarEvent(cmd: AddCalendarEventCommand, ctx: RequestContext): Promise<AddCalendarEventReturn> {
     const { calendar } = await this.authorizeCalendarAccess(cmd.calendarId, ctx);
 
-    const { clientId } = calendar.addCalendarEvent({ ...cmd });
+    const { clientId } = calendar.addCalendarEvent({ ...cmd, color: cmd.color ?? null });
 
     await this.calendarRepository.save(calendar);
     const calendarEvent = calendar.getCalendarEventByClientId(clientId);

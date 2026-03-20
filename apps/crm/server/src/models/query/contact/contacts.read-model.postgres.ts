@@ -14,11 +14,12 @@ import type {
   ContactsOverviewQuery,
 } from './contacts.read-model.types.js';
 
-import { and, count, eq, ilike, or, sql } from 'drizzle-orm';
+import { and, asc, count, desc, eq, ilike, or, sql } from 'drizzle-orm';
 
 import { postgresDB, postgresDBCall } from '#Config/dbPostgres.js';
 import CompaniesTable from '#Config/schema/companies/Companies.js';
 import ContactsTable from '#Config/schema/contacts/Contacts.js';
+import { SortDirection } from '#Graphql/generated/graphql.gen.js';
 import { asCompanyId } from '#Models/domain/company/company.mapper.js';
 import { asContactId } from '#Models/domain/contact/contact.mapper.js';
 import { asContactNoteId, contactNoteRowToDomain } from '#Models/domain/contact/note/note.mapper.js';
@@ -26,6 +27,10 @@ import { asTimeZoneId } from '#Models/domain/timezone/timezone.mapper.js';
 import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 
 import { contactWithRelationsToOverviewRow } from './contact.read-model.mapper.js';
+
+const contactSortFieldMap = {
+  STATUS: ContactsTable.stage,
+};
 
 export type ContactWithRelations = {
   contact: ContactsTableSelect;
@@ -120,6 +125,7 @@ export class PostgresContactReadModel implements ContactReadModel {
         .innerJoin(CompaniesTable, eq(ContactsTable.companyId, CompaniesTable.id))
         .$dynamic();
       const whereConditions = [];
+      const orderClauses = [];
 
       if (query.filters.searchContactName) {
         const parts = query.filters.searchContactName.trim().split(' ');
@@ -155,8 +161,17 @@ export class PostgresContactReadModel implements ContactReadModel {
         sqlQuery = sqlQuery.where(and(...whereConditions));
       }
 
+      if (query.sort.length > 0) {
+        query.sort.forEach((sort) => {
+          const column = contactSortFieldMap[sort.field];
+          return sort.direction === SortDirection.Desc ? desc(column) : asc(column);
+        });
+      } else {
+        orderClauses.push(ContactsTable.createdAt);
+      }
+
       sqlQuery = sqlQuery
-        .orderBy(ContactsTable.createdAt)
+        .orderBy(...orderClauses)
         .limit(query.pagination.limit)
         .offset(query.pagination.offset);
 

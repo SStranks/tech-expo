@@ -51,7 +51,7 @@ export function companyRowToDomain(row: CompaniesTableSelect): PersistedCompany 
     industry: row.industry,
     businessType: row.businessType,
     countryId: asCountryId(row.countryId),
-    website: row.website ?? undefined,
+    website: row.website,
     createdAt: row.createdAt,
   });
 }

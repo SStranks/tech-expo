@@ -31,7 +31,7 @@ export type CreateContactCommand = {
   jobTitle: string;
   stage: ContactStage;
   timezoneId?: TimeZoneId;
-  image?: string;
+  image?: string | null;
 };
 
 export type UpdateContactCommand = {
@@ -44,7 +44,7 @@ export type UpdateContactCommand = {
   jobTitle?: string;
   stage?: ContactStage;
   timezoneId?: TimeZoneId;
-  image?: string;
+  image?: string | null;
   addNotes?: { body: string }[];
   removeNotesIds?: ContactNoteId[];
 };

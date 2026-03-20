@@ -42,8 +42,8 @@ export function contactRowToDomain(row: ContactsTableSelect): PersistedContact {
     companyId: asCompanyId(row.companyId),
     jobTitle: row.jobTitle,
     stage: row.stage,
-    timezoneId: row.timezoneId ? asTimeZoneId(row.timezoneId) : undefined,
-    image: row.image ?? undefined,
+    timezoneId: row.timezoneId ? asTimeZoneId(row.timezoneId) : null,
+    image: row.image,
     createdAt: row.createdAt,
   });
 }

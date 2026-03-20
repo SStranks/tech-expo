@@ -22,8 +22,8 @@ export type CreateCompanyCommand = {
   industry: string;
   businessType: BusinessType;
   countryId: CountryId;
-  totalRevenue?: string;
-  website?: string;
+  totalRevenue: string | null;
+  website?: string | null;
   createdAt?: Date;
 };
 
@@ -35,7 +35,7 @@ export type UpdateCompanyCommand = {
   businessType?: BusinessType;
   country?: CountryId;
   totalRevenue?: string;
-  website?: string;
+  website?: string | null;
   createdAt?: Date;
   addNotes?: { body: string }[];
   removeNotesIds?: CompanyNoteId[];

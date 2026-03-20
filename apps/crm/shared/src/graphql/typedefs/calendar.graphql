@@ -97,13 +97,14 @@ input CreateEventInput {
 
 input UpdateEventInput {
   id: UUID!
+  calendarId: UUID!
   title: String
   description: String
   color: HexColorCode
   startTime: DateTime
   endTime: DateTime
-  category: String
-  participants: [UUID]!
+  categoryId: UUID
+  participants: [UUID!]
 }
 
 input RemoveEventInput {

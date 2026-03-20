@@ -19,7 +19,7 @@ export interface PersistedTimeZone extends TimeZone {
 }
 
 export abstract class TimeZone {
-  private readonly _props: TimeZoneProps;
+  private readonly _props: TimeZoneProps & { clientId: TimeZoneClientId };
 
   constructor(props: TimeZoneProps) {
     this._props = { ...props, clientId: props.clientId || (randomUUID() as TimeZoneClientId) };
@@ -49,7 +49,7 @@ export abstract class TimeZone {
     return this._props.countryId;
   }
 
-  get clientId() {
+  get clientId(): TimeZoneClientId {
     return this._props.clientId;
   }
   // #endregion getters

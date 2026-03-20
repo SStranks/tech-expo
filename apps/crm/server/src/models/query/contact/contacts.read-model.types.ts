@@ -1,3 +1,4 @@
+import type { ContactSortableField, SortDirection } from '#Graphql/generated/graphql.gen.js';
 import type { CompanyId } from '#Models/domain/company/company.types.js';
 import type { ContactId, ContactStage } from '#Models/domain/contact/contact.types.js';
 import type { ContactNoteClientId, ContactNoteId } from '#Models/domain/contact/note/note.types.js';
@@ -60,9 +61,15 @@ export type ContactFilters = {
   companyId?: CompanyId;
 };
 
+export type ContactSort = {
+  field: ContactSortableField;
+  direction: SortDirection;
+}[];
+
 export type ContactsOverviewQuery = {
   filters: ContactFilters;
   pagination: PaginationInput;
+  sort: ContactSort;
 };
 
 export type ContactsOverviewPaginated = PaginationResult<ContactOverviewReadRow>;

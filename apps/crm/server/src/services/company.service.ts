@@ -81,7 +81,7 @@ export class CompanyService implements ICompanyService {
     const newCompany = Company.create({
       ...cmd,
       totalRevenue: cmd.totalRevenue ?? '0.00',
-      website: cmd.website ?? undefined,
+      website: cmd.website ?? null,
     });
 
     return this.companyRepository.save(newCompany);
@@ -116,8 +116,7 @@ export class CompanyService implements ICompanyService {
     });
 
     await this.companyRepository.save(company);
-    const companyNote = company.findNoteByClientId(clientId);
-    if (!companyNote) throw new NotFoundError({ resource: 'Company-note' });
+    const companyNote = company.getNoteByClientId(clientId);
 
     return { company, companyNote, userProfile };
   }
@@ -143,8 +142,7 @@ export class CompanyService implements ICompanyService {
     );
 
     await this.companyRepository.save(company);
-    const updatedCompanyNote = company.findNoteByClientId(clientId);
-    if (!updatedCompanyNote) throw new NotFoundError({ resource: 'Company-note' });
+    const updatedCompanyNote = company.getNoteByClientId(clientId);
 
     return { company, companyNote: updatedCompanyNote, userProfile };
   }

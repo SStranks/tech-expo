@@ -9,12 +9,13 @@ import type { CalendarId } from './calendar.types.js';
 import type { PersistedCalendarCategory } from './category/category.js';
 import type { PersistedCalendarEvent } from './event/event.js';
 
-import { eq, inArray } from 'drizzle-orm';
+import { and, eq, inArray } from 'drizzle-orm';
 
 import { postgresDB, postgresDBCall } from '#Config/dbPostgres.js';
 import CalendarTable from '#Config/schema/calendar/Calendar.js';
 import CalendarCategoriesTable from '#Config/schema/calendar/Categories.js';
 import CalendarEventsTable from '#Config/schema/calendar/Events.js';
+import CalendarEventsParticipantsTable from '#Config/schema/calendar/EventsParticipants.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
 
 import { Calendar } from './calendar.js';
@@ -45,6 +46,7 @@ export class PostgresCalendarRepository implements CalendarRepository {
 
         await this.syncCategories(tx, persistedCalendar);
         await this.syncEvents(tx, persistedCalendar);
+        await this.syncEventsParticipants(tx, persistedCalendar);
 
         persistedCalendar.commit();
         return persistedCalendar;
@@ -201,5 +203,34 @@ export class PostgresCalendarRepository implements CalendarRepository {
     }
 
     calendar.commitEvents(persistedEvents);
+  }
+
+  private async syncEventsParticipants(tx: PostgresTransaction, calendar: PersistedCalendar) {
+    const { events } = calendar.pullEvents();
+
+    for (const [id, event] of events) {
+      const { addedParticipants, removedParticipants } = event.pullParticipantChanges();
+      if (addedParticipants.size > 0) {
+        await tx.insert(CalendarEventsParticipantsTable).values(
+          [...addedParticipants].map((userProfileId) => ({
+            eventId: id,
+            userProfileId,
+          }))
+        );
+      }
+
+      if (removedParticipants.size > 0) {
+        await tx
+          .delete(CalendarEventsParticipantsTable)
+          .where(
+            and(
+              eq(CalendarEventsParticipantsTable.eventId, id),
+              inArray(CalendarEventsParticipantsTable.userProfileId, [...removedParticipants])
+            )
+          );
+      }
+
+      event.commitEventParticipants();
+    }
   }
 }

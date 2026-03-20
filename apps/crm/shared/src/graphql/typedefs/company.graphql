@@ -166,7 +166,7 @@ input CreateCompanyNoteInput {
 input UpdateCompanyNoteInput {
   companyId: UUID!
   companyNoteId: UUID!
-  note: String
+  note: String!
 }
 
 input RemoveCompanyNoteInput {
