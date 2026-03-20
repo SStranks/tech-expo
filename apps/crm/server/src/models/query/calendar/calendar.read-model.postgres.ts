@@ -63,7 +63,7 @@ export class PostgresCalendarReadModel implements CalendarReadModel {
           participants: {
             columns: {},
             with: {
-              user: true,
+              userProfile: true,
             },
           },
         },
@@ -75,7 +75,7 @@ export class PostgresCalendarReadModel implements CalendarReadModel {
 
       return {
         calendarEvent: calendarEventRowToReadRow(event),
-        participants: participants.map(({ user }) => userProfileRowToReadRow(user)),
+        participants: participants.map(({ userProfile }) => userProfileRowToReadRow(userProfile)),
       };
     });
   }
