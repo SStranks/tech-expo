@@ -249,7 +249,7 @@ services:
         gid: 999
 
   postgres:
-    image: postgres:17.5
+    image: postgres:18.3
     shm_size: 128mb
     deploy:
       restart_policy:
@@ -286,7 +286,7 @@ services:
       - postgres_database
 
   redis:
-    image: redis:8.0-alpine
+    image: redis:8.6-alpine
     deploy:
       restart_policy:
         condition: any

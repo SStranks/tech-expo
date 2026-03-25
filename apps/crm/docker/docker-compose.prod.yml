@@ -118,7 +118,7 @@ services:
       start_period: 30s
 
   postgres:
-    image: postgres:17.5
+    image: postgres:18.3
     restart: unless-stopped
     shm_size: 128mb
     ports: []
@@ -140,7 +140,7 @@ services:
     user: 'postgres'
 
   redis:
-    image: redis:8.0-alpine
+    image: redis:8.6-alpine
     restart: unless-stopped
     ports: []
     volumes:
@@ -179,7 +179,7 @@ services:
       start_interval: 2s
 
   prometheus:
-    image: prometheus:latest
+    image: prom/prometheus:v3.5.0
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--web.config.file=/etc/prometheus/auth.yml'

@@ -173,7 +173,7 @@ services:
 
   mongo-exporter:
     container_name: ${MONGO_EXPORTER_CONTAINER:?error}
-    image: percona/mongodb_exporter:0.44
+    image: percona/mongodb_exporter:0.49.0
     command:
       - --no-discovering-mode
       - --collector.dbstats

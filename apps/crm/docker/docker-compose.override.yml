@@ -114,7 +114,7 @@ services:
       - mongoexpress_sessionsecret
 
   postgres:
-    image: postgres:17.5
+    image: postgres:18.3
     profiles: ['dev', 'postgres', 'postgres-seeder']
     shm_size: 128mb
     restart: on-failure:3
@@ -172,7 +172,7 @@ services:
       - demo_acc_generic_non_user_password
 
   redis:
-    image: redis:8.0-alpine
+    image: redis:8.6-alpine
     profiles: ['dev', 'redis']
     restart: on-failure:3
     volumes:
@@ -194,7 +194,7 @@ services:
 
   redisinsight:
     container_name: ${REDISINSIGHT_CONTAINER:?error}
-    image: redis/redisinsight:2.70
+    image: redis/redisinsight:3.2.0
     profiles: ['dev', 'redis']
     restart: on-failure:3
     environment:
