@@ -147,7 +147,7 @@ services:
   postgres-exporter:
     container_name: ${POSTGRES_EXPORTER_CONTAINER:?error}
     image: prometheuscommunity/postgres-exporter:v0.17.1
-    restart: on-failure:3
+    restart: unless-stopped
     depends_on:
       postgres:
         condition: 'service_healthy'
@@ -180,7 +180,7 @@ services:
       - --collector.dbstatsfreestorage
       - --collector.fcv
       - --collector.diagnosticdata
-    restart: on-failure:3
+    restart: unless-stopped
     depends_on:
       mongo:
         condition: 'service_healthy'
@@ -201,7 +201,7 @@ services:
   redis-exporter:
     container_name: ${REDIS_EXPORTER_CONTAINER:?error}
     image: oliver006/redis_exporter:v1.74.0
-    restart: on-failure:3
+    restart: unless-stopped
     depends_on:
       redis:
         condition: 'service_healthy'

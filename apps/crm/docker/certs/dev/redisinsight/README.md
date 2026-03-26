@@ -3,6 +3,7 @@
 - [Required Files](#required-files)
   - [Development](#for-development)
     - [Server Certification](#server-certification)
+    - [Client Certification](#client-certification)
 
 ## Required files
 
@@ -45,4 +46,24 @@ IP.1 = 127.0.0.1
 
 ```console
 openssl x509 -req -in redisinsight.csr -CA ../root-ca.crt -CAkey ../root-ca.key -CAcreateserial -out redisinsight.crt -days 365 -sha256 -extfile server-ext.cnf
+```
+
+#### Client Certification
+
+###### redisinsight-redis.key
+
+```console
+openssl genrsa -out redisinsight-redis.key 4096
+```
+
+###### redisinsight-redis.csr
+
+```console
+openssl req -new -key redisinsight-redis.key -out redisinsight-redis.csr -subj "/C=GB/ST=Dev/L=Local/O=techexpo_crm/OU=dev_redisinsight/CN=redis"
+```
+
+###### redisinsight-redis.crt
+
+```console
+openssl x509 -req -in redisinsight-redis.csr -CA ../root-ca.crt -CAkey ../root-ca.key -CAcreateserial -out redisinsight-redis.crt -days 365 -sha256 -extfile ../client-ext.cnf
 ```

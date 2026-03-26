@@ -122,7 +122,7 @@ services:
       - 127.0.0.1:${POSTGRES_LOCAL_PORT:?error}:${POSTGRES_DOCKER_PORT:?error}
     volumes:
       - tmpfs-certs:/etc/postgres/certs:ro
-      - volume-postgres:/var/lib/postgresql/data
+      - volume-postgres:/var/lib/postgresql
       - ./postgres/initdb:/docker-entrypoint-initdb.d:ro
       - ./postgres/scripts:/usr/local/bin/scripts:ro
     depends_on:
@@ -226,6 +226,7 @@ services:
       start_period: 15s
     secrets:
       - redis_password
+      - redis_username
 
   mailpit:
     container_name: ${MAILPIT_CONTAINER:?error}
