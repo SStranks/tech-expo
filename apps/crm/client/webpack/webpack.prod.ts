@@ -5,7 +5,8 @@ import type { Configuration, StatsCompilation } from 'webpack';
 import CompressionPlugin from 'compression-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import Dotenv from 'dotenv-webpack';
+import Dotenv from 'dotenv';
+import DotenvPlugin from 'dotenv-webpack';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -22,6 +23,7 @@ import filterWebpackStats from './filter/filterWebpackStats';
 import CommonConfig from './webpack.common';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+Dotenv.config({ path: path.resolve(__dirname, '../.env.prod.client') });
 
 const ProdConfig = {
   mode: 'production',
@@ -222,7 +224,7 @@ const ProdConfig = {
       template: path.resolve(__dirname, '../src/index-template.html.ejs'),
       favicon: path.resolve(__dirname, '../src/favicon.ico'),
       templateParameters: {
-        PUBLIC_URL: process.env.PUBLIC_URL,
+        PUBLIC_URL: process.env['PUBLIC_URL'],
       },
       minify: {
         removeAttributeQuotes: true,
@@ -267,7 +269,7 @@ const ProdConfig = {
         { from: path.resolve(__dirname, '../public/sitemap.xml'), noErrorOnMissing: true },
       ],
     }),
-    new Dotenv({ path: path.resolve(__dirname, '../.env.prod.client') }),
+    new DotenvPlugin({ path: path.resolve(__dirname, '../.env.prod.client') }),
     new WebpackManifestPlugin({}),
     new StatsWriterPlugin({
       filename: path.resolve(__dirname, './stats/build-stats.json'),
@@ -284,4 +286,4 @@ const ProdConfig = {
   ],
 } satisfies Configuration;
 
-export default merge<Configuration>(CommonConfig, ProdConfig);
+export default merge<Configuration>(CommonConfig(), ProdConfig);

@@ -4,7 +4,8 @@ import type { Configuration } from 'webpack';
 
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
-import Dotenv from 'dotenv-webpack';
+import Dotenv from 'dotenv';
+import DotenvPlugin from 'dotenv-webpack';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
@@ -16,6 +17,7 @@ import url from 'node:url';
 import CommonConfig from './webpack.common';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+Dotenv.config({ path: path.resolve(__dirname, '../.env.dev.client') });
 
 const DevConfig = {
   mode: 'development',
@@ -134,7 +136,7 @@ const DevConfig = {
       template: path.resolve(__dirname, '../src/index-template.html.ejs'),
       favicon: path.resolve(__dirname, '../src/favicon.ico'),
       templateParameters: {
-        PUBLIC_URL: process.env.PUBLIC_URL,
+        PUBLIC_URL: process.env['PUBLIC_URL'],
       },
     }),
     new ReactRefreshWebpackPlugin(),
@@ -149,8 +151,8 @@ const DevConfig = {
       },
     }),
     new CopyPlugin({ patterns: [{ from: path.resolve(__dirname, '../public'), noErrorOnMissing: true }] }),
-    new Dotenv({ path: path.resolve(__dirname, '../.env.dev.client'), prefix: 'import.meta.env.' }),
+    new DotenvPlugin({ path: path.resolve(__dirname, '../.env.dev.client'), prefix: 'import.meta.env.' }),
   ],
 } satisfies Configuration;
 
-export default merge<Configuration>(CommonConfig, DevConfig);
+export default merge<Configuration>(CommonConfig(), DevConfig);
