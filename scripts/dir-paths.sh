@@ -9,10 +9,10 @@ set -euo pipefail
 # Example: source ./dir-paths.sh
 # -----------------------------------------------------------------------------
 
-ROOT_DIR_PATH=$(pnpm -w exec pwd)
+ROOT_DIR_PATH="$(pnpm -w exec pwd)"
 readonly ROOT_DIR_PATH
-readonly LOGS_DIR_PATH="$ROOT_DIR_PATH/logs"
-readonly SCRIPTS_DIR_PATH="$ROOT_DIR_PATH/scripts"
+readonly LOGS_DIR_PATH="${ROOT_DIR_PATH}/logs"
+readonly SCRIPTS_DIR_PATH="${ROOT_DIR_PATH}/scripts"
 
 export ROOT_DIR_PATH
 export LOGS_DIR_PATH

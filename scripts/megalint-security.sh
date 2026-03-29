@@ -11,14 +11,14 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && readonly SCRIPT_DIR
 # shellcheck source=/dev/null
-source "$SCRIPT_DIR/dir-paths.sh"
+source "${SCRIPT_DIR}/dir-paths.sh"
 check_dirpath_vars || exit 1
 
-TIMESTAMP=$(date +%Y%m%d-%H%M%S) && readonly TIMESTAMP
+TIMESTAMP="$(date +%Y%m%d-%H%M%S)" && readonly TIMESTAMP
 
 
 docker run --rm \
   -e MEGALINTER_CONFIG=".mega-linter.security.yaml" \
   -e REPORT_OUTPUT_FOLDER="/tmp/lint/logs/megalinter/security/${TIMESTAMP}" \
-  -v "$ROOT_DIR_PATH":/tmp/lint \
+  -v "${ROOT_DIR_PATH}":/tmp/lint \
   oxsecurity/megalinter:v9
