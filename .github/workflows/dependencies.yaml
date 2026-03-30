@@ -22,17 +22,17 @@ jobs:
     steps:
       # Checkout project code to runner workspace sub-directory
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           path: ${{ github.workspace }}/tech-expo
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
         with:
           package_json_file: tech-expo/package.json
           run_install: false
 
       - name: Use Node.js v22
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: pnpm
@@ -44,7 +44,7 @@ jobs:
 
       # Reference github action in another public repo
       - name: Checkout code - github action - pnpm-outdated
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: SStranks/pnpm-outdated
           path: ${{ github.workspace }}/pnpm-outdated
