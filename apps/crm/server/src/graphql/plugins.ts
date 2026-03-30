@@ -13,7 +13,7 @@ const graphqlLogger = {
         const { errors } = requestContext;
         const serverErrors = errors.filter((error) => {
           console.log(error);
-          return error.extensions.code === 'INTERNAL_SERVER_ERROR';
+          return error.extensions['code'] === 'INTERNAL_SERVER_ERROR';
         });
 
         if (serverErrors.length > 0) pinoLogger.server.error(errors, 'GraphQL Error');

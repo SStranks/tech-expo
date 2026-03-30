@@ -9,7 +9,7 @@ export interface AuthenticatedRequest extends Request {
   refreshJWT?: string;
 }
 
-export function extractJwtCookies(req: Request, res: Response, next: NextFunction) {
+export function extractJwtCookies(req: Request, _res: Response, next: NextFunction) {
   const cookies = req.cookies as Record<string, string | undefined>;
 
   req.authJWT = cookies[`${JWT_COOKIE_AUTH_ID}`];

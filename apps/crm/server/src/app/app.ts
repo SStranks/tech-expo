@@ -70,7 +70,7 @@ app.get('/favicon.ico', (_req, res) => {
   res.status(204).end();
 });
 
-app.all(/(.*)/, (req: Request, _res: Response, next: NextFunction) => {
+app.all(/(.*)/, (_req: Request, _res: Response, next: NextFunction) => {
   next(new NotFoundError({ logging: true }));
 });
 

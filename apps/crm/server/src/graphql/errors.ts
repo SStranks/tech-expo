@@ -22,7 +22,7 @@ const apolloServerErrorsMap: GraphQLFormattedErrorExtensions = {
 };
 
 const formatError = (formattedError: GraphQLFormattedError, error: unknown): GraphQLFormattedError => {
-  const code = formattedError.extensions?.code;
+  const code = formattedError.extensions?.['code'];
 
   if (code === ApolloServerErrorCode.INTERNAL_SERVER_ERROR) {
     pinoLogger.server.error(error, 'GraphQL: Caught in formatError; INTERNAL_SERVER_ERROR');

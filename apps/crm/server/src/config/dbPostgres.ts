@@ -71,6 +71,35 @@ const connectPostgresDB = async () => {
   pinoLogger.server.info(`Connected to Postgres: ${HOST}:${PORT}/${DATABASE}`);
 };
 
+type PostgresErrorCode =
+  | '08'
+  | '53'
+  | '0L'
+  | '0P'
+  | '28'
+  | '42501'
+  | '23503'
+  | '23505'
+  | '42P01'
+  | '42883'
+  | '09'
+  | '25'
+  | '25006'
+  | '2D'
+  | '3B'
+  | 'F0'
+  | 'HV'
+  | 'P0'
+  | 'P0001'
+  | '38'
+  | '39'
+  | '54'
+  | '55'
+  | '57'
+  | '58'
+  | 'XX'
+  | 'other';
+
 export type DbErrorKind =
   | 'CONNECTION_FAILURE'
   | 'AUTHORIZATION_ERROR'
@@ -104,7 +133,7 @@ export const postgresKindToHttp = (kind: DbErrorKind): number => {
   return kindToHttp[`${kind}`];
 };
 
-const errorCodesMap: Record<string, PostgresDomainError> = {
+const errorCodesMap: Record<PostgresErrorCode, PostgresDomainError> = {
   // Connection / availability
   '08': { httpCode: 503, kind: 'CONNECTION_FAILURE', message: 'Postgres connection error' },
   '53': { httpCode: 500, kind: 'TRANSIENT_FAILURE', message: 'Insufficient resources' },
@@ -144,9 +173,16 @@ const errorCodesMap: Record<string, PostgresDomainError> = {
 
 export function postgresErrorDomainMapper(sqlState?: string): PostgresDomainError {
   if (!sqlState) return errorCodesMap.other;
+  if (Object.hasOwn(errorCodesMap, sqlState)) {
+    return errorCodesMap[sqlState as keyof typeof errorCodesMap];
+  }
 
-  // eslint-disable-next-line security/detect-object-injection, @typescript-eslint/no-unnecessary-condition
-  return errorCodesMap[sqlState] || errorCodesMap[sqlState.slice(0, 2)] || errorCodesMap.other;
+  const prefix = sqlState.slice(0, 2);
+  if (Object.hasOwn(errorCodesMap, prefix)) {
+    return errorCodesMap[prefix as keyof typeof errorCodesMap];
+  }
+
+  return errorCodesMap.other;
 }
 
 // Postgres Error to HTTP
@@ -154,15 +190,13 @@ export function postgresErrorDomainMapper(sqlState?: string): PostgresDomainErro
 const postgresErrorHTTPMapper = (errorCode: string): number => {
   // Specific 5-digit codes
   if (errorCode in errorCodesMap) {
-    // eslint-disable-next-line security/detect-object-injection
-    return errorCodesMap[errorCode].httpCode;
+    return errorCodesMap[errorCode as PostgresErrorCode].httpCode;
   }
 
   // Multiple codes based on first 2 tokens
   const errorCodeStartWith = errorCode.slice(0, 2);
   if (errorCodeStartWith in errorCodesMap) {
-    // eslint-disable-next-line security/detect-object-injection
-    return errorCodesMap[errorCodeStartWith].httpCode;
+    return errorCodesMap[errorCodeStartWith as PostgresErrorCode].httpCode;
   }
 
   return 400;
