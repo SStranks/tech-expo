@@ -9,7 +9,7 @@
   "types": "index.d.ts",
   "main": "config.js",
   "devDependencies": {
-    "@html-eslint/eslint-plugin": "^0.58.1",
-    "@html-eslint/parser": "^0.58.1"
+    "@html-eslint/eslint-plugin": "^0.59.0",
+    "@html-eslint/parser": "^0.59.0"
   }
 }

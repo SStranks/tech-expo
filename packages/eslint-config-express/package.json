@@ -11,6 +11,6 @@
   "devDependencies": {
     "@eslint/compat": "^2.0.2",
     "eslint-plugin-security": "^4.0.0",
-    "globals": "^17.4.0"
+    "globals": "^17.5.0"
   }
 }

@@ -11,7 +11,7 @@
     "@stylistic/eslint-plugin": "^5.10.0",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import-x": "^4.16.1",
-    "globals": "^17.4.0",
-    "typescript-eslint": "^8.56.1"
+    "globals": "^17.5.0",
+    "typescript-eslint": "^8.58.2"
   }
 }
