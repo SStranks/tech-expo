@@ -12,7 +12,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import {
   makeSelectorTaskIdsSortedForKanban,
   moveTask,
-  selectorTasksById,
+  taskSelectors,
   undoTaskMove,
   updateTaskHorizontalMove,
   updateTaskVerticalMove,
@@ -77,7 +77,7 @@ export const useKanbanontext = () => {
 function ScrumBoard(): React.JSX.Element {
   const [focusedId, setFocusedId] = useState<KanbanTask['id']>();
   const reduxDispatch = useReduxDispatch();
-  const tasksById = useReduxSelector(selectorTasksById);
+  const tasksById = useReduxSelector((state) => taskSelectors.selectEntities(state));
 
   const getDestinationTaskOrderKey = useCallback(
     (task: KanbanTask, stage: KanbanStage, destinationTaskIndex: number) => {

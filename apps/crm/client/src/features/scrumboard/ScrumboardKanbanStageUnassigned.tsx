@@ -7,7 +7,7 @@ import { useReduxSelector } from '@Redux/hooks';
 
 import ScrumboardAddCard from './components/ScrumboardAddCard';
 import ScrumboardColumnAddBtn from './components/ScrumboardColumnAddBtn';
-import { makeSelectorStageById, makeSelectorTaskIdsSortedForStage } from './redux/kanbanSlice';
+import { makeSelectorTaskIdsSortedForStage, stageSelectors } from './redux/kanbanSlice';
 import ScrumboardKanbanTask from './ScrumboardKanbanTask';
 import { createKanbanStageTargetData } from './utils/pragmaticDndValidation';
 
@@ -20,8 +20,7 @@ type Props = {
 function ScrumboardKanbanColumnUnassigned({ stageId }: Props): React.JSX.Element | null {
   const [, setIsDraggedOver] = useState<boolean>(false);
   const stageRef = useRef<HTMLDivElement | null>(null);
-  const selectorStageById = useMemo(() => makeSelectorStageById(), []);
-  const stage = useReduxSelector((state) => selectorStageById(state, stageId));
+  const stage = useReduxSelector((state) => stageSelectors.selectById(state, stageId));
   const selectorTaskIdsLexiSorted = useMemo(() => makeSelectorTaskIdsSortedForStage(), []);
   const taskIdsLexiSorted = useReduxSelector((state) => selectorTaskIdsLexiSorted(state, stageId));
 

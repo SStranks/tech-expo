@@ -4,13 +4,13 @@ import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/clos
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import clsx from 'clsx';
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import UserCircle from '@Components/general/UserCircle';
 import { useReduxSelector } from '@Redux/hooks';
 
-import { makeSelectorDealById } from './redux/kanbanSlice';
+import { taskSelectors } from './redux/kanbanSlice';
 import { useFocusContext } from './ScrumboardKanban';
 import { createKanbanTaskDropData } from './utils/pragmaticDndValidation';
 
@@ -29,8 +29,7 @@ function ScrumBoardKanbanTask({ stage, taskId, taskIndex, taskStatus }: Props): 
   const [isDragEnter, setIsDragEnter] = useState<boolean>(false);
   const taskRef = useRef<HTMLLIElement>(null);
   const navigate = useNavigate();
-  const selectorDealById = useMemo(() => makeSelectorDealById(), []);
-  const task = useReduxSelector((state) => selectorDealById(state, taskId));
+  const task = useReduxSelector((state) => taskSelectors.selectById(state, taskId));
 
   const isFocused = focusedId === task?.id;
 
