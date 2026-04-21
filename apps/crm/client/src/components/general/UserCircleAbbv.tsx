@@ -13,8 +13,8 @@ function UserCircleAbbv(props: Props): React.JSX.Element {
   return (
     <div className={styles.userCircleAbbv}>
       <span className={styles.userCircleAbbv__text}>
-        {firstNameAbbv[0]}
-        {lastNameAbbv[0]}
+        {firstNameAbbv ? firstNameAbbv[0] : ''}
+        {lastNameAbbv ? lastNameAbbv[0] : ''}
       </span>
     </div>
   );

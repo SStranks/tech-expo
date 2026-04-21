@@ -23,7 +23,7 @@ type Props = {
   taskStatus?: 'won' | 'lost';
 };
 
-function ScrumBoardKanbanTask({ stage, taskId, taskIndex, taskStatus }: Props): React.JSX.Element {
+function ScrumBoardKanbanTask({ stage, taskId, taskIndex, taskStatus }: Props): React.JSX.Element | null {
   const { focusedId, setFocusedId } = useFocusContext();
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isDragEnter, setIsDragEnter] = useState<boolean>(false);
@@ -32,7 +32,7 @@ function ScrumBoardKanbanTask({ stage, taskId, taskIndex, taskStatus }: Props): 
   const selectorDealById = useMemo(() => makeSelectorDealById(), []);
   const task = useReduxSelector((state) => selectorDealById(state, taskId));
 
-  const isFocused = focusedId === task.id;
+  const isFocused = focusedId === task?.id;
 
   const onDoubleClickHandler = () => {
     void navigate(`deal/update/${taskId}`);
@@ -40,7 +40,7 @@ function ScrumBoardKanbanTask({ stage, taskId, taskIndex, taskStatus }: Props): 
 
   useEffect(() => {
     const taskElement = taskRef.current;
-    if (!taskElement) return;
+    if (!taskElement || !task) return;
 
     return combine(
       draggable({
@@ -69,6 +69,8 @@ function ScrumBoardKanbanTask({ stage, taskId, taskIndex, taskStatus }: Props): 
       })
     );
   }, [setFocusedId, task, taskIndex]);
+
+  if (!task) return null;
 
   return (
     <li

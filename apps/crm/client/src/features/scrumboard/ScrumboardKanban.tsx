@@ -86,10 +86,10 @@ function ScrumBoard(): React.JSX.Element {
       const prevId = taskIdsLexiSorted[destinationTaskIndex - 1] ?? null;
       const nextId = taskIdsLexiSorted[destinationTaskIndex] ?? null;
 
-      const prevKey = prevId ? tasksById[prevId].orderKey : null;
-      const nextKey = nextId ? tasksById[nextId].orderKey : null;
+      const prevKey = prevId ? tasksById[prevId]?.orderKey : null;
+      const nextKey = nextId ? tasksById[nextId]?.orderKey : null;
 
-      return generateOrderKeyBetween(prevKey, nextKey);
+      return generateOrderKeyBetween(prevKey ?? null, nextKey ?? null);
     },
     [tasksById]
   );

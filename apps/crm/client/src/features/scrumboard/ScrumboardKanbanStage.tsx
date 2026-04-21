@@ -18,7 +18,7 @@ type Props = {
   stageId: KanbanStage['id'];
 };
 
-function ScrumboardKanbanColumn({ stageId }: Props): React.JSX.Element {
+function ScrumboardKanbanColumn({ stageId }: Props): React.JSX.Element | null {
   const [, setIsDraggedOver] = useState<boolean>(false);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const selectorStageById = useMemo(() => makeSelectorStageById(), []);
@@ -28,7 +28,7 @@ function ScrumboardKanbanColumn({ stageId }: Props): React.JSX.Element {
 
   useEffect(() => {
     const stageElement = stageRef.current;
-    if (!stageElement) return;
+    if (!stageElement || !stage) return;
 
     return dropTargetForElements({
       element: stageElement,
@@ -40,6 +40,8 @@ function ScrumboardKanbanColumn({ stageId }: Props): React.JSX.Element {
       onDrop: () => setIsDraggedOver(false),
     });
   }, [stage, taskIdsLexiSorted]);
+
+  if (!stage) return null;
 
   return (
     <div ref={stageRef} className={styles.column}>

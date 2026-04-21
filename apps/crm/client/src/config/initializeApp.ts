@@ -1,3 +1,5 @@
+import type { UUID } from '@apps/crm-shared';
+
 import { authInitialize, hydrateAuth } from '@Redux/reducers/authSlice';
 import configureReduxStore from '@Redux/store';
 import { createCoreServices } from '@Services/servicesCore';
@@ -18,7 +20,7 @@ export async function initializeApp() {
     reduxStore.dispatch(
       hydrateAuth({
         user: {
-          client_id: '_dev_',
+          client_id: '_dev_' as UUID,
           role: 'USER',
         },
       })

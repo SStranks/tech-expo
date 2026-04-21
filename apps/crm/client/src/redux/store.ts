@@ -1,3 +1,4 @@
+/// <reference types="webpack/module"/>
 import type { Action, ThunkDispatch } from '@reduxjs/toolkit';
 
 import type { IServiceHttp } from '@Services/serviceHttp';
@@ -47,6 +48,7 @@ export default function configureReduxStore(extra: ThunkExtra, preloadedState?: 
   return store;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 if (import.meta.webpackHot) {
   import.meta.webpackHot.accept('./reducers/rootReducer', () => {
     import('./reducers/rootReducer')
