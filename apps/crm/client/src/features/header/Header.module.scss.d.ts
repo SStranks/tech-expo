@@ -7,6 +7,8 @@ export type Styles = {
   'fallback-fade-in': string;
   'fallback-fade-out': string;
   header: string;
+  searchBar: string;
+  settingsBar: string;
   'theme-transition-duration': string;
 };
 

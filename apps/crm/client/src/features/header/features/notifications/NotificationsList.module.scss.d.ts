@@ -6,6 +6,7 @@ export type Styles = {
   notification__identity: string;
   notification__img: string;
   notification__timeframe: string;
+  notificationsList: string;
   notificationsList__ul: string;
 };
 

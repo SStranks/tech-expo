@@ -28,6 +28,10 @@
   padding: 4px;
   border-radius: 4px;
 
+  &__menu {
+    display: contents;
+  }
+
   &__svg {
     & path {
       color: var(--thm-icon-default);

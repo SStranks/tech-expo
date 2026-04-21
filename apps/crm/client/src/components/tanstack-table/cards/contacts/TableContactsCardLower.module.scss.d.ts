@@ -1,6 +1,7 @@
 export type Styles = {
   company: string;
   company__img: string;
+  company__name: string;
   contactsCardLower: string;
   contactsCardLower__role: string;
   'danger-pulse': string;

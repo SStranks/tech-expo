@@ -91,7 +91,7 @@ function PipelineDealUpdatePage(): React.JSX.Element {
           </div>
           <FormProvider.Combo
             items={ownersList}
-            defaultInputValue={ownersList[0].name} // TODO:  Make dynamic
+            defaultInputValue={ownersList[0]?.name} // TODO:  Make dynamic
             rules={GENERIC_TEXT_RULES}
             shouldFocusWrap
             menuTrigger="focus"

@@ -16,7 +16,7 @@ type WrapperState = Element | null;
 function createWrapperAndAppendToBody(wrapperId: string) {
   const wrapperElement = document.createElement('div');
   wrapperElement.setAttribute('id', wrapperId);
-  wrapperElement.dataset.testid = 'react-portal-wrapper';
+  wrapperElement.dataset['testid'] = 'react-portal-wrapper';
   document.body.append(wrapperElement);
   return wrapperElement;
 }

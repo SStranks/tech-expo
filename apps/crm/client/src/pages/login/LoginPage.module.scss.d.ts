@@ -9,6 +9,7 @@ export type Styles = {
   loginForm: string;
   loginForm__link: string;
   loginForm__submitBtn: string;
+  options: string;
   pulse: string;
   'theme-transition-duration': string;
 };

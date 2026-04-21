@@ -203,10 +203,10 @@ function ScrumBoard(): React.JSX.Element {
       if (!isKanbanTaskDropData(source.data)) return;
 
       const stageDataInitial = location.initial.dropTargets.find(
-        (target) => target.data.type === PRAGMATICDND_KANBAN_STAGE_TYPE
+        (target) => target.data['type'] === PRAGMATICDND_KANBAN_STAGE_TYPE
       );
       const stageDataCurrent = location.current.dropTargets.find(
-        (target) => target.data.type === PRAGMATICDND_KANBAN_STAGE_TYPE
+        (target) => target.data['type'] === PRAGMATICDND_KANBAN_STAGE_TYPE
       );
       if (
         !stageDataInitial ||
@@ -217,11 +217,11 @@ function ScrumBoard(): React.JSX.Element {
         return;
 
       const cardDataInitial = location.initial.dropTargets.find(
-        (target) => target.data.type === PRAGMATICDND_KANBAN_TASK_TYPE
+        (target) => target.data['type'] === PRAGMATICDND_KANBAN_TASK_TYPE
       );
       if (!cardDataInitial || !isKanbanTaskDropData(cardDataInitial.data)) return;
       const cardDataCurrent = location.current.dropTargets.find(
-        (target) => target.data.type === PRAGMATICDND_KANBAN_TASK_TYPE
+        (target) => target.data['type'] === PRAGMATICDND_KANBAN_TASK_TYPE
       );
 
       // Move card vertically in original column

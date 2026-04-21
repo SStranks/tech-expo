@@ -4,6 +4,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
+  &__text {
+    display: contents;
+  }
 }
 
 .type {

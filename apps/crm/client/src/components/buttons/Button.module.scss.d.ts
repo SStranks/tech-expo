@@ -1,5 +1,6 @@
 export type Styles = {
   button: string;
+  button__text: string;
   'icon--primary': string;
   'icon--quaternary': string;
   'icon--secondary': string;

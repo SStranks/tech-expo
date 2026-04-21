@@ -27,6 +27,10 @@ $grid-card-height: 240px;
     border-bottom: 1px solid var(--thm-border-secondary);
     transition: anim.$theme-transition-border-color;
   }
+
+  &__lower {
+    display: contents;
+  }
 }
 
 .inputMenu {

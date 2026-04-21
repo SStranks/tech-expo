@@ -6,7 +6,9 @@ export type Styles = {
   fadeout: string;
   'fallback-fade-in': string;
   'fallback-fade-out': string;
+  header: string;
   hr: string;
+  markdownEditor: string;
   quoteDocument: string;
   quoteDocument__body: string;
   quoteDocument__body__financials: string;

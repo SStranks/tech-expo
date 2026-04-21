@@ -10,7 +10,7 @@ const CSS_ROLE_CLASS = {
   'sales intern': 'salesIntern',
   'sales manager': 'salesManager',
   'sales person': 'salesPerson',
-};
+} as const;
 
 function RoleIcon(userRole: TableSettingsContacts['role']) {
   switch (userRole) {

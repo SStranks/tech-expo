@@ -12,6 +12,10 @@
   color: var(--thm-icon-default);
   transition-property: border-color, color;
 
+  &__svg {
+    display: contents;
+  }
+
   &:first-of-type {
     border-radius: 6px 0 0 6px;
   }

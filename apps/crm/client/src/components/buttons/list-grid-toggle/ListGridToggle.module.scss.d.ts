@@ -1,5 +1,6 @@
 export type Styles = {
   radio: string;
+  radio__svg: string;
   radioGroup: string;
 };
 

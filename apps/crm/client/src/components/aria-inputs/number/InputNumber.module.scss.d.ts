@@ -5,10 +5,12 @@ export type Styles = {
   buttonIncrement__svg: string;
   'danger-pulse': string;
   'dark-theme': string;
+  description: string;
   fadein: string;
   fadeout: string;
   'fallback-fade-in': string;
   'fallback-fade-out': string;
+  fieldError: string;
   group: string;
   input: string;
   label: string;

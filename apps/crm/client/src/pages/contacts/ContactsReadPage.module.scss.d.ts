@@ -1,4 +1,5 @@
 export type Styles = {
+  contactsReadPage: string;
   contactsReadPage__header: string;
   contactsReadPage__tables: string;
   lifecycleTable: string;

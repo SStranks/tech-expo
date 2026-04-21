@@ -6,6 +6,7 @@ export type Styles = {
   'fallback-fade-out': string;
   inputMenu__test: string;
   tableGridCard: string;
+  tableGridCard__lower: string;
   tableGridCard__upper: string;
 };
 

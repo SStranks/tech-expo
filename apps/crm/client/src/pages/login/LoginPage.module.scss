@@ -9,6 +9,10 @@
   height: 100vh;
 }
 
+.options {
+  display: contents;
+}
+
 .loginForm {
   @include form.form-base-authentication-pages;
   row-gap: 20px; // TODO:  Temporary. Style individual parts later.

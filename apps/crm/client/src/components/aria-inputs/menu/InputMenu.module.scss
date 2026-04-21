@@ -1,3 +1,19 @@
-.a {
+.inputMenu {
   background-color: red;
+
+  &__btn {
+    color: inherit;
+  }
+
+  &__popOver {
+    color: inherit;
+  }
+
+  &__menu {
+    color: inherit;
+  }
+
+  &__menuItem {
+    color: inherit;
+  }
 }

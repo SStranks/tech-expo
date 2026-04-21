@@ -203,10 +203,10 @@ function ScrumBoardPipeline(): React.JSX.Element {
       if (!isPipelineDealDropData(source.data)) return;
 
       const stageDataInitial = location.initial.dropTargets.find(
-        (target) => target.data.type === PRAGMATICDND_PIPELINE_STAGE_TYPE
+        (target) => target.data['type'] === PRAGMATICDND_PIPELINE_STAGE_TYPE
       );
       const stageDataCurrent = location.current.dropTargets.find(
-        (target) => target.data.type === PRAGMATICDND_PIPELINE_STAGE_TYPE
+        (target) => target.data['type'] === PRAGMATICDND_PIPELINE_STAGE_TYPE
       );
       if (
         !stageDataInitial ||
@@ -217,11 +217,11 @@ function ScrumBoardPipeline(): React.JSX.Element {
         return;
 
       const cardDataInitial = location.initial.dropTargets.find(
-        (target) => target.data.type === PRAGMATICDND_PIPELINE_DEAL_TYPE
+        (target) => target.data['type'] === PRAGMATICDND_PIPELINE_DEAL_TYPE
       );
       if (!cardDataInitial || !isPipelineDealDropData(cardDataInitial.data)) return;
       const cardDataCurrent = location.current.dropTargets.find(
-        (target) => target.data.type === PRAGMATICDND_PIPELINE_DEAL_TYPE
+        (target) => target.data['type'] === PRAGMATICDND_PIPELINE_DEAL_TYPE
       );
 
       // Move card vertically in original column

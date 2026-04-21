@@ -6,6 +6,7 @@ export type Styles = {
   fadeout: string;
   'fallback-fade-in': string;
   'fallback-fade-out': string;
+  tableControlsFooter: string;
   'theme-transition-duration': string;
 };
 

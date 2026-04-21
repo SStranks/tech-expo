@@ -91,7 +91,7 @@ function InputComboTag(props: Props): React.JSX.Element {
             <Input className={styles.input} />
           </TagGroup>
         </Group>
-        <Button className={styles.inputContainer__button}>
+        <Button>
           <IconArrowDownAlt svgClass={styles.inputContainer__button__svg} />
         </Button>
       </Group>

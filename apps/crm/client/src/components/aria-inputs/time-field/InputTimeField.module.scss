@@ -8,7 +8,9 @@ $padding: 16px;
   padding-inline: $padding;
 }
 
-// .label {}
+.label {
+  color: inherit;
+}
 
 .dateInput {
   display: flex;
@@ -23,6 +25,10 @@ $padding: 16px;
   }
 }
 
-// .text {}
+.text {
+  color: inherit;
+}
 
-// .fieldError {}
+.fieldError {
+  color: inherit;
+}

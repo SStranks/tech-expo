@@ -7,7 +7,7 @@ import styles from './CompaniesRoute.module.scss';
 function CompaniesRoute(): React.JSX.Element {
   return (
     <ViewportLayout>
-      <div className={styles.contactsRouteLayout}>
+      <div className={styles.companiesRouteLayout}>
         <div className={styles.table}>
           <Outlet />
         </div>

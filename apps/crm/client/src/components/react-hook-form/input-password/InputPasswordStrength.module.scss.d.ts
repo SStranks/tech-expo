@@ -16,6 +16,7 @@ export type Styles = {
   infoPanel__content__link: string;
   infoPanel__content__title: string;
   infoPanel__inner: string;
+  inputPassword: string;
   pulse: string;
   result: string;
   result__meter: string;

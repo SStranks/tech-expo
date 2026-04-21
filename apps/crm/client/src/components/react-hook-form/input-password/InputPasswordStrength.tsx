@@ -93,7 +93,7 @@ function InputPasswordStrength<T extends FieldValues>(props: Props<T>): React.JS
         </div>
       </InputUx>
       <div className={styles.result}>
-        <span className={`${styles.result__meter} ${styles[`result__meter--${passwordScore}`]}`} />
+        <span className={`${styles.result__meter} ${styles[`result__meter--${passwordScore ?? 0}`]}`} />
       </div>
       <div className={`${styles.infoPanel} ${informationPanel ? styles.infoPanel__active : ''}`}>
         <div className={styles.infoPanel__inner}>

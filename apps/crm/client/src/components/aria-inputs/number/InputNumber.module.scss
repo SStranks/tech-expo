@@ -7,6 +7,14 @@ $padding: 16px;
   height: 24px;
 }
 
+.description {
+  color: inherit;
+}
+
+.fieldError {
+  color: inherit;
+}
+
 .numberField {
   width: 100%;
   padding-left: $padding;

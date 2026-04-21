@@ -13,6 +13,7 @@ export type Styles = {
   'fallback-fade-out': string;
   okayBtn: string;
   optionsBtn: string;
+  optionsBtn__menu: string;
   optionsBtn__popover: string;
   optionsBtn__svg: string;
   pulse: string;

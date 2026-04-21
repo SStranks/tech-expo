@@ -1,4 +1,5 @@
 export type Styles = {
+  companiesReadPage: string;
   companiesReadPage__header: string;
   companiesReadPage__tables: string;
   companyDetails: string;

@@ -2,10 +2,14 @@ export type Styles = {
   button: string;
   button__svg: string;
   calendar: string;
+  calendar__buttonNext: string;
+  calendar__buttonPrev: string;
   calendar__buttonToday: string;
+  calendar__buttonYear: string;
   calendar__header: string;
   calendar__heading: string;
   calendarGrid: string;
+  calendarGrid__body: string;
   calendarGrid__cell: string;
   calendarGrid__cell__today: string;
   calendarGrid__header: string;
@@ -15,6 +19,7 @@ export type Styles = {
   dateInput: string;
   datePicker: string;
   dateSegment: string;
+  dialog: string;
   fadein: string;
   fadeout: string;
   'fallback-fade-in': string;
@@ -26,7 +31,10 @@ export type Styles = {
   pulse: string;
   select: string;
   success: string;
+  text: string;
   'theme-transition-duration': string;
+  wrapper: string;
+  wrapper__required: string;
 };
 
 export type ClassNames = keyof Styles;

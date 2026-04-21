@@ -36,7 +36,7 @@ function SettingsPage(): React.JSX.Element {
                 <div className={styles.companyInfo}>
                   <IconCity svgClass={styles.companyInfo__icon} />
                   <span>Address</span>
-                  <p>{COMPANY_INFO[0].address}</p>
+                  <p>{COMPANY_INFO[0]?.address}</p>
                 </div>
               </td>
             </tr>
@@ -45,7 +45,7 @@ function SettingsPage(): React.JSX.Element {
                 <div className={styles.companyInfo}>
                   <IconPhone svgClass={styles.companyInfo__icon} />
                   <span>Phone</span>
-                  <p>{COMPANY_INFO[0].phone}</p>
+                  <p>{COMPANY_INFO[0]?.phone}</p>
                 </div>
               </td>
             </tr>
@@ -54,7 +54,7 @@ function SettingsPage(): React.JSX.Element {
                 <div className={styles.companyInfo}>
                   <IconEmail svgClass={styles.companyInfo__icon} />
                   <span>Email</span>
-                  <p>{COMPANY_INFO[0].email}</p>
+                  <p>{COMPANY_INFO[0]?.email}</p>
                 </div>
               </td>
             </tr>
@@ -63,7 +63,7 @@ function SettingsPage(): React.JSX.Element {
                 <div className={styles.companyInfo}>
                   <IconGlobal svgClass={styles.companyInfo__icon} />
                   <span>Website</span>
-                  <p>{COMPANY_INFO[0].website}</p>
+                  <p>{COMPANY_INFO[0]?.website}</p>
                 </div>
               </td>
             </tr>

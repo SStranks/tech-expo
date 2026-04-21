@@ -1,3 +1,11 @@
 .commentThread {
   background-color: transparent;
+
+  &__insert {
+    display: contents;
+  }
+
+  &__list {
+    display: contents;
+  }
 }

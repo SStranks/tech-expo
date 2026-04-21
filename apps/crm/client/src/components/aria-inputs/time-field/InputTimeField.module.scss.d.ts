@@ -1,6 +1,9 @@
 export type Styles = {
   dateInput: string;
   dateSegment: string;
+  fieldError: string;
+  label: string;
+  text: string;
   timeField: string;
 };
 

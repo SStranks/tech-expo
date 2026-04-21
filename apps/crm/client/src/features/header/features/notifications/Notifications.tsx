@@ -54,9 +54,8 @@ function Notifications(props: Props): React.JSX.Element {
     setNotificationsList([]);
   };
 
-  let status;
-  if (notificationsList.length === 0) status = 'noMessages';
-  if (notificationsList.length > 0) status = 'unreadMessages';
+  // let status: 'noMessages' | 'unreadMessages' | 'readMessages';
+  const status = notificationsList.length > 0 ? 'unreadMessages' : 'noMessages';
   // if (notifications.length > 0 && 'some state variable') status = 'readMessages';
 
   return (
