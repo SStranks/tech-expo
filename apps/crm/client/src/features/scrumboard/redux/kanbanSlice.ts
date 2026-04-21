@@ -166,26 +166,35 @@ const kanbanSlice = createSlice({
       const { stageId, taskId } = action.payload;
       delete state.tasks.byId[taskId];
       state.tasks.allIds = state.tasks.allIds.filter((id) => id !== taskId);
-      state.tasks.byStageId[stageId] = state.tasks.byStageId[stageId].filter((id) => id !== taskId);
+      state.tasks.byStageId[stageId] = state.tasks.byStageId[stageId]?.filter((id) => id !== taskId) ?? [];
     },
     undoTaskMove(state, action: PayloadAction<{ requestId: string }>) {
       const { requestId } = action.payload;
       const request = state.pendingTaskMoves[requestId];
-      state.tasks.byId[request.sourceTaskId].orderKey = state.pendingTaskMoves[requestId].sourceTaskOrderKey;
-      state.tasks.byId[request.sourceTaskId].stageId = state.pendingTaskMoves[requestId].sourceStageId;
+      if (!request) return;
+      const task = state.tasks.byId[request.sourceTaskId];
+      if (!task) return;
+      task.orderKey = request.sourceTaskOrderKey;
+      task.stageId = request.sourceStageId;
     },
     updateStage(state, action: PayloadAction<{ stageId: KanbanStage['id']; stageTitle: KanbanStage['title'] }>) {
       const { stageId, stageTitle } = action.payload;
-      state.stages.byId[stageId].title = stageTitle;
+      const stage = state.stages.byId[stageId];
+      if (!stage) return;
+      stage.title = stageTitle;
     },
     updateTaskHorizontalMove(state, action: PayloadAction<MoveTaskPayload>) {
       const { destinationDealOrderKey, destinationStageId, sourceTaskId } = action.payload;
-      state.tasks.byId[sourceTaskId].orderKey = destinationDealOrderKey;
-      state.tasks.byId[sourceTaskId].stageId = destinationStageId;
+      const task = state.tasks.byId[sourceTaskId];
+      if (!task) return;
+      task.orderKey = destinationDealOrderKey;
+      task.stageId = destinationStageId;
     },
     updateTaskVerticalMove(state, action: PayloadAction<Omit<MoveTaskPayload, 'destinationStageId'>>) {
       const { destinationDealOrderKey, sourceTaskId } = action.payload;
-      state.tasks.byId[sourceTaskId].orderKey = destinationDealOrderKey;
+      const task = state.tasks.byId[sourceTaskId];
+      if (!task) return;
+      task.orderKey = destinationDealOrderKey;
     },
   },
 });
