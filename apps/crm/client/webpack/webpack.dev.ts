@@ -8,7 +8,7 @@ import Dotenv from 'dotenv';
 import DotenvPlugin from 'dotenv-webpack';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
-import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
+import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
 import { merge } from 'webpack-merge';
 
 import path from 'node:path';
@@ -24,11 +24,12 @@ const DevConfig = {
   output: {
     path: path.resolve(__dirname, '../dist'),
     pathinfo: false,
-    filename: 'main.js',
+    filename: '[name].js',
+    chunkFilename: '[name].chunk.js',
     publicPath: '/',
     devtoolModuleFilenameTemplate: 'file:///[absolute-resource-path]',
   },
-  devtool: 'source-map',
+  devtool: 'eval-cheap-module-source-map',
   devServer: {
     port: 3000,
     static: [
@@ -62,14 +63,26 @@ const DevConfig = {
         test: /\.(ts|tsx|js|jsx)$/,
         include: path.resolve(__dirname, '../src'),
         exclude: [/node_modules/],
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              plugins: ['react-refresh/babel'],
+        use: {
+          loader: 'swc-loader',
+          options: {
+            jsc: {
+              parser: {
+                syntax: 'typescript',
+                tsx: true,
+                dynamicImport: true,
+              },
+              transform: {
+                react: {
+                  development: true,
+                  runtime: 'automatic',
+                  refresh: true,
+                },
+              },
             },
+            sourceMaps: true,
           },
-        ],
+        },
       },
       {
         test: /\.css$/,
@@ -111,25 +124,9 @@ const DevConfig = {
     ],
   },
   optimization: {
-    minimizer: [
-      new ImageMinimizerPlugin({
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        exclude: /favicon/i,
-        generator: [
-          {
-            type: 'asset',
-            implementation: ImageMinimizerPlugin.sharpGenerate as ImageMinimizerPlugin.TransformerFunction<unknown>,
-            options: {
-              encodeOptions: {
-                webp: {
-                  quality: 90,
-                },
-              },
-            },
-          },
-        ],
-      }),
-    ],
+    splitChunks: {
+      chunks: 'all',
+    },
   },
   plugins: [
     new HTMLWebpackPlugin({
@@ -155,4 +152,5 @@ const DevConfig = {
   ],
 } satisfies Configuration;
 
-export default merge<Configuration>(CommonConfig(), DevConfig);
+const smp = new SpeedMeasurePlugin();
+export default smp.wrap(merge<Configuration>(CommonConfig(), DevConfig));

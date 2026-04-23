@@ -7,6 +7,8 @@ import CopyPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import Dotenv from 'dotenv';
 import DotenvPlugin from 'dotenv-webpack';
+import ESLintPlugin from 'eslint-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -27,6 +29,7 @@ Dotenv.config({ path: path.resolve(__dirname, '../.env.prod.client') });
 
 const ProdConfig = {
   mode: 'production',
+  resolve: { conditionNames: ['import', 'module', 'browser', 'default', 'production'] },
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: '[name].bundle.[contenthash].js',
@@ -50,11 +53,18 @@ const ProdConfig = {
             options: {
               onlyCompileBundledFiles: true,
               compilerOptions: {
+                configFile: path.resolve(__dirname, '../tsconfig.src.json'),
+                transpileOnly: true,
                 noEmit: false,
               },
             },
           },
         ],
+      },
+      {
+        test: /\.css$/,
+        include: /node_modules/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.css$/,
@@ -164,12 +174,12 @@ const ProdConfig = {
           chunks: 'all',
           priority: 20,
         },
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-          priority: 10,
-        },
+        // vendor: {
+        //   test: /[\\/]node_modules[\\/]/,
+        //   name: 'vendors',
+        //   chunks: 'all',
+        //   priority: 10,
+        // },
       },
     },
     minimizer: [
@@ -217,6 +227,25 @@ const ProdConfig = {
     ],
   },
   plugins: [
+    new ESLintPlugin({
+      configType: 'flat',
+      cache: true,
+      failOnError: true,
+      failOnWarning: true,
+      emitError: true,
+      emitWarning: true,
+      extensions: ['js', 'jsx', 'ts', 'tsx'],
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      async: true,
+      typescript: {
+        configFile: path.resolve(__dirname, '../tsconfig.src.json'),
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true,
+        },
+      },
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
     }),
@@ -272,7 +301,7 @@ const ProdConfig = {
     new DotenvPlugin({ path: path.resolve(__dirname, '../.env.prod.client') }),
     new WebpackManifestPlugin({}),
     new StatsWriterPlugin({
-      filename: path.resolve(__dirname, './stats/build-stats.json'),
+      filename: 'stats/build-stats.json',
       stats: {
         assets: true,
         chunks: true,

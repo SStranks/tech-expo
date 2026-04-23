@@ -1,8 +1,6 @@
 /* eslint-disable perfectionist/sort-objects */
 import type { Configuration } from 'webpack';
 
-import ESLintPlugin from 'eslint-webpack-plugin';
-
 import path from 'node:path';
 import url from 'node:url';
 
@@ -49,10 +47,12 @@ const CommonConfig = () => {
         {
           test: /\.html$/,
           use: 'html-loader',
+          exclude: [/node_modules/],
         },
         {
           test: /\.(png|svg|jpg|jpeg|gif|avif)$/i,
           type: 'asset/resource',
+          exclude: [/node_modules/],
         },
         {
           test: /\.m?js/,
@@ -62,17 +62,6 @@ const CommonConfig = () => {
         },
       ],
     },
-    plugins: [
-      new ESLintPlugin({
-        configType: 'flat',
-        cache: process.env['NODE_ENV'] === 'production',
-        failOnError: process.env['NODE_ENV'] === 'production',
-        failOnWarning: process.env['NODE_ENV'] === 'production',
-        emitError: true,
-        emitWarning: true,
-        extensions: ['js', 'jsx', 'ts', 'tsx'],
-      }),
-    ],
   } satisfies Configuration;
 };
 

@@ -56,3 +56,20 @@ declare module '@bundle-stats/plugin-webpack-filter' {
   const _default: { default: typeof WebpackFilterPlugin };
   export default _default;
 }
+
+declare module 'speed-measure-webpack-plugin' {
+  import type { Configuration, WebpackPluginInstance } from 'webpack';
+
+  interface SmpOptions {
+    disable?: boolean;
+    outputFormat?: string;
+    outputTarget?: string | Console;
+  }
+
+  class SpeedMeasurePlugin implements WebpackPluginInstance {
+    constructor(options?: SmpOptions);
+    wrap(config: Configuration): Configuration;
+  }
+
+  export = SpeedMeasurePlugin;
+}
