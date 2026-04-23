@@ -4,14 +4,14 @@ import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/clos
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import clsx from 'clsx';
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import UserCircle from '@Components/general/UserCircle';
 import { useReduxSelector } from '@Redux/hooks';
 
 import ScrumboardCardOptionsBtn from './components/ScrumboardCardOptionsBtn';
-import { makeSelectorDealById } from './redux/pipelineSlice';
+import { dealSelectors } from './redux/pipelineSlice';
 import { useFocusContext } from './ScrumboardPipeline';
 import { createPipelineDealDropData } from './utils/pragmaticDndValidation';
 
@@ -31,8 +31,7 @@ function ScrumBoardPipelineDeal({ dealId, dealIndex, dealStatus, stage }: Props)
   const [isDragEnter, setIsDragEnter] = useState<boolean>(false);
   const dealRef = useRef<HTMLLIElement>(null);
   const navigate = useNavigate();
-  const selectorDealById = useMemo(() => makeSelectorDealById(), []);
-  const deal = useReduxSelector((state) => selectorDealById(state, dealId));
+  const deal = useReduxSelector((state) => dealSelectors.selectById(state, dealId));
 
   useEffect(() => {
     const dealElement = dealRef.current;

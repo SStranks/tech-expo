@@ -10,7 +10,7 @@ import ScrumboardColumnAddBtn from './components/ScrumboardColumnAddBtn';
 import {
   makeSelectorDealIdsSortedForStage,
   makeSelectorDealsTotalForStage,
-  makeSelectorStageById,
+  stageSelectors,
 } from './redux/pipelineSlice';
 import ScrumboardPipelineDeal from './ScrumboardPipelineDeal';
 import { createPipelineStageTargetData } from './utils/pragmaticDndValidation';
@@ -24,9 +24,8 @@ type Props = {
 function ScrumboardPipelineColumnUnassigned({ stageId }: Props) {
   const [, setIsDraggedOver] = useState<boolean>(false);
   const stageRef = useRef<HTMLDivElement | null>(null);
-  const selectorStageById = useMemo(() => makeSelectorStageById(), []);
   const selectorDealsTotalForStage = useMemo(() => makeSelectorDealsTotalForStage(), []);
-  const stage = useReduxSelector((state) => selectorStageById(state, stageId));
+  const stage = useReduxSelector((state) => stageSelectors.selectById(state, stageId));
   const selectorDealIdsLexiSorted = useMemo(() => makeSelectorDealIdsSortedForStage(), []);
   const dealIdsLexiSorted = useReduxSelector((state) => selectorDealIdsLexiSorted(state, stageId));
   const dealsTotal = useReduxSelector((state) => selectorDealsTotalForStage(state, stageId));

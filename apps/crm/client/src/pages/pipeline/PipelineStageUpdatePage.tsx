@@ -1,12 +1,12 @@
 import type { SubmitHandler } from 'react-hook-form';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
 import { GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
-import { makeSelectorStageById, updateStage } from '@Features/scrumboard/redux/pipelineSlice';
+import { stageSelectors, updateStage } from '@Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 
 type FormFieldData = {
@@ -18,8 +18,7 @@ function PipelineStageUpdatePage(): React.JSX.Element {
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
   const { stageId } = useParams();
-  const selectorStageById = useMemo(() => makeSelectorStageById(), []);
-  const stage = useReduxSelector((state) => (stageId ? selectorStageById(state, stageId) : undefined));
+  const stage = useReduxSelector((state) => (stageId ? stageSelectors.selectById(state, stageId) : undefined));
 
   if (!stageId || !stage) return <Navigate to="/pipeline" replace />;
 

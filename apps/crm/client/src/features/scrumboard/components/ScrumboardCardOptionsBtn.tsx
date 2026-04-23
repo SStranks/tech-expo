@@ -2,7 +2,7 @@ import type { Key } from 'react-aria-components';
 
 import type { PipelineDeal, PipelineStage } from '@Data/MockScrumboardPipeline';
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   Button,
   Menu,
@@ -20,7 +20,7 @@ import IconEye from '@Components/svg/IconEye';
 import IconMenuDots from '@Components/svg/IconMenuDots';
 import { useReduxSelector } from '@Redux/hooks';
 
-import { makeSelectorDealIdsForStage, selectorStagesById } from '../redux/pipelineSlice';
+import { dealSelectors, stageSelectors } from '../redux/pipelineSlice';
 import { usePipeineContext } from '../ScrumboardPipeline';
 
 import styles from './ScrumboardCardOptionsBtn.module.scss';
@@ -45,9 +45,9 @@ type Props = {
 function ScrumboardCardOptionsBtn({ deal, dealIndex, dealStatus, isFocused, stage }: Props): React.JSX.Element {
   const { handleHorizontalMove, handleVerticalMove } = usePipeineContext();
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const selectorDealIdsForStage = useMemo(() => makeSelectorDealIdsForStage(), []);
-  const dealIds = useReduxSelector((state) => selectorDealIdsForStage(state, stage.id));
-  const stages = useReduxSelector(selectorStagesById);
+  const dealIds = useReduxSelector((state) => dealSelectors.selectIds(state));
+  const stages = useReduxSelector((state) => Object.values(stageSelectors.selectEntities(state)));
+  // const stages = useReduxSelector((selectorStagesById));
 
   const moveTaskHorizontalHandler = (destinationStage: PipelineStage) => {
     const destinationDealIndex = dealIds.length;
@@ -118,17 +118,15 @@ function ScrumboardCardOptionsBtn({ deal, dealIndex, dealStatus, isFocused, stag
                     <Popover placement="end top" className={styles.cardOptionsBtn__popover}>
                       <Menu>
                         <MenuSection>
-                          {stages
-                            .filter((s) => s !== undefined)
-                            .map((stage) => (
-                              <MenuItem
-                                key={stage.id}
-                                textValue={stage.title}
-                                onAction={() => void moveTaskHorizontalHandler(stage)}
-                                className={styles.cardOptionsBtn__menuItem}>
-                                <span>{stage.title}</span>
-                              </MenuItem>
-                            ))}
+                          {stages.map((stage) => (
+                            <MenuItem
+                              key={stage.id}
+                              textValue={stage.title}
+                              onAction={() => void moveTaskHorizontalHandler(stage)}
+                              className={styles.cardOptionsBtn__menuItem}>
+                              <span>{stage.title}</span>
+                            </MenuItem>
+                          ))}
                         </MenuSection>
                       </Menu>
                     </Popover>

@@ -74,7 +74,7 @@ export const useKanbanontext = () => {
   return context;
 };
 
-function ScrumBoard(): React.JSX.Element {
+function ScrumBoardKanban(): React.JSX.Element {
   const [focusedId, setFocusedId] = useState<KanbanTask['id']>();
   const reduxDispatch = useReduxDispatch();
   const tasksById = useReduxSelector((state) => taskSelectors.selectEntities(state));
@@ -397,4 +397,4 @@ function ScrumBoard(): React.JSX.Element {
   );
 }
 
-export default ScrumBoard;
+export default ScrumBoardKanban;

@@ -1,12 +1,12 @@
 import type { SubmitHandler } from 'react-hook-form';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
 import { GENERIC_NUMBER_RULES, GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
-import { makeSelectorDealById, updateDeal } from '@Features/scrumboard/redux/pipelineSlice';
+import { dealSelectors, updateDeal } from '@Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 
 // TEMP DEV: .
@@ -25,8 +25,7 @@ function PipelineDealUpdatePage(): React.JSX.Element {
   const { dealId, stageId } = useParams();
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const navigate = useNavigate();
-  const selectorDealById = useMemo(() => makeSelectorDealById(), []);
-  const deal = useReduxSelector((state) => (dealId ? selectorDealById(state, dealId) : undefined));
+  const deal = useReduxSelector((state) => (dealId ? dealSelectors.selectById(state, dealId) : undefined));
   const reduxDispatch = useReduxDispatch();
 
   if (!deal || !dealId || !stageId) return <Navigate to="/pipeline" replace />;

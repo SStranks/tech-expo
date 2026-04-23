@@ -10,9 +10,9 @@ import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/ad
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 import {
+  dealSelectors,
   makeSelectorDealIdsSortedForPipeline,
   moveDeal,
-  selectorDealsById,
   undoTaskMove,
   updateTaskHorizontalMove,
   updateTaskVerticalMove,
@@ -76,7 +76,7 @@ export const usePipeineContext = () => {
 function ScrumBoardPipeline(): React.JSX.Element {
   const [focusedId, setFocusedId] = useState<PipelineDeal['id']>();
   const reduxDispatch = useReduxDispatch();
-  const dealsById = useReduxSelector(selectorDealsById);
+  const dealsById = useReduxSelector((state) => dealSelectors.selectEntities(state));
 
   const getDestinationTaskOrderKey = useCallback(
     (deal: PipelineDeal, stage: PipelineStage, destinationDealIndex: number) => {

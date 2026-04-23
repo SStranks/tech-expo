@@ -55,33 +55,7 @@ type KanbanState = {
   stages: ReturnType<typeof stagesAdapter.getInitialState>;
   tasks: ReturnType<typeof tasksAdapter.getInitialState>;
   tasksByStage: { [stageId: string]: KanbanTask['id'][] };
-  // stages: { byId: { [id: string]: KanbanStage }; allIds: KanbanStage['id'][] };
-  // tasks: {
-  //   byId: { [taskId: string]: KanbanTask };
-  //   allIds: KanbanTask['id'][];
-  //   byStageId: { [stageId: string]: KanbanTask['id'][] };
-  // };
 };
-
-// const initialState: KanbanState = {
-//   error: undefined,
-//   pendingTaskMoves: {},
-//   stageOrder: initialData.columnOrder,
-//   stages: {
-//     allIds: initialData.stages.map(({ id }) => id),
-//     byId: Object.fromEntries(initialData.stages.map((stage) => [stage.id, stage])),
-//   },
-//   tasks: {
-//     allIds: initialData.tasks.map(({ id }) => id),
-//     byId: Object.fromEntries(initialData.tasks.map((task) => [task.id, task])),
-//     byStageId: Object.fromEntries(
-//       initialData.stages.map((stage) => [
-//         stage.id,
-//         initialData.tasks.filter((task) => task.stageId === stage.id).map((task) => task.id),
-//       ])
-//     ),
-//   },
-// };
 
 const initialState: KanbanState = {
   error: undefined,
@@ -159,14 +133,6 @@ const kanbanSlice = createSlice({
     //   // Find column by id; push task to column taskIds array.
     //   state.columns[columnId].taskIds.push(newTaskId);
     // },
-    // updateTask(state, action: PayloadAction<IUpdateDealPayload>) {
-    //   // NOTE:  Deal owner is currently hardcoded in PipelineDeal[Create/Update]Page.
-    //   const { taskId } = action.payload;
-    //   const { dealStage } = action.payload; // TEMP: .
-    //   const updateFields = { ...action.payload };
-
-    //   console.log(dealStage); // TEMP: . Ignored for now.
-
     deleteStage(state, action: PayloadAction<{ stageId: KanbanStage['id'] }>) {
       const { stageId } = action.payload;
       stagesAdapter.removeOne(state.stages, stageId);
@@ -211,6 +177,14 @@ const kanbanSlice = createSlice({
         changes: { title: action.payload.stageTitle },
       });
     },
+    // updateTask(state, action: PayloadAction<IUpdateDealPayload>) {
+    //   // NOTE:  Deal owner is currently hardcoded in PipelineDeal[Create/Update]Page.
+    //   const { taskId } = action.payload;
+    //   const { dealStage } = action.payload; // TEMP: .
+    //   const updateFields = { ...action.payload };
+
+    //   console.log(dealStage); // TEMP: . Ignored for now.
+    // },
     updateTaskHorizontalMove(state, action: PayloadAction<MoveTaskPayload>) {
       const { destinationDealOrderKey, destinationStageId, sourceTaskId } = action.payload;
       const task = state.tasks.entities[sourceTaskId];
@@ -281,9 +255,9 @@ export const {
   deleteStage,
   deleteTask,
   // createTask,
-  // updateTask,
   undoTaskMove,
   updateStage,
+  // updateTask,
   updateTaskHorizontalMove,
   updateTaskVerticalMove,
 } = actions;

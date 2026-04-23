@@ -22,8 +22,8 @@ export type PipelineStage = {
 
 export type PipelineInitialData = {
   deals: PipelineDeal[];
-  columns: PipelineStage[];
-  columnOrder: string[];
+  stages: PipelineStage[];
+  stagesOrder: string[];
 };
 
 export const initialData: PipelineInitialData = {
@@ -135,7 +135,7 @@ export const initialData: PipelineInitialData = {
     //   dealTotal: 33,
     // },
   ],
-  columns: [
+  stages: [
     {
       id: 'column-unassigned',
       title: 'unassigned',
@@ -157,5 +157,5 @@ export const initialData: PipelineInitialData = {
       isPermanent: true,
     },
   ],
-  columnOrder: ['column-new'],
+  stagesOrder: ['column-new'],
 };
