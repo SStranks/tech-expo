@@ -1,8 +1,6 @@
 /* eslint-disable perfectionist/sort-objects */
 import type { RegisterOptions } from 'react-hook-form';
 
-import { getStrength } from '@Lib/zxcvbn';
-
 export const VALIDATION_MESSAGES = {
   GENERIC_TEXT_RULES: {
     required: 'Please enter a valid string',
@@ -65,16 +63,6 @@ export const PASSWORD_RULES = {
   required: {
     value: true,
     message: VALIDATION_MESSAGES.PASSWORD_RULES.required,
-  },
-} satisfies ValidationRules;
-
-export const PASSWORD_STRENGTH_RULES = {
-  required: { message: VALIDATION_MESSAGES.PASSWORD_STRENGTH_RULES.required, value: true },
-  validate: {
-    strength: async (value: string) => {
-      const score = await getStrength(value);
-      return score === 4 || VALIDATION_MESSAGES.PASSWORD_STRENGTH_RULES.validate.strength;
-    },
   },
 } satisfies ValidationRules;
 

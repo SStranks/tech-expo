@@ -14,6 +14,7 @@ const calendarEvents = [
   },
 ];
 
+// TODO: Need to lazyLoad the heavy calendar library
 function Calendar(): React.JSX.Element {
   const reduxState = useReduxSelector((state) => state.theme.isDarkMode);
   const calendar = useCalendarApp({

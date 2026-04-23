@@ -3,7 +3,6 @@ import type { Score } from '@zxcvbn-ts/core';
 import { zxcvbnAsync, zxcvbnOptions } from '@zxcvbn-ts/core';
 import * as zxcvbnCommonPackage from '@zxcvbn-ts/language-common';
 import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en';
-import { useDeferredValue, useEffect, useState } from 'react';
 
 // https://zxcvbn-ts.github.io/zxcvbn/guide/framework-examples/#react
 
@@ -34,31 +33,4 @@ export const getStrength = async (value: string) => {
   strengthCache[value] = score;
 
   return score;
-};
-
-export const usePasswordStrength = (password: string) => {
-  const [result, setResult] = useState<Score | null>(null);
-  const deferredPassword = useDeferredValue(password);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function calculateScore() {
-      if (!deferredPassword) {
-        if (!cancelled) setResult(null);
-        return;
-      }
-
-      const score = await getStrength(deferredPassword);
-      if (!cancelled) setResult(score);
-    }
-
-    void calculateScore();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [deferredPassword]);
-
-  return result;
 };

@@ -8,11 +8,11 @@ import { Link } from 'react-router-dom';
 import IconCircleInfo from '@Components/svg/IconCircleInfo';
 import IconEye from '@Components/svg/IconEye';
 import IconPassword from '@Components/svg/IconPassword';
-import { usePasswordStrength } from '@Lib/zxcvbn';
+import usePasswordStrength from '@Features/password-strength/usePasswordStrength';
+import { PASSWORD_STRENGTH_RULES } from '@Features/password-strength/validation';
 
 import Input from '../input/Input';
 import InputUx from '../InputUx';
-import { PASSWORD_STRENGTH_RULES } from '../validationRules';
 
 import styles from './InputPasswordStrength.module.scss';
 

@@ -1,6 +1,7 @@
+import { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 
-import MarkdownEditor from '@Components/markdown-editor/MarkdownEditor';
+// import MarkdownEditor from '@Components/markdown-editor/MarkdownEditor';
 import IconArrowLeftAlt from '@Components/svg/IconArrowLeftAlt';
 import IconDocument from '@Components/svg/IconDocument';
 import IconEdit from '@Components/svg/IconEdit';
@@ -10,6 +11,10 @@ import QuoteFinancials from './components/QuoteFinancials';
 import QuoteStatusUpdater from './components/QuoteStatusUpdater';
 
 import styles from './QuoteReadPage.module.scss';
+
+const MarkdownEditor = lazy(
+  () => import(/* webpackChunkName: "markdown-editor" */ '@Components/markdown-editor/MarkdownEditor')
+);
 
 // TEMP DEV:  Values
 const quoteTitle = 'High-tech Software Platform';
@@ -89,7 +94,10 @@ function QuoteReadPage(): React.JSX.Element {
         <hr className={styles.hr} />
         <div className={styles.quoteDocument__footer}>
           <div className={styles.markdownEditor}>
-            <MarkdownEditor />
+            {/* TODO: Add a relevant fallback for MarkdownEditor */}
+            <Suspense fallback={<div>Loading editor...</div>}>
+              <MarkdownEditor />
+            </Suspense>
           </div>
         </div>
       </div>
