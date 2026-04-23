@@ -1,6 +1,6 @@
 import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 
-import type { TableAuditLog } from '@Data/MockData';
+import type { TableAuditLog as TTableAuditLog } from '@Data/MockData';
 
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
@@ -13,12 +13,12 @@ import { useReactTable } from '@Lib/tanstack';
 import styles from './TableAuditLog.module.scss';
 
 type Props = {
-  tableData: TableAuditLog[];
+  tableData: TTableAuditLog[];
 };
 
 function TableAuditLog(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<TableAuditLog[]>(tableData);
+  const [data] = useState<TTableAuditLog[]>(tableData);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
