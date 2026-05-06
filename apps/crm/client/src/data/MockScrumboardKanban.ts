@@ -1,8 +1,12 @@
 /* eslint-disable perfectionist/sort-objects */
+import type { UUID } from '@apps/crm-shared';
+
 import UserImage from '@Img/image-35.jpg';
 
+import { createMockUUID } from './utils';
+
 export type KanbanTask = {
-  id: string;
+  id: UUID;
   orderKey: string;
   stageId: KanbanStage['id'];
   userImage: string;
@@ -12,7 +16,7 @@ export type KanbanTask = {
 };
 
 export type KanbanStage = {
-  id: string;
+  id: UUID;
   title: string;
   isPermanent: boolean;
 };
@@ -20,32 +24,33 @@ export type KanbanStage = {
 export type KanbanInitialData = {
   tasks: KanbanTask[];
   stages: KanbanStage[];
-  columnOrder: string[];
+  stagesOrder: string[];
 };
+
 export const initialData: KanbanInitialData = {
   tasks: [
     {
-      id: 'task-1',
+      id: createMockUUID(),
       orderKey: '',
-      stageId: 'column-unassigned',
+      stageId: createMockUUID(),
       userImage: UserImage,
       title: 'Organize',
       date: 'May 18',
       notesTotal: 2,
     },
     {
-      id: 'task-2',
+      id: createMockUUID(),
       orderKey: '',
-      stageId: 'column-unassigned',
+      stageId: createMockUUID(),
       userImage: UserImage,
       title: 'Prepare',
       date: 'May 18',
       notesTotal: 2,
     },
     {
-      id: 'task-3',
+      id: createMockUUID(),
       orderKey: '',
-      stageId: 'column-unassigned',
+      stageId: createMockUUID(),
       userImage: UserImage,
       title: 'Finalize',
       date: 'May 18',
@@ -54,20 +59,20 @@ export const initialData: KanbanInitialData = {
   ],
   stages: [
     {
-      id: 'column-unassigned',
+      id: createMockUUID(),
       title: 'unassigned',
       isPermanent: true,
     },
     {
-      id: 'column-todo',
+      id: createMockUUID(),
       title: 'todo',
       isPermanent: false,
     },
     {
-      id: 'column-complete',
+      id: createMockUUID(),
       title: 'complete',
       isPermanent: false,
     },
   ],
-  columnOrder: ['column-todo', 'column-complete'],
+  stagesOrder: ['column-todo', 'column-complete'],
 };

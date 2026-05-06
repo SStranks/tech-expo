@@ -1,9 +1,13 @@
 /* eslint-disable perfectionist/sort-objects */
+import type { UUID } from '@apps/crm-shared';
+
 import CompanyLogo from '@Img/CompanyLogo.png';
 import UserImage from '@Img/image-35.jpg';
 
+import { createMockUUID } from './utils';
+
 export type PipelineDeal = {
-  id: string;
+  id: UUID;
   orderKey: string;
   stageId: PipelineStage['id'];
   companyLogo: string;
@@ -15,7 +19,7 @@ export type PipelineDeal = {
 };
 
 export type PipelineStage = {
-  id: string;
+  id: UUID;
   title: string;
   isPermanent: boolean;
 };
@@ -29,9 +33,9 @@ export type PipelineInitialData = {
 export const initialData: PipelineInitialData = {
   deals: [
     {
-      id: 'task1',
+      id: createMockUUID(),
       orderKey: 'a',
-      stageId: 'column-unassigned',
+      stageId: createMockUUID(),
       companyLogo: CompanyLogo,
       companyTitle: 'Microsoft',
       dealTitle: 'Bloatware Junk As Per Usual',
@@ -40,9 +44,9 @@ export const initialData: PipelineInitialData = {
       dealTotal: 12,
     },
     {
-      id: 'task2',
+      id: createMockUUID(),
       orderKey: 'd',
-      stageId: 'column-unassigned',
+      stageId: createMockUUID(),
       companyLogo: CompanyLogo,
       companyTitle: 'Apple',
       dealTitle: 'Overpriced Hardware',
@@ -51,9 +55,9 @@ export const initialData: PipelineInitialData = {
       dealTotal: 32,
     },
     {
-      id: 'task3',
+      id: createMockUUID(),
       orderKey: 'g',
-      stageId: 'column-unassigned',
+      stageId: createMockUUID(),
       companyLogo: CompanyLogo,
       companyTitle: 'Linux',
       dealTitle: 'Reasonable Product',
@@ -62,9 +66,9 @@ export const initialData: PipelineInitialData = {
       dealTotal: 27,
     },
     {
-      id: 'task4',
+      id: createMockUUID(),
       orderKey: 'j',
-      stageId: 'column-new',
+      stageId: createMockUUID(),
       companyLogo: CompanyLogo,
       companyTitle: 'Fortran',
       dealTitle: 'Oh Lord Why',
@@ -73,9 +77,9 @@ export const initialData: PipelineInitialData = {
       dealTotal: 33,
     },
     {
-      id: 'task5',
+      id: createMockUUID(),
       orderKey: 'm',
-      stageId: 'column-won',
+      stageId: createMockUUID(),
       companyLogo: CompanyLogo,
       companyTitle: 'Fortran',
       dealTitle: 'Oh Lord Why22',
@@ -84,9 +88,9 @@ export const initialData: PipelineInitialData = {
       dealTotal: 33,
     },
     {
-      id: 'task6',
+      id: createMockUUID(),
       orderKey: 'p',
-      stageId: 'column-lost',
+      stageId: createMockUUID(),
       companyLogo: CompanyLogo,
       companyTitle: 'Fortran',
       dealTitle: 'Oh Lord Why33',
@@ -137,22 +141,22 @@ export const initialData: PipelineInitialData = {
   ],
   stages: [
     {
-      id: 'column-unassigned',
+      id: createMockUUID(),
       title: 'unassigned',
       isPermanent: true,
     },
     {
-      id: 'column-new',
+      id: createMockUUID(),
       title: 'new',
       isPermanent: false,
     },
     {
-      id: 'column-won',
+      id: createMockUUID(),
       title: 'won',
       isPermanent: true,
     },
     {
-      id: 'column-lost',
+      id: createMockUUID(),
       title: 'lost',
       isPermanent: true,
     },
