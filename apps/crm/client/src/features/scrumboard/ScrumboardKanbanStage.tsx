@@ -8,7 +8,8 @@ import { useReduxSelector } from '@Redux/hooks';
 import ScrumboardAddCard from './components/ScrumboardAddCard';
 import ScrumboardColumnAddBtn from './components/ScrumboardColumnAddBtn';
 import ScrumboardColumnOptionsBtn from './components/ScrumboardColumnOptionsBtn';
-import { makeSelectorTaskIdsSortedForStage, stageSelectors } from './redux/kanbanSlice';
+import { makeSelectorTaskIdsSortedForStage } from './redux/kanban.selectors';
+import { stageSelectors } from './redux/kanban.slice';
 import ScrumboardKanbanTask from './ScrumboardKanbanTask';
 import { createKanbanStageTargetData } from './utils/pragmaticDndValidation';
 

@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { useReduxSelector } from '@Redux/hooks';
 
 import ScrumboardAddStage from './components/ScrumboardAddStage';
-import { selectorStagesByNotPermanent, selectorStagesByPermanent } from './redux/kanbanSlice';
+import { selectorStagesByNotPermanent, selectorStagesByPermanent } from './redux/kanban.selectors';
 import ScrumboardKanbanStage from './ScrumboardKanbanStage';
 import ScrumboardKanbanStageUnassigned from './ScrumboardKanbanStageUnassigned';
 

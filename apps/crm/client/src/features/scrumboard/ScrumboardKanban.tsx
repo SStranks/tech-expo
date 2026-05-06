@@ -9,17 +9,12 @@ import { getReorderDestinationIndex } from '@atlaskit/pragmatic-drag-and-drop-hi
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
-import {
-  makeSelectorTaskIdsSortedForKanban,
-  moveTask,
-  taskSelectors,
-  undoTaskMove,
-  updateTaskHorizontalMove,
-  updateTaskVerticalMove,
-} from '@Features/scrumboard/redux/kanbanSlice';
 import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 import { uiEventInsert } from '@Redux/reducers/uiSlice';
 
+import { makeSelectorTaskIdsSortedForKanban } from './redux/kanban.selectors';
+import { taskSelectors, undoTaskMove, updateTask } from './redux/kanban.slice';
+import { moveTaskThunk } from './redux/kanban.thunks';
 import ScrumboardKanbanStages from './ScrumboardKanbanStages';
 import { PRAGMATICDND_KANBAN_STAGE_TYPE, PRAGMATICDND_KANBAN_TASK_TYPE } from './types/pragmaticDndTypes';
 import { isKanbanStageTargetData, isKanbanTaskDropData } from './utils/pragmaticDndValidation';
@@ -28,8 +23,6 @@ import styles from './Scrumboard.module.scss';
 
 type TaskMove = {
   sourceTaskId: KanbanTask['id'];
-  sourceTaskOrderKey: KanbanTask['orderKey'];
-  sourceStageId: KanbanStage['id'];
   destinationTaskOrderKey: KanbanTask['orderKey'];
   destinationTaskStageId: KanbanStage['id'];
 };
@@ -110,14 +103,17 @@ function ScrumBoardKanban(): React.JSX.Element {
 
   const commitMoveWithUiFeedback = useCallback(
     async (taskMove: TaskMove, successMessage: string, errorMessage: string) => {
-      const thunk = reduxDispatch(moveTask(taskMove));
+      const { destinationTaskOrderKey, destinationTaskStageId, sourceTaskId } = taskMove;
+      const thunk = reduxDispatch(
+        moveTaskThunk({ id: sourceTaskId, orderKey: destinationTaskOrderKey, stageId: destinationTaskStageId })
+      );
       const { requestId } = thunk;
 
       try {
         await thunk.unwrap();
         dispatchUiAriaEvent(requestId, successMessage, 'polite');
       } catch {
-        reduxDispatch(undoTaskMove({ requestId }));
+        reduxDispatch(undoTaskMove({ id: sourceTaskId }));
         dispatchUiAriaEvent(requestId, errorMessage, 'assertive');
       }
     },
@@ -137,18 +133,17 @@ function ScrumBoardKanban(): React.JSX.Element {
       const destinationTaskOrderKey = getDestinationTaskOrderKey(sourceTask, sourceStage, destinationTaskIndex);
 
       reduxDispatch(
-        updateTaskVerticalMove({
-          destinationDealOrderKey: destinationTaskOrderKey,
-          sourceTaskId: sourceTask.id,
+        updateTask({
+          id: sourceTask.id,
+          orderKey: destinationTaskOrderKey,
+          stageId: sourceTask.stageId,
         })
       );
 
       const taskMove: TaskMove = {
         destinationTaskOrderKey: destinationTaskOrderKey,
         destinationTaskStageId: sourceTask.stageId,
-        sourceStageId: sourceTask.stageId,
         sourceTaskId: sourceTask.id,
-        sourceTaskOrderKey: sourceTask.orderKey,
       };
 
       await commitMoveWithUiFeedback(
@@ -173,19 +168,17 @@ function ScrumBoardKanban(): React.JSX.Element {
       const destinationTaskOrderKey = getDestinationTaskOrderKey(sourceTask, destinationStage, destinationTaskIndex);
 
       reduxDispatch(
-        updateTaskHorizontalMove({
-          destinationDealOrderKey: destinationTaskOrderKey,
-          destinationStageId: destinationStage.id,
-          sourceTaskId: sourceTask.id,
+        updateTask({
+          id: sourceTask.id,
+          orderKey: destinationTaskOrderKey,
+          stageId: destinationStage.id,
         })
       );
 
       const taskMove: TaskMove = {
         destinationTaskOrderKey: destinationTaskOrderKey,
         destinationTaskStageId: destinationStage.id,
-        sourceStageId: sourceTask.id,
         sourceTaskId: sourceTask.id,
-        sourceTaskOrderKey: sourceTask.orderKey,
       };
 
       await commitMoveWithUiFeedback(

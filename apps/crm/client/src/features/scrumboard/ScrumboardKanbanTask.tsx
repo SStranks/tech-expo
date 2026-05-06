@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import UserCircle from '@Components/general/UserCircle';
 import { useReduxSelector } from '@Redux/hooks';
 
-import { taskSelectors } from './redux/kanbanSlice';
+import { taskSelectors } from './redux/kanban.slice';
 import { useFocusContext } from './ScrumboardKanban';
 import { createKanbanTaskDropData } from './utils/pragmaticDndValidation';
 
