@@ -11,7 +11,7 @@ import UserCircle from '@Components/general/UserCircle';
 import { useReduxSelector } from '@Redux/hooks';
 
 import ScrumboardCardOptionsBtn from './components/ScrumboardCardOptionsBtn';
-import { dealSelectors } from './redux/pipelineSlice';
+import { dealSelectors } from './redux/pipeline.slice';
 import { useFocusContext } from './ScrumboardPipeline';
 import { createPipelineDealDropData } from './utils/pragmaticDndValidation';
 

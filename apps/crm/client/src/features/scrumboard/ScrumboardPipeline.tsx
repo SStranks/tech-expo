@@ -9,17 +9,12 @@ import { getReorderDestinationIndex } from '@atlaskit/pragmatic-drag-and-drop-hi
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
-import {
-  dealSelectors,
-  makeSelectorDealIdsSortedForPipeline,
-  moveDeal,
-  undoTaskMove,
-  updateTaskHorizontalMove,
-  updateTaskVerticalMove,
-} from '@Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
 import { uiEventInsert } from '@Redux/reducers/uiSlice';
 
+import { makeSelectorDealIdsSortedForPipeline } from './redux/pipeline.selectors';
+import { dealSelectors, undoDealMove, updateDeal } from './redux/pipeline.slice';
+import { moveDealThunk } from './redux/pipeline.thunks';
 import ScrumboardPipelineStages from './ScrumboardPipelineStages';
 import { PRAGMATICDND_PIPELINE_DEAL_TYPE, PRAGMATICDND_PIPELINE_STAGE_TYPE } from './types/pragmaticDndTypes';
 import { isPipelineDealDropData, isPipelineStageTargetData } from './utils/pragmaticDndValidation';
@@ -28,11 +23,10 @@ import styles from './Scrumboard.module.scss';
 
 type DealMove = {
   sourceDealId: PipelineDeal['id'];
-  sourceDealOrderKey: PipelineDeal['orderKey'];
-  sourceStageId: PipelineStage['id'];
   destinationDealOrderKey: PipelineDeal['orderKey'];
   destinationDealStageId: PipelineStage['id'];
 };
+
 type FocusContext = {
   focusedId: PipelineDeal['id'] | undefined;
   setFocusedId: React.Dispatch<React.SetStateAction<PipelineDeal['id'] | undefined>>;
@@ -109,14 +103,21 @@ function ScrumBoardPipeline(): React.JSX.Element {
 
   const commitMoveWithUiFeedback = useCallback(
     async (dealMove: DealMove, successMessage: string, errorMessage: string) => {
-      const thunk = reduxDispatch(moveDeal(dealMove));
+      const { destinationDealOrderKey, destinationDealStageId, sourceDealId } = dealMove;
+      const thunk = reduxDispatch(
+        moveDealThunk({
+          id: sourceDealId,
+          orderKey: destinationDealOrderKey,
+          stageId: destinationDealStageId,
+        })
+      );
       const { requestId } = thunk;
 
       try {
         await thunk.unwrap();
         dispatchUiAriaEvent(requestId, successMessage, 'polite');
       } catch {
-        reduxDispatch(undoTaskMove({ requestId }));
+        reduxDispatch(undoDealMove({ id: sourceDealId }));
         dispatchUiAriaEvent(requestId, errorMessage, 'assertive');
       }
     },
@@ -137,9 +138,10 @@ function ScrumBoardPipeline(): React.JSX.Element {
       const destinationDealOrderKey = getDestinationTaskOrderKey(sourceDeal, sourceStage, destinationDealIndex);
 
       reduxDispatch(
-        updateTaskVerticalMove({
-          destinationDealOrderKey,
-          sourceDealId: sourceDeal.id,
+        updateDeal({
+          id: sourceDeal.id,
+          orderKey: destinationDealOrderKey,
+          stageId: sourceDeal.stageId,
         })
       );
 
@@ -147,8 +149,6 @@ function ScrumBoardPipeline(): React.JSX.Element {
         destinationDealOrderKey,
         destinationDealStageId: sourceDeal.stageId,
         sourceDealId: sourceDeal.id,
-        sourceDealOrderKey: sourceDeal.orderKey,
-        sourceStageId: sourceDeal.stageId,
       };
 
       await commitMoveWithUiFeedback(
@@ -173,10 +173,10 @@ function ScrumBoardPipeline(): React.JSX.Element {
       const destinationDealOrderKey = getDestinationTaskOrderKey(sourceDeal, destinationStage, destinationDealIndex);
 
       reduxDispatch(
-        updateTaskHorizontalMove({
-          destinationDealOrderKey,
-          destinationStageId: destinationStage.id,
-          sourceDealId: sourceDeal.id,
+        updateDeal({
+          id: sourceDeal.id,
+          orderKey: destinationDealOrderKey,
+          stageId: destinationStage.id,
         })
       );
 
@@ -184,8 +184,6 @@ function ScrumBoardPipeline(): React.JSX.Element {
         destinationDealOrderKey,
         destinationDealStageId: destinationStage.id,
         sourceDealId: sourceDeal.id,
-        sourceDealOrderKey: sourceDeal.orderKey,
-        sourceStageId: sourceDeal.id,
       };
 
       await commitMoveWithUiFeedback(

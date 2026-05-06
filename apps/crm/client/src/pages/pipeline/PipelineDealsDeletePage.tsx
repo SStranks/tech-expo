@@ -5,8 +5,10 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
-import { deleteAllDealsInStage } from '@Features/scrumboard/redux/pipelineSlice';
 import { useReduxDispatch } from '@Redux/hooks';
+import { parseUUID } from '@Utils/routeParams';
+
+import { deleteAllDealsInStage } from '../../features/scrumboard/redux/pipeline.slice';
 
 import ScrumboardCardStyles from '@Features/scrumboard/ScrumboardCard.module.scss';
 
@@ -14,7 +16,9 @@ function PiplineDealsDeletePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
-  const { stageId } = useParams();
+  const { stageId: stageIdParam } = useParams();
+
+  const stageId = parseUUID(stageIdParam);
 
   useEffect(() => {
     if (!stageId) return;
@@ -33,7 +37,7 @@ function PiplineDealsDeletePage(): React.JSX.Element {
   };
 
   const onSubmit: SubmitHandler<Record<string, never>> = () => {
-    reduxDispatch(deleteAllDealsInStage({ stageId }));
+    reduxDispatch(deleteAllDealsInStage({ id: stageId }));
     setPortalActiveInternal(false);
     void navigate(-1);
   };

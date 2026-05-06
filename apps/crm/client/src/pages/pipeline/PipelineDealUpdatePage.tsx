@@ -6,8 +6,11 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
 import { GENERIC_NUMBER_RULES, GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
-import { dealSelectors, updateDeal } from '@Features/scrumboard/redux/pipelineSlice';
+import { updateDealThunk } from '@Features/scrumboard/redux/pipeline.thunks';
 import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
+import { parseUUID } from '@Utils/routeParams';
+
+import { dealSelectors } from '../../features/scrumboard/redux/pipeline.slice';
 
 // TEMP DEV: .
 const companiesList = [{ name: 'Microsoft' }, { name: 'Linux' }];
@@ -22,7 +25,10 @@ type FormData = {
 };
 
 function PipelineDealUpdatePage(): React.JSX.Element {
-  const { dealId, stageId } = useParams();
+  const { dealId: dealIdParam, stageId: stageIdParam } = useParams();
+  const stageId = parseUUID(stageIdParam);
+  const dealId = parseUUID(dealIdParam);
+
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const navigate = useNavigate();
   const deal = useReduxSelector((state) => (dealId ? dealSelectors.selectById(state, dealId) : undefined));
@@ -39,10 +45,10 @@ function PipelineDealUpdatePage(): React.JSX.Element {
     void navigate(-1);
   };
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    reduxDispatch(
-      updateDeal({
-        dealId,
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    await reduxDispatch(
+      updateDealThunk({
+        id: dealId,
         stageId,
         ...data,
       })

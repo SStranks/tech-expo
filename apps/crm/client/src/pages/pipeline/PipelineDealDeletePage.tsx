@@ -5,16 +5,20 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
-import { deleteDeal } from '@Features/scrumboard/redux/pipelineSlice';
+import { deleteDealThunk } from '@Features/scrumboard/redux/pipeline.thunks';
 import { useReduxDispatch } from '@Redux/hooks';
+import { parseUUID } from '@Utils/routeParams';
 
 import ScrumboardCardStyles from '@Features/scrumboard/ScrumboardCard.module.scss';
 
 function PiplineDealDeletePage(): React.JSX.Element {
+  const { dealId: dealIdParam, stageId: stageIdParam } = useParams();
+  const dealId = parseUUID(dealIdParam);
+  const stageId = parseUUID(stageIdParam);
+
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
-  const { dealId, stageId } = useParams();
 
   useEffect(() => {
     if (!dealId || !stageId) return;
@@ -32,8 +36,8 @@ function PiplineDealDeletePage(): React.JSX.Element {
     void navigate(-1);
   };
 
-  const onSubmit: SubmitHandler<Record<string, never>> = () => {
-    reduxDispatch(deleteDeal({ dealId, stageId }));
+  const onSubmit: SubmitHandler<Record<string, never>> = async () => {
+    await reduxDispatch(deleteDealThunk({ id: dealId }));
     setPortalActiveInternal(false);
     void navigate(-1);
   };

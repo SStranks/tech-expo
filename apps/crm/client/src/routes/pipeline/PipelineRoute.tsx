@@ -1,9 +1,10 @@
-import type { SearchParam } from '@Utils/searchParams';
+import type { SearchParam } from '../../utils/routeSearchParams';
 
 import { Outlet } from 'react-router-dom';
 
 import ViewportLayout from '@Layouts/ViewportLayout';
-import { createSearchParams } from '@Utils/searchParams';
+
+import { createSearchParams } from '../../utils/routeSearchParams';
 
 type StageIdentitySearch = SearchParam<'stageId'>;
 type DealIdentitySearch = SearchParam<'dealId'>;

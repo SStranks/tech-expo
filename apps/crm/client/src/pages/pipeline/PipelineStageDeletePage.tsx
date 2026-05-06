@@ -5,16 +5,21 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
-import { deleteStage, stageSelectors } from '@Features/scrumboard/redux/pipelineSlice';
+import { deleteStageThunk } from '@Features/scrumboard/redux/pipeline.thunks';
 import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
+import { parseUUID } from '@Utils/routeParams';
+
+import { stageSelectors } from '../../features/scrumboard/redux/pipeline.slice';
 
 import ScrumboardColumnStyles from '@Features/scrumboard/ScrumboardColumn.module.scss';
 
 function PiplineStageDeletePage(): React.JSX.Element {
+  const { stageId: stageIdParam } = useParams();
+  const stageId = parseUUID(stageIdParam);
+
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
-  const { stageId } = useParams();
   const stage = useReduxSelector((state) => (stageId ? stageSelectors.selectById(state, stageId) : undefined));
 
   useEffect(() => {
@@ -32,8 +37,8 @@ function PiplineStageDeletePage(): React.JSX.Element {
     void navigate(-1);
   };
 
-  const onSubmit: SubmitHandler<Record<string, never>> = () => {
-    reduxDispatch(deleteStage({ stageId }));
+  const onSubmit: SubmitHandler<Record<string, never>> = async () => {
+    await reduxDispatch(deleteStageThunk({ id: stageId }));
     setPortalActiveInternal(false);
     void navigate(-1);
   };

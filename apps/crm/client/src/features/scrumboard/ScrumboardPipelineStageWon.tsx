@@ -6,11 +6,8 @@ import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { useReduxSelector } from '@Redux/hooks';
 
 import ScrumboardColumnAddBtn from './components/ScrumboardColumnAddBtn';
-import {
-  makeSelectorDealIdsSortedForStage,
-  makeSelectorDealsTotalForStage,
-  stageSelectors,
-} from './redux/pipelineSlice';
+import { makeSelectorDealIdsSortedForStage, makeSelectorDealsTotalForStage } from './redux/pipeline.selectors';
+import { stageSelectors } from './redux/pipeline.slice';
 import ScrumboardPipelineDeal from './ScrumboardPipelineDeal';
 import { createPipelineStageTargetData } from './utils/pragmaticDndValidation';
 

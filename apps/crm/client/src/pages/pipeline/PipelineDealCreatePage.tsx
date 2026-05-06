@@ -6,8 +6,9 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
 import { GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
-import { createDeal } from '@Features/scrumboard/redux/pipelineSlice';
+import { createDealThunk } from '@Features/scrumboard/redux/pipeline.thunks';
 import { useReduxDispatch } from '@Redux/hooks';
+import { parseUUID } from '@Utils/routeParams';
 
 // TEMP DEV: .
 const companiesList = [{ name: 'Microsoft' }, { name: 'Linux' }];
@@ -26,31 +27,34 @@ function PipelineDealCreatePage(): React.JSX.Element {
   // const { columns, columnOrder } = useReduxSelector((store) => store.scrumboardPipeline);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
-  const { stageId } = useParams();
+  const { stageId: stageIdParam } = useParams();
+
+  const stageId = parseUUID(stageIdParam);
 
   if (!stageId) return <Navigate to="/pipeline" replace />;
 
   // TODO:  Make dynamic; check RHF Provider; can we change the type from { name: string } to just string[]??
   // const stageList = ['unassigned', ...columnOrder.map((columnId) => columns[columnId].title), 'won', 'lost'];
   const stageList = [{ name: 'unassigned' }, { name: 'new' }, { name: 'won' }, { name: 'lost' }];
-  // const { stageId } = dealCreateParams.parse(searchParams);
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
     void navigate(-1);
   };
 
-  const onSubmit: SubmitHandler<FormFieldData> = (data) => {
-    const { companyTitle, dealOwner, dealStage, dealTitle, dealValue } = data;
-    reduxDispatch(
-      createDeal({
+  const onSubmit: SubmitHandler<FormFieldData> = async (data) => {
+    const { companyTitle, dealTitle } = data;
+    await reduxDispatch(
+      // TODO: Complete form fields here
+      createDealThunk({
+        companyLogo: '',
         companyTitle,
-        dealOwner,
-        dealStage,
+        daysElapsed: 0,
         dealTitle,
         dealTotal: 0,
-        dealValue,
+        orderKey: '',
         stageId,
+        userImage: '',
       })
     );
     setPortalActiveInternal(false);

@@ -6,18 +6,23 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
 import { GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
-import { stageSelectors, updateStage } from '@Features/scrumboard/redux/pipelineSlice';
+import { updateStageThunk } from '@Features/scrumboard/redux/pipeline.thunks';
 import { useReduxDispatch, useReduxSelector } from '@Redux/hooks';
+import { parseUUID } from '@Utils/routeParams';
+
+import { stageSelectors } from '../../features/scrumboard/redux/pipeline.slice';
 
 type FormFieldData = {
   stageTitle: string;
 };
 
 function PipelineStageUpdatePage(): React.JSX.Element {
+  const { stageId: stageIdParam } = useParams();
+  const stageId = parseUUID(stageIdParam);
+
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
-  const { stageId } = useParams();
   const stage = useReduxSelector((state) => (stageId ? stageSelectors.selectById(state, stageId) : undefined));
 
   if (!stageId || !stage) return <Navigate to="/pipeline" replace />;
@@ -27,9 +32,8 @@ function PipelineStageUpdatePage(): React.JSX.Element {
     void navigate(-1);
   };
 
-  const onSubmit: SubmitHandler<FormFieldData> = (data) => {
-    const { stageTitle } = data;
-    reduxDispatch(updateStage({ stageId, stageTitle }));
+  const onSubmit: SubmitHandler<FormFieldData> = async (data) => {
+    await reduxDispatch(updateStageThunk({ id: stage.id, title: data.stageTitle }));
     setPortalActiveInternal(false);
     void navigate(-1);
   };

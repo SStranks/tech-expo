@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
 import { GENERIC_TEXT_RULES } from '@Components/react-hook-form/validationRules';
-import { createStage } from '@Features/scrumboard/redux/pipelineSlice';
+import { createStageThunk } from '@Features/scrumboard/redux/pipeline.thunks';
 import { useReduxDispatch } from '@Redux/hooks';
 
 type FormFieldData = {
@@ -23,8 +23,8 @@ function PipelineStageCreatePage(): React.JSX.Element {
     void navigate(-1);
   };
 
-  const onSubmit: SubmitHandler<FormFieldData> = (data) => {
-    reduxDispatch(createStage({ title: data.title }));
+  const onSubmit: SubmitHandler<FormFieldData> = async (data) => {
+    await reduxDispatch(createStageThunk({ title: data.title }));
     setPortalActiveInternal(false);
     void navigate(-1);
   };

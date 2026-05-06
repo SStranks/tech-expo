@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { useReduxSelector } from '@Redux/hooks';
 
 import ScrumboardAddStage from './components/ScrumboardAddStage';
-import { selectorStagesByNotPermanent, selectorStagesByPermanent } from './redux/pipelineSlice';
+import { selectorStagesByNotPermanent, selectorStagesByPermanent } from './redux/kanban.selectors';
 import ScrumboardPipelineStage from './ScrumboardPipelineStage';
 import ScrumboardPipelineStageLost from './ScrumboardPipelineStageLost';
 import ScrumboardPipelineStageUnassigned from './ScrumboardPipelineStageUnassigned';
@@ -18,11 +18,9 @@ function ScrumboardPipelineStages(): React.JSX.Element {
   return (
     <div className={styles.columns}>
       <ScrumboardPipelineStageUnassigned stageId={permanentStages['unassigned'].id} />
-      {userCreatedStages
-        .filter((stage) => stage !== undefined)
-        .map((stage) => {
-          return <ScrumboardPipelineStage key={stage.id} stageId={stage.id} />;
-        })}
+      {userCreatedStages.map((stage) => {
+        return <ScrumboardPipelineStage key={stage.id} stageId={stage.id} />;
+      })}
       <ScrumboardAddStage />
       <ScrumboardPipelineStageWon stageId={permanentStages['won'].id} />
       <ScrumboardPipelineStageLost stageId={permanentStages['lost'].id} />
