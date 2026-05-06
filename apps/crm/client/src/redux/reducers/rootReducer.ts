@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
 import themeReducer from '@Features/header/features/theme/redux/themeSlice';
-import kanbanReducer from '@Features/scrumboard/redux/kanbanSlice';
-import pipelineReducer from '@Features/scrumboard/redux/pipelineSlice';
+import kanbanReducer from '@Features/scrumboard/redux/kanban.slice';
+import pipelineReducer from '@Features/scrumboard/redux/pipeline.slice';
 
 import authReducer from './authSlice';
 import requestReducer from './requestSlice';
