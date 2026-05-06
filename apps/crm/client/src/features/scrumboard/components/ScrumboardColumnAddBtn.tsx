@@ -1,3 +1,5 @@
+import type { UUID } from '@apps/crm-shared';
+
 import { Link } from 'react-router-dom';
 
 import IconOperatorPlus from '@Components/svg/IconOperatorPlus';
@@ -6,7 +8,7 @@ import styles from './ScrumboardColumnAddBtn.module.scss';
 
 type Props = {
   columnStyle?: 'won' | 'lost';
-  stageId: string;
+  stageId: UUID;
 };
 
 function ScrumboardColumnAddBtn({ columnStyle, stageId }: Props): React.JSX.Element {

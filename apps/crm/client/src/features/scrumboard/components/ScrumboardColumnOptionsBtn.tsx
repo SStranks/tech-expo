@@ -1,3 +1,5 @@
+import type { UUID } from '@apps/crm-shared';
+
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from 'react-aria-components';
 
 import IconDelete from '@Components/svg/IconDelete';
@@ -7,7 +9,7 @@ import IconMenuDots from '@Components/svg/IconMenuDots';
 import styles from './ScrumboardColumnOptionsBtn.module.scss';
 
 type Props = {
-  stageId: string;
+  stageId: UUID;
 };
 
 function ScrumboardColumnOptionsBtn({ stageId }: Props): React.JSX.Element {

@@ -20,7 +20,8 @@ import IconEye from '@Components/svg/IconEye';
 import IconMenuDots from '@Components/svg/IconMenuDots';
 import { useReduxSelector } from '@Redux/hooks';
 
-import { dealSelectors, stageSelectors } from '../redux/pipelineSlice';
+import { selectorPipelineStages } from '../redux/pipeline.selectors';
+import { dealSelectors } from '../redux/pipeline.slice';
 import { usePipeineContext } from '../ScrumboardPipeline';
 
 import styles from './ScrumboardCardOptionsBtn.module.scss';
@@ -46,8 +47,7 @@ function ScrumboardCardOptionsBtn({ deal, dealIndex, dealStatus, isFocused, stag
   const { handleHorizontalMove, handleVerticalMove } = usePipeineContext();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const dealIds = useReduxSelector((state) => dealSelectors.selectIds(state));
-  const stages = useReduxSelector((state) => Object.values(stageSelectors.selectEntities(state)));
-  // const stages = useReduxSelector((selectorStagesById));
+  const stages = useReduxSelector(selectorPipelineStages);
 
   const moveTaskHorizontalHandler = (destinationStage: PipelineStage) => {
     const destinationDealIndex = dealIds.length;

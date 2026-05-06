@@ -1,9 +1,11 @@
+import type { UUID } from '@apps/crm-shared';
+
 import { Link } from 'react-router-dom';
 
 import styles from './ScrumboardAddCard.module.scss';
 
 type Props = {
-  stageId: string;
+  stageId: UUID;
 };
 
 function ScrumboardAddCard({ stageId }: Props): React.JSX.Element {
