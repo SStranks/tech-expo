@@ -17,9 +17,8 @@ import type {
   UpdateStageThunkReturn,
 } from './pipeline.types';
 
+import { toUUID } from '@apps/crm-shared/utils';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-
-import { toUUID } from '@Types/uuid';
 
 import { randomUUID } from 'node:crypto';
 

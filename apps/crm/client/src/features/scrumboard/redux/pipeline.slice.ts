@@ -23,10 +23,10 @@ import type {
   UpdateStagePayload,
 } from './pipeline.types';
 
+import { toUUID } from '@apps/crm-shared/utils';
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
 import { initialData } from '@Data/MockScrumboardPipeline';
-import { toUUID } from '@Types/uuid';
 
 import {
   createDealThunk,

@@ -1,4 +1,4 @@
 import type { UUID } from '@apps/crm-shared';
 
-export type QuoteNoteId = UUID & { readonly __quoteNoteId: unique symbol };
-export type QuoteNoteClientId = UUID & { readonly __quoteNoteClientId: unique symbol };
+export type QuoteNoteId = UUID & { readonly __quoteNoteId: 'QuoteNoteId' };
+export type QuoteNoteClientId = UUID & { readonly __quoteNoteClientId: 'QuoteNoteClientId' };

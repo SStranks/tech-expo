@@ -12,9 +12,9 @@ import type { CalendarCategoryId } from './category/category.types.js';
 import type { PersistedCalendarEvent } from './event/event.js';
 import type { CalendarEventId } from './event/event.types.js';
 
-export type CalendarId = UUID & { readonly __calendarId: unique symbol };
+export type CalendarId = UUID & { readonly __calendarId: 'CalendarId' };
 
-export type CalendarClientId = UUID & { readonly __calendarClientId: unique symbol };
+export type CalendarClientId = UUID & { readonly __calendarClientId: 'CalendarClientId' };
 
 export type InitialCalendarCommand = {
   calendarId: CalendarId;

@@ -19,8 +19,8 @@ export const CONTACT_STAGE = [
   'CHURNED',
 ] as const;
 
-export type ContactId = UUID & { readonly __contactId: unique symbol };
-export type ContactClientId = UUID & { readonly __contactClientId: unique symbol };
+export type ContactId = UUID & { readonly __contactId: 'ContactId' };
+export type ContactClientId = UUID & { readonly __contactClientId: 'ContactClientId' };
 
 export type CreateContactCommand = {
   firstName: string;

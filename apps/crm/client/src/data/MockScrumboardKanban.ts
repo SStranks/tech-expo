@@ -1,9 +1,9 @@
 /* eslint-disable perfectionist/sort-objects */
 import type { UUID } from '@apps/crm-shared';
 
-import UserImage from '@Img/image-35.jpg';
+import { createMockUUID } from '@apps/crm-shared/utils';
 
-import { createMockUUID } from './utils';
+import UserImage from '@Img/image-35.jpg';
 
 export type KanbanTask = {
   id: UUID;

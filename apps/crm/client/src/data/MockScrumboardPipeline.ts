@@ -1,10 +1,10 @@
 /* eslint-disable perfectionist/sort-objects */
 import type { UUID } from '@apps/crm-shared';
 
+import { createMockUUID } from '@apps/crm-shared/utils';
+
 import CompanyLogo from '@Img/CompanyLogo.png';
 import UserImage from '@Img/image-35.jpg';
-
-import { createMockUUID } from './utils';
 
 export type PipelineDeal = {
   id: UUID;

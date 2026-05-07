@@ -3,5 +3,5 @@ import type { UUID } from '@apps/crm-shared';
 export type QuoteStage = (typeof QUOTE_STAGE)[number];
 export const QUOTE_STAGE = ['DRAFT', 'SENT', 'ACCEPTED'] as const;
 
-export type QuoteId = UUID & { readonly __quoteId: unique symbol };
-export type QuoteClientId = UUID & { readonly __quoteClientId: unique symbol };
+export type QuoteId = UUID & { readonly __quoteId: 'QuoteId' };
+export type QuoteClientId = UUID & { readonly __quoteClientId: 'QuoteClientId' };

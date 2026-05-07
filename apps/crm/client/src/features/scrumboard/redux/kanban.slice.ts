@@ -23,10 +23,10 @@ import type {
   UpdateTaskPayload,
 } from './kanban.types';
 
+import { toUUID } from '@apps/crm-shared/utils';
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
 import { initialData } from '@Data/MockScrumboardKanban';
-import { toUUID } from '@Types/uuid';
 
 import {
   createStageThunk,
