@@ -18,7 +18,7 @@ import type {
 } from '@apps/crm-shared';
 import type { NextFunction, Request, Response } from 'express';
 
-import type { AuthenticatedLocals } from '#Types/express.js';
+import type { AuthenticatedLocals } from '#Types/express/index.d.ts';
 
 import validator from 'validator';
 

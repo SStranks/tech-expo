@@ -1,11 +1,11 @@
 import type { UserRoles, UUID } from '@apps/crm-shared';
 
-import 'express';
-
-declare module 'express-serve-static-core' {
-  interface Request {
-    authJWT?: string;
-    refreshJWT?: string;
+declare global {
+  namespace Express {
+    export interface Request {
+      authJWT?: string;
+      refreshJWT?: string;
+    }
   }
 }
 

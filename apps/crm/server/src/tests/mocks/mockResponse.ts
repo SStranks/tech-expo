@@ -1,4 +1,4 @@
-import type { AuthenticatedLocals } from '#Types/express.js';
+import type { AuthenticatedLocals } from '#Types/express/index.js';
 import type { Response } from 'express';
 
 import httpMocks from 'node-mocks-http';
