@@ -20,7 +20,7 @@ await connectRedisDB();
 // ------------------------------------------------------------------------
 
 import httpServer from '#App/httpServer.js';
-import '#App/app';
+import '#App/app.js';
 import { apolloServer } from '#Graphql/apolloServer.js';
 
 httpServer.listen(PORT, () => {

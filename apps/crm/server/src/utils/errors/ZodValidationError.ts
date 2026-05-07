@@ -55,6 +55,10 @@ export default class ZodValidationError extends CustomError {
     return result;
   }
 
+  get code() {
+    return this._code;
+  }
+
   get treeErrors() {
     return z.treeifyError(this._zod.error);
   }

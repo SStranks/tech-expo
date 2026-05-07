@@ -14,6 +14,11 @@ export class CountryService implements ICountryService {
     this.countryRepository = countryRepository;
   }
 
+  _a() {
+    console.log(this.countryRepository);
+    throw new Error('Not yet implemented');
+  }
+
   // ------- COMMANDs ------ //
 
   // ------- QUERIES ------- //

@@ -2,7 +2,7 @@ import type { ApiResponseError, ApiResponseSuccess } from '@apps/crm-shared';
 import type { Response } from 'supertest';
 
 import request from 'supertest';
-import { describe, test, vi } from 'vitest';
+import { afterEach, describe, test, vi } from 'vitest';
 
 import mockUser from '#Tests/mocks/mockUser.js';
 

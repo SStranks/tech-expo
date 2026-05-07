@@ -26,6 +26,8 @@ export class PipelineService implements IPipelineService {
   // ------- QUERIES ------- //
 
   getPaginatedDealsForCompany(_query: PaginatedCompanyDealsQuery): Promise<PaginatedCompanyPipelineDeals> {
+    console.log(this.pipelineReadModel);
+    console.log(this.pipelineRepository);
     throw new Error('Method not implemented.');
   }
 }

@@ -48,14 +48,14 @@ export const insertCalendarCategoriesSchema = createInsertSchema(CalendarCategor
   .transform((v) => ({
     ...v,
     calendarId: v.calendarId as UUID,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarCategoryClientId) : null,
+    clientTemporaryId: v.clientTemporaryId as CalendarCategoryClientId | null,
   }));
 
 export const selectCalendarCategoriesSchema = createSelectSchema(CalendarCategoriesTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
   calendarId: v.calendarId as UUID,
-  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarCategoryClientId) : null,
+  clientTemporaryId: v.clientTemporaryId as CalendarCategoryClientId | null,
 }));
 
 export const updateCalendarCategoriesSchema = createInsertSchema(CalendarCategoriesTable)
@@ -64,7 +64,7 @@ export const updateCalendarCategoriesSchema = createInsertSchema(CalendarCategor
   .transform((v) => ({
     ...v,
     calendarId: v.calendarId as UUID,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarCategoryClientId) : null,
+    clientTemporaryId: v.clientTemporaryId as CalendarCategoryClientId | null,
   }));
 
 export type InsertCalendarCategoriesSchema = z.infer<typeof insertCalendarCategoriesSchema>;

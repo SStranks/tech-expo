@@ -426,7 +426,7 @@ const activateRefreshToken = async (
 
   let JWT;
   if (authorization && authorization.startsWith('Bearer')) {
-    JWT = authorization.split(' ')[1];
+    JWT = authorization.split(' ')[1] as string;
   } else if (req.authJWT) {
     JWT = req.authJWT;
   } else {

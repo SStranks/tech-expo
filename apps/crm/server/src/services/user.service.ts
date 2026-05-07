@@ -15,7 +15,6 @@ import { env } from '#Config/env.js';
 import { UserTable } from '#Config/schema/user/User.js';
 import UserRefreshTokensTable from '#Config/schema/user/UserRefreshTokens.js';
 import { secrets } from '#Config/secrets.js';
-import { toDbUUID } from '#Helpers/helpers.js';
 import AppError from '#Utils/errors/AppError.js';
 import BadRequestError from '#Utils/errors/BadRequestError.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
@@ -53,7 +52,7 @@ export class UserService {
   };
 
   signRefreshTokenPayload = (client_id: UUID, iat: number) => {
-    const jti = crypto.randomUUID();
+    const jti = crypto.randomUUID() as UUID;
     const exp = Math.floor((Date.now() + ms(JWT_REFRESH_EXPIRES)) / 1000);
     const acc = 0; // Incrementer; Parent-Child token chain
 
@@ -121,7 +120,7 @@ export class UserService {
       .set({ activated: true })
       .where(
         and(
-          eq(UserRefreshTokensTable.userId, toDbUUID(client_id)),
+          eq(UserRefreshTokensTable.userId, client_id),
           eq(UserRefreshTokensTable.iat, iat),
           eq(UserRefreshTokensTable.activated, false)
         )
@@ -144,22 +143,19 @@ export class UserService {
   deleteAllRefreshTokens = async (client_id: UUID) => {
     return this.postgresClient
       .delete(UserRefreshTokensTable)
-      .where(eq(UserRefreshTokensTable.userId, toDbUUID(client_id)))
+      .where(eq(UserRefreshTokensTable.userId, client_id))
       .returning({ exp: UserRefreshTokensTable.exp, jti: UserRefreshTokensTable.jti });
   };
 
   queryRefreshToken = async (client_id: UUID, jti: UUID) => {
     return this.postgresClient.query.UserRefreshTokensTable.findFirst({
       columns: { acc: true, activated: true, exp: true, iat: true, jti: true },
-      where: (table, { and, eq }) => and(eq(table.userId, toDbUUID(client_id)), eq(table.jti, toDbUUID(jti))),
+      where: (table, { and, eq }) => and(eq(table.userId, client_id), eq(table.jti, jti)),
     });
   };
 
   insertRefreshToken = async (refreshTokenPayload: RefreshTokenPayload) => {
-    let { client_id, jti } = refreshTokenPayload;
-    const { acc, exp, iat } = refreshTokenPayload;
-    jti = toDbUUID(jti);
-    client_id = toDbUUID(client_id);
+    const { acc, client_id, exp, iat, jti } = refreshTokenPayload;
 
     await this.postgresClient.insert(UserRefreshTokensTable).values({ acc, exp, iat, jti, userId: client_id });
   };
@@ -168,9 +164,7 @@ export class UserService {
     await this.postgresClient
       .update(UserRefreshTokensTable)
       .set({ acc, activated, iat })
-      .where(
-        and(eq(UserRefreshTokensTable.userId, toDbUUID(client_id)), eq(UserRefreshTokensTable.jti, toDbUUID(jti)))
-      );
+      .where(and(eq(UserRefreshTokensTable.userId, client_id), eq(UserRefreshTokensTable.jti, jti)));
   };
 
   createAuthCookie = (res: Response, authToken: string) => {
@@ -346,10 +340,15 @@ export class UserService {
     // A+R tokens are issued at same IAT (login and generateAuthToken routes)
     // Use A token to find R; blacklist R
     const { client_id, iat } = this.verifyAuthToken(authTokenJWT);
-    const [{ exp, jti }] = await this.postgresClient
+    const rows = await this.postgresClient
       .delete(UserRefreshTokensTable)
-      .where(and(eq(UserRefreshTokensTable.userId, toDbUUID(client_id)), eq(UserRefreshTokensTable.iat, iat)))
+      .where(and(eq(UserRefreshTokensTable.userId, client_id), eq(UserRefreshTokensTable.iat, iat)))
       .returning({ exp: UserRefreshTokensTable.exp, jti: UserRefreshTokensTable.jti });
+
+    if (rows.length !== 1 || !rows[0])
+      throw new BadRequestError({ logging: true, message: 'Invalid user credentials' });
+    const { exp, jti } = rows[0];
+
     await this.redisClient.set(`${jti}`, 'Blacklisted', { EXAT: exp });
     await this.blacklistToken(jti, exp);
   }
@@ -397,7 +396,7 @@ export class UserService {
       .where(eq(UserTable.id, userId));
   }
 
-  async forgotPassword(email: string): Promise<string> {
+  async forgotPassword(email: string) {
     // Generate reset token
     const resetToken = crypto.randomBytes(64).toString('hex');
     const hashedResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
@@ -405,7 +404,7 @@ export class UserService {
 
     // Update user entry
     const TIMESTAMP = new Date(Date.now());
-    const [{ userId }] = await this.postgresClient
+    const user = await this.postgresClient
       .update(UserTable)
       .set({
         accountUpdatedAt: TIMESTAMP,
@@ -415,7 +414,7 @@ export class UserService {
       .where(eq(UserTable.email, email))
       .returning({ userId: UserTable.id });
 
-    if (!userId) throw new BadRequestError({ message: 'Invalid account' });
+    if (user.length !== 1) throw new BadRequestError({ logging: true, message: 'Invalid account' });
     return resetToken;
   }
 }

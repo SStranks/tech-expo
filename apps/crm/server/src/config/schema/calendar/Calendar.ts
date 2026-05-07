@@ -44,14 +44,14 @@ export const insertCalendarSchema = createInsertSchema(CalendarTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarClientId) : null,
+    clientTemporaryId: v.clientTemporaryId ?? null,
     companyId: v.companyId as UUID,
   }));
 
 export const selectCalendarSchema = createSelectSchema(CalendarTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarClientId) : null,
+  clientTemporaryId: v.clientTemporaryId as CalendarClientId | null,
   companyId: v.companyId as UUID,
 }));
 
@@ -61,7 +61,7 @@ export const updateCalendarSchema = createInsertSchema(CalendarTable)
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarClientId) : null,
+    clientTemporaryId: v.clientTemporaryId as CalendarClientId | null,
     companyId: v.companyId as UUID,
   }));
 

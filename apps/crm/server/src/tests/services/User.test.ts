@@ -65,7 +65,7 @@ describe('Signing Tokens: Auth Token', () => {
       const jwt_decoded = jwt.verify(jwt_encoded, JWT_AUTH_SECRET) as JwtPayload;
       expect(jwt_decoded.jti).toEqual(jti);
     } catch {
-      fail('JWT Signature Failure');
+      throw new Error('JWT Signature Failure');
     }
   });
 });
@@ -89,7 +89,7 @@ describe('Signing Tokens: Refresh Token', () => {
     const jwt_encoded = userService.signRefreshToken(userId, iat, token_payload);
 
     const refreshTokenPayload = jwt.decode(jwt_encoded) as RefreshTokenPayload | null;
-    if (!refreshTokenPayload) fail('JWT Encoding failed');
+    if (!refreshTokenPayload) throw new Error('JWT Encoding failed');
 
     expect(refreshTokenPayload['client_id']).toEqual(userId);
     expect(refreshTokenPayload.acc).toEqual(acc);
@@ -100,9 +100,9 @@ describe('Signing Tokens: Refresh Token', () => {
 
   test('Sign Refresh Token - is signature valid', () => {
     const jwt_encoded = userService.signRefreshToken(userId, iat, token_payload);
-    const refreshTokenPayload = jwt.verify(jwt_encoded, JWT_REFRESH_SECRET) as RefreshTokenPayload | null;
-    if (!refreshTokenPayload) fail('JWT Encoding failed');
+    const refreshTokenPayload = jwt.verify(jwt_encoded, JWT_REFRESH_SECRET) as RefreshTokenPayload;
 
+    expect(refreshTokenPayload).toBeDefined();
     expect(refreshTokenPayload.jti).toEqual(jti);
   });
 });

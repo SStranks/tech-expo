@@ -57,7 +57,7 @@ export const insertCalendarEventsSchema = createInsertSchema(CalendarEventsTable
     ...v,
     calendarId: v.calendarId as UUID,
     categoryId: v.categoryId as UUID,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarEventClientId) : null,
+    clientTemporaryId: v.clientTemporaryId as CalendarEventClientId | null,
   }));
 
 export const selectCalendarEventsSchema = createSelectSchema(CalendarEventsTable).transform((v) => ({
@@ -65,7 +65,7 @@ export const selectCalendarEventsSchema = createSelectSchema(CalendarEventsTable
   id: v.id as UUID,
   calendarId: v.calendarId as UUID,
   categoryId: v.categoryId as UUID,
-  clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarEventClientId) : null,
+  clientTemporaryId: v.clientTemporaryId as CalendarEventClientId | null,
 }));
 
 export const updateCalendarEventsSchema = createInsertSchema(CalendarEventsTable)
@@ -76,7 +76,7 @@ export const updateCalendarEventsSchema = createInsertSchema(CalendarEventsTable
     id: v.id as UUID,
     calendarId: v.calendarId as UUID,
     categoryId: v.categoryId as UUID,
-    clientTemporaryId: v.clientTemporaryId ? (v.clientTemporaryId as CalendarEventClientId) : null,
+    clientTemporaryId: v.clientTemporaryId as CalendarEventClientId | null,
   }));
 
 export type InsertCalendarEventsSchema = z.infer<typeof insertCalendarEventsSchema>;

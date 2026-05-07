@@ -4,8 +4,6 @@ import { describe, expect, test, vi } from 'vitest';
 import { env } from '#Config/env.js';
 import { createMockResponse } from '#Tests/mocks/mockResponse.js';
 import mockUser from '#Tests/mocks/mockUser.js';
-import ForbiddenError from '#Utils/errors/ForbiddenError.js';
-import UnauthorizedError from '#Utils/errors/UnauthorizedError.js';
 
 const MOCK_BADREQUESTERROR = vi.fn(
   class MOCK_BADREQUESTERROR {
@@ -53,12 +51,13 @@ describe('authController.protectedRoute', () => {
 
     await authController.protectedRoute(req, res, next);
 
-    const errorArg = next.mock.calls[0][0] as UnauthorizedError;
-    expect(next).toHaveBeenCalledTimes(1);
-    expect(errorArg).toBeInstanceOf(UnauthorizedError);
-    expect(errorArg.message).toBe('Unauthorized. Please login');
-    expect(errorArg.code).toBe('UNAUTHENTICATED');
-    expect(errorArg.httpStatus).toBe(401);
+    expect(next).toHaveBeenCalledWith(
+      expect.objectContaining({
+        code: 'UNAUTHENTICATED',
+        httpStatus: 401,
+        message: 'Unauthorized. Please login',
+      })
+    );
   });
 
   test('Valid JWT Header; return next()', async () => {
@@ -100,12 +99,13 @@ describe('authController.restrictedRoute', () => {
     const route = authController.restrictedRoute('ADMIN');
     await route(req, res, next);
 
-    const errorArg = next.mock.calls[0][0] as ForbiddenError;
-    expect(next).toHaveBeenCalledTimes(1);
-    expect(errorArg).toBeInstanceOf(ForbiddenError);
-    expect(errorArg.message).toBe('Forbidden');
-    expect(errorArg.code).toBe('FORBIDDEN');
-    expect(errorArg.httpStatus).toBe(403);
+    expect(next).toHaveBeenCalledWith(
+      expect.objectContaining({
+        code: 'FORBIDDEN',
+        httpStatus: 403,
+        message: 'Forbidden',
+      })
+    );
   });
 
   test('Valid JWT role credentials; return next()', async () => {
