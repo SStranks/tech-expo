@@ -68,7 +68,7 @@ export default async function seedUsers(db: PostgresClient) {
       lastName: user.lastName,
       mobile: user.mobile,
       telephone: user.telephone,
-      timezoneId: primaryCompany.country.timezone[0].id,
+      timezoneId: primaryCompany.country.timezone[0]?.id,
       userId: user.userId,
     });
   });
@@ -83,7 +83,7 @@ export default async function seedUsers(db: PostgresClient) {
       lastName: user.lastName,
       mobile: user.mobile,
       telephone: user.telephone,
-      timezoneId: primaryCompany.country.timezone[0].id,
+      timezoneId: primaryCompany.country.timezone[0]?.id,
       userId: user.userId,
     });
   });

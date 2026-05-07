@@ -57,6 +57,8 @@ export function generateContactNotes(
     const userName = users[i - 1]?.firstName;
     comment = replaceCommentPlaceholders(comment, { companyName, contactName, industry, userName });
 
+    if (users[i] === undefined) throw new Error(`generateContactNotes: users[${i}] undefined`);
+
     const contactNote: ContactsNotesTableInsert = {
       contactId: contact.id,
       createdAt: commentsCreatedAt[i],

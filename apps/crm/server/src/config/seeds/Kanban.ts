@@ -55,6 +55,8 @@ export default async function seedKanban(db: PostgresClient) {
     .values(kanbanInsertionData)
     .returning({ kanbanId: KanbanTable.id });
 
+  if (kanbanTableReturnData[0] === undefined) throw new Error('seedKanban: kanbanTableReturnData[0] undefined');
+
   const PRIMARY_COMPANY_KANBAN_ID = kanbanTableReturnData[0].kanbanId;
 
   // ------------ KANBAN-STAGES TABLE ------------ //

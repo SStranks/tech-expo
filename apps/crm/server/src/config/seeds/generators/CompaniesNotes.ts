@@ -31,6 +31,8 @@ export function generateCompaniesNotes(company: CompaniesQueryCompaniesNotes, al
     const userName = userIds[i - 1]?.firstName;
     comment = replaceCommentPlaceholders(comment, { companyName: name, industry, userName });
 
+    if (userIds[i] === undefined) throw new Error(`generateCompaniesNotes: userIds[${i}] undefined`);
+
     const companyNote: CompaniesNotesTableInsert = {
       companyId: company.id,
       createdAt: commentsCreatedAt[i],

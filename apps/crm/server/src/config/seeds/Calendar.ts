@@ -44,6 +44,8 @@ export default async function seedCalendar(db: PostgresClient) {
     .values(calendarInsertionData)
     .returning({ calendarId: CalendarTable.id });
 
+  if (calendarReturnData[0] === undefined) throw new Error('seedCalendar: calendarReturnData[0] undefined');
+
   const PRIMARY_COMPANY_CALENDAR_ID = calendarReturnData[0].calendarId;
 
   // ------ CALENDAR CATEGORIES TABLE ------ //
@@ -101,7 +103,7 @@ export default async function seedCalendar(db: PostgresClient) {
       min: CALENDAR_EVENT_PARTICIPANTS_MIN,
     });
     randUserIds.forEach(({ id }) => {
-      CalendarEventsParticipantsInsertionData.push({ eventId: event.id, userId: id });
+      CalendarEventsParticipantsInsertionData.push({ eventId: event.id, userProfileId: id });
     });
   });
 

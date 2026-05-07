@@ -50,6 +50,8 @@ export default async function seedPipeline(db: PostgresClient) {
     .values(pipelineInsertionData)
     .returning({ pipelineId: PipelineTable.id });
 
+  if (pipelineTableReturnData[0] === undefined) throw new Error('seedPipeline: pipelineTableReturnData[0] undefined');
+
   const PRIMARY_COMPANY_PIPELINE_ID = pipelineTableReturnData[0].pipelineId;
 
   // ------------- PIPELINE-STAGES TABLE ------------ //

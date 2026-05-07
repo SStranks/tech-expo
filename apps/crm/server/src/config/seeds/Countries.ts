@@ -6,7 +6,6 @@ import type { TimeZoneTableInsert } from '#Config/schema/TimeZones.ts';
 
 import CountriesTable from '#Config/schema/Countries.js';
 import TimeZoneTable from '#Config/schema/TimeZones.js';
-import { toDbUUID } from '#Helpers/helpers.js';
 import importCSVFile from '#Utils/importCsvFile.js';
 
 import path from 'node:path';
@@ -33,15 +32,18 @@ export default async function seedCountries(db: PostgresClient) {
 
   // Create dictionary of alpha-2 codes and country IDs
   const countriesDict = countriesInsertReturnData.reduce<{ [key: string]: UUID }>((acc, cur) => {
-    acc[cur.alpha2code] = toDbUUID(cur.id);
+    acc[cur.alpha2code] = cur.id;
     return acc;
   }, {});
 
   // NOTE:  Countries can have more than one time-zone; separated tables for countries and time-zones.
   timeZonesCSVData.forEach((entry) => {
+    const countryId = countriesDict[`${entry.alpha2Code}`];
+    if (countryId === undefined) throw new Error(`seedCountries: countriesDict[${entry.alpha2Code}]`);
+
     timeZonesInsertionData.push({
       ...entry,
-      countryId: countriesDict[`${entry.alpha2Code}`],
+      countryId,
     });
   });
 

@@ -1,4 +1,3 @@
-/* eslint-disable security/detect-object-injection */
 import { faker } from '@faker-js/faker';
 
 import { seedSettings } from '#Config/seedSettings.js';
@@ -11,6 +10,7 @@ import type { UserRoles } from '@apps/crm-shared';
 
 import type { CompanyRoles } from '#Models/domain/user/profile/profile.types.js';
 
+import { toUUID } from '@apps/crm-shared/utils';
 import argon2 from 'argon2';
 
 import { secrets } from '#Config/secrets.js';
@@ -31,7 +31,7 @@ async function generatePasswordHash() {
 await generatePasswordHash();
 
 function generateUserBase() {
-  const userId = randomUUID();
+  const userId = toUUID(randomUUID());
   const firstName = faker.person.firstName();
   const lastName = faker.person.lastName();
 
@@ -69,13 +69,14 @@ export function generateUsers() {
 
 // TODO:  Substitute in known passwords and email addresses for demo-users to utilize;
 export function generateDemoUsers() {
-  const USER_ROLES: UserRoles[] = ['ADMIN', 'MODERATOR', 'USER'];
-  const COMPANY_ROLES: CompanyRoles[] = ['ADMIN', 'SALES_MANAGER', 'SALES_PERSON'];
+  const rolePairs = [
+    ['ADMIN', 'ADMIN'],
+    ['MODERATOR', 'SALES_MANAGER'],
+    ['USER', 'SALES_PERSON'],
+  ] as const satisfies readonly [UserRoles, CompanyRoles][];
 
-  const demoUsers = Array.from({ length: USER_ROLES.length }, (_, i) => {
+  const demoUsers = rolePairs.map(([userRole, companyRole]) => {
     const userBaseData = generateUserBase();
-    const userRole = USER_ROLES[i];
-    const companyRole = COMPANY_ROLES[i];
 
     return {
       ...userBaseData,
