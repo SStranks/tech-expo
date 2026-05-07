@@ -58,7 +58,7 @@ export class PostgresCalendarReadModel implements CalendarReadModel {
 
   getCalendarEventByCalendarEventId(id: CalendarEventId): Promise<CalendarEventReturn> {
     return postgresDBCall(async () => {
-      const result = await postgresDB.query.CalendarEventsTable.findFirst({
+      const row = await postgresDB.query.CalendarEventsTable.findFirst({
         with: {
           participants: {
             columns: {},
@@ -70,8 +70,8 @@ export class PostgresCalendarReadModel implements CalendarReadModel {
         where: (calendarEvent, { eq }) => eq(calendarEvent.id, id),
       });
 
-      if (!result) throw new PostgresError({ kind: 'NOT_FOUND', message: `CalendarEvent ${id} not found` });
-      const { participants, ...event } = result;
+      if (!row) throw new PostgresError({ kind: 'NOT_FOUND', message: `CalendarEvent ${id} not found` });
+      const { participants, ...event } = row;
 
       return {
         calendarEvent: calendarEventRowToReadRow(event),

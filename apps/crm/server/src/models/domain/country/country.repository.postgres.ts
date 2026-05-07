@@ -11,11 +11,11 @@ export class PostgresCountryRepository implements CountryRepository {
 
   async findCountryById(id: CountryId): Promise<PersistedCountry | null> {
     return postgresDBCall(async () => {
-      const result = await postgresDB.query.CountriesTable.findFirst({
+      const row = await postgresDB.query.CountriesTable.findFirst({
         where: (country, { eq }) => eq(country.id, id),
       });
 
-      return result ? countryRowToDomain(result) : null;
+      return row ? countryRowToDomain(row) : null;
     });
   }
 }

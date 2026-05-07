@@ -62,8 +62,8 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
         sqlQuery = sqlQuery.where(and(...whereConditions));
       }
 
-      const [result] = await sqlQuery;
-      return result.count;
+      const [row] = await sqlQuery;
+      return row?.count ?? 0;
     });
   }
 

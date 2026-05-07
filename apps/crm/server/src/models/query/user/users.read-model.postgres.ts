@@ -39,11 +39,11 @@ export class PostgresUserReadModel implements UserReadModel {
 
   async findUserProfileByUserId(id: UserId): Promise<PersistedUserProfile | null> {
     return postgresDBCall(async () => {
-      const result = await postgresDB.query.UserProfileTable.findFirst({
+      const row = await postgresDB.query.UserProfileTable.findFirst({
         where: (userProfile, { eq }) => eq(userProfile.userId, id),
       });
 
-      return result ? userProfileRowToDomain(result) : null;
+      return row ? userProfileRowToDomain(row) : null;
     });
   }
 }

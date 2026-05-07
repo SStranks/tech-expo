@@ -30,10 +30,10 @@ export class PostgresCalendarRepository implements CalendarRepository {
 
   async findCalendarById(id: CalendarId): Promise<PersistedCalendar | null> {
     return postgresDBCall(async () => {
-      const result = await postgresDB.query.CalendarTable.findFirst({
+      const row = await postgresDB.query.CalendarTable.findFirst({
         where: (calendar, { eq }) => eq(calendar.id, id),
       });
-      return result ? calendarRowToDomain(result) : null;
+      return row ? calendarRowToDomain(row) : null;
     });
   }
 
@@ -58,28 +58,32 @@ export class PostgresCalendarRepository implements CalendarRepository {
 
   async remove(id: CalendarId): Promise<CalendarId> {
     return postgresDBCall(async () => {
-      const result = await postgresDB
+      const rows = await postgresDB
         .delete(CalendarTable)
         .where(eq(CalendarTable.id, id))
         .returning({ id: CalendarTable.id });
 
-      if (result.length === 0) throw new PostgresError({ kind: 'NOT_FOUND', message: `Calendar ${id} not found` });
-      if (result.length > 1)
+      if (rows.length === 0 || rows[0] === undefined)
+        throw new PostgresError({ kind: 'NOT_FOUND', message: `Calendar ${id} not found` });
+      if (rows.length > 1)
         throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Invariant violation: multiple calendars deleted' });
 
-      return asCalendarId(result[0].id);
+      return asCalendarId(rows[0].id);
     });
   }
 
   private async insert(tx: PostgresTransaction, calendar: NewCalendar): Promise<PersistedCalendar> {
-    const [row] = await tx
+    const rows = await tx
       .insert(CalendarTable)
       .values({
         companyId: calendar.companyId,
       })
       .returning();
 
-    return Calendar.promote(calendar, { id: asCalendarId(row.id), createdAt: row.createdAt });
+    if (rows.length === 0 || rows[0] === undefined)
+      throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Failed to create Calendar' });
+
+    return Calendar.promote(calendar, { id: asCalendarId(rows[0].id), createdAt: rows[0].createdAt });
   }
 
   private async update(tx: PostgresTransaction, calendar: PersistedCalendar): Promise<PersistedCalendar> {

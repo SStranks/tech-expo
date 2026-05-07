@@ -24,10 +24,10 @@ export class PostgresCompanyRepository implements CompanyRepository {
 
   async findCompanyById(id: CompanyId): Promise<PersistedCompany | null> {
     return postgresDBCall(async () => {
-      const result = await postgresDB.query.CompaniesTable.findFirst({
+      const row = await postgresDB.query.CompaniesTable.findFirst({
         where: (company, { eq }) => eq(company.id, id),
       });
-      return result ? companyRowToDomain(result) : null;
+      return row ? companyRowToDomain(row) : null;
     });
   }
 
@@ -50,22 +50,23 @@ export class PostgresCompanyRepository implements CompanyRepository {
 
   async remove(id: CompanyId): Promise<CompanyId> {
     return postgresDBCall(async () => {
-      const result = await postgresDB
+      const rows = await postgresDB
         .delete(CompaniesTable)
         .where(eq(CompaniesTable.id, id))
         .returning({ id: CompaniesTable.id });
 
-      if (result.length === 0) throw new PostgresError({ kind: 'NOT_FOUND', message: `Company ${id} not found` });
-      if (result.length > 1)
+      if (rows.length === 0 || rows[0] === undefined)
+        throw new PostgresError({ kind: 'NOT_FOUND', message: `Company ${id} not found` });
+      if (rows.length > 1)
         throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Invariant violation: multiple companies deleted' });
 
-      return asCompanyId(result[0].id);
+      return asCompanyId(rows[0].id);
     });
   }
 
   private async insert(tx: PostgresTransaction, company: NewCompany): Promise<PersistedCompany> {
     return postgresDBCall(async () => {
-      const [row] = await tx
+      const rows = await tx
         .insert(CompaniesTable)
         .values({
           name: company.name,
@@ -78,7 +79,10 @@ export class PostgresCompanyRepository implements CompanyRepository {
         })
         .returning();
 
-      return Company.promote(company, { id: asCompanyId(row.id), createdAt: row.createdAt });
+      if (rows.length === 0 || rows[0] === undefined)
+        throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Failed to create Company' });
+
+      return Company.promote(company, { id: asCompanyId(rows[0].id), createdAt: rows[0].createdAt });
     });
   }
 
@@ -157,11 +161,11 @@ export class PostgresCompanyRepository implements CompanyRepository {
 // },
 
 // async findByIdWithCountry(id: UUID): Promise<CompanyDTOWithCountry | null> {
-//   const result = await postgresDB.query.CompaniesTable.findFirst({
+//   const row = await postgresDB.query.CompaniesTable.findFirst({
 //     columns: { country: false },
 //     with: { country: {} },
 //     where: (company, { eq }) => eq(company.id, id),
 //   });
-//   if (!result) return null;
-//   return result;
+//   if (!row) return null;
+//   return row;
 // },

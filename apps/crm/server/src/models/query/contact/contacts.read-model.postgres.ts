@@ -61,8 +61,8 @@ export class PostgresContactReadModel implements ContactReadModel {
         sqlQuery = sqlQuery.where(and(...whereConditions));
       }
 
-      const [result] = await sqlQuery;
-      return result.count;
+      const [row] = await sqlQuery;
+      return row?.count ?? 0;
     });
   }
 

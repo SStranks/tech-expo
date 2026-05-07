@@ -22,11 +22,11 @@ export class PostgresContactRepository implements ContactRepository {
 
   async findContactById(id: ContactId): Promise<PersistedContact | null> {
     return postgresDBCall(async () => {
-      const result = await postgresDB.query.ContactsTable.findFirst({
+      const row = await postgresDB.query.ContactsTable.findFirst({
         where: (contact, { eq }) => eq(contact.id, id),
       });
 
-      return result ? contactRowToDomain(result) : null;
+      return row ? contactRowToDomain(row) : null;
     });
   }
 
@@ -49,22 +49,23 @@ export class PostgresContactRepository implements ContactRepository {
 
   async remove(id: ContactId): Promise<ContactId> {
     return postgresDBCall(async () => {
-      const result = await postgresDB
+      const row = await postgresDB
         .delete(ContactsTable)
         .where(eq(ContactsTable.id, id))
         .returning({ id: ContactsTable.id });
 
-      if (result.length === 0) throw new PostgresError({ kind: 'NOT_FOUND', message: `Contact ${id} not found` });
-      if (result.length > 1)
+      if (row.length === 0 || row[0] === undefined)
+        throw new PostgresError({ kind: 'NOT_FOUND', message: `Contact ${id} not found` });
+      if (row.length > 1)
         throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Invariant violation: multiple companies deleted' });
 
-      return asContactId(result[0].id);
+      return asContactId(row[0].id);
     });
   }
 
   private async insert(tx: PostgresTransaction, contact: NewContact): Promise<PersistedContact> {
     return postgresDBCall(async () => {
-      const [row] = await tx
+      const rows = await tx
         .insert(ContactsTable)
         .values({
           firstName: contact.firstName,
@@ -79,7 +80,10 @@ export class PostgresContactRepository implements ContactRepository {
         })
         .returning();
 
-      return Contact.promote(contact, { id: asContactId(row.id), createdAt: row.createdAt });
+      if (rows.length === 0 || rows[0] === undefined)
+        throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Failed to create Contact' });
+
+      return Contact.promote(contact, { id: asContactId(rows[0].id), createdAt: rows[0].createdAt });
     });
   }
 
