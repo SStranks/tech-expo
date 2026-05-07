@@ -198,10 +198,10 @@ services:
     profiles: ['dev', 'redis']
     restart: on-failure:3
     environment:
-      - REDIS_CONTAINER=${REDIS_CONTAINER:?error}
-      - REDIS_DOCKER_PORT=${REDIS_DOCKER_PORT:?error}
-      - REDISINSIGHT_CONTAINER=${REDISINSIGHT_CONTAINER:?error}
-      - REDISINSIGHT_DOCKER_PORT=${REDISINSIGHT_DOCKER_PORT:?error}
+      REDIS_CONTAINER: ${REDIS_CONTAINER:?error}
+      REDIS_DOCKER_PORT: ${REDIS_DOCKER_PORT:?error}
+      REDISINSIGHT_CONTAINER: ${REDISINSIGHT_CONTAINER:?error}
+      REDISINSIGHT_DOCKER_PORT: ${REDISINSIGHT_DOCKER_PORT:?error}
     ports:
       - 127.0.0.1:${REDISINSIGHT_LOCAL_PORT:?error}:${REDISINSIGHT_DOCKER_PORT:?error}
     volumes:

@@ -12,10 +12,10 @@ services:
         max_attempts: 5
         window: 60s
     environment:
-      - NGINX_REACT_CONTAINER: ${NGINX_REACT_CONTAINER:?error}
-      - NGINX_REACT_DOCKER_PORT_TLS: ${NGINX_REACT_DOCKER_PORT_TLS:?error}
-      - EXPRESS_CONTAINER: ${EXPRESS_CONTAINER:?error}
-      - EXPRESS_DOCKER_PORT: ${EXPRESS_DOCKER_PORT:?error}
+      NGINX_REACT_CONTAINER: ${NGINX_REACT_CONTAINER:?error}
+      NGINX_REACT_DOCKER_PORT_TLS: ${NGINX_REACT_DOCKER_PORT_TLS:?error}
+      EXPRESS_CONTAINER: ${EXPRESS_CONTAINER:?error}
+      EXPRESS_DOCKER_PORT: ${EXPRESS_DOCKER_PORT:?error}
     ports:
       - 127.0.0.1:${NGINX_PUBLIC_LOCAL_PORT_HTTP}:${NGINX_PUBLIC_DOCKER_PORT_HTTP}
       - ${NGINX_PUBLIC_LOCAL_PORT_TLS}:${NGINX_PUBLIC_DOCKER_PORT_TLS}
@@ -35,24 +35,24 @@ services:
         target: /etc/nginx/templates/default.conf.template
       - source: nginx_public_nginx-ca.crt
         target: /etc/nginx/certs/nginx-ca.crt
-        mode: 0o444
+        mode: '0444'
       - source: nginx_public_nginx.crt
         target: /etc/nginx/certs/nginx.crt
-        mode: 0o444
+        mode: '0444'
       - source: nginx_public_nginx-client.crt
         target: /etc/nginx/certs/nginx-client.crt
-        mode: 0o444
+        mode: '0444'
     secrets:
       - source: nginx_public_nginx.key
         target: /etc/nginx/certs/nginx.key
-        mode: 0o400
-        uid: 101
-        gid: 101
+        mode: '0400'
+        uid: '101'
+        gid: '101'
       - source: nginx_public_nginx-client.key
         target: /etc/nginx/certs/nginx-client.key
-        mode: 0o400
-        uid: 101
-        gid: 101
+        mode: '0400'
+        uid: '101'
+        gid: '101'
 
   nginx-metrics:
     volumes: []
@@ -68,24 +68,24 @@ services:
         target: /etc/nginx/templates/default.conf.template
       - source: nginx_metrics_nginx-ca.crt
         target: /etc/nginx/certs/nginxmetrics-ca.crt
-        mode: 0o444
+        mode: '0444'
       - source: nginx_metrics_nginx.crt
         target: /etc/nginx/certs/nginxmetrics.crt
-        mode: 0o444
+        mode: '0444'
       - source: nginx_metrics_nginx-client.crt
         target: /etc/nginx/certs/nginxmetrics-client.crt
-        mode: 0o444
+        mode: '0444'
     secrets:
       - source: nginx_metrics_nginx.key
         target: /etc/nginx/certs/nginxmetrics.key
-        mode: 0o400
-        uid: 101
-        gid: 101
+        mode: '0400'
+        uid: '101'
+        gid: '101'
       - source: nginx_metrics_nginx-client.key
         target: /etc/nginx/certs/nginxmetrics-client.key
-        mode: 0o400
-        uid: 101
-        gid: 101
+        mode: '0400'
+        uid: '101'
+        gid: '101'
 
   express-api:
     image: node:22-alpine3.22
@@ -118,16 +118,16 @@ services:
         target: /usr/local/bin/node-express-init
       - source: expressjs_expressjs-ca.crt
         target: /etc/expressjs/certs/expressjs-ca.crt
-        mode: 0o444
+        mode: '0444'
       - source: expressjs_expressjs-mongo.crt
         target: /etc/expressjs/certs/expressjs-mongo.crt
-        mode: 0o444
+        mode: '0444'
       - source: expressjs_expressjs-postgres.crt
         target: /etc/expressjs/certs/expressjs-postgres.crt
-        mode: 0o444
+        mode: '0444'
       - source: expressjs_expressjs-redis.crt
         target: /etc/expressjs/certs/expressjs-redis.crt
-        mode: 0o444
+        mode: '0444'
     secrets:
       - demo_acc_generic_non_user_password
       - graphql_introspect_auth
@@ -146,24 +146,24 @@ services:
       - redis_password
       - source: expressjs_expressjs-ca.key
         target: /etc/expressjs/certs/expressjs-ca.key
-        mode: 0o400
-        uid: 1000
-        gid: 1000
+        mode: '0400'
+        uid: '1000'
+        gid: '1000'
       - source: expressjs_expressjs-mongo.key
         target: /etc/expressjs/certs/expressjs-mongo.key
-        mode: 0o400
-        uid: 1000
-        gid: 1000
+        mode: '0400'
+        uid: '1000'
+        gid: '1000'
       - source: expressjs_expressjs-postgres.key
         target: /etc/expressjs/certs/expressjs-postgres.key
-        mode: 0o400
-        uid: 1000
-        gid: 1000
+        mode: '0400'
+        uid: '1000'
+        gid: '1000'
       - source: expressjs_expressjs-redis.key
         target: /etc/expressjs/certs/expressjs-redis.key
-        mode: 0o400
-        uid: 1000
-        gid: 1000
+        mode: '0400'
+        uid: '1000'
+        gid: '1000'
 
   nginx-react:
     image: ${IMAGE_REPO:-docker.io/}techexpo-crm/nginx-brotli:latest
@@ -194,16 +194,16 @@ services:
         target: /etc/nginx/templates/security-headers.conf.template
       - source: nginx_react_nginxreact-ca.crt
         target: /etc/nginx/certs/nginxreact-ca.crt
-        mode: 0o444
+        mode: '0444'
       - source: nginx_react_nginxreact.crt
         target: /etc/nginx/certs/nginxreact.crt
-        mode: 0o444
+        mode: '0444'
     secrets:
       - source: nginx_react_nginxreact.key
         target: /etc/nginx/certs/nginxreact.key
-        mode: 0o400
-        uid: 101
-        gid: 101
+        mode: '0400'
+        uid: '101'
+        gid: '101'
 
   mongo:
     image: mongo:8.0.10
@@ -233,7 +233,7 @@ services:
         target: /usr/local/bin/mongo-healthcheck.sh
       - source: mongo_mongo-ca.crt
         target: /etc/mongo/certs/mongo-ca.crt
-        mode: 0o444
+        mode: '0444'
     secrets:
       - mongo_database
       - mongo_user_root
@@ -244,9 +244,9 @@ services:
       - mongo_password_metrics
       - source: mongo_mongo-healthcheck.pem
         target: /etc/mongo/certs/mongo-healthcheck.pem
-        mode: 0o400
-        uid: 999
-        gid: 999
+        mode: '0400'
+        uid: '999'
+        gid: '999'
 
   postgres:
     image: postgres:18.3
@@ -311,15 +311,15 @@ services:
         target: /usr/local/bin/redis-healthcheck.sh
       - source: redis_redis-healthcheck.crt
         target: /etc/redis/certs/redis-healthcheck.crt
-        mode: 0o444
+        mode: '0444'
     secrets:
       - source: redis_password
         target: /run/secrets/redis_password
       - source: redis_redis-healthcheck.key
         target: /etc/redis/certs/redis-healthcheck.key
-        mode: 0o444
-        uid: 999
-        gid: 1000
+        mode: '0444'
+        uid: '999'
+        gid: '1000'
 
   grafana:
     deploy:
@@ -360,13 +360,13 @@ services:
         target: /etc/grafana/provisioning/access-control/access-control.yaml
       - source: grafana_grafana-ca.crt
         target: /etc/grafana/certs/grafana-ca.crt
-        mode: 0o444
+        mode: '0444'
       - source: grafana_grafana.crt
         target: /etc/grafana/certs/grafana.crt
-        mode: 0o444
+        mode: '0444'
       - source: grafana_grafana-prometheus.crt
         target: /etc/grafana/certs/grafana-prometheus.crt
-        mode: 0o444
+        mode: '0444'
     secrets:
       - grafana_admin_username
       - grafana_admin_password
@@ -378,14 +378,14 @@ services:
       - prometheus_password
       - source: grafana_grafana.key
         target: /etc/grafana/certs/grafana.key
-        mode: 0o400
-        uid: 472
-        gid: 472
+        mode: '0400'
+        uid: '472'
+        gid: '472'
       - source: grafana_grafana-prometheus.key
         target: /etc/grafana/certs/grafana-prometheus.key
-        mode: 0o400
-        uid: 472
-        gid: 472
+        mode: '0400'
+        uid: '472'
+        gid: '472'
 
   prometheus:
     command:
@@ -419,13 +419,13 @@ services:
         target: /usr/local/bin/prometheus-healthcheck.sh
       - source: prometheus_prometheus-ca.crt
         target: /etc/prometheus/certs/prometheus-ca.crt
-        mode: 0o444
+        mode: '0444'
       - source: prometheus_prometheus.crt
         target: /etc/prometheus/certs/prometheus.crt
-        mode: 0o444
+        mode: '0444'
       - source: prometheus_prometheus-expressjs.crt
         target: /etc/prometheus/certs/prometheus-expressjs.crt
-        mode: 0o444
+        mode: '0444'
     secrets:
       - prometheus_username
       - prometheus_password
@@ -433,69 +433,69 @@ services:
         target: /etc/prometheus/auth.yml
       - source: prometheus_prometheus-ca.key
         target: /etc/prometheus/certs/prometheus-ca.key
-        mode: 0o400
-        uid: 65534
-        gid: 65534
+        mode: '0400'
+        uid: '65534'
+        gid: '65534'
       - source: prometheus_prometheus.key
         target: /etc/prometheus/certs/prometheus.key
-        mode: 0o400
-        uid: 65534
-        gid: 65534
+        mode: '0400'
+        uid: '65534'
+        gid: '65534'
       - source: prometheus_prometheus-expressjs.key
         target: /etc/prometheus/certs/prometheus-expressjs.key
-        mode: 0o400
-        uid: 65534
-        gid: 65534
+        mode: '0400'
+        uid: '65534'
+        gid: '65534'
 
   redis-exporter:
     volumes: []
     configs:
       - source: redis-exporter_prometheus-ca.crt
         target: /etc/prometheus/certs/prometheus-ca.crt
-        mode: 0o444
+        mode: '0444'
       - source: redis-exporter_prometheus-redisexporter.crt
         target: /etc/prometheus/certs/prometheus-redisexporter.crt
-        mode: 0o444
+        mode: '0444'
     secrets:
       - source: redis_uri
         target: /run/secrets/redis_uri
       - source: redis-exporter_prometheus-redisexporter.key
         target: /etc/prometheus/certs/prometheus-redisexporter.key
-        mode: 0o400
-        uid: 59000
-        gid: 59000
+        mode: '0400'
+        uid: '59000'
+        gid: '59000'
 
   mongo-exporter:
     volumes: []
     configs:
       - source: mongo-exporter_prometheus-ca.crt
         target: /etc/prometheus/certs/prometheus-ca.crt
-        mode: 0o444
+        mode: '0444'
     secrets:
       - source: mongo-exporter_prometheus-mongoexporter.pem
         target: /etc/prometheus/certs/prometheus-mongoexporter.pem
-        mode: 0o400
-        uid: 65535
-        gid: 65535
+        mode: '0400'
+        uid: '65535'
+        gid: '65535'
 
   postgres-exporter:
     volumes: []
     configs:
       - source: postgres-exporter_prometheus-ca.crt
         target: /etc/prometheus/certs/prometheus-ca.crt
-        mode: 0o444
+        mode: '0444'
       - source: postgres-exporter_prometheus-postgresexporter.crt
         target: /etc/prometheus/certs/prometheus-postgresexporter.crt
-        mode: 0o444
+        mode: '0444'
     secrets:
       - postgres_exporter_uri
       - postgres_user_metrics
       - postgres_password_metrics
       - source: postgres-exporter_prometheus-postgresexporter.key
         target: /etc/prometheus/certs/prometheus-postgresexporter.key
-        mode: 0o400
-        uid: 65534
-        gid: 65534
+        mode: '0400'
+        uid: '65534'
+        gid: '65534'
 
 configs:
   expressjs_init.sh:

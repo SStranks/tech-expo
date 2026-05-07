@@ -1,4 +1,4 @@
-# eslint-disable unicorn/filename-case
+# yaml-language-server: $schema=https://raw.githubusercontent.com/megalinter/megalinter/main/megalinter/descriptors/schemas/megalinter-configuration.jsonschema.json
 # eslint-disable yml/plain-scalar
 # Configuration file for MegaLinter
 # See all available variables at https://megalinter.io/configuration/ and in linters documentation
