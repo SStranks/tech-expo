@@ -18,3 +18,7 @@ allowBuilds:
   bcrypt: true
   secp256k1: true
   '@swc/core': true
+  '@parcel/watcher': true
+  core-js-pure: true
+overrides:
+  browserslist: ^4.28.0
