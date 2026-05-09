@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react';
 
 import type { TableDataCompanies, TableDataContacts, TableDataQuotes } from '@Data/MockData';
 
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 import IconDelete from '@Components/svg/IconDelete';
 import IconEdit from '@Components/svg/IconEdit';

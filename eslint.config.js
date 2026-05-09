@@ -35,6 +35,7 @@ export default defineConfig([
       '**/private.*',
       '**/private/*',
       '**/migrations/meta/',
+      '**/routeTree.gen.ts',
       'pnpm-lock.yaml',
       'pnpm-workspace.yaml',
     ],

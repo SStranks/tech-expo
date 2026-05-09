@@ -18,9 +18,7 @@ import type {
 } from './kanban.types';
 
 import { toUUID } from '@apps/crm-shared/utils';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-
-import { randomUUID } from 'node:crypto';
+import { createAsyncThunk, nanoid } from '@reduxjs/toolkit';
 
 export const createTaskThunk = createAsyncThunk<CreateTaskThunkReturn, CreateTaskThunkArg, AppThunkApiConfig>(
   'kanban/createTask',
@@ -28,7 +26,7 @@ export const createTaskThunk = createAsyncThunk<CreateTaskThunkReturn, CreateTas
     try {
       // TODO: Submit to DB
       await new Promise((resolve) => setTimeout(() => resolve(''), 300));
-      const fakeBackendResponse: CreateTaskThunkReturn = { ...arg, id: toUUID(randomUUID()) };
+      const fakeBackendResponse: CreateTaskThunkReturn = { ...arg, id: toUUID(nanoid()) };
       return {
         ...fakeBackendResponse,
       };
@@ -99,7 +97,7 @@ export const createStageThunk = createAsyncThunk<CreateStageThunkReturn, CreateS
     try {
       // TODO: Submit to DB
       await new Promise((resolve) => setTimeout(() => resolve(''), 300));
-      const fakeBackendResponse: CreateStageThunkReturn = { ...arg, id: toUUID(randomUUID()) };
+      const fakeBackendResponse: CreateStageThunkReturn = { ...arg, id: toUUID(nanoid()) };
       return {
         ...fakeBackendResponse,
       };

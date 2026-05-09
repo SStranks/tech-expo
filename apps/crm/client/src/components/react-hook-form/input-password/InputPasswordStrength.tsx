@@ -1,9 +1,9 @@
 import type { Score } from '@zxcvbn-ts/core';
 import type { FieldValues, Path } from 'react-hook-form';
 
+import { Link } from '@tanstack/react-router';
 import { useEffect, useId, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 
 import IconCircleInfo from '@Components/svg/IconCircleInfo';
 import IconEye from '@Components/svg/IconEye';

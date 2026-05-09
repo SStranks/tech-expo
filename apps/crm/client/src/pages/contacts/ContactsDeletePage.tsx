@@ -2,8 +2,8 @@ import type { CoreRow } from '@tanstack/react-table';
 
 import type { TableDataContacts } from '@Data/MockData';
 
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import TableContactsDelete from '@Components/tanstack-table/tables/contacts/TableContactsDelete';

@@ -1,5 +1,5 @@
+import { BrowserRouter } from '@tanstack/react-router';
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 
 // import { IconCalendar } from '@Components/svg';

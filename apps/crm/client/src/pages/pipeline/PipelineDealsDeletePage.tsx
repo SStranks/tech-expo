@@ -1,7 +1,7 @@
 import type { SubmitHandler } from 'react-hook-form';
 
+import { Navigate, useNavigate, useParams } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';

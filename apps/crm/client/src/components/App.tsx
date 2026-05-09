@@ -42,17 +42,18 @@ import SettingsPage from '@Pages/settings/SettingsPage';
 import UpdatePasswordPage from '@Pages/update-password/UpdatePasswordPage';
 import { useReduxSelector } from '@Redux/hooks';
 import { selectorAriaEventsGlobal } from '@Redux/reducers/uiSlice';
-import AdministrationRoute from '@Routes/administration/AdministrationRoute';
-import AuditLogRoute from '@Routes/audit-log/AuditLogRoute';
-import CalendarRoute from '@Routes/calendar/CalendarRoute';
-import CompaniesRoute from '@Routes/companies/CompaniesRoute';
-import ContactsRoute from '@Routes/contacts/ContactsRoute';
-import DashboardRoute from '@Routes/dashboard/DashboardRoute';
-import KanbanRoute from '@Routes/kanban/KanbanRoute';
-import PipelineRoute from '@Routes/pipeline/PipelineRoute';
-import QuotesRoute from '@Routes/quotes/QuotesRoute';
-import ScrumboardRoute from '@Routes/scrumboard/ScrumboardRoute';
-import SettingsRoute from '@Routes/settings/SettingsRoute';
+
+import AdministrationRoute from '../routes/administration/private.AdministrationRoute';
+import AuditLogRoute from '../routes/audit-log/private.AuditLogRoute';
+import CalendarRoute from '../routes/calendar/private.CalendarRoute';
+import CompaniesRoute from '../routes/companies/private.CompaniesRoute';
+import ContactsRoute from '../routes/contacts/private.ContactsRoute';
+import DashboardRoute from '../routes/dashboard/private.DashboardRoute';
+import KanbanRoute from '../routes/kanban/private.KanbanRoute';
+import PipelineRoute from '../routes/pipeline/private.PipelineRoute';
+import QuotesRoute from '../routes/quotes/private.QuotesRoute';
+import ScrumboardRoute from '../routes/scrumboard/private.ScrumboardRoute';
+import SettingsRoute from '../routes/settings/private.SettingsRoute';
 
 import AriaAnnouncement from './AriaAnnouncement';
 

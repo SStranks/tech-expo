@@ -2,9 +2,9 @@ import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 
 import type { TableDataCompanies } from '@Data/MockData';
 
+import { useNavigate } from '@tanstack/react-router';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import TableCompaniesCardLower from '@Components/tanstack-table/cards/companies/TableCompaniesCardLower';
 import TableCompaniesCardUpper from '@Components/tanstack-table/cards/companies/TableCompaniesCardUpper';

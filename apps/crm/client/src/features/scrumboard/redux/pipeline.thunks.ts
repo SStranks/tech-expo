@@ -18,9 +18,7 @@ import type {
 } from './pipeline.types';
 
 import { toUUID } from '@apps/crm-shared/utils';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-
-import { randomUUID } from 'node:crypto';
+import { createAsyncThunk, nanoid } from '@reduxjs/toolkit';
 
 export const createDealThunk = createAsyncThunk<CreateDealThunkReturn, CreateDealThunkArg, AppThunkApiConfig>(
   'pipeline/createDeal',
@@ -30,7 +28,7 @@ export const createDealThunk = createAsyncThunk<CreateDealThunkReturn, CreateDea
       await new Promise((resolve) => setTimeout(() => resolve(''), 300));
       const fakeBackendResponse: CreateDealThunkReturn = {
         ...arg,
-        id: toUUID(randomUUID()),
+        id: toUUID(nanoid()),
       };
       return {
         ...fakeBackendResponse,
@@ -104,7 +102,7 @@ export const createStageThunk = createAsyncThunk<CreateStageThunkReturn, CreateS
       await new Promise((resolve) => setTimeout(() => resolve(''), 300));
       const fakeBackendResponse: CreateStageThunkReturn = {
         ...arg,
-        id: toUUID(randomUUID()),
+        id: toUUID(nanoid()),
       };
       return {
         ...fakeBackendResponse,

@@ -1,6 +1,6 @@
+import { Link, useNavigate } from '@tanstack/react-router';
 import { useId } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
 
 import Input from '@Components/react-hook-form/input/Input';
 import InputUx from '@Components/react-hook-form/InputUx';

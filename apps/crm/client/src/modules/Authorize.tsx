@@ -1,7 +1,7 @@
 import type { UserRoles } from '@apps/crm-shared';
 import type { PropsWithChildren } from 'react';
 
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from '@tanstack/react-router';
 
 import { useReduxSelector } from '@Redux/hooks';
 

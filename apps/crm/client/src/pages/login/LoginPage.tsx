@@ -1,8 +1,8 @@
 import type { AuthRedirectState } from '@Types/navigation';
 
+import { Link, useLocation, useNavigate } from '@tanstack/react-router';
 import { useId } from 'react';
 import { FormProvider, useForm, useFormState } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Input from '@Components/react-hook-form/input/Input';
 import InputUx from '@Components/react-hook-form/InputUx';

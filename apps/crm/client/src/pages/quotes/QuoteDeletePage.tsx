@@ -1,5 +1,5 @@
+import { Navigate, useNavigate, useParams } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 // import TableQuotesDelete from '@Components/tanstack-table/tables/quotes/TableQuotesDelete';

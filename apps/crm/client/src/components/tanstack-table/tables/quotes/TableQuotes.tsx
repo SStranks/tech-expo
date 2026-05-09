@@ -2,9 +2,9 @@ import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 
 import type { TableDataQuotes } from '@Data/MockData';
 
+import { useNavigate } from '@tanstack/react-router';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import ColumnQuotes from '@Components/tanstack-table/columns/ColumnQuotes';
 import TableControlsFooter from '@Components/tanstack-table/controls/ui/TableControlsFooter';

@@ -1,5 +1,5 @@
+import { Link } from '@tanstack/react-router';
 import { lazy, Suspense } from 'react';
-import { Link } from 'react-router-dom';
 
 // import MarkdownEditor from '@Components/markdown-editor/MarkdownEditor';
 import IconArrowLeftAlt from '@Components/svg/IconArrowLeftAlt';

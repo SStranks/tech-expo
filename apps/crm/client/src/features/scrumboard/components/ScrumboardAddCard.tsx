@@ -1,6 +1,6 @@
 import type { UUID } from '@apps/crm-shared';
 
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 import styles from './ScrumboardAddCard.module.scss';
 

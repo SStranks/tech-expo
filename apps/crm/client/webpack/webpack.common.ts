@@ -1,12 +1,16 @@
 /* eslint-disable perfectionist/sort-objects */
 import type { Configuration } from 'webpack';
 
+import { tanstackRouter } from '@tanstack/router-plugin/webpack';
+
 import path from 'node:path';
 import url from 'node:url';
 
+export type WebpackEnv = Record<string, string>;
+
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
-const CommonConfig = () => {
+const CommonConfig = (_env: WebpackEnv) => {
   return {
     entry: path.resolve(__dirname, '../src/index.tsx'),
     target: 'web',
@@ -62,6 +66,13 @@ const CommonConfig = () => {
         },
       ],
     },
+    plugins: [
+      tanstackRouter({
+        target: 'react',
+        autoCodeSplitting: true,
+        // codeSplittingOptions: { addHmr: Boolean(WEBPACK_SERVE) },
+      }),
+    ],
   } satisfies Configuration;
 };
 

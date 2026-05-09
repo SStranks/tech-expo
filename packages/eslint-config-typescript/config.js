@@ -46,6 +46,23 @@ const EslintConfigTypescript = {
         message: 'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
       },
     ],
+    '@typescript-eslint/only-throw-error': [
+      'error',
+      {
+        allow: [
+          {
+            from: 'package',
+            package: '@tanstack/router-core',
+            name: 'Redirect',
+          },
+          {
+            from: 'package',
+            package: '@tanstack/router-core',
+            name: 'NotFoundError',
+          },
+        ],
+      },
+    ],
   },
   settings: {
     'import-x/ignore': ['node_modules'],

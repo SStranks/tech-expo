@@ -1,5 +1,5 @@
+import { useNavigate } from '@tanstack/react-router';
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import ReactPortal from '@Components/modal/ReactPortal';
