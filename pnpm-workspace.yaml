@@ -3,8 +3,10 @@ packages:
   - packages/**
 
 injectWorkspacePackages: true
-
 minimumReleaseAge: 7200
+gitBranchLockfile: true
+mergeGitBranchLockfilesBranchPattern:
+  - main
 
 allowBuilds:
   argon2: true
