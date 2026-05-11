@@ -1,6 +1,6 @@
 import type { SubmitHandler } from 'react-hook-form';
 
-import { Navigate, useNavigate, useParams } from '@tanstack/react-router';
+import { useNavigate, useParams } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 
 import FormModal from '@Components/modal/FormModal';
@@ -16,12 +16,11 @@ function PiplineDealsDeletePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
-  const { stageId: stageIdParam } = useParams();
+  const { stageId: stageIdParam } = useParams({ from: '/pipeline/deals/delete/$stageId/$dealId' });
 
   const stageId = parseUUID(stageIdParam);
 
   useEffect(() => {
-    if (!stageId) return;
     const column = document.querySelector(`[data-rbd-droppable-id="${stageId}"]`);
     const cards = column?.querySelectorAll('[data-rbd-draggable-id]');
     cards?.forEach((card) => card.classList.add(ScrumboardCardStyles.dangerCard));
@@ -29,17 +28,15 @@ function PiplineDealsDeletePage(): React.JSX.Element {
     return () => cards?.forEach((card) => card.classList.remove(ScrumboardCardStyles.dangerCard));
   }, [stageId]);
 
-  if (!stageId) return <Navigate to="/pipeline" replace />;
-
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   const onSubmit: SubmitHandler<Record<string, never>> = () => {
     reduxDispatch(deleteAllDealsInStage({ id: stageId }));
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   return (

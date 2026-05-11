@@ -1,4 +1,4 @@
-import { Navigate, useNavigate, useParams } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 
 import FormModal from '@Components/modal/FormModal';
@@ -15,19 +15,16 @@ const listItems = [{ name: 'Adam' }, { name: 'Bob' }, { name: 'Chuck' }, { name:
 function QuoteUpdatePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const navigate = useNavigate();
-  const { quoteId } = useParams();
-
-  if (!quoteId) return <Navigate to="/quotes" replace />;
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/quotes' });
   };
 
   const onSubmit = () => {
     alert('Quote Update Submitted');
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/quotes' });
   };
 
   return (

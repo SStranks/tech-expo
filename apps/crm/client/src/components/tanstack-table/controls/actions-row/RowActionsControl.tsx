@@ -1,3 +1,4 @@
+import type { LinkProps } from '@tanstack/react-router';
 import type { CoreRow } from '@tanstack/react-table';
 import type { PropsWithChildren } from 'react';
 
@@ -15,10 +16,6 @@ import styles from './RowActionsControl.module.scss';
 
 type TableDataAllUnion = TableDataContacts | TableDataCompanies | TableDataQuotes;
 
-type ViewControl = {
-  entryId: string;
-};
-
 type UpdateControl = {
   rowOriginal: CoreRow<TableDataAllUnion>['original'];
 };
@@ -28,7 +25,7 @@ type CallControl = {
 };
 
 type EmailControl = {
-  entryId: string;
+  email: string;
 };
 
 type DeleteControl = {
@@ -39,9 +36,9 @@ function RowActionsControl({ children }: PropsWithChildren): React.JSX.Element {
   return <div className={styles.rowActions}>{children}</div>;
 }
 
-function ViewControl({ entryId }: ViewControl): React.JSX.Element {
+function ViewControl({ params, to }: LinkProps): React.JSX.Element {
   return (
-    <Link to={`read/${entryId}`} className={styles.link}>
+    <Link to={to} params={params} className={styles.link}>
       <IconEye svgClass={styles.svg} />
     </Link>
   );
@@ -49,31 +46,33 @@ function ViewControl({ entryId }: ViewControl): React.JSX.Element {
 
 function CallControl({ phone }: CallControl): React.JSX.Element {
   return (
-    <Link to={`tel:${phone}`} className={styles.link}>
+    <a href={`tel:${phone}`} className={styles.link}>
       <IconPhone svgClass={styles.svg} />
-    </Link>
+    </a>
   );
 }
 
-function EmailControl({ entryId }: EmailControl): React.JSX.Element {
+function EmailControl({ email }: EmailControl): React.JSX.Element {
   return (
-    <Link to={`email:${entryId}`} className={styles.link}>
+    <a href={`email:${email}`} className={styles.link}>
       <IconEmail svgClass={styles.svg} />
-    </Link>
+    </a>
   );
 }
 
-function UpdateControl({ rowOriginal }: UpdateControl): React.JSX.Element {
+function UpdateControl({ params, to }: LinkProps): React.JSX.Element {
   return (
-    <Link to={`update/${rowOriginal.id}`} state={rowOriginal} className={styles.link}>
+    // <Link to={to} params={params} state={rowOriginal} className={styles.link}>
+    <Link to={to} params={params} className={styles.link}>
       <IconEdit svgClass={styles.svg} />
     </Link>
   );
 }
 
-function DeleteControl({ rowOriginal }: DeleteControl): React.JSX.Element {
+function DeleteControl({ params, to }: LinkProps): React.JSX.Element {
   return (
-    <Link to={`delete/${rowOriginal.id}`} state={rowOriginal} className={styles.linkDelete}>
+    // <Link to={`delete/${rowOriginal.id}`} state={rowOriginal} className={styles.linkDelete}>
+    <Link to={to} params={params} className={styles.linkDelete}>
       <IconDelete svgClass={styles.svg} />
     </Link>
   );

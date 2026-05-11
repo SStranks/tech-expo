@@ -14,13 +14,13 @@ function CompaniesCreatePage(): React.JSX.Element {
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/companies' });
   };
 
   const onSubmit = () => {
     alert('Companies Create Submitted');
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/companies' });
   };
 
   return (

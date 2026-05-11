@@ -42,7 +42,8 @@ const columnCompaniesQuotesDef = [
     header: ({ column }) => <span>{column.id}</span>,
     cell: ({ row }) => (
       <RowActionsControl>
-        <RowActionsControl.ViewControl entryId={row.id} />
+        {/* // TODO: Need the contact id here, not the real name */}
+        <RowActionsControl.ViewControl to="/contacts/$id" params={{ id: row.original['prepared by'] }} />
       </RowActionsControl>
     ),
   }),

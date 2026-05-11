@@ -25,7 +25,7 @@ type FormData = {
 };
 
 function PipelineDealUpdatePage(): React.JSX.Element {
-  const { dealId: dealIdParam, stageId: stageIdParam } = useParams();
+  const { dealId: dealIdParam, stageId: stageIdParam } = useParams({ from: '/pipeline/deal/update/$stageId/$dealId' });
   const stageId = parseUUID(stageIdParam);
   const dealId = parseUUID(dealIdParam);
 
@@ -42,7 +42,7 @@ function PipelineDealUpdatePage(): React.JSX.Element {
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -54,7 +54,7 @@ function PipelineDealUpdatePage(): React.JSX.Element {
       })
     );
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   return (

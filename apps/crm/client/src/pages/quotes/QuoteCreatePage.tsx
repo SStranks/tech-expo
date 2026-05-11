@@ -14,13 +14,13 @@ function QuoteCreatePage(): React.JSX.Element {
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/quotes' });
   };
 
   const onSubmit = () => {
     alert('Quote Create Submitted');
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/quotes' });
   };
 
   return (

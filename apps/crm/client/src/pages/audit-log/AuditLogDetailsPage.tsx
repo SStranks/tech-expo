@@ -11,7 +11,7 @@ function AuditLogDetailsPage(): React.JSX.Element {
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/audit-log' });
   };
 
   return (

@@ -32,9 +32,9 @@ const columnCompaniesContactsDef = [
     header: ({ column }) => <span>{column.id}</span>,
     cell: ({ row }) => (
       <RowActionsControl>
-        <RowActionsControl.EmailControl entryId={row.id} />
-        <RowActionsControl.CallControl phone={row.id} />
-        <RowActionsControl.ViewControl entryId={row.id} />
+        <RowActionsControl.EmailControl email={row.original.email} />
+        <RowActionsControl.CallControl phone={row.original.phone} />
+        <RowActionsControl.ViewControl to="/companies/$id" params={{ id: row.original.id }} />
       </RowActionsControl>
     ),
   }),

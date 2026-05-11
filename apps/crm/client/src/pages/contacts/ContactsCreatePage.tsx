@@ -14,13 +14,13 @@ function ContactsCreatePage(): React.JSX.Element {
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/contacts' });
   };
 
   const onSubmit = () => {
     alert('Contact Create Submitted');
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/contacts' });
   };
 
   return (

@@ -1,7 +1,6 @@
 import type { Score } from '@zxcvbn-ts/core';
 import type { FieldValues, Path } from 'react-hook-form';
 
-import { Link } from '@tanstack/react-router';
 import { useEffect, useId, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
@@ -105,9 +104,9 @@ function InputPasswordStrength<T extends FieldValues>(props: Props<T>): React.JS
             </p>
             <p className={styles.infoPanel__content__body}>
               Password entropy is calculated via the{' '}
-              <Link to="https://zxcvbn-ts.github.io/zxcvbn/guide/" target="_blank">
+              <a href="https://zxcvbn-ts.github.io/zxcvbn/guide/" target="_blank" rel="noreferrer">
                 <span className={styles.infoPanel__content__link}>zxcvbn</span>
-              </Link>{' '}
+              </a>
               library. This ensures provided passwords are more secure than following typical password guidelines.
             </p>
           </div>

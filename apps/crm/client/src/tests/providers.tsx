@@ -1,3 +1,4 @@
+import type { AnyRouter } from '@tanstack/react-router';
 import type { RenderOptions, RenderResult } from '@testing-library/react';
 import type { PropsWithChildren } from 'react';
 
@@ -6,9 +7,15 @@ import type { IServiceHttp } from '@Services/serviceHttp';
 
 import { ApolloProvider } from '@apollo/client/react';
 import { configureStore } from '@reduxjs/toolkit';
+import {
+  createMemoryHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+  RouterProvider,
+} from '@tanstack/react-router';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 
 import { ServicesContext } from '@Context/servicesContext';
 import ApolloClient from '@Graphql/ApolloClient';
@@ -29,6 +36,22 @@ const setupReduxStore = (extra: ThunkExtra, preloadedState?: Partial<ReduxRootSt
   });
 };
 
+function createTestRouter(component: React.ReactNode) {
+  const rootRoute = createRootRoute();
+  const indexRoute = createRoute({
+    path: '/',
+    component: () => component,
+    getParentRoute: () => rootRoute,
+  });
+
+  const routeTree = rootRoute.addChildren([indexRoute]);
+
+  return createRouter({
+    history: createMemoryHistory(),
+    routeTree,
+  });
+}
+
 type ProviderOptions = {
   withRouter?: boolean;
   withRedux?: boolean;
@@ -37,6 +60,7 @@ type ProviderOptions = {
 };
 
 type ExtendedRenderOptions = {
+  router?: AnyRouter;
   preloadedState?: Partial<ReduxRootState>;
   store?: ReduxStore;
   serviceHttp?: IServiceHttp;
@@ -49,10 +73,10 @@ interface RenderWithProvidersResult extends RenderResult {
 }
 
 export function renderWithAllProviders(
-  ui: React.ReactElement,
+  testComponent: React.ReactElement,
   options: ExtendedRenderOptions = {}
 ): RenderWithProvidersResult {
-  const { providers = {}, ...renderOptions } = options;
+  const { providers = {}, router, ...renderOptions } = options;
   const { withApollo = false, withRedux = false, withRouter = false, withServices = false } = providers;
 
   const serviceHttp =
@@ -76,13 +100,14 @@ export function renderWithAllProviders(
     }
 
     if (withRouter) {
-      wrapped = <BrowserRouter>{wrapped}</BrowserRouter>;
+      const testRouter = router ?? createTestRouter(wrapped);
+      wrapped = <RouterProvider router={testRouter} />;
     }
 
     return wrapped;
   };
 
-  const result = render(ui, { wrapper: AllProviders, ...renderOptions });
+  const result = render(testComponent, { wrapper: AllProviders, ...renderOptions });
 
   return { ...result, serviceHttp, store } as typeof result & {
     serviceHttp?: IServiceHttp;

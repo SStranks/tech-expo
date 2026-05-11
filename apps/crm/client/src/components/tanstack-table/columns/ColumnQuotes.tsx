@@ -47,9 +47,9 @@ const columnQuotesDef = [
     header: () => <span>Actions</span>,
     cell: ({ row }) => (
       <RowActionsControl>
-        <RowActionsControl.ViewControl entryId={row.id} />
-        <RowActionsControl.UpdateControl rowOriginal={row.original} />
-        <RowActionsControl.DeleteControl rowOriginal={row.original} />
+        <RowActionsControl.ViewControl to="/quotes/$id" params={{ id: row.original.id }} />
+        <RowActionsControl.UpdateControl to="/quotes/update/$id" params={{ id: row.original.id }} />
+        <RowActionsControl.DeleteControl to="/quotes/delete/$id" params={{ id: row.original.id }} />
       </RowActionsControl>
     ),
   }),

@@ -27,9 +27,9 @@ const columnContactsDef = [
     header: () => <span>Actions</span>,
     cell: ({ row }) => (
       <RowActionsControl>
-        <RowActionsControl.ViewControl entryId={row.id} />
+        <RowActionsControl.ViewControl to="/contacts/$id" params={{ id: row.original.id }} />
         <RowActionsControl.CallControl phone={row.original.phone} />
-        <RowActionsControl.DeleteControl rowOriginal={row.original} />
+        <RowActionsControl.DeleteControl to="/contacts/delete/$id" params={{ id: row.original.id }} />
       </RowActionsControl>
     ),
   }),

@@ -70,7 +70,7 @@ function ScrumBoardPipelineDeal({ dealId, dealIndex, dealStatus, stage }: Props)
   const isFocused = focusedId === deal.id;
 
   const onDoubleClickHandler = () => {
-    void navigate(`deal/update/${deal.id}`);
+    void navigate({ params: { dealId: deal.id, stageId: stage.id }, to: '/pipeline/deal/update/$stageId/$dealId' });
   };
 
   return (

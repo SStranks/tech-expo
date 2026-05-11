@@ -35,7 +35,7 @@ function RegisterPage(): React.JSX.Element {
 
   const onSubmit = methods.handleSubmit(async (data) => {
     await serviceHttp.account.login({ ...data });
-    void navigate('/login');
+    void navigate({ to: '/login' });
   });
 
   return (

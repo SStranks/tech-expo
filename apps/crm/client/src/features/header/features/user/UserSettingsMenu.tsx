@@ -62,7 +62,7 @@ function UserSettingsMenu(props: Props): React.JSX.Element {
   const logoutBtnClickHandler = async (e: React.MouseEvent) => {
     e.stopPropagation();
     await reduxDispatch(logout());
-    void navigate('/');
+    void navigate({ to: '/' });
   };
 
   return (

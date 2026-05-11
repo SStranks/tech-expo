@@ -46,7 +46,7 @@ function UpdatePasswordPage(): React.JSX.Element {
 
   const onSubmit = methods.handleSubmit(async (data) => {
     await serviceHttp.account.updatepassword({ ...data });
-    await navigate('/login');
+    await navigate({ to: '/login' });
   });
 
   return (

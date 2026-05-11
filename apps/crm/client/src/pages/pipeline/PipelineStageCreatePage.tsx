@@ -20,13 +20,13 @@ function PipelineStageCreatePage(): React.JSX.Element {
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   const onSubmit: SubmitHandler<FormFieldData> = async (data) => {
     await reduxDispatch(createStageThunk({ title: data.title }));
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   return (

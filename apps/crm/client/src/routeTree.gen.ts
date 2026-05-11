@@ -9,6 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UpdatePasswordRouteImport } from './routes/update-password'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as QuotesIndexRouteImport } from './routes/quotes/index'
@@ -18,7 +23,51 @@ import { Route as ContactsIndexRouteImport } from './routes/contacts/index'
 import { Route as CompaniesIndexRouteImport } from './routes/companies/index'
 import { Route as CalendarIndexRouteImport } from './routes/calendar/index'
 import { Route as AuditLogIndexRouteImport } from './routes/audit-log/index'
+import { Route as QuotesCreateRouteImport } from './routes/quotes/create'
+import { Route as QuotesIdRouteImport } from './routes/quotes/$id'
+import { Route as ContactsCreateRouteImport } from './routes/contacts/create'
+import { Route as ContactsIdRouteImport } from './routes/contacts/$id'
+import { Route as CompaniesCreateRouteImport } from './routes/companies/create'
+import { Route as CompaniesIdRouteImport } from './routes/companies/$id'
+import { Route as AuditLogDetailsRouteImport } from './routes/audit-log/details'
+import { Route as QuotesUpdateIdRouteImport } from './routes/quotes/update.$id'
+import { Route as QuotesDeleteIdRouteImport } from './routes/quotes/delete.$id'
+import { Route as PipelineStageCreateRouteImport } from './routes/pipeline/stage/create'
+import { Route as ContactsDeleteIdRouteImport } from './routes/contacts/delete.$id'
+import { Route as CompaniesDeleteIdRouteImport } from './routes/companies/delete.$id'
+import { Route as PipelineStageUpdateStageIdRouteImport } from './routes/pipeline/stage/update.$stageId'
+import { Route as PipelineStageDeleteStageIdRouteImport } from './routes/pipeline/stage/delete.$stageId'
+import { Route as PipelineDealCreateStageIdRouteImport } from './routes/pipeline/deal/create.$stageId'
+import { Route as KanbanTaskUpdateTaskIdRouteImport } from './routes/kanban/task/update.$taskId'
+import { Route as PipelineDealsDeleteStageIdDealIdRouteImport } from './routes/pipeline/deals/delete.$stageId.$dealId'
+import { Route as PipelineDealUpdateStageIdDealIdRouteImport } from './routes/pipeline/deal/update.$stageId.$dealId'
+import { Route as PipelineDealDeleteStageIdDealIdRouteImport } from './routes/pipeline/deal/delete.$stageId.$dealId'
 
+const UpdatePasswordRoute = UpdatePasswordRouteImport.update({
+  id: '/update-password',
+  path: '/update-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -64,9 +113,122 @@ const AuditLogIndexRoute = AuditLogIndexRouteImport.update({
   path: '/audit-log/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuotesCreateRoute = QuotesCreateRouteImport.update({
+  id: '/quotes/create',
+  path: '/quotes/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuotesIdRoute = QuotesIdRouteImport.update({
+  id: '/quotes/$id',
+  path: '/quotes/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactsCreateRoute = ContactsCreateRouteImport.update({
+  id: '/contacts/create',
+  path: '/contacts/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactsIdRoute = ContactsIdRouteImport.update({
+  id: '/contacts/$id',
+  path: '/contacts/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompaniesCreateRoute = CompaniesCreateRouteImport.update({
+  id: '/companies/create',
+  path: '/companies/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompaniesIdRoute = CompaniesIdRouteImport.update({
+  id: '/companies/$id',
+  path: '/companies/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditLogDetailsRoute = AuditLogDetailsRouteImport.update({
+  id: '/audit-log/details',
+  path: '/audit-log/details',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuotesUpdateIdRoute = QuotesUpdateIdRouteImport.update({
+  id: '/quotes/update/$id',
+  path: '/quotes/update/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuotesDeleteIdRoute = QuotesDeleteIdRouteImport.update({
+  id: '/quotes/delete/$id',
+  path: '/quotes/delete/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PipelineStageCreateRoute = PipelineStageCreateRouteImport.update({
+  id: '/pipeline/stage/create',
+  path: '/pipeline/stage/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactsDeleteIdRoute = ContactsDeleteIdRouteImport.update({
+  id: '/contacts/delete/$id',
+  path: '/contacts/delete/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompaniesDeleteIdRoute = CompaniesDeleteIdRouteImport.update({
+  id: '/companies/delete/$id',
+  path: '/companies/delete/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PipelineStageUpdateStageIdRoute =
+  PipelineStageUpdateStageIdRouteImport.update({
+    id: '/pipeline/stage/update/$stageId',
+    path: '/pipeline/stage/update/$stageId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PipelineStageDeleteStageIdRoute =
+  PipelineStageDeleteStageIdRouteImport.update({
+    id: '/pipeline/stage/delete/$stageId',
+    path: '/pipeline/stage/delete/$stageId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PipelineDealCreateStageIdRoute =
+  PipelineDealCreateStageIdRouteImport.update({
+    id: '/pipeline/deal/create/$stageId',
+    path: '/pipeline/deal/create/$stageId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const KanbanTaskUpdateTaskIdRoute = KanbanTaskUpdateTaskIdRouteImport.update({
+  id: '/kanban/task/update/$taskId',
+  path: '/kanban/task/update/$taskId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PipelineDealsDeleteStageIdDealIdRoute =
+  PipelineDealsDeleteStageIdDealIdRouteImport.update({
+    id: '/pipeline/deals/delete/$stageId/$dealId',
+    path: '/pipeline/deals/delete/$stageId/$dealId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PipelineDealUpdateStageIdDealIdRoute =
+  PipelineDealUpdateStageIdDealIdRouteImport.update({
+    id: '/pipeline/deal/update/$stageId/$dealId',
+    path: '/pipeline/deal/update/$stageId/$dealId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PipelineDealDeleteStageIdDealIdRoute =
+  PipelineDealDeleteStageIdDealIdRouteImport.update({
+    id: '/pipeline/deal/delete/$stageId/$dealId',
+    path: '/pipeline/deal/delete/$stageId/$dealId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/update-password': typeof UpdatePasswordRoute
+  '/audit-log/details': typeof AuditLogDetailsRoute
+  '/companies/$id': typeof CompaniesIdRoute
+  '/companies/create': typeof CompaniesCreateRoute
+  '/contacts/$id': typeof ContactsIdRoute
+  '/contacts/create': typeof ContactsCreateRoute
+  '/quotes/$id': typeof QuotesIdRoute
+  '/quotes/create': typeof QuotesCreateRoute
   '/audit-log/': typeof AuditLogIndexRoute
   '/calendar/': typeof CalendarIndexRoute
   '/companies/': typeof CompaniesIndexRoute
@@ -75,9 +237,33 @@ export interface FileRoutesByFullPath {
   '/pipeline/': typeof PipelineIndexRoute
   '/quotes/': typeof QuotesIndexRoute
   '/settings/': typeof SettingsIndexRoute
+  '/companies/delete/$id': typeof CompaniesDeleteIdRoute
+  '/contacts/delete/$id': typeof ContactsDeleteIdRoute
+  '/pipeline/stage/create': typeof PipelineStageCreateRoute
+  '/quotes/delete/$id': typeof QuotesDeleteIdRoute
+  '/quotes/update/$id': typeof QuotesUpdateIdRoute
+  '/kanban/task/update/$taskId': typeof KanbanTaskUpdateTaskIdRoute
+  '/pipeline/deal/create/$stageId': typeof PipelineDealCreateStageIdRoute
+  '/pipeline/stage/delete/$stageId': typeof PipelineStageDeleteStageIdRoute
+  '/pipeline/stage/update/$stageId': typeof PipelineStageUpdateStageIdRoute
+  '/pipeline/deal/delete/$stageId/$dealId': typeof PipelineDealDeleteStageIdDealIdRoute
+  '/pipeline/deal/update/$stageId/$dealId': typeof PipelineDealUpdateStageIdDealIdRoute
+  '/pipeline/deals/delete/$stageId/$dealId': typeof PipelineDealsDeleteStageIdDealIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/update-password': typeof UpdatePasswordRoute
+  '/audit-log/details': typeof AuditLogDetailsRoute
+  '/companies/$id': typeof CompaniesIdRoute
+  '/companies/create': typeof CompaniesCreateRoute
+  '/contacts/$id': typeof ContactsIdRoute
+  '/contacts/create': typeof ContactsCreateRoute
+  '/quotes/$id': typeof QuotesIdRoute
+  '/quotes/create': typeof QuotesCreateRoute
   '/audit-log': typeof AuditLogIndexRoute
   '/calendar': typeof CalendarIndexRoute
   '/companies': typeof CompaniesIndexRoute
@@ -86,10 +272,34 @@ export interface FileRoutesByTo {
   '/pipeline': typeof PipelineIndexRoute
   '/quotes': typeof QuotesIndexRoute
   '/settings': typeof SettingsIndexRoute
+  '/companies/delete/$id': typeof CompaniesDeleteIdRoute
+  '/contacts/delete/$id': typeof ContactsDeleteIdRoute
+  '/pipeline/stage/create': typeof PipelineStageCreateRoute
+  '/quotes/delete/$id': typeof QuotesDeleteIdRoute
+  '/quotes/update/$id': typeof QuotesUpdateIdRoute
+  '/kanban/task/update/$taskId': typeof KanbanTaskUpdateTaskIdRoute
+  '/pipeline/deal/create/$stageId': typeof PipelineDealCreateStageIdRoute
+  '/pipeline/stage/delete/$stageId': typeof PipelineStageDeleteStageIdRoute
+  '/pipeline/stage/update/$stageId': typeof PipelineStageUpdateStageIdRoute
+  '/pipeline/deal/delete/$stageId/$dealId': typeof PipelineDealDeleteStageIdDealIdRoute
+  '/pipeline/deal/update/$stageId/$dealId': typeof PipelineDealUpdateStageIdDealIdRoute
+  '/pipeline/deals/delete/$stageId/$dealId': typeof PipelineDealsDeleteStageIdDealIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/update-password': typeof UpdatePasswordRoute
+  '/audit-log/details': typeof AuditLogDetailsRoute
+  '/companies/$id': typeof CompaniesIdRoute
+  '/companies/create': typeof CompaniesCreateRoute
+  '/contacts/$id': typeof ContactsIdRoute
+  '/contacts/create': typeof ContactsCreateRoute
+  '/quotes/$id': typeof QuotesIdRoute
+  '/quotes/create': typeof QuotesCreateRoute
   '/audit-log/': typeof AuditLogIndexRoute
   '/calendar/': typeof CalendarIndexRoute
   '/companies/': typeof CompaniesIndexRoute
@@ -98,11 +308,35 @@ export interface FileRoutesById {
   '/pipeline/': typeof PipelineIndexRoute
   '/quotes/': typeof QuotesIndexRoute
   '/settings/': typeof SettingsIndexRoute
+  '/companies/delete/$id': typeof CompaniesDeleteIdRoute
+  '/contacts/delete/$id': typeof ContactsDeleteIdRoute
+  '/pipeline/stage/create': typeof PipelineStageCreateRoute
+  '/quotes/delete/$id': typeof QuotesDeleteIdRoute
+  '/quotes/update/$id': typeof QuotesUpdateIdRoute
+  '/kanban/task/update/$taskId': typeof KanbanTaskUpdateTaskIdRoute
+  '/pipeline/deal/create/$stageId': typeof PipelineDealCreateStageIdRoute
+  '/pipeline/stage/delete/$stageId': typeof PipelineStageDeleteStageIdRoute
+  '/pipeline/stage/update/$stageId': typeof PipelineStageUpdateStageIdRoute
+  '/pipeline/deal/delete/$stageId/$dealId': typeof PipelineDealDeleteStageIdDealIdRoute
+  '/pipeline/deal/update/$stageId/$dealId': typeof PipelineDealUpdateStageIdDealIdRoute
+  '/pipeline/deals/delete/$stageId/$dealId': typeof PipelineDealsDeleteStageIdDealIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/update-password'
+    | '/audit-log/details'
+    | '/companies/$id'
+    | '/companies/create'
+    | '/contacts/$id'
+    | '/contacts/create'
+    | '/quotes/$id'
+    | '/quotes/create'
     | '/audit-log/'
     | '/calendar/'
     | '/companies/'
@@ -111,9 +345,33 @@ export interface FileRouteTypes {
     | '/pipeline/'
     | '/quotes/'
     | '/settings/'
+    | '/companies/delete/$id'
+    | '/contacts/delete/$id'
+    | '/pipeline/stage/create'
+    | '/quotes/delete/$id'
+    | '/quotes/update/$id'
+    | '/kanban/task/update/$taskId'
+    | '/pipeline/deal/create/$stageId'
+    | '/pipeline/stage/delete/$stageId'
+    | '/pipeline/stage/update/$stageId'
+    | '/pipeline/deal/delete/$stageId/$dealId'
+    | '/pipeline/deal/update/$stageId/$dealId'
+    | '/pipeline/deals/delete/$stageId/$dealId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/update-password'
+    | '/audit-log/details'
+    | '/companies/$id'
+    | '/companies/create'
+    | '/contacts/$id'
+    | '/contacts/create'
+    | '/quotes/$id'
+    | '/quotes/create'
     | '/audit-log'
     | '/calendar'
     | '/companies'
@@ -122,9 +380,33 @@ export interface FileRouteTypes {
     | '/pipeline'
     | '/quotes'
     | '/settings'
+    | '/companies/delete/$id'
+    | '/contacts/delete/$id'
+    | '/pipeline/stage/create'
+    | '/quotes/delete/$id'
+    | '/quotes/update/$id'
+    | '/kanban/task/update/$taskId'
+    | '/pipeline/deal/create/$stageId'
+    | '/pipeline/stage/delete/$stageId'
+    | '/pipeline/stage/update/$stageId'
+    | '/pipeline/deal/delete/$stageId/$dealId'
+    | '/pipeline/deal/update/$stageId/$dealId'
+    | '/pipeline/deals/delete/$stageId/$dealId'
   id:
     | '__root__'
     | '/'
+    | '/$'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/update-password'
+    | '/audit-log/details'
+    | '/companies/$id'
+    | '/companies/create'
+    | '/contacts/$id'
+    | '/contacts/create'
+    | '/quotes/$id'
+    | '/quotes/create'
     | '/audit-log/'
     | '/calendar/'
     | '/companies/'
@@ -133,10 +415,34 @@ export interface FileRouteTypes {
     | '/pipeline/'
     | '/quotes/'
     | '/settings/'
+    | '/companies/delete/$id'
+    | '/contacts/delete/$id'
+    | '/pipeline/stage/create'
+    | '/quotes/delete/$id'
+    | '/quotes/update/$id'
+    | '/kanban/task/update/$taskId'
+    | '/pipeline/deal/create/$stageId'
+    | '/pipeline/stage/delete/$stageId'
+    | '/pipeline/stage/update/$stageId'
+    | '/pipeline/deal/delete/$stageId/$dealId'
+    | '/pipeline/deal/update/$stageId/$dealId'
+    | '/pipeline/deals/delete/$stageId/$dealId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SplatRoute: typeof SplatRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
+  UpdatePasswordRoute: typeof UpdatePasswordRoute
+  AuditLogDetailsRoute: typeof AuditLogDetailsRoute
+  CompaniesIdRoute: typeof CompaniesIdRoute
+  CompaniesCreateRoute: typeof CompaniesCreateRoute
+  ContactsIdRoute: typeof ContactsIdRoute
+  ContactsCreateRoute: typeof ContactsCreateRoute
+  QuotesIdRoute: typeof QuotesIdRoute
+  QuotesCreateRoute: typeof QuotesCreateRoute
   AuditLogIndexRoute: typeof AuditLogIndexRoute
   CalendarIndexRoute: typeof CalendarIndexRoute
   CompaniesIndexRoute: typeof CompaniesIndexRoute
@@ -145,10 +451,57 @@ export interface RootRouteChildren {
   PipelineIndexRoute: typeof PipelineIndexRoute
   QuotesIndexRoute: typeof QuotesIndexRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
+  CompaniesDeleteIdRoute: typeof CompaniesDeleteIdRoute
+  ContactsDeleteIdRoute: typeof ContactsDeleteIdRoute
+  PipelineStageCreateRoute: typeof PipelineStageCreateRoute
+  QuotesDeleteIdRoute: typeof QuotesDeleteIdRoute
+  QuotesUpdateIdRoute: typeof QuotesUpdateIdRoute
+  KanbanTaskUpdateTaskIdRoute: typeof KanbanTaskUpdateTaskIdRoute
+  PipelineDealCreateStageIdRoute: typeof PipelineDealCreateStageIdRoute
+  PipelineStageDeleteStageIdRoute: typeof PipelineStageDeleteStageIdRoute
+  PipelineStageUpdateStageIdRoute: typeof PipelineStageUpdateStageIdRoute
+  PipelineDealDeleteStageIdDealIdRoute: typeof PipelineDealDeleteStageIdDealIdRoute
+  PipelineDealUpdateStageIdDealIdRoute: typeof PipelineDealUpdateStageIdDealIdRoute
+  PipelineDealsDeleteStageIdDealIdRoute: typeof PipelineDealsDeleteStageIdDealIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/update-password': {
+      id: '/update-password'
+      path: '/update-password'
+      fullPath: '/update-password'
+      preLoaderRoute: typeof UpdatePasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -212,11 +565,156 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuditLogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quotes/create': {
+      id: '/quotes/create'
+      path: '/quotes/create'
+      fullPath: '/quotes/create'
+      preLoaderRoute: typeof QuotesCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotes/$id': {
+      id: '/quotes/$id'
+      path: '/quotes/$id'
+      fullPath: '/quotes/$id'
+      preLoaderRoute: typeof QuotesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacts/create': {
+      id: '/contacts/create'
+      path: '/contacts/create'
+      fullPath: '/contacts/create'
+      preLoaderRoute: typeof ContactsCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacts/$id': {
+      id: '/contacts/$id'
+      path: '/contacts/$id'
+      fullPath: '/contacts/$id'
+      preLoaderRoute: typeof ContactsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/companies/create': {
+      id: '/companies/create'
+      path: '/companies/create'
+      fullPath: '/companies/create'
+      preLoaderRoute: typeof CompaniesCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/companies/$id': {
+      id: '/companies/$id'
+      path: '/companies/$id'
+      fullPath: '/companies/$id'
+      preLoaderRoute: typeof CompaniesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audit-log/details': {
+      id: '/audit-log/details'
+      path: '/audit-log/details'
+      fullPath: '/audit-log/details'
+      preLoaderRoute: typeof AuditLogDetailsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotes/update/$id': {
+      id: '/quotes/update/$id'
+      path: '/quotes/update/$id'
+      fullPath: '/quotes/update/$id'
+      preLoaderRoute: typeof QuotesUpdateIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotes/delete/$id': {
+      id: '/quotes/delete/$id'
+      path: '/quotes/delete/$id'
+      fullPath: '/quotes/delete/$id'
+      preLoaderRoute: typeof QuotesDeleteIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline/stage/create': {
+      id: '/pipeline/stage/create'
+      path: '/pipeline/stage/create'
+      fullPath: '/pipeline/stage/create'
+      preLoaderRoute: typeof PipelineStageCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacts/delete/$id': {
+      id: '/contacts/delete/$id'
+      path: '/contacts/delete/$id'
+      fullPath: '/contacts/delete/$id'
+      preLoaderRoute: typeof ContactsDeleteIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/companies/delete/$id': {
+      id: '/companies/delete/$id'
+      path: '/companies/delete/$id'
+      fullPath: '/companies/delete/$id'
+      preLoaderRoute: typeof CompaniesDeleteIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline/stage/update/$stageId': {
+      id: '/pipeline/stage/update/$stageId'
+      path: '/pipeline/stage/update/$stageId'
+      fullPath: '/pipeline/stage/update/$stageId'
+      preLoaderRoute: typeof PipelineStageUpdateStageIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline/stage/delete/$stageId': {
+      id: '/pipeline/stage/delete/$stageId'
+      path: '/pipeline/stage/delete/$stageId'
+      fullPath: '/pipeline/stage/delete/$stageId'
+      preLoaderRoute: typeof PipelineStageDeleteStageIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline/deal/create/$stageId': {
+      id: '/pipeline/deal/create/$stageId'
+      path: '/pipeline/deal/create/$stageId'
+      fullPath: '/pipeline/deal/create/$stageId'
+      preLoaderRoute: typeof PipelineDealCreateStageIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kanban/task/update/$taskId': {
+      id: '/kanban/task/update/$taskId'
+      path: '/kanban/task/update/$taskId'
+      fullPath: '/kanban/task/update/$taskId'
+      preLoaderRoute: typeof KanbanTaskUpdateTaskIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline/deals/delete/$stageId/$dealId': {
+      id: '/pipeline/deals/delete/$stageId/$dealId'
+      path: '/pipeline/deals/delete/$stageId/$dealId'
+      fullPath: '/pipeline/deals/delete/$stageId/$dealId'
+      preLoaderRoute: typeof PipelineDealsDeleteStageIdDealIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline/deal/update/$stageId/$dealId': {
+      id: '/pipeline/deal/update/$stageId/$dealId'
+      path: '/pipeline/deal/update/$stageId/$dealId'
+      fullPath: '/pipeline/deal/update/$stageId/$dealId'
+      preLoaderRoute: typeof PipelineDealUpdateStageIdDealIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline/deal/delete/$stageId/$dealId': {
+      id: '/pipeline/deal/delete/$stageId/$dealId'
+      path: '/pipeline/deal/delete/$stageId/$dealId'
+      fullPath: '/pipeline/deal/delete/$stageId/$dealId'
+      preLoaderRoute: typeof PipelineDealDeleteStageIdDealIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SplatRoute: SplatRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
+  UpdatePasswordRoute: UpdatePasswordRoute,
+  AuditLogDetailsRoute: AuditLogDetailsRoute,
+  CompaniesIdRoute: CompaniesIdRoute,
+  CompaniesCreateRoute: CompaniesCreateRoute,
+  ContactsIdRoute: ContactsIdRoute,
+  ContactsCreateRoute: ContactsCreateRoute,
+  QuotesIdRoute: QuotesIdRoute,
+  QuotesCreateRoute: QuotesCreateRoute,
   AuditLogIndexRoute: AuditLogIndexRoute,
   CalendarIndexRoute: CalendarIndexRoute,
   CompaniesIndexRoute: CompaniesIndexRoute,
@@ -225,6 +723,18 @@ const rootRouteChildren: RootRouteChildren = {
   PipelineIndexRoute: PipelineIndexRoute,
   QuotesIndexRoute: QuotesIndexRoute,
   SettingsIndexRoute: SettingsIndexRoute,
+  CompaniesDeleteIdRoute: CompaniesDeleteIdRoute,
+  ContactsDeleteIdRoute: ContactsDeleteIdRoute,
+  PipelineStageCreateRoute: PipelineStageCreateRoute,
+  QuotesDeleteIdRoute: QuotesDeleteIdRoute,
+  QuotesUpdateIdRoute: QuotesUpdateIdRoute,
+  KanbanTaskUpdateTaskIdRoute: KanbanTaskUpdateTaskIdRoute,
+  PipelineDealCreateStageIdRoute: PipelineDealCreateStageIdRoute,
+  PipelineStageDeleteStageIdRoute: PipelineStageDeleteStageIdRoute,
+  PipelineStageUpdateStageIdRoute: PipelineStageUpdateStageIdRoute,
+  PipelineDealDeleteStageIdDealIdRoute: PipelineDealDeleteStageIdDealIdRoute,
+  PipelineDealUpdateStageIdDealIdRoute: PipelineDealUpdateStageIdDealIdRoute,
+  PipelineDealsDeleteStageIdDealIdRoute: PipelineDealsDeleteStageIdDealIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -57,7 +57,7 @@ function TableCompanies(props: Props): React.JSX.Element {
   const tableName = options.meta?.tableName;
 
   const createCompany = () => {
-    void navigate('create');
+    void navigate({ to: '/companies/create' });
   };
 
   const tableCards = table.getRowModel().rows.map((row) => {

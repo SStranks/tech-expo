@@ -8,7 +8,7 @@ function AuditDetails(): React.JSX.Element {
   const navigate = useNavigate();
 
   const onClick = () => {
-    void navigate('details');
+    void navigate({ to: '/audit-log/details' });
   };
 
   return (
