@@ -1,5 +1,5 @@
+import type { Router } from '@tanstack/react-router';
 import type { MountOptions, MountReturn } from 'cypress/react';
-import type { MemoryRouterProps } from 'react-router-dom';
 
 declare global {
   namespace Cypress {
@@ -9,10 +9,7 @@ declare global {
        * @param component React Node to mount
        * @param options Additional options to pass into mount
        */
-      mount(
-        component: React.ReactNode,
-        options?: MountOptions & { routerProps?: MemoryRouterProps }
-      ): Cypress.Chainable<MountReturn>;
+      mount(component: React.ReactNode, options?: MountOptions & { router?: Router }): Cypress.Chainable<MountReturn>;
       // TODO:  Dual mount - to be implemented when Redux is added to App
       //   options?: MountOptions & { routerProps?: MemoryRouterProps } & { reduxStore?: EnhancedStore<RootState> }
       // ): Cypress.Chainable<MountReturn>;
