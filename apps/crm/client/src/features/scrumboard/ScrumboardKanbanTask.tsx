@@ -3,9 +3,9 @@ import type { KanbanStage, KanbanTask } from '@Data/MockScrumboardKanban';
 import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { useNavigate } from '@tanstack/react-router';
 import clsx from 'clsx';
 import { memo, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import UserCircle from '@Components/general/UserCircle';
 import { useReduxSelector } from '@Redux/hooks';
@@ -34,7 +34,7 @@ function ScrumBoardKanbanTask({ stage, taskId, taskIndex, taskStatus }: Props): 
   const isFocused = focusedId === task?.id;
 
   const onDoubleClickHandler = () => {
-    void navigate(`deal/update/${taskId}`); // TODO: Is this the correct path?
+    void navigate({ params: { taskId }, to: '/kanban/task/update/$taskId' }); // TODO: Is this the correct path?
   };
 
   useEffect(() => {

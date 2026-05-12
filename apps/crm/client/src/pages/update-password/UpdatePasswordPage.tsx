@@ -1,8 +1,8 @@
 import type { InputPasswordStrength } from '@Components/react-hook-form/input-password/InputPasswordStrength';
 
+import { useNavigate } from '@tanstack/react-router';
 import { lazy, Suspense, useId } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 
 import InputPasswordSkeleton from '@Components/react-hook-form/input-password/InputPasswordSkeleton';
 import Input from '@Components/react-hook-form/input/Input';
@@ -46,7 +46,7 @@ function UpdatePasswordPage(): React.JSX.Element {
 
   const onSubmit = methods.handleSubmit(async (data) => {
     await serviceHttp.account.updatepassword({ ...data });
-    await navigate('/login');
+    await navigate({ to: '/login' });
   });
 
   return (

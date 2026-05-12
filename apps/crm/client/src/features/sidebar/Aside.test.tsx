@@ -1,27 +1,27 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
+
+import { renderWithAllProviders } from '@Tests/providers';
 
 import { Aside, MENU_CATEGORIES } from './Aside';
 
 describe('Initialization', () => {
   test('Sidebar menu contains valid links', () => {
-    render(<Aside />, { wrapper: BrowserRouter });
+    renderWithAllProviders(<Aside />, { providers: { withRouter: true } });
 
     const links = screen.getAllByRole('link');
+    expect(links).toHaveLength(MENU_CATEGORIES.length);
 
-    links.forEach((link, i) => {
-      const linkText = MENU_CATEGORIES[i][0];
-      const linkHref = MENU_CATEGORIES[i][1];
-      expect(link).toBeInTheDocument();
-      expect(link).toBeVisible();
-      expect(link).toHaveTextContent(linkText);
-      expect(link).toHaveAttribute('href', `${linkHref}`);
+    MENU_CATEGORIES.forEach(([text, href], i) => {
+      expect(links[i]).toBeInTheDocument();
+      expect(links[i]).toBeVisible();
+      expect(links[i]).toHaveTextContent(text);
+      expect(links[i]).toHaveAttribute('href', href);
     });
   });
 
   test('Sidebar menu contains a button to toggle maximize/minimize visibility state', () => {
-    render(<Aside />, { wrapper: BrowserRouter });
+    renderWithAllProviders(<Aside />, { providers: { withRouter: true } });
 
     const menuToggleButton = screen.getByRole('button', { name: /side-menu collapse toggle/i });
 
@@ -32,7 +32,7 @@ describe('Initialization', () => {
 
 describe('Functionality', () => {
   test('Menu toggle button collapses the sidebar; icons remain visible, text invisible', async () => {
-    render(<Aside />, { wrapper: BrowserRouter });
+    renderWithAllProviders(<Aside />, { providers: { withRouter: true } });
     const user = userEvent.setup();
 
     const menuToggleButton = screen.getByRole('button', { name: /side-menu collapse toggle/i });

@@ -1,8 +1,8 @@
 import type { InputPasswordStrength } from '@Components/react-hook-form/input-password/InputPasswordStrength';
 
+import { Link, useNavigate } from '@tanstack/react-router';
 import { lazy, Suspense, useId } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
 
 import InputPasswordSkeleton from '@Components/react-hook-form/input-password/InputPasswordSkeleton';
 import Input from '@Components/react-hook-form/input/Input';
@@ -35,7 +35,7 @@ function RegisterPage(): React.JSX.Element {
 
   const onSubmit = methods.handleSubmit(async (data) => {
     await serviceHttp.account.login({ ...data });
-    void navigate('/login');
+    void navigate({ to: '/login' });
   });
 
   return (

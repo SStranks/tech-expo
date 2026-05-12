@@ -1,5 +1,5 @@
+import { BrowserRouter } from '@tanstack/react-router';
 import { screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 
 import { renderWithProviders } from '@Redux/utils';
 

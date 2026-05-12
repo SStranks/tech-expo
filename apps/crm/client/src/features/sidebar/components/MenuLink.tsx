@@ -1,7 +1,7 @@
 import type { SvgIcon } from '@Components/svg';
 
+import { Link, useLocation } from '@tanstack/react-router';
 import { useEffect, useId, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 
 import styles from './MenuLink.module.scss';
 

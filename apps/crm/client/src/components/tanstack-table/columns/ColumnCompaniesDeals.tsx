@@ -39,7 +39,8 @@ const columnCompaniesDealssDef = [
     header: ({ column }) => <span>{column.id}</span>,
     cell: ({ row }) => (
       <RowActionsControl>
-        <RowActionsControl.ViewControl entryId={row.id} />
+        {/* TODO: Need dealContact to be id not real name */}
+        <RowActionsControl.ViewControl to="/contacts/$id" params={{ id: row.original.dealContact }} />
       </RowActionsControl>
     ),
   }),

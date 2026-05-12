@@ -1,7 +1,7 @@
 import type { SubmitHandler } from 'react-hook-form';
 
+import { Navigate, useNavigate, useParams } from '@tanstack/react-router';
 import { useState } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
@@ -17,7 +17,7 @@ type FormFieldData = {
 };
 
 function PipelineStageUpdatePage(): React.JSX.Element {
-  const { stageId: stageIdParam } = useParams();
+  const { stageId: stageIdParam } = useParams({ from: '/pipeline/stage/update/$stageId' });
   const stageId = parseUUID(stageIdParam);
 
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
@@ -25,17 +25,17 @@ function PipelineStageUpdatePage(): React.JSX.Element {
   const navigate = useNavigate();
   const stage = useReduxSelector((state) => (stageId ? stageSelectors.selectById(state, stageId) : undefined));
 
-  if (!stageId || !stage) return <Navigate to="/pipeline" replace />;
+  if (!stage) return <Navigate to="/pipeline" replace />;
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   const onSubmit: SubmitHandler<FormFieldData> = async (data) => {
     await reduxDispatch(updateStageThunk({ id: stage.id, title: data.stageTitle }));
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   return (

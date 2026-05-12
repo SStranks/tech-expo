@@ -21,7 +21,7 @@ function ScrumboardPipelineStages(): React.JSX.Element {
       {userCreatedStages.map((stage) => {
         return <ScrumboardPipelineStage key={stage.id} stageId={stage.id} />;
       })}
-      <ScrumboardAddStage />
+      <ScrumboardAddStage to="/pipeline/stage/create" />
       <ScrumboardPipelineStageWon stageId={permanentStages['won'].id} />
       <ScrumboardPipelineStageLost stageId={permanentStages['lost'].id} />
     </div>

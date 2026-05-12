@@ -1,5 +1,5 @@
+import { useNavigate } from '@tanstack/react-router';
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import ReactPortal from '@Components/modal/ReactPortal';
@@ -62,7 +62,7 @@ function UserSettingsMenu(props: Props): React.JSX.Element {
   const logoutBtnClickHandler = async (e: React.MouseEvent) => {
     e.stopPropagation();
     await reduxDispatch(logout());
-    void navigate('/');
+    void navigate({ to: '/' });
   };
 
   return (

@@ -57,7 +57,7 @@ function ScrumboardPipelineColumnUnassigned({ stageId }: Props) {
             )}
           </div>
           <div className={styles.headerControls}>
-            <ScrumboardColumnAddBtn stageId={stage.id} />
+            <ScrumboardColumnAddBtn to="/pipeline/deal/create/$stageId" stageId={stage.id} />
           </div>
         </div>
         <span className={styles.pipelineTotal}>${dealsTotal}</span>
@@ -66,7 +66,7 @@ function ScrumboardPipelineColumnUnassigned({ stageId }: Props) {
         {dealIdsLexiSorted.map((dealId, i) => {
           return <ScrumboardPipelineDeal key={dealId} dealId={dealId} dealIndex={i} stage={stage} />;
         })}
-        {dealIdsLexiSorted.length === 0 && <ScrumboardAddCard stageId={stage.id} />}
+        {dealIdsLexiSorted.length === 0 && <ScrumboardAddCard to="/pipeline/deal/create/$stageId" stageId={stage.id} />}
       </div>
     </div>
   );

@@ -2,8 +2,8 @@ import type { CoreRow } from '@tanstack/react-table';
 
 import type { TableDataContacts } from '@Data/MockData';
 
+import { useNavigate } from '@tanstack/react-router';
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from 'react-aria-components';
-import { useNavigate } from 'react-router-dom';
 
 import IconDelete from '@Components/svg/IconDelete';
 import IconEye from '@Components/svg/IconEye';
@@ -27,13 +27,13 @@ function TableContactsOptionBtn(props: Props): React.JSX.Element {
       <Popover placement="bottom right" className={styles.contactsOptionBtn__popover}>
         <Menu className={styles.contactsOptionBtn__menu}>
           <MenuItem
-            onAction={() => void navigate(`read/${rowOriginal.id}`)}
+            onAction={() => void navigate({ params: { id: rowOriginal.id }, to: '/contacts/$id' })}
             className={styles.contactsOptionBtn__menuItem}>
             <IconEye svgClass={styles.contactsOptionBtn__menuItem__svg} />
             <span>View Contact</span>
           </MenuItem>
           <MenuItem
-            onAction={() => void navigate(`delete/${rowOriginal.id}`, { state: rowOriginal })}
+            onAction={() => void navigate({ params: { id: rowOriginal.id }, to: '/contacts/delete/$id' })}
             className={styles.contactsOptionBtn__menuItemWarning}>
             <IconDelete svgClass={styles.contactsOptionBtn__menuItemWarning__svg} />
             <span>Delete Contact</span>

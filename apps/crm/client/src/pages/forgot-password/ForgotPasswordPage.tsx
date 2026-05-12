@@ -1,6 +1,6 @@
+import { Link, useNavigate } from '@tanstack/react-router';
 import { useId } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
 
 import Input from '@Components/react-hook-form/input/Input';
 import InputUx from '@Components/react-hook-form/InputUx';
@@ -21,7 +21,7 @@ function ForgotPasswordPage(): React.JSX.Element {
 
   const onSubmit = methods.handleSubmit(async (data) => {
     await serviceHttp.account.forgotpassword({ ...data });
-    void navigate('/login');
+    void navigate({ to: '/login' });
   });
 
   return (

@@ -1,5 +1,5 @@
+import { Outlet, useLocation } from '@tanstack/react-router';
 import { useRef } from 'react';
-import { useLocation, useOutlet } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 import ReactPortal from '@Components/modal/ReactPortal';
@@ -14,7 +14,6 @@ import styles from './reactTransitionGroup.module.scss';
  */
 function OutletPortalTransition(): React.JSX.Element {
   const location = useLocation();
-  const currentOutlet = useOutlet();
   const outletRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -32,7 +31,11 @@ function OutletPortalTransition(): React.JSX.Element {
             exitActive: `${styles['exitActive']}`,
           }}
           nodeRef={outletRef}>
-          {() => <div ref={outletRef}>{currentOutlet}</div>}
+          {() => (
+            <div ref={outletRef}>
+              <Outlet />
+            </div>
+          )}
         </CSSTransition>
       </SwitchTransition>
     </ReactPortal>

@@ -1,7 +1,7 @@
 ![Repository Banner](https://sstranks.github.io/tech-expo/assets/repo_banner.jpg)
 <br>
 
-_Tech-Expo is a full-stack CRM-style application showcasing secure microservice architecture, modern DevOps practices, and production-grade observability_
+_Tech-Expo is a full-stack CRM application built as a modular monolith, showcasing scalable backend architecture, secure design, and production-ready practices._
 
 ![Top Language Badge](https://img.shields.io/github/languages/top/SStranks/tech-expo)
 ![RepoSize Badge](https://img.shields.io/github/repo-size/SStranks/tech-expo)

@@ -1,8 +1,8 @@
 import type { AuthRedirectState } from '@Types/navigation';
 
+import { Link, useLocation, useNavigate } from '@tanstack/react-router';
 import { useId } from 'react';
 import { FormProvider, useForm, useFormState } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Input from '@Components/react-hook-form/input/Input';
 import InputUx from '@Components/react-hook-form/InputUx';
@@ -37,7 +37,7 @@ function LoginPage(): React.JSX.Element {
       // TODO:  Get back user details and store in redux
       await reduxDispatch(login({ email: data.email, password: data.password }));
       // Send user to requested protected route, or default to homepage
-      void navigate(fromURL, { replace: true });
+      void navigate({ replace: true, to: fromURL });
     } catch (error) {
       // TODO:  Toast Notification
       console.log('ERROR*******', error);

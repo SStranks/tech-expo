@@ -2,9 +2,9 @@ import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 
 import type { TableDataContacts } from '@Data/MockData';
 
+import { useNavigate } from '@tanstack/react-router';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import TableContactsCardLower from '@Components/tanstack-table/cards/contacts/TableContactsCardLower';
 import TableContactsCardUpper from '@Components/tanstack-table/cards/contacts/TableContactsCardUpper';
@@ -57,7 +57,7 @@ function TableContacts(props: Props): React.JSX.Element {
   const tableName = options.meta?.tableName;
 
   const createContact = () => {
-    void navigate('create');
+    void navigate({ to: '/contacts/create' });
   };
 
   const tableCards = table.getRowModel().rows.map((row) => {

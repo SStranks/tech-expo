@@ -1,7 +1,7 @@
 import type { SubmitHandler } from 'react-hook-form';
 
+import { Navigate, useNavigate, useParams } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
@@ -14,7 +14,7 @@ import { stageSelectors } from '../../features/scrumboard/redux/pipeline.slice';
 import ScrumboardColumnStyles from '@Features/scrumboard/ScrumboardColumn.module.scss';
 
 function PiplineStageDeletePage(): React.JSX.Element {
-  const { stageId: stageIdParam } = useParams();
+  const { stageId: stageIdParam } = useParams({ from: '/pipeline/stage/delete/$stageId' });
   const stageId = parseUUID(stageIdParam);
 
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
@@ -23,24 +23,23 @@ function PiplineStageDeletePage(): React.JSX.Element {
   const stage = useReduxSelector((state) => (stageId ? stageSelectors.selectById(state, stageId) : undefined));
 
   useEffect(() => {
-    if (!stageId) return;
     const column = document.querySelector(`[data-rbd-droppable-id="${stageId}"]`);
     column?.classList.add(ScrumboardColumnStyles.dangerColumn);
 
     return () => column?.classList.remove(ScrumboardColumnStyles.dangerColumn);
   }, [stageId]);
 
-  if (!stage || !stageId) return <Navigate to="/pipeline" replace />;
+  if (!stage) return <Navigate to="/pipeline" replace />;
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   const onSubmit: SubmitHandler<Record<string, never>> = async () => {
     await reduxDispatch(deleteStageThunk({ id: stageId }));
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   return (

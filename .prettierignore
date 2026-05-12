@@ -10,6 +10,7 @@
 **/.sassdoc
 **/*.gen.*
 **/graphql/generated/
+**/routeTree.gen.ts
 pnpm-lock.yaml
 
 

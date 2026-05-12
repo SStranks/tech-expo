@@ -1,7 +1,7 @@
 import type { SubmitHandler } from 'react-hook-form';
 
+import { useNavigate, useParams } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
@@ -12,7 +12,7 @@ import { parseUUID } from '@Utils/routeParams';
 import ScrumboardCardStyles from '@Features/scrumboard/ScrumboardCard.module.scss';
 
 function PiplineDealDeletePage(): React.JSX.Element {
-  const { dealId: dealIdParam, stageId: stageIdParam } = useParams();
+  const { dealId: dealIdParam, stageId: stageIdParam } = useParams({ from: '/pipeline/deal/delete/$stageId/$dealId' });
   const dealId = parseUUID(dealIdParam);
   const stageId = parseUUID(stageIdParam);
 
@@ -21,7 +21,6 @@ function PiplineDealDeletePage(): React.JSX.Element {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!dealId || !stageId) return;
     const column = document.querySelector(`[data-rbd-droppable-id="${stageId}"]`);
     const card = column?.querySelector(`[data-rbd-draggable-id="${dealId}"]`);
     card?.classList.add(ScrumboardCardStyles.dangerCard);
@@ -29,17 +28,15 @@ function PiplineDealDeletePage(): React.JSX.Element {
     return () => card?.classList.remove(ScrumboardCardStyles.dangerCard);
   }, [stageId, dealId]);
 
-  if (!dealId || !stageId) return <Navigate to="/pipeline" replace />;
-
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   const onSubmit: SubmitHandler<Record<string, never>> = async () => {
     await reduxDispatch(deleteDealThunk({ id: dealId }));
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   return (

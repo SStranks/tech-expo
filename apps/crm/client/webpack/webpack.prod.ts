@@ -2,6 +2,8 @@
 /* eslint-disable unicorn/numeric-separators-style */
 import type { Configuration, StatsCompilation } from 'webpack';
 
+import type { WebpackEnv } from './webpack.common';
+
 import CompressionPlugin from 'compression-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
@@ -27,292 +29,295 @@ import CommonConfig from './webpack.common';
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 Dotenv.config({ path: path.resolve(__dirname, '../.env.prod.client') });
 
-const ProdConfig = {
-  mode: 'production',
-  resolve: { conditionNames: ['import', 'module', 'browser', 'default', 'production'] },
-  output: {
-    path: path.resolve(__dirname, '../dist'),
-    filename: '[name].bundle.[contenthash].js',
-    chunkFilename: '[name].[chunkhash].js',
-    assetModuleFilename: 'assets/[ext]/[name].[hash][ext]',
-    clean: true,
-  },
-  devtool: 'source-map',
-  module: {
-    rules: [
-      {
-        test: /\.(ts|tsx|js|jsx)$/,
-        include: path.resolve(__dirname, '../src'),
-        exclude: [/node_modules/],
-        use: [
-          {
-            loader: 'babel-loader',
-          },
-          {
-            loader: 'ts-loader',
-            options: {
-              onlyCompileBundledFiles: true,
-              compilerOptions: {
-                configFile: path.resolve(__dirname, '../tsconfig.src.json'),
-                transpileOnly: true,
-                noEmit: false,
-              },
+const ProdConfig = (_env: WebpackEnv) => {
+  return {
+    mode: 'production',
+    resolve: { conditionNames: ['import', 'module', 'browser', 'default', 'production'] },
+    output: {
+      path: path.resolve(__dirname, '../dist'),
+      filename: '[name].bundle.[contenthash].js',
+      chunkFilename: '[name].[chunkhash].js',
+      assetModuleFilename: 'assets/[ext]/[name].[hash][ext]',
+      clean: true,
+    },
+    devtool: 'source-map',
+    module: {
+      rules: [
+        {
+          test: /\.(ts|tsx|js|jsx)$/,
+          include: path.resolve(__dirname, '../src'),
+          exclude: [/node_modules/],
+          use: [
+            {
+              loader: 'babel-loader',
             },
-          },
-        ],
-      },
-      {
-        test: /\.css$/,
-        include: /node_modules/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
-      },
-      {
-        test: /\.css$/,
-        include: path.resolve(__dirname, '../src'),
-        exclude: [/node_modules/],
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: '[local]-[hash:base64:5]',
-                namedExport: false,
-                exportLocalsConvention: 'asIs',
-              },
-              importLoaders: 1,
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: ['autoprefixer'],
-              },
-            },
-          },
-        ],
-      },
-      {
-        test: /\.module\.scss$/,
-        include: path.resolve(__dirname, '../src'),
-        exclude: [/node_modules/],
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              url: {
-                filter: (assetUrl: string) => {
-                  if (assetUrl.startsWith('/public')) return false;
-                  return true;
+            {
+              loader: 'ts-loader',
+              options: {
+                onlyCompileBundledFiles: true,
+                compilerOptions: {
+                  configFile: path.resolve(__dirname, '../tsconfig.src.json'),
+                  transpileOnly: true,
+                  noEmit: false,
                 },
               },
-              modules: {
-                localIdentName: '[local]-[hash:base64:5]',
-                namedExport: false,
-                exportLocalsConvention: 'asIs',
-              },
-              importLoaders: 2, // => post-css and sass
             },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: ['autoprefixer'],
-              },
-            },
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              implementation: 'sass-embedded',
-              api: 'modern-compiler',
-            },
-          },
-        ],
-      },
-      {
-        test: /\.scss$/,
-        include: path.resolve(__dirname, '../src'),
-        exclude: [/node_modules/, /\.module.scss$/],
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              implementation: 'sass-embedded',
-              api: 'modern-compiler',
-            },
-          },
-        ],
-      },
-    ],
-  },
-  optimization: {
-    moduleIds: 'deterministic',
-    runtimeChunk: 'single',
-    splitChunks: {
-      cacheGroups: {
-        react: {
-          test: /[/\\]node_modules[/\\](react|react-dom)[/\\]/,
-          name: 'react',
-          chunks: 'all',
-          priority: 40,
-        },
-        graphql: {
-          test: /[\\/]node_modules[\\/](graphql|@apollo|apollo-client)[\\/]/,
-          name: 'graphql',
-          chunks: 'all',
-          priority: 30,
-        },
-        redux: {
-          test: /[\\/]node_modules[\\/](redux|@reduxjs|react-redux)[\\/]/,
-          name: 'redux',
-          chunks: 'all',
-          priority: 20,
-        },
-        // vendor: {
-        //   test: /[\\/]node_modules[\\/]/,
-        //   name: 'vendors',
-        //   chunks: 'all',
-        //   priority: 10,
-        // },
-      },
-    },
-    minimizer: [
-      '...',
-      new TerserPlugin({
-        terserOptions: {
-          compress: {
-            drop_console: ['log', 'info'],
-          },
-        },
-      }),
-      new CssMinimizerPlugin(),
-      new ImageMinimizerPlugin({
-        test: /\.(jpeg|jpg|webp|avif|png|gif)$/i,
-        exclude: /(favicon)/i,
-        minimizer: [
-          {
-            implementation: ImageMinimizerPlugin.sharpMinify as ImageMinimizerPlugin.TransformerFunction<unknown>,
-            options: {
-              encodeOptions: {
-                jpeg: { quality: 100 },
-                webp: { lossless: true },
-                avif: { lossless: true },
-                png: { compressionLevel: 8 },
-                gif: { progressive: true },
-              },
-            },
-          },
-        ],
-      }),
-      new ImageMinimizerPlugin({
-        test: /\.(svg)$/i,
-        minimizer: [
-          {
-            implementation: ImageMinimizerPlugin.svgoMinify as ImageMinimizerPlugin.TransformerFunction<unknown>,
-            options: {
-              encodeOptions: {
-                multiplass: true,
-                plugins: ['preset-default'],
-              },
-            },
-          },
-        ],
-      }),
-    ],
-  },
-  plugins: [
-    new ESLintPlugin({
-      configType: 'flat',
-      cache: true,
-      failOnError: true,
-      failOnWarning: true,
-      emitError: true,
-      emitWarning: true,
-      extensions: ['js', 'jsx', 'ts', 'tsx'],
-    }),
-    new ForkTsCheckerWebpackPlugin({
-      async: true,
-      typescript: {
-        configFile: path.resolve(__dirname, '../tsconfig.src.json'),
-        diagnosticOptions: {
-          semantic: true,
-          syntactic: true,
-        },
-      },
-    }),
-    new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css',
-    }),
-    new HTMLWebpackPlugin({
-      template: path.resolve(__dirname, '../src/index-template.html.ejs'),
-      favicon: path.resolve(__dirname, '../src/favicon.ico'),
-      templateParameters: {
-        PUBLIC_URL: process.env['PUBLIC_URL'],
-      },
-      minify: {
-        removeAttributeQuotes: true,
-        collapseWhitespace: true,
-        removeComments: true,
-      },
-    }),
-    new CompressionPlugin({
-      filename: '[path][base].gz',
-      algorithm: 'gzip',
-      test: /\.(js|css|html|svg)$/,
-      exclude: /bundle-stats\.html/,
-      threshold: 10240,
-      minRatio: 0.7,
-    }),
-    new CompressionPlugin({
-      filename: '[path][base].br',
-      algorithm: 'brotliCompress',
-      test: /\.(js|css|html|svg)$/,
-      exclude: /bundle-stats\.html/,
-      compressionOptions: {
-        [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
-      },
-      threshold: 10240,
-      minRatio: 0.7,
-      deleteOriginalAssets: false,
-    }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, '../public'),
-          to: path.resolve(__dirname, '../dist/public'),
-          globOptions: { ignore: ['**/img/**'] },
-          noErrorOnMissing: true,
+          ],
         },
         {
-          from: path.resolve(__dirname, '../public/img'),
-          to: path.resolve(__dirname, '../dist/img/[path][name].[contenthash][ext]'),
-          noErrorOnMissing: true,
+          test: /\.css$/,
+          include: /node_modules/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
-        { from: path.resolve(__dirname, '../public/robots.txt'), noErrorOnMissing: true },
-        { from: path.resolve(__dirname, '../public/sitemap.xml'), noErrorOnMissing: true },
+        {
+          test: /\.css$/,
+          include: path.resolve(__dirname, '../src'),
+          exclude: [/node_modules/],
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                modules: {
+                  localIdentName: '[local]-[hash:base64:5]',
+                  namedExport: false,
+                  exportLocalsConvention: 'asIs',
+                },
+                importLoaders: 1,
+              },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  plugins: ['autoprefixer'],
+                },
+              },
+            },
+          ],
+        },
+        {
+          test: /\.module\.scss$/,
+          include: path.resolve(__dirname, '../src'),
+          exclude: [/node_modules/],
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                url: {
+                  filter: (assetUrl: string) => {
+                    if (assetUrl.startsWith('/public')) return false;
+                    return true;
+                  },
+                },
+                modules: {
+                  localIdentName: '[local]-[hash:base64:5]',
+                  namedExport: false,
+                  exportLocalsConvention: 'asIs',
+                },
+                importLoaders: 2, // => post-css and sass
+              },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  plugins: ['autoprefixer'],
+                },
+              },
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: 'sass-embedded',
+                api: 'modern-compiler',
+              },
+            },
+          ],
+        },
+        {
+          test: /\.scss$/,
+          include: path.resolve(__dirname, '../src'),
+          exclude: [/node_modules/, /\.module.scss$/],
+          use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: 'sass-embedded',
+                api: 'modern-compiler',
+              },
+            },
+          ],
+        },
       ],
-    }),
-    new DotenvPlugin({ path: path.resolve(__dirname, '../.env.prod.client') }),
-    new WebpackManifestPlugin({}),
-    new StatsWriterPlugin({
-      filename: 'stats/build-stats.json',
-      stats: {
-        assets: true,
-        chunks: true,
-        modules: true,
+    },
+    optimization: {
+      moduleIds: 'deterministic',
+      runtimeChunk: 'single',
+      splitChunks: {
+        cacheGroups: {
+          react: {
+            test: /[/\\]node_modules[/\\](react|react-dom)[/\\]/,
+            name: 'react',
+            chunks: 'all',
+            priority: 40,
+          },
+          graphql: {
+            test: /[\\/]node_modules[\\/](graphql|@apollo|apollo-client)[\\/]/,
+            name: 'graphql',
+            chunks: 'all',
+            priority: 30,
+          },
+          redux: {
+            test: /[\\/]node_modules[\\/](redux|@reduxjs|react-redux)[\\/]/,
+            name: 'redux',
+            chunks: 'all',
+            priority: 20,
+          },
+          // vendor: {
+          //   test: /[\\/]node_modules[\\/]/,
+          //   name: 'vendors',
+          //   chunks: 'all',
+          //   priority: 10,
+          // },
+        },
       },
-      transform: (webpackStats: StatsCompilation) => {
-        const filteredSource = filterWebpackStats(webpackStats);
-        return JSON.stringify(filteredSource);
-      },
-    }),
-  ],
-} satisfies Configuration;
+      minimizer: [
+        '...',
+        new TerserPlugin({
+          terserOptions: {
+            compress: {
+              drop_console: ['log', 'info'],
+            },
+          },
+        }),
+        new CssMinimizerPlugin(),
+        new ImageMinimizerPlugin({
+          test: /\.(jpeg|jpg|webp|avif|png|gif)$/i,
+          exclude: /(favicon)/i,
+          minimizer: [
+            {
+              implementation: ImageMinimizerPlugin.sharpMinify as ImageMinimizerPlugin.TransformerFunction<unknown>,
+              options: {
+                encodeOptions: {
+                  jpeg: { quality: 100 },
+                  webp: { lossless: true },
+                  avif: { lossless: true },
+                  png: { compressionLevel: 8 },
+                  gif: { progressive: true },
+                },
+              },
+            },
+          ],
+        }),
+        new ImageMinimizerPlugin({
+          test: /\.(svg)$/i,
+          minimizer: [
+            {
+              implementation: ImageMinimizerPlugin.svgoMinify as ImageMinimizerPlugin.TransformerFunction<unknown>,
+              options: {
+                encodeOptions: {
+                  multiplass: true,
+                  plugins: ['preset-default'],
+                },
+              },
+            },
+          ],
+        }),
+      ],
+    },
+    plugins: [
+      new ESLintPlugin({
+        configType: 'flat',
+        cache: true,
+        failOnError: true,
+        failOnWarning: true,
+        emitError: true,
+        emitWarning: true,
+        extensions: ['js', 'jsx', 'ts', 'tsx'],
+      }),
+      new ForkTsCheckerWebpackPlugin({
+        async: true,
+        typescript: {
+          configFile: path.resolve(__dirname, '../tsconfig.src.json'),
+          diagnosticOptions: {
+            semantic: true,
+            syntactic: true,
+          },
+        },
+      }),
+      new MiniCssExtractPlugin({
+        filename: '[name].[contenthash].css',
+      }),
+      new HTMLWebpackPlugin({
+        template: path.resolve(__dirname, '../src/index-template.html.ejs'),
+        favicon: path.resolve(__dirname, '../src/favicon.ico'),
+        templateParameters: {
+          PUBLIC_URL: process.env['PUBLIC_URL'],
+        },
+        minify: {
+          removeAttributeQuotes: true,
+          collapseWhitespace: true,
+          removeComments: true,
+        },
+      }),
+      new CompressionPlugin({
+        filename: '[path][base].gz',
+        algorithm: 'gzip',
+        test: /\.(js|css|html|svg)$/,
+        exclude: /bundle-stats\.html/,
+        threshold: 10240,
+        minRatio: 0.7,
+      }),
+      new CompressionPlugin({
+        filename: '[path][base].br',
+        algorithm: 'brotliCompress',
+        test: /\.(js|css|html|svg)$/,
+        exclude: /bundle-stats\.html/,
+        compressionOptions: {
+          [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+        },
+        threshold: 10240,
+        minRatio: 0.7,
+        deleteOriginalAssets: false,
+      }),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, '../public'),
+            to: path.resolve(__dirname, '../dist/public'),
+            globOptions: { ignore: ['**/img/**'] },
+            noErrorOnMissing: true,
+          },
+          {
+            from: path.resolve(__dirname, '../public/img'),
+            to: path.resolve(__dirname, '../dist/img/[path][name].[contenthash][ext]'),
+            noErrorOnMissing: true,
+          },
+          { from: path.resolve(__dirname, '../public/robots.txt'), noErrorOnMissing: true },
+          { from: path.resolve(__dirname, '../public/sitemap.xml'), noErrorOnMissing: true },
+        ],
+      }),
+      new DotenvPlugin({ path: path.resolve(__dirname, '../.env.prod.client') }),
+      new WebpackManifestPlugin({}),
+      new StatsWriterPlugin({
+        filename: 'stats/build-stats.json',
+        stats: {
+          assets: true,
+          chunks: true,
+          modules: true,
+        },
+        transform: (webpackStats: StatsCompilation) => {
+          const filteredSource = filterWebpackStats(webpackStats);
+          return JSON.stringify(filteredSource);
+        },
+      }),
+    ],
+  } satisfies Configuration;
+};
 
-export default merge<Configuration>(CommonConfig(), ProdConfig);
+const WebpackProdConfig = (env: WebpackEnv) => merge<Configuration>(CommonConfig(env), ProdConfig(env));
+export default WebpackProdConfig;

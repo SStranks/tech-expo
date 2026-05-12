@@ -1,5 +1,6 @@
 // @ts-check
-import PluginQuery from '@tanstack/eslint-plugin-query';
+import PluginTanstackQuery from '@tanstack/eslint-plugin-query';
+import PluginTanstackRouter from '@tanstack/eslint-plugin-router';
 import PluginJSXA11Y from 'eslint-plugin-jsx-a11y';
 import PluginReact from 'eslint-plugin-react';
 import PluginReactHooks from 'eslint-plugin-react-hooks';
@@ -21,7 +22,8 @@ const EslintConfigReact = {
     },
   },
   plugins: {
-    '@tanstack/query': PluginQuery,
+    '@tanstack/query': PluginTanstackQuery,
+    '@tanstack/router': PluginTanstackRouter,
     'jsx-a11y': PluginJSXA11Y,
     react: PluginReact,
     'react-hooks': PluginReactHooks,
@@ -37,6 +39,7 @@ const EslintConfigReact = {
     '@tanstack/query/no-unstable-deps': 'error',
     '@tanstack/query/no-void-query-fn': 'error',
     '@tanstack/query/stable-query-client': 'error',
+    '@tanstack/router/create-route-property-order': 'error',
     'react/function-component-definition': 'off',
     'react/jsx-uses-react': 0,
     'react/prop-types': 0,

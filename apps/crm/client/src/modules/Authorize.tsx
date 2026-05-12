@@ -1,7 +1,7 @@
 import type { UserRoles } from '@apps/crm-shared';
 import type { PropsWithChildren } from 'react';
 
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from '@tanstack/react-router';
 
 import { useReduxSelector } from '@Redux/hooks';
 
@@ -15,7 +15,7 @@ function Authorize({ allowedRoles, children = undefined }: PropsWithChildren<Pro
 
   const isUserAuthorized = auth.user?.role && allowedRoles.includes(auth.user.role);
 
-  return isUserAuthorized ? <>{children}</> : <Navigate to="/forbidden" state={{ from: location }} replace />;
+  return isUserAuthorized ? <>{children}</> : <Navigate to="/login" search={{ redirect: location.href }} replace />;
 }
 
 export default Authorize;

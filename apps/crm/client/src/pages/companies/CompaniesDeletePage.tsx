@@ -1,22 +1,15 @@
-import type { CoreRow } from '@tanstack/react-table';
-
-import type { TableDataCompanies } from '@Data/MockData';
-
+import { useNavigate, useParams } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
-import TableCompaniesDelete from '@Components/tanstack-table/tables/companies/TableCompaniesDelete';
+// import TableCompaniesDelete from '@Components/tanstack-table/tables/companies/TableCompaniesDelete';
 
 import StylesTableListView from '@Components/tanstack-table/views/TableListView.module.scss';
 
 function CompaniesDeletePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const navigate = useNavigate();
-  // TODO:  Change assertion to runtime check later, using type guard.
-  // TODO:  Apply this approach to the other components using useLocation.
-  const state = useLocation().state as CoreRow<TableDataCompanies>['original'];
-  const [id] = useState(() => state.id);
+  const { id } = useParams({ from: '/companies/delete/$id' });
 
   useEffect(() => {
     const tableRow = document.querySelector(`[data-table-row-id="${id}"]`);
@@ -27,13 +20,15 @@ function CompaniesDeletePage(): React.JSX.Element {
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/companies' });
   };
 
   return (
     <FormModal portalActive={portalActive} setPortalActive={setPortalActive}>
+      {/* // TODO: Dynamic Id */}
       <FormModal.Header title="Delete Company: <INSERT DYNAMIC ID>" />
-      <TableCompaniesDelete tableData={[state]} />
+      {/* // TODO: Setup companies reduxslice + RTK Query; use id to get company data and pass into TableCompaniesDelete component. */}
+      {/* <TableCompaniesDelete tableData={[state]} /> */}
       <FormModal.Footer>
         <FormModal.CancelButton />
         <FormModal.DeleteButton />

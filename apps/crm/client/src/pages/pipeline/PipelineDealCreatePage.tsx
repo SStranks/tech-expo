@@ -1,7 +1,7 @@
 import type { SubmitHandler } from 'react-hook-form';
 
+import { useNavigate, useParams } from '@tanstack/react-router';
 import { useState } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
@@ -27,11 +27,9 @@ function PipelineDealCreatePage(): React.JSX.Element {
   // const { columns, columnOrder } = useReduxSelector((store) => store.scrumboardPipeline);
   const reduxDispatch = useReduxDispatch();
   const navigate = useNavigate();
-  const { stageId: stageIdParam } = useParams();
+  const { stageId: stageIdParam } = useParams({ from: '/pipeline/deal/create/$stageId' });
 
   const stageId = parseUUID(stageIdParam);
-
-  if (!stageId) return <Navigate to="/pipeline" replace />;
 
   // TODO:  Make dynamic; check RHF Provider; can we change the type from { name: string } to just string[]??
   // const stageList = ['unassigned', ...columnOrder.map((columnId) => columns[columnId].title), 'won', 'lost'];
@@ -39,7 +37,7 @@ function PipelineDealCreatePage(): React.JSX.Element {
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   const onSubmit: SubmitHandler<FormFieldData> = async (data) => {
@@ -58,7 +56,7 @@ function PipelineDealCreatePage(): React.JSX.Element {
       })
     );
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/pipeline' });
   };
 
   return (

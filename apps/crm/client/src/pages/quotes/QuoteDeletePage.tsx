@@ -1,5 +1,5 @@
+import { useNavigate, useParams } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 // import TableQuotesDelete from '@Components/tanstack-table/tables/quotes/TableQuotesDelete';
@@ -9,21 +9,18 @@ import StylesTableListView from '@Components/tanstack-table/views/TableListView.
 function QuoteDeletePage(): React.JSX.Element {
   const [portalActive, setPortalActiveInternal] = useState<boolean>(true);
   const navigate = useNavigate();
-  const { quoteId } = useParams();
+  const { id: quoteId } = useParams({ from: '/quotes/delete/$id' });
 
   useEffect(() => {
-    if (!quoteId) return;
     const tableRow = document.querySelector(`tr[data-table-row-id="${quoteId}"]`);
     tableRow?.classList.add(StylesTableListView.dangerRow);
 
     return () => tableRow?.classList.remove(StylesTableListView.dangerRow);
   }, [quoteId]);
 
-  if (!quoteId) return <Navigate to="/quotes" replace />;
-
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/quotes' });
   };
 
   return (

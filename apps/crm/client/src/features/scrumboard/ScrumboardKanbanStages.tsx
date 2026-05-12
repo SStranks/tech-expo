@@ -19,7 +19,7 @@ function ScrumboardKanbanColumns(): React.JSX.Element {
       {userCreatedStages.map((stage) => {
         return <ScrumboardKanbanStage key={stage.id} stageId={stage.id} />;
       })}
-      <ScrumboardAddStage />
+      <ScrumboardAddStage to="/kanban/stage/create" />
     </div>
   );
 }

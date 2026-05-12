@@ -1,5 +1,5 @@
+import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import FormProvider from '@Components/react-hook-form/form-provider/FormProvider';
@@ -14,13 +14,13 @@ function ContactsCreatePage(): React.JSX.Element {
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/contacts' });
   };
 
   const onSubmit = () => {
     alert('Contact Create Submitted');
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/contacts' });
   };
 
   return (

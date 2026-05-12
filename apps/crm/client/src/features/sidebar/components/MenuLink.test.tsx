@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { screen } from '@testing-library/react';
 import { vi } from 'vitest';
+
+import { renderWithAllProviders } from '@Tests/providers';
 
 // import { IconCalendar } from '@Components/svg';
 import MenuLink from './MenuLink';
@@ -13,8 +14,8 @@ describe('Initialization', () => {
   });
 
   test('Component should render correctly', () => {
-    render(<MenuLink name="dashboard" href="/dashboard" Icon={Icon} minimize={false} index={0} />, {
-      wrapper: BrowserRouter,
+    renderWithAllProviders(<MenuLink name="dashboard" href="/dashboard" Icon={Icon} minimize={false} index={0} />, {
+      providers: { withRouter: true },
     });
 
     const listItem = screen.getByRole('listitem');
@@ -34,8 +35,8 @@ describe('Initialization', () => {
   });
 
   test('Minimize prop; false; should apply maximize animation style', () => {
-    render(<MenuLink name="dashboard" href="/dashboard" Icon={Icon} minimize={false} index={0} />, {
-      wrapper: BrowserRouter,
+    renderWithAllProviders(<MenuLink name="dashboard" href="/dashboard" Icon={Icon} minimize={false} index={0} />, {
+      providers: { withRouter: true },
     });
 
     const listItem = screen.getByRole('listitem');
@@ -45,8 +46,8 @@ describe('Initialization', () => {
   });
 
   test('Minimize prop; true; should apply minimize animation style', () => {
-    render(<MenuLink name="dashboard" href="/dashboard" Icon={Icon} minimize={true} index={0} />, {
-      wrapper: BrowserRouter,
+    renderWithAllProviders(<MenuLink name="dashboard" href="/dashboard" Icon={Icon} minimize={true} index={0} />, {
+      providers: { withRouter: true },
     });
 
     const listItem = screen.getByRole('listitem');

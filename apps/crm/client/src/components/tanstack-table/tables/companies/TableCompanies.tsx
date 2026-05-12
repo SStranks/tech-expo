@@ -2,9 +2,9 @@ import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 
 import type { TableDataCompanies } from '@Data/MockData';
 
+import { useNavigate } from '@tanstack/react-router';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import TableCompaniesCardLower from '@Components/tanstack-table/cards/companies/TableCompaniesCardLower';
 import TableCompaniesCardUpper from '@Components/tanstack-table/cards/companies/TableCompaniesCardUpper';
@@ -57,7 +57,7 @@ function TableCompanies(props: Props): React.JSX.Element {
   const tableName = options.meta?.tableName;
 
   const createCompany = () => {
-    void navigate('create');
+    void navigate({ to: '/companies/create' });
   };
 
   const tableCards = table.getRowModel().rows.map((row) => {

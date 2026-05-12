@@ -1,5 +1,5 @@
+import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import FormModal from '@Components/modal/FormModal';
 import TableAuditLogDetails from '@Components/tanstack-table/tables/audit-log/TableAuditLogDetails';
@@ -11,7 +11,7 @@ function AuditLogDetailsPage(): React.JSX.Element {
 
   const setPortalActive = () => {
     setPortalActiveInternal(false);
-    void navigate(-1);
+    void navigate({ to: '/audit-log' });
   };
 
   return (

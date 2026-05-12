@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 
 import IconMagniferZoomIn from '@Components/svg/IconMagniferZoomIn';
 
@@ -8,7 +8,7 @@ function AuditDetails(): React.JSX.Element {
   const navigate = useNavigate();
 
   const onClick = () => {
-    void navigate('details');
+    void navigate({ to: '/audit-log/details' });
   };
 
   return (
