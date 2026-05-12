@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+---
+name: Vitest
+permissions: read-all
+
+on: # yamllint disable-line rule:truthy
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/crm/client/**/*.(test|spec).[jt]sx?'
+      - 'apps/crm/server/**/*.(test|spec).[jt]sx?'
+
+  push:
+    branches: [main]
+    paths:
+      - 'apps/crm/client/**/*.(test|spec).[jt]sx?'
+      - 'apps/crm/server/**/*.(test|spec).[jt]sx?'
+
+  workflow_dispatch: {}
+
+jobs:
+  vitest:
+    runs-on: ubuntu-latest
+    environment: testing
+    env:
+      NODE_ENV: test
+
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Recreate .env.test.server
+        run: |
+          printf "%s" "${{ secrets.ENV_TEST_SERVER_FILE }}" > apps/crm/server/.env.test.server
+          chmod 600 apps/crm/server/.env.test.server
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v5
+        with:
+          run_install: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build @apps/crm-shared types
+        run: pnpm --filter @apps/crm-shared build
+
+      - name: CRM Client - Vitest
+        run: pnpm --filter "./apps/crm/client" vitest:all
+
+      - name: CRM Server - Vitest
+        run: pnpm --filter "./apps/crm/server" vitest:test
+
+      - name: Cleanup
+        if: always()
+        run: rm -f apps/crm/server/.env.test.server

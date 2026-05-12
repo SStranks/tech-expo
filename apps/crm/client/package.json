@@ -38,6 +38,7 @@
     "cypress:open": "cypress open",
     "cypress:ui": "start-server-and-test start http://localhost:3000 cypress:e2e",
     "cypress:e2e": "cypress run",
+    "playwright:test": "playwright test",
     "cypress:component": "cypress run --component",
     "storybook": "storybook dev -p 6006 --no-open",
     "storybook:build": "storybook build --no-open",
