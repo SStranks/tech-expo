@@ -2,7 +2,7 @@ import { useNavigate, useParams } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 
 import FormModal from '@Components/modal/FormModal';
-import TableContactsDelete from '@Components/tanstack-table/tables/contacts/TableContactsDelete';
+// import TableContactsDelete from '@Components/tanstack-table/tables/contacts/TableContactsDelete';
 
 import StylesTableListView from '@Components/tanstack-table/views/TableListView.module.scss';
 
@@ -26,7 +26,8 @@ function ContactsDeletePage(): React.JSX.Element {
   return (
     <FormModal portalActive={portalActive} setPortalActive={setPortalActive}>
       <FormModal.Header title="Delete Contact: <INSERT DYNAMIC ID>" />
-      <TableContactsDelete tableData={[state]} />
+      {/* // TODO: Setup contacts redux slice + RTK Query; use id to retrieve company data and pass into TableContactsDelete component.  */}
+      {/* <TableContactsDelete tableData={[state]} /> */}
       <FormModal.Footer>
         <FormModal.CancelButton />
         <FormModal.DeleteButton />

@@ -33,10 +33,7 @@ function TableCompaniesOptionBtn(props: Props): React.JSX.Element {
             <span>View Company</span>
           </MenuItem>
           <MenuItem
-            // onAction={() => void navigate(`delete/${rowOriginal.id}`, { state: rowOriginal })}
-            onAction={() =>
-              void navigate({ params: { id: rowOriginal.id }, state: rowOriginal, to: '/companies/delete/$id' })
-            }
+            onAction={() => void navigate({ params: { id: rowOriginal.id }, to: '/companies/delete/$id' })}
             className={styles.companiesOptionBtn__menuItemWarning}>
             <IconDelete svgClass={styles.companiesOptionBtn__menuItemWarning__svg} />
             <span>Delete Company</span>

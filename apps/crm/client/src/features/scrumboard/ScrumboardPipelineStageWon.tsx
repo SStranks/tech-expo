@@ -56,7 +56,7 @@ function ScrumboardColumnWon({ stageId }: Props) {
             )}
           </div>
           <div className={styles.headerControls}>
-            <ScrumboardColumnAddBtn columnStyle="won" stageId={stage.id} />
+            <ScrumboardColumnAddBtn to="/pipeline/deal/create/$stageId" columnStyle="won" stageId={stage.id} />
           </div>
         </div>
         <span className={styles['pipelineTotal--won']}>${dealsTotal}</span>

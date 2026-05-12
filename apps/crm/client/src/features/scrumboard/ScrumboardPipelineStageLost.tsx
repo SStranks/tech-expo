@@ -56,7 +56,7 @@ function ScrumboardPipelineStageLost({ stageId }: Props) {
             )}
           </div>
           <div className={styles.headerControls}>
-            <ScrumboardColumnAddBtn stageId={stage.id} columnStyle="lost" />
+            <ScrumboardColumnAddBtn to="/pipeline/deal/create/$stageId" stageId={stage.id} columnStyle="lost" />
           </div>
         </div>
         <span className={styles['pipelineTotal--lost']}>${dealsTotal}</span>

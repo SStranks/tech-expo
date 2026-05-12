@@ -33,12 +33,14 @@ import { Route as AuditLogDetailsRouteImport } from './routes/audit-log/details'
 import { Route as QuotesUpdateIdRouteImport } from './routes/quotes/update.$id'
 import { Route as QuotesDeleteIdRouteImport } from './routes/quotes/delete.$id'
 import { Route as PipelineStageCreateRouteImport } from './routes/pipeline/stage/create'
+import { Route as KanbanStageCreateRouteImport } from './routes/kanban/stage/create'
 import { Route as ContactsDeleteIdRouteImport } from './routes/contacts/delete.$id'
 import { Route as CompaniesDeleteIdRouteImport } from './routes/companies/delete.$id'
 import { Route as PipelineStageUpdateStageIdRouteImport } from './routes/pipeline/stage/update.$stageId'
 import { Route as PipelineStageDeleteStageIdRouteImport } from './routes/pipeline/stage/delete.$stageId'
 import { Route as PipelineDealCreateStageIdRouteImport } from './routes/pipeline/deal/create.$stageId'
 import { Route as KanbanTaskUpdateTaskIdRouteImport } from './routes/kanban/task/update.$taskId'
+import { Route as KanbanTaskCreateStageIdRouteImport } from './routes/kanban/task/create.$stageId'
 import { Route as PipelineDealsDeleteStageIdDealIdRouteImport } from './routes/pipeline/deals/delete.$stageId.$dealId'
 import { Route as PipelineDealUpdateStageIdDealIdRouteImport } from './routes/pipeline/deal/update.$stageId.$dealId'
 import { Route as PipelineDealDeleteStageIdDealIdRouteImport } from './routes/pipeline/deal/delete.$stageId.$dealId'
@@ -163,6 +165,11 @@ const PipelineStageCreateRoute = PipelineStageCreateRouteImport.update({
   path: '/pipeline/stage/create',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KanbanStageCreateRoute = KanbanStageCreateRouteImport.update({
+  id: '/kanban/stage/create',
+  path: '/kanban/stage/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactsDeleteIdRoute = ContactsDeleteIdRouteImport.update({
   id: '/contacts/delete/$id',
   path: '/contacts/delete/$id',
@@ -194,6 +201,11 @@ const PipelineDealCreateStageIdRoute =
 const KanbanTaskUpdateTaskIdRoute = KanbanTaskUpdateTaskIdRouteImport.update({
   id: '/kanban/task/update/$taskId',
   path: '/kanban/task/update/$taskId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KanbanTaskCreateStageIdRoute = KanbanTaskCreateStageIdRouteImport.update({
+  id: '/kanban/task/create/$stageId',
+  path: '/kanban/task/create/$stageId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PipelineDealsDeleteStageIdDealIdRoute =
@@ -239,9 +251,11 @@ export interface FileRoutesByFullPath {
   '/settings/': typeof SettingsIndexRoute
   '/companies/delete/$id': typeof CompaniesDeleteIdRoute
   '/contacts/delete/$id': typeof ContactsDeleteIdRoute
+  '/kanban/stage/create': typeof KanbanStageCreateRoute
   '/pipeline/stage/create': typeof PipelineStageCreateRoute
   '/quotes/delete/$id': typeof QuotesDeleteIdRoute
   '/quotes/update/$id': typeof QuotesUpdateIdRoute
+  '/kanban/task/create/$stageId': typeof KanbanTaskCreateStageIdRoute
   '/kanban/task/update/$taskId': typeof KanbanTaskUpdateTaskIdRoute
   '/pipeline/deal/create/$stageId': typeof PipelineDealCreateStageIdRoute
   '/pipeline/stage/delete/$stageId': typeof PipelineStageDeleteStageIdRoute
@@ -274,9 +288,11 @@ export interface FileRoutesByTo {
   '/settings': typeof SettingsIndexRoute
   '/companies/delete/$id': typeof CompaniesDeleteIdRoute
   '/contacts/delete/$id': typeof ContactsDeleteIdRoute
+  '/kanban/stage/create': typeof KanbanStageCreateRoute
   '/pipeline/stage/create': typeof PipelineStageCreateRoute
   '/quotes/delete/$id': typeof QuotesDeleteIdRoute
   '/quotes/update/$id': typeof QuotesUpdateIdRoute
+  '/kanban/task/create/$stageId': typeof KanbanTaskCreateStageIdRoute
   '/kanban/task/update/$taskId': typeof KanbanTaskUpdateTaskIdRoute
   '/pipeline/deal/create/$stageId': typeof PipelineDealCreateStageIdRoute
   '/pipeline/stage/delete/$stageId': typeof PipelineStageDeleteStageIdRoute
@@ -310,9 +326,11 @@ export interface FileRoutesById {
   '/settings/': typeof SettingsIndexRoute
   '/companies/delete/$id': typeof CompaniesDeleteIdRoute
   '/contacts/delete/$id': typeof ContactsDeleteIdRoute
+  '/kanban/stage/create': typeof KanbanStageCreateRoute
   '/pipeline/stage/create': typeof PipelineStageCreateRoute
   '/quotes/delete/$id': typeof QuotesDeleteIdRoute
   '/quotes/update/$id': typeof QuotesUpdateIdRoute
+  '/kanban/task/create/$stageId': typeof KanbanTaskCreateStageIdRoute
   '/kanban/task/update/$taskId': typeof KanbanTaskUpdateTaskIdRoute
   '/pipeline/deal/create/$stageId': typeof PipelineDealCreateStageIdRoute
   '/pipeline/stage/delete/$stageId': typeof PipelineStageDeleteStageIdRoute
@@ -347,9 +365,11 @@ export interface FileRouteTypes {
     | '/settings/'
     | '/companies/delete/$id'
     | '/contacts/delete/$id'
+    | '/kanban/stage/create'
     | '/pipeline/stage/create'
     | '/quotes/delete/$id'
     | '/quotes/update/$id'
+    | '/kanban/task/create/$stageId'
     | '/kanban/task/update/$taskId'
     | '/pipeline/deal/create/$stageId'
     | '/pipeline/stage/delete/$stageId'
@@ -382,9 +402,11 @@ export interface FileRouteTypes {
     | '/settings'
     | '/companies/delete/$id'
     | '/contacts/delete/$id'
+    | '/kanban/stage/create'
     | '/pipeline/stage/create'
     | '/quotes/delete/$id'
     | '/quotes/update/$id'
+    | '/kanban/task/create/$stageId'
     | '/kanban/task/update/$taskId'
     | '/pipeline/deal/create/$stageId'
     | '/pipeline/stage/delete/$stageId'
@@ -417,9 +439,11 @@ export interface FileRouteTypes {
     | '/settings/'
     | '/companies/delete/$id'
     | '/contacts/delete/$id'
+    | '/kanban/stage/create'
     | '/pipeline/stage/create'
     | '/quotes/delete/$id'
     | '/quotes/update/$id'
+    | '/kanban/task/create/$stageId'
     | '/kanban/task/update/$taskId'
     | '/pipeline/deal/create/$stageId'
     | '/pipeline/stage/delete/$stageId'
@@ -453,9 +477,11 @@ export interface RootRouteChildren {
   SettingsIndexRoute: typeof SettingsIndexRoute
   CompaniesDeleteIdRoute: typeof CompaniesDeleteIdRoute
   ContactsDeleteIdRoute: typeof ContactsDeleteIdRoute
+  KanbanStageCreateRoute: typeof KanbanStageCreateRoute
   PipelineStageCreateRoute: typeof PipelineStageCreateRoute
   QuotesDeleteIdRoute: typeof QuotesDeleteIdRoute
   QuotesUpdateIdRoute: typeof QuotesUpdateIdRoute
+  KanbanTaskCreateStageIdRoute: typeof KanbanTaskCreateStageIdRoute
   KanbanTaskUpdateTaskIdRoute: typeof KanbanTaskUpdateTaskIdRoute
   PipelineDealCreateStageIdRoute: typeof PipelineDealCreateStageIdRoute
   PipelineStageDeleteStageIdRoute: typeof PipelineStageDeleteStageIdRoute
@@ -635,6 +661,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PipelineStageCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kanban/stage/create': {
+      id: '/kanban/stage/create'
+      path: '/kanban/stage/create'
+      fullPath: '/kanban/stage/create'
+      preLoaderRoute: typeof KanbanStageCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contacts/delete/$id': {
       id: '/contacts/delete/$id'
       path: '/contacts/delete/$id'
@@ -675,6 +708,13 @@ declare module '@tanstack/react-router' {
       path: '/kanban/task/update/$taskId'
       fullPath: '/kanban/task/update/$taskId'
       preLoaderRoute: typeof KanbanTaskUpdateTaskIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kanban/task/create/$stageId': {
+      id: '/kanban/task/create/$stageId'
+      path: '/kanban/task/create/$stageId'
+      fullPath: '/kanban/task/create/$stageId'
+      preLoaderRoute: typeof KanbanTaskCreateStageIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pipeline/deals/delete/$stageId/$dealId': {
@@ -725,9 +765,11 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsIndexRoute: SettingsIndexRoute,
   CompaniesDeleteIdRoute: CompaniesDeleteIdRoute,
   ContactsDeleteIdRoute: ContactsDeleteIdRoute,
+  KanbanStageCreateRoute: KanbanStageCreateRoute,
   PipelineStageCreateRoute: PipelineStageCreateRoute,
   QuotesDeleteIdRoute: QuotesDeleteIdRoute,
   QuotesUpdateIdRoute: QuotesUpdateIdRoute,
+  KanbanTaskCreateStageIdRoute: KanbanTaskCreateStageIdRoute,
   KanbanTaskUpdateTaskIdRoute: KanbanTaskUpdateTaskIdRoute,
   PipelineDealCreateStageIdRoute: PipelineDealCreateStageIdRoute,
   PipelineStageDeleteStageIdRoute: PipelineStageDeleteStageIdRoute,

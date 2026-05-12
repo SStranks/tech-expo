@@ -55,7 +55,7 @@ function ScrumboardKanbanColumnUnassigned({ stageId }: Props): React.JSX.Element
             )}
           </div>
           <div className={styles.headerControls}>
-            <ScrumboardColumnAddBtn stageId={stage.id} />
+            <ScrumboardColumnAddBtn to="/kanban/task/create/$stageId" stageId={stage.id} />
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@ function ScrumboardKanbanColumnUnassigned({ stageId }: Props): React.JSX.Element
         {taskIdsLexiSorted.map((taskId, i) => {
           return <ScrumboardKanbanTask key={taskId} taskId={taskId} taskIndex={i} stage={stage} />;
         })}
-        {taskIdsLexiSorted.length === 0 && <ScrumboardAddCard stageId={stage.id} />}
+        {taskIdsLexiSorted.length === 0 && <ScrumboardAddCard to="/kanban/task/create/$stageId" stageId={stage.id} />}
       </div>
     </div>
   );

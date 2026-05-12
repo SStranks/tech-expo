@@ -33,9 +33,7 @@ function TableContactsOptionBtn(props: Props): React.JSX.Element {
             <span>View Contact</span>
           </MenuItem>
           <MenuItem
-            onAction={() =>
-              void navigate({ params: { id: rowOriginal.id }, state: { rowOriginal }, to: '/contacts/delete/$id' })
-            }
+            onAction={() => void navigate({ params: { id: rowOriginal.id }, to: '/contacts/delete/$id' })}
             className={styles.contactsOptionBtn__menuItemWarning}>
             <IconDelete svgClass={styles.contactsOptionBtn__menuItemWarning__svg} />
             <span>Delete Contact</span>

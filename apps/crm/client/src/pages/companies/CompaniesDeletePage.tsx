@@ -2,7 +2,7 @@ import { useNavigate, useParams } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 
 import FormModal from '@Components/modal/FormModal';
-import TableCompaniesDelete from '@Components/tanstack-table/tables/companies/TableCompaniesDelete';
+// import TableCompaniesDelete from '@Components/tanstack-table/tables/companies/TableCompaniesDelete';
 
 import StylesTableListView from '@Components/tanstack-table/views/TableListView.module.scss';
 
@@ -27,7 +27,8 @@ function CompaniesDeletePage(): React.JSX.Element {
     <FormModal portalActive={portalActive} setPortalActive={setPortalActive}>
       {/* // TODO: Dynamic Id */}
       <FormModal.Header title="Delete Company: <INSERT DYNAMIC ID>" />
-      <TableCompaniesDelete tableData={[state]} />
+      {/* // TODO: Setup companies reduxslice + RTK Query; use id to get company data and pass into TableCompaniesDelete component. */}
+      {/* <TableCompaniesDelete tableData={[state]} /> */}
       <FormModal.Footer>
         <FormModal.CancelButton />
         <FormModal.DeleteButton />
