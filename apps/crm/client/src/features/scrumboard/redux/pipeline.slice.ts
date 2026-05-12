@@ -53,12 +53,19 @@ type PipelineState = {
 const stagesAdapter = createEntityAdapter<PipelineStage>();
 const dealsAdapter = createEntityAdapter<PipelineDeal>();
 
-const dealsInitialState = dealsAdapter.getInitialState({
-  activeRequestIdByDeal: {} as Record<string, string | undefined>,
+export interface ExtraDealsState {
+  activeRequestIdByDeal: Record<string, string | undefined>;
+}
+export interface ExtraStagesState {
+  activeRequestIdByStage: Record<string, string | undefined>;
+}
+
+const dealsInitialState = dealsAdapter.getInitialState<ExtraDealsState>({
+  activeRequestIdByDeal: {},
 });
 
-const stagesInitialState = stagesAdapter.getInitialState({
-  activeRequestIdByStage: {} as Record<string, string | undefined>,
+const stagesInitialState = stagesAdapter.getInitialState<ExtraStagesState>({
+  activeRequestIdByStage: {},
 });
 
 const initialState: PipelineState = {

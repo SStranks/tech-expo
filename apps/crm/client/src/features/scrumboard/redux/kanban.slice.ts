@@ -53,12 +53,19 @@ type KanbanState = {
 const stagesAdapter = createEntityAdapter<KanbanStage>();
 const tasksAdapter = createEntityAdapter<KanbanTask>();
 
-const tasksInitialState = tasksAdapter.getInitialState({
-  activeRequestIdByTask: {} as Record<string, string | undefined>,
+export interface ExtraTasksState {
+  activeRequestIdByTask: Record<string, string | undefined>;
+}
+export interface ExtraStagesState {
+  activeRequestIdByStage: Record<string, string | undefined>;
+}
+
+const tasksInitialState = tasksAdapter.getInitialState<ExtraTasksState>({
+  activeRequestIdByTask: {},
 });
 
-const stagesInitialState = stagesAdapter.getInitialState({
-  activeRequestIdByStage: {} as Record<string, string | undefined>,
+const stagesInitialState = stagesAdapter.getInitialState<ExtraStagesState>({
+  activeRequestIdByStage: {},
 });
 
 const initialState: KanbanState = {
