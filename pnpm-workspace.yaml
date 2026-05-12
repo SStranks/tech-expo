@@ -2,25 +2,25 @@ packages:
   - apps/**
   - packages/**
 
-injectWorkspacePackages: true
-minimumReleaseAge: 7200
-gitBranchLockfile: true
-mergeGitBranchLockfilesBranchPattern:
-  - main
-
 allowBuilds:
+  '@apollo/protobufjs': true
+  '@parcel/watcher': true
+  '@swc/core': true
   argon2: true
+  bcrypt: true
   core-js: true
+  core-js-pure: true
   cypress: true
   esbuild: true
   msw: true
+  secp256k1: true
   sharp: true
   unrs-resolver: true
-  '@apollo/protobufjs': true
-  bcrypt: true
-  secp256k1: true
-  '@swc/core': true
-  '@parcel/watcher': true
-  core-js-pure: true
+gitBranchLockfile: true
+
+injectWorkspacePackages: true
+mergeGitBranchLockfilesBranchPattern:
+  - main
+minimumReleaseAge: 7200
 overrides:
   browserslist: ^4.28.0

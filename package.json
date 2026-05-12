@@ -9,7 +9,7 @@
   },
   "license": "ISC",
   "type": "module",
-  "packageManager": "pnpm@11.0.8",
+  "packageManager": "pnpm@11.0.3",
   "engines": {
     "node": ">=22",
     "pnpm": ">=11"
