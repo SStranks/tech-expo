@@ -9,7 +9,7 @@ _Tech-Expo is a full-stack CRM application built as a modular monolith, showcasi
 
 [![CodeQL Badge](https://github.com/SStranks/tech-expo/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/SStranks/tech-expo/actions/workflows/github-code-scanning/codeql)
 [![MegaLint Badge](https://github.com/SStranks/tech-expo/actions/workflows/lint.yaml/badge.svg)](https://github.com/SStranks/tech-expo/actions/workflows/lint.yaml)
-[![Vitest Badge](https://github.com/SStranks/tech-expo/actions/workflows/test.yaml/badge.svg)](https://github.com/SStranks/tech-expo/actions/workflows/vitest.yaml)
+[![Vitest Badge](https://github.com/SStranks/tech-expo/actions/workflows/vitest.yaml/badge.svg)](https://github.com/SStranks/tech-expo/actions/workflows/vitest.yaml)
 [![Cypress Badge](https://github.com/SStranks/tech-expo/actions/workflows/cypress.yaml/badge.svg)](https://github.com/SStranks/tech-expo/actions/workflows/cypress.yaml)
 [![Playwright Badge](https://github.com/SStranks/tech-expo/actions/workflows/playwright.yaml/badge.svg)](https://github.com/SStranks/tech-expo/actions/workflows/playwright.yaml)
 [![Dependencies Badge](https://github.com/SStranks/tech-expo/actions/workflows/dependencies.yaml/badge.svg)](https://github.com/SStranks/tech-expo/actions/workflows/dependencies.yaml)
