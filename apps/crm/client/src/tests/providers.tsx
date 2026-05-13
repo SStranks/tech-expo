@@ -36,20 +36,25 @@ const setupReduxStore = (extra: ThunkExtra, preloadedState?: Partial<ReduxRootSt
   });
 };
 
-function createTestRouter(component: React.ReactNode) {
+function createTestRouter(component: React.ReactNode, initialLocation = '/', context = {}) {
   const rootRoute = createRootRoute();
   const indexRoute = createRoute({
     path: '/',
     component: () => component,
     getParentRoute: () => rootRoute,
   });
-
   const routeTree = rootRoute.addChildren([indexRoute]);
 
-  return createRouter({
-    history: createMemoryHistory(),
+  const router = createRouter({
+    context,
+    defaultPendingMinMs: 0,
     routeTree,
+    history: createMemoryHistory({
+      initialEntries: [initialLocation],
+    }),
   });
+
+  return router;
 }
 
 type ProviderOptions = {
@@ -70,12 +75,13 @@ type ExtendedRenderOptions = {
 interface RenderWithProvidersResult extends RenderResult {
   store?: ReduxStore;
   serviceHttp?: IServiceHttp;
+  testRouter?: AnyRouter;
 }
 
-export function renderWithAllProviders(
+export async function renderWithAllProviders(
   testComponent: React.ReactElement,
   options: ExtendedRenderOptions = {}
-): RenderWithProvidersResult {
+): Promise<RenderWithProvidersResult> {
   const { providers = {}, router, ...renderOptions } = options;
   const { withApollo = false, withRedux = false, withRouter = false, withServices = false } = providers;
 
@@ -84,8 +90,15 @@ export function renderWithAllProviders(
 
   const store = withRedux && serviceHttp ? setupReduxStore({ serviceHttp }, options.preloadedState ?? {}) : undefined;
 
+  const testRouter = withRouter ? (router ?? createTestRouter(testComponent)) : undefined;
+  if (testRouter) await testRouter.load();
+
   const AllProviders = ({ children }: PropsWithChildren) => {
     let wrapped = children;
+
+    if (withRouter && testRouter) {
+      wrapped = <RouterProvider router={testRouter} />;
+    }
 
     if (withServices && serviceHttp) {
       wrapped = <ServicesContext.Provider value={{ serviceHttp }}>{wrapped}</ServicesContext.Provider>;
@@ -99,18 +112,10 @@ export function renderWithAllProviders(
       wrapped = <Provider store={store}>{wrapped}</Provider>;
     }
 
-    if (withRouter) {
-      const testRouter = router ?? createTestRouter(wrapped);
-      wrapped = <RouterProvider router={testRouter} />;
-    }
-
     return wrapped;
   };
 
   const result = render(testComponent, { wrapper: AllProviders, ...renderOptions });
 
-  return { ...result, serviceHttp, store } as typeof result & {
-    serviceHttp?: IServiceHttp;
-    store?: ReduxStore;
-  };
+  return { ...result, serviceHttp, store, testRouter };
 }
