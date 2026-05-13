@@ -7,23 +7,60 @@ on: # yamllint disable-line rule:truthy
   pull_request:
     branches: [main]
     paths:
-      - 'apps/crm/client/**/*.(test|spec).[jt]sx?'
-      - 'apps/crm/server/**/*.(test|spec).[jt]sx?'
+      - 'apps/crm/client/**/*.test.*'
+      - 'apps/crm/client/**/*.spec.*'
+      - 'apps/crm/server/**/*.test.*'
+      - 'apps/crm/server/**/*.spec.*'
 
   push:
     branches: [main]
     paths:
-      - 'apps/crm/client/**/*.(test|spec).[jt]sx?'
-      - 'apps/crm/server/**/*.(test|spec).[jt]sx?'
+      - 'apps/crm/client/**/*.test.*'
+      - 'apps/crm/client/**/*.spec.*'
+      - 'apps/crm/server/**/*.test.*'
+      - 'apps/crm/server/**/*.spec.*'
 
   workflow_dispatch: {}
 
 jobs:
-  vitest:
+  vitest-client:
+    name: CRM Client Vitest
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v5
+        with:
+          run_install: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build shared package
+        run: pnpm --filter @apps/crm-shared build
+
+      - name: Run client tests
+        run: pnpm --filter "./apps/crm/client" vitest:unit
+
+  vitest-server:
+    name: CRM Server Vitest
     runs-on: ubuntu-latest
     environment: testing
-    env:
-      NODE_ENV: test
 
     permissions:
       contents: read
@@ -52,15 +89,12 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Build @apps/crm-shared types
+      - name: Build shared package
         run: pnpm --filter @apps/crm-shared build
 
-      - name: CRM Client - Vitest
-        run: pnpm --filter "./apps/crm/client" vitest:all
-
-      - name: CRM Server - Vitest
+      - name: Run server tests
         run: pnpm --filter "./apps/crm/server" vitest:test
 
       - name: Cleanup
