@@ -1,4 +1,5 @@
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import viteReactPlugin from '@vitejs/plugin-react';
 import { playwright } from '@vitest/browser-playwright';
 import { loadEnv } from 'vite';
@@ -12,12 +13,16 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 export default defineConfig(({ mode }) => {
   return {
-    plugins: [viteTsconfigPathsPlugin(), viteReactPlugin()],
     css: {
       preprocessorOptions: {
         scss: {},
       },
     },
+    plugins: [
+      viteTsconfigPathsPlugin(),
+      viteReactPlugin(),
+      tanstackRouter({ generatedRouteTree: './src/routeTree.gen.ts', routesDirectory: './src/routes' }),
+    ],
     test: {
       env: loadEnv(`${mode}.client`, process.cwd(), ''),
       environment: 'jsdom',
@@ -58,7 +63,6 @@ export default defineConfig(({ mode }) => {
           ],
           test: {
             name: 'storybook',
-            setupFiles: ['./.storybook/vitest.setup.ts'],
             browser: {
               enabled: true,
               headless: true,

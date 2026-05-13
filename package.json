@@ -11,19 +11,14 @@
   "type": "module",
   "packageManager": "pnpm@11.0.3",
   "engines": {
-    "node": ">=22",
+    "node": ">=22.18.0",
     "pnpm": ">=11"
   },
   "devEngines": {
     "runtime": {
       "name": "node",
       "onFail": "warn",
-      "version": ">=22"
-    },
-    "packageManager": {
-      "name": "pnpm",
-      "onFail": "warn",
-      "version": ">=11"
+      "version": ">=22.18.0"
     }
   },
   "prettier": "@packages/prettier-config",
