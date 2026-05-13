@@ -54,8 +54,11 @@ jobs:
       - name: Build shared package
         run: pnpm --filter @apps/crm-shared build
 
+      - name: Build graphql codegen
+        run: pnpm --filter @apps/crm-client codegen
+
       - name: Run client tests
-        run: pnpm --filter "./apps/crm/client" vitest:unit
+        run: pnpm --filter @apps/crm-client vitest:unit
 
   vitest-server:
     name: CRM Server Vitest
@@ -94,8 +97,11 @@ jobs:
       - name: Build shared package
         run: pnpm --filter @apps/crm-shared build
 
+      - name: Build graphql codegen
+        run: pnpm --filter @apps/crm-server codegen
+
       - name: Run server tests
-        run: pnpm --filter "./apps/crm/server" vitest:test
+        run: pnpm --filter @apps/crm-server vitest:test
 
       - name: Cleanup
         if: always()
