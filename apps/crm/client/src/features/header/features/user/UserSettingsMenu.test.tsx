@@ -1,18 +1,15 @@
-import { BrowserRouter } from '@tanstack/react-router';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { renderWithProviders } from '@Redux/utils';
+import { renderWithAllProviders } from '@Tests/providers';
 
 import UserSettingsMenu from './UserSettingsMenu';
 
 describe('Initialization', () => {
-  test('Component should render correctly; user settings window should not be present before click event', () => {
-    renderWithProviders(
-      <BrowserRouter>
-        <UserSettingsMenu userName="Smith" />
-      </BrowserRouter>
-    );
+  test('Component should render correctly; user settings window should not be present before click event', async () => {
+    await renderWithAllProviders(<UserSettingsMenu userName="Smith" />, {
+      providers: { withRedux: true, withRouter: true },
+    });
 
     const userSettingsButton = screen.getByRole('button', { name: /user settings menu/ });
     const userSettingsIcon = screen.getByLabelText(/user settings/);
@@ -27,11 +24,9 @@ describe('Initialization', () => {
   });
 
   test('Component should render correctly; in portal after click event', async () => {
-    renderWithProviders(
-      <BrowserRouter>
-        <UserSettingsMenu userName="Smith" />
-      </BrowserRouter>
-    );
+    await renderWithAllProviders(<UserSettingsMenu userName="Smith" />, {
+      providers: { withRedux: true, withRouter: true },
+    });
     const user = userEvent.setup();
 
     // Open portal content

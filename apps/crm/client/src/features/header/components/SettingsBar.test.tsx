@@ -1,17 +1,12 @@
-import { BrowserRouter } from '@tanstack/react-router';
 import { screen } from '@testing-library/react';
 
-import { renderWithProviders } from '@Redux/utils';
+import { renderWithAllProviders } from '@Tests/providers';
 
 import SettingsBar from './SettingsBar';
 
 describe('Initialization', () => {
-  test('Component should render correctly', () => {
-    renderWithProviders(
-      <BrowserRouter>
-        <SettingsBar />
-      </BrowserRouter>
-    );
+  test('Component should render correctly', async () => {
+    await renderWithAllProviders(<SettingsBar />, { providers: { withRedux: true, withRouter: true } });
 
     const themeSwitchButton = screen.getByRole('button', { name: /theme switch toggle/ });
     const notificationsButton = screen.getByRole('button', { name: /notifications/ });

@@ -6,8 +6,8 @@ import { renderWithAllProviders } from '@Tests/providers';
 import { Aside, MENU_CATEGORIES } from './Aside';
 
 describe('Initialization', () => {
-  test('Sidebar menu contains valid links', () => {
-    renderWithAllProviders(<Aside />, { providers: { withRouter: true } });
+  test('Sidebar menu contains valid links', async () => {
+    await renderWithAllProviders(<Aside />, { providers: { withRouter: true } });
 
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(MENU_CATEGORIES.length);
@@ -20,8 +20,8 @@ describe('Initialization', () => {
     });
   });
 
-  test('Sidebar menu contains a button to toggle maximize/minimize visibility state', () => {
-    renderWithAllProviders(<Aside />, { providers: { withRouter: true } });
+  test('Sidebar menu contains a button to toggle maximize/minimize visibility state', async () => {
+    await renderWithAllProviders(<Aside />, { providers: { withRouter: true } });
 
     const menuToggleButton = screen.getByRole('button', { name: /side-menu collapse toggle/i });
 
@@ -32,7 +32,8 @@ describe('Initialization', () => {
 
 describe('Functionality', () => {
   test('Menu toggle button collapses the sidebar; icons remain visible, text invisible', async () => {
-    renderWithAllProviders(<Aside />, { providers: { withRouter: true } });
+    await renderWithAllProviders(<Aside />, { providers: { withRouter: true } });
+
     const user = userEvent.setup();
 
     const menuToggleButton = screen.getByRole('button', { name: /side-menu collapse toggle/i });

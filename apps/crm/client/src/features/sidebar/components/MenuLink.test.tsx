@@ -3,7 +3,6 @@ import { vi } from 'vitest';
 
 import { renderWithAllProviders } from '@Tests/providers';
 
-// import { IconCalendar } from '@Components/svg';
 import MenuLink from './MenuLink';
 
 const Icon = vi.fn();
@@ -13,10 +12,13 @@ describe('Initialization', () => {
     vi.resetAllMocks();
   });
 
-  test('Component should render correctly', () => {
-    renderWithAllProviders(<MenuLink name="dashboard" href="/dashboard" Icon={Icon} minimize={false} index={0} />, {
-      providers: { withRouter: true },
-    });
+  test('Component should render correctly', async () => {
+    await renderWithAllProviders(
+      <MenuLink name="dashboard" href="/dashboard" Icon={Icon} minimize={false} index={0} />,
+      {
+        providers: { withRouter: true },
+      }
+    );
 
     const listItem = screen.getByRole('listitem');
     const icon = screen.getByLabelText('dashboard', { selector: 'div' });
@@ -34,10 +36,13 @@ describe('Initialization', () => {
     expect(linkText).toBeVisible();
   });
 
-  test('Minimize prop; false; should apply maximize animation style', () => {
-    renderWithAllProviders(<MenuLink name="dashboard" href="/dashboard" Icon={Icon} minimize={false} index={0} />, {
-      providers: { withRouter: true },
-    });
+  test('Minimize prop; false; should apply maximize animation style', async () => {
+    await renderWithAllProviders(
+      <MenuLink name="dashboard" href="/dashboard" Icon={Icon} minimize={false} index={0} />,
+      {
+        providers: { withRouter: true },
+      }
+    );
 
     const listItem = screen.getByRole('listitem');
 
@@ -45,10 +50,13 @@ describe('Initialization', () => {
     expect(listItem).not.toHaveClass(/menuLink--minimize/);
   });
 
-  test('Minimize prop; true; should apply minimize animation style', () => {
-    renderWithAllProviders(<MenuLink name="dashboard" href="/dashboard" Icon={Icon} minimize={true} index={0} />, {
-      providers: { withRouter: true },
-    });
+  test('Minimize prop; true; should apply minimize animation style', async () => {
+    await renderWithAllProviders(
+      <MenuLink name="dashboard" href="/dashboard" Icon={Icon} minimize={true} index={0} />,
+      {
+        providers: { withRouter: true },
+      }
+    );
 
     const listItem = screen.getByRole('listitem');
 

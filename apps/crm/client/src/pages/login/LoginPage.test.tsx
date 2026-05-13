@@ -12,8 +12,8 @@ import LoginPage from './LoginPage';
 const { EMAIL_RULES } = VALIDATION_MESSAGES;
 
 describe('Initialization', () => {
-  test('Component should render correctly', () => {
-    renderWithAllProviders(<LoginPage />, {
+  test('Component should render correctly', async () => {
+    await renderWithAllProviders(<LoginPage />, {
       providers: { withRedux: true, withRouter: true, withServices: true },
     });
 
@@ -38,8 +38,8 @@ describe('Initialization', () => {
 });
 
 describe('Functionality', () => {
-  test('Form links are valid', () => {
-    renderWithAllProviders(<LoginPage />, {
+  test('Form links are valid', async () => {
+    await renderWithAllProviders(<LoginPage />, {
       providers: { withRedux: true, withRouter: true, withServices: true },
     });
 
@@ -51,7 +51,7 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; empty inputs should not trigger submission', async () => {
-    const { serviceHttp } = renderWithAllProviders(<LoginPage />, {
+    const { serviceHttp } = await renderWithAllProviders(<LoginPage />, {
       providers: { withRedux: true, withRouter: true, withServices: true },
     });
     const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));
@@ -65,7 +65,7 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; error message on invalid email pattern', async () => {
-    const { serviceHttp } = renderWithAllProviders(<LoginPage />, {
+    const { serviceHttp } = await renderWithAllProviders(<LoginPage />, {
       providers: { withRedux: true, withRouter: true, withServices: true },
     });
     const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));
@@ -84,7 +84,7 @@ describe('Functionality', () => {
   });
 
   test('Form; Submission success', async () => {
-    const { serviceHttp } = renderWithAllProviders(<LoginPage />, {
+    const { serviceHttp } = await renderWithAllProviders(<LoginPage />, {
       providers: { withRedux: true, withRouter: true, withServices: true },
     });
     const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));

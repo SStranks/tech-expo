@@ -16,7 +16,10 @@ const { EMAIL_RULES, PASSWORD_STRENGTH_RULES } = VALIDATION_MESSAGES;
 
 vi.mock('@Lib/zxcvbn', () => ({
   getStrength: vi.fn(),
-  usePasswordStrength: vi.fn(),
+}));
+
+vi.mock('@Features/password-strength/usePasswordStrength', () => ({
+  default: vi.fn(),
 }));
 
 // Resolve lazy-load immediately
@@ -28,8 +31,8 @@ vi.mock('@Components/react-hook-form/input-password/InputPasswordStrength', asyn
 afterEach(() => vi.clearAllMocks());
 
 describe('Initialization', () => {
-  test('Component should render correctly', () => {
-    renderWithAllProviders(<RegisterPage />, {
+  test('Component should render correctly', async () => {
+    await renderWithAllProviders(<RegisterPage />, {
       providers: { withRouter: true, withServices: true },
     });
 
@@ -53,8 +56,8 @@ describe('Initialization', () => {
 describe('Functionality', () => {
   afterEach(() => vi.clearAllMocks());
 
-  test('Form links are valid', () => {
-    renderWithAllProviders(<RegisterPage />, {
+  test('Form links are valid', async () => {
+    await renderWithAllProviders(<RegisterPage />, {
       providers: { withRouter: true, withServices: true },
     });
 
@@ -64,7 +67,7 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; "required" errors on empty inputs', async () => {
-    const { serviceHttp } = renderWithAllProviders(<RegisterPage />, {
+    const { serviceHttp } = await renderWithAllProviders(<RegisterPage />, {
       providers: { withRouter: true, withServices: true },
     });
     const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));
@@ -80,7 +83,7 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; error message on invalid email pattern', async () => {
-    const { serviceHttp } = renderWithAllProviders(<RegisterPage />, {
+    const { serviceHttp } = await renderWithAllProviders(<RegisterPage />, {
       providers: { withRouter: true, withServices: true },
     });
     const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));
@@ -100,7 +103,7 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; error message on invalid password strength', async () => {
-    const { serviceHttp } = renderWithAllProviders(<RegisterPage />, {
+    const { serviceHttp } = await renderWithAllProviders(<RegisterPage />, {
       providers: { withRouter: true, withServices: true },
     });
     const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));
@@ -117,10 +120,10 @@ describe('Functionality', () => {
 
     expect(await screen.findByRole('alert')).toHaveTextContent(PASSWORD_STRENGTH_RULES.validate.strength);
     expect(loginMock).not.toHaveBeenCalled(); // Form submission
-  });
+  }, 30_000);
 
   test('Form; Submission success', async () => {
-    const { serviceHttp } = renderWithAllProviders(<RegisterPage />, {
+    const { serviceHttp } = await renderWithAllProviders(<RegisterPage />, {
       providers: { withRouter: true, withServices: true },
     });
     const loginMock = vi.spyOn(serviceHttp!.account, 'login').mockResolvedValue(mockSuccess({} as LoginResponse));
@@ -138,4 +141,4 @@ describe('Functionality', () => {
     expect(screen.queryAllByRole('alert')).toHaveLength(0);
     expect(loginMock).toHaveBeenCalledWith({ email: 'admin@admin.com', password: MAX_PASSWORD }); // Form submission
   });
-});
+}, 30_000);

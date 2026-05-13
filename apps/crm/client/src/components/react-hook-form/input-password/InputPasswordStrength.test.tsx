@@ -15,14 +15,17 @@ const defaultValues = { password: '' };
 
 vi.mock('@Lib/zxcvbn', () => ({
   getStrength: vi.fn(),
-  usePasswordStrength: vi.fn(),
+}));
+
+vi.mock('@Features/password-strength/usePasswordStrength', () => ({
+  default: vi.fn(),
 }));
 
 afterEach(() => vi.clearAllMocks());
 
 describe('Initialization', () => {
   test('Component should render correctly', async () => {
-    renderWithAllProviders(
+    await renderWithAllProviders(
       <FormProvider onSubmit={() => ({})}>
         <InputPasswordStrength defaultValue={defaultValues.password} name="password" reveal={false} label="password" />
       </FormProvider>,
@@ -42,7 +45,7 @@ describe('Initialization', () => {
 describe('Functionality', () => {
   test('Empty input should return password strength score of 0', async () => {
     vi.mocked(usePasswordStrength).mockReturnValue(0);
-    renderWithAllProviders(
+    await renderWithAllProviders(
       <FormProvider onSubmit={() => ({})}>
         <InputPasswordStrength defaultValue={defaultValues.password} name="password" reveal={false} label="password" />
       </FormProvider>,
@@ -60,7 +63,7 @@ describe('Functionality', () => {
 
   test('Maximum strength password should have strength score of 4', async () => {
     vi.mocked(usePasswordStrength).mockReturnValue(4);
-    renderWithAllProviders(
+    await renderWithAllProviders(
       <FormProvider onSubmit={() => ({})}>
         <InputPasswordStrength defaultValue={defaultValues.password} name="password" reveal={false} label="password" />
       </FormProvider>,

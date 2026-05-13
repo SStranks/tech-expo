@@ -11,8 +11,8 @@ import ForgotPasswordPage from './ForgotPasswordPage';
 const { EMAIL_RULES } = VALIDATION_MESSAGES;
 
 describe('Initialization', () => {
-  test('Component should render correctly', () => {
-    renderWithAllProviders(<ForgotPasswordPage />, {
+  test('Component should render correctly', async () => {
+    await renderWithAllProviders(<ForgotPasswordPage />, {
       providers: { withRouter: true, withServices: true },
     });
 
@@ -37,8 +37,8 @@ describe('Functionality', () => {
     vi.resetAllMocks();
   });
 
-  test('Form links are valid', () => {
-    renderWithAllProviders(<ForgotPasswordPage />, {
+  test('Form links are valid', async () => {
+    await renderWithAllProviders(<ForgotPasswordPage />, {
       providers: { withRouter: true, withServices: true },
     });
 
@@ -48,7 +48,7 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; "required" errors on empty inputs', async () => {
-    const { serviceHttp } = renderWithAllProviders(<ForgotPasswordPage />, {
+    const { serviceHttp } = await renderWithAllProviders(<ForgotPasswordPage />, {
       providers: { withRouter: true, withServices: true },
     });
     const forgotPasswordMock = vi.spyOn(serviceHttp!.account, 'forgotpassword').mockResolvedValue(mockSuccess({}));
@@ -64,7 +64,7 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; error message on invalid email pattern', async () => {
-    const { serviceHttp } = renderWithAllProviders(<ForgotPasswordPage />, {
+    const { serviceHttp } = await renderWithAllProviders(<ForgotPasswordPage />, {
       providers: { withRouter: true, withServices: true },
     });
     const forgotPasswordMock = vi.spyOn(serviceHttp!.account, 'forgotpassword').mockResolvedValue(mockSuccess({}));
@@ -83,7 +83,7 @@ describe('Functionality', () => {
   });
 
   test('Form; Submission success', async () => {
-    const { serviceHttp } = renderWithAllProviders(<ForgotPasswordPage />, {
+    const { serviceHttp } = await renderWithAllProviders(<ForgotPasswordPage />, {
       providers: { withRouter: true, withServices: true },
     });
     const forgotPasswordMock = vi.spyOn(serviceHttp!.account, 'forgotpassword').mockResolvedValue(mockSuccess({}));

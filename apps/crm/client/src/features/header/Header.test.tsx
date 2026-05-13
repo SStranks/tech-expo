@@ -1,17 +1,12 @@
-import { BrowserRouter } from '@tanstack/react-router';
 import { screen } from '@testing-library/react';
 
-import { renderWithProviders } from '@Redux/utils';
+import { renderWithAllProviders } from '@Tests/providers';
 
 import Header from './Header';
 
 describe('Initialization', () => {
-  test('Component should render correctly; contain header and h1 elements', () => {
-    renderWithProviders(
-      <BrowserRouter>
-        <Header />
-      </BrowserRouter>
-    );
+  test('Component should render correctly; contain header and h1 elements', async () => {
+    await renderWithAllProviders(<Header />, { providers: { withRedux: true, withRouter: true } });
 
     const headerElement = screen.getByRole('banner');
     const H1Element = screen.getByRole('heading', { level: 1 });

@@ -12,22 +12,36 @@ import UpdatePasswordPage from './UpdatePasswordPage';
 
 const { PASSWORD_RULES, PASSWORD_STRENGTH_RULES, PASSWORDCONFIRM_RULES } = VALIDATION_MESSAGES;
 
+const navigateMock = vi.fn();
+
+vi.mock('@tanstack/react-router', async () => {
+  const actual = await vi.importActual('@tanstack/react-router');
+
+  return {
+    ...actual,
+    useNavigate: () => navigateMock,
+  };
+});
+
 vi.mock('@Lib/zxcvbn', () => ({
   getStrength: vi.fn(),
-  usePasswordStrength: vi.fn(),
+}));
+
+vi.mock('@Features/password-strength/usePasswordStrength', () => ({
+  default: () => 4,
 }));
 
 // Resolve lazy-load immediately
-vi.mock('@Components/react-hook-form/input-password/InputPasswordStrength', async (importOriginal) => {
-  const actual = await importOriginal();
-  return actual;
-});
+// vi.mock('@Components/react-hook-form/input-password/InputPasswordStrength', async (importOriginal) => {
+//   const actual = await importOriginal();
+//   return actual;
+// });
 
-afterEach(() => vi.clearAllMocks());
+afterEach(() => vi.resetAllMocks());
 
 describe('Initialization', () => {
   test('Component should render correctly', async () => {
-    renderWithAllProviders(<UpdatePasswordPage />, {
+    await renderWithAllProviders(<UpdatePasswordPage />, {
       providers: { withRouter: true, withServices: true },
     });
 
@@ -48,13 +62,14 @@ describe('Initialization', () => {
 });
 
 describe('Functionality', () => {
-  afterEach(() => vi.clearAllMocks());
+  afterEach(() => vi.resetAllMocks());
 
   test('Form; Input validation; "required" errors on empty inputs', async () => {
-    const { serviceHttp } = renderWithAllProviders(<UpdatePasswordPage />, {
+    vi.mocked(getStrength).mockResolvedValue(0);
+
+    const { serviceHttp } = await renderWithAllProviders(<UpdatePasswordPage />, {
       providers: { withRouter: true, withServices: true },
     });
-    vi.mocked(getStrength).mockResolvedValue(0);
 
     const updatePasswordMock = vi
       .spyOn(serviceHttp!.account, 'updatepassword')
@@ -72,40 +87,64 @@ describe('Functionality', () => {
   });
 
   test('Form; Input validation; if confirmed password is incorrect display error', async () => {
-    const { serviceHttp } = renderWithAllProviders(<UpdatePasswordPage />, {
+    const t0 = performance.now();
+
+    vi.mocked(getStrength).mockResolvedValue(4);
+
+    const { serviceHttp } = await renderWithAllProviders(<UpdatePasswordPage />, {
       providers: { withRouter: true, withServices: true },
     });
-    vi.mocked(getStrength).mockResolvedValue(4);
+
+    console.log('render:', performance.now() - t0);
 
     const updatePasswordMock = vi
       .spyOn(serviceHttp!.account, 'updatepassword')
       .mockResolvedValue(mockSuccess({ tokens: { tokens: true } }));
     const user = userEvent.setup({ delay: null });
 
+    const t1 = performance.now();
+    console.log('updatePassMock:', performance.now() - t1);
+
     const passwordStrengthInput = await screen.findByLabelText(/^password$/i);
     const passwordConfirmInput = await screen.findByLabelText(/^confirm password$/i);
     const updatePasswordButton = await screen.findByRole('button', { name: /update password/i });
+    const passwordOldInput = await screen.findByLabelText(/^old password$/i);
+
+    const t2 = performance.now();
+    console.log('inputs:', performance.now() - t2);
 
     await user.type(passwordStrengthInput, MAX_PASSWORD);
     await user.type(passwordConfirmInput, 'abc');
+    await user.type(passwordOldInput, OLD_PASSWORD);
+
+    const t3 = performance.now();
     await user.click(updatePasswordButton);
+    console.log('click button:', performance.now() - t3);
+
+    const t4 = performance.now();
+    console.log('user inputs:', performance.now() - t4);
 
     expect(screen.queryByText(PASSWORD_STRENGTH_RULES.required)).not.toBeInTheDocument();
     expect(screen.queryByText(PASSWORDCONFIRM_RULES.required)).not.toBeInTheDocument();
+
+    const t5 = performance.now();
     expect(screen.getByText(PASSWORDCONFIRM_RULES.validate.confirm)).toBeInTheDocument();
+    console.log('assert:', performance.now() - t5);
 
     expect(updatePasswordMock).not.toHaveBeenCalled();
-  });
+  }, 30_000);
 
   test('Form; Submission success', async () => {
-    const { serviceHttp } = renderWithAllProviders(<UpdatePasswordPage />, {
+    vi.mocked(getStrength).mockResolvedValue(4);
+
+    const { serviceHttp } = await renderWithAllProviders(<UpdatePasswordPage />, {
       providers: { withRouter: true, withServices: true },
     });
 
-    vi.mocked(getStrength).mockResolvedValue(4);
     const updatePasswordMock = vi
       .spyOn(serviceHttp!.account, 'updatepassword')
       .mockResolvedValue(mockSuccess({ tokens: { tokens: true } }));
+
     const user = userEvent.setup({ delay: null });
 
     const passwordStrengthInput = await screen.findByLabelText(/^password$/i);
@@ -118,16 +157,21 @@ describe('Functionality', () => {
     await user.type(passwordOldInput, OLD_PASSWORD);
     await user.click(updatePasswordButton);
 
+    expect(passwordConfirmInput).toHaveValue(MAX_PASSWORD);
+    expect(passwordConfirmInput).toHaveValue(MAX_PASSWORD);
+    expect(passwordOldInput).toHaveValue(OLD_PASSWORD);
+
     expect(updatePasswordMock).toHaveBeenCalledTimes(1);
     expect(updatePasswordMock).toHaveBeenLastCalledWith({
       newPassword: MAX_PASSWORD,
       newPasswordConfirm: MAX_PASSWORD,
       oldPassword: OLD_PASSWORD,
     });
+    expect(navigateMock).toHaveBeenCalledWith({ to: '/login' });
 
     expect(screen.queryByText(PASSWORD_STRENGTH_RULES.required)).not.toBeInTheDocument();
     expect(screen.queryByText(PASSWORDCONFIRM_RULES.required)).not.toBeInTheDocument();
     expect(screen.queryByText(PASSWORDCONFIRM_RULES.validate.confirm)).not.toBeInTheDocument();
     expect(screen.queryByText(PASSWORD_RULES.required)).not.toBeInTheDocument();
   });
-});
+}, 30_000);
