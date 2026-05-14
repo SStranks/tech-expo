@@ -1,6 +1,7 @@
 /* eslint-disable perfectionist/sort-objects */
-import 'webpack-dev-server';
 import type { Configuration } from 'webpack';
+
+import 'webpack-dev-server';
 
 import path from 'node:path';
 import url from 'node:url';

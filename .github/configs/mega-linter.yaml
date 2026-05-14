@@ -51,7 +51,6 @@ JAVASCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
   - --no-eslintrc
   - -c
   - /github/workspace/eslint.config.js
-  - --no-ignore
 JAVASCRIPT_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
 JAVASCRIPT_ES_CONFIG_FILE: 'eslint.config.js'
 
@@ -69,7 +68,6 @@ TSX_ES_COMMAND_REMOVE_ARGUMENTS:
   - --no-eslintrc
   - -c
   - /github/workspace/eslint.config.js
-  - --no-ignore
 TSX_PRETTIER_CONFIG_FILE: 'packages/prettier-config/prettier.config.js'
 TSX_ES_CONFIG_FILE: 'eslint.config.js'
 

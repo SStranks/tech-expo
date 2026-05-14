@@ -1,5 +1,6 @@
-import { defineConfig } from 'drizzle-kit';
 import '@dotenvx/dotenvx/config';
+
+import { defineConfig } from 'drizzle-kit';
 
 import { initializeDockerSecrets, secrets } from './src/config/secrets.js';
 
