@@ -22,7 +22,7 @@ export default defineConfig({
     video: 'off',
   },
   webServer: {
-    command: 'pnpm start:ci',
+    command: 'webpack serve --disable-interpret --config ./webpack/webpack.dev.ts',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
     url: process.env.WEBPACK_CI_PUBLIC_URL,
