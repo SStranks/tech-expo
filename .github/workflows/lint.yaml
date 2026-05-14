@@ -40,10 +40,10 @@ jobs:
         run: pnpm install
 
       - name: Build @crm-shared types
-        run: pnpm --filter "@apps/crm-shared" build
+        run: pnpm --filter @apps/crm-shared build
 
       - name: Generate graphql codegen files
-        run: pnpm --filter "@apps/crm-client" --filter "@apps/crm-server" codegen
+        run: pnpm --filter @apps/crm-client --filter @apps/crm-server codegen
 
       - name: MegaLinter
         uses: oxsecurity/megalinter/flavors/javascript@v9.1.0

@@ -16,9 +16,11 @@
 !**/certs/**/example.*
 !**/certs/**/README.md
 
-# Env files
+# Env files - Decrypted
 **/*.env
 **/.env.*
+# Env files - Encrypted
+!**/.env.*.enc
 
 # Dependencies
 **/node_modules
