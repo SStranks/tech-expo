@@ -48,7 +48,7 @@ services:
     restart: unless-stopped
     env_file:
       - ../server/.env.prod.server
-      - ./.env.prod
+      - ./.env.prod.docker
     volumes:
       - tmpfs-certs:/etc/expressjs/certs:ro
     healthcheck:

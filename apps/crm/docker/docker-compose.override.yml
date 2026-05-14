@@ -16,7 +16,7 @@ services:
         condition: 'service_healthy'
     env_file:
       - ../server/.env.dev.server
-      - ./.env.dev
+      - ./.env.dev.docker
     ports:
       - 127.0.0.1:${EXPRESS_LOCAL_PORT:?error}:${EXPRESS_DOCKER_PORT:?error}
       - 127.0.0.1:9229:9229
@@ -149,7 +149,7 @@ services:
       POSTGRES_HOST: ${POSTGRES_CONTAINER:?error}
     env_file:
       - ../server/.env.dev.server
-      - ./.env.dev
+      - ./.env.dev.docker
     ports:
       - 127.0.0.1:9230:9230
     volumes:

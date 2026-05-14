@@ -11,7 +11,7 @@ set -euo pipefail
 # Example: ./docker.sh
 # -----------------------------------------------------------------------------
 
-# TODO: Need to make prod version of script; target .env.prod file
+# TODO: Need to make prod version of script; target .env.prod.docker file
 # NODE_ENV="${1:-dev}"
 
 # Directory variables
@@ -20,7 +20,7 @@ SECRETS_FILE_0="$SCRIPT_DIR/.secret.yaml"
 SECRETS_FILE_1="$SCRIPT_DIR/.secret.redisExporter.json"
 SECRETS_FILE_2="$SCRIPT_DIR/.secret.mongoExporter.txt"
 SECRETS_RAM_DIR="/run/user/$(id -u)/secrets"
-ENV_FILE="$SCRIPT_DIR/.env.dev"
+ENV_FILE="$SCRIPT_DIR/.env.dev.docker"
 
 # If SECRET_PATH exists in the env file, replace it. Otherwise, append it.
 if grep -q '^SECRET_PATH=' "$ENV_FILE"; then
@@ -89,5 +89,5 @@ docker volume create techexpo-postgres
 # Run Docker compose outside of SOPS context
 # Running inside interferes with docket rootless and breaks
 docker compose -f "$SCRIPT_DIR/docker-compose.override.yml" \
-  --env-file "$SCRIPT_DIR/.env.dev" \
+  --env-file "$SCRIPT_DIR/.env.dev.docker" \
   --profile "*" up

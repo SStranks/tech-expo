@@ -97,7 +97,7 @@ services:
         window: 120s
     env_file:
       - ../server/.env.prod.server
-      - ./.env.prod
+      - ./.env.prod.docker
     volumes: []
     entrypoint: ['/usr/local/bin/node-express-init.sh']
     healthcheck:

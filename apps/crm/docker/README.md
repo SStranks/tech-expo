@@ -4,9 +4,10 @@
 - [Current Directory](#current-directory)
   - [docker.sh](#dockersh)
   - [docker-compose](#docker-compose)
+  - [metrics portal](#metrics-portal)
 - [Required Files](#required-files)
-  - [.env.dev](#envdev)
-  - [.env.prod](#envprod)
+  - [.env.dev.docker](#envdevdocker)
+  - [.env.prod.docker](#envproddocker)
   - [.secret.yaml](#secretyaml)
   - [.secret.mongoExporter.txt](#secretmongoexportertxt)
   - [.secret.redisExporter.json](#secretredisexporterjson)
@@ -47,24 +48,38 @@ Docker compose files are merged through the CLI, the composition dependent on wh
   - [`docker-compose.prod`](./docker-compose.prod.yml) - production (local, non-swarm)
   - [`docker-compose.metrics`](./docker-compose.metrics.yml) - metrics
   - [`docker-compose.swarm`](./docker-compose.swarm.yml) - swarm (deployment)
-- Requires `./.env.dev` or `./.env.prod` dependent on environment
+- Requires `./.env.dev.docker` or `./.env.prod.docker` dependent on environment
 - Profiles available for targeting services
 
-###### Example initialization, for development and using metrics:
+###### Example initialization; Development, and using metrics:
 
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.metrics.yml --env-file ./.env.dev --profile dev up
+docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.metrics.yml --env-file ./.env.dev.docker --profile dev up
 ```
+
+### Metrics Portal
+
+#### Development
+
+To access the Grafana metrics UI in the browser, a HTTPS TLS connection is made to the Nginx-metrics reverse-proxy:
+
+```js
+https://localhost:1081/grafana/
+```
+
+The port is defined by the `NGINX_METRICS_LOCAL_PORT_TLS` environment variable
+
+#### Production
 
 ## Required files
 
 - `.env` Local ports to be determined by user - check for alignment with nginx services 'listen' if applicable
 - `.secret` Files require [`Mozilla SOPS`](https://github.com/getsops/sops) for in-place encryption and decryption
 
-###### .env.dev
+###### .env.dev.docker
 
 ```ini
-# ./.env.dev
+# ./.env.dev.docker
 
 NODE_ENV=development
 
@@ -167,7 +182,7 @@ METRICS_EXPORTER_CERTS_VOLUME=tmpfs-certs:/certs:ro
 
 ```
 
-###### .env.prod
+###### .env.prod.docker
 
 ```ini
 # ./env.prod
