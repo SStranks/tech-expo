@@ -1,5 +1,5 @@
 const getNodeEnv = () => {
-  if (import.meta.env.NODE_ENV === 'development') return import.meta.env.NODE_ENV;
+  if (import.meta.env.ENV === 'development') return import.meta.env.ENV;
   return 'production';
 };
 

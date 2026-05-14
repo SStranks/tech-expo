@@ -1,5 +1,5 @@
 interface ImportMetaEnv {
-  readonly NODE_ENV: string;
+  readonly ENV: string;
   readonly PUBLIC_URL: string;
   readonly API_HOST: string;
   readonly ROLLBAR_ENABLED: string;

@@ -1,25 +1,24 @@
 /* eslint-disable perfectionist/sort-objects */
-import 'webpack-dev-server';
 import type { Configuration } from 'webpack';
 
 import type { WebpackEnv } from './webpack.common';
 
+import 'webpack-dev-server';
+
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
-import Dotenv from 'dotenv';
-import DotenvPlugin from 'dotenv-webpack';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
+import webpack from 'webpack';
 import { merge } from 'webpack-merge';
 
 import path from 'node:path';
 import url from 'node:url';
 
-import CommonConfig from './webpack.common';
+import CommonConfig, { envKeys } from './webpack.common';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
-Dotenv.config({ path: path.resolve(__dirname, '../.env.dev.client') });
 
 const DevConfig = (_env: WebpackEnv) => {
   return {
@@ -136,7 +135,7 @@ const DevConfig = (_env: WebpackEnv) => {
         template: path.resolve(__dirname, '../src/index-template.html.ejs'),
         favicon: path.resolve(__dirname, '../src/favicon.ico'),
         templateParameters: {
-          PUBLIC_URL: process.env['PUBLIC_URL'],
+          PUBLIC_URL: envKeys['PUBLIC_URL'],
         },
       }),
       new ReactRefreshWebpackPlugin(),
@@ -151,7 +150,7 @@ const DevConfig = (_env: WebpackEnv) => {
         },
       }),
       new CopyPlugin({ patterns: [{ from: path.resolve(__dirname, '../public'), noErrorOnMissing: true }] }),
-      new DotenvPlugin({ path: path.resolve(__dirname, '../.env.dev.client'), prefix: 'import.meta.env.' }),
+      new webpack.DefinePlugin(envKeys),
     ],
   } satisfies Configuration;
 };

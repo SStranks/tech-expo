@@ -7,14 +7,13 @@ import type { WebpackEnv } from './webpack.common';
 import CompressionPlugin from 'compression-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import Dotenv from 'dotenv';
-import DotenvPlugin from 'dotenv-webpack';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
+import { DefinePlugin } from 'webpack';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { merge } from 'webpack-merge';
 import { StatsWriterPlugin } from 'webpack-stats-plugin';
@@ -24,10 +23,9 @@ import url from 'node:url';
 import zlib from 'node:zlib';
 
 import filterWebpackStats from './filter/filterWebpackStats';
-import CommonConfig from './webpack.common';
+import CommonConfig, { envKeys } from './webpack.common';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
-Dotenv.config({ path: path.resolve(__dirname, '../.env.prod.client') });
 
 const ProdConfig = (_env: WebpackEnv) => {
   return {
@@ -256,7 +254,7 @@ const ProdConfig = (_env: WebpackEnv) => {
         template: path.resolve(__dirname, '../src/index-template.html.ejs'),
         favicon: path.resolve(__dirname, '../src/favicon.ico'),
         templateParameters: {
-          PUBLIC_URL: process.env['PUBLIC_URL'],
+          PUBLIC_URL: envKeys['PUBLIC_URL'],
         },
         minify: {
           removeAttributeQuotes: true,
@@ -301,7 +299,7 @@ const ProdConfig = (_env: WebpackEnv) => {
           { from: path.resolve(__dirname, '../public/sitemap.xml'), noErrorOnMissing: true },
         ],
       }),
-      new DotenvPlugin({ path: path.resolve(__dirname, '../.env.prod.client') }),
+      new DefinePlugin(envKeys),
       new WebpackManifestPlugin({}),
       new StatsWriterPlugin({
         filename: 'stats/build-stats.json',

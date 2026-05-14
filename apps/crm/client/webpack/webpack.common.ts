@@ -8,7 +8,18 @@ import url from 'node:url';
 
 export type WebpackEnv = Record<string, string>;
 
+const { WEBPACK_PREFIX } = process.env;
+
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const prefix = 'import.meta.env';
+
+export const envKeys = Object.keys(process.env).reduce<{ [key: string]: string }>((acc, key) => {
+  if (WEBPACK_PREFIX && key.startsWith(WEBPACK_PREFIX)) {
+    const keyWithoutPrefix = key.slice(WEBPACK_PREFIX.length);
+    acc[`${prefix}.${keyWithoutPrefix}`] = JSON.stringify(process.env[key]);
+  }
+  return acc;
+}, {});
 
 const CommonConfig = (_env: WebpackEnv) => {
   return {
