@@ -55,7 +55,9 @@ jobs:
         run: pnpm --filter @apps/crm-client codegen
 
       - name: Run Playwright tests
-        run: pnpm --filter @apps/crm-client playwright:test
+        run: |
+          cd apps/crm/client
+          pnpm exec dotenvx run -f ./.env.ci.client.enc -- pnpm playwright:test
         env:
           DOTENV_PRIVATE_KEY_CI_CLIENT: ${{ secrets.DOTENV_PRIVATE_KEY_CI_CLIENT }}
 
