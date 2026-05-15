@@ -16,6 +16,7 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as ScrumboardIndexRouteImport } from './routes/scrumboard/index'
 import { Route as QuotesIndexRouteImport } from './routes/quotes/index'
 import { Route as PipelineIndexRouteImport } from './routes/pipeline/index'
 import { Route as KanbanIndexRouteImport } from './routes/kanban/index'
@@ -23,6 +24,7 @@ import { Route as ContactsIndexRouteImport } from './routes/contacts/index'
 import { Route as CompaniesIndexRouteImport } from './routes/companies/index'
 import { Route as CalendarIndexRouteImport } from './routes/calendar/index'
 import { Route as AuditLogIndexRouteImport } from './routes/audit-log/index'
+import { Route as AdministrationIndexRouteImport } from './routes/administration/index'
 import { Route as QuotesCreateRouteImport } from './routes/quotes/create'
 import { Route as QuotesIdRouteImport } from './routes/quotes/$id'
 import { Route as ContactsCreateRouteImport } from './routes/contacts/create'
@@ -80,6 +82,11 @@ const SettingsIndexRoute = SettingsIndexRouteImport.update({
   path: '/settings/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ScrumboardIndexRoute = ScrumboardIndexRouteImport.update({
+  id: '/scrumboard/',
+  path: '/scrumboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuotesIndexRoute = QuotesIndexRouteImport.update({
   id: '/quotes/',
   path: '/quotes/',
@@ -113,6 +120,11 @@ const CalendarIndexRoute = CalendarIndexRouteImport.update({
 const AuditLogIndexRoute = AuditLogIndexRouteImport.update({
   id: '/audit-log/',
   path: '/audit-log/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdministrationIndexRoute = AdministrationIndexRouteImport.update({
+  id: '/administration/',
+  path: '/administration/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuotesCreateRoute = QuotesCreateRouteImport.update({
@@ -241,6 +253,7 @@ export interface FileRoutesByFullPath {
   '/contacts/create': typeof ContactsCreateRoute
   '/quotes/$id': typeof QuotesIdRoute
   '/quotes/create': typeof QuotesCreateRoute
+  '/administration/': typeof AdministrationIndexRoute
   '/audit-log/': typeof AuditLogIndexRoute
   '/calendar/': typeof CalendarIndexRoute
   '/companies/': typeof CompaniesIndexRoute
@@ -248,6 +261,7 @@ export interface FileRoutesByFullPath {
   '/kanban/': typeof KanbanIndexRoute
   '/pipeline/': typeof PipelineIndexRoute
   '/quotes/': typeof QuotesIndexRoute
+  '/scrumboard/': typeof ScrumboardIndexRoute
   '/settings/': typeof SettingsIndexRoute
   '/companies/delete/$id': typeof CompaniesDeleteIdRoute
   '/contacts/delete/$id': typeof ContactsDeleteIdRoute
@@ -278,6 +292,7 @@ export interface FileRoutesByTo {
   '/contacts/create': typeof ContactsCreateRoute
   '/quotes/$id': typeof QuotesIdRoute
   '/quotes/create': typeof QuotesCreateRoute
+  '/administration': typeof AdministrationIndexRoute
   '/audit-log': typeof AuditLogIndexRoute
   '/calendar': typeof CalendarIndexRoute
   '/companies': typeof CompaniesIndexRoute
@@ -285,6 +300,7 @@ export interface FileRoutesByTo {
   '/kanban': typeof KanbanIndexRoute
   '/pipeline': typeof PipelineIndexRoute
   '/quotes': typeof QuotesIndexRoute
+  '/scrumboard': typeof ScrumboardIndexRoute
   '/settings': typeof SettingsIndexRoute
   '/companies/delete/$id': typeof CompaniesDeleteIdRoute
   '/contacts/delete/$id': typeof ContactsDeleteIdRoute
@@ -316,6 +332,7 @@ export interface FileRoutesById {
   '/contacts/create': typeof ContactsCreateRoute
   '/quotes/$id': typeof QuotesIdRoute
   '/quotes/create': typeof QuotesCreateRoute
+  '/administration/': typeof AdministrationIndexRoute
   '/audit-log/': typeof AuditLogIndexRoute
   '/calendar/': typeof CalendarIndexRoute
   '/companies/': typeof CompaniesIndexRoute
@@ -323,6 +340,7 @@ export interface FileRoutesById {
   '/kanban/': typeof KanbanIndexRoute
   '/pipeline/': typeof PipelineIndexRoute
   '/quotes/': typeof QuotesIndexRoute
+  '/scrumboard/': typeof ScrumboardIndexRoute
   '/settings/': typeof SettingsIndexRoute
   '/companies/delete/$id': typeof CompaniesDeleteIdRoute
   '/contacts/delete/$id': typeof ContactsDeleteIdRoute
@@ -355,6 +373,7 @@ export interface FileRouteTypes {
     | '/contacts/create'
     | '/quotes/$id'
     | '/quotes/create'
+    | '/administration/'
     | '/audit-log/'
     | '/calendar/'
     | '/companies/'
@@ -362,6 +381,7 @@ export interface FileRouteTypes {
     | '/kanban/'
     | '/pipeline/'
     | '/quotes/'
+    | '/scrumboard/'
     | '/settings/'
     | '/companies/delete/$id'
     | '/contacts/delete/$id'
@@ -392,6 +412,7 @@ export interface FileRouteTypes {
     | '/contacts/create'
     | '/quotes/$id'
     | '/quotes/create'
+    | '/administration'
     | '/audit-log'
     | '/calendar'
     | '/companies'
@@ -399,6 +420,7 @@ export interface FileRouteTypes {
     | '/kanban'
     | '/pipeline'
     | '/quotes'
+    | '/scrumboard'
     | '/settings'
     | '/companies/delete/$id'
     | '/contacts/delete/$id'
@@ -429,6 +451,7 @@ export interface FileRouteTypes {
     | '/contacts/create'
     | '/quotes/$id'
     | '/quotes/create'
+    | '/administration/'
     | '/audit-log/'
     | '/calendar/'
     | '/companies/'
@@ -436,6 +459,7 @@ export interface FileRouteTypes {
     | '/kanban/'
     | '/pipeline/'
     | '/quotes/'
+    | '/scrumboard/'
     | '/settings/'
     | '/companies/delete/$id'
     | '/contacts/delete/$id'
@@ -467,6 +491,7 @@ export interface RootRouteChildren {
   ContactsCreateRoute: typeof ContactsCreateRoute
   QuotesIdRoute: typeof QuotesIdRoute
   QuotesCreateRoute: typeof QuotesCreateRoute
+  AdministrationIndexRoute: typeof AdministrationIndexRoute
   AuditLogIndexRoute: typeof AuditLogIndexRoute
   CalendarIndexRoute: typeof CalendarIndexRoute
   CompaniesIndexRoute: typeof CompaniesIndexRoute
@@ -474,6 +499,7 @@ export interface RootRouteChildren {
   KanbanIndexRoute: typeof KanbanIndexRoute
   PipelineIndexRoute: typeof PipelineIndexRoute
   QuotesIndexRoute: typeof QuotesIndexRoute
+  ScrumboardIndexRoute: typeof ScrumboardIndexRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
   CompaniesDeleteIdRoute: typeof CompaniesDeleteIdRoute
   ContactsDeleteIdRoute: typeof ContactsDeleteIdRoute
@@ -542,6 +568,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/scrumboard/': {
+      id: '/scrumboard/'
+      path: '/scrumboard'
+      fullPath: '/scrumboard/'
+      preLoaderRoute: typeof ScrumboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quotes/': {
       id: '/quotes/'
       path: '/quotes'
@@ -589,6 +622,13 @@ declare module '@tanstack/react-router' {
       path: '/audit-log'
       fullPath: '/audit-log/'
       preLoaderRoute: typeof AuditLogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/administration/': {
+      id: '/administration/'
+      path: '/administration'
+      fullPath: '/administration/'
+      preLoaderRoute: typeof AdministrationIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quotes/create': {
@@ -755,6 +795,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactsCreateRoute: ContactsCreateRoute,
   QuotesIdRoute: QuotesIdRoute,
   QuotesCreateRoute: QuotesCreateRoute,
+  AdministrationIndexRoute: AdministrationIndexRoute,
   AuditLogIndexRoute: AuditLogIndexRoute,
   CalendarIndexRoute: CalendarIndexRoute,
   CompaniesIndexRoute: CompaniesIndexRoute,
@@ -762,6 +803,7 @@ const rootRouteChildren: RootRouteChildren = {
   KanbanIndexRoute: KanbanIndexRoute,
   PipelineIndexRoute: PipelineIndexRoute,
   QuotesIndexRoute: QuotesIndexRoute,
+  ScrumboardIndexRoute: ScrumboardIndexRoute,
   SettingsIndexRoute: SettingsIndexRoute,
   CompaniesDeleteIdRoute: CompaniesDeleteIdRoute,
   ContactsDeleteIdRoute: ContactsDeleteIdRoute,
