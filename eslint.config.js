@@ -37,7 +37,9 @@ export default defineConfig([
       '**/migrations/meta/',
       '**/routeTree.gen.ts',
       'pnpm-lock.yaml',
+      'pnpm-lock.*.yaml',
       'pnpm-workspace.yaml',
+      'package-lock.json',
     ],
   },
   {
