@@ -22,5 +22,9 @@ injectWorkspacePackages: true
 mergeGitBranchLockfilesBranchPattern:
   - main
 minimumReleaseAge: 7200
+minimumReleaseAgeExclude:
+  - '@types/*'
+  - '@secretlint/*'
+  - 'secretlint'
 overrides:
   browserslist: ^4.28.0

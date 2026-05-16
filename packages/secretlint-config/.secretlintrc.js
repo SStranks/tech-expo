@@ -15,6 +15,7 @@ export * from '@secretlint/secretlint-rule-npm';
 export * from '@secretlint/secretlint-rule-openai';
 export * from '@secretlint/secretlint-rule-pattern';
 export * from '@secretlint/secretlint-rule-privatekey';
+export * from '@secretlint/secretlint-rule-secp256k1-privatekey';
 export * from '@secretlint/secretlint-rule-sendgrid';
 export * from '@secretlint/secretlint-rule-shopify';
 export * from '@secretlint/secretlint-rule-slack';
