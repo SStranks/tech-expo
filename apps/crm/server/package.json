@@ -44,10 +44,10 @@
     "drizzle:seed": "DRIZZLE=seed tsx --inspect=0.0.0.0:9230 ./src/config/seed.ts",
     "drizzle:drop": "pnpm drizzle-kit drop",
     "drizzle:push": "NODE_OPTIONS='--import=tsx' drizzle-kit push",
-    "dotenv:lint": "docker run --rm -v \"$(pwd)\":/app -w /app dotenvlinter/dotenv-linter:3.3.0 dotenv-linter .env* -r",
     "vitest:test": "vitest run --mode test --config ./vitest.config.ts",
     "vitest:watch": "vitest watch --mode test --config ./vitest.config.ts",
-    "vitest:list": "vitest list --filesOnly --mode test --config ./vitest.config.ts"
+    "vitest:list": "vitest list --filesOnly --mode test --config ./vitest.config.ts",
+    "dotenv:lint": "docker run --rm -v \"$(pwd)\":/app -w /app dotenvlinter/dotenv-linter:4.0.0 check -r .env* -e .env*.enc"
   },
   "config": {
     "dockerImageRepo": "techexpo/server",
