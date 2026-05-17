@@ -23,7 +23,7 @@ on: # yamllint disable-line rule:truthy
   workflow_dispatch: {}
 
 jobs:
-  vitest-client:
+  vitest-client-unit:
     name: CRM Client Vitest
     runs-on: ubuntu-latest
 
@@ -63,7 +63,49 @@ jobs:
       - name: Run client storybook:tests
         run: pnpm --filter @apps/crm-client vitest:storybook
 
-  vitest-server:
+  vitest-client-storybook:
+    runs-on: ubuntu-latest
+    environment: testing
+
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+
+    container:
+      image: mcr.microsoft.com/playwright:v1.59.1-noble
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+
+      - name: setup PNPM
+        uses: pnpm/action-setup@v5
+        with:
+          run_install: false
+
+      - name: setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: install dependencies
+        run: pnpm install
+
+      - name: build shared
+        run: pnpm --filter @apps/crm-shared build
+
+      - name: build graphql codegen
+        run: pnpm --filter @apps/crm-client codegen
+
+      - name: run Storybook tests
+        run: pnpm --filter @apps/crm-client exec dotenvx run -f ./.env.ci.client.enc -- vitest run --mode test --config ./vitest.config.ts --project=storybook
+        env:
+          DOTENV_PRIVATE_KEY_CI_CLIENT: ${{ secrets.DOTENV_PRIVATE_KEY_CI_CLIENT }}
+
+  vitest-server-unit:
     name: CRM Server Vitest
     runs-on: ubuntu-latest
     environment: testing
