@@ -57,8 +57,11 @@ jobs:
       - name: Build graphql codegen
         run: pnpm --filter @apps/crm-client codegen
 
-      - name: Run client tests
+      - name: Run client unit:tests
         run: pnpm --filter @apps/crm-client vitest:unit
+
+      - name: Run client storybook:tests
+        run: pnpm --filter @apps/crm-client vitest:storybook
 
   vitest-server:
     name: CRM Server Vitest
