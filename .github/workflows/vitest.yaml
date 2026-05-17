@@ -24,7 +24,6 @@ on: # yamllint disable-line rule:truthy
 
 jobs:
   vitest-client-unit:
-    name: CRM Client Vitest
     runs-on: ubuntu-latest
 
     permissions:
@@ -106,7 +105,6 @@ jobs:
           DOTENV_PRIVATE_KEY_CI_CLIENT: ${{ secrets.DOTENV_PRIVATE_KEY_CI_CLIENT }}
 
   vitest-server-unit:
-    name: CRM Server Vitest
     runs-on: ubuntu-latest
     environment: testing
 
