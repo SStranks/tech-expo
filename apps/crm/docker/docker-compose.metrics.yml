@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-go/master/schema/compose-spec.json
+---
 services:
   nginx-metrics:
     container_name: ${NGINX_METRICS_CONTAINER:?error}
@@ -21,7 +23,7 @@ services:
     security_opt:
       - no-new-privileges
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/health']
+      test: [CMD-SHELL, 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/health']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -32,13 +34,13 @@ services:
     container_name: ${PROMETHEUS_CONTAINER:?error}
     image: prom/prometheus:v3.5.0
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--web.config.file=/etc/prometheus/auth.yml'
-      - '--log.level=warn'
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.config.file=/etc/prometheus/auth.yml
+      - --log.level=warn
     restart: on-failure:3
     depends_on:
       certs:
-        condition: 'service_healthy'
+        condition: service_healthy
     environment:
       NGINX_METRICS_CONTAINER: ${NGINX_METRICS_CONTAINER:?error}
       NGINX_METRICS_DOCKER_PORT_HTTP: ${NGINX_METRICS_DOCKER_PORT_HTTP:?error}
@@ -55,7 +57,7 @@ services:
     networks:
       - techexpo-crm-metrics
     healthcheck:
-      test: ['CMD', '/bin/sh', '/usr/local/bin/prometheus-healthcheck.sh']
+      test: [CMD, /bin/sh, /usr/local/bin/prometheus-healthcheck.sh]
       interval: 30s
       timeout: 5s
       retries: 5
@@ -66,11 +68,11 @@ services:
 
   grafana:
     container_name: ${GRAFANA_CONTAINER:?error}
-    image: grafana/grafana:12.0.2
+    image: grafana/grafana:13.0.1
     restart: on-failure:3
     depends_on:
       certs:
-        condition: 'service_healthy'
+        condition: service_healthy
     environment:
       GF_SMTP_HOST: ${MAILPIT_CONTAINER}:${MAILPIT_SMTP_DOCKER_PORT}
       GF_SMTP_FROM_ADDRESS: ${GF_SMTP_FROM_ADDRESS}
@@ -96,12 +98,12 @@ services:
     networks:
       - techexpo-crm-metrics
     healthcheck:
-      test: ['CMD', '/bin/sh', '/usr/local/bin/grafana-healthcheck.sh']
+      test: [CMD, /bin/sh, /usr/local/bin/grafana-healthcheck.sh]
       interval: 30s
       timeout: 5s
       retries: 5
       start_period: 30s
-    entrypoint: ['/usr/local/bin/grafana-init.sh']
+    entrypoint: [/usr/local/bin/grafana-init.sh]
     secrets:
       - grafana_admin_username
       - grafana_admin_password
@@ -118,14 +120,14 @@ services:
     restart: on-failure:3
     depends_on:
       express-api:
-        condition: 'service_healthy'
+        condition: service_healthy
       # - react
       redis:
-        condition: 'service_healthy'
+        condition: service_healthy
       postgres:
-        condition: 'service_healthy'
+        condition: service_healthy
       mongo:
-        condition: 'service_healthy'
+        condition: service_healthy
     ports:
       - 8080:8080
     volumes:
@@ -150,7 +152,7 @@ services:
     restart: unless-stopped
     depends_on:
       postgres:
-        condition: 'service_healthy'
+        condition: service_healthy
     environment:
       DATA_SOURCE_URI_FILE: /run/secrets/postgres_exporter_uri
       DATA_SOURCE_USER_FILE: /run/secrets/postgres_user_metrics
@@ -160,7 +162,7 @@ services:
     volumes:
       - tmpfs-certs:/etc/prometheus/certs:ro
     healthcheck:
-      test: ['CMD', '/bin/postgres_exporter', '--version']
+      test: [CMD, /bin/postgres_exporter, --version]
       interval: 60s
       timeout: 5s
       retries: 5
@@ -183,7 +185,7 @@ services:
     restart: unless-stopped
     depends_on:
       mongo:
-        condition: 'service_healthy'
+        condition: service_healthy
     env_file:
       - ${SECRET_PATH}/.secret.mongo_uri.txt
     networks:
@@ -191,7 +193,7 @@ services:
     volumes:
       - tmpfs-certs:/etc/prometheus/certs:ro
     healthcheck:
-      test: ['CMD', '/mongodb_exporter', '--version']
+      test: [CMD, /mongodb_exporter, --version]
       interval: 60s
       timeout: 5s
       retries: 5
@@ -204,7 +206,7 @@ services:
     restart: unless-stopped
     depends_on:
       redis:
-        condition: 'service_healthy'
+        condition: service_healthy
     environment:
       REDIS_ADDR: rediss://${REDIS_CONTAINER:?error}:${REDIS_DOCKER_PORT:?error}
       REDIS_PASSWORD_FILE: /run/secrets/redis_uri
@@ -216,7 +218,7 @@ services:
     volumes:
       - tmpfs-certs:/etc/prometheus/certs:ro
     healthcheck:
-      test: ['CMD', '/redis_exporter', '--version']
+      test: [CMD, /redis_exporter, --version]
       interval: 60s
       timeout: 5s
       retries: 5

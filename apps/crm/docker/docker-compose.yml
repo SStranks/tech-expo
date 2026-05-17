@@ -1,5 +1,6 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-go/master/schema/compose-spec.json
 ---
-name: 'tech-expo-crm'
+name: tech-expo-crm
 services:
   express-api:
     container_name: ${EXPRESS_CONTAINER:?error}

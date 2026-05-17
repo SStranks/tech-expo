@@ -1,19 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-go/master/schema/compose-spec.json
 ---
 services:
   express-api:
     image: node:22-alpine3.22
-    command: ['sh', '-c', 'npx nodemon . | npx pino-pretty']
-    profiles: ['dev', 'express-api']
+    command: [sh, -c, 'npx nodemon . | npx pino-pretty']
+    profiles: [dev, express-api]
     restart: on-failure:3
     depends_on:
       certs:
-        condition: 'service_healthy'
+        condition: service_healthy
       mongo:
-        condition: 'service_healthy'
+        condition: service_healthy
       postgres:
-        condition: 'service_healthy'
+        condition: service_healthy
       redis:
-        condition: 'service_healthy'
+        condition: service_healthy
     env_file:
       - ../server/.env.dev.server
       - ./.env.dev.docker
@@ -29,18 +30,18 @@ services:
       - ../server/src/temp:/app/server/src/temp
       - ./nodejs/node-express-healthcheck.sh:/usr/local/bin/node-express-healthcheck.sh:ro
     healthcheck:
-      test: ['CMD', '/bin/sh', '/usr/local/bin/node-express-healthcheck.sh']
+      test: [CMD, /bin/sh, /usr/local/bin/node-express-healthcheck.sh]
       interval: 30s
       timeout: 5s
       retries: 3
       start_interval: 3s
       start_period: 30s
-    user: 'node'
+    user: node
 
   mongo:
     image: mongo:8.0.10
-    command: ['mongod', '--auth', '--quiet', '--config', '/etc/mongod.conf']
-    profiles: ['dev', 'mongo']
+    command: [mongod, --auth, --quiet, --config, /etc/mongod.conf]
+    profiles: [dev, mongo]
     restart: on-failure:3
     ports:
       - 127.0.0.1:${MONGO_LOCAL_PORT:?error}:${MONGO_DOCKER_PORT:?error}
@@ -52,9 +53,9 @@ services:
       - ./mongo/mongo-healthcheck.sh:/usr/local/bin/mongo-healthcheck.sh:ro
     depends_on:
       certs:
-        condition: 'service_healthy'
+        condition: service_healthy
     healthcheck:
-      test: ['CMD', '/bin/bash', '/usr/local/bin/mongo-healthcheck.sh']
+      test: [CMD, /bin/bash, /usr/local/bin/mongo-healthcheck.sh]
       interval: 60s
       timeout: 5s
       retries: 5
@@ -64,7 +65,7 @@ services:
   mongo-express:
     container_name: ${MONGOEXPRESS_CONTAINER:?error}
     image: mongo-express:1.1.0-rc-3 # Built from source
-    profiles: ['dev', 'mongo']
+    profiles: [dev, mongo]
     restart: on-failure:3
     environment:
       ME_CONFIG_MONGODB_ENABLE_ADMIN: true
@@ -96,11 +97,11 @@ services:
       - no-new-privileges
     depends_on:
       mongo:
-        condition: 'service_healthy'
+        condition: service_healthy
       certs:
-        condition: 'service_healthy'
+        condition: service_healthy
     healthcheck:
-      test: ['CMD', '/bin/bash', '/usr/local/bin/mongo-express-healthcheck.sh']
+      test: [CMD, /bin/bash, /usr/local/bin/mongo-express-healthcheck.sh]
       interval: 2m
       timeout: 5s
       retries: 5
@@ -115,7 +116,7 @@ services:
 
   postgres:
     image: postgres:18.3
-    profiles: ['dev', 'postgres', 'postgres-seeder']
+    profiles: [dev, postgres, postgres-seeder]
     shm_size: 128mb
     restart: on-failure:3
     ports:
@@ -127,24 +128,24 @@ services:
       - ./postgres/scripts:/usr/local/bin/scripts:ro
     depends_on:
       certs:
-        condition: 'service_healthy'
+        condition: service_healthy
     healthcheck:
-      test: ['CMD', '/bin/bash', '/usr/local/bin/scripts/postgres-healthcheck.sh']
+      test: [CMD, /bin/bash, /usr/local/bin/scripts/postgres-healthcheck.sh]
       interval: 60s
       timeout: 5s
       retries: 5
       start_interval: 3s
       start_period: 15s
-    user: 'postgres'
+    user: postgres
 
   postgres-seeder:
     container_name: ${POSTGRES_SEEDER_CONTAINER:?error}
     image: node:22-alpine3.22
-    profiles: ['postgres-seeder']
+    profiles: [postgres-seeder]
     working_dir: /app/server
     depends_on:
       postgres:
-        condition: 'service_healthy'
+        condition: service_healthy
     environment:
       POSTGRES_HOST: ${POSTGRES_CONTAINER:?error}
     env_file:
@@ -163,7 +164,7 @@ services:
       - no-new-privileges
     stdin_open: true
     tty: true
-    entrypoint: ['/usr/local/bin/postgres-seeder-init.sh']
+    entrypoint: [/usr/local/bin/postgres-seeder-init.sh]
     secrets:
       - postgres_user_migrator
       - postgres_password_migrator
@@ -173,7 +174,7 @@ services:
 
   redis:
     image: redis:8.6-alpine
-    profiles: ['dev', 'redis']
+    profiles: [dev, redis]
     restart: on-failure:3
     volumes:
       - tmpfs-certs:/etc/redis/certs:ro
@@ -182,20 +183,20 @@ services:
       - ./redis/redis-init.sh:/usr/local/bin/redis-init.sh:ro
     depends_on:
       certs:
-        condition: 'service_healthy'
+        condition: service_healthy
     healthcheck:
-      test: ['CMD', '/bin/sh', '/usr/local/bin/redis-healthcheck.sh']
+      test: [CMD, /bin/sh, /usr/local/bin/redis-healthcheck.sh]
       interval: 60s
       timeout: 5s
       retries: 5
       start_interval: 3s
       start_period: 15s
-    entrypoint: ['/usr/local/bin/redis-init.sh']
+    entrypoint: [/usr/local/bin/redis-init.sh]
 
   redisinsight:
     container_name: ${REDISINSIGHT_CONTAINER:?error}
     image: redis/redisinsight:3.2.0
-    profiles: ['dev', 'redis']
+    profiles: [dev, redis]
     restart: on-failure:3
     environment:
       REDIS_CONTAINER: ${REDIS_CONTAINER:?error}
@@ -213,12 +214,12 @@ services:
       - techexpo-crm-redisinsight
     depends_on:
       certs:
-        condition: 'service_healthy'
+        condition: service_healthy
       redis:
-        condition: 'service_healthy'
-    entrypoint: ['/usr/local/bin/redisinsight-init.sh']
+        condition: service_healthy
+    entrypoint: [/usr/local/bin/redisinsight-init.sh]
     healthcheck:
-      test: ['CMD', '/bin/sh', '/usr/local/bin/redisinsight-healthcheck.sh']
+      test: [CMD, /bin/sh, /usr/local/bin/redisinsight-healthcheck.sh]
       interval: 2m
       timeout: 30s
       retries: 5
@@ -235,7 +236,7 @@ services:
     restart: on-failure:3
     depends_on:
       certs:
-        condition: 'service_healthy'
+        condition: service_healthy
     environment:
       MP_MAX_MESSAGES: 5000
       MP_DATABASE: /data/mailpit.db
@@ -267,9 +268,9 @@ services:
       - tmpfs-certs:/certs:rw
       - ./certs/dev:/src:ro
       - ./certs/certs-init.sh:/usr/local/bin/certs-init.sh:ro
-    entrypoint: ['/usr/local/bin/certs-init.sh']
+    entrypoint: [/usr/local/bin/certs-init.sh]
     healthcheck:
-      test: ['CMD', 'test', '-f', '/certs/.ready']
+      test: [CMD, test, -f, /certs/.ready]
       interval: 2s
       timeout: 2s
       retries: 5

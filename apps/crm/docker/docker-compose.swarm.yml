@@ -1,5 +1,6 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-go/master/schema/compose-spec.json
 ---
-name: 'tech-expo-crm'
+name: tech-expo-crm
 version: '3.7'
 
 services:
@@ -24,7 +25,7 @@ services:
     security_opt:
       - no-new-privileges
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_PUBLIC_DOCKER_PORT_HTTP/health']
+      test: [CMD-SHELL, 'wget --spider -q http://127.0.0.1:$NGINX_PUBLIC_DOCKER_PORT_HTTP/health']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -57,7 +58,7 @@ services:
   nginx-metrics:
     volumes: []
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/health']
+      test: [CMD-SHELL, 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/health']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -99,7 +100,7 @@ services:
       - ../server/.env.prod.server
       - ./.env.prod.docker
     volumes: []
-    entrypoint: ['/usr/local/bin/node-express-init.sh']
+    entrypoint: [/usr/local/bin/node-express-init.sh]
     healthcheck:
       test:
         - CMD-SHELL
@@ -179,7 +180,7 @@ services:
     expose:
       - '443'
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_REACT_DOCKER_PORT_HTTP/health']
+      test: [CMD-SHELL, 'wget --spider -q http://127.0.0.1:$NGINX_REACT_DOCKER_PORT_HTTP/health']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -207,7 +208,7 @@ services:
 
   mongo:
     image: mongo:8.0.10
-    command: ['mongod', '--auth', '--quiet', '--config', '/etc/mongod.conf']
+    command: [mongod, --auth, --quiet, --config, /etc/mongod.conf]
     deploy:
       restart_policy:
         condition: any
@@ -218,7 +219,7 @@ services:
     volumes:
       - volume-mongo:/data/db
     healthcheck:
-      test: ['CMD', '/bin/bash', '/usr/local/bin/mongo-healthcheck.sh']
+      test: [CMD, /bin/bash, /usr/local/bin/mongo-healthcheck.sh]
       interval: 30s
       timeout: 5s
       retries: 5
@@ -260,9 +261,9 @@ services:
     ports: []
     volumes:
       - volume-postgres:/var/lib/postgresql/data
-    user: 'postgres'
+    user: postgres
     healthcheck:
-      test: ['CMD', '/bin/bash', '/usr/local/bin/scripts/postgres-healthcheck.sh']
+      test: [CMD, /bin/bash, /usr/local/bin/scripts/postgres-healthcheck.sh]
       interval: 30s
       timeout: 5s
       retries: 5
@@ -297,13 +298,13 @@ services:
     volumes:
       - volume-redis:/data
     healthcheck:
-      test: ['CMD', '/bin/sh', '/usr/local/bin/redis-healthcheck.sh']
+      test: [CMD, /bin/sh, /usr/local/bin/redis-healthcheck.sh]
       interval: 30s
       timeout: 5s
       retries: 5
       start_interval: 5s
       start_period: 15s
-    entrypoint: ['/usr/local/bin/redis-init.sh']
+    entrypoint: [/usr/local/bin/redis-init.sh]
     configs:
       - source: redis_init
         target: /usr/local/bin/redis-init.sh
@@ -335,7 +336,7 @@ services:
     volumes:
       - volume-grafana:/var/lib/grafana
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/grafana/healthcheck']
+      test: [CMD-SHELL, 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/grafana/healthcheck']
       interval: 30s
       timeout: 10s
       retries: 5
@@ -389,9 +390,9 @@ services:
 
   prometheus:
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--web.config.file=/etc/prometheus/auth.yml'
-      - '--log.level=error'
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.config.file=/etc/prometheus/auth.yml
+      - --log.level=error
     deploy:
       restart_policy:
         condition: on-failure
@@ -406,7 +407,7 @@ services:
     volumes:
       - volume-prometheus:/prometheus
     healthcheck:
-      test: ['CMD', '/bin/sh', '/usr/local/bin/prometheus-healthcheck.sh']
+      test: [CMD, /bin/sh, /usr/local/bin/prometheus-healthcheck.sh]
       interval: 30s
       timeout: 10s
       retries: 5
