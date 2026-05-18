@@ -18,12 +18,12 @@ interface Props<T extends FieldValues> extends InputHTMLAttributes<HTMLInputElem
 
 function Input<T extends FieldValues>(props: Props<T>): React.JSX.Element {
   const { id, name, rules, type, ...rest } = props;
-  const { control, register, trigger } = useFormContext<T>();
-  const { defaultValues, errors } = useFormState<T>({ name, control });
+  const { control, formState, getFieldState, register, trigger } = useFormContext<T>();
+  const { defaultValues } = useFormState<T>({ name, control });
+  const { error } = getFieldState(name, formState);
 
   const rawDefaultValue = defaultValues?.[name];
   const defaultValue = typeof rawDefaultValue === 'string' ? rawDefaultValue : '';
-  const error = errors[name];
 
   useEffect(() => {
     if (defaultValue) void trigger(name);
@@ -32,7 +32,7 @@ function Input<T extends FieldValues>(props: Props<T>): React.JSX.Element {
   // NOTE:  Placeholder intentionally empty; style using :placeholder-shown
   return (
     <input
-      {...register(name, { ...rules, onChange: () => void trigger(name) })}
+      {...register(name, { ...rules })}
       {...rest}
       type={type}
       id={id}

@@ -10,16 +10,17 @@ import styles from './InputPasswordStrength.module.scss';
 
 type Props = {
   label: string;
+  name: string;
 };
 
 function InputPasswordSkeleton(props: Props): React.JSX.Element {
-  const { label } = props;
+  const { label, name } = props;
   const passwordId = useId();
 
   return (
     <div className={`${styles.container} ${skeleton.container}`}>
       <div className={skeleton.wrapper}>
-        <InputUx name="password" label={label} id={passwordId} defaultValue={undefined} rules={{}} disabled={false}>
+        <InputUx name={name} label={label} id={passwordId} defaultValue={undefined} rules={{}} disabled={false}>
           <input
             type="password"
             id={passwordId}

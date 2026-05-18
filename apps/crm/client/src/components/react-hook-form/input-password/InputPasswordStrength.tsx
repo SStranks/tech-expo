@@ -1,7 +1,7 @@
 import type { Score } from '@zxcvbn-ts/core';
 import type { FieldValues, Path } from 'react-hook-form';
 
-import { useEffect, useId, useState } from 'react';
+import { useId, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
 import IconCircleInfo from '@Components/svg/IconCircleInfo';
@@ -41,17 +41,12 @@ type Props<T extends FieldValues> = {
 // TODO:  Style and reformat password information text
 function InputPasswordStrength<T extends FieldValues>(props: Props<T>): React.JSX.Element {
   const { defaultValue, label, name, reveal } = props;
-  const { control, trigger } = useFormContext<T>();
+  const { control } = useFormContext<T>();
   const [passwordReveal, setPasswordReveal] = useState<boolean>(reveal);
   const [informationPanel, setInformationPanel] = useState<boolean>(false);
   const passwordValue = useWatch({ name, control });
   const passwordScore = usePasswordStrength(passwordValue);
   const passwordId = useId();
-
-  // Trigger re-validation; 'result' is a deferred value
-  useEffect(() => {
-    void trigger(name);
-  }, [trigger, name, passwordScore]);
 
   const revealPasswordClickHandler = () => {
     setPasswordReveal((p) => !p);
