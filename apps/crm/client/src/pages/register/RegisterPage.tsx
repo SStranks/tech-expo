@@ -28,14 +28,14 @@ const defaultValues: DefaultValues = {
 };
 
 function RegisterPage(): React.JSX.Element {
-  const methods = useForm<DefaultValues>({ defaultValues, mode: 'onChange' });
+  const methods = useForm<DefaultValues>({ defaultValues });
   const navigate = useNavigate();
   const emailId = useId();
   const { serviceHttp } = useServicesContext();
 
   const onSubmit = methods.handleSubmit(async (data) => {
     await serviceHttp.account.login({ ...data });
-    void navigate({ to: '/login' });
+    await navigate({ to: '/login' });
   });
 
   return (
@@ -43,7 +43,8 @@ function RegisterPage(): React.JSX.Element {
       <div className={styles.formContainer}>
         <form
           name="register form"
-          onSubmit={(e) => void onSubmit(e)}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onSubmit={onSubmit}
           aria-labelledby="heading"
           className={styles.registerForm}
           noValidate>
@@ -57,7 +58,7 @@ function RegisterPage(): React.JSX.Element {
             disabled={false}>
             <Input id={emailId} type="email" rules={EMAIL_RULES} name="email" autoComplete="email" />
           </InputUx>
-          <Suspense fallback={<InputPasswordSkeleton label="Password" />}>
+          <Suspense fallback={<InputPasswordSkeleton label="skeletonPassword" name="skeletonPassword" />}>
             <InputPasswordStrength
               name="password"
               defaultValue={defaultValues.password}

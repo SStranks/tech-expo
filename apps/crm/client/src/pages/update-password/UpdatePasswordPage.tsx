@@ -16,10 +16,6 @@ import { useServicesContext } from '@Context/servicesContext';
 
 import styles from './UpdatePasswordPage.module.scss';
 
-// import { VALIDATION_MESSAGES } from '@Components/react-hook-form/validationRules';
-
-// const { passwor} = validations
-
 // Contains 'zxcvbn' package; heavy weight
 const InputPasswordStrength = lazy(
   () => import('@Components/react-hook-form/input-password/InputPasswordStrength')
@@ -60,7 +56,7 @@ function UpdatePasswordPage(): React.JSX.Element {
           className={styles.updatePasswordForm}
           noValidate>
           <h1 id="heading">Set New Password</h1>
-          <Suspense fallback={<InputPasswordSkeleton label="Password" />}>
+          <Suspense fallback={<InputPasswordSkeleton label="skeletonPassword" name="skeletonPassword" />}>
             <InputPasswordStrength
               name="newPassword"
               defaultValue={defaultValues['newPassword']}
