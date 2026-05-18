@@ -1,22 +1,32 @@
 import type { Score } from '@zxcvbn-ts/core';
 
-import { useDeferredValue, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import useDebounce from '@Hooks/useDebounce';
+
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+let zxcvbnPromise: Promise<typeof import('@Lib/zxcvbn')> | null;
+
+async function getZxcvbn() {
+  if (!zxcvbnPromise) zxcvbnPromise = import(/* webpackChunkName: "zxcvbn" */ '@Lib/zxcvbn');
+  return zxcvbnPromise;
+}
 
 function usePasswordStrength(password: string) {
   const [result, setResult] = useState<Score | null>(null);
-  const deferredPassword = useDeferredValue(password);
+  const debouncedPassword = useDebounce(password, 750);
 
   useEffect(() => {
     let cancelled = false;
 
     async function calculateScore() {
-      if (!deferredPassword) {
+      if (!debouncedPassword) {
         if (!cancelled) setResult(null);
         return;
       }
 
-      const { getStrength } = await import(/* webpackChunkName: "zxcvbn" */ '@Lib/zxcvbn');
-      const score = await getStrength(deferredPassword);
+      const { getStrength } = await getZxcvbn();
+      const score = await getStrength(debouncedPassword);
       if (!cancelled) setResult(score);
     }
 
@@ -25,7 +35,7 @@ function usePasswordStrength(password: string) {
     return () => {
       cancelled = true;
     };
-  }, [deferredPassword]);
+  }, [debouncedPassword]);
 
   return result;
 }
