@@ -17,7 +17,7 @@ describe('Initialization', () => {
       providers: { withRedux: true, withRouter: true, withServices: true },
     });
 
-    const headerH1 = screen.getByRole('heading', { name: /sign in/i, level: 1 });
+    const headerH1 = await screen.findByRole('heading', { name: /sign in/i, level: 1 });
     const formElement = screen.getByRole('form', { name: /sign in/i });
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const passwordInput = screen.getByLabelText(/password/i);
@@ -43,7 +43,7 @@ describe('Functionality', () => {
       providers: { withRedux: true, withRouter: true, withServices: true },
     });
 
-    const forgotPasswordLink = screen.getByRole('link', { name: /forgot password/i });
+    const forgotPasswordLink = await screen.findByRole('link', { name: /forgot password/i });
     const signUpLink = screen.getByRole('link', { name: /sign up/i });
 
     expect(forgotPasswordLink).toHaveAttribute('href', '/forgot-password');

@@ -8,7 +8,7 @@ describe('Initialization', () => {
   test('Component should render correctly; contain header and h1 elements', async () => {
     await renderWithAllProviders(<Header />, { providers: { withRedux: true, withRouter: true } });
 
-    const headerElement = screen.getByRole('banner');
+    const headerElement = await screen.findByRole('banner');
     const H1Element = screen.getByRole('heading', { level: 1 });
 
     expect(headerElement).toBeInTheDocument();

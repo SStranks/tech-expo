@@ -31,7 +31,6 @@ function EditableRow(props: Props): React.JSX.Element {
   const saveBtnClickHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
     setEditSettingActive(false);
-    console.log(editInputValue);
   };
 
   return (

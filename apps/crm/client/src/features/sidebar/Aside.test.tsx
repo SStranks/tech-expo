@@ -9,7 +9,7 @@ describe('Initialization', () => {
   test('Sidebar menu contains valid links', async () => {
     await renderWithAllProviders(<Aside />, { providers: { withRouter: true } });
 
-    const links = screen.getAllByRole('link');
+    const links = await screen.findAllByRole('link');
     expect(links).toHaveLength(MENU_CATEGORIES.length);
 
     MENU_CATEGORIES.forEach(([text, href], i) => {
@@ -23,7 +23,7 @@ describe('Initialization', () => {
   test('Sidebar menu contains a button to toggle maximize/minimize visibility state', async () => {
     await renderWithAllProviders(<Aside />, { providers: { withRouter: true } });
 
-    const menuToggleButton = screen.getByRole('button', { name: /side-menu collapse toggle/i });
+    const menuToggleButton = await screen.findByRole('button', { name: /side-menu collapse toggle/i });
 
     expect(menuToggleButton).toBeInTheDocument();
     expect(menuToggleButton).toBeVisible();

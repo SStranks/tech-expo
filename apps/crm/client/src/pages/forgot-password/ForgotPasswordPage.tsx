@@ -21,7 +21,7 @@ function ForgotPasswordPage(): React.JSX.Element {
 
   const onSubmit = methods.handleSubmit(async (data) => {
     await serviceHttp.account.forgotpassword({ ...data });
-    void navigate({ to: '/login' });
+    await navigate({ to: '/login' });
   });
 
   return (

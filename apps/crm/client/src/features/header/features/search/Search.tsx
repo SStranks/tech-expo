@@ -33,7 +33,7 @@ function Search(props: Props): React.JSX.Element {
     if (e.key === 'Esc' || e.key === 'Escape') setPortalActive(false);
   };
 
-  const onSubmitHandler = (e: React.FormEvent) => {
+  const onSubmitHandler = (e: React.SubmitEvent) => {
     e.preventDefault();
     // If search is empty just focus the input
     if (searchInput === '' && searchInputRef.current) return searchInputRef.current.focus();

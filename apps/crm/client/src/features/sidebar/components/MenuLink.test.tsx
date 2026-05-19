@@ -20,7 +20,7 @@ describe('Initialization', () => {
       }
     );
 
-    const listItem = screen.getByRole('listitem');
+    const listItem = await screen.findByRole('listitem');
     const icon = screen.getByLabelText('dashboard', { selector: 'div' });
     const link = screen.getByRole('link');
     const linkText = screen.getByText('dashboard');
@@ -44,7 +44,7 @@ describe('Initialization', () => {
       }
     );
 
-    const listItem = screen.getByRole('listitem');
+    const listItem = await screen.findByRole('listitem');
 
     expect(listItem).toHaveClass(/menuLink--maximize/);
     expect(listItem).not.toHaveClass(/menuLink--minimize/);
@@ -58,7 +58,7 @@ describe('Initialization', () => {
       }
     );
 
-    const listItem = screen.getByRole('listitem');
+    const listItem = await screen.findByRole('listitem');
 
     expect(listItem).toHaveClass(/menuLink--minimize/);
     expect(listItem).not.toHaveClass(/menuLink--maximize/);

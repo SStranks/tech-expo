@@ -10,13 +10,26 @@ import ForgotPasswordPage from './ForgotPasswordPage';
 
 const { EMAIL_RULES } = VALIDATION_MESSAGES;
 
+const navigateMock = vi.fn();
+
+vi.mock('@tanstack/react-router', async () => {
+  const actual = await vi.importActual('@tanstack/react-router');
+
+  return {
+    ...actual,
+    useNavigate: () => navigateMock,
+  };
+});
+
+afterEach(() => vi.resetAllMocks());
+
 describe('Initialization', () => {
   test('Component should render correctly', async () => {
     await renderWithAllProviders(<ForgotPasswordPage />, {
       providers: { withRouter: true, withServices: true },
     });
 
-    const headerH1 = screen.getByRole('heading', { name: /password reset/i, level: 1 });
+    const headerH1 = await screen.findByRole('heading', { name: /password reset/i, level: 1 });
     const formElement = screen.getByRole('form', { name: /password reset/i });
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const resetPasswordButton = screen.getByRole('button', { name: /email reset instructions/i });
@@ -42,7 +55,7 @@ describe('Functionality', () => {
       providers: { withRouter: true, withServices: true },
     });
 
-    const loginLink = screen.getByRole('link', { name: /login/i });
+    const loginLink = await screen.findByRole('link', { name: /login/i });
 
     expect(loginLink).toHaveAttribute('href', '/login');
   });

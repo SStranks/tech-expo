@@ -11,7 +11,7 @@ describe('Initialization', () => {
       providers: { withRedux: true, withRouter: true },
     });
 
-    const userSettingsButton = screen.getByRole('button', { name: /user settings menu/ });
+    const userSettingsButton = await screen.findByRole('button', { name: /user settings menu/ });
     const userSettingsIcon = screen.getByLabelText(/user settings/);
     const userSettingsContentTitle = screen.queryByText(/user settings/i);
     const userSettingsContentUserName = screen.queryByText(/smith/i);

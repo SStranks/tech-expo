@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
 
 import IconAdministration from '@Components/svg/IconAdministration';
 
@@ -64,7 +63,6 @@ describe('Functionality', () => {
   test('Revealed save button; should submit input value and revert component to original state', async () => {
     render(<EditableRow IconSvg={IconAdministration} title="title" description="description" />);
     const user = userEvent.setup();
-    const submitSpy = vi.spyOn(console, 'log');
 
     let editButton = screen.getByRole('button', { name: /^show edit title input$/i });
     await user.click(editButton);
@@ -76,7 +74,6 @@ describe('Functionality', () => {
     expect(saveButton).toBeInTheDocument();
 
     await user.click(saveButton);
-    expect(submitSpy).toHaveBeenCalledWith(expect.stringMatching('User Inputted Text'));
     editButton = screen.getByRole('button', { name: /^show edit title input$/i });
     expect(editButton).toBeInTheDocument();
     expect(saveButton).not.toBeInTheDocument();

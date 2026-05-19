@@ -16,7 +16,6 @@ const { EMAIL_RULES, PASSWORD_STRENGTH_RULES } = VALIDATION_MESSAGES;
 
 const navigateMock = vi.fn();
 
-// DEBUG: Can we make a global mock? Appropriate?
 vi.mock('@tanstack/react-router', async () => {
   const actual = await vi.importActual('@tanstack/react-router');
 
