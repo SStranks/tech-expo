@@ -61,3 +61,7 @@ jobs:
         uses: ./pnpm-outdated
         with:
           cwd: ${{ github.workspace }}/tech-expo
+
+      - name: Debug installed state
+        working-directory: ${{ github.workspace }}/tech-expo
+        run: pnpm list -r --depth 0
