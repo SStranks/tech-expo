@@ -31,11 +31,12 @@ jobs:
         with:
           package_json_file: tech-expo/package.json
           run_install: false
+          standalone: true
 
       - name: use node.js v24
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
           cache-dependency-path: ${{ github.workspace }}/tech-expo/pnpm-lock.yaml
 

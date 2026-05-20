@@ -1,7 +1,0 @@
-# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
----
-name: pnpm outdated dependencies
-description: 'Runs the command `pnpm outdated -r`, generates markdown, and outputs to a github-summary'
-runs:
-  using: node20
-  main: dist/main.js
