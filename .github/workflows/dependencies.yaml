@@ -20,8 +20,8 @@ jobs:
       packages: read
 
     steps:
-      # Checkout project code to runner workspace sub-directory
-      - name: Checkout code
+      # checkout project code to runner workspace sub-directory
+      - name: checkout code
         uses: actions/checkout@v6
         with:
           path: tech-expo
@@ -31,32 +31,32 @@ jobs:
           package_json_file: tech-expo/package.json
           run_install: false
 
-      - name: Use Node.js v24
+      - name: use Node.js v24
         uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: pnpm
-          cache-dependency-path: ${{ github.workspace }}/tech-expo/pnpm-lock.yaml
+          # cache: pnpm
+          # cache-dependency-path: ${{ github.workspace }}/tech-expo/pnpm-lock.yaml
 
-      - name: Install 'tech-expo' dependencies
+      - name: install 'tech-expo' dependencies
         working-directory: ${{ github.workspace }}/tech-expo
-        run: pnpm install --ignore-scripts
+        run: pnpm install --ignore-scripts --no-optional
 
-      # Reference github action in another public repo
-      - name: Checkout code - github action - pnpm-outdated
+      # reference github action in another public repo
+      - name: checkout code - github action - pnpm-outdated
         uses: actions/checkout@v6
         with:
           repository: SStranks/pnpm-outdated
           path: pnpm-outdated
 
-      # Install github action dependecies and build
+      # install github action dependecies and build
       - name: pnpm-outdated install and build
         working-directory: ${{ github.workspace }}/pnpm-outdated
         run: |
           pnpm install
           pnpm run build
 
-      - name: Run action; pnpm-outdated
+      - name: run action; pnpm-outdated
         uses: ./pnpm-outdated
         with:
           cwd: ${{ github.workspace }}/tech-expo
