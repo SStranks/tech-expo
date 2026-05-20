@@ -24,30 +24,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
-          path: ${{ github.workspace }}/tech-expo
+          path: tech-expo
 
       - uses: pnpm/action-setup@v5
         with:
           package_json_file: tech-expo/package.json
           run_install: false
 
-      - name: Use Node.js v22
+      - name: Use Node.js v24
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
           cache-dependency-path: ${{ github.workspace }}/tech-expo/pnpm-lock.yaml
 
       - name: Install 'tech-expo' dependencies
         working-directory: ${{ github.workspace }}/tech-expo
-        run: pnpm install
+        run: pnpm install --ignore-scripts
 
       # Reference github action in another public repo
       - name: Checkout code - github action - pnpm-outdated
         uses: actions/checkout@v6
         with:
           repository: SStranks/pnpm-outdated
-          path: ${{ github.workspace }}/pnpm-outdated
+          path: pnpm-outdated
 
       # Install github action dependecies and build
       - name: pnpm-outdated install and build
@@ -55,11 +55,6 @@ jobs:
         run: |
           pnpm install
           pnpm run build
-
-      # TEMP: Workspace file structure
-      # - name: temp - list out file structure of runner
-      #   working-directory: ${{ github.workspace }}
-      #   run: tree -d -I "node_modules" >> $GITHUB_STEP_SUMMARY
 
       - name: Run action; pnpm-outdated
         uses: ./pnpm-outdated
