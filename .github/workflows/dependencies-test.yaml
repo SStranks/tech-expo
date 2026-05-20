@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+---
+name: Dependencies - Test
+permissions: read-all
+# Checks the entire repository for outdated packages (latest) and prints output to .txt
+
+on: # yamllint disable-line rule:truthy
+  workflow_dispatch: {}
+
+jobs:
+  dependencies:
+    name: dependencies
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      # checkout project code to runner workspace sub-directory
+      - name: checkout code
+        uses: actions/checkout@v6
+
+      - name: pnpm setup
+        uses: pnpm/action-setup@v6
+        with:
+          standalone: true
+
+      - name: use node.js v24
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: install 'tech-expo' dependencies
+        run: pnpm install --ignore-scripts --no-optional
+
+      - name: Test recursive outdated directly
+        run: pnpm outdated -r --format=json --no-color --silent || true
+
+      - name: Debug installed state
+        run: pnpm list -r --depth 0
+
+      - name: Show filesystem + workspace detection
+        run: |
+          pwd
+          ls
+          pnpm root
+          pnpm config get list
