@@ -23,13 +23,16 @@ jobs:
       # checkout project code to runner workspace sub-directory
       - name: checkout code
         uses: actions/checkout@v6
-
-      - uses: pnpm/action-setup@v6
         with:
-          package_json_file: package.json
+          path: ${{ github.workspace }}/tech-expo
+
+      - name: pnpm setup
+        uses: pnpm/action-setup@v6
+        with:
+          package_json_file: ${{ github.workspace }}/tech-expo/package.json
           run_install: false
 
-      - name: use Node.js v24
+      - name: use node.js v24
         uses: actions/setup-node@v6
         with:
           node-version: 24
@@ -37,7 +40,7 @@ jobs:
           cache-dependency-path: ${{ github.workspace }}/pnpm-lock.yaml
 
       - name: install 'tech-expo' dependencies
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/tech-expo
         run: pnpm install --ignore-scripts --no-optional
 
       # reference github action in another public repo
@@ -45,7 +48,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: SStranks/pnpm-outdated
-          path: pnpm-outdated
+          path: ${{ github.workspace }}/pnpm-outdated
 
       # install github action dependecies and build
       - name: pnpm-outdated install and build
@@ -57,14 +60,14 @@ jobs:
       - name: run action; pnpm-outdated
         uses: ./pnpm-outdated
         with:
-          cwd: ${{ github.workspace }}
+          cwd: ${{ github.workspace }}/tech-expo
 
       - name: Debug installed state
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/tech-expo
         run: pnpm list -r --depth 0
 
       - name: Show filesystem + workspace detection
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/tech-expo
         run: |
           pwd
           ls
