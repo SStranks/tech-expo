@@ -26,7 +26,7 @@ jobs:
         with:
           path: tech-expo
 
-      - uses: pnpm/action-setup@v5
+      - uses: pnpm/action-setup@v6
         with:
           package_json_file: tech-expo/package.json
           run_install: false
