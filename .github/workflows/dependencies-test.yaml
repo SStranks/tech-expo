@@ -33,7 +33,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Test recursive outdated directly
-        run: pnpm outdated -r --format=json --no-color --silent || true
+        run: pnpm outdated -r || true
 
       - name: Debug installed state
         run: pnpm list -r --depth 0
