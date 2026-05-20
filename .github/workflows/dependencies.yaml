@@ -65,3 +65,11 @@ jobs:
       - name: Debug installed state
         working-directory: ${{ github.workspace }}/tech-expo
         run: pnpm list -r --depth 0
+
+      - name: Show filesystem + workspace detection
+        working-directory: ${{ github.workspace }}/tech-expo
+        run: |
+          pwd
+          ls
+          pnpm root -r
+          pnpm config get workspace-dir
