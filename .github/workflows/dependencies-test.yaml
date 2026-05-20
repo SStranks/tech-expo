@@ -22,12 +22,12 @@ jobs:
         uses: actions/checkout@v6
 
       - name: pnpm setup
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@v5
 
       - name: use node.js v24
         uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: 22
 
       - name: install 'tech-expo' dependencies
         run: pnpm install --frozen-lockfile
