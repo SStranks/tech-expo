@@ -71,5 +71,5 @@ jobs:
         run: |
           pwd
           ls
-          pnpm root -r
+          pnpm root
           pnpm config get workspace-dir
