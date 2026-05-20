@@ -35,7 +35,7 @@ jobs:
       - name: use node.js v24
         uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: 22
           cache: pnpm
           cache-dependency-path: ${{ github.workspace }}/tech-expo/pnpm-lock.yaml
 
@@ -72,4 +72,4 @@ jobs:
           pwd
           ls
           pnpm root
-          pnpm config get workspace-dir
+          pnpm config get list
