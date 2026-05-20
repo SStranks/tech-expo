@@ -30,7 +30,6 @@ jobs:
         with:
           package_json_file: tech-expo/package.json
           run_install: false
-          version: 10
 
       - name: use Node.js v24
         uses: actions/setup-node@v6
@@ -60,4 +59,4 @@ jobs:
       - name: run action; pnpm-outdated
         uses: ./pnpm-outdated
         with:
-          cwd: ${{ github.workspace }}/tech-expo
+          cwd: ${{ github.workspace }}
