@@ -61,11 +61,11 @@ jobs:
           cwd: ${{ github.workspace }}
 
       - name: Debug installed state
-        working-directory: ${{ github.workspace }}/tech-expo
+        working-directory: ${{ github.workspace }}
         run: pnpm list -r --depth 0
 
       - name: Show filesystem + workspace detection
-        working-directory: ${{ github.workspace }}/tech-expo
+        working-directory: ${{ github.workspace }}
         run: |
           pwd
           ls
