@@ -23,8 +23,6 @@ jobs:
 
       - name: pnpm setup
         uses: pnpm/action-setup@v6
-        with:
-          standalone: true
 
       - name: use node.js v24
         uses: actions/setup-node@v6
@@ -32,7 +30,7 @@ jobs:
           node-version: 24
 
       - name: install 'tech-expo' dependencies
-        run: pnpm install --ignore-scripts --no-optional
+        run: pnpm install --frozen-lockfile
 
       - name: Test recursive outdated directly
         run: pnpm outdated -r --format=json --no-color --silent || true
