@@ -23,6 +23,8 @@ jobs:
       # checkout project code to runner workspace sub-directory
       - name: checkout code
         uses: actions/checkout@v6
+        with:
+          path: ./
 
       - uses: pnpm/action-setup@v6
         with:
