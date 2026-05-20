@@ -58,6 +58,10 @@ jobs:
           pnpm install
           pnpm run build
 
+      - name: Test recursive outdated directly
+        working-directory: ${{ github.workspace }}
+        run: pnpm outdated -r --format=json --no-color --silent
+
       - name: run action; pnpm-outdated
         uses: ./pnpm-outdated
         with:
