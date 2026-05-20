@@ -23,12 +23,10 @@ jobs:
       # checkout project code to runner workspace sub-directory
       - name: checkout code
         uses: actions/checkout@v6
-        with:
-          path: ./
 
       - uses: pnpm/action-setup@v6
         with:
-          package_json_file: tech-expo/package.json
+          package_json_file: package.json
           run_install: false
 
       - name: use Node.js v24
@@ -39,7 +37,7 @@ jobs:
           # cache-dependency-path: ${{ github.workspace }}/tech-expo/pnpm-lock.yaml
 
       - name: install 'tech-expo' dependencies
-        working-directory: ${{ github.workspace }}/tech-expo
+        working-directory: ${{ github.workspace }}
         run: pnpm install
         # run: pnpm install --ignore-scripts --no-optional
 
@@ -60,7 +58,7 @@ jobs:
       - name: run action; pnpm-outdated
         uses: ./pnpm-outdated
         with:
-          cwd: ${{ github.workspace }}/tech-expo
+          cwd: ${{ github.workspace }}
 
       - name: Debug installed state
         working-directory: ${{ github.workspace }}/tech-expo
