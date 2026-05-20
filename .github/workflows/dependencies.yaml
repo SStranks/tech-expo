@@ -40,7 +40,8 @@ jobs:
 
       - name: install 'tech-expo' dependencies
         working-directory: ${{ github.workspace }}/tech-expo
-        run: pnpm install --ignore-scripts --no-optional
+        run: pnpm install
+        # run: pnpm install --ignore-scripts --no-optional
 
       # reference github action in another public repo
       - name: checkout code - github action - pnpm-outdated
@@ -59,4 +60,4 @@ jobs:
       - name: run action; pnpm-outdated
         uses: ./pnpm-outdated
         with:
-          cwd: ${{ github.workspace }}
+          cwd: ${{ github.workspace }}/tech-expo
