@@ -57,7 +57,7 @@ export function companyOverviewRowToCompanyOverviewDTO(row: CompanyOverviewReadR
     openDealsAmount: {
       id: '',
       amount: row.openDealsAmount,
-      currency: '', // TODO:
+      currency: '', // TODO: Currency
     },
     relatedContacts: {
       id: `company-${row.id}-contacts`,
@@ -143,5 +143,6 @@ export function companyRowToReadRow(row: CompaniesTableSelect): CompanyReadRow {
     businessType: row.businessType,
     countryId: asCountryId(row.countryId),
     website: row.website,
+    salesOwner: asUserProfileId(row.salesOwner),
   };
 }

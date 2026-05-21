@@ -42,10 +42,6 @@ export const UserProfileTable = pgTable('user_profile', {
     .references(() => CountriesTable.id)
     .notNull()
     .$type<UUID>(),
-  companyId: uuid('company_id')
-    .references(() => CompaniesTable.id)
-    .notNull()
-    .$type<UUID>(),
   companyRole: CompanyRolesEnum('company_role').notNull(),
   image: char('profile_image', { length: 32 }), // MD5 hash of UUID (used as image name)
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -56,13 +52,10 @@ export const UserProfileTable = pgTable('user_profile', {
 export const UserProfileTableRelations = relations(UserProfileTable, ({ many, one }) => {
   return {
     calendarEvents: many(CalendarEventsParticipantsTable),
+    company: many(CompaniesTable),
     contactsNotes: many(ContactsNotesTable),
     pipelineDeals: many(PipelineDealsTable),
     quote: many(QuotesTable),
-    company: one(CompaniesTable, {
-      fields: [UserProfileTable.companyId],
-      references: [CompaniesTable.id],
-    }),
     country: one(CountriesTable, {
       fields: [UserProfileTable.countryId],
       references: [CountriesTable.id],
@@ -83,7 +76,6 @@ export const insertUserProfileSchema = createInsertSchema(UserProfileTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    companyId: v.companyId as UUID,
     countryId: v.countryId as UUID,
     timezoneId: v.timezoneId as UUID,
     userId: v.userId as UUID,
@@ -92,7 +84,6 @@ export const insertUserProfileSchema = createInsertSchema(UserProfileTable)
 export const selectUserProfileSchema = createSelectSchema(UserProfileTable).transform((v) => ({
   ...v,
   id: v.id as UUID,
-  companyId: v.companyId as UUID,
   countryId: v.countryId as UUID,
   timezoneId: v.timezoneId as UUID,
   userId: v.userId as UUID,
@@ -104,7 +95,6 @@ export const updateUserProfileSchema = createInsertSchema(UserProfileTable)
   .transform((v) => ({
     ...v,
     id: v.id as UUID,
-    companyId: v.companyId as UUID,
     countryId: v.countryId as UUID,
     timezoneId: v.timezoneId as UUID,
     userId: v.userId as UUID,

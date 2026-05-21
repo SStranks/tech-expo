@@ -6,6 +6,7 @@ import type { ContactOverviewReadRow } from './contacts.read-model.types.js';
 import { asCompanyId } from '#Models/domain/company/company.mapper.js';
 import { asContactId } from '#Models/domain/contact/contact.mapper.js';
 import { asCountryId } from '#Models/domain/country/country.mapper.js';
+import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 
 export function contactWithRelationsToOverviewRow(data: ContactWithRelations): ContactOverviewReadRow {
   return {
@@ -24,6 +25,7 @@ export function contactWithRelationsToOverviewRow(data: ContactWithRelations): C
       businessType: data.company.businessType,
       countryId: asCountryId(data.company.countryId),
       website: data.company.website,
+      salesOwner: asUserProfileId(data.company.salesOwner),
     },
   };
 }

@@ -166,7 +166,7 @@ const companyResolver: Resolvers = {
 
   CompanyDetailed: {
     salesOwner: async (company, _, { loaders }) => {
-      const result = await loaders.UserProfile.load(company.id);
+      const result = await loaders.UserProfile.load(company.salesOwner);
 
       if (!result) {
         const errorMessage = `[GraphQL] DB integrity issue: Company ${company.id} could not locate associated UserProfile`;

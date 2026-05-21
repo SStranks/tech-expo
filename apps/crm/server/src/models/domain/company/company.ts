@@ -25,6 +25,7 @@ type CompanyProps = {
   businessType: BusinessType;
   countryId: CountryId;
   website: string | null;
+  salesOwner: UserProfileId;
   clientId?: CompanyClientId;
 };
 
@@ -124,6 +125,10 @@ export abstract class Company {
     return this._props.website;
   }
 
+  get salesOwner() {
+    return this._props.salesOwner;
+  }
+
   get clientId(): CompanyClientId {
     return this._props.clientId;
   }
@@ -197,6 +202,7 @@ export abstract class Company {
     if (input.businessType !== undefined) this.changeBusinessType(input.businessType);
     if (input.countryId !== undefined) this.moveCountry(input.countryId);
     if (input.website !== undefined && input.website !== null) this.updateWebsite(input.website);
+    if (input.salesOwner !== undefined) this.changeSalesOwner(input.salesOwner);
   }
 
   rebrandCompany(newName: string) {
@@ -227,6 +233,11 @@ export abstract class Company {
   changeBusinessType(businessType: BusinessType) {
     this._props.businessType = businessType;
     this._internal.dirtyFields.add('businessType');
+  }
+
+  changeSalesOwner(salesOwner: UserProfileId) {
+    this._props.salesOwner = salesOwner;
+    this._internal.dirtyFields.add('salesOwner');
   }
 
   moveCountry(country: CountryId) {

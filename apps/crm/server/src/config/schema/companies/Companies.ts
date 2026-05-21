@@ -35,6 +35,10 @@ export const CompaniesTable = pgTable('companies', {
   totalRevenue: numeric('total_revenue', { precision: 14, scale: 2 }).notNull().default('0.00'),
   industry: varchar('industry', { length: 100 }).notNull(),
   businessType: BusinessTypeEnum('business_type').notNull(),
+  salesOwner: uuid('sales_owner_user_profile_id')
+    .references(() => UserProfileTable.id)
+    .notNull()
+    .$type<UUID>(),
   countryId: uuid('country_id')
     .references(() => CountriesTable.id, { onDelete: 'no action' })
     .notNull()
@@ -52,7 +56,10 @@ export const CompaniesTableRelations = relations(CompaniesTable, ({ many, one })
     kanban: one(KanbanTable),
     notes: many(CompaniesNotesTable),
     quotes: many(QuotesTable),
-    users: many(UserProfileTable),
+    userProfile: one(UserProfileTable, {
+      fields: [CompaniesTable.salesOwner],
+      references: [UserProfileTable.id],
+    }),
     country: one(CountriesTable, {
       fields: [CompaniesTable.countryId],
       references: [CountriesTable.id],

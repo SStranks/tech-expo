@@ -10,6 +10,7 @@ import type { CompanyId } from './company.types.js';
 
 import { asCountryId } from '#Models/domain/country/country.mapper.js';
 
+import { asUserProfileId } from '../user/profile/profile.mapper.js';
 import { Company } from './company.js';
 
 export function asCompanyId(id: UUID): CompanyId {
@@ -26,6 +27,7 @@ export function companyReadRowToCompanyDTO(row: CompanyReadRow): CompanyDTO {
     size: row.size,
     totalRevenue: row.totalRevenue,
     website: row.website ?? null,
+    salesOwner: row.salesOwner,
   };
 }
 
@@ -39,6 +41,7 @@ export function companyDomainToCompanyDTO(company: PersistedCompany): CompanyDTO
     size: company.size,
     totalRevenue: company.totalRevenue,
     website: company.website ?? null,
+    salesOwner: company.salesOwner,
   };
 }
 
@@ -53,5 +56,6 @@ export function companyRowToDomain(row: CompaniesTableSelect): PersistedCompany 
     countryId: asCountryId(row.countryId),
     website: row.website,
     createdAt: row.createdAt,
+    salesOwner: asUserProfileId(row.salesOwner),
   });
 }

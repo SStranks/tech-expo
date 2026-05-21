@@ -11,7 +11,6 @@ export type UserProfileDTO = {
   telephone: string | null;
   timezoneId: UUID | null;
   countryId: UUID;
-  companyId: UUID;
   companyRole: CompanyRoles;
   image: string | null;
   updatedAt: Date;

@@ -1,4 +1,3 @@
-import type { CompanyId } from '#Models/domain/company/company.types.js';
 import type { CountryId } from '#Models/domain/country/country.types.js';
 import type { TimeZoneId } from '#Models/domain/timezone/timezone.types.js';
 
@@ -10,7 +9,6 @@ import { randomUUID } from 'node:crypto';
 type UserProfileProps = {
   timezoneId?: TimeZoneId;
   countryId: CountryId;
-  companyId: CompanyId;
   userId: UserId;
   email: string;
   firstName: string;
@@ -73,10 +71,6 @@ export abstract class UserProfile {
 
   get countryId() {
     return this._props.countryId;
-  }
-
-  get companyId() {
-    return this._props.companyId;
   }
 
   get userId() {

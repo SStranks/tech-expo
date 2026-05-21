@@ -2,13 +2,12 @@
 import type { UUID } from '@apps/crm-shared';
 
 import type { UserProfileTableSelect } from '#Config/schema/user/UserProfile.js';
-import type { UserAvatar } from '#Graphql/generated/graphql.gen.js';
+import type { UserProfileAvatar } from '#Graphql/generated/graphql.gen.js';
 
 import type { UserProfileDTO } from './profile.dto.js';
 import type { PersistedUserProfile } from './profile.js';
 import type { UserProfileId } from './profile.types.js';
 
-import { asCompanyId } from '#Models/domain/company/company.mapper.js';
 import { asCountryId } from '#Models/domain/country/country.mapper.js';
 import { asTimeZoneId } from '#Models/domain/timezone/timezone.mapper.js';
 
@@ -29,7 +28,6 @@ export function userProfileDomainToUserProfileDTO(userProfile: PersistedUserProf
     telephone: userProfile.telephone ?? null,
     timezoneId: userProfile.timezoneId ?? null,
     countryId: userProfile.countryId,
-    companyId: userProfile.companyId,
     companyRole: userProfile.companyRole,
     image: userProfile.image ?? null,
     updatedAt: userProfile.updatedAt,
@@ -46,7 +44,6 @@ export function userProfileRowToDomain(row: UserProfileTableSelect): PersistedUs
     telephone: row.telephone ?? undefined,
     timezoneId: row.timezoneId ? asTimeZoneId(row.timezoneId) : undefined,
     countryId: asCountryId(row.countryId),
-    companyId: asCompanyId(row.companyId),
     userId: asUserId(row.userId),
     companyRole: row.companyRole,
     image: row.image ?? undefined,
@@ -55,7 +52,7 @@ export function userProfileRowToDomain(row: UserProfileTableSelect): PersistedUs
   });
 }
 
-export function userProfileDomainToAvatarDTO(userProfile: PersistedUserProfile): UserAvatar {
+export function userProfileDomainToAvatarDTO(userProfile: PersistedUserProfile): UserProfileAvatar {
   return {
     id: userProfile.id,
     firstName: userProfile.firstName,

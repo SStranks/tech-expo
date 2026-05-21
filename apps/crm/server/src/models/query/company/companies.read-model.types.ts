@@ -20,6 +20,7 @@ export type CompanyReadRow = {
   businessType: BusinessType;
   countryId: CountryId;
   website: string | null;
+  salesOwner: UserProfileId;
 };
 
 export type CompanyOverviewReadRow = {

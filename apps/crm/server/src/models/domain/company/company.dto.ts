@@ -11,4 +11,5 @@ export type CompanyDTO = {
   businessType: BusinessType;
   countryId: UUID;
   website: string | null;
+  salesOwner: UUID;
 };
