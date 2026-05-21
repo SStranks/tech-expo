@@ -24,6 +24,13 @@ type Company {
   businessType: BusinessType!
   country: Country!
   website: String
+  salesOwner: UserProfile!
+}
+
+type CompanyAvatar {
+  id: UUID!
+  name: String!
+  image: String
 }
 
 type CompanyNotePayload {
@@ -41,7 +48,7 @@ type CompaniesOverviewPaginated {
 type CompanyOverview {
   id: UUID!
   name: String!
-  salesOwner: UserAvatar!
+  salesOwner: UserProfileAvatar!
   openDealsAmount: Money!
   relatedContacts(limit: Int = 5, offset: Int = 0): CompanyOverviewContacts!
 }
@@ -108,14 +115,14 @@ type CompanyQuoteSummary {
   totalAmount: Money!
   stage: String!
   preparedFor: ContactAvatar!
-  preparedBy: UserAvatar!
+  preparedBy: UserProfileAvatar!
 }
 
 type CompanyNote {
   id: UUID!
   note: String!
   createdAt: DateTime!
-  createdBy: UserAvatar!
+  createdBy: UserProfileAvatar!
 }
 
 input CompanyInput {

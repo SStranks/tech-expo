@@ -27,7 +27,7 @@ type UserProfile {
   image: String
 }
 
-type UserAvatar {
+type UserProfileAvatar {
   id: UUID!
   firstName: String!
   lastName: String!

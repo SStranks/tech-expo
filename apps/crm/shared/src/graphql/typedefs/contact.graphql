@@ -55,7 +55,7 @@ type ContactNote {
   id: UUID!
   note: String!
   createdAt: DateTime!
-  createdBy: UserAvatar!
+  createdBy: UserProfileAvatar!
 }
 
 type ContactAvatar {
