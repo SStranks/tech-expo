@@ -21,7 +21,7 @@ import { PipelineTable, PipelineTableRelations } from './pipeline/Pipeline.js';
 import { PipelineStagesTable, PipelineStagesTableRelations } from './pipeline/Stages.js';
 import { QuotesTable, QuotesTableRelations } from './quotes/Quotes.js';
 import { QuotesNotesTable, QuotesNotesTableRelations } from './quotes/QuotesNotes.js';
-import { QuoteServicesTable, QuoteServicesTableRelations } from './quotes/Services.js';
+import { QuoteServicesTable, QuoteServicesTableRelations } from './quotes/QuotesServices.js';
 import { TimeZoneTable, TimeZoneTableRelations } from './TimeZones.js';
 import { UserTable, UserTableRelations } from './user/User.js';
 import { UserProfileTable, UserProfileTableRelations } from './user/UserProfile.js';

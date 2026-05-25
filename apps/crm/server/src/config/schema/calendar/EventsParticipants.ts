@@ -1,6 +1,8 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
+
+import type { CalendarEventId } from '#Models/domain/calendar/event/event.types.js';
+import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, primaryKey, uuid } from 'drizzle-orm/pg-core';
@@ -18,11 +20,11 @@ export const CalendarEventsParticipantsTable = pgTable(
     eventId: uuid('event_id')
       .references(() => CalendarEventsTable.id, { onDelete: 'cascade' })
       .notNull()
-      .$type<UUID>(),
+      .$type<CalendarEventId>(),
     userProfileId: uuid('user_profile_id')
       .references(() => UserProfileTable.id, { onDelete: 'cascade' })
       .notNull()
-      .$type<UUID>(),
+      .$type<UserProfileId>(),
   },
   (table) => [primaryKey({ columns: [table.eventId, table.userProfileId] })]
 );
@@ -43,11 +45,11 @@ export const CalendarEventsParticipantsTableRelations = relations(CalendarEvents
 
 // ----------- ZOD ---------- //
 export const insertCalendarEventsParticipantsSchema = createInsertSchema(CalendarEventsParticipantsTable).transform(
-  (v) => ({ ...v, eventId: v.eventId as UUID, userId: v.userProfileId as UUID })
+  (v) => ({ ...v, eventId: v.eventId as CalendarEventId, userId: v.userProfileId as UserProfileId })
 );
 
 export const selectCalendarEventsParticipantsSchema = createSelectSchema(CalendarEventsParticipantsTable).transform(
-  (v) => ({ ...v, eventId: v.eventId as UUID, userId: v.userProfileId as UUID })
+  (v) => ({ ...v, eventId: v.eventId as CalendarEventId, userId: v.userProfileId as UserProfileId })
 );
 
 export type InsertCalendarEventsParticipantsSchema = z.infer<typeof insertCalendarEventsParticipantsSchema>;

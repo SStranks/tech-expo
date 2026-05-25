@@ -1,8 +1,12 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { KanbanTaskCommentClientId } from '#Models/domain/kanban/task/task.types.js';
+import type {
+  KanbanTaskCommentClientGeneratedId,
+  KanbanTaskCommentId,
+  KanbanTaskId,
+} from '#Models/domain/kanban/task/task.types.js';
+import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
@@ -16,17 +20,17 @@ export type KanbanTaskCommentsTableInsert = InferInsertModel<typeof KanbanTaskCo
 export type KanbanTaskCommentsTableSelect = InferSelectModel<typeof KanbanTaskCommentsTable>;
 export type KanbanTaskCommentsTableUpdate = Partial<Omit<KanbanTaskCommentsTableInsert, 'id'>>;
 export const KanbanTaskCommentsTable = pgTable('kanban_task_comments', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<KanbanTaskCommentClientId>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<KanbanTaskCommentId>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<KanbanTaskCommentClientGeneratedId>(),
   taskId: uuid('task_id')
     .references(() => KanbanTasksTable.id, { onDelete: 'cascade' })
     .notNull()
-    .$type<UUID>(),
+    .$type<KanbanTaskId>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { mode: 'date' }),
   createdByUserProfileId: uuid('created_by_id')
     .references(() => UserProfileTable.id)
-    .$type<UUID>(),
+    .$type<UserProfileId>(),
   comment: text('comment_text'),
 });
 
@@ -49,17 +53,17 @@ export const insertKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskComme
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentClientId,
-    createdByUserProfileId: v.createdByUserProfileId as UUID,
-    taskId: v.taskId as UUID,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentClientGeneratedId,
+    createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
+    taskId: v.taskId as KanbanTaskId,
   }));
 
 export const selectKanbanTaskCommentsSchema = createSelectSchema(KanbanTaskCommentsTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentClientId,
-  createdByUserProfileId: v.createdByUserProfileId as UUID,
-  taskId: v.taskId as UUID,
+  id: v.id as KanbanTaskCommentId,
+  clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentClientGeneratedId,
+  createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
+  taskId: v.taskId as KanbanTaskId,
 }));
 
 export const updateKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskCommentsTable)
@@ -67,10 +71,10 @@ export const updateKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskComme
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentClientId,
-    createdByUserProfileId: v.createdByUserProfileId as UUID,
-    taskId: v.taskId as UUID,
+    id: v.id as KanbanTaskCommentId,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentClientGeneratedId,
+    createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
+    taskId: v.taskId as KanbanTaskId,
   }));
 
 export type InsertKanbanTaskCommentsSchema = z.infer<typeof insertKanbanTaskCommentsSchema>;

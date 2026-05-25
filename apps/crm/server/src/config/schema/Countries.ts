@@ -1,6 +1,7 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
+
+import type { CountryId } from '#Models/domain/country/country.types.js';
 
 import { relations } from 'drizzle-orm';
 import { integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -15,7 +16,7 @@ export type CountriesTableInsert = InferInsertModel<typeof CountriesTable>;
 export type CountriesTableSelect = InferSelectModel<typeof CountriesTable>;
 export type CountriesTableUpdate = Partial<Omit<CountriesTableInsert, 'id'>>;
 export const CountriesTable = pgTable('countries', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<CountryId>(),
   numCode: integer('num_code').unique().notNull(),
   alpha2Code: varchar('alpha_2_code').unique().notNull(),
   alpha3Code: varchar('alpha_3_code').unique().notNull(),
@@ -35,12 +36,15 @@ export const CountriesTablerelations = relations(CountriesTable, ({ many }) => {
 // ----------- ZOD ---------- //
 export const insertCountriesSchema = createInsertSchema(CountriesTable).omit({ id: true });
 
-export const selectCountriesSchema = createSelectSchema(CountriesTable).transform((v) => ({ ...v, id: v.id as UUID }));
+export const selectCountriesSchema = createSelectSchema(CountriesTable).transform((v) => ({
+  ...v,
+  id: v.id as CountryId,
+}));
 
 export const updateCountriesSchema = createInsertSchema(CountriesTable)
   .partial()
   .required({ id: true })
-  .transform((v) => ({ ...v, id: v.id as UUID }));
+  .transform((v) => ({ ...v, id: v.id as CountryId }));
 
 export type InsertCountriesSchema = z.infer<typeof insertCountriesSchema>;
 export type SelectCountriesSchema = z.infer<typeof selectCountriesSchema>;

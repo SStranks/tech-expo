@@ -1,8 +1,11 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { KanbanTaskChecklistClientId } from '#Models/domain/kanban/task/task.types.js';
+import type {
+  KanbanTaskChecklistItemClientId,
+  KanbanTaskChecklistItemId,
+  KanbanTaskId,
+} from '#Models/domain/kanban/task/task.types.js';
 
 import { relations } from 'drizzle-orm';
 import { boolean, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -15,15 +18,15 @@ export type KanbanTaskChecklistItemTableInsert = InferInsertModel<typeof KanbanT
 export type KanbanTaskChecklistItemTableSelect = InferSelectModel<typeof KanbanTaskChecklistItemTable>;
 export type KanbanTaskChecklistItemTableUpdate = Partial<Omit<KanbanTaskChecklistItemTableInsert, 'id'>>;
 export const KanbanTaskChecklistItemTable = pgTable('kanban_task_checklist', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<KanbanTaskChecklistClientId>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<KanbanTaskChecklistItemId>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<KanbanTaskChecklistItemClientId>(),
   title: varchar('title', { length: 255 }).notNull(),
   completed: boolean('completed').default(false).notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   taskId: uuid('task_id')
     .references(() => KanbanTasksTable.id, { onDelete: 'cascade' })
     .notNull()
-    .$type<UUID>(),
+    .$type<KanbanTaskId>(),
 });
 
 // ---------- RELATIONS -------- //
@@ -41,15 +44,15 @@ export const insertKanbanTaskChecklistItemSchema = createInsertSchema(KanbanTask
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistClientId,
-    taskId: v.taskId as UUID,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistItemClientId,
+    taskId: v.taskId as KanbanTaskId,
   }));
 
 export const selectKanbanTaskChecklistItemSchema = createSelectSchema(KanbanTaskChecklistItemTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistClientId,
-  taskId: v.taskId as UUID,
+  id: v.id as KanbanTaskChecklistItemId,
+  clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistItemClientId,
+  taskId: v.taskId as KanbanTaskId,
 }));
 
 export const updateKanbanTaskChecklistItemSchema = createInsertSchema(KanbanTaskChecklistItemTable)
@@ -57,9 +60,9 @@ export const updateKanbanTaskChecklistItemSchema = createInsertSchema(KanbanTask
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistClientId,
-    taskId: v.taskId as UUID,
+    id: v.id as KanbanTaskChecklistItemId,
+    clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistItemClientId,
+    taskId: v.taskId as KanbanTaskId,
   }));
 
 export type InsertKanbanTaskChecklistItemsSchema = z.infer<typeof insertKanbanTaskChecklistItemSchema>;

@@ -1,8 +1,8 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { KanbanStageClientId } from '#Models/domain/kanban/stage/stage.types.js';
+import type { KanbanId } from '#Models/domain/kanban/kanban.types.js';
+import type { KanbanStageClientGeneratedId, KanbanStageId } from '#Models/domain/kanban/stage/stage.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -15,13 +15,13 @@ export type KanbanStagesTableInsert = InferInsertModel<typeof KanbanStagesTable>
 export type KanbanStagesTableSelect = InferSelectModel<typeof KanbanStagesTable>;
 export type KanbanStagesTableUpdate = Partial<Omit<KanbanStagesTableInsert, 'id'>>;
 export const KanbanStagesTable = pgTable('kanban_stages', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<KanbanStageClientId>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<KanbanStageId>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<KanbanStageClientGeneratedId>(),
   title: varchar('title', { length: 255 }).notNull(),
   kanbanId: uuid('kanban_id')
     .references(() => KanbanTable.id, { onDelete: 'cascade' })
     .notNull()
-    .$type<UUID>(),
+    .$type<KanbanId>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
@@ -40,15 +40,15 @@ export const insertKanbanStagesSchema = createInsertSchema(KanbanStagesTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as KanbanStageClientId,
-    kanbanId: v.kanbanId as UUID,
+    clientTemporaryId: v.clientTemporaryId as KanbanStageClientGeneratedId,
+    kanbanId: v.kanbanId as KanbanId,
   }));
 
 export const selectKanbanStagesSchema = createSelectSchema(KanbanStagesTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as KanbanStageClientId,
-  kanbanId: v.kanbanId as UUID,
+  id: v.id as KanbanStageId,
+  clientTemporaryId: v.clientTemporaryId as KanbanStageClientGeneratedId,
+  kanbanId: v.kanbanId as KanbanId,
 }));
 
 export const updateKanbanStagesSchema = createInsertSchema(KanbanStagesTable)
@@ -56,9 +56,9 @@ export const updateKanbanStagesSchema = createInsertSchema(KanbanStagesTable)
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as KanbanStageClientId,
-    kanbanId: v.kanbanId as UUID,
+    id: v.id as KanbanStageId,
+    clientTemporaryId: v.clientTemporaryId as KanbanStageClientGeneratedId,
+    kanbanId: v.kanbanId as KanbanId,
   }));
 
 export type InsertKanbanStagesSchema = z.infer<typeof insertKanbanStagesSchema>;

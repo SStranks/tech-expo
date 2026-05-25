@@ -1,7 +1,8 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
-import type { CompanyClientId } from '#Models/domain/company/company.types.js';
+import type { CompanyClientGeneratedId, CompanyId } from '#Models/domain/company/company.types.js';
+import type { CountryId } from '#Models/domain/country/country.types.js';
+import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import { relations } from 'drizzle-orm';
 import { numeric, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -28,21 +29,21 @@ export type CompaniesTableInsert = InferInsertModel<typeof CompaniesTable>;
 export type CompaniesTableSelect = InferSelectModel<typeof CompaniesTable>;
 export type CompaniesTableUpdate = Partial<Omit<CompaniesTableInsert, 'id'>>;
 export const CompaniesTable = pgTable('companies', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<CompanyClientId>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<CompanyId>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<CompanyClientGeneratedId>(),
   name: varchar('company_name', { length: 255 }).notNull().unique(),
   size: CompanySizeEnum('company_size').notNull(),
-  totalRevenue: numeric('total_revenue', { precision: 14, scale: 2 }).notNull().default('0.00'),
+  totalRevenue: numeric('total_revenue', { precision: 14, scale: 2 }),
   industry: varchar('industry', { length: 100 }).notNull(),
   businessType: BusinessTypeEnum('business_type').notNull(),
   salesOwner: uuid('sales_owner_user_profile_id')
     .references(() => UserProfileTable.id)
     .notNull()
-    .$type<UUID>(),
+    .$type<UserProfileId>(),
   countryId: uuid('country_id')
     .references(() => CountriesTable.id, { onDelete: 'no action' })
     .notNull()
-    .$type<UUID>(),
+    .$type<CountryId>(),
   website: varchar('website', { length: 255 }),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
@@ -72,15 +73,15 @@ export const insertCompaniesSchema = createInsertSchema(CompaniesTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as CompanyClientId,
-    countryId: v.countryId as UUID,
+    clientTemporaryId: v.clientTemporaryId as CompanyClientGeneratedId,
+    countryId: v.countryId as CountryId,
   }));
 
 export const selectCompaniesSchema = createSelectSchema(CompaniesTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as CompanyClientId,
-  countryId: v.countryId as UUID,
+  id: v.id as CompanyId,
+  clientTemporaryId: v.clientTemporaryId as CompanyClientGeneratedId,
+  countryId: v.countryId as CountryId,
 }));
 
 export const updateCompaniesSchema = createSelectSchema(CompaniesTable)
@@ -88,9 +89,9 @@ export const updateCompaniesSchema = createSelectSchema(CompaniesTable)
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as CompanyClientId,
-    countryId: v.countryId as UUID,
+    id: v.id as CompanyId,
+    clientTemporaryId: v.clientTemporaryId as CompanyClientGeneratedId,
+    countryId: v.countryId as CountryId,
   }));
 
 export const updateCompaniesCommandSchema = createInsertSchema(CompaniesTable)
@@ -106,9 +107,9 @@ export const updateCompaniesCommandSchema = createInsertSchema(CompaniesTable)
   })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as CompanyClientId,
-    countryId: v.countryId as UUID,
+    id: v.id as CompanyId,
+    clientTemporaryId: v.clientTemporaryId as CompanyClientGeneratedId,
+    countryId: v.countryId as CountryId,
   }));
 
 export type InsertCompaniesSchema = z.infer<typeof insertCompaniesSchema>;

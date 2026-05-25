@@ -1,8 +1,9 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { CompanyNoteClientId } from '#Models/domain/company/note/note.types.js';
+import type { CompanyId } from '#Models/domain/company/company.types.js';
+import type { CompanyNoteClientGeneratedId, CompanyNoteId } from '#Models/domain/company/note/note.types.js';
+import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
@@ -16,18 +17,18 @@ export type CompaniesNotesTableInsert = InferInsertModel<typeof CompaniesNotesTa
 export type CompaniesNotesTableSelect = InferSelectModel<typeof CompaniesNotesTable>;
 export type CompaniesNotesTableUpdate = Partial<Omit<CompaniesNotesTableInsert, 'id'>>;
 export const CompaniesNotesTable = pgTable('companies_notes', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<CompanyNoteClientId>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<CompanyNoteId>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<CompanyNoteClientGeneratedId>(),
   note: text('note_text').notNull(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'cascade' })
     .notNull()
-    .$type<UUID>(),
+    .$type<CompanyId>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   createdByUserProfileId: uuid('created_by_id')
     .references(() => UserProfileTable.id)
     .notNull()
-    .$type<UUID>(),
+    .$type<UserProfileId>(),
 });
 
 // -------- RELATIONS ------- //
@@ -49,17 +50,17 @@ export const insertCompaniesNotesSchema = createInsertSchema(CompaniesNotesTable
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as CompanyNoteClientId,
-    companyId: v.companyId as UUID,
-    createdByUserProfileId: v.createdByUserProfileId as UUID,
+    clientTemporaryId: v.clientTemporaryId as CompanyNoteClientGeneratedId,
+    companyId: v.companyId as CompanyId,
+    createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
   }));
 
 export const selectCompaniesNotesSchema = createSelectSchema(CompaniesNotesTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as CompanyNoteClientId,
-  companyId: v.companyId as UUID,
-  createdByUserProfileId: v.createdByUserProfileId as UUID,
+  id: v.id as CompanyNoteId,
+  clientTemporaryId: v.clientTemporaryId as CompanyNoteClientGeneratedId,
+  companyId: v.companyId as CompanyId,
+  createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
 }));
 
 export const updateCompaniesNotesSchema = createInsertSchema(CompaniesNotesTable)
@@ -67,10 +68,10 @@ export const updateCompaniesNotesSchema = createInsertSchema(CompaniesNotesTable
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as CompanyNoteClientId,
-    companyId: v.companyId as UUID,
-    createdByUserProfileId: v.createdByUserProfileId as UUID,
+    id: v.id as CompanyNoteId,
+    clientTemporaryId: v.clientTemporaryId as CompanyNoteClientGeneratedId,
+    companyId: v.companyId as CompanyId,
+    createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
   }));
 
 export type InsertCompaniesNotesSchema = z.infer<typeof insertCompaniesNotesSchema>;

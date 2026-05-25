@@ -2,6 +2,8 @@ import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
+import type { UserId } from '#Models/domain/user/user.types.js';
+
 import { relations } from 'drizzle-orm';
 import { boolean, integer, pgTable, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
@@ -21,7 +23,7 @@ export const UserRefreshTokensTable = pgTable('user_tokens', {
   userId: uuid('user_id')
     .references(() => UserTable.id, { onDelete: 'cascade' })
     .notNull()
-    .$type<UUID>(),
+    .$type<UserId>(),
 });
 
 // -------- RELATIONS ------- //
@@ -37,19 +39,19 @@ export const UserRefreshTokensTableRelations = relations(UserRefreshTokensTable,
 // ----------- ZOD ---------- //
 export const insertUserRefreshTokensSchema = createInsertSchema(UserRefreshTokensTable).transform((v) => ({
   ...v,
-  userId: v.userId as UUID,
+  userId: v.userId as UserId,
 }));
 
 export const selectUserRefreshTokensSchema = createSelectSchema(UserRefreshTokensTable).transform((v) => ({
   ...v,
-  userId: v.userId as UUID,
+  userId: v.userId as UserId,
 }));
 
 export const updateUserRefreshTokensSchema = createInsertSchema(UserRefreshTokensTable)
   .partial()
   .transform((v) => ({
     ...v,
-    userId: v.userId as UUID,
+    userId: v.userId as UserId,
   }));
 
 export type InsertRefreshTokensSchema = z.infer<typeof insertUserRefreshTokensSchema>;

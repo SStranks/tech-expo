@@ -1,8 +1,8 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { PipelineClientId } from '#Models/domain/pipeline/pipeline.types.js';
+import type { CompanyId } from '#Models/domain/company/company.types.js';
+import type { PipelineClientGeneratedId, PipelineId } from '#Models/domain/pipeline/pipeline.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
@@ -17,12 +17,12 @@ export type PipelineTableInsert = InferInsertModel<typeof PipelineTable>;
 export type PipelineTableSelect = InferSelectModel<typeof PipelineTable>;
 export type PipelineTableUpdate = Partial<Omit<PipelineTableInsert, 'id'>>;
 export const PipelineTable = pgTable('pipeline', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<PipelineClientId>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<PipelineId>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<PipelineClientGeneratedId>(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'cascade' })
     .notNull()
-    .$type<UUID>(),
+    .$type<CompanyId>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
@@ -43,15 +43,15 @@ export const insertPipelineSchema = createInsertSchema(PipelineTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as PipelineClientId,
-    companyId: v.companyId as UUID,
+    clientTemporaryId: v.clientTemporaryId as PipelineClientGeneratedId,
+    companyId: v.companyId as CompanyId,
   }));
 
 export const selectPipelineSchema = createSelectSchema(PipelineTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as PipelineClientId,
-  companyId: v.companyId as UUID,
+  id: v.id as PipelineId,
+  clientTemporaryId: v.clientTemporaryId as PipelineClientGeneratedId,
+  companyId: v.companyId as CompanyId,
 }));
 
 export const updatePipelineSchema = createInsertSchema(PipelineTable)
@@ -59,9 +59,9 @@ export const updatePipelineSchema = createInsertSchema(PipelineTable)
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as PipelineClientId,
-    companyId: v.companyId as UUID,
+    id: v.id as PipelineId,
+    clientTemporaryId: v.clientTemporaryId as PipelineClientGeneratedId,
+    companyId: v.companyId as CompanyId,
   }));
 
 export type InsertPipelineSchema = z.infer<typeof insertPipelineSchema>;

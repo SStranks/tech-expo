@@ -1,8 +1,9 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { QuoteNoteClientId } from '#Models/domain/quote/note/note.types.js';
+import type { QuoteNoteClientGeneratedId, QuoteNoteId } from '#Models/domain/quote/note/note.types.js';
+import type { QuoteId } from '#Models/domain/quote/quote.types.js';
+import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
@@ -16,18 +17,18 @@ export type QuotesNotesTableInsert = InferInsertModel<typeof QuotesNotesTable>;
 export type QuotesNotesTableSelect = InferSelectModel<typeof QuotesNotesTable>;
 export type QuotesNotesTableUpdate = Partial<Omit<QuotesNotesTableInsert, 'id'>>;
 export const QuotesNotesTable = pgTable('quotes_notes', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<QuoteNoteClientId>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<QuoteNoteId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().notNull().$type<QuoteNoteClientGeneratedId>(),
   note: text('note_text').notNull(),
   quoteId: uuid('quote_id')
     .references(() => QuotesTable.id, { onDelete: 'cascade' })
     .notNull()
-    .$type<UUID>(),
+    .$type<QuoteId>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   createdByUserProfileId: uuid('created_by_id')
     .references(() => UserProfileTable.id)
     .notNull()
-    .$type<UUID>(),
+    .$type<UserProfileId>(),
 });
 
 // -------- RELATIONS ------- //
@@ -49,17 +50,17 @@ export const insertQuotesNotesSchema = createInsertSchema(QuotesNotesTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as QuoteNoteClientId,
-    createdByUserProfileId: v.createdByUserProfileId as UUID,
-    quoteId: v.quoteId as UUID,
+    clientGeneratedId: v.clientGeneratedId as QuoteNoteClientGeneratedId,
+    createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
+    quoteId: v.quoteId as QuoteId,
   }));
 
 export const selectQuotesNotesSchema = createSelectSchema(QuotesNotesTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as QuoteNoteClientId,
-  createdByUserProfileId: v.createdByUserProfileId as UUID,
-  quoteId: v.quoteId as UUID,
+  id: v.id as QuoteNoteId,
+  clientGeneratedId: v.clientGeneratedId as QuoteNoteClientGeneratedId,
+  createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
+  quoteId: v.quoteId as QuoteId,
 }));
 
 export const updateQuotesNotesSchema = createInsertSchema(QuotesNotesTable)
@@ -67,10 +68,10 @@ export const updateQuotesNotesSchema = createInsertSchema(QuotesNotesTable)
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as QuoteNoteClientId,
-    createdByUserProfileId: v.createdByUserProfileId as UUID,
-    quoteId: v.quoteId as UUID,
+    id: v.id as QuoteNoteId,
+    clientGeneratedId: v.clientGeneratedId as QuoteNoteClientGeneratedId,
+    createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
+    quoteId: v.quoteId as QuoteId,
   }));
 
 export type InsertQuotesNotesSchema = z.infer<typeof insertQuotesNotesSchema>;

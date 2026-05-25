@@ -1,8 +1,8 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { PipelineStageClientId } from '#Models/domain/pipeline/stage/stage.types.js';
+import type { PipelineId } from '#Models/domain/pipeline/pipeline.types.js';
+import type { PipelineStageClientGeneratedId, PipelineStageId } from '#Models/domain/pipeline/stage/stage.types.js';
 
 import { relations } from 'drizzle-orm';
 import { boolean, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -15,15 +15,15 @@ export type PipelineStagesTableInsert = InferInsertModel<typeof PipelineStagesTa
 export type PipelineStagesTableSelect = InferSelectModel<typeof PipelineStagesTable>;
 export type PipelineStagesTableUpdate = Partial<Omit<PipelineStagesTableInsert, 'id'>>;
 export const PipelineStagesTable = pgTable('pipeline_stages', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<PipelineStageClientId>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<PipelineStageId>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<PipelineStageClientGeneratedId>(),
   title: varchar('title', { length: 255 }).notNull(),
   isPermanent: boolean().default(false),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   pipelineId: uuid('pipeline_id')
     .references(() => PipelineTable.id, { onDelete: 'cascade' })
     .notNull()
-    .$type<UUID>(),
+    .$type<PipelineId>(),
 });
 
 // -------- RELATIONS ------- //
@@ -41,15 +41,15 @@ export const insertPipelineStagesSchema = createInsertSchema(PipelineStagesTable
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as PipelineStageClientId,
-    pipelineId: v.pipelineId as UUID,
+    clientTemporaryId: v.clientTemporaryId as PipelineStageClientGeneratedId,
+    pipelineId: v.pipelineId as PipelineId,
   }));
 
 export const selectPipelineStagesSchema = createSelectSchema(PipelineStagesTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as PipelineStageClientId,
-  pipelineId: v.pipelineId as UUID,
+  id: v.id as PipelineStageId,
+  clientTemporaryId: v.clientTemporaryId as PipelineStageClientGeneratedId,
+  pipelineId: v.pipelineId as PipelineId,
 }));
 
 export const updatePipelineStagesSchema = createInsertSchema(PipelineStagesTable)
@@ -57,9 +57,9 @@ export const updatePipelineStagesSchema = createInsertSchema(PipelineStagesTable
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as PipelineStageClientId,
-    pipelineId: v.pipelineId as UUID,
+    id: v.id as PipelineStageId,
+    clientTemporaryId: v.clientTemporaryId as PipelineStageClientGeneratedId,
+    pipelineId: v.pipelineId as PipelineId,
   }));
 
 export type InsertPiplineStagesSchema = z.infer<typeof insertPipelineStagesSchema>;

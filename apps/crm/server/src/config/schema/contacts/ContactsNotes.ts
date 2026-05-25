@@ -1,8 +1,9 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { ContactNoteClientId } from '#Models/domain/contact/note/note.types.js';
+import type { ContactId } from '#Models/domain/contact/contact.types.js';
+import type { ContactNoteClientGeneratedId, ContactNoteId } from '#Models/domain/contact/note/note.types.js';
+import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
@@ -16,18 +17,18 @@ export type ContactsNotesTableInsert = InferInsertModel<typeof ContactsNotesTabl
 export type ContactsNotesTableSelect = InferSelectModel<typeof ContactsNotesTable>;
 export type ContactsNotesTableUpdate = Partial<Omit<ContactsNotesTableInsert, 'id'>>;
 export const ContactsNotesTable = pgTable('contacts_notes', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<ContactNoteClientId>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<ContactNoteId>(),
+  clientTemporaryId: uuid('client_temp_id').unique().$type<ContactNoteClientGeneratedId>(),
   note: text('note_text').notNull(),
   contactId: uuid('contact_id')
     .references(() => ContactsTable.id, { onDelete: 'cascade' })
     .notNull()
-    .$type<UUID>(),
+    .$type<ContactId>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   createdByUserProfileId: uuid('created_by_id')
     .references(() => UserProfileTable.id)
     .notNull()
-    .$type<UUID>(),
+    .$type<UserProfileId>(),
 });
 
 // -------- RELATIONS ------- //
@@ -49,17 +50,17 @@ export const insertContactsNotesSchema = createInsertSchema(ContactsNotesTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as ContactNoteClientId,
-    contactId: v.contactId as UUID,
-    createdByUserProfileId: v.createdByUserProfileId as UUID,
+    clientTemporaryId: v.clientTemporaryId as ContactNoteClientGeneratedId,
+    contactId: v.contactId as ContactId,
+    createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
   }));
 
 export const selectContactsNotesSchema = createSelectSchema(ContactsNotesTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as ContactNoteClientId,
-  contactId: v.contactId as UUID,
-  createdByUserProfileId: v.createdByUserProfileId as UUID,
+  id: v.id as ContactNoteId,
+  clientTemporaryId: v.clientTemporaryId as ContactNoteClientGeneratedId,
+  contactId: v.contactId as ContactId,
+  createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
 }));
 
 export const updateContactsNotesSchema = createInsertSchema(ContactsNotesTable)
@@ -67,10 +68,10 @@ export const updateContactsNotesSchema = createInsertSchema(ContactsNotesTable)
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as ContactNoteClientId,
-    contactId: v.contactId as UUID,
-    createdByUserProfileId: v.createdByUserProfileId as UUID,
+    id: v.id as ContactNoteId,
+    clientTemporaryId: v.clientTemporaryId as ContactNoteClientGeneratedId,
+    contactId: v.contactId as ContactId,
+    createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
   }));
 
 export type InsertContactsNotesSchema = z.infer<typeof insertContactsNotesSchema>;

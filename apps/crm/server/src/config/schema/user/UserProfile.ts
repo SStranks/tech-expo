@@ -1,6 +1,10 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
+
+import type { CountryId } from '#Models/domain/country/country.types.js';
+import type { TimeZoneId } from '#Models/domain/timezone/timezone.types.js';
+import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
+import type { UserId } from '#Models/domain/user/user.types.js';
 
 import { relations } from 'drizzle-orm';
 import { char, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -25,11 +29,11 @@ export type UserProfileTableInsert = InferInsertModel<typeof UserProfileTable>;
 export type UserProfileTableSelect = InferSelectModel<typeof UserProfileTable>;
 export type UserProfileTableUpdate = Partial<Omit<UserProfileTableInsert, 'id'>>;
 export const UserProfileTable = pgTable('user_profile', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<UserProfileId>(),
   userId: uuid('user_id')
     .references(() => UserTable.id, { onDelete: 'no action' })
     .notNull()
-    .$type<UUID>(),
+    .$type<UserId>(),
   firstName: varchar('first_name', { length: 255 }).notNull(),
   lastName: varchar('last_name', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull(), // TODO:  Option to sync with account email, or use separate one.
@@ -37,11 +41,11 @@ export const UserProfileTable = pgTable('user_profile', {
   telephone: varchar('telephone', { length: 255 }),
   timezoneId: uuid('timezone_id')
     .references(() => TimeZoneTable.id)
-    .$type<UUID>(),
+    .$type<TimeZoneId>(),
   countryId: uuid('country_id')
     .references(() => CountriesTable.id)
     .notNull()
-    .$type<UUID>(),
+    .$type<CountryId>(),
   companyRole: CompanyRolesEnum('company_role').notNull(),
   image: char('profile_image', { length: 32 }), // MD5 hash of UUID (used as image name)
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -76,17 +80,17 @@ export const insertUserProfileSchema = createInsertSchema(UserProfileTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    countryId: v.countryId as UUID,
-    timezoneId: v.timezoneId as UUID,
-    userId: v.userId as UUID,
+    countryId: v.countryId as CountryId,
+    timezoneId: v.timezoneId as TimeZoneId,
+    userId: v.userId as UserId,
   }));
 
 export const selectUserProfileSchema = createSelectSchema(UserProfileTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  countryId: v.countryId as UUID,
-  timezoneId: v.timezoneId as UUID,
-  userId: v.userId as UUID,
+  id: v.id as UserProfileId,
+  countryId: v.countryId as CountryId,
+  timezoneId: v.timezoneId as TimeZoneId,
+  userId: v.userId as UserId,
 }));
 
 export const updateUserProfileSchema = createInsertSchema(UserProfileTable)
@@ -94,10 +98,10 @@ export const updateUserProfileSchema = createInsertSchema(UserProfileTable)
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    countryId: v.countryId as UUID,
-    timezoneId: v.timezoneId as UUID,
-    userId: v.userId as UUID,
+    id: v.id as UserProfileId,
+    countryId: v.countryId as CountryId,
+    timezoneId: v.timezoneId as TimeZoneId,
+    userId: v.userId as UserId,
   }));
 
 export type InsertUserProfileSchema = z.infer<typeof insertUserProfileSchema>;

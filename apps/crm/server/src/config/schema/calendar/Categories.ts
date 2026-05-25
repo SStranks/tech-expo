@@ -1,8 +1,12 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { CalendarCategoryClientId } from '../../../models/domain/calendar/category/category.types.js';
+import type { CalendarId } from '#Models/domain/calendar/calendar.types.js';
+
+import type {
+  CalendarCategoryClientGeneratedId,
+  CalendarCategoryId,
+} from '../../../models/domain/calendar/category/category.types.js';
 
 import { relations } from 'drizzle-orm';
 import { pgTable, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -18,13 +22,13 @@ export type CalendarCategoriesTableUpdate = Partial<Omit<CalendarCategoriesTable
 export const CalendarCategoriesTable = pgTable(
   'calendar_event_categories',
   {
-    id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-    clientTemporaryId: uuid('client_temp_id').unique().$type<CalendarCategoryClientId>(),
+    id: uuid('id').primaryKey().defaultRandom().$type<CalendarCategoryId>(),
+    clientTemporaryId: uuid('client_temp_id').unique().$type<CalendarCategoryClientGeneratedId>(),
     title: varchar('title', { length: 255 }).notNull(),
     calendarId: uuid('calendar_id')
       .references(() => CalendarTable.id, { onDelete: 'cascade' })
       .notNull()
-      .$type<UUID>(),
+      .$type<CalendarId>(),
     createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   },
   // Prevent duplicate category titles per calendar table
@@ -47,15 +51,15 @@ export const insertCalendarCategoriesSchema = createInsertSchema(CalendarCategor
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    calendarId: v.calendarId as UUID,
-    clientTemporaryId: v.clientTemporaryId as CalendarCategoryClientId | null,
+    calendarId: v.calendarId as CalendarId,
+    clientTemporaryId: v.clientTemporaryId as CalendarCategoryClientGeneratedId | null,
   }));
 
 export const selectCalendarCategoriesSchema = createSelectSchema(CalendarCategoriesTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  calendarId: v.calendarId as UUID,
-  clientTemporaryId: v.clientTemporaryId as CalendarCategoryClientId | null,
+  id: v.id as CalendarCategoryId,
+  calendarId: v.calendarId as CalendarId,
+  clientTemporaryId: v.clientTemporaryId as CalendarCategoryClientGeneratedId | null,
 }));
 
 export const updateCalendarCategoriesSchema = createInsertSchema(CalendarCategoriesTable)
@@ -63,8 +67,8 @@ export const updateCalendarCategoriesSchema = createInsertSchema(CalendarCategor
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    calendarId: v.calendarId as UUID,
-    clientTemporaryId: v.clientTemporaryId as CalendarCategoryClientId | null,
+    calendarId: v.calendarId as CalendarId,
+    clientTemporaryId: v.clientTemporaryId as CalendarCategoryClientGeneratedId | null,
   }));
 
 export type InsertCalendarCategoriesSchema = z.infer<typeof insertCalendarCategoriesSchema>;

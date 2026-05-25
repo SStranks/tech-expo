@@ -1,6 +1,8 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type z from 'zod';
+
+import type { CountryId } from '#Models/domain/country/country.types.js';
+import type { TimeZoneId } from '#Models/domain/timezone/timezone.types.js';
 
 import { relations } from 'drizzle-orm';
 import { char, pgTable, uuid } from 'drizzle-orm/pg-core';
@@ -15,13 +17,13 @@ export type TimeZoneTableInsert = InferInsertModel<typeof TimeZoneTable>;
 export type TimeZoneTableSelect = InferSelectModel<typeof TimeZoneTable>;
 export type TimeZoneTableUpdate = Partial<Omit<TimeZoneTableInsert, 'id'>>;
 export const TimeZoneTable = pgTable('time_zones_utc', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<TimeZoneId>(),
   alpha2Code: char('alpha_2_code', { length: 2 }).notNull(),
   gmtOffset: char('gmt_offset', { length: 6 }).notNull(),
   countryId: uuid('country_id')
     .references(() => CountriesTable.id, { onDelete: 'no action' })
     .notNull()
-    .$type<UUID>(),
+    .$type<CountryId>(),
 });
 
 // -------- RELATIONS ------- //
@@ -41,13 +43,13 @@ export const insertTimeZoneSchema = createInsertSchema(TimeZoneTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    countryId: v.countryId as UUID,
+    countryId: v.countryId as CountryId,
   }));
 
 export const selectTimeZoneSchema = createSelectSchema(TimeZoneTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  countryId: v.countryId as UUID,
+  id: v.id as TimeZoneId,
+  countryId: v.countryId as CountryId,
 }));
 
 export const updateTimeZoneSchema = createInsertSchema(TimeZoneTable)
@@ -55,8 +57,8 @@ export const updateTimeZoneSchema = createInsertSchema(TimeZoneTable)
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    countryId: v.countryId as UUID,
+    id: v.id as TimeZoneId,
+    countryId: v.countryId as CountryId,
   }));
 
 export type InsertTimeZoneSchema = z.infer<typeof insertTimeZoneSchema>;

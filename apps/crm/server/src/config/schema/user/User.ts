@@ -1,6 +1,7 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
+
+import type { UserId } from '#Models/domain/user/user.types.js';
 
 import { USER_ROLES } from '@apps/crm-shared';
 import { relations } from 'drizzle-orm';
@@ -21,7 +22,7 @@ export type UserTableUpdate = Partial<Omit<UserTableInsert, 'id'>>;
 export const UserTable = pgTable(
   'user',
   {
-    id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
+    id: uuid('id').primaryKey().defaultRandom().$type<UserId>(),
     email: varchar('email', { length: 255 }).unique().notNull(),
     role: UserRolesEnum('user_role').default('USER').notNull(),
     password: varchar('password', { length: 255 }).default('').notNull(),
@@ -51,12 +52,12 @@ export const UserTableRelations = relations(UserTable, ({ many, one }) => {
 // ----------- ZOD ---------- //
 export const insertUserSchema = createInsertSchema(UserTable).omit({ id: true });
 
-export const selectUserSchema = createSelectSchema(UserTable).transform((v) => ({ ...v, id: v.id as UUID }));
+export const selectUserSchema = createSelectSchema(UserTable).transform((v) => ({ ...v, id: v.id as UserId }));
 
 export const updateUserSchema = createInsertSchema(UserTable)
   .partial()
   .required({ id: true })
-  .transform((v) => ({ ...v, id: v.id as UUID }));
+  .transform((v) => ({ ...v, id: v.id as UserId }));
 
 export type InsertUserSchema = z.infer<typeof insertUserSchema>;
 export type SelectUserSchema = z.infer<typeof selectUserSchema>;

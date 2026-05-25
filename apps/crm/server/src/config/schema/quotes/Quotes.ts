@@ -1,8 +1,10 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { QuoteClientId } from '#Models/domain/quote/quote.types.js';
+import type { CompanyId } from '#Models/domain/company/company.types.js';
+import type { ContactId } from '#Models/domain/contact/contact.types.js';
+import type { QuoteClientGeneratedId, QuoteId } from '#Models/domain/quote/quote.types.js';
+import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import { relations } from 'drizzle-orm';
 import { numeric, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -14,7 +16,7 @@ import CompaniesTable from '../companies/Companies.js';
 import ContactsTable from '../contacts/Contacts.js';
 import UserProfileTable from '../user/UserProfile.js';
 import QuotesNotesTable from './QuotesNotes.js';
-import QuoteServicesTable from './Services.js';
+import QuoteServicesTable from './QuotesServices.js';
 
 // ---------- ENUMS --------- //
 export const QuoteStageEnum = pgEnum('quote_stage', QUOTE_STAGE);
@@ -24,24 +26,24 @@ export type QuotesTableInsert = InferInsertModel<typeof QuotesTable>;
 export type QuotesTableSelect = InferSelectModel<typeof QuotesTable>;
 export type QuotesTableUpdate = Partial<Omit<QuotesTableInsert, 'id'>>;
 export const QuotesTable = pgTable('quotes', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<QuoteClientId>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<QuoteId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().notNull().$type<QuoteClientGeneratedId>(),
   title: varchar('title', { length: 255 }).notNull().unique(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'no action' })
     .notNull()
-    .$type<UUID>(),
+    .$type<CompanyId>(),
   totalAmount: numeric('total_amount', { precision: 14, scale: 2 }).default('0.00').notNull(),
   salesTax: numeric('sales_tax', { precision: 4, scale: 2 }).default('20.00').notNull(),
-  stage: QuoteStageEnum('quote_stage').notNull(),
+  stage: QuoteStageEnum('quote_stage').default('DRAFT').notNull(),
   preparedForContactId: uuid('prepared_for_id')
     .references(() => ContactsTable.id)
     .notNull()
-    .$type<UUID>(),
+    .$type<ContactId>(),
   preparedByUserProfileId: uuid('prepared_by_id')
     .references(() => UserProfileTable.id)
     .notNull()
-    .$type<UUID>(),
+    .$type<UserProfileId>(),
   issuedAt: timestamp('issued_at', { mode: 'date' }),
   dueAt: timestamp('due_at', { mode: 'date' }),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -72,19 +74,19 @@ export const insertQuotesSchema = createInsertSchema(QuotesTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as QuoteClientId,
-    companyId: v.companyId as UUID,
-    preparedByUserProfileId: v.preparedByUserProfileId as UUID,
-    preparedForContactId: v.preparedForContactId as UUID,
+    clientGeneratedId: v.clientGeneratedId as QuoteClientGeneratedId,
+    companyId: v.companyId as CompanyId,
+    preparedByUserProfileId: v.preparedByUserProfileId as UserProfileId,
+    preparedForContactId: v.preparedForContactId as ContactId,
   }));
 
 export const selectQuotesSchema = createSelectSchema(QuotesTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as QuoteClientId,
-  companyId: v.companyId as UUID,
-  preparedByUserProfileId: v.preparedByUserProfileId as UUID,
-  preparedForContactId: v.preparedForContactId as UUID,
+  id: v.id as QuoteId,
+  clientGeneratedId: v.clientGeneratedId as QuoteClientGeneratedId,
+  companyId: v.companyId as CompanyId,
+  preparedByUserProfileId: v.preparedByUserProfileId as UserProfileId,
+  preparedForContactId: v.preparedForContactId as ContactId,
 }));
 
 export const updateQuotesSchema = createSelectSchema(QuotesTable)
@@ -92,11 +94,11 @@ export const updateQuotesSchema = createSelectSchema(QuotesTable)
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as QuoteClientId,
-    companyId: v.companyId as UUID,
-    preparedByUserProfileId: v.preparedByUserProfileId as UUID,
-    preparedForContactId: v.preparedForContactId as UUID,
+    id: v.id as QuoteId,
+    clientGeneratedId: v.clientGeneratedId as QuoteClientGeneratedId,
+    companyId: v.companyId as CompanyId,
+    preparedByUserProfileId: v.preparedByUserProfileId as UserProfileId,
+    preparedForContactId: v.preparedForContactId as ContactId,
   }));
 
 export type InsertQuotesSchema = z.infer<typeof insertQuotesSchema>;

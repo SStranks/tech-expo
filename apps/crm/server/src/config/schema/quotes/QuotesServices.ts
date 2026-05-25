@@ -1,8 +1,8 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
 
-import type { QuoteServiceClientId } from '#Models/domain/quote/service/service.types.js';
+import type { QuoteId } from '#Models/domain/quote/quote.types.js';
+import type { QuoteServiceClientGeneratedId, QuoteServiceId } from '#Models/domain/quote/service/service.types.js';
 
 import { relations } from 'drizzle-orm';
 import { integer, numeric, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -15,8 +15,8 @@ export type QuoteServicesTableInsert = InferInsertModel<typeof QuoteServicesTabl
 export type QuoteServicesTableSelect = InferSelectModel<typeof QuoteServicesTable>;
 export type QuoteServicesTableUpdate = Partial<Omit<QuoteServicesTableInsert, 'id'>>;
 export const QuoteServicesTable = pgTable('quotes_services', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<QuoteServiceClientId>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<QuoteServiceId>(),
+  clientGeneratedId: uuid('client_temp_id').unique().notNull().$type<QuoteServiceClientGeneratedId>(),
   title: varchar('title', { length: 255 }).notNull(),
   price: numeric('price', { precision: 14, scale: 2 }).default('0.00').notNull(),
   quantity: integer('quantity').default(0).notNull(),
@@ -25,7 +25,7 @@ export const QuoteServicesTable = pgTable('quotes_services', {
   quoteId: uuid('quote_id')
     .references(() => QuotesTable.id, { onDelete: 'cascade' })
     .notNull()
-    .$type<UUID>(),
+    .$type<QuoteId>(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
@@ -44,15 +44,15 @@ export const insertQuoteServicesSchema = createInsertSchema(QuoteServicesTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as QuoteServiceClientId,
-    quoteId: v.quoteId as UUID,
+    clientGeneratedId: v.clientGeneratedId as QuoteServiceClientGeneratedId,
+    quoteId: v.quoteId as QuoteId,
   }));
 
 export const selectQuoteServicesSchema = createSelectSchema(QuoteServicesTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  clientTemporaryId: v.clientTemporaryId as QuoteServiceClientId,
-  quoteId: v.quoteId as UUID,
+  id: v.id as QuoteServiceId,
+  clientGeneratedId: v.clientGeneratedId as QuoteServiceClientGeneratedId,
+  quoteId: v.quoteId as QuoteId,
 }));
 
 export const updateQuoteServicesSchema = createInsertSchema(QuoteServicesTable)
@@ -60,9 +60,9 @@ export const updateQuoteServicesSchema = createInsertSchema(QuoteServicesTable)
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    clientTemporaryId: v.clientTemporaryId as QuoteServiceClientId,
-    quoteId: v.quoteId as UUID,
+    id: v.id as QuoteServiceId,
+    clientGeneratedId: v.clientGeneratedId as QuoteServiceClientGeneratedId,
+    quoteId: v.quoteId as QuoteId,
   }));
 
 export type InsertQuoteServicesSchema = z.infer<typeof insertQuoteServicesSchema>;

@@ -1,6 +1,8 @@
-import type { UUID } from '@apps/crm-shared';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { z } from 'zod';
+
+import type { AuditId } from '#Models/domain/audit/auditlog.types.js';
+import type { UserId } from '#Models/domain/user/user.types.js';
 
 import { relations } from 'drizzle-orm';
 import { jsonb, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
@@ -18,7 +20,7 @@ export type AuditLogTableInsert = InferInsertModel<typeof AuditLogTable>;
 export type AuditLogTableSelect = InferSelectModel<typeof AuditLogTable>;
 export type AuditLogTableUpdate = Partial<Omit<AuditLogTableInsert, 'id'>>;
 export const AuditLogTable = pgTable('audit_log', {
-  id: uuid('id').primaryKey().defaultRandom().$type<UUID>(),
+  id: uuid('id').primaryKey().defaultRandom().$type<AuditId>(),
   tableName: varchar('table_name', { length: 255 }).notNull(),
   entityId: uuid('entity_id').notNull(),
   entityAction: EntityActionsEnum('entity_action').notNull(),
@@ -26,7 +28,7 @@ export const AuditLogTable = pgTable('audit_log', {
   changedByUserId: uuid('user_id')
     .references(() => UserTable.id)
     .notNull()
-    .$type<UUID>(),
+    .$type<UserId>(),
   originalValues: jsonb('values_original'),
   newValues: jsonb('values_new'),
 });
@@ -44,12 +46,12 @@ export const AuditLogTableRelations = relations(AuditLogTable, ({ one }) => {
 // ----------- ZOD ---------- //
 export const insertAuditLogSchema = createInsertSchema(AuditLogTable)
   .omit({ id: true })
-  .transform((v) => ({ ...v, changedByUserId: v.changedByUserId as UUID }));
+  .transform((v) => ({ ...v, changedByUserId: v.changedByUserId as UserId }));
 
 export const selectAuditLogSchema = createSelectSchema(AuditLogTable).transform((v) => ({
   ...v,
-  id: v.id as UUID,
-  changedByUserId: v.changedByUserId as UUID,
+  id: v.id as AuditId,
+  changedByUserId: v.changedByUserId as UserId,
 }));
 
 export const updateAuditLogSchema = createInsertSchema(AuditLogTable)
@@ -57,8 +59,8 @@ export const updateAuditLogSchema = createInsertSchema(AuditLogTable)
   .required({ id: true })
   .transform((v) => ({
     ...v,
-    id: v.id as UUID,
-    changedByUserId: v.changedByUserId as UUID,
+    id: v.id as AuditId,
+    changedByUserId: v.changedByUserId as UserId,
   }));
 
 export type InsertAuditSchema = z.infer<typeof insertAuditLogSchema>;
