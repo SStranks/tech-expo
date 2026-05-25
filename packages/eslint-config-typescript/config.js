@@ -16,7 +16,6 @@ const EslintConfigTypescript = {
       ...globals.es2021,
     },
     parserOptions: {
-      projectService: true,
       ecmaVersion: 2021,
     },
   },

@@ -138,7 +138,9 @@ export default defineConfig([
     ignores: ['apps/crm/client/src/**/?(*.)+(spec|test).[jt]s?(x)'],
     processor: EslintConfigGraphQL.processor,
     languageOptions: {
-      parserOptions: { projectService: true },
+      parserOptions: {
+        project: [path.join(import.meta.dirname, 'apps/crm/client/tsconfig.src.json')],
+      },
       ...EslintConfigReact.languageOptions,
     },
     plugins: { ...EslintConfigReact.plugins },
@@ -191,7 +193,9 @@ export default defineConfig([
     languageOptions: {
       ...EslintConfigNode.languageOptions,
       ...EslintConfigExpress.languageOptions,
-      parserOptions: { projectService: true },
+      parserOptions: {
+        project: [path.join(import.meta.dirname, 'apps/crm/server/tsconfig.src.json')],
+      },
     },
     plugins: { ...EslintConfigNode.plugins, ...EslintConfigExpress.plugins },
     rules: { ...EslintConfigNode.rules, ...EslintConfigExpress.rules },
