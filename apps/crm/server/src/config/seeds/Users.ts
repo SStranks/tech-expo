@@ -60,7 +60,6 @@ export default async function seedUsers(db: PostgresClient) {
 
   generatedUsers.forEach((user) => {
     userProfileInsertionData.push({
-      companyId: primaryCompany.id,
       companyRole: user.companyRole,
       countryId: primaryCompany.country.id,
       email: user.companyEmail,
@@ -75,7 +74,6 @@ export default async function seedUsers(db: PostgresClient) {
 
   generatedDemoUsers.forEach((user) => {
     demoUserProfileInsertionData.push({
-      companyId: primaryCompany.id,
       companyRole: user.companyRole,
       countryId: primaryCompany.country.id,
       email: user.companyEmail,

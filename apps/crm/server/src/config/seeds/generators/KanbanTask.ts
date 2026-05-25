@@ -1,8 +1,8 @@
-import type { UUID } from '@apps/crm-shared';
-
 import type { KanbanTaskChecklistItemTableInsert } from '#Config/schema/kanban/ChecklistItems.ts';
 import type { KanbanTasksTableInsert } from '#Config/schema/kanban/Tasks.ts';
 import type { KanbanTaskCommentsTableInsert } from '#Config/schema/kanban/TasksComments.ts';
+import type { KanbanStageId } from '#Models/domain/kanban/stage/stage.types.js';
+import type { KanbanTaskId } from '#Models/domain/kanban/task/task.types.js';
 
 import type { SeedKanbanUsers } from '../Kanban.js';
 
@@ -14,7 +14,7 @@ import KanbanTasks from '#Data/KanbanTasks.json';
 export function generateKanbanTask(
   orderKey: string,
   users: SeedKanbanUsers,
-  stageId: UUID,
+  stageId: KanbanStageId,
   stageTitle: string
 ): KanbanTasksTableInsert {
   const { description, title } = faker.helpers.arrayElement(KanbanTasks.tasks);
@@ -33,7 +33,7 @@ export function generateKanbanTask(
   };
 }
 
-export function generateKanbanTaskChecklist(taskId: UUID, title: string) {
+export function generateKanbanTaskChecklist(taskId: KanbanTaskId, title: string) {
   const checklistItems: KanbanTaskChecklistItemTableInsert[] = [];
   const task = KanbanTasks.tasks.find((task) => task.title === title);
   if (!task) throw new Error(`Incongruency in JSON and SQL return data; task title`);
@@ -45,7 +45,7 @@ export function generateKanbanTaskChecklist(taskId: UUID, title: string) {
   return checklistItems;
 }
 
-export function generateKanbanTaskComments(users: SeedKanbanUsers, taskId: UUID, title: string) {
+export function generateKanbanTaskComments(users: SeedKanbanUsers, taskId: KanbanTaskId, title: string) {
   const comments: KanbanTaskCommentsTableInsert[] = [];
   const task = KanbanTasks.tasks.find((task) => task.title === title);
   if (!task) throw new Error(`Incongruency in JSON and SQL return data; task title`);

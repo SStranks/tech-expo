@@ -1,4 +1,5 @@
 import type { QuotesNotesTableInsert } from '#Config/schema/quotes/QuotesNotes.ts';
+import type { QuoteNoteClientGeneratedId } from '#Models/domain/quote/note/note.types.js';
 
 import type { SeedQuoteNotesQuotes } from '../QuotesNotes.js';
 
@@ -6,9 +7,12 @@ import { faker } from '@faker-js/faker';
 
 import QuotesNotes from '#Data/QuotesNotes.json';
 
+import { randomUUID } from 'node:crypto';
+
 const FORMAL_NOTES = Object.keys(QuotesNotes.formal_notes) as [keyof (typeof QuotesNotes)['formal_notes']];
 
 export function generateQuoteNote(quote: SeedQuoteNotesQuotes) {
+  const clientGeneratedId = randomUUID() as QuoteNoteClientGeneratedId;
   // Pick one formal note from 4 categories. Pick one informal note to add to end
   let note = '';
   const formalNotesKeys = faker.helpers.arrayElements(FORMAL_NOTES, 4);
@@ -27,6 +31,7 @@ export function generateQuoteNote(quote: SeedQuoteNotesQuotes) {
   note += informalNote.trimEnd();
 
   const quoteNote: QuotesNotesTableInsert = {
+    clientGeneratedId,
     createdByUserProfileId: quote.preparedByUserProfileId,
     note,
     quoteId: quote.id,

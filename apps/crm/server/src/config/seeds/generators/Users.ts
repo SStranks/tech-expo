@@ -6,14 +6,14 @@ import { randomUUID } from 'node:crypto';
 
 const { COMPANY_EMAIL_DOMAIN, USER_ENTRY_COUNT } = seedSettings;
 
-import type { UserRoles } from '@apps/crm-shared';
+import type { UserRoles, UUID } from '@apps/crm-shared';
 
 import type { CompanyRoles } from '#Models/domain/user/profile/profile.types.js';
 
-import { toUUID } from '@apps/crm-shared/utils';
 import argon2 from 'argon2';
 
 import { secrets } from '#Config/secrets.js';
+import { asUserId } from '#Models/domain/user/user.mapper.js';
 
 const { DEMO_ACC_GENERIC_NON_USER_PASSWORD, POSTGRES_PEPPER } = secrets;
 
@@ -31,7 +31,7 @@ async function generatePasswordHash() {
 await generatePasswordHash();
 
 function generateUserBase() {
-  const userId = toUUID(randomUUID());
+  const userId = asUserId(randomUUID() as UUID);
   const firstName = faker.person.firstName();
   const lastName = faker.person.lastName();
 

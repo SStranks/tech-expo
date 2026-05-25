@@ -1,4 +1,5 @@
 import type { QuotesTableInsert } from '#Config/schema/quotes/Quotes.ts';
+import type { QuoteClientGeneratedId } from '#Models/domain/quote/quote.types.js';
 
 import type { SeedQuoteCompany, SeedQuoteUser } from '../Quotes.js';
 
@@ -7,11 +8,14 @@ import { nanoid } from 'nanoid';
 
 import { QUOTE_STAGE } from '#Models/domain/quote/quote.types.js';
 
+import { randomUUID } from 'node:crypto';
+
 const NEW_DATE = new Date();
 
 export function generateQuote(company: SeedQuoteCompany, user: SeedQuoteUser): QuotesTableInsert {
   let dueAt: Date | null = null,
     issuedAt: Date | null = null;
+  const clientGeneratedId = randomUUID() as QuoteClientGeneratedId;
   const title = `TE25-${nanoid(10)}`;
   const preparedForContactId = faker.helpers.arrayElement(company.contacts).id;
   const stage = faker.helpers.arrayElement(QUOTE_STAGE);
@@ -24,6 +28,7 @@ export function generateQuote(company: SeedQuoteCompany, user: SeedQuoteUser): Q
   const salesTax = '20.00';
 
   return {
+    clientGeneratedId,
     companyId: company.id,
     dueAt,
     issuedAt,

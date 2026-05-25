@@ -1,11 +1,11 @@
-import type { UUID } from '@apps/crm-shared';
-
 import type { PostgresClient } from '#Config/dbPostgres.ts';
 import type { CountriesTableInsert } from '#Config/schema/Countries.ts';
 import type { TimeZoneTableInsert } from '#Config/schema/TimeZones.ts';
+import type { CountryId } from '#Models/domain/country/country.types.js';
 
 import CountriesTable from '#Config/schema/Countries.js';
 import TimeZoneTable from '#Config/schema/TimeZones.js';
+import { asCountryId } from '#Models/domain/country/country.mapper.js';
 import importCSVFile from '#Utils/importCsvFile.js';
 
 import path from 'node:path';
@@ -31,7 +31,7 @@ export default async function seedCountries(db: PostgresClient) {
   const timeZonesCSVData = importCSVFile<TimeZonesCSV>(TIMEZONE_CSV);
 
   // Create dictionary of alpha-2 codes and country IDs
-  const countriesDict = countriesInsertReturnData.reduce<{ [key: string]: UUID }>((acc, cur) => {
+  const countriesDict = countriesInsertReturnData.reduce<{ [key: string]: CountryId }>((acc, cur) => {
     acc[cur.alpha2code] = cur.id;
     return acc;
   }, {});
@@ -43,7 +43,7 @@ export default async function seedCountries(db: PostgresClient) {
 
     timeZonesInsertionData.push({
       ...entry,
-      countryId,
+      countryId: asCountryId(countryId),
     });
   });
 

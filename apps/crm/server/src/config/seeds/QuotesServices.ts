@@ -1,10 +1,10 @@
 import type { PostgresClient } from '#Config/dbPostgres.js';
-import type { QuoteServicesTableInsert } from '#Config/schema/quotes/Services.ts';
+import type { QuoteServicesTableInsert } from '#Config/schema/quotes/QuotesServices.js';
 
 import { eq } from 'drizzle-orm';
 
 import { QuotesTable } from '#Config/schema/quotes/Quotes.js';
-import QuoteServicesTable from '#Config/schema/quotes/Services.js';
+import QuoteServicesTable from '#Config/schema/quotes/QuotesServices.js';
 
 import { generateQuoteServices } from './generators/QuotesServices.js';
 

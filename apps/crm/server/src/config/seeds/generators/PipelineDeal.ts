@@ -1,6 +1,5 @@
-import type { UUID } from '@apps/crm-shared';
-
 import type { PipelineDealsTableInsert } from '#Config/schema/pipeline/Deals.ts';
+import type { PipelineStageId } from '#Models/domain/pipeline/stage/stage.types.js';
 
 import type { SeedPipelineCompanies, SeedPipelineUsers } from '../Pipeline.js';
 
@@ -12,7 +11,7 @@ import PipelineDealsTitles from '#Data/PipelineDeals.json';
 export function generatePipelineDeal(
   companies: SeedPipelineCompanies,
   users: SeedPipelineUsers,
-  stageId: UUID
+  stageId: PipelineStageId
 ): PipelineDealsTableInsert {
   const title = faker.helpers.arrayElement(PipelineDealsTitles.deal_title);
   const dealOwnerUserProfileId = faker.helpers.arrayElement(users).id;
