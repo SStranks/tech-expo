@@ -26,7 +26,6 @@ import { postgresDB } from '#Config/dbPostgres.js';
 import { redisClient } from '#Config/dbRedis.js';
 import NodeMailer from '#Lib/nodemailer/NodeMailer.js';
 import { toUserRoleDTO } from '#Mappers/userMapper.js';
-import { PostgresUserRepository } from '#Models/domain/user/user.repository.postgres.js';
 import { UserService } from '#Services/user.service.js';
 import AppError from '#Utils/errors/AppError.js';
 import BadRequestError from '#Utils/errors/BadRequestError.js';
@@ -54,8 +53,7 @@ import { hoursFromNowInEpochSeconds } from '#Utils/time.js';
  * Activate R: Client sends A. Find R on DB using payload of A, and set to active.
  */
 
-const userRepository = new PostgresUserRepository();
-const userService = new UserService(userRepository, redisClient, postgresDB);
+const userService = new UserService(redisClient, postgresDB);
 
 // TODO:  Make verification page on client; redirect to this page at end of THIS signup process.
 const signup = async (

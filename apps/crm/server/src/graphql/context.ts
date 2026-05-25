@@ -1,5 +1,5 @@
 import type { UserRoles, UUID } from '@apps/crm-shared';
-import type { Request, Response } from 'express';
+import type { ExpressContextFunctionArgument } from '@as-integrations/express5';
 
 import type {
   CompanyDataLoader,
@@ -75,25 +75,22 @@ interface GraphQLRequestBody {
 
 const { GRAPHQL_INTROSPECT_AUTH } = secrets;
 
-const isIntrospectionQuery = (req: Request<unknown, unknown, GraphQLRequestBody>) => {
+const isIntrospectionQuery = ({ req }: ExpressContextFunctionArgument) => {
   const { authorization, origin, 'user-agent': userAgent } = req.headers;
 
   if (!(origin === 'https://studio.apollographql.com' || (userAgent && userAgent.startsWith('PostmanClient'))))
     return false;
   if (!GRAPHQL_INTROSPECT_AUTH || authorization !== `Bearer ${GRAPHQL_INTROSPECT_AUTH}`) return false;
-  if (!req.body.query?.includes('__schema') && !req.body.query?.includes('__type')) return false;
+
+  const body = req.body as GraphQLRequestBody;
+  if (!body.query?.includes('__schema') && !body.query?.includes('__type')) return false;
   return true;
 };
 
-const graphqlContext = async ({
-  req,
-}: {
-  req: Request<unknown, unknown, GraphQLRequestBody>;
-  res: Response;
-}): Promise<GraphqlContext> => {
+const graphqlContext = async ({ req, res }: ExpressContextFunctionArgument) => {
   const { authorization } = req.headers;
 
-  if (isIntrospectionQuery(req)) return {} as GraphqlContext;
+  if (isIntrospectionQuery({ req, res })) return {} as GraphqlContext;
 
   let JWT;
   if (authorization && authorization.startsWith('Bearer')) {
@@ -111,7 +108,7 @@ const graphqlContext = async ({
     });
 
   const userRepository = new PostgresUserRepository();
-  const userService = new UserService(userRepository, redisClient, postgresDB);
+  const userService = new UserService(redisClient, postgresDB);
   const { client_id, jti, role } = userService.verifyAuthToken(JWT);
   await userService.isTokenBlacklisted(jti);
 
@@ -136,7 +133,14 @@ const graphqlContext = async ({
   const contactService = new ContactService({ companyRepository, contactReadModel, contactRepository, userReadModel });
   const countryService = new CountryService({ countryRepository });
   const pipelineService = new PipelineService({ pipelineReadModel, pipelineRepository });
-  const quoteService = new QuoteService({ quoteReadModel, quoteRepository });
+  const quoteService = new QuoteService({
+    companyRepository,
+    contactRepository,
+    quoteReadModel,
+    quoteRepository,
+    userReadModel,
+    userRepository,
+  });
   const userProfileService = new UserProfileService({ userReadModel, userRepository });
 
   const loaders = {

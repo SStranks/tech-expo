@@ -7,7 +7,6 @@ import { describe, expect, expectTypeOf, test, vi } from 'vitest';
 import { postgresDB } from '#Config/dbPostgres.js';
 import { redisClient } from '#Config/dbRedis.js';
 import { secrets } from '#Config/secrets.js';
-import { PostgresUserRepository } from '#Models/domain/user/user.repository.postgres.js';
 
 const { JWT_AUTH_SECRET, JWT_REFRESH_SECRET } = secrets;
 
@@ -36,9 +35,8 @@ vi.mock('#Config/secrets', () => ({
   },
 }));
 
-const userRepository = new PostgresUserRepository();
 const { UserService } = await import('#Services/user.service.js');
-const userService = new UserService(userRepository, redisClient, postgresDB);
+const userService = new UserService(redisClient, postgresDB);
 
 describe('Signing Tokens: Auth Token', () => {
   const userId = 'user';

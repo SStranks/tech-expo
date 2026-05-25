@@ -1,10 +1,10 @@
-import type { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response, Router } from 'express';
 
 import express from 'express';
 
 import authController from '#Controllers/authController.js';
 
-const router = express.Router();
+const router: Router = express.Router();
 
 // Public
 router.post('/signup', authController.signup);
