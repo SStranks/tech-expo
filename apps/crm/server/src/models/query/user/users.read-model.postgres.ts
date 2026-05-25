@@ -28,7 +28,6 @@ export class PostgresUserReadModel implements UserReadModel {
         telephone: uP.telephone,
         timezoneId: uP.timezoneId,
         countryId: uP.countryId,
-        companyId: uP.companyId,
         companyRole: uP.companyRole,
         image: uP.image,
         createdAt: uP.createdAt,

@@ -4,14 +4,14 @@ import type { CalendarEventReadRow } from '#Models/query/calendar/calendar.read-
 
 import type { CalendarEventDTO } from './event.dto.js';
 import type { PersistedCalendarEvent } from './event.js';
-import type { CalendarEventClientId, CalendarEventId } from './event.types.js';
+import type { CalendarEventClientGeneratedId, CalendarEventId } from './event.types.js';
 
 export function asCalendarEventId(id: UUID): CalendarEventId {
   return id as CalendarEventId;
 }
 
-export function asCalendarEventClientId(id: UUID): CalendarEventClientId {
-  return id as CalendarEventClientId;
+export function asCalendarEventClientId(id: UUID): CalendarEventClientGeneratedId {
+  return id as CalendarEventClientGeneratedId;
 }
 
 export function calendarEventDomainToCalendarEventDTO(calendarEvent: PersistedCalendarEvent): CalendarEventDTO {

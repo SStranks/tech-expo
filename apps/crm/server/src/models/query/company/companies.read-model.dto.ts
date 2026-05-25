@@ -1,17 +1,20 @@
-import type { UUID } from '@apps/crm-shared';
-
 import type { CompanyDTO } from '#Models/domain/company/company.dto.js';
+import type { CompanyId } from '#Models/domain/company/company.types.js';
 import type { CompanyNoteDTO } from '#Models/domain/company/note/note.dto.js';
 import type { ContactDTO } from '#Models/domain/contact/contact.dto.js';
-import type { ContactStage } from '#Models/domain/contact/contact.types.js';
+import type { ContactId, ContactStage } from '#Models/domain/contact/contact.types.js';
+import type { PipelineDealId } from '#Models/domain/pipeline/deal/deal.types.js';
 import type { PipelineDealDTO } from '#Models/domain/pipeline/pipeline.dto.js';
+import type { PipelineStageId } from '#Models/domain/pipeline/stage/stage.types.js';
 import type { QuoteDTO } from '#Models/domain/quote/quote.dto.js';
+import type { QuoteId } from '#Models/domain/quote/quote.types.js';
+import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 export type CompanyOverviewDTO = {
-  id: UUID;
+  id: CompanyId;
   name: string;
   salesOwner: {
-    id: UUID;
+    id: UserProfileId;
     firstName: string;
     lastName: string;
     image: string;
@@ -23,13 +26,13 @@ export type CompanyOverviewDTO = {
   };
   relatedContacts: {
     id: string;
-    items: { id: UUID; firstName: string; lastName: string; image: string }[];
+    items: { id: ContactId; firstName: string; lastName: string; image: string }[];
     totalCount: number;
   };
 };
 
 export type CompanyDetailedDTO = CompanyDTO & {
-  salesOwner: UUID;
+  salesOwner: UserProfileId;
   contacts: ContactDTO[];
   deals: PipelineDealDTO[];
   quotes: QuoteDTO[];
@@ -37,24 +40,24 @@ export type CompanyDetailedDTO = CompanyDTO & {
 };
 
 export type CompanyPipelineDealSummaryDTO = {
-  id: UUID;
+  id: PipelineDealId;
   title: string;
   value: string;
-  stage: UUID;
+  stage: PipelineStageId;
   dealOwner: {
-    id: UUID;
+    id: UserProfileId;
     firstName: string;
     lastName: string;
   };
   dealContact: {
-    id: UUID;
+    id: ContactId;
     firstName: string;
     lastName: string;
   };
 };
 
 export type CompanyContactSummaryDTO = {
-  id: UUID;
+  id: ContactId;
   stage: ContactStage;
   firstName: string;
   lastName: string;
@@ -63,7 +66,7 @@ export type CompanyContactSummaryDTO = {
 };
 
 export type CompanyQuoteSummaryDTO = {
-  id: UUID;
+  id: QuoteId;
   title: string;
   totalAmount: {
     id: string;
@@ -72,13 +75,13 @@ export type CompanyQuoteSummaryDTO = {
   };
   stage: string;
   preparedFor: {
-    id: UUID;
+    id: ContactId;
     firstName: string;
     lastName: string;
     image: string;
   };
   preparedBy: {
-    id: UUID;
+    id: UserProfileId;
     firstName: string;
     lastName: string;
     image: string;

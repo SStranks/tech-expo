@@ -1,7 +1,7 @@
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import type { KanbanStageId } from '../stage/stage.types.js';
-import type { KanbanTaskClientId, KanbanTaskId } from './task.types.js';
+import type { KanbanTaskClientGeneratedId, KanbanTaskId } from './task.types.js';
 
 import { randomUUID } from 'node:crypto';
 
@@ -13,7 +13,7 @@ type KanbanTaskProps = {
   stageId: KanbanStageId;
   dueDate: Date | null;
   assignedUser: UserProfileId | null;
-  clientId?: KanbanTaskClientId;
+  clientId?: KanbanTaskClientGeneratedId;
 };
 
 export type KanbanTaskCreateProps = KanbanTaskProps;
@@ -35,11 +35,11 @@ class KanbanTaskState {
 }
 
 export abstract class KanbanTask {
-  private readonly _props: KanbanTaskProps & { clientId: KanbanTaskClientId };
+  private readonly _props: KanbanTaskProps & { clientId: KanbanTaskClientGeneratedId };
   protected _internal: KanbanTaskState;
 
   constructor(props: KanbanTaskProps, newTask?: NewKanbanTaskImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as KanbanTaskClientId) };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as KanbanTaskClientGeneratedId) };
     this._internal = newTask?._internal ?? new KanbanTaskState();
   }
 
@@ -97,7 +97,7 @@ export abstract class KanbanTask {
     return this._props.assignedUser;
   }
 
-  get clientId(): KanbanTaskClientId {
+  get clientId(): KanbanTaskClientGeneratedId {
     return this._props.clientId;
   }
 

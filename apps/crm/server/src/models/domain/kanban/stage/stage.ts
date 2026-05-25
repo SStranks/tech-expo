@@ -1,12 +1,12 @@
 import type { KanbanId } from '../kanban.types.js';
-import type { KanbanStageClientId, KanbanStageId } from './stage.types.js';
+import type { KanbanStageClientGeneratedId, KanbanStageId } from './stage.types.js';
 
 import { randomUUID } from 'node:crypto';
 
 type KanbanStageProps = {
   title: string;
   kanbanId: KanbanId;
-  clientId?: KanbanStageClientId;
+  clientId?: KanbanStageClientGeneratedId;
 };
 
 export type KanbanStageCreateProps = KanbanStageProps;
@@ -28,11 +28,11 @@ class KanbanStageState {
 }
 
 export abstract class KanbanStage {
-  private readonly _props: KanbanStageProps & { clientId: KanbanStageClientId };
+  private readonly _props: KanbanStageProps & { clientId: KanbanStageClientGeneratedId };
   protected _internal: KanbanStageState;
 
   constructor(props: KanbanStageProps, newKanbanStage?: NewKanbanStageImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as KanbanStageClientId) };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as KanbanStageClientGeneratedId) };
     this._internal = newKanbanStage?._internal ?? new KanbanStageState();
   }
 
@@ -70,7 +70,7 @@ export abstract class KanbanStage {
     return this._props.kanbanId;
   }
 
-  get clientId(): KanbanStageClientId {
+  get clientId(): KanbanStageClientGeneratedId {
     return this._props.clientId;
   }
   // #endregion actions/getters

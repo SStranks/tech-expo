@@ -1,14 +1,14 @@
 import type { CompanyId } from '../company/company.types.js';
 import type { TimeZoneId } from '../timezone/timezone.types.js';
 import type { UserProfileId } from '../user/profile/profile.types.js';
-import type { ContactClientId, ContactId, ContactStage } from './contact.types.js';
+import type { ContactClientGeneratedId, ContactId, ContactStage } from './contact.types.js';
 import type {
   ContactNoteCreateProps,
   ContactNoteUpdateProps,
   NewContactNote,
   PersistedContactNote,
 } from './note/note.js';
-import type { ContactNoteClientId, ContactNoteId } from './note/note.types.js';
+import type { ContactNoteClientGeneratedId, ContactNoteId } from './note/note.types.js';
 
 import DomainError from '#Utils/errors/DomainError.js';
 import { zParseDomain } from '#Utils/zod/zParse.js';
@@ -30,7 +30,7 @@ type ContactProps = {
   stage: ContactStage;
   timezoneId: TimeZoneId | null;
   image: string | null;
-  clientId?: ContactClientId;
+  clientId?: ContactClientGeneratedId;
 };
 
 type ContactCreateProps = ContactProps;
@@ -48,19 +48,19 @@ export interface PersistedContact extends Contact {
 
 class ContactState {
   noteById: Map<ContactNoteId, PersistedContactNote> = new Map();
-  noteByClientId: Map<ContactNoteClientId, ContactNoteId> = new Map();
-  addedNotes: Map<ContactNoteClientId, NewContactNote> = new Map();
+  noteByClientId: Map<ContactNoteClientGeneratedId, ContactNoteId> = new Map();
+  addedNotes: Map<ContactNoteClientGeneratedId, NewContactNote> = new Map();
   removedNoteIds: Set<ContactNoteId> = new Set();
   updatedNotes: Map<ContactNoteId, PersistedContactNote> = new Map();
   dirtyFields: Set<keyof ContactProps> = new Set();
 }
 
 export abstract class Contact {
-  private readonly _props: ContactProps & { clientId: ContactClientId };
+  private readonly _props: ContactProps & { clientId: ContactClientGeneratedId };
   protected _internal: ContactState;
 
   constructor(props: ContactProps, newContact?: NewContactImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as ContactClientId) };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as ContactClientGeneratedId) };
     this._internal = newContact?._internal ?? new ContactState();
   }
 
@@ -123,7 +123,7 @@ export abstract class Contact {
     return this._props.image;
   }
 
-  get clientId(): ContactClientId {
+  get clientId(): ContactClientGeneratedId {
     return this._props.clientId;
   }
   // #endregion getters
@@ -306,11 +306,11 @@ export abstract class Contact {
     this._internal.noteByClientId.delete(note.clientId);
   }
 
-  findNoteByClientId(clientId: ContactNoteClientId) {
+  findNoteByClientId(clientId: ContactNoteClientGeneratedId) {
     return this._internal.noteByClientId.get(clientId);
   }
 
-  getNoteByClientId(clientId: ContactNoteClientId) {
+  getNoteByClientId(clientId: ContactNoteClientGeneratedId) {
     const contactNoteUUID = this.findNoteByClientId(clientId);
     if (!contactNoteUUID) throw new DomainError({ message: 'Contact-note not found' });
     const contactNote = this._internal.noteById.get(contactNoteUUID);

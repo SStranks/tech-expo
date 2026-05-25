@@ -6,6 +6,10 @@ import type { UserId } from './user.types.js';
 
 export class InMemoryUserRepository implements UserRepository {
   constructor() {}
+  findUserProfileById(_id: UserProfileId): Promise<PersistedUserProfile | null> {
+    throw new Error('Method not implemented.');
+  }
+
   findUsersByIds(_ids: UserId[]): Promise<PersistedUser[]> {
     throw new Error('Method not implemented.');
   }

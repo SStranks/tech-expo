@@ -31,6 +31,7 @@ export const companyShape = {
   businessType: z.enum(BUSINESS_TYPE, zErrorMessages.ENUM('Business-type')),
   countryId: z.uuid(zErrorMessages.UUID).transform((v) => v as CountryId),
   industry: z.string().trim().min(1, zErrorMessages.EMPTY('Industry')),
+  salesOwner: z.uuid(zErrorMessages.UUID).transform((v) => v as UserProfileId),
   size: z.enum(COMPANY_SIZE, zErrorMessages.ENUM('Company-size')),
   totalRevenue: z.string().trim().min(1, zErrorMessages.EMPTY('Total-Revenue')),
   website: z.string().trim().min(1, zErrorMessages.EMPTY('Website')).optional(),
@@ -71,9 +72,10 @@ const mutationCreateCompanyShape = {
   businessType: companyShape.businessType,
   countryId: companyShape.countryId,
   industry: companyShape.industry,
+  salesOwner: companyShape.salesOwner,
   size: companyShape.size,
   totalRevenue: companyShape.totalRevenue,
-  website: companyShape.website.nullish(),
+  website: companyShape.website.nullish().transform((v) => v ?? null),
 } satisfies ZodShapeFrom<CreateCompanyInput>;
 export const mutationCreateCompanySchema = z.object(mutationCreateCompanyShape);
 

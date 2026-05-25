@@ -1,7 +1,7 @@
-import type { UUID } from '@apps/crm-shared';
+import type { CountryId } from './country.types.js';
 
 export type CountryDTO = {
-  id: UUID;
+  id: CountryId;
   numCode: number;
   alpha2Code: string;
   alpha3Code: string;

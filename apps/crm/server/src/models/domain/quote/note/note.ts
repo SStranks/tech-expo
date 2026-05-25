@@ -1,15 +1,15 @@
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import type { QuoteId } from '../quote.types.js';
-import type { QuoteNoteClientId, QuoteNoteId } from './note.types.js';
+import type { QuoteNoteClientGeneratedId, QuoteNoteId } from './note.types.js';
 
 import { randomUUID } from 'node:crypto';
 
 type QuoteNoteProps = {
   content: string;
-  quote: QuoteId;
+  quoteId: QuoteId;
   createdByUserProfileId: UserProfileId;
-  clientId?: QuoteNoteClientId;
+  clientGeneratedId?: QuoteNoteClientGeneratedId;
 };
 
 export type QuoteNoteCreateProps = QuoteNoteProps;
@@ -31,11 +31,14 @@ class QuoteNoteState {
 }
 
 export abstract class QuoteNote {
-  private readonly _props: QuoteNoteProps & { clientId: QuoteNoteClientId };
+  private readonly _props: QuoteNoteProps & { clientGeneratedId: QuoteNoteClientGeneratedId };
   protected _internal: QuoteNoteState;
 
   constructor(props: QuoteNoteProps, newQuoteNote?: NewQuoteNoteImpl) {
-    this._props = { ...props, clientId: props.clientId || (randomUUID() as QuoteNoteClientId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId || (randomUUID() as QuoteNoteClientGeneratedId),
+    };
     this._internal = newQuoteNote?._internal ?? new QuoteNoteState();
   }
 
@@ -66,16 +69,16 @@ export abstract class QuoteNote {
     return this._props.content;
   }
 
-  get quote() {
-    return this._props.quote;
+  get quoteId() {
+    return this._props.quoteId;
   }
 
   get createdByUserProfileId() {
     return this._props.createdByUserProfileId;
   }
 
-  get clientId(): QuoteNoteClientId {
-    return this._props.clientId;
+  get clientGeneratedId(): QuoteNoteClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion getters
 

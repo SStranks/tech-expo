@@ -1,19 +1,21 @@
 /* eslint-disable perfectionist/sort-objects */
-import type { UUID } from '@apps/crm-shared';
-
 import type { QuotesTableSelect } from '#Config/schema/quotes/Quotes.js';
 
-import type { QuoteStage } from './quote.types.js';
+import type { CompanyId } from '../company/company.types.js';
+import type { ContactId } from '../contact/contact.types.js';
+import type { UserProfileId } from '../user/profile/profile.types.js';
+import type { QuoteClientGeneratedId, QuoteId, QuoteStage } from './quote.types.js';
 
 export type QuoteDTO = {
-  id: UUID;
+  id: QuoteId;
+  clientGeneratedId: QuoteClientGeneratedId;
   title: string;
-  companyId: UUID;
+  companyId: CompanyId;
   totalAmount: string;
   salesTax: string;
   stage: QuoteStage;
-  preparedForContactId: UUID;
-  preparedByUserProfileId: UUID;
+  preparedForContactId: ContactId;
+  preparedByUserProfileId: UserProfileId;
   issuedAt: Date | null;
   dueAt: Date | null;
   createdAt: Date;
@@ -21,6 +23,7 @@ export type QuoteDTO = {
 
 export const toQuoteDTO = (quote: QuotesTableSelect): QuoteDTO => ({
   id: quote.id,
+  clientGeneratedId: quote.clientGeneratedId,
   title: quote.title,
   companyId: quote.companyId,
   totalAmount: quote.totalAmount,

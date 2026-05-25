@@ -1,7 +1,7 @@
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import type { CompanyId } from '../company.types.js';
-import type { CompanyNoteClientId, CompanyNoteId } from './note.types.js';
+import type { CompanyNoteClientGeneratedId, CompanyNoteId } from './note.types.js';
 
 import DomainError from '#Utils/errors/DomainError.js';
 
@@ -11,7 +11,7 @@ type CompanyNoteProps = {
   content: string;
   companyId: CompanyId;
   createdByUserProfileId: UserProfileId;
-  clientId?: CompanyNoteClientId;
+  clientId?: CompanyNoteClientGeneratedId;
 };
 
 export type CompanyNoteCreateProps = CompanyNoteProps;
@@ -35,11 +35,11 @@ class CompanyNoteState {
 }
 
 export abstract class CompanyNote {
-  private readonly _props: CompanyNoteProps & { clientId: CompanyNoteClientId };
+  private readonly _props: CompanyNoteProps & { clientId: CompanyNoteClientGeneratedId };
   protected _internal: CompanyNoteState;
 
   protected constructor(props: CompanyNoteProps, newNote?: NewCompanyNoteImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CompanyNoteClientId) };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CompanyNoteClientGeneratedId) };
     this._internal = newNote?._internal ?? new CompanyNoteState();
   }
 
@@ -78,7 +78,7 @@ export abstract class CompanyNote {
     return this._props.companyId;
   }
 
-  get clientId(): CompanyNoteClientId {
+  get clientId(): CompanyNoteClientGeneratedId {
     return this._props.clientId;
   }
   // #endregion getters

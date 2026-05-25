@@ -6,7 +6,7 @@ import type { UserId } from './user.types.js';
 export interface UserRepository {
   // save(userProfile: UserProfile): Promise<UserProfile>;
   // remove(id: UserProfileId): Promise<UserProfileId>;
-  // findById(id: UserProfileId): Promise<UserProfile | null>;
+  findUserProfileById(id: UserProfileId): Promise<PersistedUserProfile | null>;
   findUsersByIds(ids: UserId[]): Promise<PersistedUser[]>;
   findUserProfilesByIds(ids: UserProfileId[]): Promise<PersistedUserProfile[]>;
   // count(query?: CompanyQuery): Promise<number>;

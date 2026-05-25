@@ -1,7 +1,7 @@
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import type { ContactId } from '../contact.types.js';
-import type { ContactNoteClientId, ContactNoteId } from './note.types.js';
+import type { ContactNoteClientGeneratedId, ContactNoteId } from './note.types.js';
 
 import { randomUUID } from 'node:crypto';
 
@@ -9,7 +9,7 @@ type ContactNoteProps = {
   content: string;
   contactId: ContactId;
   createdByUserProfileId: UserProfileId;
-  clientId?: ContactNoteClientId;
+  clientId?: ContactNoteClientGeneratedId;
 };
 
 export type ContactNoteCreateProps = ContactNoteProps;
@@ -31,11 +31,11 @@ class ContactNoteState {
 }
 
 export abstract class ContactNote {
-  private readonly _props: ContactNoteProps & { clientId: ContactNoteClientId };
+  private readonly _props: ContactNoteProps & { clientId: ContactNoteClientGeneratedId };
   protected _internal: ContactNoteState;
 
   protected constructor(props: ContactNoteProps, newNote?: NewContactNoteImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as ContactNoteClientId) };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as ContactNoteClientGeneratedId) };
     this._internal = newNote?._internal ?? new ContactNoteState();
   }
 
@@ -74,7 +74,7 @@ export abstract class ContactNote {
     return this._props.contactId;
   }
 
-  get clientId(): ContactNoteClientId {
+  get clientId(): ContactNoteClientGeneratedId {
     return this._props.clientId;
   }
   // #endregion getters

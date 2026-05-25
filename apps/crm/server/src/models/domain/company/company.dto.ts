@@ -1,15 +1,15 @@
-import type { UUID } from '@apps/crm-shared';
-
-import type { BusinessType, CompanySize } from './company.types.js';
+import type { CountryId } from '../country/country.types.js';
+import type { UserProfileId } from '../user/profile/profile.types.js';
+import type { BusinessType, CompanyId, CompanySize } from './company.types.js';
 
 export type CompanyDTO = {
-  id: UUID;
+  id: CompanyId;
   name: string;
   size: CompanySize;
-  totalRevenue: string;
+  totalRevenue: string | null;
   industry: string;
   businessType: BusinessType;
-  countryId: UUID;
+  countryId: CountryId;
   website: string | null;
-  salesOwner: UUID;
+  salesOwner: UserProfileId;
 };

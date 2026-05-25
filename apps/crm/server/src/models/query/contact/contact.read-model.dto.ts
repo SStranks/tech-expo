@@ -1,10 +1,8 @@
-import type { UUID } from '@apps/crm-shared';
-
 import type { CompanyDTO } from '#Models/domain/company/company.dto.js';
-import type { ContactStage } from '#Models/domain/contact/contact.types.js';
+import type { ContactId, ContactStage } from '#Models/domain/contact/contact.types.js';
 
 export type ContactOverviewDTO = {
-  id: UUID;
+  id: ContactId;
   firstName: string;
   lastName: string;
   email: string;

@@ -1,28 +1,36 @@
 import type { QuoteId } from '../quote.types.js';
-import type { QuoteServiceClientId, QuoteServiceId } from './service.types.js';
+import type { QuoteServiceClientGeneratedId, QuoteServiceId } from './service.types.js';
 
 import { randomUUID } from 'node:crypto';
 
 type QuoteServiceProps = {
-  title: string;
-  totalAmount: string;
+  clientGeneratedId: QuoteServiceClientGeneratedId;
+  discount: number;
   price: string;
   quantity: number;
-  discount: string;
   quoteId: QuoteId;
-  clientId?: QuoteServiceClientId;
+  title: string;
+  totalAmount: string;
 };
 
-export type QuoteServiceCreateProps = QuoteServiceProps;
-export type QuoteServiceHydrationProps = QuoteServiceCreateProps & { id: QuoteServiceId; createdAt: Date };
+export type QuoteServiceCreateProps = Omit<QuoteServiceProps, 'clientGeneratedId'> & {
+  clientGeneratedId?: QuoteServiceClientGeneratedId;
+};
+export type QuoteServiceHydrationProps = QuoteServiceCreateProps & {
+  id: QuoteServiceId;
+  clientGeneratedId: QuoteServiceClientGeneratedId;
+  createdAt: Date;
+};
 export type QuoteServiceUpdateProps = Partial<QuoteServiceProps> & { id: QuoteServiceId };
 
 export interface NewQuoteService extends QuoteService {
+  readonly clientGeneratedId: QuoteServiceClientGeneratedId;
   isPersisted(): this is PersistedQuoteService;
 }
 
 export interface PersistedQuoteService extends QuoteService {
   readonly id: QuoteServiceId;
+  readonly clientGeneratedId: QuoteServiceClientGeneratedId;
   readonly createdAt: Date;
   isPersisted(): this is PersistedQuoteService;
 }
@@ -32,11 +40,11 @@ class QuoteServiceState {
 }
 
 export abstract class QuoteService {
-  private readonly _props: QuoteServiceProps & { clientId: QuoteServiceClientId };
+  private readonly _props: QuoteServiceProps & { clientGeneratedId: QuoteServiceClientGeneratedId };
   protected _internal: QuoteServiceState;
 
   constructor(props: QuoteServiceProps, newQuoteService?: NewQuoteServiceImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as QuoteServiceClientId) };
+    this._props = { ...props };
     this._internal = newQuoteService?._internal ?? new QuoteServiceState();
   }
 
@@ -50,7 +58,10 @@ export abstract class QuoteService {
     return new PersistedQuoteServiceImpl(props);
   }
 
-  static promote(newQuoteService: NewQuoteServiceImpl, persisted: { id: QuoteServiceId; createdAt: Date }) {
+  static promote(
+    newQuoteService: NewQuoteServiceImpl,
+    persisted: { id: QuoteServiceId; clientGeneratedId: QuoteServiceClientGeneratedId; createdAt: Date }
+  ) {
     const props = { ...newQuoteService._props, ...persisted };
     // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level QuoteService.promote() call!
     return new PersistedQuoteServiceImpl(props, newQuoteService);
@@ -87,8 +98,8 @@ export abstract class QuoteService {
     return this._props.quoteId;
   }
 
-  get clientId(): QuoteServiceClientId {
-    return this._props.clientId;
+  get clientGeneratedId() {
+    return this._props.clientGeneratedId;
   }
   // #endregion getters
 
@@ -137,7 +148,9 @@ export abstract class QuoteService {
 
 class NewQuoteServiceImpl extends QuoteService {
   constructor(props: QuoteServiceCreateProps) {
-    super(props);
+    const clientGeneratedId = props.clientGeneratedId ?? (randomUUID() as QuoteServiceClientGeneratedId);
+
+    super({ ...props, clientGeneratedId });
   }
 
   isPersisted(): this is PersistedQuoteService {

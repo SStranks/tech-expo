@@ -1,6 +1,6 @@
-import type { UUID } from '@apps/crm-shared';
-
+import type { CompanyId } from '#Models/domain/company/company.types.js';
 import type { PersistedCompanyNote } from '#Models/domain/company/note/note.js';
+import type { CompanyNoteId } from '#Models/domain/company/note/note.types.js';
 
 import type { CompanyReadModel } from './companies.read-model.js';
 import type {
@@ -18,7 +18,7 @@ export class InMemoryCompanyReadModel implements CompanyReadModel {
     throw new Error('Method not implemented.');
   }
 
-  findCompaniesByIds(_ids: UUID[]): Promise<CompanyReadRow[]> {
+  findCompaniesByIds(_ids: CompanyId[]): Promise<CompanyReadRow[]> {
     throw new Error('Method not implemented.');
   }
 
@@ -26,11 +26,11 @@ export class InMemoryCompanyReadModel implements CompanyReadModel {
     throw new Error('Method not implemented.');
   }
 
-  findCompanyNoteByCompanyNoteId(_id: UUID): Promise<PersistedCompanyNote | null> {
+  findCompanyNoteById(_id: CompanyNoteId): Promise<PersistedCompanyNote | null> {
     throw new Error('Method not implemented.');
   }
 
-  findCompanyNotesByCompanyId(_id: UUID): Promise<CompanyNoteReadRow[]> {
+  findCompanyNotesByCompanyId(_id: CompanyId): Promise<CompanyNoteReadRow[]> {
     throw new Error('Method not implemented.');
   }
 }

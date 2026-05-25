@@ -1,7 +1,7 @@
-import type { UUID } from '@apps/crm-shared';
+import type { CountryId } from '#Models/domain/country/country.types.js';
 
 import type { CountryReadRow } from './countries.read-model.types.js';
 
 export interface CountryReadModel {
-  findCountriesByIds(ids: UUID[]): Promise<CountryReadRow[]>;
+  findCountriesByIds(ids: CountryId[]): Promise<CountryReadRow[]>;
 }

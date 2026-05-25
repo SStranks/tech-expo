@@ -1,8 +1,9 @@
-import type { UUID } from '@apps/crm-shared';
+import type { CalendarId } from '../calendar.types.js';
+import type { CalendarCategoryId } from './category.types.js';
 
 export type CalendarCategoryDTO = {
-  id: UUID;
+  id: CalendarCategoryId;
   title: string;
-  calendarId: UUID;
+  calendarId: CalendarId;
   createdAt: Date;
 };

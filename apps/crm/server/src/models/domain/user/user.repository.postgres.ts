@@ -12,21 +12,31 @@ import { userRowToDomain } from './user.mapper.js';
 export class PostgresUserRepository implements UserRepository {
   constructor() {}
 
+  findUserProfileById(id: UserProfileId): Promise<PersistedUserProfile | null> {
+    return postgresDBCall(async () => {
+      const row = await postgresDB.query.UserProfileTable.findFirst({
+        where: (userProfile, { eq }) => eq(userProfile.id, id),
+      });
+
+      return row ? userProfileRowToDomain(row) : null;
+    });
+  }
+
   findUsersByIds(ids: UserId[]): Promise<PersistedUser[]> {
     return postgresDBCall(async () => {
-      const users = await postgresDB.query.UserTable.findMany({
+      const rows = await postgresDB.query.UserTable.findMany({
         where: (user, { inArray }) => inArray(user.id, ids),
       });
-      return users.map((u) => userRowToDomain(u));
+      return rows.map((row) => userRowToDomain(row));
     });
   }
 
   findUserProfilesByIds(ids: UserProfileId[]): Promise<PersistedUserProfile[]> {
     return postgresDBCall(async () => {
-      const userProfiles = await postgresDB.query.UserProfileTable.findMany({
+      const rows = await postgresDB.query.UserProfileTable.findMany({
         where: (userProfile, { inArray }) => inArray(userProfile.id, ids),
       });
-      return userProfiles.map((uP) => userProfileRowToDomain(uP));
+      return rows.map((row) => userProfileRowToDomain(row));
     });
   }
 }

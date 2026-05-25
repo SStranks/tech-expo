@@ -1,6 +1,6 @@
-import type { UUID } from '@apps/crm-shared';
-
+import type { CompanyId } from '#Models/domain/company/company.types.js';
 import type { PersistedCompanyNote } from '#Models/domain/company/note/note.js';
+import type { CompanyNoteId } from '#Models/domain/company/note/note.types.js';
 
 import type {
   CompaniesOverviewPaginated,
@@ -12,8 +12,8 @@ import type {
 
 export interface CompanyReadModel {
   count(query?: CompanyQuery): Promise<number>;
-  findCompaniesByIds(ids: UUID[]): Promise<CompanyReadRow[]>;
+  findCompaniesByIds(ids: CompanyId[]): Promise<CompanyReadRow[]>;
   findCompanyOverview(query: CompaniesOverviewQuery): Promise<CompaniesOverviewPaginated>;
-  findCompanyNoteByCompanyNoteId(id: UUID): Promise<PersistedCompanyNote | null>;
-  findCompanyNotesByCompanyId(id: UUID): Promise<CompanyNoteReadRow[]>;
+  findCompanyNoteById(id: CompanyNoteId): Promise<PersistedCompanyNote | null>;
+  findCompanyNotesByCompanyId(id: CompanyId): Promise<CompanyNoteReadRow[]>;
 }

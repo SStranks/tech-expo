@@ -1,15 +1,15 @@
 import type { CompanyId } from '../company/company.types.js';
 import type { NewPipelineDeal, PersistedPipelineDeal } from './deal/deal.js';
-import type { PipelineDealClientId, PipelineDealId } from './deal/deal.types.js';
-import type { PipelineClientId, PipelineId } from './pipeline.types.js';
+import type { PipelineDealClientGeneratedId, PipelineDealId } from './deal/deal.types.js';
+import type { PipelineClientGeneratedId, PipelineId } from './pipeline.types.js';
 import type { NewPipelineStage, PersistedPipelineStage } from './stage/stage.js';
-import type { PipelineStageClientId, PipelineStageId } from './stage/stage.types.js';
+import type { PipelineStageClientGeneratedId, PipelineStageId } from './stage/stage.types.js';
 
 import { randomUUID } from 'node:crypto';
 
 type PipelineProps = {
   companyId: CompanyId;
-  clientId?: PipelineClientId;
+  clientId?: PipelineClientGeneratedId;
 };
 
 type PipelineCreateProps = PipelineProps;
@@ -27,24 +27,24 @@ export interface PersistedPipeline extends Pipeline {
 
 class PipelineState {
   dealById: Map<PipelineDealId, PersistedPipelineDeal> = new Map();
-  dealByClientId: Map<PipelineDealClientId, PipelineDealId> = new Map();
-  addedDeal: Map<PipelineDealClientId, NewPipelineDeal> = new Map();
+  dealByClientId: Map<PipelineDealClientGeneratedId, PipelineDealId> = new Map();
+  addedDeal: Map<PipelineDealClientGeneratedId, NewPipelineDeal> = new Map();
   updatedDeal: Map<PipelineDealId, PersistedPipelineDeal> = new Map();
   removedDealIds: Set<PipelineDealId> = new Set();
   stageById: Map<PipelineStageId, PersistedPipelineStage> = new Map();
-  stageByClientId: Map<PipelineStageClientId, PipelineStageId> = new Map();
-  addedStage: Map<PipelineStageClientId, NewPipelineStage> = new Map();
+  stageByClientId: Map<PipelineStageClientGeneratedId, PipelineStageId> = new Map();
+  addedStage: Map<PipelineStageClientGeneratedId, NewPipelineStage> = new Map();
   updatedStage: Map<PipelineStageId, PersistedPipelineStage> = new Map();
   removedStageIds: Set<PipelineStageId> = new Set();
   dirtyFields: Set<keyof PipelineProps> = new Set();
 }
 
 export abstract class Pipeline {
-  private readonly _props: PipelineProps & { clientId: PipelineClientId };
+  private readonly _props: PipelineProps & { clientId: PipelineClientGeneratedId };
   protected _internal: PipelineState;
 
   constructor(props: PipelineProps, newPipeline?: NewPipelineImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as PipelineClientId) };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as PipelineClientGeneratedId) };
     this._internal = newPipeline?._internal ?? new PipelineState();
   }
 
@@ -69,7 +69,7 @@ export abstract class Pipeline {
     return this._props.companyId;
   }
 
-  get clientId(): PipelineClientId {
+  get clientId(): PipelineClientGeneratedId {
     return this._props.clientId;
   }
   // #endregion getters

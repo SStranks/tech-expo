@@ -1,8 +1,10 @@
-import type { UUID } from '@apps/crm-shared';
+import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
+
+import type { CompanyNoteId } from './note.types.js';
 
 export type CompanyNoteDTO = {
-  id: UUID;
+  id: CompanyNoteId;
   note: string;
-  createdByUserProfileId: UUID;
+  createdByUserProfileId: UserProfileId;
   createdAt: Date;
 };

@@ -1,57 +1,73 @@
+import type { CompanyId } from '../company/company.types.js';
 import type { ContactId } from '../contact/contact.types.js';
 import type { UserProfileId } from '../user/profile/profile.types.js';
 import type { NewQuoteNote, PersistedQuoteNote, QuoteNoteCreateProps, QuoteNoteUpdateProps } from './note/note.js';
-import type { QuoteNoteClientId, QuoteNoteId } from './note/note.types.js';
-import type { QuoteClientId, QuoteId, QuoteStage } from './quote.types.js';
+import type { QuoteNoteClientGeneratedId, QuoteNoteId } from './note/note.types.js';
+import type { QuoteClientGeneratedId, QuoteId, QuoteStage } from './quote.types.js';
+import type { NewQuoteService, PersistedQuoteService, QuoteServiceCreateProps } from './service/service.js';
+import type { QuoteServiceClientGeneratedId, QuoteServiceId } from './service/service.types.js';
 
 import DomainError from '#Utils/errors/DomainError.js';
 
 import { randomUUID } from 'node:crypto';
 
 import { QuoteNote } from './note/note.js';
+import { QuoteService } from './service/service.js';
 
 type QuoteProps = {
-  title: string;
-  createdAt: Date;
-  company: string;
-  totalAmount: string;
+  clientGeneratedId: QuoteClientGeneratedId;
+  companyId: CompanyId;
+  dueAt: Date | null;
+  issuedAt: Date | null;
+  preparedByUserProfileId: UserProfileId;
+  preparedForContactId: ContactId;
   salesTax: string;
   stage: QuoteStage;
-  preparedFor: ContactId;
-  preparedBy: UserProfileId;
-  issuedAt: Date | null;
-  dueAt: Date | null;
-  clientId?: QuoteClientId;
+  title: string;
+  totalAmount: string;
 };
 
-type QuoteCreateProps = QuoteProps;
-type QuoteHydrationProps = QuoteCreateProps & { id: QuoteId; createdAt: Date };
+type QuoteCreateProps = Omit<
+  QuoteProps,
+  'dueAt' | 'issuedAt' | 'salesTax' | 'stage' | 'totalAmount' | 'clientGeneratedId'
+> & {
+  clientGeneratedId?: QuoteClientGeneratedId;
+};
+// type QuoteUpdateProps = QuoteProps;
+type QuoteHydrationProps = QuoteProps & { id: QuoteId; createdAt: Date; clientGeneratedId: QuoteClientGeneratedId };
 
 export interface NewQuote extends Quote {
+  readonly clientGeneratedId: QuoteClientGeneratedId;
   isPersisted(): this is PersistedQuote;
 }
 
 export interface PersistedQuote extends Quote {
   readonly id: QuoteId;
+  readonly clientGeneratedId: QuoteClientGeneratedId;
   readonly createdAt: Date;
   isPersisted(): this is PersistedQuote;
 }
 
 class QuoteState {
   noteById: Map<QuoteNoteId, PersistedQuoteNote> = new Map();
-  noteByClientId: Map<QuoteNoteClientId, QuoteNoteId> = new Map();
-  addedNotes: Map<QuoteNoteClientId, NewQuoteNote> = new Map();
+  noteByClientGeneratedId: Map<QuoteNoteClientGeneratedId, QuoteNoteId> = new Map();
+  addedNotes: Map<QuoteNoteClientGeneratedId, NewQuoteNote> = new Map();
   removedNoteIds: Set<QuoteNoteId> = new Set();
   updatedNotes: Map<QuoteNoteId, PersistedQuoteNote> = new Map();
+  serviceById: Map<QuoteServiceId, PersistedQuoteService> = new Map();
+  serviceByClientGeneratedId: Map<QuoteServiceClientGeneratedId, QuoteServiceId> = new Map();
+  addedServices: Map<QuoteServiceClientGeneratedId, NewQuoteService> = new Map();
+  removedServiceIds: Set<QuoteServiceId> = new Set();
+  updatedServices: Map<QuoteServiceId, PersistedQuoteService> = new Map();
   dirtyFields: Set<keyof QuoteProps> = new Set();
 }
 
 export abstract class Quote {
-  private readonly _props: QuoteProps & { clientId: QuoteClientId };
+  private readonly _props: QuoteProps & { clientGeneratedId: QuoteClientGeneratedId };
   protected _internal: QuoteState;
 
   constructor(props: QuoteProps, newQuote?: NewQuoteImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as QuoteClientId) };
+    this._props = { ...props };
     this._internal = newQuote?._internal ?? new QuoteState();
   }
 
@@ -65,7 +81,10 @@ export abstract class Quote {
     return new PersistedQuoteImpl(props);
   }
 
-  static promote(newQuote: NewQuoteImpl, persisted: { id: QuoteId; createdAt: Date }): PersistedQuote {
+  static promote(
+    newQuote: NewQuoteImpl,
+    persisted: { id: QuoteId; clientGeneratedId: QuoteClientGeneratedId; createdAt: Date }
+  ): PersistedQuote {
     const props = { ...newQuote._props, ...persisted };
     // eslint-disable-next-line @typescript-eslint/no-use-before-define -- no top-level Quote.promote() call!
     return new PersistedQuoteImpl(props, newQuote);
@@ -82,11 +101,11 @@ export abstract class Quote {
     return this._props.title;
   }
 
-  get company() {
-    return this._props.company;
+  get companyId() {
+    return this._props.companyId;
   }
 
-  get total() {
+  get totalAmount() {
     return this._props.totalAmount;
   }
 
@@ -98,12 +117,12 @@ export abstract class Quote {
     return this._props.stage;
   }
 
-  get preparedFor() {
-    return this._props.preparedFor;
+  get preparedForContactId() {
+    return this._props.preparedForContactId;
   }
 
-  get preparedBy() {
-    return this._props.preparedBy;
+  get preparedByUserProfileId() {
+    return this._props.preparedByUserProfileId;
   }
 
   get issuedAt() {
@@ -114,8 +133,8 @@ export abstract class Quote {
     return this._props.dueAt;
   }
 
-  get clientId(): QuoteClientId {
-    return this._props.clientId;
+  get clientGeneratedId() {
+    return this._props.clientGeneratedId;
   }
   // #endregion getters
 
@@ -124,7 +143,26 @@ export abstract class Quote {
   // --------------------------
   // #region actions/internal
 
-  pullChanges() {
+  hasDirtyFields() {
+    return this._internal.dirtyFields.size > 0;
+  }
+
+  getDirtyRootFields(): (keyof QuoteProps)[] {
+    return [...this._internal.dirtyFields];
+  }
+
+  pullDirtyFields(): Partial<QuoteProps> {
+    const update: Partial<QuoteProps> = {};
+
+    this._internal.dirtyFields.forEach(<K extends keyof QuoteProps>(key: K) => {
+      // eslint-disable-next-line security/detect-object-injection
+      update[key] = this._props[key];
+    });
+
+    return update;
+  }
+
+  pullNoteChanges() {
     return {
       addedNotes: this._internal.addedNotes,
       removedNoteIds: this._internal.removedNoteIds,
@@ -146,7 +184,7 @@ export abstract class Quote {
   commitNotes(newNotes: PersistedQuoteNote[]) {
     for (const note of newNotes) {
       this._internal.noteById.set(note.id, note);
-      this._internal.noteByClientId.set(note.clientId, note.id);
+      this._internal.noteByClientGeneratedId.set(note.clientGeneratedId, note.id);
     }
 
     this._internal.addedNotes.clear();
@@ -159,14 +197,39 @@ export abstract class Quote {
   // --------------------------
   // #region actions/quote
 
+  updateProfile(_input: Partial<Omit<QuoteCreateProps, 'id'>>) {
+    // if (input.companyId !== undefined) this.changeFirstName(input.firstName);
+    // if (input.preparedByUserProfileId !== undefined) this.changeFirstName(input.firstName);
+    // if (input.companyId !== undefined) this.changeFirstName(input.firstName);
+    // if (input.companyId !== undefined) this.changeFirstName(input.firstName);
+  }
+
   updateQuote(_input: unknown) {}
   // #endregion actions/quote
 
   // --------------------------
   // Domain actions – Quote Service
   // --------------------------
-  // #region actions/notes
-  // #endregion actions/notes
+  // #region actions/services
+
+  addService(props: QuoteServiceCreateProps): NewQuoteService {
+    const quoteService = QuoteService.create(props);
+    this._internal.addedServices.set(quoteService.clientGeneratedId, quoteService);
+    return quoteService;
+  }
+
+  findServiceByClientId(clientId: QuoteServiceClientGeneratedId) {
+    return this._internal.serviceByClientGeneratedId.get(clientId);
+  }
+
+  getServiceByClientId(clientId: QuoteServiceClientGeneratedId) {
+    const quoteServiceId = this.findServiceByClientId(clientId);
+    if (!quoteServiceId) throw new DomainError({ message: 'Quote-service not found' });
+    const quoteService = this._internal.serviceById.get(quoteServiceId);
+    if (!quoteService) throw new DomainError({ message: 'Quote-service not found' });
+    return quoteService;
+  }
+  // #endregion actions/services
 
   // --------------------------
   // Domain actions – Quote Note
@@ -175,7 +238,7 @@ export abstract class Quote {
 
   addNote(props: QuoteNoteCreateProps): NewQuoteNote {
     const note = QuoteNote.create(props);
-    this._internal.addedNotes.set(note.clientId, note);
+    this._internal.addedNotes.set(note.clientGeneratedId, note);
     return note;
   }
 
@@ -198,26 +261,36 @@ export abstract class Quote {
 
     this._internal.removedNoteIds.add(id);
     this._internal.noteById.delete(id);
-    this._internal.noteByClientId.delete(note.clientId);
+    this._internal.noteByClientGeneratedId.delete(note.clientGeneratedId);
   }
 
-  findNoteByClientId(clientId: QuoteNoteClientId) {
-    return this._internal.noteByClientId.get(clientId);
+  findNoteByClientId(clientId: QuoteNoteClientGeneratedId) {
+    return this._internal.noteByClientGeneratedId.get(clientId);
   }
 
-  getNoteByClientId(clientId: QuoteNoteClientId) {
-    const contactNoteUUID = this.findNoteByClientId(clientId);
-    if (!contactNoteUUID) throw new DomainError({ message: 'Quote-note not found' });
-    const contactNote = this._internal.noteById.get(contactNoteUUID);
-    if (!contactNote) throw new DomainError({ message: 'Quote-note not found' });
-    return contactNote;
+  getNoteByClientId(clientId: QuoteNoteClientGeneratedId) {
+    const quoteNoteId = this.findNoteByClientId(clientId);
+    if (!quoteNoteId) throw new DomainError({ message: 'Quote-note not found' });
+    const quoteNote = this._internal.noteById.get(quoteNoteId);
+    if (!quoteNote) throw new DomainError({ message: 'Quote-note not found' });
+    return quoteNote;
   }
   // #endregion actions/notes
 }
 
 class NewQuoteImpl extends Quote {
   constructor(props: QuoteCreateProps) {
-    super(props);
+    const clientGeneratedId = props.clientGeneratedId ?? (randomUUID() as QuoteClientGeneratedId);
+
+    super({
+      ...props,
+      clientGeneratedId,
+      dueAt: null,
+      issuedAt: null,
+      salesTax: '20.00',
+      stage: 'DRAFT',
+      totalAmount: '0.00',
+    });
   }
 
   isPersisted(): this is PersistedQuote {

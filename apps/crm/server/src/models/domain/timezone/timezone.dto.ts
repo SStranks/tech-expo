@@ -1,8 +1,9 @@
-import type { UUID } from '@apps/crm-shared';
+import type { CountryId } from '../country/country.types.js';
+import type { TimeZoneId } from './timezone.types.js';
 
-export type TimezoneDTO = {
-  id: UUID;
+export type TimeZoneDTO = {
+  id: TimeZoneId;
   alpha2Code: string;
   gmtOffset: string;
-  countryId: UUID;
+  countryId: CountryId;
 };

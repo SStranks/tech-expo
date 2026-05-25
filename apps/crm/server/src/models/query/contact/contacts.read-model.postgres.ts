@@ -1,9 +1,9 @@
 /* eslint-disable perfectionist/sort-objects */
-import type { UUID } from '@apps/crm-shared';
-
 import type { CompaniesTableSelect } from '#Config/schema/companies/Companies.js';
 import type { ContactsTableSelect } from '#Config/schema/contacts/Contacts.js';
+import type { ContactId } from '#Models/domain/contact/contact.types.js';
 import type { PersistedContactNote } from '#Models/domain/contact/note/note.js';
+import type { ContactNoteId } from '#Models/domain/contact/note/note.types.js';
 
 import type { ContactReadModel } from './contacts.read-model.js';
 import type {
@@ -66,7 +66,7 @@ export class PostgresContactReadModel implements ContactReadModel {
     });
   }
 
-  async findContactsByIds(ids: UUID[]): Promise<ContactReadRow[]> {
+  async findContactsByIds(ids: ContactId[]): Promise<ContactReadRow[]> {
     return postgresDBCall(async () => {
       const contacts = await postgresDB.query.ContactsTable.findMany({
         where: (contact, { inArray }) => inArray(contact.id, ids),
@@ -87,17 +87,17 @@ export class PostgresContactReadModel implements ContactReadModel {
     });
   }
 
-  async findContactNoteByContactNoteId(id: UUID): Promise<PersistedContactNote | null> {
+  async findContactNoteByContactNoteId(id: ContactNoteId): Promise<PersistedContactNote | null> {
     return postgresDBCall(async () => {
       const contactNote = await postgresDB.query.ContactsNotesTable.findFirst({
-        where: (contactNote, { eq }) => eq(contactNote.contactId, id),
+        where: (contactNote, { eq }) => eq(contactNote.id, id),
       });
 
       return contactNote ? contactNoteRowToDomain(contactNote) : null;
     });
   }
 
-  async findContactNotesByContactId(id: UUID): Promise<ContactNoteReadRow[]> {
+  async findContactNotesByContactId(id: ContactId): Promise<ContactNoteReadRow[]> {
     return postgresDBCall(async () => {
       const contactNotes = await postgresDB.query.ContactsNotesTable.findMany({
         where: (contactNote, { eq }) => eq(contactNote.contactId, id),

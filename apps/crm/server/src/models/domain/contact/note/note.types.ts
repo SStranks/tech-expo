@@ -1,4 +1,6 @@
 import type { UUID } from '@apps/crm-shared';
 
 export type ContactNoteId = UUID & { readonly __contactNoteId: 'ContactNoteId' };
-export type ContactNoteClientId = UUID & { readonly __contactNoteClientId: 'ContactNoteClientId' };
+export type ContactNoteClientGeneratedId = UUID & {
+  readonly __contactNoteClientGeneratedId: 'ContactNoteClientGeneratedId';
+};

@@ -1,7 +1,7 @@
-import type { UUID } from '@apps/crm-shared';
+import type { CountryId } from '#Models/domain/country/country.types.js';
 
 export type CountryReadRow = {
-  id: UUID;
+  id: CountryId;
   numCode: number;
   alpha2Code: string;
   alpha3Code: string;

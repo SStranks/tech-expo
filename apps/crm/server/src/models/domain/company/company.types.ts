@@ -2,6 +2,7 @@ import type { UUID } from '@apps/crm-shared';
 
 import type { CountryId } from '../country/country.types.js';
 import type { PersistedUserProfile } from '../user/profile/profile.js';
+import type { UserProfileId } from '../user/profile/profile.types.js';
 import type { PersistedCompany } from './company.js';
 import type { PersistedCompanyNote } from './note/note.js';
 import type { CompanyNoteId } from './note/note.types.js';
@@ -14,7 +15,7 @@ export type BusinessType = (typeof BUSINESS_TYPE)[number];
 
 export type CompanyId = UUID & { readonly __companyId: 'CompanyId' };
 
-export type CompanyClientId = UUID & { readonly __companyClientId: 'CompanyClientId' };
+export type CompanyClientGeneratedId = UUID & { readonly __companyClientGeneratedId: 'CompanyClientGeneratedId' };
 
 export type CreateCompanyCommand = {
   name: string;
@@ -23,8 +24,9 @@ export type CreateCompanyCommand = {
   businessType: BusinessType;
   countryId: CountryId;
   totalRevenue: string | null;
-  website?: string | null;
+  website: string | null;
   createdAt?: Date;
+  salesOwner: UserProfileId;
 };
 
 export type UpdateCompanyCommand = {

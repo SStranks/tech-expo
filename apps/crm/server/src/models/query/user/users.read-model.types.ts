@@ -1,9 +1,12 @@
-import type { UserRoles, UUID } from '@apps/crm-shared';
+import type { UserRoles } from '@apps/crm-shared';
 
-import type { CompanyRoles } from '#Models/domain/user/profile/profile.types.js';
+import type { CountryId } from '#Models/domain/country/country.types.js';
+import type { TimeZoneId } from '#Models/domain/timezone/timezone.types.js';
+import type { CompanyRoles, UserProfileId } from '#Models/domain/user/profile/profile.types.js';
+import type { UserId } from '#Models/domain/user/user.types.js';
 
 export type UserReadRow = {
-  id: UUID;
+  id: UserId;
   email: string;
   role: UserRoles;
   password: string;
@@ -18,16 +21,15 @@ export type UserReadRow = {
 };
 
 export type UserProfileReadRow = {
-  id: UUID;
-  userId: UUID;
+  id: UserProfileId;
+  userId: UserId;
   firstName: string;
   lastName: string;
   email: string;
   mobile: string | null;
   telephone: string | null;
-  timezoneId: UUID | null;
-  countryId: UUID;
-  companyId: UUID;
+  timezoneId: TimeZoneId | null;
+  countryId: CountryId;
   companyRole: CompanyRoles;
   image: string | null;
   createdAt: Date;

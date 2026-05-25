@@ -1,12 +1,12 @@
 import type { CalendarId } from '../calendar.types.js';
-import type { CalendarCategoryClientId, CalendarCategoryId } from './category.types.js';
+import type { CalendarCategoryClientGeneratedId, CalendarCategoryId } from './category.types.js';
 
 import { randomUUID } from 'node:crypto';
 
 type CalendarCategoryProps = {
   title: string;
   calendarId: CalendarId;
-  clientId?: CalendarCategoryClientId;
+  clientId?: CalendarCategoryClientGeneratedId;
 };
 
 export type CalendarCategoryCreateProps = CalendarCategoryProps;
@@ -27,11 +27,11 @@ class CalendarCategoryState {
 }
 
 export abstract class CalendarCategory {
-  private readonly _props: CalendarCategoryProps & { clientId: CalendarCategoryClientId };
+  private readonly _props: CalendarCategoryProps & { clientId: CalendarCategoryClientGeneratedId };
   protected _internal: CalendarCategoryState;
 
   constructor(props: CalendarCategoryProps, newCategory?: NewCalendarCategoryImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CalendarCategoryClientId) };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CalendarCategoryClientGeneratedId) };
     this._internal = newCategory?._internal ?? new CalendarCategoryState();
   }
 
@@ -68,7 +68,7 @@ export abstract class CalendarCategory {
     return this._props.calendarId;
   }
 
-  get clientId(): CalendarCategoryClientId {
+  get clientId(): CalendarCategoryClientGeneratedId {
     return this._props.clientId;
   }
   // #endregion getters

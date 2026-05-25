@@ -16,7 +16,7 @@ import PostgresError from '#Utils/errors/PostgresError.js';
 import { randomUUID } from 'node:crypto';
 
 import { asUserProfileId } from '../user/profile/profile.mapper.js';
-import { companyRowToDomain } from './company.mapper.js';
+import { asCompanyId, companyRowToDomain } from './company.mapper.js';
 import { CompanyNote, type PersistedCompanyNote } from './note/note.js';
 import { asCompanyNoteId } from './note/note.mapper.js';
 
@@ -77,7 +77,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
   }
 
   private insert(company: NewCompany): Promise<PersistedCompany> {
-    const id = randomUUID() as UUID;
+    const id = asCompanyId(randomUUID() as UUID);
 
     if (this.companiesMap.has(id)) {
       throw new PostgresError({
@@ -97,6 +97,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
       countryId: company.countryId,
       website: company.website?.toString() ?? null,
       createdAt: new Date(),
+      salesOwner: company.salesOwner,
     };
 
     this.companiesMap.set(id, row);
@@ -169,8 +170,8 @@ export class InMemoryCompanyRepository implements CompanyRepository {
     }
 
     if (updatedNotes.size > 0) {
-      for (const [UUID, note] of updatedNotes) {
-        const existing = existingNotes.find((n) => n.id === UUID);
+      for (const [id, note] of updatedNotes) {
+        const existing = existingNotes.find((n) => n.id === id);
         if (existing) {
           existing.note = note.content;
         }

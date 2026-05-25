@@ -1,15 +1,13 @@
-import type { UUID } from '@apps/crm-shared';
-
 import type { CountryId } from '../country/country.types.js';
 import type { UserProfileId } from '../user/profile/profile.types.js';
-import type { BusinessType, CompanyClientId, CompanyId, CompanySize } from './company.types.js';
+import type { BusinessType, CompanyClientGeneratedId, CompanyId, CompanySize } from './company.types.js';
 import type {
   CompanyNoteCreateProps,
   CompanyNoteHydrationProps,
   NewCompanyNote,
   PersistedCompanyNote,
 } from './note/note.js';
-import type { CompanyNoteClientId, CompanyNoteId } from './note/note.types.js';
+import type { CompanyNoteClientGeneratedId, CompanyNoteId } from './note/note.types.js';
 
 import DomainError from '#Utils/errors/DomainError.js';
 
@@ -20,13 +18,13 @@ import { CompanyNote } from './note/note.js';
 type CompanyProps = {
   name: string;
   size: CompanySize;
-  totalRevenue: string;
+  totalRevenue: string | null;
   industry: string;
   businessType: BusinessType;
   countryId: CountryId;
   website: string | null;
   salesOwner: UserProfileId;
-  clientId?: CompanyClientId;
+  clientId?: CompanyClientGeneratedId;
 };
 
 type CompanyCreateProps = CompanyProps;
@@ -43,11 +41,11 @@ export interface PersistedCompany extends Company {
 }
 
 class CompanyState {
-  notesById: Map<UUID, PersistedCompanyNote> = new Map();
-  notesByClientId: Map<CompanyNoteClientId, UUID> = new Map();
-  addedNotes: Map<CompanyNoteClientId, NewCompanyNote> = new Map();
+  notesById: Map<CompanyNoteId, PersistedCompanyNote> = new Map();
+  notesByClientId: Map<CompanyNoteClientGeneratedId, CompanyNoteId> = new Map();
+  addedNotes: Map<CompanyNoteClientGeneratedId, NewCompanyNote> = new Map();
   removedNoteIds: Set<CompanyNoteId> = new Set();
-  updatedNotes: Map<UUID, PersistedCompanyNote> = new Map();
+  updatedNotes: Map<CompanyNoteId, PersistedCompanyNote> = new Map();
   dirtyFields: Set<keyof CompanyProps> = new Set();
 }
 
@@ -59,11 +57,11 @@ class CompanyState {
     - This prevents loading large note collections during queries.
  */
 export abstract class Company {
-  private readonly _props: CompanyProps & { clientId: CompanyClientId };
+  private readonly _props: CompanyProps & { clientId: CompanyClientGeneratedId };
   protected _internal: CompanyState;
 
   protected constructor(props: CompanyProps, newCompany?: NewCompanyImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CompanyClientId) };
+    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CompanyClientGeneratedId) };
     this._internal = newCompany?._internal ?? new CompanyState();
   }
 
@@ -129,7 +127,7 @@ export abstract class Company {
     return this._props.salesOwner;
   }
 
-  get clientId(): CompanyClientId {
+  get clientId(): CompanyClientGeneratedId {
     return this._props.clientId;
   }
   // #endregion getters
@@ -197,7 +195,7 @@ export abstract class Company {
   updateProfile(input: Partial<Omit<CompanyCreateProps, 'id'>>) {
     if (input.name !== undefined) this.rebrandCompany(input.name);
     if (input.size !== undefined) this.updateMarketTier(input.size);
-    if (input.totalRevenue !== undefined) this.updateTotalRevenue(input.totalRevenue);
+    if (input.totalRevenue !== undefined && input.totalRevenue !== null) this.updateTotalRevenue(input.totalRevenue);
     if (input.industry !== undefined) this.changeIndustry(input.industry);
     if (input.businessType !== undefined) this.changeBusinessType(input.businessType);
     if (input.countryId !== undefined) this.moveCountry(input.countryId);
@@ -282,11 +280,11 @@ export abstract class Company {
     this._internal.notesByClientId.delete(note.clientId);
   }
 
-  findNoteByClientId(clientId: CompanyNoteClientId) {
+  findNoteByClientId(clientId: CompanyNoteClientGeneratedId) {
     return this._internal.notesByClientId.get(clientId);
   }
 
-  getNoteByClientId(clientId: CompanyNoteClientId) {
+  getNoteByClientId(clientId: CompanyNoteClientGeneratedId) {
     const noteUUID = this.findNoteByClientId(clientId);
     if (!noteUUID) throw new DomainError({ message: 'Company-note not found' });
     const note = this._internal.notesById.get(noteUUID);
@@ -298,7 +296,11 @@ export abstract class Company {
 
 class NewCompanyImpl extends Company {
   constructor(props: CompanyCreateProps) {
-    super(props);
+    super({
+      ...props,
+      totalRevenue: props.totalRevenue ?? '0.00',
+      website: props.website ?? null,
+    });
   }
 
   isPersisted(): this is PersistedCompany {

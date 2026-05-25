@@ -15,7 +15,7 @@ import PostgresError from '#Utils/errors/PostgresError.js';
 import { randomUUID } from 'node:crypto';
 
 import { asUserProfileId } from '../user/profile/profile.mapper.js';
-import { contactRowToDomain } from './contact.mapper.js';
+import { asContactId, contactRowToDomain } from './contact.mapper.js';
 import { ContactNote } from './note/note.js';
 import { asContactNoteId } from './note/note.mapper.js';
 
@@ -65,7 +65,7 @@ export class InMemoryContactRepository implements ContactRepository {
   }
 
   private insert(contact: NewContact): Promise<PersistedContact> {
-    const id = randomUUID() as UUID;
+    const id = asContactId(randomUUID() as UUID);
 
     if (this.contactsMap.has(id)) {
       throw new PostgresError({

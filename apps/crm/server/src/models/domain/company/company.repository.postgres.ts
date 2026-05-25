@@ -76,6 +76,7 @@ export class PostgresCompanyRepository implements CompanyRepository {
           businessType: company.businessType,
           countryId: company.countryId,
           website: company.website?.toString() ?? null,
+          salesOwner: company.salesOwner,
         })
         .returning();
 

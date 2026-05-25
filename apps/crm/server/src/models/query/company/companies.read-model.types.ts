@@ -1,7 +1,5 @@
-import type { UUID } from '@apps/crm-shared';
-
 import type { BusinessType, CompanyId, CompanySize } from '#Models/domain/company/company.types.js';
-import type { CompanyNoteClientId, CompanyNoteId } from '#Models/domain/company/note/note.types.js';
+import type { CompanyNoteClientGeneratedId, CompanyNoteId } from '#Models/domain/company/note/note.types.js';
 import type { ContactId } from '#Models/domain/contact/contact.types.js';
 import type { CountryId } from '#Models/domain/country/country.types.js';
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
@@ -15,7 +13,7 @@ export type CompanyReadRow = {
   id: CompanyId;
   name: string;
   size: CompanySize;
-  totalRevenue: string;
+  totalRevenue: string | null;
   industry: string;
   businessType: BusinessType;
   countryId: CountryId;
@@ -33,7 +31,7 @@ export type CompanyOverviewReadRow = {
 
 export type CompanyNoteReadRow = {
   id: CompanyNoteId;
-  clientTemporaryId?: CompanyNoteClientId;
+  clientTemporaryId?: CompanyNoteClientGeneratedId;
   note: string;
   companyId: CompanyId;
   createdAt: Date;
@@ -67,12 +65,12 @@ export type PaginatedCompanyDealsQuery = {
 export type PaginatedCompanyPipelineDeals = PaginationResult<CompanyPipelineDealSummaryReadRow>;
 export type CompanyPipelineDealSummaryReadRow = Pick<PipelineDealReadRow, 'id' | 'title' | 'stageId' | 'value'> & {
   dealOwner: {
-    id: UUID;
+    id: UserProfileId;
     firstName: string;
     lastName: string;
   };
   dealContact: {
-    id: UUID;
+    id: ContactId;
     firstName: string;
     lastName: string;
   };
@@ -95,13 +93,13 @@ export type PaginatedCompanyQuotesQuery = {
 export type PaginatedCompanyQuotes = PaginationResult<CompanyQuoteSummaryReadRow>;
 export type CompanyQuoteSummaryReadRow = Pick<QuoteReadRow, 'id' | 'title' | 'totalAmount' | 'stage'> & {
   preparedFor: {
-    id: UUID;
+    id: ContactId;
     firstName: string;
     lastName: string;
     image: string;
   };
   preparedBy: {
-    id: UUID;
+    id: UserProfileId;
     firstName: string;
     lastName: string;
     image: string;

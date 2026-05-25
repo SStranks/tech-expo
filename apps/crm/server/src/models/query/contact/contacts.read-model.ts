@@ -1,6 +1,6 @@
-import type { UUID } from '@apps/crm-shared';
-
+import type { ContactId } from '#Models/domain/contact/contact.types.js';
 import type { PersistedContactNote } from '#Models/domain/contact/note/note.js';
+import type { ContactNoteId } from '#Models/domain/contact/note/note.types.js';
 
 import type {
   ContactNoteReadRow,
@@ -12,8 +12,8 @@ import type {
 
 export interface ContactReadModel {
   count(query?: ContactQuery): Promise<number>;
-  findContactsByIds(ids: UUID[]): Promise<ContactReadRow[]>;
+  findContactsByIds(ids: ContactId[]): Promise<ContactReadRow[]>;
   findContactOverview(query: ContactsOverviewQuery): Promise<ContactsOverviewPaginated>;
-  findContactNoteByContactNoteId(id: UUID): Promise<PersistedContactNote | null>;
-  findContactNotesByContactId(id: UUID): Promise<ContactNoteReadRow[]>;
+  findContactNoteByContactNoteId(id: ContactNoteId): Promise<PersistedContactNote | null>;
+  findContactNotesByContactId(id: ContactId): Promise<ContactNoteReadRow[]>;
 }

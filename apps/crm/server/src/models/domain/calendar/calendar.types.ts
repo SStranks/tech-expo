@@ -14,7 +14,7 @@ import type { CalendarEventId } from './event/event.types.js';
 
 export type CalendarId = UUID & { readonly __calendarId: 'CalendarId' };
 
-export type CalendarClientId = UUID & { readonly __calendarClientId: 'CalendarClientId' };
+export type CalendarClientGeneratedId = UUID & { readonly __calendarClientGeneratedId: 'CalendarClientGeneratedId' };
 
 export type InitialCalendarCommand = {
   calendarId: CalendarId;

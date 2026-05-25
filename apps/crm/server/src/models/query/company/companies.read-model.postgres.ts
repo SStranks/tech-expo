@@ -4,6 +4,7 @@ import type { ContactsTableSelect } from '#Config/schema/contacts/Contacts.js';
 import type { UserProfileTableSelect } from '#Config/schema/user/UserProfile.js';
 import type { CompanyId } from '#Models/domain/company/company.types.js';
 import type { PersistedCompanyNote } from '#Models/domain/company/note/note.js';
+import type { CompanyNoteId } from '#Models/domain/company/note/note.types.js';
 
 import type { CompanyReadModel } from './companies.read-model.js';
 import type {
@@ -67,10 +68,10 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
     });
   }
 
-  async findCompanyNoteByCompanyNoteId(id: CompanyId): Promise<PersistedCompanyNote | null> {
+  async findCompanyNoteById(id: CompanyNoteId): Promise<PersistedCompanyNote | null> {
     return postgresDBCall(async () => {
       const companyNote = await postgresDB.query.CompaniesNotesTable.findFirst({
-        where: (companyNote, { eq }) => eq(companyNote.companyId, id),
+        where: (companyNote, { eq }) => eq(companyNote.id, id),
       });
 
       return companyNote ? companyNoteRowToDomain(companyNote) : null;
@@ -106,19 +107,7 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
       }
 
       if (query.filters.salesOwnerId) {
-        whereConditions.push(
-          exists(
-            postgresDB
-              .select()
-              .from(UserProfileTable)
-              .where(
-                and(
-                  eq(UserProfileTable.companyId, CompaniesTable.id),
-                  eq(UserProfileTable.id, query.filters.salesOwnerId)
-                )
-              )
-          )
-        );
+        whereConditions.push(eq(CompaniesTable.salesOwner, query.filters.salesOwnerId));
       }
 
       if (query.filters.contactIds?.length) {
@@ -148,10 +137,11 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
 
       const companyIds = companies.map((c) => c.company.id);
 
-      const salesOwners = await postgresDB
-        .select()
-        .from(UserProfileTable)
-        .where(inArray(UserProfileTable.companyId, companyIds));
+      const salesOwnerIds = companies.map((c) => c.company.salesOwner).filter((id) => !!id);
+      const salesOwners =
+        salesOwnerIds.length > 0
+          ? await postgresDB.select().from(UserProfileTable).where(inArray(UserProfileTable.id, salesOwnerIds))
+          : [];
 
       const openDealsTotals = await postgresDB
         .select({
@@ -174,9 +164,14 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
         companyMap.set(company.id, { company, contacts: [], openDealsAmount: '', salesOwner: undefined });
       }
 
-      for (const owner of salesOwners) {
-        const entry = companyMap.get(owner.companyId);
-        if (entry) entry.salesOwner = owner;
+      const salesOwnerMap = new Map(salesOwners.map((owner) => [owner.id, owner]));
+
+      for (const { company } of companies) {
+        const entry = companyMap.get(company.id);
+
+        if (entry && company.salesOwner) {
+          entry.salesOwner = salesOwnerMap.get(company.salesOwner);
+        }
       }
 
       for (const { companyId, total } of openDealsTotals) {

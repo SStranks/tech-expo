@@ -15,7 +15,6 @@ export function userProfileRowToReadRow(row: UserProfileTableSelect): UserProfil
     telephone: row.telephone,
     timezoneId: row.timezoneId,
     countryId: row.countryId,
-    companyId: row.companyId,
     companyRole: row.companyRole,
     image: row.image,
     createdAt: row.createdAt,

@@ -3,7 +3,7 @@ import type { ContactId } from '#Models/domain/contact/contact.types.js';
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 
 import type { PipelineStageId } from '../stage/stage.types.js';
-import type { PipelineDealClientId, PipelineDealId } from './deal.types.js';
+import type { PipelineDealClientGeneratedId, PipelineDealId } from './deal.types.js';
 
 import { randomUUID } from 'node:crypto';
 
@@ -15,7 +15,7 @@ type PipelineDealProps = {
   value: string;
   dealOwner: UserProfileId;
   dealContact: ContactId;
-  clientId?: PipelineDealClientId;
+  clientId?: PipelineDealClientGeneratedId;
 };
 
 export type PipelineDealCreateProps = PipelineDealProps;
@@ -37,11 +37,11 @@ class PipelineDealState {
 }
 
 export abstract class PipelineDeal {
-  private readonly _props: PipelineDealProps & { clientId: PipelineDealClientId };
+  private readonly _props: PipelineDealProps & { clientId: PipelineDealClientGeneratedId };
   protected _internal: PipelineDealState;
 
   constructor(props: PipelineDealProps, newPipelineDeal?: NewPipelineDealImpl) {
-    this._props = { ...props, clientId: props.clientId || (randomUUID() as PipelineDealClientId) };
+    this._props = { ...props, clientId: props.clientId || (randomUUID() as PipelineDealClientGeneratedId) };
     this._internal = newPipelineDeal?._internal ?? new PipelineDealState();
   }
 
@@ -99,7 +99,7 @@ export abstract class PipelineDeal {
     return this._props.dealContact;
   }
 
-  get clientId(): PipelineDealClientId {
+  get clientId(): PipelineDealClientGeneratedId {
     return this._props.clientId;
   }
   // #endregion actions/getters

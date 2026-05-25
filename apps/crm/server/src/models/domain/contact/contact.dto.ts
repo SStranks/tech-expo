@@ -1,16 +1,16 @@
-import type { UUID } from '@apps/crm-shared';
-
-import type { ContactStage } from './contact.types.js';
+import type { CompanyId } from '../company/company.types.js';
+import type { TimeZoneId } from '../timezone/timezone.types.js';
+import type { ContactId, ContactStage } from './contact.types.js';
 
 export type ContactDTO = {
-  id: UUID;
+  id: ContactId;
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
-  companyId: UUID;
+  companyId: CompanyId;
   jobTitle: string;
   stage: ContactStage;
-  timezoneId: UUID | null;
+  timezoneId: TimeZoneId | null;
   image: string | null;
 };

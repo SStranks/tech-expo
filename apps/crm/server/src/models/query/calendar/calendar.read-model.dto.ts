@@ -1,15 +1,16 @@
-import type { UUID } from '@apps/crm-shared';
+import type { CalendarCategoryId } from '#Models/domain/calendar/category/category.types.js';
+import type { CalendarEventId } from '#Models/domain/calendar/event/event.types.js';
 
 import type { CalendarCategoryDTO } from '../../domain/calendar/category/category.dto.js';
 import type { UserAvatarReadDTO } from '../user/users.read-model.dto.js';
 
 export type CalendarCategoryReadDTO = {
-  id: UUID;
+  id: CalendarCategoryId;
   title: string;
 };
 
 export type CalendarEventReadDTO = {
-  id: UUID;
+  id: CalendarEventId;
   title: string;
   description: string | null;
   color: string | null;

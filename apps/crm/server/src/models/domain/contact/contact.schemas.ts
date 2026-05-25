@@ -106,7 +106,7 @@ export const mutationCreateContactSchema = z.object(mutationCreateContactShape);
 
 export const mutationUpdateContactShape = {
   id: contactShape.id,
-  companyId: contactShape.companyId,
+  companyId: contactShape.companyId.optional(),
   email: contactShape.email.optional(),
   firstName: contactShape.firstName.optional(),
   image: contactShape.image.nullish(),
@@ -121,7 +121,7 @@ export const mutationUpdateContactSchema = z.object(mutationUpdateContactShape);
 export const mutationRemoveContactShape = {
   id: contactShape.id,
 } satisfies ZodShapeFrom<RemoveContactInput>;
-export const mutationRemoveContactSchema = z.object(mutationUpdateContactShape);
+export const mutationRemoveContactSchema = z.object(mutationRemoveContactShape);
 
 export const mutationCreateContactNoteShape = {
   contactId: contactShape.id,

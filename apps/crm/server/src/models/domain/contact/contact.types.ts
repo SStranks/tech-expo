@@ -20,7 +20,7 @@ export const CONTACT_STAGE = [
 ] as const;
 
 export type ContactId = UUID & { readonly __contactId: 'ContactId' };
-export type ContactClientId = UUID & { readonly __contactClientId: 'ContactClientId' };
+export type ContactClientGeneratedId = UUID & { readonly __contactClientGeneratedId: 'ContactClientGeneratedId' };
 
 export type CreateContactCommand = {
   firstName: string;
@@ -53,15 +53,14 @@ export type AddContactNoteCommand = {
   contactId: ContactId;
   note: string;
 };
-
 export type AddContactNoteReturn = { contact: PersistedContact; contactNote: PersistedContactNote };
-export type UpdateContactNoteReturn = { contact: PersistedContact; contactNote: PersistedContactNote };
 
 export type UpdateContactNoteCommand = {
   contactId: ContactId;
   contactNoteId: ContactNoteId;
   note: string;
 };
+export type UpdateContactNoteReturn = { contact: PersistedContact; contactNote: PersistedContactNote };
 
 export type RemoveContactNoteCommand = {
   contactId: ContactId;

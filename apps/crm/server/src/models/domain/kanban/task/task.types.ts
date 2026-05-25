@@ -1,8 +1,16 @@
 import type { UUID } from '@apps/crm-shared';
 
 export type KanbanTaskId = UUID & { readonly __kanbanTaskId: 'KanbanTaskId' };
-export type KanbanTaskClientId = UUID & { readonly __kanbanTaskClientId: 'KanbanTaskClientId' };
-export type KanbanTaskCommentClientId = UUID & { readonly __kanbanTaskCommentClientId: 'KanbanTaskCommentClientId' };
-export type KanbanTaskChecklistClientId = UUID & {
-  readonly __kanbanTaskChecklistClientId: 'KanbanTaskChecklistClientId';
+export type KanbanTaskClientGeneratedId = UUID & {
+  readonly __kanbanTaskClientGeneratedId: 'KanbanTaskClientGeneratedId';
+};
+
+export type KanbanTaskCommentId = UUID & { readonly __kanbanTaskCommentId: 'KanbanTaskCommentId' };
+export type KanbanTaskCommentClientGeneratedId = UUID & {
+  readonly __kanbanTaskCommentClientGeneratedId: 'KanbanTaskCommentClientGeneratedId';
+};
+
+export type KanbanTaskChecklistItemId = UUID & { readonly __kanbanTaskChecklistItemId: 'KanbanTaskChecklistItemId' };
+export type KanbanTaskChecklistItemClientId = UUID & {
+  readonly __kanbanTaskChecklistItemClientGeneratedId: 'KanbanTaskChecklistItemClientGeneratedId';
 };

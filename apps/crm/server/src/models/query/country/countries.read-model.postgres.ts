@@ -1,5 +1,5 @@
 /* eslint-disable perfectionist/sort-objects */
-import type { UUID } from '@apps/crm-shared';
+import type { CountryId } from '#Models/domain/country/country.types.js';
 
 import type { CountryReadModel } from './countries.read-model.js';
 import type { CountryReadRow } from './countries.read-model.types.js';
@@ -9,7 +9,7 @@ import { postgresDB, postgresDBCall } from '#Config/dbPostgres.js';
 export class PostgresCountryReadModel implements CountryReadModel {
   constructor() {}
 
-  async findCountriesByIds(ids: UUID[]): Promise<CountryReadRow[]> {
+  async findCountriesByIds(ids: CountryId[]): Promise<CountryReadRow[]> {
     return postgresDBCall(async () => {
       const countries = await postgresDB.query.CountriesTable.findMany({
         where: (country, { inArray }) => inArray(country.id, ids),

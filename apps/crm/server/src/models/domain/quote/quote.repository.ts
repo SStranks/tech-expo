@@ -1,7 +1,11 @@
-import type { UUID } from '@apps/crm-shared';
+import type { NewQuote, PersistedQuote } from './quote.js';
+import type { QuoteId } from './quote.types.js';
 
-import type { QuotesTableSelect } from '#Config/schema/quotes/Quotes.js';
+// import type { QuoteId } from './quote.types.js';
 
 export interface QuoteRepository {
-  findByIds(ids: UUID[]): Promise<QuotesTableSelect[]>;
+  save(contact: NewQuote | PersistedQuote): Promise<PersistedQuote>;
+  remove(id: QuoteId): Promise<QuoteId>;
+  findQuoteById(id: QuoteId): Promise<PersistedQuote | null>;
+  findQuotesByIds(ids: QuoteId[]): Promise<PersistedQuote[]>;
 }
