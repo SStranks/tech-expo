@@ -1,5 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 
+import type { GraphqlContext } from '#Graphql/context.js';
+
 import { expressMiddleware as apolloMiddleware } from '@as-integrations/express5';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -63,7 +65,7 @@ app.get('/health', (_req, res: Response) => res.sendStatus(200));
 /*
  * PUBLIC ROUTES
  */
-app.use('/graphql', apolloMiddleware(apolloServer, { context: graphqlContext }));
+app.use('/graphql', apolloMiddleware<GraphqlContext>(apolloServer, { context: graphqlContext }));
 app.use('/api/users', userRouter);
 
 app.get('/favicon.ico', (_req, res) => {

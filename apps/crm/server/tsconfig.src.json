@@ -9,7 +9,8 @@
     "allowImportingTsExtensions": false,
     "outDir": "./dist",
     "rootDir": "./src",
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["node", "express"]
   },
 
   "ts-node": {
