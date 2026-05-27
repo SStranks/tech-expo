@@ -1,3 +1,4 @@
+/* eslint-disable storybook/story-exports */
 /* eslint-disable perfectionist/sort-objects */
 import type { StorybookConfig } from '@storybook/react-vite';
 

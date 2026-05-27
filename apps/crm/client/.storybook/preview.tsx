@@ -1,14 +1,18 @@
+/* eslint-disable storybook/story-exports */
 import type { Preview } from '@storybook/react-webpack5';
 
-import '@Sass/global-imports.scss';
+import { withTanStackRouter } from 'storybook-addon-tanstack-router';
+
 import ThemeToggleDecorator from './helpers/ThemeToggleDecorator';
+
+import '@Sass/global-imports.scss';
 
 import SCSS_Exports from '@Sass/_exports.module.scss';
 
 const { storybook_background_dark, storybook_background_light } = SCSS_Exports;
 
 const preview = {
-  decorators: [ThemeToggleDecorator],
+  decorators: [ThemeToggleDecorator, withTanStackRouter],
   initialGlobals: { theme: 'light', themeBg: { dark: storybook_background_dark, light: storybook_background_light } },
   globalTypes: {
     theme: {

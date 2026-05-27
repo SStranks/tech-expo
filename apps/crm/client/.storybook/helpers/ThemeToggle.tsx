@@ -1,3 +1,4 @@
+/* eslint-disable storybook/default-exports */
 import type { Args, StoryContext } from '@storybook/react-webpack5';
 import type { PropsWithChildren } from 'react';
 
@@ -13,9 +14,9 @@ type Props = {
 
 export function ThemeToggle({ children, themeBg, updateGlobals }: PropsWithChildren<Props>): React.JSX.Element {
   return (
-    <div className={styles.container}>
-      <div className={styles.widgets}>
-        <div className={styles.widgets__widget}>
+    <div className={styles['container']}>
+      <div className={styles['widgets']}>
+        <div className={styles['widgets__widget']}>
           <SunIcon />
           <input
             type="color"
@@ -24,7 +25,7 @@ export function ThemeToggle({ children, themeBg, updateGlobals }: PropsWithChild
             aria-label="light-mode background colour"
           />
         </div>
-        <div className={styles.widgets__widget}>
+        <div className={styles['widgets__widget']}>
           <MoonIcon />
           <input
             type="color"
