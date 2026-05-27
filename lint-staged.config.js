@@ -6,8 +6,8 @@
 
 export default {
   '*': ['secretlint'],
-  '*.{js,ts,jsx,tsx}': ['eslint --max-warnings=0', 'prettier --check'],
-  '*.{graphql,html,html,json,jsonc,json5,yml,yaml}': ['eslint', 'prettier --check'],
+  '*.{js,ts,jsx,tsx}': ['eslint --max-warnings=0 --no-warn-ignored', 'prettier --check'],
+  '*.{graphql,html,html,json,jsonc,json5,yml,yaml}': ['eslint --no-warn-ignored', 'prettier --check'],
   '*.{css, scss, sass}': ['stylelint', 'prettier --check'],
   '*.md': ['prettier --check'],
 };

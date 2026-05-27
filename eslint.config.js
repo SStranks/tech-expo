@@ -31,11 +31,11 @@ export default defineConfig([
       '**/webpack/stats/',
       '**/*.gen.*',
       '**/graphql/generated/',
-      '!**/.storybook/',
       '**/private.*',
       '**/private/*',
       '**/migrations/meta/',
       '**/routeTree.gen.ts',
+      '!**/.storybook/',
       'pnpm-lock.yaml',
       'pnpm-lock.*.yaml',
       'pnpm-workspace.yaml',
@@ -52,12 +52,7 @@ export default defineConfig([
       'import-x/resolver-next': [
         createTypeScriptImportResolver({
           alwaysTryTypes: true,
-          project: [
-            'apps/crm/client/tsconfig.json',
-            'apps/crm/server/tsconfig.json',
-            'apps/crm/shared/tsconfig.json',
-            'apps/crm/client/cypress/tsconfig.json',
-          ],
+          project: ['apps/crm/client/tsconfig.json', 'apps/crm/server/tsconfig.json', 'apps/crm/shared/tsconfig.json'],
           extensions: ['.js', '.jsx', '.ts', '.tsx'],
         }),
       ],
@@ -130,7 +125,6 @@ export default defineConfig([
     name: 'CRM: Client; React + TypeScript',
     files: [
       'apps/crm/client/src/**/*.[jt]s?(x)',
-      'apps/crm/client/.storybook/**/*.[jt]s?(x)',
       'apps/crm/client/webpack/**/*.[jt]s?(x)',
       'apps/crm/client/*.ts',
       'apps/pnpm-outdated/client/src/*.ts',
@@ -138,10 +132,10 @@ export default defineConfig([
     ignores: ['apps/crm/client/src/**/?(*.)+(spec|test).[jt]s?(x)'],
     processor: EslintConfigGraphQL.processor,
     languageOptions: {
+      ...EslintConfigReact.languageOptions,
       parserOptions: {
         project: [path.join(import.meta.dirname, 'apps/crm/client/tsconfig.src.json')],
       },
-      ...EslintConfigReact.languageOptions,
     },
     plugins: { ...EslintConfigReact.plugins },
     rules: { ...EslintConfigReact.rules },
@@ -160,7 +154,13 @@ export default defineConfig([
   },
   {
     name: 'CRM: Client; Storybook',
-    files: ['apps/crm/client/src/stories/*.stories.[jt]s?(x)'],
+    files: ['apps/crm/client/src/stories/**/*.stories.[jt]s?(x)', 'apps/crm/client/.storybook/**/*.[jt]s?(x)'],
+    languageOptions: {
+      ...EslintConfigReact.languageOptions,
+      parserOptions: {
+        project: [path.join(import.meta.dirname, 'apps/crm/client/.storybook/tsconfig.json')],
+      },
+    },
     plugins: { ...EslintConfigStorybook.plugins },
     rules: { ...EslintConfigStorybook.rules },
     settings: {
