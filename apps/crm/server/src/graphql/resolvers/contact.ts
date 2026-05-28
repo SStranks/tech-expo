@@ -4,6 +4,7 @@ import z from 'zod';
 
 import { dbInconsistencyError, invalidInputError } from '#Graphql/errors.js';
 import pinoLogger from '#Lib/pinoLogger.js';
+import { asCompanyId } from '#Models/domain/company/company.mapper.js';
 import { asContactId, contactDomainToContactDTO } from '#Models/domain/contact/contact.mapper.js';
 import {
   mutationCreateContactNoteSchema,
@@ -16,6 +17,7 @@ import {
   queryContactSchema,
 } from '#Models/domain/contact/contact.schemas.js';
 import { contactNoteDomainToContactNoteDTO } from '#Models/domain/contact/note/note.mapper.js';
+import { asTimeZoneId } from '#Models/domain/timezone/timezone.mapper.js';
 import { asUserProfileId, userProfileDomainToAvatarDTO } from '#Models/domain/user/profile/profile.mapper.js';
 import { asUserId } from '#Models/domain/user/user.mapper.js';
 import { contactOverviewRowToContactOverviewDTO } from '#Models/query/contact/contact.read-model.mapper.js';
@@ -177,7 +179,7 @@ const contactResolver: Resolvers = {
 
   ContactDetailed: {
     company: async (contact, _, { loaders }) => {
-      const result = await loaders.Company.load(contact.companyId);
+      const result = await loaders.Company.load(asCompanyId(contact.companyId));
 
       if (!result) {
         const errorMessage = `[GraphQL] DB integrity issue: Contact ${contact.id} has invalid company ID ${contact.companyId}`;
@@ -191,7 +193,7 @@ const contactResolver: Resolvers = {
 
     timezone: async (contact, _, { loaders }) => {
       if (!contact.timezoneId) return null;
-      const result = await loaders.Timezone.load(contact.timezoneId);
+      const result = await loaders.Timezone.load(asTimeZoneId(contact.timezoneId));
 
       if (!result) {
         const errorMessage = `[GraphQL] DB integrity issue: Contact ${contact.id} has invalid timezone ID ${contact.timezoneId}`;

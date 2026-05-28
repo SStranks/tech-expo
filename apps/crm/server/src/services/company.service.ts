@@ -70,7 +70,7 @@ export class CompanyService implements ICompanyService {
   }
 
   async getCompanyNoteById(id: CompanyNoteId): Promise<CompanyNote> {
-    const companyNote = await this.companyReadModel.findCompanyNoteByCompanyNoteId(id);
+    const companyNote = await this.companyReadModel.findCompanyNoteById(id);
 
     if (!companyNote) throw new NotFoundError({ context: { companyNoteId: id }, resource: 'Company-note' });
 
@@ -78,11 +78,8 @@ export class CompanyService implements ICompanyService {
   }
 
   async createCompany(cmd: CreateCompanyCommand): Promise<PersistedCompany> {
-    const newCompany = Company.create({
-      ...cmd,
-      totalRevenue: cmd.totalRevenue ?? '0.00',
-      website: cmd.website ?? null,
-    });
+    // TODO: Move fields additions inside domain object
+    const newCompany = Company.create({ ...cmd });
 
     return this.companyRepository.save(newCompany);
   }
@@ -126,7 +123,7 @@ export class CompanyService implements ICompanyService {
     if (!userProfile) throw new NotFoundError({ context: { userId: ctx.user }, resource: `Userprofile by UserId` });
 
     const company = await this.getCompanyById(cmd.companyId);
-    const companyNote = await this.companyReadModel.findCompanyNoteByCompanyNoteId(cmd.companyNoteId);
+    const companyNote = await this.companyReadModel.findCompanyNoteById(cmd.companyNoteId);
     if (!companyNote)
       throw new NotFoundError({ context: { companyNoteId: cmd.companyNoteId }, resource: 'Company-note' });
 
@@ -152,7 +149,7 @@ export class CompanyService implements ICompanyService {
     if (!userProfile) throw new NotFoundError({ context: { userId: ctx.user }, resource: `Userprofile by UserId` });
 
     const company = await this.getCompanyById(cmd.companyId);
-    const companyNote = await this.companyReadModel.findCompanyNoteByCompanyNoteId(cmd.companyNoteId);
+    const companyNote = await this.companyReadModel.findCompanyNoteById(cmd.companyNoteId);
     if (!companyNote)
       throw new NotFoundError({ context: { companyNoteId: cmd.companyNoteId }, resource: 'Company-note' });
 

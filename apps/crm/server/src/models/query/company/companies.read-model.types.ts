@@ -45,11 +45,11 @@ export type CompanyQuery = {
   size?: CompanySize;
 };
 
-export type CompanyFilters = {
-  searchCompanyName?: string;
-  salesOwnerId?: UserProfileId;
-  contactIds?: ContactId[];
-};
+export type CompanyFilters = Partial<{
+  searchCompanyName: string;
+  salesOwnerId: UserProfileId;
+  contactIds: ContactId[];
+}>;
 
 export type CompaniesOverviewQuery = {
   filters: CompanyFilters;

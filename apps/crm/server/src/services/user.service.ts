@@ -4,7 +4,7 @@ import type { Response } from 'express';
 import type { PostgresClient } from '#Config/dbPostgres.js';
 import type { RedisClient } from '#Config/dbRedis.js';
 import type { SelectUserSchema } from '#Config/schema/user/User.ts';
-import type { UserRepository } from '#Models/domain/user/user.repository.js';
+import type { UserId } from '#Models/domain/user/user.types.js';
 
 import argon2 from 'argon2';
 import { and, eq } from 'drizzle-orm/pg-core/expressions';
@@ -15,6 +15,7 @@ import { env } from '#Config/env.js';
 import { UserTable } from '#Config/schema/user/User.js';
 import UserRefreshTokensTable from '#Config/schema/user/UserRefreshTokens.js';
 import { secrets } from '#Config/secrets.js';
+import { asUserId } from '#Models/domain/user/user.mapper.js';
 import AppError from '#Utils/errors/AppError.js';
 import BadRequestError from '#Utils/errors/BadRequestError.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
@@ -38,7 +39,6 @@ const {
 // TODO: Wire up userRepo to the existing methods here
 export class UserService {
   constructor(
-    private readonly userRepository: UserRepository,
     private readonly redisClient: RedisClient,
     private readonly postgresClient: PostgresClient
   ) {}
@@ -74,10 +74,11 @@ export class UserService {
     }
   };
 
-  verifyAuthToken = (authToken: string): AuthTokenPayload => {
+  verifyAuthToken = (authToken: string) => {
     try {
-      const { client_id, exp, iat, jti, role } = jwt.verify(authToken, JWT_AUTH_SECRET) as AuthTokenPayload;
-      return { client_id, exp, iat, jti, role };
+      const { client_id, ...rest } = jwt.verify(authToken, JWT_AUTH_SECRET) as AuthTokenPayload;
+      const payload = { ...rest, client_id: asUserId(client_id) } satisfies AuthTokenPayload;
+      return payload;
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
         throw new UnauthorizedError({ message: 'Invalid JWT' });
@@ -89,10 +90,10 @@ export class UserService {
     }
   };
 
-  verifyRefreshToken = (refreshToken: string): RefreshTokenPayload => {
+  verifyRefreshToken = (refreshToken: string) => {
     try {
-      const { acc, client_id, exp, iat, jti } = jwt.verify(refreshToken, JWT_REFRESH_SECRET) as RefreshTokenPayload;
-      return { acc, client_id, exp, iat, jti };
+      const { client_id, ...rest } = jwt.verify(refreshToken, JWT_REFRESH_SECRET) as RefreshTokenPayload;
+      return { ...rest, client_id: asUserId(client_id) };
     } catch (error) {
       if (error instanceof jwt.JsonWebTokenError) {
         throw new UnauthorizedError({ message: 'Invalid JWT' });
@@ -104,9 +105,15 @@ export class UserService {
     }
   };
 
-  decodeAuthToken = (token: string): AuthTokenPayload => {
-    const payload = jwt.decode(token) as AuthTokenPayload | null;
-    if (!payload) throw new UnauthorizedError({ message: 'Invalid JWT' });
+  decodeAuthToken = (token: string) => {
+    const decodedPayload = jwt.decode(token) as AuthTokenPayload | null;
+    if (!decodedPayload) throw new UnauthorizedError({ message: 'Invalid JWT' });
+
+    const payload = {
+      ...decodedPayload,
+      client_id: asUserId(decodedPayload.client_id),
+    } satisfies AuthTokenPayload;
+
     return payload;
   };
 
@@ -114,7 +121,7 @@ export class UserService {
     return jwt.decode(token) as RefreshTokenPayload | null;
   };
 
-  activateRefreshToken = async (client_id: UUID, iat: number) => {
+  activateRefreshToken = async (client_id: UserId, iat: number) => {
     const user = await this.postgresClient
       .update(UserRefreshTokensTable)
       .set({ activated: true })
@@ -140,14 +147,14 @@ export class UserService {
     return jwt.sign({ acc, client_id, exp, iat, jti }, JWT_REFRESH_SECRET);
   };
 
-  deleteAllRefreshTokens = async (client_id: UUID) => {
+  deleteAllRefreshTokens = async (client_id: UserId) => {
     return this.postgresClient
       .delete(UserRefreshTokensTable)
       .where(eq(UserRefreshTokensTable.userId, client_id))
       .returning({ exp: UserRefreshTokensTable.exp, jti: UserRefreshTokensTable.jti });
   };
 
-  queryRefreshToken = async (client_id: UUID, jti: UUID) => {
+  queryRefreshToken = async (client_id: UserId, jti: UUID) => {
     return this.postgresClient.query.UserRefreshTokensTable.findFirst({
       columns: { acc: true, activated: true, exp: true, iat: true, jti: true },
       where: (table, { and, eq }) => and(eq(table.userId, client_id), eq(table.jti, jti)),
@@ -156,11 +163,12 @@ export class UserService {
 
   insertRefreshToken = async (refreshTokenPayload: RefreshTokenPayload) => {
     const { acc, client_id, exp, iat, jti } = refreshTokenPayload;
-
-    await this.postgresClient.insert(UserRefreshTokensTable).values({ acc, exp, iat, jti, userId: client_id });
+    await this.postgresClient
+      .insert(UserRefreshTokensTable)
+      .values({ acc, exp, iat, jti, userId: asUserId(client_id) });
   };
 
-  updateRefreshToken = async (client_id: UUID, jti: UUID, acc: number, iat?: number, activated?: boolean) => {
+  updateRefreshToken = async (client_id: UserId, jti: UUID, acc: number, iat?: number, activated?: boolean) => {
     await this.postgresClient
       .update(UserRefreshTokensTable)
       .set({ acc, activated, iat })
@@ -203,7 +211,7 @@ export class UserService {
     });
   };
 
-  async updatePassword(userId: UUID, password: string) {
+  async updatePassword(userId: UserId, password: string) {
     const passwordHash = await this.getPasswordHash(password);
     const TIMESTAMP = new Date(Date.now());
     const user = await this.postgresClient
@@ -281,7 +289,7 @@ export class UserService {
       .values({ email, passwordResetExpires: verificationExpiry, passwordResetToken: verificationCode });
   }
 
-  async queryUserById(userId: UUID) {
+  async queryUserById(userId: UserId) {
     const user = await this.postgresClient.query.UserTable.findFirst({
       where: (table, { eq }) => eq(table.id, userId),
     });
@@ -353,7 +361,7 @@ export class UserService {
     await this.blacklistToken(jti, exp);
   }
 
-  async freezeAccount(userId: UUID) {
+  async freezeAccount(userId: UserId) {
     const TIMESTAMP = new Date(Date.now());
     await this.postgresClient
       .update(UserTable)
@@ -361,7 +369,7 @@ export class UserService {
       .where(eq(UserTable.id, userId));
   }
 
-  async deleteAccount(userId: UUID, password: string) {
+  async deleteAccount(userId: UserId, password: string) {
     const user = await this.postgresClient.query.UserTable.findFirst({ columns: { password: true } });
     if (!user) throw new PostgresError({ logging: true, message: 'Error deleting account' });
 
@@ -374,7 +382,7 @@ export class UserService {
       .where(eq(UserTable.id, userId));
   }
 
-  async resetPassword(userId: UUID, password: string) {
+  async resetPassword(userId: UserId, password: string) {
     const user = await this.postgresClient.query.UserTable.findFirst({
       columns: { password: true, role: true },
       where: (table, funcs) => funcs.eq(table.id, userId),

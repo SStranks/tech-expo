@@ -139,11 +139,18 @@ export abstract class QuoteService {
   // #endregion actions/commit
 
   // --------------------------
-  // Domain actions – Note
+  // Domain actions – Service
   // --------------------------
-  // #region actions/note
+  // #region actions/service
 
-  updateNote(_input: QuoteServiceUpdateProps) {}
+  updateService(_input: QuoteServiceUpdateProps) {
+    // if (input.discount !== undefined) this.changeContent(input.content);
+    // if (input.price !== undefined) this.changeContent(input.content);
+    // if (input.quantity !== undefined) this.changeContent(input.content);
+    // if (input.title !== undefined) this.changeContent(input.content);
+    // if (input.totalAmount !== undefined) this.changeContent(input.content);
+  }
+  // #endregion actions/service
 }
 
 class NewQuoteServiceImpl extends QuoteService {

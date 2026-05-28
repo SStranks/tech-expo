@@ -15,7 +15,8 @@ import {
   queryCompanySchema,
 } from '#Models/domain/company/company.schemas.js';
 import { companyNoteDomainToCompanyNoteDTO } from '#Models/domain/company/note/note.mapper.js';
-import { userProfileDomainToAvatarDTO } from '#Models/domain/user/profile/profile.mapper.js';
+import { asCountryId } from '#Models/domain/country/country.mapper.js';
+import { asUserProfileId, userProfileDomainToAvatarDTO } from '#Models/domain/user/profile/profile.mapper.js';
 import { asUserId } from '#Models/domain/user/user.mapper.js';
 import {
   companyContactSummaryRowToCompanyContactSummaryDTO,
@@ -166,7 +167,7 @@ const companyResolver: Resolvers = {
 
   CompanyDetailed: {
     salesOwner: async (company, _, { loaders }) => {
-      const result = await loaders.UserProfile.load(company.salesOwner);
+      const result = await loaders.UserProfile.load(asUserProfileId(company.salesOwner));
 
       if (!result) {
         const errorMessage = `[GraphQL] DB integrity issue: Company ${company.id} could not locate associated UserProfile`;
@@ -179,7 +180,7 @@ const companyResolver: Resolvers = {
     },
 
     country: async (company, _, { loaders }) => {
-      const result = await loaders.Country.load(company.countryId);
+      const result = await loaders.Country.load(asCountryId(company.countryId));
 
       if (!result) {
         const errorMessage = `[GraphQL] DB integrity issue: Company ${company.id} has invalid country ID ${company.countryId}`;
@@ -242,7 +243,7 @@ const companyResolver: Resolvers = {
         },
       };
 
-      const result = await services.Quote.getPaginatedQuotesForCompany(query);
+      const result = await services.Quote.findPaginatedQuotesForCompany(query);
 
       return {
         id: stableId('companies-quotes', { page, pageSize, companyId: company.id }),

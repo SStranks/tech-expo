@@ -9,6 +9,7 @@ import type {
   QuoteInput,
   QuotesOverviewFiltersInput,
   QuotesOverviewInput,
+  QuotesOverviewSort,
   RemoveQuoteInput,
   RemoveQuoteNoteInput,
   RemoveQuoteServiceInput,
@@ -21,14 +22,16 @@ import type { ZodShapeFrom, ZodShapeFromSchema } from '#Types/zod.js';
 import type { CompanyId } from '../company/company.types.js';
 import type { ContactId } from '../contact/contact.types.js';
 import type { UserProfileId } from '../user/profile/profile.types.js';
-import type { QuoteNoteId } from './note/note.types.js';
+import type { QuoteNoteClientGeneratedId, QuoteNoteId } from './note/note.types.js';
+import type { QuoteClientGeneratedId, QuoteId } from './quote.types.js';
 import type { QuoteServiceClientGeneratedId, QuoteServiceId } from './service/service.types.js';
 
 import z from 'zod';
 
+import { QuoteSortableField, SortDirection } from '#Graphql/generated/graphql.gen.js';
 import { zErrorMessages } from '#Utils/zod/zSchemaErrorMapper.js';
 
-import { QUOTE_STAGE, type QuoteId } from './quote.types.js';
+import { QUOTE_STAGE } from './quote.types.js';
 
 const moneyInputSchema = z.object({
   amount: z.string().trim().min(1, zErrorMessages.EMPTY('Amount is required')),
@@ -37,6 +40,7 @@ const moneyInputSchema = z.object({
 
 export const quoteShape = {
   id: z.uuid(zErrorMessages.UUID).transform((v) => v as QuoteId),
+  clientGeneratedId: z.uuid(zErrorMessages.UUID).transform((v) => v as QuoteClientGeneratedId),
   companyId: z.uuid(zErrorMessages.UUID).transform((v) => v as CompanyId),
   dueAt: z.iso.datetime({ error: zErrorMessages.DATETIME('Due-at') }),
   issuedAt: z.iso.datetime({ error: zErrorMessages.DATETIME('Issued-at') }),
@@ -50,8 +54,8 @@ export const quoteShape = {
 
 export const quoteNoteShape = {
   id: z.uuid(zErrorMessages.UUID).transform((v) => v as QuoteNoteId),
-  createdByUserProfileId: z.uuid(zErrorMessages.UUID).transform((v) => v as UserProfileId),
-  note: z.string().trim().min(1, zErrorMessages.EMPTY('Note')),
+  clientGeneratedId: z.uuid(zErrorMessages.UUID).transform((v) => v as QuoteNoteClientGeneratedId),
+  content: z.string().trim().min(1, zErrorMessages.EMPTY('Content')),
   quoteId: z.uuid(zErrorMessages.UUID).transform((v) => v as QuoteId),
 } satisfies Partial<{ [K in keyof QuotesNotesTableSelect]: z.ZodTypeAny }>;
 
@@ -70,10 +74,13 @@ const queryQuoteShape = { id: quoteShape.id } satisfies ZodShapeFrom<QuoteInput>
 export const queryQuoteSchema = z.object(queryQuoteShape);
 
 const quotesOverviewFilterSchema = z.object({
-  searchCompanyName: z.string().optional(),
   searchQuoteTitle: z.string().optional(),
   searchStage: z.enum(QUOTE_STAGE).optional(),
-  searchPreparedBy: z
+  searchCompanyById: z
+    .uuid()
+    .transform((v) => v as CompanyId)
+    .optional(),
+  searchPreparedByUserProfileId: z
     .uuid()
     .transform((v) => v as UserProfileId)
     .optional(),
@@ -84,13 +91,22 @@ const paginationSchema = z.object({
   pageSize: z.number().int().gte(1).default(12),
 } satisfies ZodShapeFrom<PaginationInput>);
 
+const quotesOverviewSortSchema = z.array(
+  z.object({
+    direction: z.enum(SortDirection).optional(),
+    field: z.enum(QuoteSortableField),
+  } satisfies ZodShapeFrom<QuotesOverviewSort>)
+);
+
 const queryQuoteOverviewShape = {
   filters: quotesOverviewFilterSchema.default({}),
   pagination: paginationSchema,
+  sort: quotesOverviewSortSchema.default([]),
 } satisfies ZodShapeFrom<QuotesOverviewInput>;
 export const queryQuoteOverviewSchema = z.object(queryQuoteOverviewShape);
 
 const mutationCreateQuoteShape = {
+  clientGeneratedId: quoteShape.clientGeneratedId.optional(),
   companyId: quoteShape.companyId,
   preparedByUserProfileId: quoteShape.preparedByUserProfileId,
   preparedForContactId: quoteShape.preparedForContactId,
@@ -142,14 +158,13 @@ export const mutationRemoveQuoteServiceShape = {
 export const mutationRemoveQuoteServiceSchema = z.object(mutationRemoveQuoteServiceShape);
 
 export const mutationCreateQuoteNoteShape = {
-  createdByUserProfileId: quoteNoteShape.createdByUserProfileId,
-  note: quoteNoteShape.note,
+  content: quoteNoteShape.content,
   quoteId: quoteNoteShape.quoteId,
 } satisfies ZodShapeFrom<CreateQuoteNoteInput>;
 export const mutationCreateQuoteNoteSchema = z.object(mutationCreateQuoteNoteShape);
 
 export const mutationUpdateQuoteNoteShape = {
-  note: quoteNoteShape.note.optional(),
+  content: quoteNoteShape.content.optional(),
   quoteId: quoteNoteShape.quoteId,
   quoteNoteId: quoteNoteShape.id,
 } satisfies ZodShapeFrom<UpdateQuoteNoteInput>;

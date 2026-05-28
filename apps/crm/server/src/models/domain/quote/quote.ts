@@ -4,7 +4,12 @@ import type { UserProfileId } from '../user/profile/profile.types.js';
 import type { NewQuoteNote, PersistedQuoteNote, QuoteNoteCreateProps, QuoteNoteUpdateProps } from './note/note.js';
 import type { QuoteNoteClientGeneratedId, QuoteNoteId } from './note/note.types.js';
 import type { QuoteClientGeneratedId, QuoteId, QuoteStage } from './quote.types.js';
-import type { NewQuoteService, PersistedQuoteService, QuoteServiceCreateProps } from './service/service.js';
+import type {
+  NewQuoteService,
+  PersistedQuoteService,
+  QuoteServiceCreateProps,
+  QuoteServiceUpdateProps,
+} from './service/service.js';
 import type { QuoteServiceClientGeneratedId, QuoteServiceId } from './service/service.types.js';
 
 import DomainError from '#Utils/errors/DomainError.js';
@@ -218,6 +223,28 @@ export abstract class Quote {
     return quoteService;
   }
 
+  updateService(props: QuoteServiceUpdateProps, actor: UserProfileId): PersistedQuoteService {
+    const service = this._internal.serviceById.get(props.id);
+    if (!service) throw new DomainError({ message: 'Quote-service not found' });
+    if (this.preparedByUserProfileId !== actor)
+      throw new DomainError({ message: 'Quote-service not created by this user' });
+
+    service.updateService(props);
+    this._internal.updatedServices.set(service.id, service);
+    return service;
+  }
+
+  removeService(id: QuoteServiceId, actor: UserProfileId) {
+    const service = this._internal.serviceById.get(id);
+    if (!service) throw new DomainError({ message: 'Quote-service not found' });
+    if (this.preparedByUserProfileId !== actor)
+      throw new DomainError({ message: 'Quote-service not created by this user' });
+
+    this._internal.removedServiceIds.add(id);
+    this._internal.serviceById.delete(id);
+    this._internal.serviceByClientGeneratedId.delete(service.clientGeneratedId);
+  }
+
   findServiceByClientId(clientId: QuoteServiceClientGeneratedId) {
     return this._internal.serviceByClientGeneratedId.get(clientId);
   }
@@ -245,7 +272,7 @@ export abstract class Quote {
   updateNote(props: QuoteNoteUpdateProps, actor: UserProfileId): PersistedQuoteNote {
     const note = this._internal.noteById.get(props.id);
     if (!note) throw new DomainError({ message: 'Quote-note not found' });
-    if (props.createdByUserProfileId !== actor)
+    if (this.preparedByUserProfileId !== actor)
       throw new DomainError({ message: 'Quote-note not created by this user' });
 
     note.updateNote(props);
@@ -256,7 +283,7 @@ export abstract class Quote {
   removeNote(id: QuoteNoteId, actor: UserProfileId) {
     const note = this._internal.noteById.get(id);
     if (!note) throw new DomainError({ message: 'Quote-note not found' });
-    if (note.createdByUserProfileId !== actor)
+    if (this.preparedByUserProfileId !== actor)
       throw new DomainError({ message: 'Quote-note not created by this user' });
 
     this._internal.removedNoteIds.add(id);

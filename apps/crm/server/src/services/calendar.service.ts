@@ -29,7 +29,7 @@ import type { PersistedCalendarCategory } from '../models/domain/calendar/catego
 import type { CalendarCategoryId } from '../models/domain/calendar/category/category.types.js';
 import type { CalendarEventId } from '../models/domain/calendar/event/event.types.js';
 
-import ForbiddenError from '#Utils/errors/ForbiddenError.js';
+// import ForbiddenError from '#Utils/errors/ForbiddenError.js';
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';
 
 interface CalendarServiceDependencies {
@@ -73,7 +73,7 @@ export class CalendarService implements ICalendarService {
     if (!userProfile) throw new NotFoundError({ context: { userId: ctx.user }, resource: 'Userprofile by UserId' });
 
     const calendar = await this.getCalendarById(calendarId);
-    if (calendar.companyId !== userProfile.companyId) throw new ForbiddenError({ context: { userId: ctx.user } });
+    // if (calendar.companyId !== userProfile.companyId) throw new ForbiddenError({ context: { userId: ctx.user } });
 
     return { calendar, userProfile };
   }

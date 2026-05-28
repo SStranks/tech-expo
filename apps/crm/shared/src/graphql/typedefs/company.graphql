@@ -148,6 +148,7 @@ input CreateCompanyInput {
   totalRevenue: String
   countryId: UUID!
   website: String
+  salesOwner: UUID!
 }
 
 input UpdateCompanyInput {

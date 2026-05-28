@@ -11,17 +11,31 @@ type Mutation {
   createQuote(input: CreateQuoteInput!): Quote!
   updateQuote(input: UpdateQuoteInput!): Quote!
   removeQuote(input: RemoveQuoteInput!): UUID!
-  createQuoteService(input: CreateQuoteServiceInput!): QuoteService!
-  updateQuoteService(input: UpdateQuoteServiceInput!): QuoteService!
+  createQuoteService(input: CreateQuoteServiceInput!): QuoteServicePayload!
+  updateQuoteService(input: UpdateQuoteServiceInput!): QuoteServicePayload!
   removeQuoteService(input: RemoveQuoteServiceInput!): UUID!
-  updateQuoteNote(input: UpdateQuoteNoteInput!): QuoteNote!
+  createQuoteNote(input: CreateQuoteNoteInput!): QuoteNotePayload!
+  updateQuoteNote(input: UpdateQuoteNoteInput!): QuoteNotePayload!
+  removeQuoteNote(input: RemoveQuoteNoteInput!): UUID!
+}
+
+type QuoteServicePayload {
+  id: ID!
+  quote: Quote!
+  quoteService: QuoteService!
+}
+
+type QuoteNotePayload {
+  id: ID!
+  quote: Quote!
+  quoteNote: QuoteNote!
 }
 
 type Quote {
   id: UUID!
   title: String!
   company: Company!
-  total: Money!
+  totalAmount: Money!
   salesTax: Float!
   stage: QuoteStage!
   preparedFor: Contact!
@@ -34,7 +48,7 @@ type QuoteDetailed {
   id: UUID!
   title: String!
   company: Company!
-  total: Money!
+  totalAmount: Money!
   salesTax: Float!
   stage: QuoteStage!
   preparedFor: Contact!
@@ -42,17 +56,17 @@ type QuoteDetailed {
   issuedAt: DateTime
   dueAt: DateTime
   services: [QuoteService!]!
-  note: QuoteNote!
+  note: QuoteNote
 }
 
 type QuoteOverview {
   id: UUID!
   title: String!
-  company: Company!
-  total: Money!
+  company: CompanyAvatar!
+  totalAmount: Money!
   stage: QuoteStage!
-  preparedFor: Contact!
-  preparedBy: UserProfile!
+  preparedFor: ContactAvatar!
+  preparedBy: UserProfileAvatar!
   createdAt: DateTime!
 }
 
@@ -68,12 +82,12 @@ type QuoteService {
   price: Money!
   quantity: Int!
   discount: Float!
-  total: Money!
+  totalAmount: Money!
 }
 
 type QuoteNote {
   id: UUID!
-  note: String!
+  content: String!
 }
 
 input QuoteInput {
@@ -82,22 +96,18 @@ input QuoteInput {
 
 input QuotesOverviewInput {
   filters: QuotesOverviewFiltersInput
-  sort: QuotesOverviewSortInput
+  sort: [QuotesOverviewSort]!
   pagination: QuotesOverviewPaginationInput
 }
 
 input QuotesOverviewFiltersInput {
   searchQuoteTitle: String
-  searchCompanyName: String
+  searchCompanyById: UUID
   searchStage: QuoteStage
-  searchPreparedBy: String
+  searchPreparedByUserProfileId: UUID
 }
 
-input QuotesOverviewSortInput {
-  sort: [QuoteOverviewSort]!
-}
-
-input QuoteOverviewSort {
+input QuotesOverviewSort {
   field: QuoteSortableField!
   direction: SortDirection
 }
@@ -107,18 +117,19 @@ input QuotesOverviewPaginationInput {
 }
 
 input CreateQuoteInput {
+  clientGeneratedId: UUID
   title: String!
-  company: UUID!
-  preparedFor: UUID!
-  preparedBy: UUID!
+  companyId: UUID!
+  preparedForContactId: UUID!
+  preparedByUserProfileId: UUID!
 }
 
 input UpdateQuoteInput {
   id: UUID!
   title: String
-  company: UUID
-  preparedFor: UUID
-  preparedBy: UUID
+  companyId: UUID
+  preparedForContactId: UUID
+  preparedByUserProfileId: UUID
   stage: QuoteStage
 }
 
@@ -126,30 +137,45 @@ input RemoveQuoteInput {
   id: UUID!
 }
 
+input CreateQuoteNoteInput {
+  quoteId: UUID!
+  content: String!
+}
+
 input UpdateQuoteNoteInput {
-  id: UUID!
-  note: String
+  quoteId: UUID!
+  quoteNoteId: UUID!
+  content: String
+}
+
+input RemoveQuoteNoteInput {
+  quoteId: UUID!
+  quoteNoteId: UUID!
 }
 
 input CreateQuoteServiceInput {
+  clientGeneratedId: UUID
+  quoteId: UUID!
   title: String!
   price: MoneyInput!
   quantity: Int!
   discount: Float!
-  total: MoneyInput!
+  totalAmount: MoneyInput!
 }
 
 input UpdateQuoteServiceInput {
-  id: UUID!
-  title: String!
-  price: MoneyInput!
-  quantity: Int!
-  discount: Float!
-  total: MoneyInput!
+  quoteId: UUID!
+  quoteServiceId: UUID!
+  title: String
+  price: MoneyInput
+  quantity: Int
+  discount: Float
+  totalAmount: MoneyInput
 }
 
 input RemoveQuoteServiceInput {
-  id: UUID!
+  quoteId: UUID!
+  quoteServiceId: UUID!
 }
 
 enum QuoteStage {

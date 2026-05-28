@@ -34,15 +34,15 @@ interface ContactServicesDependencies {
 }
 
 interface IContactService {
+  addContactNote(cmd: AddContactNoteCommand, ctx: RequestContext): Promise<AddContactNoteReturn>;
+  createContact(cmd: CreateContactCommand): Promise<PersistedContact>;
+  findNotesForContactById(id: ContactId): Promise<ContactNoteReadRow[]>;
   getContactById(id: ContactId): Promise<PersistedContact>;
   getPaginatedContactsForCompany(query: PaginatedCompanyContactsQuery): Promise<PaginatedCompanyContacts>;
-  createContact(cmd: CreateContactCommand): Promise<PersistedContact>;
-  updateContactById(cmd: UpdateContactCommand): Promise<PersistedContact>;
   removeContactById(id: ContactId): Promise<ContactId>;
-  findNotesForContactById(id: ContactId): Promise<ContactNoteReadRow[]>;
-  addContactNote(cmd: AddContactNoteCommand, ctx: RequestContext): Promise<AddContactNoteReturn>;
-  updateContactNote(cmd: UpdateContactNoteCommand, ctx: RequestContext): Promise<UpdateContactNoteReturn>;
   removeContactNote(cmd: RemoveContactNoteCommand, ctx: RequestContext): Promise<ContactNoteId>;
+  updateContactById(cmd: UpdateContactCommand): Promise<PersistedContact>;
+  updateContactNote(cmd: UpdateContactNoteCommand, ctx: RequestContext): Promise<UpdateContactNoteReturn>;
 }
 
 export class ContactService implements IContactService {
@@ -69,6 +69,7 @@ export class ContactService implements IContactService {
   }
 
   async createContact(cmd: CreateContactCommand): Promise<PersistedContact> {
+    // TODO: Move these creation field setting into the domain object itself
     const newContact = Contact.create({
       ...cmd,
       image: cmd.image ?? null,

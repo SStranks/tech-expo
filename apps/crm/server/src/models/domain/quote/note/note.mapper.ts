@@ -12,9 +12,8 @@ export function quoteNoteDomainToQuoteNoteDTO(quoteNote: PersistedQuoteNote): Qu
   return {
     id: quoteNote.id,
     clientGeneratedId: quoteNote.clientGeneratedId,
+    content: quoteNote.content,
     createdAt: quoteNote.createdAt,
-    createdByUserProfileId: quoteNote.createdByUserProfileId,
-    note: quoteNote.note,
     quoteId: quoteNote.quoteId,
   };
 }

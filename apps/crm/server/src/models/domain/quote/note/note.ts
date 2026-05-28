@@ -1,5 +1,3 @@
-import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
-
 import type { QuoteId } from '../quote.types.js';
 import type { QuoteNoteClientGeneratedId, QuoteNoteId } from './note.types.js';
 
@@ -8,7 +6,6 @@ import { randomUUID } from 'node:crypto';
 type QuoteNoteProps = {
   content: string;
   quoteId: QuoteId;
-  createdByUserProfileId: UserProfileId;
   clientGeneratedId?: QuoteNoteClientGeneratedId;
 };
 
@@ -65,16 +62,12 @@ export abstract class QuoteNote {
   // --------------------------
   // #region getters
 
-  get note() {
+  get content() {
     return this._props.content;
   }
 
   get quoteId() {
     return this._props.quoteId;
-  }
-
-  get createdByUserProfileId() {
-    return this._props.createdByUserProfileId;
   }
 
   get clientGeneratedId(): QuoteNoteClientGeneratedId {
