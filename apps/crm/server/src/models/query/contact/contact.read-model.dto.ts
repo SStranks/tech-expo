@@ -3,10 +3,10 @@ import type { ContactId, ContactStage } from '#Models/domain/contact/contact.typ
 
 export type ContactOverviewDTO = {
   id: ContactId;
-  firstName: string;
-  lastName: string;
-  email: string;
   company: CompanyDTO;
+  email: string;
+  firstName: string;
   jobTitle: string;
+  lastName: string;
   stage: ContactStage;
 };

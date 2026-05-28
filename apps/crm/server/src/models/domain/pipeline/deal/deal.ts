@@ -9,12 +9,12 @@ import { randomUUID } from 'node:crypto';
 
 type PipelineDealProps = {
   companyId: CompanyId;
-  orderKey: string;
-  title: string;
-  stageId: PipelineStageId;
-  value: string;
-  dealOwner: UserProfileId;
   dealContact: ContactId;
+  dealOwner: UserProfileId;
+  orderKey: string;
+  stageId: PipelineStageId;
+  title: string;
+  value: string;
   clientId?: PipelineDealClientGeneratedId;
 };
 

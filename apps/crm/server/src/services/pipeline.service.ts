@@ -6,8 +6,8 @@ import type {
 import type { PipelineReadModel } from '#Models/query/pipeline/pipeline.read-model.js';
 
 interface PipelineServiceDependencies {
-  pipelineRepository: PipelineRepository;
   pipelineReadModel: PipelineReadModel;
+  pipelineRepository: PipelineRepository;
 }
 interface IPipelineService {
   getPaginatedDealsForCompany(query: PaginatedCompanyDealsQuery): Promise<PaginatedCompanyPipelineDeals>;

@@ -11,11 +11,11 @@ export type CalendarCategoryReadDTO = {
 
 export type CalendarEventReadDTO = {
   id: CalendarEventId;
-  title: string;
-  description: string | null;
-  color: string | null;
-  startTime: Date;
-  endTime: Date;
   category: CalendarCategoryDTO | null;
+  color: string | null;
+  description: string | null;
+  endTime: Date;
   participants: UserAvatarReadDTO[];
+  startTime: Date;
+  title: string;
 };

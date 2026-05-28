@@ -1,8 +1,16 @@
 /* eslint-disable perfectionist/sort-objects */
 import type { QuoteId } from '#Models/domain/quote/quote.types.js';
+import type { QuoteServiceId } from '#Models/domain/quote/service/service.types.js';
 
+import type { PaginatedCompanyQuotes, PaginatedCompanyQuotesQuery } from '../company/companies.read-model.types.js';
 import type { QuoteReadModel } from './quotes.read-model.js';
-import type { QuoteNoteReadRow, QuoteReadRow } from './quotes.read-model.types.js';
+import type {
+  QuoteNoteReadRow,
+  QuoteReadRow,
+  QuoteServiceReadRow,
+  QuotesOverviewPaginated,
+  QuotesOverviewQuery,
+} from './quotes.read-model.types.js';
 
 import { postgresDB, postgresDBCall } from '#Config/dbPostgres.js';
 import { asCompanyId } from '#Models/domain/company/company.mapper.js';
@@ -44,5 +52,21 @@ export class PostgresQuoteReadModel implements QuoteReadModel {
         createdAt: row.createdAt,
       }));
     });
+  }
+
+  findQuoteServiceByQuoteServiceId(_quoteServiceId: QuoteServiceId): Promise<QuoteServiceReadRow | null> {
+    throw new Error('Not yet implemented.');
+  }
+
+  findQuoteServicesByQuoteId(_quoteId: QuoteId): Promise<QuoteServiceReadRow[]> {
+    throw new Error('Not yet implemented.');
+  }
+
+  findQuotesByCompanyId(_query: PaginatedCompanyQuotesQuery): Promise<PaginatedCompanyQuotes> {
+    throw new Error('Not yet implemented.');
+  }
+
+  findQuotesOverview(_query: QuotesOverviewQuery): Promise<QuotesOverviewPaginated> {
+    throw new Error('Not yet implemented.');
   }
 }

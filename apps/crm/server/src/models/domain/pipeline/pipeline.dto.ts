@@ -6,11 +6,11 @@ import type { PipelineStageId } from './stage/stage.types.js';
 
 export type PipelineDealDTO = {
   id: PipelineDealId;
-  orderKey: string;
-  title: string;
   companyId: CompanyId;
-  stageId: PipelineStageId;
-  value: string;
-  dealOwnerId: UserProfileId;
   dealContactId: ContactId;
+  dealOwnerId: UserProfileId;
+  orderKey: string;
+  stageId: PipelineStageId;
+  title: string;
+  value: string;
 };

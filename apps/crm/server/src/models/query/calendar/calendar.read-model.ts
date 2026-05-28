@@ -9,8 +9,8 @@ import type {
 } from './calendar.read-model.types.js';
 
 export interface CalendarReadModel {
-  findCalendarCategoryByCalendarCategoryId(id: CalendarCategoryId): Promise<CalendarCategoryReadRow | null>;
   findCalendarCategoriesByCalendarId(id: CalendarId): Promise<CalendarCategoryReadRow[]>;
+  findCalendarCategoryByCalendarCategoryId(id: CalendarCategoryId): Promise<CalendarCategoryReadRow | null>;
   findCalendarEventsByDate(id: CalendarId, month: number, year: number): Promise<CalendarEventReadRow[]>;
   getCalendarEventByCalendarEventId(id: CalendarEventId): Promise<CalendarEventReturn>;
 }

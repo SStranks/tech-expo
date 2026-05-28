@@ -112,9 +112,9 @@ export type DbErrorKind =
   | 'UNKNOWN';
 
 export interface PostgresDomainError {
+  httpCode: number;
   kind: DbErrorKind;
   message: string;
-  httpCode: number;
 }
 
 const kindToHttp: Record<DbErrorKind, number> = {

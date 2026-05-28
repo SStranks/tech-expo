@@ -7,7 +7,7 @@ export interface UserRepository {
   // save(userProfile: UserProfile): Promise<UserProfile>;
   // remove(id: UserProfileId): Promise<UserProfileId>;
   findUserProfileById(id: UserProfileId): Promise<PersistedUserProfile | null>;
-  findUsersByIds(ids: UserId[]): Promise<PersistedUser[]>;
   findUserProfilesByIds(ids: UserProfileId[]): Promise<PersistedUserProfile[]>;
+  findUsersByIds(ids: UserId[]): Promise<PersistedUser[]>;
   // count(query?: CompanyQuery): Promise<number>;
 }

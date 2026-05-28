@@ -13,7 +13,7 @@ import type {
 export interface CompanyReadModel {
   count(query?: CompanyQuery): Promise<number>;
   findCompaniesByIds(ids: CompanyId[]): Promise<CompanyReadRow[]>;
-  findCompanyOverview(query: CompaniesOverviewQuery): Promise<CompaniesOverviewPaginated>;
   findCompanyNoteById(id: CompanyNoteId): Promise<PersistedCompanyNote | null>;
   findCompanyNotesByCompanyId(id: CompanyId): Promise<CompanyNoteReadRow[]>;
+  findCompanyOverview(query: CompaniesOverviewQuery): Promise<CompaniesOverviewPaginated>;
 }

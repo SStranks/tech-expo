@@ -8,16 +8,10 @@ const mergedSchema = import.meta.resolve('@apps/crm-shared/graphql/schema');
 
 // NOTE:  'contextType' and 'mappers' paths starts from location of the output file of the generated types.
 const config: CodegenConfig = {
-  overwrite: true,
-  schema: path.relative(__dirname, url.fileURLToPath(mergedSchema)),
   generates: {
     './src/graphql/generated/graphql.gen.ts': {
-      plugins: ['typescript', 'typescript-resolvers'],
       config: {
         contextType: '../../graphql/context.ts#GraphqlContext',
-        skipTypename: true,
-        useIndexSignature: true,
-        useTypeImports: true,
         enumValues: {
           BusinessType: '../../models/domain/company/company.types.ts#BusinessType',
           CompanyRole: '../../models/domain/user/profile/profile.types.ts#CompanyRoles',
@@ -35,15 +29,21 @@ const config: CodegenConfig = {
           Country: '../../models/domain/country/country.dto.ts#CountryDTO',
           Quote: '../../models/domain/quote/quote.dto.ts#QuoteDTO',
           QuoteDetailed: '../../models/domain/quote/quote.dto.ts#QuoteDTO',
-          TimeZone: '../../models/domain/timezone/timezone.dto.ts#TimezoneDTO',
+          TimeZone: '../../models/domain/timezone/timezone.dto.ts#TimeZoneDTO',
           UserProfile: '../../models/domain/user/profile/profile.dto.ts#UserProfileDTO',
         },
         scalars: {
           UUID: '@apps/crm-shared#UUID',
         },
+        skipTypename: true,
+        useIndexSignature: true,
+        useTypeImports: true,
       },
+      plugins: ['typescript', 'typescript-resolvers'],
     },
   },
+  overwrite: true,
+  schema: path.relative(__dirname, url.fileURLToPath(mergedSchema)),
 };
 
 export default config;

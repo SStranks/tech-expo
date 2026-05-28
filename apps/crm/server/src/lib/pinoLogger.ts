@@ -9,20 +9,20 @@ const { MONGO_HOST, MONGO_PROTOCOL, NODE_ENV, PINO_LOG_LEVEL } = env();
 // NOTE:  Logger levels: trace (10), debug (20), info (30), warn (40), error (50), and fatal (60).
 
 const mongoDefaults = {
-  target: 'pino-mongodb',
   options: {
     database: MONGO_DATABASE,
-    uri: `${MONGO_PROTOCOL}://${MONGO_HOST}/`,
     mongoOptions: {
-      tls: true,
-      tlsCAFile: '/etc/expressjs/certs/expressjs-ca.crt',
-      tlsCertificateKeyFile: '/etc/expressjs/certs/expressjs-mongo.pem',
       auth: {
         password: MONGO_PASSWORD_SERVICE,
         username: MONGO_USER_SERVICE,
       },
+      tls: true,
+      tlsCAFile: '/etc/expressjs/certs/expressjs-ca.crt',
+      tlsCertificateKeyFile: '/etc/expressjs/certs/expressjs-mongo.pem',
     },
+    uri: `${MONGO_PROTOCOL}://${MONGO_HOST}/`,
   },
+  target: 'pino-mongodb',
 };
 
 const pinoPrettyTransport = {

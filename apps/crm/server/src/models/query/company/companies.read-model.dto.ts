@@ -13,12 +13,6 @@ import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js
 export type CompanyOverviewDTO = {
   id: CompanyId;
   name: string;
-  salesOwner: {
-    id: UserProfileId;
-    firstName: string;
-    lastName: string;
-    image: string;
-  };
   openDealsAmount: {
     id: string;
     amount: string;
@@ -26,64 +20,70 @@ export type CompanyOverviewDTO = {
   };
   relatedContacts: {
     id: string;
-    items: { id: ContactId; firstName: string; lastName: string; image: string }[];
+    items: { id: ContactId; firstName: string; image: string; lastName: string }[];
     totalCount: number;
+  };
+  salesOwner: {
+    id: UserProfileId;
+    firstName: string;
+    image: string;
+    lastName: string;
   };
 };
 
 export type CompanyDetailedDTO = CompanyDTO & {
-  salesOwner: UserProfileId;
   contacts: ContactDTO[];
   deals: PipelineDealDTO[];
-  quotes: QuoteDTO[];
   notes: CompanyNoteDTO[];
+  quotes: QuoteDTO[];
+  salesOwner: UserProfileId;
 };
 
 export type CompanyPipelineDealSummaryDTO = {
   id: PipelineDealId;
-  title: string;
-  value: string;
-  stage: PipelineStageId;
-  dealOwner: {
-    id: UserProfileId;
-    firstName: string;
-    lastName: string;
-  };
   dealContact: {
     id: ContactId;
     firstName: string;
     lastName: string;
   };
+  dealOwner: {
+    id: UserProfileId;
+    firstName: string;
+    lastName: string;
+  };
+  stage: PipelineStageId;
+  title: string;
+  value: string;
 };
 
 export type CompanyContactSummaryDTO = {
   id: ContactId;
-  stage: ContactStage;
   firstName: string;
-  lastName: string;
   image: string | null;
   jobTitle: string;
+  lastName: string;
+  stage: ContactStage;
 };
 
 export type CompanyQuoteSummaryDTO = {
   id: QuoteId;
+  preparedBy: {
+    id: UserProfileId;
+    firstName: string;
+    image: string;
+    lastName: string;
+  };
+  preparedFor: {
+    id: ContactId;
+    firstName: string;
+    image: string;
+    lastName: string;
+  };
+  stage: string;
   title: string;
   totalAmount: {
     id: string;
     amount: string;
     currency: string;
-  };
-  stage: string;
-  preparedFor: {
-    id: ContactId;
-    firstName: string;
-    lastName: string;
-    image: string;
-  };
-  preparedBy: {
-    id: UserProfileId;
-    firstName: string;
-    lastName: string;
-    image: string;
   };
 };

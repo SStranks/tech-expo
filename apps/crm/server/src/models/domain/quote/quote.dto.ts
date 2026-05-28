@@ -9,16 +9,16 @@ import type { QuoteClientGeneratedId, QuoteId, QuoteStage } from './quote.types.
 export type QuoteDTO = {
   id: QuoteId;
   clientGeneratedId: QuoteClientGeneratedId;
-  title: string;
   companyId: CompanyId;
-  totalAmount: string;
+  createdAt: Date;
+  dueAt: Date | null;
+  issuedAt: Date | null;
+  preparedByUserProfileId: UserProfileId;
+  preparedForContactId: ContactId;
   salesTax: string;
   stage: QuoteStage;
-  preparedForContactId: ContactId;
-  preparedByUserProfileId: UserProfileId;
-  issuedAt: Date | null;
-  dueAt: Date | null;
-  createdAt: Date;
+  title: string;
+  totalAmount: string;
 };
 
 export const toQuoteDTO = (quote: QuotesTableSelect): QuoteDTO => ({

@@ -26,19 +26,19 @@ export type CreateQuoteCommand = {
 export type UpdateQuoteCommand = Partial<Omit<CreateQuoteCommand, 'clientGeneratedId'>> & { id: QuoteId };
 
 export type AddQuoteServiceCommand = {
-  clientGeneratedId?: QuoteServiceClientGeneratedId;
-  quoteId: QuoteId;
-  title: string;
+  discount: number;
   price: {
     amount: string;
     currency: string;
   };
   quantity: number;
-  discount: number;
+  quoteId: QuoteId;
+  title: string;
   totalAmount: {
     amount: string;
     currency: string;
   };
+  clientGeneratedId?: QuoteServiceClientGeneratedId;
 };
 export type AddQuoteServiceReturn = { quote: PersistedQuote; quoteService: PersistedQuoteService };
 
@@ -53,7 +53,7 @@ export type RemoveQuoteServiceCommand = {
   quoteServiceId: QuoteServiceId;
 };
 
-export type AddQuoteNoteCommand = { quoteId: QuoteId; clientGeneratedId?: QuoteNoteClientGeneratedId; content: string };
+export type AddQuoteNoteCommand = { content: string; quoteId: QuoteId; clientGeneratedId?: QuoteNoteClientGeneratedId };
 
 export type AddQuoteNoteReturn = { quote: PersistedQuote; quoteNote: PersistedQuoteNote };
 

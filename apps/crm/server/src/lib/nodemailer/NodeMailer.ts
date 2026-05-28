@@ -17,15 +17,15 @@ const senderDev = { name: 'CRM Server: Development', address: 'admin@techexpo-cr
 const senderProd = { name: 'CRM Server: Production', address: 'admin@techexpo-crm.org' };
 
 const SMTPDefaultConfig: SMTPTransport.Options = {
-  authMethod: 'PLAIN',
-  host: NODEMAILER_HOST,
-  port: Number(NODEMAILER_PORT),
-  secure: NODEMAILER_SECURE === 'true',
   auth: {
     pass: NODEMAILER_PASSWORD,
     type: 'login',
     user: NODEMAILER_USERNAME,
   },
+  authMethod: 'PLAIN',
+  host: NODEMAILER_HOST,
+  port: Number(NODEMAILER_PORT),
+  secure: NODEMAILER_SECURE === 'true',
 };
 
 class NodeMailer {

@@ -1,11 +1,11 @@
 import type { CountryId } from './country.types.js';
 
 type CountryProps = {
-  numCode: number;
   alpha2Code: string;
   alpha3Code: string;
-  shortName: string;
   nationality: string;
+  numCode: number;
+  shortName: string;
 };
 
 type NewCountryProps = CountryProps;

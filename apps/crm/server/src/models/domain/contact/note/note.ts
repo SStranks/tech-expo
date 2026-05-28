@@ -6,8 +6,8 @@ import type { ContactNoteClientGeneratedId, ContactNoteId } from './note.types.j
 import { randomUUID } from 'node:crypto';
 
 type ContactNoteProps = {
-  content: string;
   contactId: ContactId;
+  content: string;
   createdByUserProfileId: UserProfileId;
   clientId?: ContactNoteClientGeneratedId;
 };

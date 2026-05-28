@@ -4,8 +4,8 @@ import type { KanbanStageClientGeneratedId, KanbanStageId } from './stage.types.
 import { randomUUID } from 'node:crypto';
 
 type KanbanStageProps = {
-  title: string;
   kanbanId: KanbanId;
+  title: string;
   clientId?: KanbanStageClientGeneratedId;
 };
 

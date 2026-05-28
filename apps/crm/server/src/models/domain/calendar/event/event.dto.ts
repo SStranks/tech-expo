@@ -4,12 +4,12 @@ import type { CalendarEventId } from './event.types.js';
 
 export type CalendarEventDTO = {
   id: CalendarEventId;
-  color: string | null;
-  description: string | null;
-  title: string;
-  createdAt: Date;
   calendarId: CalendarId;
   categoryId: CalendarCategoryId;
-  startTime: Date;
+  color: string | null;
+  createdAt: Date;
+  description: string | null;
   endTime: Date;
+  startTime: Date;
+  title: string;
 };

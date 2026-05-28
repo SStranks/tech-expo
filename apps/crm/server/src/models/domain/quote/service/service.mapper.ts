@@ -14,14 +14,14 @@ export function quoteServiceDomainToQuoteServiceDTO(quoteService: PersistedQuote
     clientGeneratedId: quoteService.clientGeneratedId,
     createdAt: quoteService.createdAt,
     discount: quoteService.discount,
-    quantity: quoteService.quantity,
-    quoteId: quoteService.quoteId,
-    title: quoteService.title,
     price: {
       id: '',
       amount: quoteService.price,
       currency: '',
     },
+    quantity: quoteService.quantity,
+    quoteId: quoteService.quoteId,
+    title: quoteService.title,
     totalAmount: {
       id: '',
       amount: quoteService.total,

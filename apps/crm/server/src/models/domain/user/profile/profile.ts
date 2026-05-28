@@ -7,18 +7,18 @@ import type { CompanyRoles, UserProfileClientId, UserProfileId } from './profile
 import { randomUUID } from 'node:crypto';
 
 type UserProfileProps = {
-  timezoneId?: TimeZoneId;
+  companyRole: CompanyRoles;
   countryId: CountryId;
-  userId: UserId;
   email: string;
   firstName: string;
   lastName: string;
+  updatedAt: Date;
+  userId: UserId;
+  clientId?: UserProfileClientId;
+  image?: string;
   mobile?: string;
   telephone?: string;
-  companyRole: CompanyRoles;
-  image?: string;
-  updatedAt: Date;
-  clientId?: UserProfileClientId;
+  timezoneId?: TimeZoneId;
 };
 
 type UserProfileCreateProps = UserProfileProps;

@@ -6,26 +6,26 @@ import type { UserProfileReadRow } from '../user/users.read-model.types.js';
 
 export type CalendarCategoryReadRow = {
   id: CalendarCategoryId;
-  title: string;
   calendarId: CalendarId;
   createdAt: Date;
+  title: string;
 };
 
 export type CalendarEventReadRow = {
   id: CalendarEventId;
-  title: string;
   calendarId: CalendarId;
   categoryId: CalendarCategoryId;
-  description: string;
-  eventStartAt: Date;
-  eventEndAt: Date;
-  createdAt: Date;
   color: string | null;
+  createdAt: Date;
+  description: string;
+  eventEndAt: Date;
+  eventStartAt: Date;
+  title: string;
 };
 
 export type GetCalendarEventCommand = {
-  calendarId: CalendarId;
   calendarEventId: CalendarEventId;
+  calendarId: CalendarId;
 };
 
 export type CalendarEventReturn = {

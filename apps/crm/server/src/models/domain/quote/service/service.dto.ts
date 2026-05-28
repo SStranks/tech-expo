@@ -4,19 +4,19 @@ import type { QuoteServiceClientGeneratedId, QuoteServiceId } from './service.ty
 export type QuoteServiceDTO = {
   id: QuoteServiceId;
   clientGeneratedId: QuoteServiceClientGeneratedId;
-  title: string;
+  createdAt: Date;
+  discount: number;
   price: {
     id: string;
     amount: string;
     currency: string;
   };
   quantity: number;
-  discount: number;
+  quoteId: QuoteId;
+  title: string;
   totalAmount: {
     id: string;
     amount: string;
     currency: string;
   };
-  quoteId: QuoteId;
-  createdAt: Date;
 };

@@ -4,12 +4,12 @@ import type { BusinessType, CompanyId, CompanySize } from './company.types.js';
 
 export type CompanyDTO = {
   id: CompanyId;
-  name: string;
-  size: CompanySize;
-  totalRevenue: string | null;
-  industry: string;
   businessType: BusinessType;
   countryId: CountryId;
-  website: string | null;
+  industry: string;
+  name: string;
   salesOwner: UserProfileId;
+  size: CompanySize;
+  totalRevenue: string | null;
+  website: string | null;
 };

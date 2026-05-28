@@ -5,8 +5,8 @@ import { randomUUID } from 'node:crypto';
 
 type TimeZoneProps = {
   alpha2Code: string;
-  gmtOffset: string;
   countryId: CountryId;
+  gmtOffset: string;
   clientId?: TimeZoneClientId;
 };
 

@@ -10,10 +10,10 @@ export default class PostgresError extends CustomError {
   private readonly _context: { [key: string]: unknown };
 
   constructor(params?: {
-    kind?: DbErrorKind;
-    message?: string;
-    logging?: boolean;
     context?: { [key: string]: unknown };
+    kind?: DbErrorKind;
+    logging?: boolean;
+    message?: string;
   }) {
     const { kind, logging, message } = params || {};
 

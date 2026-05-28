@@ -3,17 +3,17 @@ import type { UserRoles } from '@apps/crm-shared';
 import type { UserId } from './user.types.js';
 
 type UserProps = {
+  accountActive: boolean;
+  accountCreatedAt: Date;
+  accountFrozen: boolean;
+  accountFrozenAt: Date | null;
+  accountUpdatedAt: Date;
   email: string;
-  role: UserRoles;
   password: string;
   passwordChangedAt: Date;
-  passwordResetToken: string | null;
   passwordResetExpires: Date | null;
-  accountCreatedAt: Date;
-  accountUpdatedAt: Date;
-  accountFrozenAt: Date | null;
-  accountFrozen: boolean;
-  accountActive: boolean;
+  passwordResetToken: string | null;
+  role: UserRoles;
 };
 
 type UserCreateProps = UserProps;

@@ -10,54 +10,53 @@ import type { PaginationInput, PaginationResult } from '#Types/graphql.js';
 export type QuoteReadRow = {
   id: QuoteId;
   clientGeneratedId: QuoteClientGeneratedId;
-  title: string;
   companyId: CompanyId;
-  totalAmount: string;
+  createdAt: Date;
+  dueAt: Date | null;
+  issuedAt: Date | null;
+  preparedByUserProfileId: UserProfileId;
+  preparedForContactId: ContactId;
   salesTax: string;
   stage: QuoteStage;
-  preparedForContactId: ContactId;
-  preparedByUserProfileId: UserProfileId;
-  issuedAt: Date | null;
-  dueAt: Date | null;
-  createdAt: Date;
+  title: string;
+  totalAmount: string;
 };
 
 export type QuoteNoteReadRow = {
   id: QuoteNoteId;
   clientGeneratedId: QuoteNoteClientGeneratedId;
-  note: string;
-  quoteId: QuoteId;
+  content: string;
   createdAt: Date;
-  createdByUserProfileId: UserProfileId;
+  quoteId: QuoteId;
 };
 
 export type QuoteServiceReadRow = {
   id: QuoteServiceId;
   clientGeneratedId: QuoteServiceClientGeneratedId;
-  title: string;
+  createdAt: Date;
+  discount: string;
   price: string;
   quantity: number;
-  discount: string;
-  totalAmount: string;
   quoteId: QuoteId;
-  createdAt: Date;
+  title: string;
+  totalAmount: string;
 };
 
 export type QuoteOverviewReadRow = {
   id: QuoteId;
-  title: string;
-  company: { id: CompanyId; name: string; logo: string | null };
-  total: string;
-  stage: QuoteStage;
-  preparedFor: { id: ContactId; firstName: string; lastName: string; image: string | null };
-  preparedBy: { id: UserProfileId; firstName: string; lastName: string; image: string | null };
+  company: { id: CompanyId; logo: string | null; name: string };
   createdAt: Date;
+  preparedBy: { id: UserProfileId; firstName: string; image: string | null; lastName: string };
+  preparedFor: { id: ContactId; firstName: string; image: string | null; lastName: string };
+  stage: QuoteStage;
+  title: string;
+  total: string;
 };
 
 export type QuotesOverviewQuery = {
   filters: QuoteOverviewQueryFilters;
-  sort: QuoteOverviewQuerySort;
   pagination: PaginationInput;
+  sort: QuoteOverviewQuerySort;
 };
 
 export type QuoteOverviewQueryFilters = Partial<{

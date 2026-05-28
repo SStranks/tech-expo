@@ -8,8 +8,8 @@ import DomainError from '#Utils/errors/DomainError.js';
 import { randomUUID } from 'node:crypto';
 
 type CompanyNoteProps = {
-  content: string;
   companyId: CompanyId;
+  content: string;
   createdByUserProfileId: UserProfileId;
   clientId?: CompanyNoteClientGeneratedId;
 };

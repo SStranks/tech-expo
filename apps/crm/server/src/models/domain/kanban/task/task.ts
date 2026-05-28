@@ -6,13 +6,13 @@ import type { KanbanTaskClientGeneratedId, KanbanTaskId } from './task.types.js'
 import { randomUUID } from 'node:crypto';
 
 type KanbanTaskProps = {
-  description: string | null;
-  title: string;
-  orderKey: string;
-  completed: boolean | null;
-  stageId: KanbanStageId;
-  dueDate: Date | null;
   assignedUser: UserProfileId | null;
+  completed: boolean | null;
+  description: string | null;
+  dueDate: Date | null;
+  orderKey: string;
+  stageId: KanbanStageId;
+  title: string;
   clientId?: KanbanTaskClientGeneratedId;
 };
 

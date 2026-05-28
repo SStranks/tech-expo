@@ -5,6 +5,6 @@ import type { UserId } from '#Models/domain/user/user.types.js';
 import type { UserProfileReadRow } from './users.read-model.types.js';
 
 export interface UserReadModel {
-  findUserProfilesByUserProfileIds(ids: UserProfileId[]): Promise<UserProfileReadRow[]>;
   findUserProfileByUserId(id: UserId): Promise<PersistedUserProfile | null>;
+  findUserProfilesByUserProfileIds(ids: UserProfileId[]): Promise<UserProfileReadRow[]>;
 }

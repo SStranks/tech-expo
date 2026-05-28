@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker';
 
 interface CommentPlaceholders {
-  userName: string | undefined;
-  contactName?: string;
   companyName: string;
   industry: string;
+  userName: string | undefined;
+  contactName?: string;
 }
 
 const DATE_NOW = new Date();

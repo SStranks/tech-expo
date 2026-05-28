@@ -7,13 +7,13 @@ import type { CalendarEventClientGeneratedId, CalendarEventId } from './event.ty
 import { randomUUID } from 'node:crypto';
 
 type CalendarEventProps = {
-  title: string;
   calendarId: CalendarId;
   categoryId: CalendarCategoryId;
-  description: string;
   color: string | null;
-  eventStartAt: Date;
+  description: string;
   eventEndAt: Date;
+  eventStartAt: Date;
+  title: string;
   clientId?: CalendarEventClientGeneratedId;
 };
 

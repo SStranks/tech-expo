@@ -11,31 +11,31 @@ import type { QuoteReadRow } from '../quote/quotes.read-model.types.js';
 
 export type CompanyReadRow = {
   id: CompanyId;
-  name: string;
-  size: CompanySize;
-  totalRevenue: string | null;
-  industry: string;
   businessType: BusinessType;
   countryId: CountryId;
-  website: string | null;
+  industry: string;
+  name: string;
   salesOwner: UserProfileId;
+  size: CompanySize;
+  totalRevenue: string | null;
+  website: string | null;
 };
 
 export type CompanyOverviewReadRow = {
   id: CompanyId;
   name: string;
-  owner: { id: UserProfileId; firstName: string; lastName: string; image: string | null };
   openDealsAmount: string;
-  relatedContacts: { id: ContactId; firstName: string; lastName: string; image: string | null }[];
+  owner: { id: UserProfileId; firstName: string; image: string | null; lastName: string };
+  relatedContacts: { id: ContactId; firstName: string; image: string | null; lastName: string }[];
 };
 
 export type CompanyNoteReadRow = {
   id: CompanyNoteId;
-  clientTemporaryId?: CompanyNoteClientGeneratedId;
-  note: string;
   companyId: CompanyId;
   createdAt: Date;
   createdByUserProfileId: UserProfileId;
+  note: string;
+  clientTemporaryId?: CompanyNoteClientGeneratedId;
 };
 
 export type CompanyQuery = {
@@ -46,9 +46,9 @@ export type CompanyQuery = {
 };
 
 export type CompanyFilters = Partial<{
-  searchCompanyName: string;
-  salesOwnerId: UserProfileId;
   contactIds: ContactId[];
+  salesOwnerId: UserProfileId;
+  searchCompanyName: string;
 }>;
 
 export type CompaniesOverviewQuery = {
@@ -64,13 +64,13 @@ export type PaginatedCompanyDealsQuery = {
 };
 export type PaginatedCompanyPipelineDeals = PaginationResult<CompanyPipelineDealSummaryReadRow>;
 export type CompanyPipelineDealSummaryReadRow = Pick<PipelineDealReadRow, 'id' | 'title' | 'stageId' | 'value'> & {
-  dealOwner: {
-    id: UserProfileId;
+  dealContact: {
+    id: ContactId;
     firstName: string;
     lastName: string;
   };
-  dealContact: {
-    id: ContactId;
+  dealOwner: {
+    id: UserProfileId;
     firstName: string;
     lastName: string;
   };
@@ -92,16 +92,16 @@ export type PaginatedCompanyQuotesQuery = {
 };
 export type PaginatedCompanyQuotes = PaginationResult<CompanyQuoteSummaryReadRow>;
 export type CompanyQuoteSummaryReadRow = Pick<QuoteReadRow, 'id' | 'title' | 'totalAmount' | 'stage'> & {
-  preparedFor: {
-    id: ContactId;
-    firstName: string;
-    lastName: string;
-    image: string;
-  };
   preparedBy: {
     id: UserProfileId;
     firstName: string;
-    lastName: string;
     image: string;
+    lastName: string;
+  };
+  preparedFor: {
+    id: ContactId;
+    firstName: string;
+    image: string;
+    lastName: string;
   };
 };

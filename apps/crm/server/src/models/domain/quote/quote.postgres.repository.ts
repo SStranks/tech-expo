@@ -114,8 +114,7 @@ export class PostgresQuoteRepository implements QuoteRepository {
           [...addedNotes.values()].map(
             (n): QuotesNotesTableInsert => ({
               clientGeneratedId: n.clientGeneratedId,
-              createdByUserProfileId: n.createdByUserProfileId,
-              note: n.note,
+              content: n.content,
               quoteId: n.quoteId,
             })
           )

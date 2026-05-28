@@ -134,7 +134,7 @@ export default defineConfig([
     languageOptions: {
       ...EslintConfigReact.languageOptions,
       parserOptions: {
-        project: [path.join(import.meta.dirname, 'apps/crm/client/tsconfig.src.json')],
+        projectService: true,
       },
     },
     plugins: { ...EslintConfigReact.plugins },
@@ -194,7 +194,7 @@ export default defineConfig([
       ...EslintConfigNode.languageOptions,
       ...EslintConfigExpress.languageOptions,
       parserOptions: {
-        project: [path.join(import.meta.dirname, 'apps/crm/server/tsconfig.src.json')],
+        projectService: true,
       },
     },
     plugins: { ...EslintConfigNode.plugins, ...EslintConfigExpress.plugins },

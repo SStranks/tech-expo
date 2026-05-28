@@ -4,8 +4,8 @@ import type { CalendarCategoryClientGeneratedId, CalendarCategoryId } from './ca
 import { randomUUID } from 'node:crypto';
 
 type CalendarCategoryProps = {
-  title: string;
   calendarId: CalendarId;
+  title: string;
   clientId?: CalendarCategoryClientGeneratedId;
 };
 

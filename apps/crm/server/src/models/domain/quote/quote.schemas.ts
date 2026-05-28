@@ -74,8 +74,6 @@ const queryQuoteShape = { id: quoteShape.id } satisfies ZodShapeFrom<QuoteInput>
 export const queryQuoteSchema = z.object(queryQuoteShape);
 
 const quotesOverviewFilterSchema = z.object({
-  searchQuoteTitle: z.string().optional(),
-  searchStage: z.enum(QUOTE_STAGE).optional(),
   searchCompanyById: z
     .uuid()
     .transform((v) => v as CompanyId)
@@ -84,6 +82,8 @@ const quotesOverviewFilterSchema = z.object({
     .uuid()
     .transform((v) => v as UserProfileId)
     .optional(),
+  searchQuoteTitle: z.string().optional(),
+  searchStage: z.enum(QUOTE_STAGE).optional(),
 } satisfies ZodShapeFrom<QuotesOverviewFiltersInput>);
 
 const paginationSchema = z.object({

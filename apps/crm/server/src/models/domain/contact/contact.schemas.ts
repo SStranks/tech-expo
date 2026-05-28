@@ -35,12 +35,12 @@ export const contactShape = {
   image: z.url(zErrorMessages.URL('Contact avatar')).nullable(),
   jobTitle: z.string().trim().min(1, zErrorMessages.EMPTY('Job title')),
   lastName: z.string().trim().min(1, zErrorMessages.EMPTY('Last name')),
-  stage: z.enum(CONTACT_STAGE),
   phone: z
     .string(zErrorMessages.STRING('Phone number'))
     .trim()
     .min(1, zErrorMessages.EMPTY('Phone number'))
     .regex(/^[+\d\s\-().]+$/, zErrorMessages.FORMAT('Phone number')),
+  stage: z.enum(CONTACT_STAGE),
   timezoneId: z
     .uuid(zErrorMessages.UUID)
     .transform((v) => v as TimeZoneId)
@@ -56,14 +56,14 @@ const queryContactShape = { id: contactShape.id } satisfies ZodShapeFrom<Contact
 export const queryContactSchema = z.object(queryContactShape);
 
 const contactsOverviewFiltersSchema = z.object({
-  searchContactEmail: z.string().optional(),
-  searchContactJobTitle: z.string().optional(),
-  searchContactName: z.string().optional(),
-  searchContactStage: z.enum(CONTACT_STAGE).optional(),
   companyId: z
     .uuid()
     .transform((v) => v as CompanyId)
     .optional(),
+  searchContactEmail: z.string().optional(),
+  searchContactJobTitle: z.string().optional(),
+  searchContactName: z.string().optional(),
+  searchContactStage: z.enum(CONTACT_STAGE).optional(),
 } satisfies ZodShapeFrom<ContactsOverviewFiltersInput>);
 
 const contactSortableFieldSchema = z.enum(ContactSortableField);

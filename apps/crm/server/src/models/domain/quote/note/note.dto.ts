@@ -5,6 +5,6 @@ export type QuoteNoteDTO = {
   id: QuoteNoteId;
   clientGeneratedId: QuoteNoteClientGeneratedId;
   content: string;
-  quoteId: QuoteId;
   createdAt: Date;
+  quoteId: QuoteId;
 };

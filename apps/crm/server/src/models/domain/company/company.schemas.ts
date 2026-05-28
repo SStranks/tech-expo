@@ -49,11 +49,11 @@ export const queryCompanySchema = z.object(queryCompanyShape);
 
 const companiesOverviewFiltersSchema = z.object({
   contactIds: z.array(z.uuid().transform((v) => v as ContactId)).optional(),
-  searchCompanyName: z.string().optional(),
   salesOwnerId: z
     .uuid()
     .transform((v) => v as UserProfileId)
     .optional(),
+  searchCompanyName: z.string().optional(),
 } satisfies ZodShapeFrom<CompaniesOverviewFiltersInput>);
 
 const paginationSchema = z.object({

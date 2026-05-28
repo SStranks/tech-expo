@@ -8,12 +8,12 @@ export default class AppError extends CustomError {
   public readonly _logging: boolean;
 
   constructor(params: {
-    message?: string;
     code: string;
     httpStatus: number;
+    context?: { [key: string]: unknown };
     isOperational?: boolean;
     logging?: boolean;
-    context?: { [key: string]: unknown };
+    message?: string;
   }) {
     super(params.message || 'Internal Server Error');
 

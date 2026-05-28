@@ -16,14 +16,14 @@ import { randomUUID } from 'node:crypto';
 import { CompanyNote } from './note/note.js';
 
 type CompanyProps = {
-  name: string;
-  size: CompanySize;
-  totalRevenue: string | null;
-  industry: string;
   businessType: BusinessType;
   countryId: CountryId;
-  website: string | null;
+  industry: string;
+  name: string;
   salesOwner: UserProfileId;
+  size: CompanySize;
+  totalRevenue: string | null;
+  website: string | null;
   clientId?: CompanyClientGeneratedId;
 };
 

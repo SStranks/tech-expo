@@ -6,12 +6,12 @@ import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js
 
 export type PipelineDealReadRow = {
   id: PipelineDealId;
-  orderKey: string;
-  title: string;
   companyId: CompanyId;
-  stageId: PipelineStageId;
-  value: string;
-  dealOwnerId: UserProfileId;
-  dealContactId: ContactId;
   createdAt: Date;
+  dealContactId: ContactId;
+  dealOwnerId: UserProfileId;
+  orderKey: string;
+  stageId: PipelineStageId;
+  title: string;
+  value: string;
 };

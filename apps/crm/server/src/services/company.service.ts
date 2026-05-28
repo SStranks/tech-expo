@@ -26,23 +26,23 @@ import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';
 
 interface CompanyServiceDependencies {
-  companyRepository: CompanyRepository;
   companyReadModel: CompanyReadModel;
+  companyRepository: CompanyRepository;
   countryRepository: CountryRepository;
   userReadModel: UserReadModel;
 }
 
 interface ICompanyService {
+  addCompanyNote(cmd: AddCompanyNoteCommand, ctx: RequestContext): Promise<AddCompanyNoteReturn>;
+  createCompany(cmd: CreateCompanyCommand): Promise<PersistedCompany>;
+  findCompaniesOverview(query: CompaniesOverviewQuery): Promise<CompaniesOverviewPaginated>;
+  findNotesForCompanyById(id: CompanyId): Promise<CompanyNoteReadRow[]>;
   getCompanyById(id: CompanyId): Promise<PersistedCompany>;
   getCompanyNoteById(id: CompanyNoteId): Promise<CompanyNote>;
-  createCompany(cmd: CreateCompanyCommand): Promise<PersistedCompany>;
-  updateCompanyById(cmd: UpdateCompanyCommand): Promise<PersistedCompany>;
   removeCompanyById(id: CompanyId): Promise<CompanyId>;
-  findNotesForCompanyById(id: CompanyId): Promise<CompanyNoteReadRow[]>;
-  findCompaniesOverview(query: CompaniesOverviewQuery): Promise<CompaniesOverviewPaginated>;
-  addCompanyNote(cmd: AddCompanyNoteCommand, ctx: RequestContext): Promise<AddCompanyNoteReturn>;
-  updateCompanyNote(cmd: UpdateCompanyNoteCommand, ctx: RequestContext): Promise<UpdateCompanyNoteReturn>;
   removeCompanyNote(cmd: RemoveCompanyNoteCommand, ctx: RequestContext): Promise<CompanyNoteId>;
+  updateCompanyById(cmd: UpdateCompanyCommand): Promise<PersistedCompany>;
+  updateCompanyNote(cmd: UpdateCompanyNoteCommand, ctx: RequestContext): Promise<UpdateCompanyNoteReturn>;
   // getCompaniesWithRelations(query: CompanyQuery): Promise<Company[]>;
 }
 

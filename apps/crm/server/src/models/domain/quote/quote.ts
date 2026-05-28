@@ -39,7 +39,7 @@ type QuoteCreateProps = Omit<
   clientGeneratedId?: QuoteClientGeneratedId;
 };
 // type QuoteUpdateProps = QuoteProps;
-type QuoteHydrationProps = QuoteProps & { id: QuoteId; createdAt: Date; clientGeneratedId: QuoteClientGeneratedId };
+type QuoteHydrationProps = QuoteProps & { id: QuoteId; clientGeneratedId: QuoteClientGeneratedId; createdAt: Date };
 
 export interface NewQuote extends Quote {
   readonly clientGeneratedId: QuoteClientGeneratedId;

@@ -4,7 +4,7 @@ import type { CompanyNoteId } from './note.types.js';
 
 export type CompanyNoteDTO = {
   id: CompanyNoteId;
-  note: string;
-  createdByUserProfileId: UserProfileId;
   createdAt: Date;
+  createdByUserProfileId: UserProfileId;
+  note: string;
 };

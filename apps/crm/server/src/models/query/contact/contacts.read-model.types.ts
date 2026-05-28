@@ -10,34 +10,34 @@ import type { CompanyReadRow } from '../company/companies.read-model.types.js';
 
 export type ContactReadRow = {
   id: ContactId;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
   companyId: CompanyId;
+  email: string;
+  firstName: string;
+  image: string | null;
   jobTitle: string;
+  lastName: string;
+  phone: string;
   stage: ContactStage;
   timezoneId: TimeZoneId | null;
-  image: string | null;
 };
 
 export type ContactOverviewReadRow = {
   id: ContactId;
-  firstName: string;
-  lastName: string;
-  email: string;
   company: CompanyReadRow;
+  email: string;
+  firstName: string;
   jobTitle: string;
+  lastName: string;
   stage: ContactStage;
 };
 
 export type ContactNoteReadRow = {
   id: ContactNoteId;
-  clientTemporaryId?: ContactNoteClientGeneratedId;
-  note: string;
   contactId: ContactId;
   createdAt: Date;
   createdByUserProfileId: UserProfileId;
+  note: string;
+  clientTemporaryId?: ContactNoteClientGeneratedId;
 };
 
 export type ContactQuery = {
@@ -54,16 +54,16 @@ export type PaginatedCompanyContactsQuery = {
 export type PaginatedCompanyContacts = PaginationResult<ContactReadRow>;
 
 export type ContactFilters = {
-  searchContactName?: string;
+  companyId?: CompanyId;
   searchContactEmail?: string;
   searchContactJobTitle?: string;
+  searchContactName?: string;
   searchContactStage?: ContactStage;
-  companyId?: CompanyId;
 };
 
 export type ContactSort = {
-  field: ContactSortableField;
   direction: SortDirection;
+  field: ContactSortableField;
 }[];
 
 export type ContactsOverviewQuery = {

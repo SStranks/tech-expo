@@ -5,29 +5,29 @@ import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js
 
 export type QuoteOverviewDTO = {
   id: QuoteId;
-  title: string;
   company: {
     id: CompanyId;
-    name: string;
     logo: string;
+    name: string;
   };
+  createdAt: Date;
+  preparedBy: {
+    id: UserProfileId;
+    firstName: string;
+    image: string;
+    lastName: string;
+  };
+  preparedFor: {
+    id: ContactId;
+    firstName: string;
+    image: string;
+    lastName: string;
+  };
+  stage: QuoteStage;
+  title: string;
   totalAmount: {
     id: string;
     amount: string;
     currency: string;
   };
-  stage: QuoteStage;
-  preparedFor: {
-    id: ContactId;
-    firstName: string;
-    lastName: string;
-    image: string;
-  };
-  preparedBy: {
-    id: UserProfileId;
-    firstName: string;
-    lastName: string;
-    image: string;
-  };
-  createdAt: Date;
 };

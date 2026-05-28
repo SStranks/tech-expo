@@ -6,13 +6,13 @@ import type { UserProfileId } from '../user/profile/profile.types.js';
 import type { AuditId } from './auditlog.types.js';
 
 type AuditProps = {
-  tableName: string;
-  entityId: UUID;
-  entityAction: AuditAction;
   changedAt: Date;
   changedByUserProfileId: UserProfileId;
-  originalValues: JSON;
+  entityAction: AuditAction;
+  entityId: UUID;
   newValues: JSON;
+  originalValues: JSON;
+  tableName: string;
 };
 
 type AuditCreateProps = AuditProps;

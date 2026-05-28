@@ -4,13 +4,13 @@ import type { ContactId, ContactStage } from './contact.types.js';
 
 export type ContactDTO = {
   id: ContactId;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
   companyId: CompanyId;
+  email: string;
+  firstName: string;
+  image: string | null;
   jobTitle: string;
+  lastName: string;
+  phone: string;
   stage: ContactStage;
   timezoneId: TimeZoneId | null;
-  image: string | null;
 };

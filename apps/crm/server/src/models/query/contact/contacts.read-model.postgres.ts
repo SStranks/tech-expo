@@ -33,8 +33,8 @@ const contactSortFieldMap = {
 };
 
 export type ContactWithRelations = {
-  contact: ContactsTableSelect;
   company: CompaniesTableSelect;
+  contact: ContactsTableSelect;
 };
 
 export class PostgresContactReadModel implements ContactReadModel {

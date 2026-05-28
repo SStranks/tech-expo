@@ -24,6 +24,59 @@ export const EslintConfigGlobal = {
     'no-underscore-dangle': 'off',
     'no-use-before-define': 'off',
     'prettier/prettier': ['error'],
+    'perfectionist/sort-exports': [
+      'error',
+      {
+        groups: ['type-export', 'value-export'],
+      },
+    ],
+    'perfectionist/sort-imports': [
+      'error',
+      {
+        type: 'alphabetical',
+        order: 'asc',
+        ignoreCase: true,
+        internalPattern: [String.raw`^@[A-Z]\w*`, String.raw`^#[A-Z]\w*`],
+        newlinesBetween: 1,
+        environment: 'node',
+        groups: [
+          ['type-external', 'type-builtin'],
+          'type-internal',
+          ['type-parent', 'type-sibling', 'type-index'],
+          'side-effect',
+          'external',
+          'internal',
+          'builtin',
+          ['parent', 'sibling', 'index'],
+          'unknown',
+          'side-effect-style',
+          'style',
+        ],
+      },
+    ],
+    'perfectionist/sort-interfaces': [
+      'error',
+      {
+        type: 'alphabetical',
+        order: 'asc',
+        customGroups: [{ groupName: 'id', elementNamePattern: '^id$' }],
+        groups: [
+          ['required-index-signature', 'optional-index-signature'],
+          ['id'],
+          ['required-property', 'required-method'],
+          ['optional-property', 'optional-method'],
+        ],
+      },
+    ],
+    'perfectionist/sort-intersection-types': [
+      'error',
+      {
+        type: 'unsorted',
+        groups: ['unknown', 'object'],
+      },
+    ],
+    'perfectionist/sort-named-exports': 'error',
+    'perfectionist/sort-named-imports': 'error',
     'perfectionist/sort-objects': [
       'error',
       {
@@ -63,12 +116,10 @@ export const EslintConfigGlobal = {
       },
       {
         // Default/Fallback Configuration
-        groups: ['top', 'member', 'multiline-member', 'unknown', 'method', 'multiline-method', 'bottom'],
+        groups: ['id', 'name', ['member', 'multiline-member'], 'unknown', ['method', 'multiline-method'], 'bottom'],
         customGroups: [
-          {
-            groupName: 'top',
-            elementNamePattern: ['^id$', '^name$'],
-          },
+          { groupName: 'id', elementNamePattern: '^id$' },
+          { groupName: 'name', elementNamePattern: '^name$' },
           {
             groupName: 'bottom',
             elementNamePattern: '.+_metadata$',
@@ -79,35 +130,17 @@ export const EslintConfigGlobal = {
         },
       },
     ],
-    'perfectionist/sort-exports': [
-      'error',
-      {
-        groups: ['type-export', 'value-export'],
-      },
-    ],
-    'perfectionist/sort-named-exports': 'error',
-    'perfectionist/sort-named-imports': 'error',
-    'perfectionist/sort-imports': [
+    'perfectionist/sort-object-types': [
       'error',
       {
         type: 'alphabetical',
         order: 'asc',
-        ignoreCase: true,
-        internalPattern: [String.raw`^@[A-Z]\w*`, String.raw`^#[A-Z]\w*`],
-        newlinesBetween: 1,
-        environment: 'node',
+        customGroups: [{ groupName: 'id', elementNamePattern: '^id$' }],
         groups: [
-          ['type-external', 'type-builtin'],
-          'type-internal',
-          ['type-parent', 'type-sibling', 'type-index'],
-          'side-effect',
-          'external',
-          'internal',
-          'builtin',
-          ['parent', 'sibling', 'index'],
-          'unknown',
-          'side-effect-style',
-          'style',
+          ['required-index-signature', 'optional-index-signature'],
+          ['id'],
+          ['required-property', 'required-method'],
+          ['optional-property', 'optional-method'],
         ],
       },
     ],

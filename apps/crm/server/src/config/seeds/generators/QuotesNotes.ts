@@ -14,12 +14,12 @@ const FORMAL_NOTES = Object.keys(QuotesNotes.formal_notes) as [keyof (typeof Quo
 export function generateQuoteNote(quote: SeedQuoteNotesQuotes) {
   const clientGeneratedId = randomUUID() as QuoteNoteClientGeneratedId;
   // Pick one formal note from 4 categories. Pick one informal note to add to end
-  let note = '';
+  let content = '';
   const formalNotesKeys = faker.helpers.arrayElements(FORMAL_NOTES, 4);
 
   formalNotesKeys.forEach((key) => {
     const formalNote = faker.helpers.arrayElement(QuotesNotes.formal_notes[`${key}`]);
-    note += `${formalNote.title} - ${formalNote.description} \n`;
+    content += `${formalNote.title} - ${formalNote.description} \n`;
   });
 
   const informalNote = faker.helpers
@@ -28,12 +28,11 @@ export function generateQuoteNote(quote: SeedQuoteNotesQuotes) {
     .replaceAll('{USER_NAME}', quote.preparedFor.firstName)
     .replaceAll('{DUE_DATE}', quote.dueAt?.toLocaleDateString() ?? '{DUE_DATE}');
 
-  note += informalNote.trimEnd();
+  content += informalNote.trimEnd();
 
   const quoteNote: QuotesNotesTableInsert = {
     clientGeneratedId,
-    createdByUserProfileId: quote.preparedByUserProfileId,
-    note,
+    content,
     quoteId: quote.id,
   };
 

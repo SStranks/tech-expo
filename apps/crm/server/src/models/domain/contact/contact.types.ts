@@ -23,30 +23,30 @@ export type ContactId = UUID & { readonly __contactId: 'ContactId' };
 export type ContactClientGeneratedId = UUID & { readonly __contactClientGeneratedId: 'ContactClientGeneratedId' };
 
 export type CreateContactCommand = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
   companyId: CompanyId;
+  email: string;
+  firstName: string;
   jobTitle: string;
+  lastName: string;
+  phone: string;
   stage: ContactStage;
-  timezoneId?: TimeZoneId;
   image?: string | null;
+  timezoneId?: TimeZoneId;
 };
 
 export type UpdateContactCommand = {
   id: ContactId;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  phone?: string;
+  addNotes?: { body: string }[];
   companyId?: CompanyId;
+  email?: string;
+  firstName?: string;
+  image?: string | null;
   jobTitle?: string;
+  lastName?: string;
+  phone?: string;
+  removeNotesIds?: ContactNoteId[];
   stage?: ContactStage;
   timezoneId?: TimeZoneId;
-  image?: string | null;
-  addNotes?: { body: string }[];
-  removeNotesIds?: ContactNoteId[];
 };
 
 export type AddContactNoteCommand = {

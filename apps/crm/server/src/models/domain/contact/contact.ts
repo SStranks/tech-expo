@@ -21,15 +21,15 @@ import { contactShape } from './contact.schemas.js';
 import { ContactNote } from './note/note.js';
 
 type ContactProps = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
   companyId: CompanyId;
+  email: string;
+  firstName: string;
+  image: string | null;
   jobTitle: string;
+  lastName: string;
+  phone: string;
   stage: ContactStage;
   timezoneId: TimeZoneId | null;
-  image: string | null;
   clientId?: ContactClientGeneratedId;
 };
 

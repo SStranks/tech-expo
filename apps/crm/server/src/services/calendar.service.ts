@@ -39,19 +39,19 @@ interface CalendarServiceDependencies {
 }
 
 interface ICalendarService {
-  getCalendarById(id: CalendarId): Promise<PersistedCalendar>;
-  getCalendarInitialData(cmd: InitialCalendarCommand, ctx: RequestContext): Promise<InitialCalendarReturn>;
-  getCalendarEventById(cmd: GetCalendarEventCommand, ctx: RequestContext): Promise<CalendarEventReturn>;
-  addCalendarEvent(cmd: AddCalendarEventCommand, ctx: RequestContext): Promise<AddCalendarEventReturn>;
-  updateCalendarEvent(cmd: UpdateCalendarEventCommand, ctx: RequestContext): Promise<UpdateCalendarEventReturn>;
-  removeCalendarEvent(cmd: RemoveCalendarEventCommand, ctx: RequestContext): Promise<CalendarEventId>;
   addCalendarCategory(cmd: AddCalendarCategoryCommand, ctx: RequestContext): Promise<PersistedCalendarCategory>;
-  removeCalendarCategory(cmd: RemoveCalendarCategoryCommand, ctx: RequestContext): Promise<CalendarCategoryId>;
-  findCalendarEventsByDate(cmd: FindCalendarEventsCommand, ctx: RequestContext): Promise<CalendarEventReadRow[]>;
+  addCalendarEvent(cmd: AddCalendarEventCommand, ctx: RequestContext): Promise<AddCalendarEventReturn>;
   findCalendarCategoriesByCompanyId(
     cmd: FindCalendarCategoriesCommand,
     ctx: RequestContext
   ): Promise<CalendarCategoryReadRow[]>;
+  findCalendarEventsByDate(cmd: FindCalendarEventsCommand, ctx: RequestContext): Promise<CalendarEventReadRow[]>;
+  getCalendarById(id: CalendarId): Promise<PersistedCalendar>;
+  getCalendarEventById(cmd: GetCalendarEventCommand, ctx: RequestContext): Promise<CalendarEventReturn>;
+  getCalendarInitialData(cmd: InitialCalendarCommand, ctx: RequestContext): Promise<InitialCalendarReturn>;
+  removeCalendarCategory(cmd: RemoveCalendarCategoryCommand, ctx: RequestContext): Promise<CalendarCategoryId>;
+  removeCalendarEvent(cmd: RemoveCalendarEventCommand, ctx: RequestContext): Promise<CalendarEventId>;
+  updateCalendarEvent(cmd: UpdateCalendarEventCommand, ctx: RequestContext): Promise<UpdateCalendarEventReturn>;
 }
 
 export class CalendarService implements ICalendarService {

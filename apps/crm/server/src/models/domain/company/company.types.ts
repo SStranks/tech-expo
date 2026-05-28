@@ -18,29 +18,29 @@ export type CompanyId = UUID & { readonly __companyId: 'CompanyId' };
 export type CompanyClientGeneratedId = UUID & { readonly __companyClientGeneratedId: 'CompanyClientGeneratedId' };
 
 export type CreateCompanyCommand = {
-  name: string;
-  size: CompanySize;
-  industry: string;
   businessType: BusinessType;
   countryId: CountryId;
+  industry: string;
+  name: string;
+  salesOwner: UserProfileId;
+  size: CompanySize;
   totalRevenue: string | null;
   website: string | null;
   createdAt?: Date;
-  salesOwner: UserProfileId;
 };
 
 export type UpdateCompanyCommand = {
   id: CompanyId;
-  name?: string;
-  size?: CompanySize;
-  industry?: string;
+  addNotes?: { body: string }[];
   businessType?: BusinessType;
   country?: CountryId;
+  createdAt?: Date;
+  industry?: string;
+  name?: string;
+  removeNotesIds?: CompanyNoteId[];
+  size?: CompanySize;
   totalRevenue?: string;
   website?: string | null;
-  createdAt?: Date;
-  addNotes?: { body: string }[];
-  removeNotesIds?: CompanyNoteId[];
 };
 
 export type AddCompanyNoteCommand = {

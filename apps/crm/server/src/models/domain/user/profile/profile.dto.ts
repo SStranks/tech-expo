@@ -5,14 +5,14 @@ import type { CompanyRoles, UserProfileId } from './profile.types.js';
 
 export type UserProfileDTO = {
   id: UserProfileId;
-  firstName: string;
-  lastName: string;
+  companyRole: CompanyRoles;
+  countryId: CountryId;
   email: string;
+  firstName: string;
+  image: string | null;
+  lastName: string;
   mobile: string | null;
   telephone: string | null;
   timezoneId: TimeZoneId | null;
-  countryId: CountryId;
-  companyRole: CompanyRoles;
-  image: string | null;
   updatedAt: Date;
 };

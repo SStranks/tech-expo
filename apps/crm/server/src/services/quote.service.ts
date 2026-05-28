@@ -40,27 +40,27 @@ import { NotFoundError } from '#Utils/errors/NotFoundError.js';
 interface QuoteServiceDependencies {
   companyRepository: CompanyRepository;
   contactRepository: ContactRepository;
-  quoteRepository: QuoteRepository;
   quoteReadModel: QuoteReadModel;
-  userRepository: UserRepository;
+  quoteRepository: QuoteRepository;
   userReadModel: UserReadModel;
+  userRepository: UserRepository;
 }
 
 interface IQuoteService {
-  getQuoteById(id: QuoteId): Promise<PersistedQuote>;
-  createQuote(cmd: CreateQuoteCommand): Promise<PersistedQuote>;
-  updateQuoteById(cmd: UpdateQuoteCommand): Promise<PersistedQuote>;
-  removeQuoteById(id: QuoteId): Promise<QuoteId>;
-  addQuoteService(cmd: AddQuoteServiceCommand, ctx: RequestContext): Promise<AddQuoteServiceReturn>;
-  updateQuoteService(cmd: UpdateQuoteServiceCommand, ctx: RequestContext): Promise<UpdateQuoteServiceReturn>;
-  removeQuoteService(cmd: RemoveQuoteServiceCommand, ctx: RequestContext): Promise<QuoteServiceId>;
   addQuoteNote(cmd: AddQuoteNoteCommand, ctx: RequestContext): Promise<AddQuoteNoteReturn>;
-  updateQuoteNote(cmd: UpdateQuoteNoteCommand, ctx: RequestContext): Promise<UpdateQuoteNoteReturn>;
-  removeQuoteNote(cmd: RemoveQuoteNoteCommand, ctx: RequestContext): Promise<QuoteNoteId>;
+  addQuoteService(cmd: AddQuoteServiceCommand, ctx: RequestContext): Promise<AddQuoteServiceReturn>;
+  createQuote(cmd: CreateQuoteCommand): Promise<PersistedQuote>;
   findPaginatedQuotesForCompany(query: PaginatedCompanyQuotesQuery): Promise<PaginatedCompanyQuotes>;
   findQuoteNoteByQuoteId(id: QuoteId): Promise<QuoteNoteReadRow | null>;
-  findQuotesOverview(query: QuotesOverviewQuery): Promise<QuotesOverviewPaginated>;
   findQuoteServicesByQuoteId(id: QuoteId): Promise<QuoteServiceReadRow[]>;
+  findQuotesOverview(query: QuotesOverviewQuery): Promise<QuotesOverviewPaginated>;
+  getQuoteById(id: QuoteId): Promise<PersistedQuote>;
+  removeQuoteById(id: QuoteId): Promise<QuoteId>;
+  removeQuoteNote(cmd: RemoveQuoteNoteCommand, ctx: RequestContext): Promise<QuoteNoteId>;
+  removeQuoteService(cmd: RemoveQuoteServiceCommand, ctx: RequestContext): Promise<QuoteServiceId>;
+  updateQuoteById(cmd: UpdateQuoteCommand): Promise<PersistedQuote>;
+  updateQuoteNote(cmd: UpdateQuoteNoteCommand, ctx: RequestContext): Promise<UpdateQuoteNoteReturn>;
+  updateQuoteService(cmd: UpdateQuoteServiceCommand, ctx: RequestContext): Promise<UpdateQuoteServiceReturn>;
 }
 
 export class QuoteService implements IQuoteService {

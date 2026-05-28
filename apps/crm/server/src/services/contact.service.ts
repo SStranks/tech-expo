@@ -27,9 +27,9 @@ import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';
 
 interface ContactServicesDependencies {
-  contactRepository: ContactRepository;
-  contactReadModel: ContactReadModel;
   companyRepository: CompanyRepository;
+  contactReadModel: ContactReadModel;
+  contactRepository: ContactRepository;
   userReadModel: UserReadModel;
 }
 

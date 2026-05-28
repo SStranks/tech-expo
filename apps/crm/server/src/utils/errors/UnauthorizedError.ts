@@ -2,9 +2,9 @@
 import AppError from './AppError.js';
 
 type ConstructorParams = {
-  message?: string;
   context?: Record<string, unknown>;
   logging?: boolean;
+  message?: string;
 };
 
 export default class UnauthorizedError extends AppError {

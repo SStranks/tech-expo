@@ -7,31 +7,31 @@ import type { UserId } from '#Models/domain/user/user.types.js';
 
 export type UserReadRow = {
   id: UserId;
+  accountActive: boolean;
+  accountCreatedAt: Date;
+  accountFrozen: boolean;
+  accountFrozenAt: Date | null;
+  accountUpdatedAt: Date;
   email: string;
-  role: UserRoles;
   password: string;
   passwordChangedAt: Date;
-  passwordResetToken: string | null;
   passwordResetExpires: Date | null;
-  accountCreatedAt: Date;
-  accountUpdatedAt: Date;
-  accountFrozenAt: Date | null;
-  accountFrozen: boolean;
-  accountActive: boolean;
+  passwordResetToken: string | null;
+  role: UserRoles;
 };
 
 export type UserProfileReadRow = {
   id: UserProfileId;
-  userId: UserId;
-  firstName: string;
-  lastName: string;
+  companyRole: CompanyRoles;
+  countryId: CountryId;
+  createdAt: Date;
   email: string;
+  firstName: string;
+  image: string | null;
+  lastName: string;
   mobile: string | null;
   telephone: string | null;
   timezoneId: TimeZoneId | null;
-  countryId: CountryId;
-  companyRole: CompanyRoles;
-  image: string | null;
-  createdAt: Date;
   updatedAt: Date;
+  userId: UserId;
 };

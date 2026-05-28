@@ -4,7 +4,7 @@ import AppError from './AppError.js';
 export default class ForbiddenError extends AppError {
   readonly name = 'ForbiddenError';
 
-  constructor(params: { message?: string; context?: Record<string, unknown>; logging?: boolean }) {
+  constructor(params: { context?: Record<string, unknown>; logging?: boolean; message?: string }) {
     super({
       message: params.message ?? 'Access Denied',
       code: 'FORBIDDEN',

@@ -68,7 +68,7 @@ export class UserService {
     await this.redisClient.set(`${jti}`, 'Blacklisted', { EXAT: exp });
   };
 
-  blacklistAllRefreshTokens = async (tokens: { jti: UUID; exp: number }[]) => {
+  blacklistAllRefreshTokens = async (tokens: { exp: number; jti: UUID }[]) => {
     for (const { exp, jti } of tokens) {
       await this.redisClient.set(`${jti}`, 'Blacklisted', { EXAT: exp });
     }

@@ -4,9 +4,9 @@ import type { PipelineStageClientGeneratedId, PipelineStageId } from './stage.ty
 import { randomUUID } from 'node:crypto';
 
 type PipelineStageProps = {
-  title: string;
   isPermanent: boolean | null;
   pipelineId: PipelineId;
+  title: string;
   clientId?: PipelineStageClientGeneratedId;
 };
 

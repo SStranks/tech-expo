@@ -51,9 +51,9 @@ import {
 export interface GraphqlContext {
   auth: { client_id: UUID; role: UserRoles };
   loaders: {
-    Country: CountryDataLoader;
     Company: CompanyDataLoader;
     Contact: ContactDataLoader;
+    Country: CountryDataLoader;
     Quote: QuoteDataLoader;
     Timezone: TimezoneDataLoader;
     UserProfile: UserProfileDataLoader;

@@ -24,19 +24,19 @@ export type InitialCalendarCommand = {
 };
 
 export type InitialCalendarReturn = {
-  events: CalendarEventReadRow[];
   categories: CalendarCategoryReadRow[];
+  events: CalendarEventReadRow[];
 };
 
 export type AddCalendarEventCommand = {
   calendarId: CalendarId;
   categoryId: CalendarCategoryId;
   description: string;
-  title: string;
-  eventStartAt: Date;
   eventEndAt: Date;
-  color?: string | null;
+  eventStartAt: Date;
   participants: UserProfileId[];
+  title: string;
+  color?: string | null;
 };
 
 export type AddCalendarEventReturn = {
@@ -48,12 +48,12 @@ export type UpdateCalendarEventCommand = {
   id: CalendarEventId;
   calendarId: CalendarId;
   categoryId?: CalendarCategoryId;
-  description?: string;
-  title?: string;
-  eventStartAt?: Date;
-  eventEndAt?: Date;
   color?: string | null;
+  description?: string;
+  eventEndAt?: Date;
+  eventStartAt?: Date;
   participants?: UserProfileId[];
+  title?: string;
 };
 
 export type UpdateCalendarEventReturn = {
@@ -62,8 +62,8 @@ export type UpdateCalendarEventReturn = {
 };
 
 export type RemoveCalendarEventCommand = {
-  calendarId: CalendarId;
   calendarEventId: CalendarEventId;
+  calendarId: CalendarId;
 };
 
 export type AddCalendarCategoryCommand = {
@@ -72,8 +72,8 @@ export type AddCalendarCategoryCommand = {
 };
 
 export type RemoveCalendarCategoryCommand = {
-  calendarId: CalendarId;
   calendarCategoryId: CalendarCategoryId;
+  calendarId: CalendarId;
 };
 
 export type FindCalendarEventsCommand = {

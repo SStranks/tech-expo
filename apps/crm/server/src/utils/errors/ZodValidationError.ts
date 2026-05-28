@@ -14,11 +14,11 @@ export default class ZodValidationError extends CustomError {
   private readonly _zod: { error: ZodError };
 
   constructor(params: {
-    code?: number;
-    message?: string;
-    logging?: boolean;
-    context?: { [key: string]: unknown };
     zod: { error: ZodError };
+    code?: number;
+    context?: { [key: string]: unknown };
+    logging?: boolean;
+    message?: string;
   }) {
     const { code, logging, message } = params;
 

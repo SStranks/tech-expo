@@ -4,6 +4,6 @@ import type { TimeZoneId } from './timezone.types.js';
 export type TimeZoneDTO = {
   id: TimeZoneId;
   alpha2Code: string;
-  gmtOffset: string;
   countryId: CountryId;
+  gmtOffset: string;
 };

@@ -30,9 +30,9 @@ import { companyRowToReadRow, companyWithRelationsToOverviewRow } from './compan
 
 export type CompanyWithRelations = {
   company: CompaniesTableSelect;
-  salesOwner: UserProfileTableSelect | undefined;
-  openDealsAmount: string;
   contacts: ContactsTableSelect[];
+  openDealsAmount: string;
+  salesOwner: UserProfileTableSelect | undefined;
 };
 
 export class PostgresCompanyReadModel implements CompanyReadModel {

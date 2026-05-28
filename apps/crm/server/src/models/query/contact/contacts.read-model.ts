@@ -12,8 +12,8 @@ import type {
 
 export interface ContactReadModel {
   count(query?: ContactQuery): Promise<number>;
-  findContactsByIds(ids: ContactId[]): Promise<ContactReadRow[]>;
-  findContactOverview(query: ContactsOverviewQuery): Promise<ContactsOverviewPaginated>;
   findContactNoteByContactNoteId(id: ContactNoteId): Promise<PersistedContactNote | null>;
   findContactNotesByContactId(id: ContactId): Promise<ContactNoteReadRow[]>;
+  findContactOverview(query: ContactsOverviewQuery): Promise<ContactsOverviewPaginated>;
+  findContactsByIds(ids: ContactId[]): Promise<ContactReadRow[]>;
 }

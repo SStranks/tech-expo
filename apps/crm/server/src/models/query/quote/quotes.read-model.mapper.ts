@@ -7,15 +7,13 @@ import type { QuoteNoteReadRow, QuoteOverviewReadRow, QuoteServiceReadRow } from
 
 import { asQuoteNoteId } from '#Models/domain/quote/note/note.mapper.js';
 import { asQuoteId } from '#Models/domain/quote/quote.mapper.js';
-import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 
 export function quoteNoteRowToQuoteNoteReadRow(row: QuotesNotesTableSelect): QuoteNoteReadRow {
   return {
     id: asQuoteNoteId(row.id),
     clientGeneratedId: row.clientGeneratedId,
+    content: row.content,
     createdAt: row.createdAt,
-    createdByUserProfileId: asUserProfileId(row.createdByUserProfileId),
-    note: row.note,
     quoteId: asQuoteId(row.quoteId),
   };
 }
@@ -24,9 +22,8 @@ export function quoteNoteReadRowToQuoteNoteDTO(row: QuoteNoteReadRow): QuoteNote
   return {
     id: row.id,
     clientGeneratedId: row.clientGeneratedId,
+    content: row.content,
     createdAt: row.createdAt,
-    createdByUserProfileId: row.createdByUserProfileId,
-    note: row.note,
     quoteId: row.quoteId,
   };
 }
@@ -48,14 +45,12 @@ export function quoteServiceReadRowToQuoteServiceDTO(row: QuoteServiceReadRow): 
 export function quoteOverviewRowToQuoteOverviewDTO(row: QuoteOverviewReadRow): QuoteOverviewDTO {
   return {
     id: row.id,
-    createdAt: row.createdAt,
-    stage: row.stage,
-    title: row.title,
     company: {
       id: row.company.id,
       name: row.company.name,
       logo: row.company.logo ?? '',
     },
+    createdAt: row.createdAt,
     preparedBy: {
       id: row.preparedBy.id,
       firstName: row.preparedBy.firstName,
@@ -68,6 +63,8 @@ export function quoteOverviewRowToQuoteOverviewDTO(row: QuoteOverviewReadRow): Q
       image: row.preparedFor.image ?? '',
       lastName: row.preparedFor.lastName,
     },
+    stage: row.stage,
+    title: row.title,
     totalAmount: {
       id: '',
       amount: row.total,

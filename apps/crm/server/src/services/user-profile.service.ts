@@ -9,13 +9,13 @@ import { asUserProfileId, userProfileDomainToUserProfileDTO } from '#Models/doma
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';
 
 interface UserProfileServiceDependencies {
-  userRepository: UserRepository;
   userReadModel: UserReadModel;
+  userRepository: UserRepository;
 }
 
 interface IUserProfileService {
-  getUserProfilesByIds(userProfileIds: UserProfileId[]): Promise<UserProfileDTO[]>;
   findUserProfileByUserId(id: UserId): Promise<PersistedUserProfile>;
+  getUserProfilesByIds(userProfileIds: UserProfileId[]): Promise<UserProfileDTO[]>;
 }
 
 export class UserProfileService implements IUserProfileService {
