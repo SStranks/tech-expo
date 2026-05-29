@@ -7,6 +7,7 @@ import EslintConfigHTML from '@packages/eslint-config-html';
 import EslintConfigJavascript from '@packages/eslint-config-javascript';
 import { EslintConfigJSON, EslintConfigJSON5, EslintConfigJSONC } from '@packages/eslint-config-json';
 import EslintConfigNode from '@packages/eslint-config-node';
+import EslintConfigPlaywright from '@packages/eslint-config-playwright';
 import EslintConfigReact from '@packages/eslint-config-react';
 import EslintConfigReactVitest from '@packages/eslint-config-react-vitest';
 import EslintConfigStorybook from '@packages/eslint-config-storybook';
@@ -195,6 +196,18 @@ export default defineConfig([
     settings: {
       ...EslintConfigReact.settings,
     },
+  },
+  {
+    name: '@apps/crm/client: Testing; Playwright',
+    files: ['apps/crm/client/e2e/**/?(*.)+(spec|test).[jt]s?(x)'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/client'),
+      },
+    },
+    plugins: { ...EslintConfigPlaywright.plugins },
+    rules: { ...EslintConfigPlaywright.rules },
   },
   {
     name: '@apps/crm/client: Testing; Cypress',
