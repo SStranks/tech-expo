@@ -69,7 +69,8 @@ jobs:
       statuses: write
 
     container:
-      image: mcr.microsoft.com/playwright:v1.59.1-noble
+      # NOTE: playwright image version must match package.json playwright pkg
+      image: mcr.microsoft.com/playwright:v1.60.0-noble
 
     steps:
       - name: checkout
