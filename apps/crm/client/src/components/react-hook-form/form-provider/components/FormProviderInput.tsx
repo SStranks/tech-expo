@@ -11,11 +11,11 @@ import Input from '@Components/react-hook-form/input/Input';
 import InputUx from '@Components/react-hook-form/InputUx';
 
 interface Props<T extends FieldValues> extends InputHTMLAttributes<HTMLInputElement> {
+  label: string;
   name: Path<T>;
   type: React.HTMLInputTypeAttribute;
-  label: string;
-  rules?: ValidationRules;
   autoComplete?: string;
+  rules?: ValidationRules;
 }
 
 function FormProviderInput<T extends FieldValues>({

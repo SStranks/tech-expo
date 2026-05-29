@@ -8,12 +8,12 @@ import { useFormContext, useFormState } from 'react-hook-form';
 import styles from './InputUX.module.scss';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  label: string;
   id: string;
-  name: string;
-  defaultValue?: string;
   disabled: boolean;
+  label: string;
+  name: string;
   rules: ValidationRules | undefined;
+  defaultValue?: string;
 }
 
 // Wrapper: UX presentation for state of input; valid, invalid, focused, disabled, etc

@@ -16,8 +16,8 @@ import FormProviderTextArea from './components/FormProviderTextArea';
 import FormProviderTimeField from './components/FormProviderTimeField';
 
 interface Props<T extends FieldValues> {
-  defaultValues?: DefaultValues<T>; // TODO: Set to non-optional; provide defaults on all forms
   onSubmit: SubmitHandler<T>;
+  defaultValues?: DefaultValues<T>; // TODO: Set to non-optional; provide defaults on all forms
   mode?: Mode;
 }
 

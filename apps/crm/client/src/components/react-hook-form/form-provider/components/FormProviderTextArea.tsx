@@ -9,8 +9,8 @@ import InputUx from '@Components/react-hook-form/InputUx';
 import TextArea from '@Components/react-hook-form/textarea/TextArea';
 
 type Props<T extends FieldValues> = {
-  name: Path<T>;
   label: string;
+  name: Path<T>;
   rules?: ValidationRules;
 };
 function FormProviderTextArea<T extends FieldValues>({ label, name, rules = {} }: Props<T>): React.JSX.Element {

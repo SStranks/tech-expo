@@ -14,8 +14,8 @@ type Props = {
   buttonSize?: 'small' | 'default' | 'large';
   buttonStyle?: ButtonStyle;
   buttonText?: string;
-  type?: HTMLButtonElement['type'];
   form?: string;
+  type?: HTMLButtonElement['type'];
 };
 
 function Button({

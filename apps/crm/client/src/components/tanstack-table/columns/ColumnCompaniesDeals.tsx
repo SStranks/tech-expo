@@ -29,20 +29,20 @@ const columnCompaniesDealssDef = [
   columnHelper.accessor((row) => ({ dealContact: row['dealContact'], dealOwner: row['dealOwner'] }), {
     id: 'Participants',
     enableSorting: false,
-    header: () => <span>Participants</span>,
     cell: (info) => (
       <DealParticipants dealOwner={info.getValue().dealOwner} dealContact={info.getValue().dealContact} />
     ),
+    header: () => <span>Participants</span>,
   }),
   columnHelper.display({
     id: 'Actions',
-    header: ({ column }) => <span>{column.id}</span>,
     cell: ({ row }) => (
       <RowActionsControl>
         {/* TODO: Need dealContact to be id not real name */}
         <RowActionsControl.ViewControl to="/contacts/$id" params={{ id: row.original.dealContact }} />
       </RowActionsControl>
     ),
+    header: ({ column }) => <span>{column.id}</span>,
   }),
 ];
 

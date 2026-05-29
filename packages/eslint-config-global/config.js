@@ -116,10 +116,9 @@ export const EslintConfigGlobal = {
       },
       {
         // Default/Fallback Configuration
-        groups: ['id', 'name', ['member', 'multiline-member'], 'unknown', ['method', 'multiline-method'], 'bottom'],
+        groups: ['top', ['member', 'multiline-member'], 'unknown', ['method', 'multiline-method'], 'bottom'],
         customGroups: [
-          { groupName: 'id', elementNamePattern: '^id$' },
-          { groupName: 'name', elementNamePattern: '^name$' },
+          { groupName: 'top', elementNamePattern: '^(?:id|name)$' },
           {
             groupName: 'bottom',
             elementNamePattern: '.+_metadata$',

@@ -1,3 +1,3 @@
-type LocationFrom = { from?: { pathname: string; search: string; hash: string } };
+type LocationFrom = { from?: { hash: string; pathname: string; search: string } };
 
 export type AuthRedirectState = LocationFrom;

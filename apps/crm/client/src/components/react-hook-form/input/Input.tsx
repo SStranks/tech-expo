@@ -9,11 +9,11 @@ import { useFormContext, useFormState } from 'react-hook-form';
 import styles from './Input.module.scss';
 
 interface Props<T extends FieldValues> extends InputHTMLAttributes<HTMLInputElement> {
-  type: HTMLInputTypeAttribute;
   id: string;
   name: Path<T>;
-  autoComplete?: HTMLInputAutoCompleteAttribute;
   rules: ValidationRules;
+  type: HTMLInputTypeAttribute;
+  autoComplete?: HTMLInputAutoCompleteAttribute;
 }
 
 function Input<T extends FieldValues>(props: Props<T>): React.JSX.Element {

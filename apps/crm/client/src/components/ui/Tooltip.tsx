@@ -60,9 +60,9 @@ type Coords = Partial<DOMRect>;
 type Position = 'left' | 'right' | 'top' | 'bottom';
 
 type Props = {
-  text: string;
-  position: Position;
   offset: number;
+  position: Position;
+  text: string;
 };
 
 function ToolTip({ children = undefined, offset, position, text }: PropsWithChildren<Props>): React.JSX.Element {

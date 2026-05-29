@@ -39,11 +39,11 @@ import {
 } from './kanban.thunks';
 
 type KanbanState = {
-  pendingTaskMoves: { [taskId: string]: PendingTaskMove };
-  pendingTaskDeletes: { [taskId: string]: PendingTaskDelete };
-  pendingTaskUpdates: { [taskId: string]: PendingTaskUpdate };
   pendingStageDeletes: { [stageId: string]: PendingStageDelete };
   pendingStageUpdates: { [stageId: string]: PendingStageUpdate };
+  pendingTaskDeletes: { [taskId: string]: PendingTaskDelete };
+  pendingTaskMoves: { [taskId: string]: PendingTaskMove };
+  pendingTaskUpdates: { [taskId: string]: PendingTaskUpdate };
   saveRequests: { [requestId: string]: SaveRequest };
   stageOrder: string[];
   stages: typeof stagesInitialState;

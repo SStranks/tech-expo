@@ -5,11 +5,11 @@ import IconCompanies from '@Components/svg/IconCompanies';
 import styles from './CompaniesTableInformation.module.scss';
 
 type CompanyInfo = {
-  size: string;
-  revenue: string;
-  industry: string;
-  type: string;
   country: string;
+  industry: string;
+  revenue: string;
+  size: string;
+  type: string;
   website: string;
 };
 

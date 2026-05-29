@@ -26,12 +26,12 @@ type ListItem = {
 };
 
 type Props = {
+  id: string;
+  defaultValue: string;
+  label: string;
+  listItems: ListItem[];
   name: string;
   onChange: (...event: unknown[]) => void;
-  listItems: ListItem[];
-  label: string;
-  defaultValue: string;
-  id: string;
   trigger: UseFormTrigger<FieldValues>;
 };
 

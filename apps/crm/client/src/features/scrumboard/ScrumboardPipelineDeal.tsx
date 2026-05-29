@@ -19,8 +19,8 @@ import styles from './ScrumboardCard.module.scss';
 
 type Props = {
   dealId: PipelineDeal['id'];
-  stage: PipelineStage;
   dealIndex: number;
+  stage: PipelineStage;
   dealStatus?: 'won' | 'lost';
 };
 
@@ -41,18 +41,14 @@ function ScrumBoardPipelineDeal({ dealId, dealIndex, dealStatus, stage }: Props)
       draggable({
         element: dealElement,
         getInitialData: () => createPipelineDealDropData(deal, dealIndex),
-        onDrop: () => setIsDragging(false),
         onDragStart: () => {
           setIsDragging(true);
           setFocusedId(deal.id);
         },
+        onDrop: () => setIsDragging(false),
       }),
       dropTargetForElements({
         element: dealElement,
-        getIsSticky: () => true,
-        onDragEnter: () => setIsDragEnter(true),
-        onDragLeave: () => setIsDragEnter(false),
-        onDrop: () => setIsDragEnter(false),
         getData: ({ element, input }) => {
           const data = createPipelineDealDropData(deal, dealIndex);
           return attachClosestEdge(data, {
@@ -61,6 +57,10 @@ function ScrumBoardPipelineDeal({ dealId, dealIndex, dealStatus, stage }: Props)
             input,
           });
         },
+        getIsSticky: () => true,
+        onDragEnter: () => setIsDragEnter(true),
+        onDragLeave: () => setIsDragEnter(false),
+        onDrop: () => setIsDragEnter(false),
       })
     );
   }, [dealIndex, setFocusedId, deal]);

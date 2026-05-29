@@ -4,9 +4,9 @@ import IconNotebook from '@Components/svg/IconNotebook';
 import styles from './SearchResult.module.scss';
 
 type Props = {
-  title: string;
   category: string;
   description: string;
+  title: string;
 };
 
 function SearchResult(props: Props): React.JSX.Element {

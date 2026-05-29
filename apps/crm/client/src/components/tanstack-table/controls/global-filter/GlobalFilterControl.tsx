@@ -7,8 +7,8 @@ import IconSearch from '@Components/svg/IconSearch';
 import styles from './GlobalFilterControl.module.scss';
 
 type Props = {
-  label: string;
   globalFilter: string;
+  label: string;
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>;
   debounceDelay?: number;
 };

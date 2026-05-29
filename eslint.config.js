@@ -135,6 +135,7 @@ export default defineConfig([
       ...EslintConfigReact.languageOptions,
       parserOptions: {
         projectService: true,
+        tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/client'),
       },
     },
     plugins: { ...EslintConfigReact.plugins },
@@ -158,7 +159,8 @@ export default defineConfig([
     languageOptions: {
       ...EslintConfigReact.languageOptions,
       parserOptions: {
-        project: [path.join(import.meta.dirname, 'apps/crm/client/.storybook/tsconfig.json')],
+        projectService: true,
+        tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/client'),
       },
     },
     plugins: { ...EslintConfigStorybook.plugins },
@@ -170,7 +172,13 @@ export default defineConfig([
   {
     name: 'CRM: Client; Testing (Vitest + RTL)',
     files: ['apps/crm/client/src/**/?(*.)+(spec|test).[jt]s?(x)'],
-    languageOptions: { ...EslintConfigReact.languageOptions },
+    languageOptions: {
+      ...EslintConfigReact.languageOptions,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/client'),
+      },
+    },
     plugins: { ...EslintConfigReact.plugins, ...EslintConfigReactVitest.plugins },
     rules: { ...EslintConfigReact.rules, ...EslintConfigReactVitest.rules },
     settings: {
@@ -195,6 +203,7 @@ export default defineConfig([
       ...EslintConfigExpress.languageOptions,
       parserOptions: {
         projectService: true,
+        tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/server'),
       },
     },
     plugins: { ...EslintConfigNode.plugins, ...EslintConfigExpress.plugins },

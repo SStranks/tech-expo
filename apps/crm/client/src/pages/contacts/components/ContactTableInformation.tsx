@@ -5,13 +5,13 @@ import IconCompanies from '@Components/svg/IconCompanies';
 import styles from './ContactTableInformation.module.scss';
 
 type UserInfo = {
-  username: string;
-  email: string;
   company: string;
-  title: string;
+  email: string;
   phone: string;
-  timezone: string;
   stage: string;
+  timezone: string;
+  title: string;
+  username: string;
 };
 
 type Props = {

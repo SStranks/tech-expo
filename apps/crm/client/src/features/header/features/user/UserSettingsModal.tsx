@@ -18,9 +18,9 @@ import { CTG_ENTER_MODAL, CTG_EXIT_MODAL } from '@Utils/cssTransitionGroup';
 import styles from './UserSettingsModal.module.scss';
 
 type Props = {
-  userName: string;
-  settingsPortalActive: boolean;
   setSettingsPortalActive: React.Dispatch<React.SetStateAction<boolean>>;
+  settingsPortalActive: boolean;
+  userName: string;
 };
 
 function UserSettingsModal(props: Props): React.JSX.Element {

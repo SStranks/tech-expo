@@ -26,9 +26,9 @@ export type PendingDealMove = {
 };
 
 export type SaveRequest = {
-  status: 'pending' | 'retrying' | 'rejected' | 'fulfilled';
-  entityId: string;
   attempt: number;
+  entityId: string;
+  status: 'pending' | 'retrying' | 'rejected' | 'fulfilled';
   error?: SerializedError;
 };
 

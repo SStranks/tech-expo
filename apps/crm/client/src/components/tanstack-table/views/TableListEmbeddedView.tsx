@@ -10,10 +10,10 @@ import { useTableDragScroll } from '../hooks/useTableDragScroll';
 import styles from './TableListEmbeddedView.module.scss';
 
 interface Props<T> {
-  table: Table<T>;
   pageCount: number;
   pageIndex: number;
   setPageIndex: (updater: Updater<number>) => void;
+  table: Table<T>;
 }
 
 /*

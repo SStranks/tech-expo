@@ -5,9 +5,9 @@ import { DateInput, DateSegment, FieldError, Label, Text, TimeField } from 'reac
 import styles from './InputTimeField.module.scss';
 
 interface MyTimeFieldProps<T extends TimeValue> extends TimeFieldProps<T> {
-  label?: string;
   description?: string;
   errorMessage?: string | ((validation: ValidationResult) => string);
+  label?: string;
 }
 
 function InputTimeField<T extends TimeValue>({

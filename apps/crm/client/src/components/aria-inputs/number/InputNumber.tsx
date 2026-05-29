@@ -8,12 +8,12 @@ import IconOperatorPlus from '@Components/svg/IconOperatorPlus';
 import styles from './InputNumber.module.scss';
 
 interface MyNumberFieldProps<T extends FieldValues = FieldValues> {
+  defaultValue: number;
+  error: TFieldError | Merge<TFieldError, FieldErrorsImpl<DeepRequired<T>>> | undefined;
+  onChange: (...event: unknown[]) => void;
   appendClass?: string;
   description?: string;
-  error: TFieldError | Merge<TFieldError, FieldErrorsImpl<DeepRequired<T>>> | undefined;
   label?: string;
-  defaultValue: number;
-  onChange: (...event: unknown[]) => void;
 }
 
 function InputNumber({ appendClass, error, ...props }: MyNumberFieldProps) {

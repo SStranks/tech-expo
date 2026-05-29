@@ -7,24 +7,24 @@ import UserImage from '@Img/image-35.jpg';
 
 export type KanbanTask = {
   id: UUID;
-  orderKey: string;
-  stageId: KanbanStage['id'];
-  userImage: string;
-  title: string;
   date: string; // TODO:  Make Date type; when form functionality is complete
   notesTotal: number;
+  orderKey: string;
+  stageId: KanbanStage['id'];
+  title: string;
+  userImage: string;
 };
 
 export type KanbanStage = {
   id: UUID;
-  title: string;
   isPermanent: boolean;
+  title: string;
 };
 
 export type KanbanInitialData = {
-  tasks: KanbanTask[];
   stages: KanbanStage[];
   stagesOrder: string[];
+  tasks: KanbanTask[];
 };
 
 export const initialData: KanbanInitialData = {

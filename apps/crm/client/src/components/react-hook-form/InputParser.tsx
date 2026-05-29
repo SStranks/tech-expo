@@ -27,9 +27,9 @@ const valueFunctions = {
 };
 
 interface Props<TComponentProps, TValue> {
+  onChange: (value: TValue) => void;
   ReactAriaComponent: ComponentType<TComponentProps>;
   value: TValue;
-  onChange: (value: TValue) => void;
 }
 
 /**

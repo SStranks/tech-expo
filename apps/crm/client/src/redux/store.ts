@@ -12,9 +12,9 @@ export type ThunkExtra = {
 };
 
 export type AppThunkApiConfig = {
-  state: ReduxRootState;
   dispatch: ReduxDispatch;
   extra: ThunkExtra;
+  state: ReduxRootState;
 };
 
 let storeExists: boolean = false;

@@ -48,33 +48,33 @@ function createTestRouter(component: React.ReactNode, initialLocation = '/', con
   const router = createRouter({
     context,
     defaultPendingMinMs: 0,
-    routeTree,
     history: createMemoryHistory({
       initialEntries: [initialLocation],
     }),
+    routeTree,
   });
 
   return router;
 }
 
 type ProviderOptions = {
-  withRouter?: boolean;
-  withRedux?: boolean;
   withApollo?: boolean;
+  withRedux?: boolean;
+  withRouter?: boolean;
   withServices?: boolean;
 };
 
-type ExtendedRenderOptions = {
-  router?: AnyRouter;
+type ExtendedRenderOptions = RenderOptions & {
   preloadedState?: Partial<ReduxRootState>;
-  store?: ReduxStore;
-  serviceHttp?: IServiceHttp;
   providers?: ProviderOptions;
-} & RenderOptions;
+  router?: AnyRouter;
+  serviceHttp?: IServiceHttp;
+  store?: ReduxStore;
+};
 
 interface RenderWithProvidersResult extends RenderResult {
-  store?: ReduxStore;
   serviceHttp?: IServiceHttp;
+  store?: ReduxStore;
   testRouter?: AnyRouter;
 }
 

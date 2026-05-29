@@ -11,14 +11,14 @@ import styles from './InputDatePicker.module.scss';
 const DATE_TODAY = today(getLocalTimeZone());
 
 interface Props<T extends FieldValues = FieldValues> {
-  valueRHF: string | null;
-  onChangeRHF: (...event: unknown[]) => void;
-  isDirty?: boolean;
-  isRequired?: boolean;
   error: TFieldError | Merge<TFieldError, FieldErrorsImpl<DeepRequired<T>>> | undefined;
-  label?: string;
+  onChangeRHF: (...event: unknown[]) => void;
+  valueRHF: string | null;
   description?: string;
   errorMessage?: string | ((validation: ValidationResult) => string);
+  isDirty?: boolean;
+  isRequired?: boolean;
+  label?: string;
 }
 
 function Wrapper({ error, isDirty, isRequired, onChangeRHF, valueRHF, ...props }: Props): React.JSX.Element {

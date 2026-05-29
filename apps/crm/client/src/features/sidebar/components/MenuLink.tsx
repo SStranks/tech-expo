@@ -6,11 +6,11 @@ import { useEffect, useId, useRef } from 'react';
 import styles from './MenuLink.module.scss';
 
 type Props = {
-  name: string;
   href: string;
   Icon: SvgIcon;
-  minimize: boolean | undefined;
   index: number;
+  minimize: boolean | undefined;
+  name: string;
 };
 
 function MenuLink(props: Props): React.JSX.Element {

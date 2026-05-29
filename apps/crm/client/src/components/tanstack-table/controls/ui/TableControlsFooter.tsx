@@ -8,8 +8,8 @@ import styles from './TableControlsFooter.module.scss';
 type Props = {
   entriesName: string;
   entriesTotal: number;
-  pageIndex: number;
   getPageCount: () => number;
+  pageIndex: number;
   setPageIndex: (updater: Updater<number>) => void;
   setPageSize: (updater: Updater<number>) => void;
 };

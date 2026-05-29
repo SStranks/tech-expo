@@ -11,9 +11,9 @@ import InputParser from '@Components/react-hook-form/InputParser';
 import InputUx from '@Components/react-hook-form/InputUx';
 
 type Props<T extends FieldValues> = {
-  name: Path<T>;
   label: string;
   listItems: { id: string; name: string }[];
+  name: Path<T>;
   rules?: ValidationRules;
 };
 

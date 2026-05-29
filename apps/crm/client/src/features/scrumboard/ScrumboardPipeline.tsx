@@ -22,9 +22,9 @@ import { isPipelineDealDropData, isPipelineStageTargetData } from './utils/pragm
 import styles from './Scrumboard.module.scss';
 
 type DealMove = {
-  sourceDealId: PipelineDeal['id'];
   destinationDealOrderKey: PipelineDeal['orderKey'];
   destinationDealStageId: PipelineStage['id'];
+  sourceDealId: PipelineDeal['id'];
 };
 
 type FocusContext = {
@@ -45,8 +45,8 @@ type PipelineContext = {
     destinationStage,
     sourceDeal,
   }: {
-    destinationStage: PipelineStage;
     destinationDealIndex: number;
+    destinationStage: PipelineStage;
     sourceDeal: PipelineDeal;
   }) => Promise<void>;
   handleVerticalMove: ({
@@ -55,8 +55,8 @@ type PipelineContext = {
     sourceStage,
   }: {
     destinationDealIndex: number;
-    sourceStage: PipelineStage;
     sourceDeal: PipelineDeal;
+    sourceStage: PipelineStage;
   }) => Promise<void>;
 };
 
@@ -132,8 +132,8 @@ function ScrumBoardPipeline(): React.JSX.Element {
       sourceStage,
     }: {
       destinationDealIndex: number;
-      sourceStage: PipelineStage;
       sourceDeal: PipelineDeal;
+      sourceStage: PipelineStage;
     }) => {
       const destinationDealOrderKey = getDestinationTaskOrderKey(sourceDeal, sourceStage, destinationDealIndex);
 
@@ -166,8 +166,8 @@ function ScrumBoardPipeline(): React.JSX.Element {
       destinationStage,
       sourceDeal,
     }: {
-      destinationStage: PipelineStage;
       destinationDealIndex: number;
+      destinationStage: PipelineStage;
       sourceDeal: PipelineDeal;
     }) => {
       const destinationDealOrderKey = getDestinationTaskOrderKey(sourceDeal, destinationStage, destinationDealIndex);

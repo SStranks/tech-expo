@@ -39,15 +39,15 @@ import {
 } from './pipeline.thunks';
 
 type PipelineState = {
-  pendingDealMoves: { [dealId: string]: PendingDealMove };
+  deals: typeof dealsInitialState;
   pendingDealDeletes: { [dealId: string]: PendingDealDelete };
+  pendingDealMoves: { [dealId: string]: PendingDealMove };
   pendingDealUpdates: { [dealId: string]: PendingDealUpdate };
   pendingStageDeletes: { [stageId: string]: PendingStageDelete };
   pendingStageUpdates: { [stageId: string]: PendingStageUpdate };
   saveRequests: { [requestId: string]: SaveRequest };
   stageOrder: string[];
   stages: typeof stagesInitialState;
-  deals: typeof dealsInitialState;
 };
 
 const stagesAdapter = createEntityAdapter<PipelineStage>();

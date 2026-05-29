@@ -5,11 +5,11 @@ import IconArrowDownAlt from '@Components/svg/IconArrowDownAlt';
 import styles from './InputSelect.module.scss';
 
 type Props = {
-  name: string;
-  value: string | undefined;
   items: { name: string }[];
   label: string;
+  name: string;
   onChange: (...event: unknown[]) => void;
+  value: string | undefined;
 };
 
 function InputSelect({ ...props }: Props): React.JSX.Element {

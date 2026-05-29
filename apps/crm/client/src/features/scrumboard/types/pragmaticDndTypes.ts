@@ -10,17 +10,17 @@ import type {
 
 export const PRAGMATICDND_PIPELINE_DEAL_TYPE = 'pipeline_card' as const;
 export type PragmaticDnDPipelineDeal = {
-  [SYMBOL_PIPELINE_DEAL]: true;
   deal: PipelineDeal;
   dealIndex: number;
+  [SYMBOL_PIPELINE_DEAL]: true;
   type: typeof PRAGMATICDND_PIPELINE_DEAL_TYPE;
 };
 
 export const PRAGMATICDND_PIPELINE_STAGE_TYPE = 'pipeline_stage' as const;
 export type PragmaticDndPipelineStage = {
-  [SYMBOL_PIPELINE_STAGE]: true;
-  stage: PipelineStage;
   dealIds: PipelineDeal['id'][];
+  stage: PipelineStage;
+  [SYMBOL_PIPELINE_STAGE]: true;
   type: typeof PRAGMATICDND_PIPELINE_STAGE_TYPE;
 };
 
@@ -34,8 +34,8 @@ export type PragmaticDndKanbanTask = {
 
 export const PRAGMATICDND_KANBAN_STAGE_TYPE = 'kanban_stage' as const;
 export type PragmaticDndKanbanStage = {
-  [SYMBOL_KANBAN_STAGE]: true;
   stage: KanbanStage;
+  [SYMBOL_KANBAN_STAGE]: true;
   taskIds: KanbanTask['id'][];
   type: typeof PRAGMATICDND_KANBAN_STAGE_TYPE;
 };

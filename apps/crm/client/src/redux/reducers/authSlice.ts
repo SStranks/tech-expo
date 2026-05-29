@@ -16,17 +16,17 @@ import type { AppThunkApiConfig, ReduxRootState } from '@Redux/store';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export type AuthInitialState = {
+  authTokenExpiry: Date | null;
+  authTokenPending: boolean;
+  isAuthenticated: boolean;
+  isInitialized: boolean;
+  refreshTokenActivated: boolean;
+  refreshTokenPending: boolean;
+  status: 'idle' | 'pending';
   user: {
     client_id: UUID;
     role: UserRoles;
   } | null;
-  authTokenExpiry: Date | null;
-  isAuthenticated: boolean;
-  isInitialized: boolean;
-  authTokenPending: boolean;
-  refreshTokenActivated: boolean;
-  refreshTokenPending: boolean;
-  status: 'idle' | 'pending';
 };
 
 export const initialState: AuthInitialState = {

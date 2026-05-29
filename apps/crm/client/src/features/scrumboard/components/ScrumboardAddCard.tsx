@@ -8,8 +8,8 @@ import { Link } from '@tanstack/react-router';
 import styles from './ScrumboardAddCard.module.scss';
 
 type Props = {
-  to: typeof PipelineCreateRoute.fullPath | typeof KanbanCreateRoute.fullPath;
   stageId: UUID;
+  to: typeof PipelineCreateRoute.fullPath | typeof KanbanCreateRoute.fullPath;
 };
 
 function ScrumboardAddCard({ stageId, to }: Props): React.JSX.Element {

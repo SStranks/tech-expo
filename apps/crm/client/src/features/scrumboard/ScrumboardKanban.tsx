@@ -22,9 +22,9 @@ import { isKanbanStageTargetData, isKanbanTaskDropData } from './utils/pragmatic
 import styles from './Scrumboard.module.scss';
 
 type TaskMove = {
-  sourceTaskId: KanbanTask['id'];
   destinationTaskOrderKey: KanbanTask['orderKey'];
   destinationTaskStageId: KanbanStage['id'];
+  sourceTaskId: KanbanTask['id'];
 };
 
 type FocusContext = {

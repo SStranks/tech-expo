@@ -1,8 +1,8 @@
 import styles from './ButtonPaginator.module.scss';
 
 type Props = {
-  number: number;
   active: boolean;
+  number: number;
   onClick: () => void;
 };
 

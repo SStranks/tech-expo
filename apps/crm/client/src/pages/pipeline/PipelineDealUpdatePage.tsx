@@ -18,10 +18,10 @@ const ownersList = [{ name: 'Bob' }, { name: 'Dave' }];
 
 type FormData = {
   companyTitle: string;
+  dealOwner: string;
   dealStage: string;
   dealTitle: string;
   dealTotal: number;
-  dealOwner: string;
 };
 
 function PipelineDealUpdatePage(): React.JSX.Element {

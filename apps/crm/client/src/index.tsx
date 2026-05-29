@@ -8,14 +8,13 @@ import { Provider as ProviderRedux } from 'react-redux';
 import { initializeApp } from '@Config/initializeApp';
 // eslint-disable-next-line perfectionist/sort-imports -- Redux must initialize before App
 import FallbackUi from '@Components/ui/FallbackUi';
-
-import '@Sass/global-imports.scss';
 import { ServicesContext } from '@Context/servicesContext';
 import ApolloClient from '@Graphql/ApolloClient';
 import Rollbar from '@Lib/rollbar';
 
 import { routeTree } from './routeTree.gen';
 
+import '@Sass/global-imports.scss';
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router;

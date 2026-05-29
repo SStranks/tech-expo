@@ -7,9 +7,9 @@ import IconEdit from '@Components/svg/IconEdit';
 import styles from './EditableRow.module.scss';
 
 type Props = {
+  description: string;
   IconSvg: SvgIcon;
   title: string;
-  description: string;
 };
 
 // Consuming components: CompaniesTableInformation, UserSettingsModal

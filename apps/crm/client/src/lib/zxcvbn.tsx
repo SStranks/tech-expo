@@ -8,16 +8,16 @@ import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en';
 
 const options = {
   // recommended
+  dictionary: {
+    ...zxcvbnCommonPackage.dictionary,
+    ...zxcvbnEnPackage.dictionary,
+  },
+  // recommended
   graphs: zxcvbnCommonPackage.adjacencyGraphs,
   // optional
   translations: zxcvbnEnPackage.translations,
   // recommended
   useLevenshteinDistance: true,
-  // recommended
-  dictionary: {
-    ...zxcvbnCommonPackage.dictionary,
-    ...zxcvbnEnPackage.dictionary,
-  },
 };
 
 zxcvbnOptions.setOptions(options);

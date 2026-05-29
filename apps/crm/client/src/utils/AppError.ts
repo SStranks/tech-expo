@@ -4,7 +4,7 @@ export default class AppError extends CustomError {
   private readonly _code: number | undefined;
   private readonly _context: { [key: string]: unknown };
 
-  constructor(params?: { code?: number; message?: string; context?: { [key: string]: unknown } }) {
+  constructor(params?: { code?: number; context?: { [key: string]: unknown }; message?: string }) {
     const { code, message } = params || {};
 
     super(message || 'Internal Client Error');

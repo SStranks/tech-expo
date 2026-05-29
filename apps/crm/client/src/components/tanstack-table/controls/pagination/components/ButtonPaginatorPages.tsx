@@ -7,8 +7,8 @@ import styles from './ButtonPaginator.module.scss';
 
 type Props = {
   direction: 'previous' | 'next';
-  title: string;
   onClick: () => void;
+  title: string;
 };
 
 function ButtonPaginatorPages(props: Props): React.JSX.Element {

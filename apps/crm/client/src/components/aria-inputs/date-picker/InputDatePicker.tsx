@@ -74,9 +74,9 @@ function ButtonYear({ className = undefined, operation }: ButtonYearProps): Reac
 }
 
 interface MyDatePickerProps<T extends DateValue> extends DatePickerProps<T> {
-  label?: string;
   description?: string;
   errorMessage?: string | ((validation: ValidationResult) => string);
+  label?: string;
 }
 
 function InputDatePicker<T extends DateValue>({ description, errorMessage, label, ...props }: MyDatePickerProps<T>) {

@@ -12,13 +12,13 @@ type UiEventBase = {
 };
 
 export type UiEvent =
-  | (UiEventBase & { type: 'aria'; data: AriaData })
-  | (UiEventBase & { type: 'focus'; data: FocusData })
-  | (UiEventBase & { type: 'misc'; data: MiscData });
+  | (UiEventBase & { data: AriaData; type: 'aria' })
+  | (UiEventBase & { data: FocusData; type: 'focus' })
+  | (UiEventBase & { data: MiscData; type: 'misc' });
 
 type AriaData = {
-  politeness: 'polite' | 'assertive';
   message: string;
+  politeness: 'polite' | 'assertive';
 };
 
 type FocusData = {

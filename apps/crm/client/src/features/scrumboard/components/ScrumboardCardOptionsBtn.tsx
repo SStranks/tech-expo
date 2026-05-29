@@ -38,9 +38,9 @@ const moveIndexMap: Record<MoveKey, (index: number, length: number) => number> =
 type Props = {
   deal: PipelineDeal;
   dealIndex: number;
+  isFocused: boolean;
   stage: PipelineStage;
   dealStatus?: 'won' | 'lost';
-  isFocused: boolean;
 };
 
 function ScrumboardCardOptionsBtn({ deal, dealIndex, dealStatus, isFocused, stage }: Props): React.JSX.Element {

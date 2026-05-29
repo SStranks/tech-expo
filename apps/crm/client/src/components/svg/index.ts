@@ -1,5 +1,5 @@
 export type Props = {
-  svgClass?: string;
   mirror?: boolean;
+  svgClass?: string;
 };
 export type SvgIcon = ({ svgClass }: Props) => React.JSX.Element;

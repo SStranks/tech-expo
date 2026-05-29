@@ -18,11 +18,11 @@ type Props = {
     tableName: string | undefined;
   };
   listGridToggle?: {
-    tableView: 'list' | 'grid';
-    setTableView: React.Dispatch<React.SetStateAction<'list' | 'grid'>>;
     columnFilters: ColumnFiltersState;
-    setColumnFilters: React.Dispatch<React.SetStateAction<ColumnFiltersState>>;
     resetColumnFilters: (defaultState?: boolean) => void;
+    setColumnFilters: React.Dispatch<React.SetStateAction<ColumnFiltersState>>;
+    setTableView: React.Dispatch<React.SetStateAction<'list' | 'grid'>>;
+    tableView: 'list' | 'grid';
   };
 };
 

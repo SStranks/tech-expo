@@ -8,12 +8,12 @@ import IconClose from '@Components/svg/IconClose';
 import styles from './InputTagGroup.module.scss';
 
 type Props = {
-  name: string;
-  value: { id: number; name: string }[];
-  onChange: (...event: unknown[]) => void;
   id: string;
   isInvalid: boolean;
+  name: string;
+  onChange: (...event: unknown[]) => void;
   trigger: UseFormTrigger<FieldValues>;
+  value: { id: number; name: string }[];
 };
 
 function InputTagGroup(props: Props): React.JSX.Element {

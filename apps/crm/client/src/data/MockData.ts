@@ -14,9 +14,9 @@ export const UserData = {
 };
 
 export type Notification = {
-  logoURL: string;
-  identity: string;
   description: string;
+  identity: string;
+  logoURL: string;
   timeframe: string;
 };
 // Logo, Entity, Description, Time
@@ -51,14 +51,14 @@ export const searchResults = [
 
 export type TableDataContacts = {
   id: string;
-  name: string;
-  email: string;
-  image: string;
   company: string;
   companyLogo: string;
-  title: string;
-  status: 'new' | 'contacted' | 'interested' | 'qualified' | 'unqualified' | 'negotiation' | 'lost' | 'won' | 'churned';
+  email: string;
+  image: string;
+  name: string;
   phone: string;
+  status: 'new' | 'contacted' | 'interested' | 'qualified' | 'unqualified' | 'negotiation' | 'lost' | 'won' | 'churned';
+  title: string;
 };
 export const tableDataContacts: TableDataContacts[] = [
   {
@@ -1166,13 +1166,13 @@ export const tableDataContacts: TableDataContacts[] = [
 
 export type TableDataQuotes = {
   id: string;
-  title: string;
   company: string;
-  'total amount': string;
-  stage: 'draft' | 'accepted' | 'sent';
-  'prepared for': string;
-  'prepared by': string;
   'created at': string;
+  'prepared by': string;
+  'prepared for': string;
+  stage: 'draft' | 'accepted' | 'sent';
+  title: string;
+  'total amount': string;
 };
 export const tableDataQuotes: TableDataQuotes[] = [
   {
@@ -2181,9 +2181,9 @@ export type TableDataCompanies = {
   id: string;
   companyLogo: string;
   companyTitle: string;
-  salesOwner: string;
   openDealsAmount: string;
   relatedContacts: string[];
+  salesOwner: string;
 };
 export const tableDataCompanies: TableDataCompanies[] = [
   {
@@ -2998,11 +2998,11 @@ export const tableDataCompanies: TableDataCompanies[] = [
 
 export type TableAuditLog = {
   id: number;
-  user: string;
   action: 'create' | 'update' | 'delete';
+  date: string;
   entity: string;
   entity_id: number;
-  date: string;
+  user: string;
 };
 export const tableDataAuditLog: TableAuditLog[] = [
   {
@@ -3844,8 +3844,8 @@ export const tableDataAuditLogDetails: TableAuditLogDetails[] = [
 export type TableSettingsContacts = {
   id: number;
   name: string;
-  title: string;
   role: 'admin' | 'sales manager' | 'sales person' | 'sales intern';
+  title: string;
 };
 export const tableDataSettingsContacts: TableSettingsContacts[] = [
   {
@@ -4015,8 +4015,8 @@ export const tableDataSettingsContacts: TableSettingsContacts[] = [
 export type TableSettingsCompanyInfo = {
   id: number;
   address: string;
-  phone: string;
   email: string;
+  phone: string;
   website: string;
 };
 export const tableDataSettingsCompanyInfo: TableSettingsCompanyInfo[] = [
@@ -4032,11 +4032,11 @@ export const tableDataSettingsCompanyInfo: TableSettingsCompanyInfo[] = [
 // TODO:  'stage' needs to be dynamic against pipeline categories
 export type TableDataDeals = {
   id: string;
-  title: string;
   amount: string;
-  stage: 'lost' | 'won' | 'under review';
   dealContact: string;
   dealOwner: string;
+  stage: 'lost' | 'won' | 'under review';
+  title: string;
 };
 export const tableDataDeals: TableDataDeals[] = [
   {

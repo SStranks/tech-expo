@@ -3,8 +3,8 @@ import type { InputHTMLAttributes } from 'react';
 import styles from './Buttons.module.scss';
 
 interface Props extends InputHTMLAttributes<HTMLButtonElement> {
-  onClick: () => void;
   name: string;
+  onClick: () => void;
 }
 
 function ButtonSave({ disabled, name, onClick, ...rest }: Props): React.JSX.Element {

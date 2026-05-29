@@ -29,7 +29,6 @@ const columnCompaniesContactsDef = [
   }),
   columnHelper.display({
     id: 'Actions',
-    header: ({ column }) => <span>{column.id}</span>,
     cell: ({ row }) => (
       <RowActionsControl>
         <RowActionsControl.EmailControl email={row.original.email} />
@@ -37,6 +36,7 @@ const columnCompaniesContactsDef = [
         <RowActionsControl.ViewControl to="/companies/$id" params={{ id: row.original.id }} />
       </RowActionsControl>
     ),
+    header: ({ column }) => <span>{column.id}</span>,
   }),
 ];
 

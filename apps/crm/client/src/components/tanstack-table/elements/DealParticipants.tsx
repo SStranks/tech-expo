@@ -5,8 +5,8 @@ import UserCircleAbbv from '@Components/general/UserCircleAbbv';
 import styles from './QuotesParticipants.module.scss';
 
 type Props = {
-  dealOwner: TableDataDeals['dealOwner'];
   dealContact: TableDataDeals['dealContact'];
+  dealOwner: TableDataDeals['dealOwner'];
 };
 
 // REFACTOR:  Same as QuoteParticipants generally

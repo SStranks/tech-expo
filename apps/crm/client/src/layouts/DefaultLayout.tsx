@@ -3,8 +3,8 @@ import type { PropsWithChildren } from 'react';
 import styles from './DefaultLayout.module.scss';
 
 type Props = {
-  header: React.JSX.Element;
   aside: React.JSX.Element;
+  header: React.JSX.Element;
 };
 
 function DefaultLayout({ aside, children = undefined, header }: PropsWithChildren<Props>): React.JSX.Element {

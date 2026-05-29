@@ -10,9 +10,9 @@ import IconOperatorPlus from '@Components/svg/IconOperatorPlus';
 import styles from './ScrumboardColumnAddBtn.module.scss';
 
 type Props = {
+  stageId: UUID;
   to: typeof PipelineCreateRoute.fullPath | typeof KanbanCreateRoute.fullPath;
   columnStyle?: 'won' | 'lost';
-  stageId: UUID;
 };
 
 function ScrumboardColumnAddBtn({ columnStyle, stageId, to }: Props): React.JSX.Element {

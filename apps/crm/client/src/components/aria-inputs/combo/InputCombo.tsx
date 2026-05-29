@@ -5,12 +5,12 @@ import IconArrowDownAlt from '@Components/svg/IconArrowDownAlt';
 import styles from './InputCombo.module.scss';
 
 type Props = {
-  value: string | undefined;
-  onChange: (...event: unknown[]) => void;
+  id: string;
+  defaultValue: string;
   items: { name: string }[];
   label: string;
-  defaultValue: string;
-  id: string;
+  onChange: (...event: unknown[]) => void;
+  value: string | undefined;
 };
 
 function InputCombo(props: Props): React.JSX.Element {

@@ -8,20 +8,20 @@ import UserImage from '@Img/image-35.jpg';
 
 export type PipelineDeal = {
   id: UUID;
-  orderKey: string;
-  stageId: PipelineStage['id'];
   companyLogo: string;
   companyTitle: string;
-  dealTitle: string;
-  userImage: string;
   daysElapsed: number;
+  dealTitle: string;
   dealTotal: number;
+  orderKey: string;
+  stageId: PipelineStage['id'];
+  userImage: string;
 };
 
 export type PipelineStage = {
   id: UUID;
-  title: string;
   isPermanent: boolean;
+  title: string;
 };
 
 export type PipelineInitialData = {

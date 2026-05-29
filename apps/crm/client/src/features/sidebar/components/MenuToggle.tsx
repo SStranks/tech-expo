@@ -1,8 +1,8 @@
 import styles from './MenuToggle.module.scss';
 
 type Props = {
-  sidebarMaximize: boolean | undefined;
   setSidebarMaximize: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+  sidebarMaximize: boolean | undefined;
 };
 
 function MenuToggle(props: Props): React.JSX.Element {

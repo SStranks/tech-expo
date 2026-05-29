@@ -1,8 +1,8 @@
 import styles from './Logo.module.scss';
 
 type Props = {
-  title: string;
   logoUrl: string;
+  title: string;
 };
 
 function Logo(props: Props): React.JSX.Element {

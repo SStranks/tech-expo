@@ -17,8 +17,8 @@ import { createKanbanTaskDropData } from './utils/pragmaticDndValidation';
 import styles from './ScrumboardCard.module.scss';
 
 type Props = {
-  taskId: KanbanTask['id'];
   stage: KanbanStage;
+  taskId: KanbanTask['id'];
   taskIndex: number;
   taskStatus?: 'won' | 'lost';
 };
@@ -45,18 +45,14 @@ function ScrumBoardKanbanTask({ stage, taskId, taskIndex, taskStatus }: Props): 
       draggable({
         element: taskElement,
         getInitialData: () => createKanbanTaskDropData(task, taskIndex),
-        onDrop: () => setIsDragging(false),
         onDragStart: () => {
           setIsDragging(true);
           setFocusedId(task.id);
         },
+        onDrop: () => setIsDragging(false),
       }),
       dropTargetForElements({
         element: taskElement,
-        getIsSticky: () => true,
-        onDragEnter: () => setIsDragEnter(true),
-        onDragLeave: () => setIsDragEnter(false),
-        onDrop: () => setIsDragEnter(false),
         getData: ({ element, input }) => {
           const data = createKanbanTaskDropData(task, taskIndex);
           return attachClosestEdge(data, {
@@ -65,6 +61,10 @@ function ScrumBoardKanbanTask({ stage, taskId, taskIndex, taskStatus }: Props): 
             input,
           });
         },
+        getIsSticky: () => true,
+        onDragEnter: () => setIsDragEnter(true),
+        onDragLeave: () => setIsDragEnter(false),
+        onDrop: () => setIsDragEnter(false),
       })
     );
   }, [setFocusedId, task, taskIndex]);

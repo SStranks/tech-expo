@@ -13,15 +13,15 @@ import { ENV } from '@Config/env';
 import handleServiceError from '@Services/serviceHttpErrors';
 
 export interface IAxiosClient {
-  requestInterceptor(): AxiosInterceptorManager<InternalAxiosRequestConfig>;
-  responseInterceptor(): AxiosInterceptorManager<AxiosResponse>;
-  responseData<T>(response: AxiosResponse<ApiResponseSuccessData<T>>): ApiResponseSuccessData<T> | undefined;
-  retryRequest<T>(config: AxiosRequestConfig<T>, retries?: number, delay?: number): Promise<AxiosResponse<T> | void>;
-  get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
-  post<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T>;
-  patch<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T>;
-  put<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T>;
   delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  patch<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T>;
+  post<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T>;
+  put<T, U>(url: string, data: U, config?: AxiosRequestConfig): Promise<T>;
+  requestInterceptor(): AxiosInterceptorManager<InternalAxiosRequestConfig>;
+  responseData<T>(response: AxiosResponse<ApiResponseSuccessData<T>>): ApiResponseSuccessData<T> | undefined;
+  responseInterceptor(): AxiosInterceptorManager<AxiosResponse>;
+  retryRequest<T>(config: AxiosRequestConfig<T>, retries?: number, delay?: number): Promise<AxiosResponse<T> | void>;
 }
 
 export class AxiosClient implements IAxiosClient {
