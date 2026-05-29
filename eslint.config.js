@@ -52,7 +52,12 @@ export default defineConfig([
       'import-x/resolver-next': [
         createTypeScriptImportResolver({
           alwaysTryTypes: true,
-          project: ['apps/crm/client/tsconfig.json', 'apps/crm/server/tsconfig.json', 'apps/crm/shared/tsconfig.json'],
+          project: [
+            'tsconfig.json',
+            'apps/crm/client/tsconfig.json',
+            'apps/crm/server/tsconfig.json',
+            'apps/crm/shared/tsconfig.json',
+          ],
           extensions: ['.js', '.jsx', '.ts', '.tsx'],
         }),
       ],
@@ -120,15 +125,21 @@ export default defineConfig([
     plugins: { ...EslintConfigNode.plugins },
     rules: { ...EslintConfigNode.rules },
   },
-  // === INDIVIDUAL PROJECTS ===
+  // ============= PACKAGES =============
   {
-    name: 'CRM: Client; React + TypeScript',
-    files: [
-      'apps/crm/client/src/**/*.[jt]s?(x)',
-      'apps/crm/client/webpack/**/*.[jt]s?(x)',
-      'apps/crm/client/*.ts',
-      'apps/pnpm-outdated/client/src/*.ts',
-    ],
+    name: '@packages',
+    files: ['./*.[jt]s', 'packages/**/*.[jt]s'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: path.join(import.meta.dirname, './'),
+      },
+    },
+  },
+  // ============= APPS =============
+  {
+    name: '@apps/crm/client: React + TypeScript',
+    files: ['apps/crm/client/src/**/*.[jt]s?(x)', 'apps/crm/client/webpack/**/*.[jt]s?(x)', 'apps/crm/client/*.ts'],
     ignores: ['apps/crm/client/src/**/?(*.)+(spec|test).[jt]s?(x)'],
     processor: EslintConfigGraphQL.processor,
     languageOptions: {
@@ -145,7 +156,7 @@ export default defineConfig([
     },
   },
   {
-    name: 'CRM: Client; GraphQL',
+    name: '@apps/crm/client: GraphQL',
     files: ['apps/crm/client/src/**/*.graphql'],
     languageOptions: {
       ...EslintConfigGraphQL.languageOptions,
@@ -154,7 +165,7 @@ export default defineConfig([
     rules: { ...EslintConfigGraphQL.rules.client },
   },
   {
-    name: 'CRM: Client; Storybook',
+    name: '@apps/crm/client: Storybook',
     files: ['apps/crm/client/src/stories/**/*.stories.[jt]s?(x)', 'apps/crm/client/.storybook/**/*.[jt]s?(x)'],
     languageOptions: {
       ...EslintConfigReact.languageOptions,
@@ -170,7 +181,7 @@ export default defineConfig([
     },
   },
   {
-    name: 'CRM: Client; Testing (Vitest + RTL)',
+    name: '@apps/crm/client: Testing; Vitest + RTL',
     files: ['apps/crm/client/src/**/?(*.)+(spec|test).[jt]s?(x)'],
     languageOptions: {
       ...EslintConfigReact.languageOptions,
@@ -186,9 +197,15 @@ export default defineConfig([
     },
   },
   {
-    name: 'CRM: Client; Testing (Cypress)',
+    name: '@apps/crm/client: Testing; Cypress',
     files: ['apps/crm/client/cypress/**/*.[jt]s?(x)'],
-    languageOptions: { ...EslintConfigCypress.languageOptions },
+    languageOptions: {
+      ...EslintConfigCypress.languageOptions,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/client'),
+      },
+    },
     plugins: { ...EslintConfigCypress.plugins },
     rules: { ...EslintConfigCypress.rules },
     settings: {
@@ -196,7 +213,7 @@ export default defineConfig([
     },
   },
   {
-    name: 'CRM: Server; NodeJS Express + Testing (Node)',
+    name: '@apps/crm/server: NodeJS Express + Testing (Node)',
     files: ['apps/crm/server/src/**/*.[jt]s', 'apps/crm/server/*.[jt]s'],
     languageOptions: {
       ...EslintConfigNode.languageOptions,
@@ -213,7 +230,7 @@ export default defineConfig([
     },
   },
   {
-    name: 'CRM: Server; GraphQL',
+    name: '@apps/crm/server: GraphQL',
     files: ['apps/crm/server/**/*.graphql'],
     languageOptions: {
       ...EslintConfigGraphQL.languageOptions,
@@ -227,7 +244,7 @@ export default defineConfig([
     rules: { ...EslintConfigGraphQL.rules.server, 'prettier/prettier': 'error' },
   },
   {
-    name: 'CRM: Shared; GraphQL',
+    name: '@apps/crm/shared: GraphQL',
     files: ['apps/crm/shared/**/*.graphql'],
     languageOptions: {
       ...EslintConfigGraphQL.languageOptions,
@@ -236,11 +253,11 @@ export default defineConfig([
     rules: { ...EslintConfigGraphQL.rules.server, 'prettier/prettier': 'error' },
   },
   {
-    name: 'CRM: Shared; NodeJS',
+    name: '@apps/crm/shared: NodeJS',
     files: ['apps/crm/shared/src/**/*.[jt]s'],
     languageOptions: {
       parserOptions: {
-        // project: ['tsconfig.json', 'tsconfig.types.json'],
+        projectService: true,
         tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/shared'),
       },
     },

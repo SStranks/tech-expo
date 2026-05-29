@@ -7,10 +7,10 @@ import globals from 'globals';
 const EslintConfigJavascript = {
   languageOptions: {
     ecmaVersion: 2021,
-    sourceType: 'module',
     globals: {
       ...globals.es2021,
     },
+    sourceType: 'module',
   },
   plugins: {
     '@stylistic': PluginStylistic,

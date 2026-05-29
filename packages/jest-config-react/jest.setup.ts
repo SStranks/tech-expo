@@ -8,7 +8,6 @@ globalThis.TextDecoder = TextDecoder;
 globalThis.TextEncoder = TextEncoder;
 
 Object.defineProperty(globalThis, 'matchMedia', {
-  writable: true,
   value: fn().mockImplementation((query) => ({
     addEventListener: fn(),
     addListener: fn(), // Deprecated
@@ -19,6 +18,7 @@ Object.defineProperty(globalThis, 'matchMedia', {
     removeEventListener: fn(),
     removeListener: fn(), // Deprecated
   })),
+  writable: true,
 });
 
 const localStorageMock = (function () {

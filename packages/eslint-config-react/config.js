@@ -9,17 +9,17 @@ import globals from 'globals';
 const EslintConfigReact = {
   languageOptions: {
     ecmaVersion: 2021,
-    sourceType: 'module',
     globals: {
       ...globals.browser,
       ...globals.es2021,
     },
     parserOptions: {
-      ecmaVersion: 2021,
       ecmaFeatures: {
         jsx: true,
       },
+      ecmaVersion: 2021,
     },
+    sourceType: 'module',
   },
   plugins: {
     '@tanstack/query': PluginTanstackQuery,
@@ -41,16 +41,16 @@ const EslintConfigReact = {
     '@tanstack/query/stable-query-client': 'error',
     '@tanstack/router/create-route-property-order': 'error',
     'react/function-component-definition': 'off',
-    'react/jsx-uses-react': 0,
-    'react/prop-types': 0,
-    'react/react-in-jsx-scope': 0,
-    'react/require-default-props': 0,
     'react/jsx-filename-extension': [
       1,
       {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     ],
+    'react/jsx-uses-react': 0,
+    'react/prop-types': 0,
+    'react/react-in-jsx-scope': 0,
+    'react/require-default-props': 0,
   },
   settings: {
     react: {

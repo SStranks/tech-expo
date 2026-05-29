@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import JestConfigNode from '@packages/jest-config-node/jest.config.js';
 import JestConfigReact from '@packages/jest-config-react/jest.config.js';
 

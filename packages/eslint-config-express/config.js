@@ -5,13 +5,13 @@ import globals from 'globals';
 const EslintConfigExpress = {
   languageOptions: {
     ecmaVersion: 2021,
-    sourceType: 'module',
     globals: {
       ...globals.es2021,
     },
     parserOptions: {
       ecmaVersion: 2021,
     },
+    sourceType: 'module',
   },
   plugins: {
     security: PluginSecurity,
