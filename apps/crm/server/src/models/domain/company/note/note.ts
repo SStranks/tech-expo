@@ -11,7 +11,7 @@ type CompanyNoteProps = {
   companyId: CompanyId;
   content: string;
   createdByUserProfileId: UserProfileId;
-  clientId?: CompanyNoteClientGeneratedId;
+  clientGeneratedId?: CompanyNoteClientGeneratedId;
 };
 
 export type CompanyNoteCreateProps = CompanyNoteProps;
@@ -35,11 +35,14 @@ class CompanyNoteState {
 }
 
 export abstract class CompanyNote {
-  private readonly _props: CompanyNoteProps & { clientId: CompanyNoteClientGeneratedId };
+  private readonly _props: CompanyNoteProps & { clientGeneratedId: CompanyNoteClientGeneratedId };
   protected _internal: CompanyNoteState;
 
   protected constructor(props: CompanyNoteProps, newNote?: NewCompanyNoteImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CompanyNoteClientGeneratedId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId ?? (randomUUID() as CompanyNoteClientGeneratedId),
+    };
     this._internal = newNote?._internal ?? new CompanyNoteState();
   }
 
@@ -78,8 +81,8 @@ export abstract class CompanyNote {
     return this._props.companyId;
   }
 
-  get clientId(): CompanyNoteClientGeneratedId {
-    return this._props.clientId;
+  get clientGeneratedId(): CompanyNoteClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion getters
 

@@ -14,7 +14,7 @@ type CalendarEventProps = {
   eventEndAt: Date;
   eventStartAt: Date;
   title: string;
-  clientId?: CalendarEventClientGeneratedId;
+  clientGeneratedId?: CalendarEventClientGeneratedId;
 };
 
 export type CalendarEventCreateProps = CalendarEventProps & { participants?: UserProfileId[] };
@@ -39,11 +39,14 @@ export interface PersistedCalendarEvent extends CalendarEvent {
 }
 
 export abstract class CalendarEvent {
-  private readonly _props: CalendarEventProps & { clientId: CalendarEventClientGeneratedId };
+  private readonly _props: CalendarEventProps & { clientGeneratedId: CalendarEventClientGeneratedId };
   protected _internal: CalendarEventState;
 
   constructor(props: CalendarEventProps, newEvent?: NewCalendarEventImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CalendarEventClientGeneratedId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId ?? (randomUUID() as CalendarEventClientGeneratedId),
+    };
     this._internal = newEvent?._internal ?? new CalendarEventState();
   }
 
@@ -109,8 +112,8 @@ export abstract class CalendarEvent {
     return this._props.eventEndAt;
   }
 
-  get clientId(): CalendarEventClientGeneratedId {
-    return this._props.clientId;
+  get clientGeneratedId(): CalendarEventClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
 
   get participants() {

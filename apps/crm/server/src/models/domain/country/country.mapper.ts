@@ -38,7 +38,7 @@ export function countryDomainToCountryDTO(country: PersistedCountry): CountryDTO
 
 export function countryRowToDomain(row: CountriesTableSelect): PersistedCountry {
   return Country.rehydrate({
-    id: asCountryId(row.id),
+    id: row.id,
     numCode: row.numCode,
     alpha2Code: row.alpha2Code,
     alpha3Code: row.alpha3Code,

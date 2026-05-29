@@ -3,15 +3,10 @@ import type { CalendarEventsTableSelect } from '#Config/schema/calendar/Events.j
 
 import type { CalendarCategoryReadRow, CalendarEventReadRow } from './calendar.read-model.types.js';
 
-import { asCalendarId } from '#Models/domain/calendar/calendar.mapper.js';
-
-import { asCalendarCategoryId } from '../../domain/calendar/category/category.mapper.js';
-import { asCalendarEventId } from '../../domain/calendar/event/event.mapper.js';
-
 export function calendarCategoryRowToReadRow(row: CalendarCategoriesTableSelect): CalendarCategoryReadRow {
   return {
-    id: asCalendarCategoryId(row.id),
-    calendarId: asCalendarId(row.calendarId),
+    id: row.id,
+    calendarId: row.calendarId,
     createdAt: row.createdAt,
     title: row.title,
   };
@@ -19,9 +14,9 @@ export function calendarCategoryRowToReadRow(row: CalendarCategoriesTableSelect)
 
 export function calendarEventRowToReadRow(row: CalendarEventsTableSelect): CalendarEventReadRow {
   return {
-    id: asCalendarEventId(row.id),
-    calendarId: asCalendarId(row.calendarId),
-    categoryId: asCalendarCategoryId(row.categoryId),
+    id: row.id,
+    calendarId: row.calendarId,
+    categoryId: row.categoryId,
     color: row.color ?? null,
     createdAt: row.createdAt,
     description: row.description,

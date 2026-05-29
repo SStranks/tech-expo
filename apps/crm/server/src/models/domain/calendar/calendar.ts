@@ -24,7 +24,7 @@ import { CalendarEvent } from './event/event.js';
 
 type CalendarProps = {
   companyId: CompanyId;
-  clientId?: CalendarClientGeneratedId;
+  clientGeneratedId?: CalendarClientGeneratedId;
 };
 
 type CalendarCreateProps = CalendarProps;
@@ -42,12 +42,12 @@ export interface PersistedCalendar extends Calendar {
 
 class CalendarState {
   eventById: Map<CalendarEventId, PersistedCalendarEvent> = new Map();
-  eventByClientId: Map<CalendarEventClientGeneratedId, CalendarEventId> = new Map();
+  eventByClientGeneratedId: Map<CalendarEventClientGeneratedId, CalendarEventId> = new Map();
   addedEvent: Map<CalendarEventClientGeneratedId, NewCalendarEvent> = new Map();
   removedEventIds: Set<CalendarEventId> = new Set();
   updatedEvent: Map<CalendarEventId, PersistedCalendarEvent> = new Map();
   categoryById: Map<CalendarCategoryId, PersistedCalendarCategory> = new Map();
-  categoryByClientId: Map<CalendarCategoryClientGeneratedId, CalendarCategoryId> = new Map();
+  categoryByClientGeneratedId: Map<CalendarCategoryClientGeneratedId, CalendarCategoryId> = new Map();
   addedCategory: Map<CalendarCategoryClientGeneratedId, NewCalendarCategory> = new Map();
   removedCategoryIds: Set<CalendarCategoryId> = new Set();
   updatedCategory: Map<CalendarCategoryId, PersistedCalendarCategory> = new Map();
@@ -55,11 +55,14 @@ class CalendarState {
 }
 
 export abstract class Calendar {
-  private readonly _props: CalendarProps & { clientId: CalendarClientGeneratedId };
+  private readonly _props: CalendarProps & { clientGeneratedId: CalendarClientGeneratedId };
   protected _internal: CalendarState;
 
   constructor(props: CalendarProps, newCalendar?: NewCalendarImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CalendarClientGeneratedId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId ?? (randomUUID() as CalendarClientGeneratedId),
+    };
     this._internal = newCalendar?._internal ?? new CalendarState();
   }
 
@@ -90,8 +93,8 @@ export abstract class Calendar {
     return this._props.companyId;
   }
 
-  get clientId(): CalendarClientGeneratedId {
-    return this._props.clientId;
+  get clientGeneratedId(): CalendarClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion getters
 
@@ -154,7 +157,7 @@ export abstract class Calendar {
   commitCategories(newCategories: PersistedCalendarCategory[]) {
     for (const category of newCategories) {
       this._internal.categoryById.set(category.id, category);
-      this._internal.categoryByClientId.set(category.clientId, category.id);
+      this._internal.categoryByClientGeneratedId.set(category.clientGeneratedId, category.id);
       category.commit();
     }
 
@@ -166,7 +169,7 @@ export abstract class Calendar {
   commitEvents(newEvents: PersistedCalendarEvent[]) {
     for (const event of newEvents) {
       this._internal.eventById.set(event.id, event);
-      this._internal.eventByClientId.set(event.clientId, event.id);
+      this._internal.eventByClientGeneratedId.set(event.clientGeneratedId, event.id);
       event.commit();
     }
 
@@ -182,7 +185,7 @@ export abstract class Calendar {
   // #region actions/category
   addCalendarCategory(props: CalendarCategoryCreateProps): NewCalendarCategory {
     const calendarCategory = CalendarCategory.create(props);
-    this._internal.addedCategory.set(calendarCategory.clientId, calendarCategory);
+    this._internal.addedCategory.set(calendarCategory.clientGeneratedId, calendarCategory);
     return calendarCategory;
   }
 
@@ -201,15 +204,15 @@ export abstract class Calendar {
 
     this._internal.removedCategoryIds.add(id);
     this._internal.categoryById.delete(id);
-    this._internal.categoryByClientId.delete(calendarCategory.clientId);
+    this._internal.categoryByClientGeneratedId.delete(calendarCategory.clientGeneratedId);
   }
 
-  findCalendarCategoryByClientId(clientId: CalendarCategoryClientGeneratedId) {
-    return this._internal.categoryByClientId.get(clientId);
+  findCalendarCategoryByClientGeneratedId(clientGeneratedId: CalendarCategoryClientGeneratedId) {
+    return this._internal.categoryByClientGeneratedId.get(clientGeneratedId);
   }
 
-  getCalendarCategoryByClientId(clientId: CalendarCategoryClientGeneratedId) {
-    const calendarCategoryUUID = this.findCalendarCategoryByClientId(clientId);
+  getCalendarCategoryByClientGeneratedId(clientGeneratedId: CalendarCategoryClientGeneratedId) {
+    const calendarCategoryUUID = this.findCalendarCategoryByClientGeneratedId(clientGeneratedId);
     if (!calendarCategoryUUID) throw new DomainError({ message: 'Calendar-category not found' });
     const calendarCategory = this._internal.categoryById.get(calendarCategoryUUID);
     if (!calendarCategory) throw new DomainError({ message: 'Calendar-category not found' });
@@ -223,7 +226,7 @@ export abstract class Calendar {
   // #region actions/event
   addCalendarEvent(props: CalendarEventCreateProps): NewCalendarEvent {
     const calendarEvent = CalendarEvent.create(props);
-    this._internal.addedEvent.set(calendarEvent.clientId, calendarEvent);
+    this._internal.addedEvent.set(calendarEvent.clientGeneratedId, calendarEvent);
     return calendarEvent;
   }
 
@@ -242,15 +245,15 @@ export abstract class Calendar {
 
     this._internal.removedEventIds.add(id);
     this._internal.eventById.delete(id);
-    this._internal.eventByClientId.delete(calendarEvent.clientId);
+    this._internal.eventByClientGeneratedId.delete(calendarEvent.clientGeneratedId);
   }
 
-  findCalendarEventByClientId(clientId: CalendarEventClientGeneratedId) {
-    return this._internal.eventByClientId.get(clientId);
+  findCalendarEventByClientGeneratedId(clientGeneratedId: CalendarEventClientGeneratedId) {
+    return this._internal.eventByClientGeneratedId.get(clientGeneratedId);
   }
 
-  getCalendarEventByClientId(clientId: CalendarEventClientGeneratedId) {
-    const calendarEventUUID = this.findCalendarEventByClientId(clientId);
+  getCalendarEventByClientGeneratedId(clientGeneratedId: CalendarEventClientGeneratedId) {
+    const calendarEventUUID = this.findCalendarEventByClientGeneratedId(clientGeneratedId);
     if (!calendarEventUUID) throw new DomainError({ message: 'Calendar-event not found' });
     const calendarEvent = this._internal.eventById.get(calendarEventUUID);
     if (!calendarEvent) throw new DomainError({ message: 'Calendar-event not found' });

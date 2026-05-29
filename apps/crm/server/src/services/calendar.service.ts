@@ -100,10 +100,10 @@ export class CalendarService implements ICalendarService {
   async addCalendarEvent(cmd: AddCalendarEventCommand, ctx: RequestContext): Promise<AddCalendarEventReturn> {
     const { calendar } = await this.authorizeCalendarAccess(cmd.calendarId, ctx);
 
-    const { clientId } = calendar.addCalendarEvent({ ...cmd, color: cmd.color ?? null });
+    const { clientGeneratedId } = calendar.addCalendarEvent({ ...cmd, color: cmd.color ?? null });
 
     await this.calendarRepository.save(calendar);
-    const calendarEvent = calendar.getCalendarEventByClientId(clientId);
+    const calendarEvent = calendar.getCalendarEventByClientGeneratedId(clientGeneratedId);
     const participants = await this.userReadModel.findUserProfilesByUserProfileIds(calendarEvent.participants);
 
     return { calendarEvent, participants };
@@ -112,10 +112,10 @@ export class CalendarService implements ICalendarService {
   async updateCalendarEvent(cmd: UpdateCalendarEventCommand, ctx: RequestContext): Promise<UpdateCalendarEventReturn> {
     const { calendar } = await this.authorizeCalendarAccess(cmd.calendarId, ctx);
 
-    const { clientId } = calendar.updateCalendarEvent({ ...cmd });
+    const { clientGeneratedId } = calendar.updateCalendarEvent({ ...cmd });
 
     await this.calendarRepository.save(calendar);
-    const calendarEvent = calendar.getCalendarEventByClientId(clientId);
+    const calendarEvent = calendar.getCalendarEventByClientGeneratedId(clientGeneratedId);
     const participants = await this.userReadModel.findUserProfilesByUserProfileIds(calendarEvent.participants);
 
     return { calendarEvent, participants };
@@ -132,13 +132,13 @@ export class CalendarService implements ICalendarService {
   async addCalendarCategory(cmd: AddCalendarCategoryCommand, ctx: RequestContext): Promise<PersistedCalendarCategory> {
     const { calendar } = await this.authorizeCalendarAccess(cmd.calendarId, ctx);
 
-    const { clientId } = calendar.addCalendarCategory({
+    const { clientGeneratedId } = calendar.addCalendarCategory({
       calendarId: cmd.calendarId,
       title: cmd.title,
     });
 
     await this.calendarRepository.save(calendar);
-    const calendarCategory = calendar.getCalendarCategoryByClientId(clientId);
+    const calendarCategory = calendar.getCalendarCategoryByClientGeneratedId(clientGeneratedId);
 
     return calendarCategory;
   }

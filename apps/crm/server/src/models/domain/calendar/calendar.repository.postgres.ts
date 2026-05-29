@@ -19,11 +19,9 @@ import CalendarEventsParticipantsTable from '#Config/schema/calendar/EventsParti
 import PostgresError from '#Utils/errors/PostgresError.js';
 
 import { Calendar } from './calendar.js';
-import { asCalendarId, calendarRowToDomain } from './calendar.mapper.js';
+import { calendarRowToDomain } from './calendar.mapper.js';
 import { CalendarCategory } from './category/category.js';
-import { asCalendarCategoryId } from './category/category.mapper.js';
 import { CalendarEvent } from './event/event.js';
-import { asCalendarEventId } from './event/event.mapper.js';
 
 export class PostgresCalendarRepository implements CalendarRepository {
   constructor() {}
@@ -68,7 +66,7 @@ export class PostgresCalendarRepository implements CalendarRepository {
       if (rows.length > 1)
         throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Invariant violation: multiple calendars deleted' });
 
-      return asCalendarId(rows[0].id);
+      return rows[0].id;
     });
   }
 
@@ -83,7 +81,7 @@ export class PostgresCalendarRepository implements CalendarRepository {
     if (rows.length === 0 || rows[0] === undefined)
       throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Failed to create Calendar' });
 
-    return Calendar.promote(calendar, { id: asCalendarId(rows[0].id), createdAt: rows[0].createdAt });
+    return Calendar.promote(calendar, { id: rows[0].id, createdAt: rows[0].createdAt });
   }
 
   private async update(tx: PostgresTransaction, calendar: PersistedCalendar): Promise<PersistedCalendar> {
@@ -103,7 +101,7 @@ export class PostgresCalendarRepository implements CalendarRepository {
             (c): CalendarCategoriesTableInsert => ({
               title: c.title,
               calendarId: c.calendarId,
-              clientTemporaryId: c.clientId,
+              clientTemporaryId: c.clientGeneratedId,
             })
           )
         )
@@ -127,7 +125,7 @@ export class PostgresCalendarRepository implements CalendarRepository {
         }
 
         return CalendarCategory.promote(category, {
-          id: asCalendarCategoryId(row.id),
+          id: row.id,
           createdAt: row.createdAt,
         });
       });
@@ -166,7 +164,7 @@ export class PostgresCalendarRepository implements CalendarRepository {
               color: e.color,
               eventStartAt: e.eventStartAt,
               eventEndAt: e.eventEndAt,
-              clientTemporaryId: e.clientId,
+              clientTemporaryId: e.clientGeneratedId,
             })
           )
         )
@@ -190,7 +188,7 @@ export class PostgresCalendarRepository implements CalendarRepository {
         }
 
         return CalendarEvent.promote(event, {
-          id: asCalendarEventId(row.id),
+          id: row.id,
           createdAt: row.createdAt,
         });
       });

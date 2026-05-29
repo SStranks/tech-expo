@@ -17,26 +17,21 @@ import type {
   CompanyReadRow,
 } from './companies.read-model.types.js';
 
-import { asCompanyId } from '#Models/domain/company/company.mapper.js';
-import { asContactId } from '#Models/domain/contact/contact.mapper.js';
-import { asCountryId } from '#Models/domain/country/country.mapper.js';
-import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
-
 export function companyWithRelationsToOverviewRow(data: CompanyWithRelations): CompanyOverviewReadRow {
   if (!data.salesOwner) throw new Error(`Company ${data.company.id} has no owner`);
 
   return {
-    id: asCompanyId(data.company.id),
+    id: data.company.id,
     name: data.company.name,
     owner: {
-      id: asUserProfileId(data.salesOwner.id),
+      id: data.salesOwner.id,
       firstName: data.salesOwner.firstName,
       lastName: data.salesOwner.lastName,
       image: data.salesOwner.image,
     },
     openDealsAmount: data.openDealsAmount,
     relatedContacts: data.contacts.map((c) => ({
-      id: asContactId(c.id),
+      id: c.id,
       firstName: c.firstName,
       lastName: c.lastName,
       image: c.image,
@@ -135,14 +130,14 @@ export function companyQuoteSummaryRowToCompanyQuoteSummaryDTO(
 
 export function companyRowToReadRow(row: CompaniesTableSelect): CompanyReadRow {
   return {
-    id: asCompanyId(row.id),
+    id: row.id,
     name: row.name,
     size: row.size,
     totalRevenue: row.totalRevenue,
     industry: row.industry,
     businessType: row.businessType,
-    countryId: asCountryId(row.countryId),
+    countryId: row.countryId,
     website: row.website,
-    salesOwner: asUserProfileId(row.salesOwner),
+    salesOwner: row.salesOwner,
   };
 }

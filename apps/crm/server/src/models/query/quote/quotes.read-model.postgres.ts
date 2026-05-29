@@ -13,10 +13,6 @@ import type {
 } from './quotes.read-model.types.js';
 
 import { postgresDB, postgresDBCall } from '#Config/dbPostgres.js';
-import { asCompanyId } from '#Models/domain/company/company.mapper.js';
-import { asContactId } from '#Models/domain/contact/contact.mapper.js';
-import { asQuoteClientGeneratedId } from '#Models/domain/quote/quote.mapper.js';
-import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 
 import { quoteNoteRowToQuoteNoteReadRow } from './quotes.read-model.mapper.js';
 
@@ -39,14 +35,14 @@ export class PostgresQuoteReadModel implements QuoteReadModel {
 
       return rows.map((row) => ({
         id: row.id,
-        clientGeneratedId: asQuoteClientGeneratedId(row.clientGeneratedId),
+        clientGeneratedId: row.clientGeneratedId,
         title: row.title,
-        companyId: asCompanyId(row.companyId),
+        companyId: row.companyId,
         totalAmount: row.totalAmount,
         salesTax: row.salesTax,
         stage: row.stage,
-        preparedForContactId: asContactId(row.preparedForContactId),
-        preparedByUserProfileId: asUserProfileId(row.preparedByUserProfileId),
+        preparedForContactId: row.preparedForContactId,
+        preparedByUserProfileId: row.preparedByUserProfileId,
         issuedAt: row.issuedAt,
         dueAt: row.dueAt,
         createdAt: row.createdAt,

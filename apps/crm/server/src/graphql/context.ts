@@ -1,5 +1,7 @@
-import type { UserRoles, UUID } from '@apps/crm-shared';
+import type { UserRoles } from '@apps/crm-shared';
 import type { ExpressContextFunctionArgument } from '@as-integrations/express5';
+
+import type { UserId } from '#Models/domain/user/user.types.js';
 
 import type {
   CompanyDataLoader,
@@ -49,7 +51,7 @@ import {
 } from './loaders.js';
 
 export interface GraphqlContext {
-  auth: { client_id: UUID; role: UserRoles };
+  auth: { client_id: UserId; role: UserRoles };
   loaders: {
     Company: CompanyDataLoader;
     Contact: ContactDataLoader;

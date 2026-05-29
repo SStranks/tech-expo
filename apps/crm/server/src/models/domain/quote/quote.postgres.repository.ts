@@ -14,9 +14,8 @@ import QuotesNotesTable from '#Config/schema/quotes/QuotesNotes.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
 
 import { QuoteNote } from './note/note.js';
-import { asQuoteNoteId } from './note/note.mapper.js';
 import { Quote } from './quote.js';
-import { asQuoteClientGeneratedId, asQuoteId, quoteRowToDomain } from './quote.mapper.js';
+import { quoteRowToDomain } from './quote.mapper.js';
 
 export class PostgresQuoteRepository implements QuoteRepository {
   constructor() {}
@@ -56,7 +55,7 @@ export class PostgresQuoteRepository implements QuoteRepository {
       if (row.length > 1)
         throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Invariant violation: multiple companies deleted' });
 
-      return asQuoteId(row[0].id);
+      return row[0].id;
     });
   }
 
@@ -91,8 +90,8 @@ export class PostgresQuoteRepository implements QuoteRepository {
         throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Failed to create Quote' });
 
       return Quote.promote(quote, {
-        id: asQuoteId(rows[0].id),
-        clientGeneratedId: asQuoteClientGeneratedId(rows[0].clientGeneratedId),
+        id: rows[0].id,
+        clientGeneratedId: rows[0].clientGeneratedId,
         createdAt: rows[0].createdAt,
       });
     });
@@ -139,7 +138,7 @@ export class PostgresQuoteRepository implements QuoteRepository {
         }
 
         return QuoteNote.promote(note, {
-          id: asQuoteNoteId(row.id),
+          id: row.id,
           createdAt: row.createdAt,
         });
       });

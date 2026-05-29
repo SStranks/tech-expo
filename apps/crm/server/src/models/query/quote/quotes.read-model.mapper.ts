@@ -5,16 +5,13 @@ import type { QuoteServiceDTO } from '#Models/domain/quote/service/service.dto.j
 import type { QuoteOverviewDTO } from './quotes.read-model.dto.js';
 import type { QuoteNoteReadRow, QuoteOverviewReadRow, QuoteServiceReadRow } from './quotes.read-model.types.js';
 
-import { asQuoteNoteId } from '#Models/domain/quote/note/note.mapper.js';
-import { asQuoteId } from '#Models/domain/quote/quote.mapper.js';
-
 export function quoteNoteRowToQuoteNoteReadRow(row: QuotesNotesTableSelect): QuoteNoteReadRow {
   return {
-    id: asQuoteNoteId(row.id),
+    id: row.id,
     clientGeneratedId: row.clientGeneratedId,
     content: row.content,
     createdAt: row.createdAt,
-    quoteId: asQuoteId(row.quoteId),
+    quoteId: row.quoteId,
   };
 }
 

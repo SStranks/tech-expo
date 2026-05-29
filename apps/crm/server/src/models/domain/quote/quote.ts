@@ -245,12 +245,12 @@ export abstract class Quote {
     this._internal.serviceByClientGeneratedId.delete(service.clientGeneratedId);
   }
 
-  findServiceByClientId(clientId: QuoteServiceClientGeneratedId) {
-    return this._internal.serviceByClientGeneratedId.get(clientId);
+  findServiceByClientGeneratedId(clientGeneratedId: QuoteServiceClientGeneratedId) {
+    return this._internal.serviceByClientGeneratedId.get(clientGeneratedId);
   }
 
-  getServiceByClientId(clientId: QuoteServiceClientGeneratedId) {
-    const quoteServiceId = this.findServiceByClientId(clientId);
+  getServiceByClientGeneratedId(clientGeneratedId: QuoteServiceClientGeneratedId) {
+    const quoteServiceId = this.findServiceByClientGeneratedId(clientGeneratedId);
     if (!quoteServiceId) throw new DomainError({ message: 'Quote-service not found' });
     const quoteService = this._internal.serviceById.get(quoteServiceId);
     if (!quoteService) throw new DomainError({ message: 'Quote-service not found' });
@@ -291,12 +291,12 @@ export abstract class Quote {
     this._internal.noteByClientGeneratedId.delete(note.clientGeneratedId);
   }
 
-  findNoteByClientId(clientId: QuoteNoteClientGeneratedId) {
-    return this._internal.noteByClientGeneratedId.get(clientId);
+  findNoteByClientGeneratedId(clientGeneratedId: QuoteNoteClientGeneratedId) {
+    return this._internal.noteByClientGeneratedId.get(clientGeneratedId);
   }
 
-  getNoteByClientId(clientId: QuoteNoteClientGeneratedId) {
-    const quoteNoteId = this.findNoteByClientId(clientId);
+  getNoteByClientGeneratedId(clientGeneratedId: QuoteNoteClientGeneratedId) {
+    const quoteNoteId = this.findNoteByClientGeneratedId(clientGeneratedId);
     if (!quoteNoteId) throw new DomainError({ message: 'Quote-note not found' });
     const quoteNote = this._internal.noteById.get(quoteNoteId);
     if (!quoteNote) throw new DomainError({ message: 'Quote-note not found' });

@@ -1,5 +1,5 @@
 import type { CountryId } from '../country/country.types.js';
-import type { TimeZoneClientId, TimeZoneId } from './timezone.types.js';
+import type { TimeZoneClientGeneratedId, TimeZoneId } from './timezone.types.js';
 
 import { randomUUID } from 'node:crypto';
 
@@ -7,7 +7,7 @@ type TimeZoneProps = {
   alpha2Code: string;
   countryId: CountryId;
   gmtOffset: string;
-  clientId?: TimeZoneClientId;
+  clientGeneratedId?: TimeZoneClientGeneratedId;
 };
 
 type TimeZoneHydrationProps = TimeZoneProps & { id: TimeZoneId; createdAt: Date };
@@ -19,10 +19,13 @@ export interface PersistedTimeZone extends TimeZone {
 }
 
 export abstract class TimeZone {
-  private readonly _props: TimeZoneProps & { clientId: TimeZoneClientId };
+  private readonly _props: TimeZoneProps & { clientGeneratedId: TimeZoneClientGeneratedId };
 
   constructor(props: TimeZoneProps) {
-    this._props = { ...props, clientId: props.clientId || (randomUUID() as TimeZoneClientId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId || (randomUUID() as TimeZoneClientGeneratedId),
+    };
   }
 
   static rehydrate(props: TimeZoneHydrationProps) {
@@ -49,8 +52,8 @@ export abstract class TimeZone {
     return this._props.countryId;
   }
 
-  get clientId(): TimeZoneClientId {
-    return this._props.clientId;
+  get clientGeneratedId(): TimeZoneClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion getters
 }

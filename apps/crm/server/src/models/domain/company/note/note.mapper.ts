@@ -7,9 +7,6 @@ import type { CompanyNoteReadRow } from '#Models/query/company/companies.read-mo
 import type { CompanyNoteDTO } from './note.dto.js';
 import type { CompanyNoteId } from './note.types.js';
 
-import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
-
-import { asCompanyId } from '../company.mapper.js';
 import { CompanyNote, type PersistedCompanyNote } from './note.js';
 
 export function asCompanyNoteId(id: UUID): CompanyNoteId {
@@ -36,10 +33,10 @@ export function companyNoteDomainToCompanyNoteDTO(companyNote: PersistedCompanyN
 
 export function companyNoteRowToDomain(row: CompaniesNotesTableSelect): PersistedCompanyNote {
   return CompanyNote.rehydrate({
-    id: asCompanyNoteId(row.id),
+    id: row.id,
     content: row.note,
-    companyId: asCompanyId(row.companyId),
+    companyId: row.companyId,
     createdAt: row.createdAt,
-    createdByUserProfileId: asUserProfileId(row.createdByUserProfileId),
+    createdByUserProfileId: row.createdByUserProfileId,
   });
 }

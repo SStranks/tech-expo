@@ -150,7 +150,7 @@ export class QuoteService implements IQuoteService {
     });
 
     await this.quoteRepository.save(quote);
-    const quoteService = quote.getServiceByClientId(clientGeneratedId);
+    const quoteService = quote.getServiceByClientGeneratedId(clientGeneratedId);
 
     return { quote, quoteService };
   }
@@ -183,7 +183,7 @@ export class QuoteService implements IQuoteService {
     const { clientGeneratedId } = quote.addNote({ ...cmd });
 
     await this.quoteRepository.save(quote);
-    const quoteNote = quote.getNoteByClientId(clientGeneratedId);
+    const quoteNote = quote.getNoteByClientGeneratedId(clientGeneratedId);
 
     return { quote, quoteNote };
   }

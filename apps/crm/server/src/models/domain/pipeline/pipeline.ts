@@ -9,7 +9,7 @@ import { randomUUID } from 'node:crypto';
 
 type PipelineProps = {
   companyId: CompanyId;
-  clientId?: PipelineClientGeneratedId;
+  clientGeneratedId?: PipelineClientGeneratedId;
 };
 
 type PipelineCreateProps = PipelineProps;
@@ -27,12 +27,12 @@ export interface PersistedPipeline extends Pipeline {
 
 class PipelineState {
   dealById: Map<PipelineDealId, PersistedPipelineDeal> = new Map();
-  dealByClientId: Map<PipelineDealClientGeneratedId, PipelineDealId> = new Map();
+  dealByClientGeneratedId: Map<PipelineDealClientGeneratedId, PipelineDealId> = new Map();
   addedDeal: Map<PipelineDealClientGeneratedId, NewPipelineDeal> = new Map();
   updatedDeal: Map<PipelineDealId, PersistedPipelineDeal> = new Map();
   removedDealIds: Set<PipelineDealId> = new Set();
   stageById: Map<PipelineStageId, PersistedPipelineStage> = new Map();
-  stageByClientId: Map<PipelineStageClientGeneratedId, PipelineStageId> = new Map();
+  stageByClientGeneratedId: Map<PipelineStageClientGeneratedId, PipelineStageId> = new Map();
   addedStage: Map<PipelineStageClientGeneratedId, NewPipelineStage> = new Map();
   updatedStage: Map<PipelineStageId, PersistedPipelineStage> = new Map();
   removedStageIds: Set<PipelineStageId> = new Set();
@@ -40,11 +40,14 @@ class PipelineState {
 }
 
 export abstract class Pipeline {
-  private readonly _props: PipelineProps & { clientId: PipelineClientGeneratedId };
+  private readonly _props: PipelineProps & { clientGeneratedId: PipelineClientGeneratedId };
   protected _internal: PipelineState;
 
   constructor(props: PipelineProps, newPipeline?: NewPipelineImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as PipelineClientGeneratedId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId ?? (randomUUID() as PipelineClientGeneratedId),
+    };
     this._internal = newPipeline?._internal ?? new PipelineState();
   }
 
@@ -69,8 +72,8 @@ export abstract class Pipeline {
     return this._props.companyId;
   }
 
-  get clientId(): PipelineClientGeneratedId {
-    return this._props.clientId;
+  get clientGeneratedId(): PipelineClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion getters
 
@@ -127,7 +130,7 @@ export abstract class Pipeline {
   commitStages(newStages: PersistedPipelineStage[]) {
     for (const stage of newStages) {
       this._internal.stageById.set(stage.id, stage);
-      this._internal.stageByClientId.set(stage.clientId, stage.id);
+      this._internal.stageByClientGeneratedId.set(stage.clientGeneratedId, stage.id);
       stage.commit();
     }
 
@@ -139,7 +142,7 @@ export abstract class Pipeline {
   commitTask(newDeals: PersistedPipelineDeal[]) {
     for (const deal of newDeals) {
       this._internal.dealById.set(deal.id, deal);
-      this._internal.dealByClientId.set(deal.clientId, deal.id);
+      this._internal.dealByClientGeneratedId.set(deal.clientGeneratedId, deal.id);
       deal.commit();
     }
 

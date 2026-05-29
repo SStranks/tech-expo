@@ -8,9 +8,6 @@ import type { CompanyDTO } from './company.dto.js';
 import type { PersistedCompany } from './company.js';
 import type { CompanyId } from './company.types.js';
 
-import { asCountryId } from '#Models/domain/country/country.mapper.js';
-
-import { asUserProfileId } from '../user/profile/profile.mapper.js';
 import { Company } from './company.js';
 
 export function asCompanyId(id: UUID): CompanyId {
@@ -47,15 +44,15 @@ export function companyDomainToCompanyDTO(company: PersistedCompany): CompanyDTO
 
 export function companyRowToDomain(row: CompaniesTableSelect): PersistedCompany {
   return Company.rehydrate({
-    id: asCompanyId(row.id),
+    id: row.id,
     name: row.name,
     size: row.size,
     totalRevenue: row.totalRevenue,
     industry: row.industry,
     businessType: row.businessType,
-    countryId: asCountryId(row.countryId),
+    countryId: row.countryId,
     website: row.website,
     createdAt: row.createdAt,
-    salesOwner: asUserProfileId(row.salesOwner),
+    salesOwner: row.salesOwner,
   });
 }

@@ -7,7 +7,7 @@ type PipelineStageProps = {
   isPermanent: boolean | null;
   pipelineId: PipelineId;
   title: string;
-  clientId?: PipelineStageClientGeneratedId;
+  clientGeneratedId?: PipelineStageClientGeneratedId;
 };
 
 export type PipelineStageCreateProps = PipelineStageProps;
@@ -29,11 +29,14 @@ class PipelineStageState {
 }
 
 export abstract class PipelineStage {
-  private readonly _props: PipelineStageProps & { clientId: PipelineStageClientGeneratedId };
+  private readonly _props: PipelineStageProps & { clientGeneratedId: PipelineStageClientGeneratedId };
   protected _internal: PipelineStageState;
 
   constructor(props: PipelineStageProps, newPipelineStage?: NewPipelineStageImpl) {
-    this._props = { ...props, clientId: props.clientId || (randomUUID() as PipelineStageClientGeneratedId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId || (randomUUID() as PipelineStageClientGeneratedId),
+    };
     this._internal = newPipelineStage?._internal ?? new PipelineStageState();
   }
 
@@ -75,8 +78,8 @@ export abstract class PipelineStage {
     return this._props.pipelineId;
   }
 
-  get clientId(): PipelineStageClientGeneratedId {
-    return this._props.clientId;
+  get clientGeneratedId(): PipelineStageClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion actions/getters
 

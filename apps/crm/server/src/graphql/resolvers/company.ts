@@ -3,7 +3,7 @@ import type { Resolvers } from '#Graphql/generated/graphql.gen.js';
 import { z } from 'zod';
 
 import pinoLogger from '#Lib/pinoLogger.js';
-import { asCompanyId, companyDomainToCompanyDTO } from '#Models/domain/company/company.mapper.js';
+import { companyDomainToCompanyDTO } from '#Models/domain/company/company.mapper.js';
 import {
   mutationCreateCompanyNoteSchema,
   mutationCreateCompanySchema,
@@ -15,9 +15,7 @@ import {
   queryCompanySchema,
 } from '#Models/domain/company/company.schemas.js';
 import { companyNoteDomainToCompanyNoteDTO } from '#Models/domain/company/note/note.mapper.js';
-import { asCountryId } from '#Models/domain/country/country.mapper.js';
-import { asUserProfileId, userProfileDomainToAvatarDTO } from '#Models/domain/user/profile/profile.mapper.js';
-import { asUserId } from '#Models/domain/user/user.mapper.js';
+import { userProfileDomainToAvatarDTO } from '#Models/domain/user/profile/profile.mapper.js';
 import {
   companyContactSummaryRowToCompanyContactSummaryDTO,
   companyDealSummaryRowToCompanyDealSummaryDTO,
@@ -37,7 +35,7 @@ const companyResolver: Resolvers = {
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const company = await services.Company.getCompanyById(asCompanyId(data.id));
+      const company = await services.Company.getCompanyById(data.id);
       return companyDomainToCompanyDTO(company);
     },
 
@@ -116,7 +114,7 @@ const companyResolver: Resolvers = {
       }
 
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role };
+      const context = { user: auth.client_id, role: auth.role };
       const { company, companyNote, userProfile } = await services.Company.addCompanyNote(command, context);
 
       return {
@@ -137,7 +135,7 @@ const companyResolver: Resolvers = {
       }
 
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role };
+      const context = { user: auth.client_id, role: auth.role };
       const { company, companyNote, userProfile } = await services.Company.updateCompanyNote(command, context);
 
       return {
@@ -158,7 +156,7 @@ const companyResolver: Resolvers = {
       }
 
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role };
+      const context = { user: auth.client_id, role: auth.role };
       const companyNoteIdReturn = await services.Company.removeCompanyNote(command, context);
 
       return companyNoteIdReturn;
@@ -167,7 +165,7 @@ const companyResolver: Resolvers = {
 
   CompanyDetailed: {
     salesOwner: async (company, _, { loaders }) => {
-      const result = await loaders.UserProfile.load(asUserProfileId(company.salesOwner));
+      const result = await loaders.UserProfile.load(company.salesOwner);
 
       if (!result) {
         const errorMessage = `[GraphQL] DB integrity issue: Company ${company.id} could not locate associated UserProfile`;
@@ -180,7 +178,7 @@ const companyResolver: Resolvers = {
     },
 
     country: async (company, _, { loaders }) => {
-      const result = await loaders.Country.load(asCountryId(company.countryId));
+      const result = await loaders.Country.load(company.countryId);
 
       if (!result) {
         const errorMessage = `[GraphQL] DB integrity issue: Company ${company.id} has invalid country ID ${company.countryId}`;
@@ -196,7 +194,7 @@ const companyResolver: Resolvers = {
       const page = pagination?.page ?? 1;
       const pageSize = pagination?.pageSize ?? 12;
       const query = {
-        companyId: asCompanyId(company.id),
+        companyId: company.id,
         pagination: {
           limit: pageSize,
           offset: (page - 1) * pageSize,
@@ -216,7 +214,7 @@ const companyResolver: Resolvers = {
       const page = pagination?.page ?? 1;
       const pageSize = pagination?.pageSize ?? 12;
       const query = {
-        companyId: asCompanyId(company.id),
+        companyId: company.id,
         pagination: {
           limit: pageSize,
           offset: (page - 1) * pageSize,
@@ -236,7 +234,7 @@ const companyResolver: Resolvers = {
       const page = pagination?.page ?? 1;
       const pageSize = pagination?.pageSize ?? 12;
       const query = {
-        companyId: asCompanyId(company.id),
+        companyId: company.id,
         pagination: {
           limit: pageSize,
           offset: (page - 1) * pageSize,
@@ -253,7 +251,7 @@ const companyResolver: Resolvers = {
     },
 
     notes: async (company, _, { services, loaders }) => {
-      const notes = await services.Company.findNotesForCompanyById(asCompanyId(company.id));
+      const notes = await services.Company.findNotesForCompanyById(company.id);
       const userIds = notes.map((n) => n.createdByUserProfileId);
       const userProfiles = await loaders.UserProfile.loadMany(userIds);
 

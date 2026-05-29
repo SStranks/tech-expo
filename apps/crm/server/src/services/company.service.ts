@@ -22,7 +22,6 @@ import type { UserReadModel } from '#Models/query/user/users.read-model.js';
 import type { RequestContext } from '#Types/request-context.js';
 
 import { Company, type PersistedCompany } from '#Models/domain/company/company.js';
-import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';
 
 interface CompanyServiceDependencies {
@@ -106,14 +105,14 @@ export class CompanyService implements ICompanyService {
     if (!userProfile) throw new NotFoundError({ context: { userId: ctx.user }, resource: `Userprofile by UserId` });
     const company = await this.getCompanyById(cmd.companyId);
 
-    const { clientId } = company.addNote({
+    const { clientGeneratedId } = company.addNote({
       companyId: company.id,
       content: cmd.note,
-      createdByUserProfileId: asUserProfileId(userProfile.id),
+      createdByUserProfileId: userProfile.id,
     });
 
     await this.companyRepository.save(company);
-    const companyNote = company.getNoteByClientId(clientId);
+    const companyNote = company.getNoteByClientGeneratedId(clientGeneratedId);
 
     return { company, companyNote, userProfile };
   }
@@ -127,7 +126,7 @@ export class CompanyService implements ICompanyService {
     if (!companyNote)
       throw new NotFoundError({ context: { companyNoteId: cmd.companyNoteId }, resource: 'Company-note' });
 
-    const { clientId } = company.updateNote(
+    const { clientGeneratedId } = company.updateNote(
       {
         id: cmd.companyNoteId,
         companyId: company.id,
@@ -139,7 +138,7 @@ export class CompanyService implements ICompanyService {
     );
 
     await this.companyRepository.save(company);
-    const updatedCompanyNote = company.getNoteByClientId(clientId);
+    const updatedCompanyNote = company.getNoteByClientGeneratedId(clientGeneratedId);
 
     return { company, companyNote: updatedCompanyNote, userProfile };
   }

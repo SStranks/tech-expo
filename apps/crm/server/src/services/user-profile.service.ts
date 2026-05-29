@@ -5,7 +5,7 @@ import type { UserRepository } from '#Models/domain/user/user.repository.js';
 import type { UserId } from '#Models/domain/user/user.types.js';
 import type { UserReadModel } from '#Models/query/user/users.read-model.js';
 
-import { asUserProfileId, userProfileDomainToUserProfileDTO } from '#Models/domain/user/profile/profile.mapper.js';
+import { userProfileDomainToUserProfileDTO } from '#Models/domain/user/profile/profile.mapper.js';
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';
 
 interface UserProfileServiceDependencies {
@@ -30,7 +30,7 @@ export class UserProfileService implements IUserProfileService {
   // ------- COMMANDs ------ //
 
   async getUserProfilesByIds(ids: UserProfileId[]): Promise<UserProfileDTO[]> {
-    const userProfileIds = ids.map((id) => asUserProfileId(id));
+    const userProfileIds = ids.map((id) => id);
     const userProfiles = await this.userRepository.findUserProfilesByIds(userProfileIds);
     return userProfiles.map((userProfile) => userProfileDomainToUserProfileDTO(userProfile));
   }

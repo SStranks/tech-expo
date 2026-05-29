@@ -6,7 +6,7 @@ import { randomUUID } from 'node:crypto';
 type CalendarCategoryProps = {
   calendarId: CalendarId;
   title: string;
-  clientId?: CalendarCategoryClientGeneratedId;
+  clientGeneratedId?: CalendarCategoryClientGeneratedId;
 };
 
 export type CalendarCategoryCreateProps = CalendarCategoryProps;
@@ -27,11 +27,14 @@ class CalendarCategoryState {
 }
 
 export abstract class CalendarCategory {
-  private readonly _props: CalendarCategoryProps & { clientId: CalendarCategoryClientGeneratedId };
+  private readonly _props: CalendarCategoryProps & { clientGeneratedId: CalendarCategoryClientGeneratedId };
   protected _internal: CalendarCategoryState;
 
   constructor(props: CalendarCategoryProps, newCategory?: NewCalendarCategoryImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CalendarCategoryClientGeneratedId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId ?? (randomUUID() as CalendarCategoryClientGeneratedId),
+    };
     this._internal = newCategory?._internal ?? new CalendarCategoryState();
   }
 
@@ -68,8 +71,8 @@ export abstract class CalendarCategory {
     return this._props.calendarId;
   }
 
-  get clientId(): CalendarCategoryClientGeneratedId {
-    return this._props.clientId;
+  get clientGeneratedId(): CalendarCategoryClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion getters
 

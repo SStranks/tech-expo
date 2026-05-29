@@ -8,10 +8,6 @@ import type { UserProfileDTO } from './profile.dto.js';
 import type { PersistedUserProfile } from './profile.js';
 import type { UserProfileId } from './profile.types.js';
 
-import { asCountryId } from '#Models/domain/country/country.mapper.js';
-import { asTimeZoneId } from '#Models/domain/timezone/timezone.mapper.js';
-
-import { asUserId } from '../user.mapper.js';
 import { UserProfile } from './profile.js';
 
 export function asUserProfileId(id: UUID): UserProfileId {
@@ -36,15 +32,15 @@ export function userProfileDomainToUserProfileDTO(userProfile: PersistedUserProf
 
 export function userProfileRowToDomain(row: UserProfileTableSelect): PersistedUserProfile {
   return UserProfile.rehydrate({
-    id: asUserProfileId(row.id),
+    id: row.id,
     firstName: row.firstName,
     lastName: row.lastName,
     email: row.email,
     mobile: row.mobile ?? undefined,
     telephone: row.telephone ?? undefined,
-    timezoneId: row.timezoneId ? asTimeZoneId(row.timezoneId) : undefined,
-    countryId: asCountryId(row.countryId),
-    userId: asUserId(row.userId),
+    timezoneId: row.timezoneId ?? undefined,
+    countryId: row.countryId,
+    userId: row.userId,
     companyRole: row.companyRole,
     image: row.image ?? undefined,
     updatedAt: row.updatedAt,

@@ -19,8 +19,8 @@ import type { UserReadModel } from '#Models/query/user/users.read-model.js';
 
 import DataLoader from 'dataloader';
 
-import { asCompanyId, companyReadRowToCompanyDTO } from '#Models/domain/company/company.mapper.js';
-import { asContactId, contactReadRowToContactDTO } from '#Models/domain/contact/contact.mapper.js';
+import { companyReadRowToCompanyDTO } from '#Models/domain/company/company.mapper.js';
+import { contactReadRowToContactDTO } from '#Models/domain/contact/contact.mapper.js';
 import { countryReadRowToCountryDTO } from '#Models/domain/country/country.mapper.js';
 import { quoteReadRowToQuoteDTO } from '#Models/domain/quote/quote.mapper.js';
 import { timeZoneReadRowToTimeZoneDTO } from '#Models/domain/timezone/timezone.mapper.js';
@@ -48,7 +48,7 @@ export const createCompanyLoader = (companyReadModel: CompanyReadModel) =>
     const companiesMap = new Map(companies.map((c) => [c.id, c]));
 
     return ids.map((id) => {
-      const row = companiesMap.get(asCompanyId(id));
+      const row = companiesMap.get(id);
       if (!row) return null;
       return companyReadRowToCompanyDTO(row);
     });
@@ -62,7 +62,7 @@ export const createContactLoader = (contactReadModel: ContactReadModel) =>
     const contactsMap = new Map(contacts.map((c) => [c.id, c]));
 
     return ids.map((id) => {
-      const row = contactsMap.get(asContactId(id));
+      const row = contactsMap.get(id);
       if (!row) return null;
       return contactReadRowToContactDTO(row);
     });

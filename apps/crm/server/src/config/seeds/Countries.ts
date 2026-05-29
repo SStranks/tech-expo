@@ -5,7 +5,6 @@ import type { CountryId } from '#Models/domain/country/country.types.js';
 
 import CountriesTable from '#Config/schema/Countries.js';
 import TimeZoneTable from '#Config/schema/TimeZones.js';
-import { asCountryId } from '#Models/domain/country/country.mapper.js';
 import importCSVFile from '#Utils/importCsvFile.js';
 
 import path from 'node:path';
@@ -43,7 +42,7 @@ export default async function seedCountries(db: PostgresClient) {
 
     timeZonesInsertionData.push({
       ...entry,
-      countryId: asCountryId(countryId),
+      countryId,
     });
   });
 

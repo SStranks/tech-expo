@@ -24,7 +24,7 @@ type CompanyProps = {
   size: CompanySize;
   totalRevenue: string | null;
   website: string | null;
-  clientId?: CompanyClientGeneratedId;
+  clientGeneratedId?: CompanyClientGeneratedId;
 };
 
 type CompanyCreateProps = CompanyProps;
@@ -42,7 +42,7 @@ export interface PersistedCompany extends Company {
 
 class CompanyState {
   notesById: Map<CompanyNoteId, PersistedCompanyNote> = new Map();
-  notesByClientId: Map<CompanyNoteClientGeneratedId, CompanyNoteId> = new Map();
+  notesByClientGeneratedId: Map<CompanyNoteClientGeneratedId, CompanyNoteId> = new Map();
   addedNotes: Map<CompanyNoteClientGeneratedId, NewCompanyNote> = new Map();
   removedNoteIds: Set<CompanyNoteId> = new Set();
   updatedNotes: Map<CompanyNoteId, PersistedCompanyNote> = new Map();
@@ -57,11 +57,14 @@ class CompanyState {
     - This prevents loading large note collections during queries.
  */
 export abstract class Company {
-  private readonly _props: CompanyProps & { clientId: CompanyClientGeneratedId };
+  private readonly _props: CompanyProps & { clientGeneratedId: CompanyClientGeneratedId };
   protected _internal: CompanyState;
 
   protected constructor(props: CompanyProps, newCompany?: NewCompanyImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as CompanyClientGeneratedId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId ?? (randomUUID() as CompanyClientGeneratedId),
+    };
     this._internal = newCompany?._internal ?? new CompanyState();
   }
 
@@ -127,8 +130,8 @@ export abstract class Company {
     return this._props.salesOwner;
   }
 
-  get clientId(): CompanyClientGeneratedId {
-    return this._props.clientId;
+  get clientGeneratedId(): CompanyClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion getters
 
@@ -177,7 +180,7 @@ export abstract class Company {
   commitNotes(newNotes: PersistedCompanyNote[]) {
     for (const note of newNotes) {
       this._internal.notesById.set(note.id, note);
-      this._internal.notesByClientId.set(note.clientId, note.id);
+      this._internal.notesByClientGeneratedId.set(note.clientGeneratedId, note.id);
       note.commit();
     }
 
@@ -256,7 +259,7 @@ export abstract class Company {
 
   addNote(props: CompanyNoteCreateProps): NewCompanyNote {
     const note = CompanyNote.create(props);
-    this._internal.addedNotes.set(note.clientId, note);
+    this._internal.addedNotes.set(note.clientGeneratedId, note);
     return note;
   }
 
@@ -277,15 +280,15 @@ export abstract class Company {
 
     this._internal.removedNoteIds.add(id);
     this._internal.notesById.delete(id);
-    this._internal.notesByClientId.delete(note.clientId);
+    this._internal.notesByClientGeneratedId.delete(note.clientGeneratedId);
   }
 
-  findNoteByClientId(clientId: CompanyNoteClientGeneratedId) {
-    return this._internal.notesByClientId.get(clientId);
+  findNoteByClientGeneratedId(clientGeneratedId: CompanyNoteClientGeneratedId) {
+    return this._internal.notesByClientGeneratedId.get(clientGeneratedId);
   }
 
-  getNoteByClientId(clientId: CompanyNoteClientGeneratedId) {
-    const noteUUID = this.findNoteByClientId(clientId);
+  getNoteByClientGeneratedId(clientGeneratedId: CompanyNoteClientGeneratedId) {
+    const noteUUID = this.findNoteByClientGeneratedId(clientGeneratedId);
     if (!noteUUID) throw new DomainError({ message: 'Company-note not found' });
     const note = this._internal.notesById.get(noteUUID);
     if (!note) throw new DomainError({ message: 'Company-note not found' });

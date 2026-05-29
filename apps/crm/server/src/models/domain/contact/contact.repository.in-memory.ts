@@ -1,6 +1,4 @@
 /* eslint-disable perfectionist/sort-objects */
-import type { UUID } from '@apps/crm-shared';
-
 import type { ContactsTableSelect } from '#Config/schema/contacts/Contacts.js';
 import type { ContactsNotesTableSelect } from '#Config/schema/contacts/ContactsNotes.js';
 import type { ContactNoteReadRow } from '#Models/query/contact/contacts.read-model.types.js';
@@ -10,11 +8,10 @@ import type { ContactRepository } from './contact.repository.js';
 import type { ContactId } from './contact.types.js';
 import type { PersistedContactNote } from './note/note.js';
 
+import { createMockUUID } from '@apps/crm-shared/utils';
+
 import PostgresError from '#Utils/errors/PostgresError.js';
 
-import { randomUUID } from 'node:crypto';
-
-import { asUserProfileId } from '../user/profile/profile.mapper.js';
 import { asContactId, contactRowToDomain } from './contact.mapper.js';
 import { ContactNote } from './note/note.js';
 import { asContactNoteId } from './note/note.mapper.js';
@@ -65,7 +62,7 @@ export class InMemoryContactRepository implements ContactRepository {
   }
 
   private insert(contact: NewContact): Promise<PersistedContact> {
-    const id = asContactId(randomUUID() as UUID);
+    const id = asContactId(createMockUUID());
 
     if (this.contactsMap.has(id)) {
       throw new PostgresError({
@@ -76,7 +73,7 @@ export class InMemoryContactRepository implements ContactRepository {
 
     const row: ContactsTableSelect = {
       id,
-      clientTemporaryId: contact.clientId,
+      clientTemporaryId: contact.clientGeneratedId,
       firstName: contact.firstName,
       lastName: contact.lastName,
       email: contact.email,
@@ -128,10 +125,10 @@ export class InMemoryContactRepository implements ContactRepository {
     const existingNotes = this.contactNotesMap.get(contact.id) ?? [];
 
     if (addedNotes.size > 0) {
-      for (const [clientId, note] of addedNotes) {
+      for (const [clientGeneratedId, note] of addedNotes) {
         const persistedNote = {
-          id: asContactNoteId(randomUUID() as UUID),
-          clientTemporaryId: clientId,
+          id: asContactNoteId(createMockUUID()),
+          clientTemporaryId: clientGeneratedId,
           contactId: contact.id,
           note: note.content,
           createdByUserProfileId: note.createdByUserProfileId,
@@ -142,12 +139,12 @@ export class InMemoryContactRepository implements ContactRepository {
 
         persistedContactNotes.push(
           ContactNote.rehydrate({
-            id: asContactNoteId(persistedNote.id),
+            id: persistedNote.id,
             contactId: contact.id,
             content: persistedNote.note,
             createdAt: persistedNote.createdAt,
-            createdByUserProfileId: asUserProfileId(persistedNote.createdByUserProfileId),
-            clientId: note.clientId,
+            createdByUserProfileId: persistedNote.createdByUserProfileId,
+            clientGeneratedId: note.clientGeneratedId,
           })
         );
       }

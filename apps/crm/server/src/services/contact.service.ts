@@ -23,7 +23,6 @@ import type { UserReadModel } from '#Models/query/user/users.read-model.js';
 import type { RequestContext } from '#Types/request-context.js';
 
 import { Contact, type PersistedContact } from '#Models/domain/contact/contact.js';
-import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
 import { NotFoundError } from '#Utils/errors/NotFoundError.js';
 
 interface ContactServicesDependencies {
@@ -102,14 +101,14 @@ export class ContactService implements IContactService {
 
     const contact = await this.getContactById(cmd.contactId);
 
-    const { clientId } = contact.addNote({
+    const { clientGeneratedId } = contact.addNote({
       contactId: contact.id,
       content: cmd.note,
-      createdByUserProfileId: asUserProfileId(userProfile.id),
+      createdByUserProfileId: userProfile.id,
     });
 
     await this.contactRepository.save(contact);
-    const contactNote = contact.getNoteByClientId(clientId);
+    const contactNote = contact.getNoteByClientGeneratedId(clientGeneratedId);
 
     return { contact, contactNote };
   }
@@ -124,7 +123,7 @@ export class ContactService implements IContactService {
     if (!contactNote)
       throw new NotFoundError({ context: { contactNoteId: cmd.contactNoteId }, resource: 'Contact-note' });
 
-    const { clientId } = contact.updateNote(
+    const { clientGeneratedId } = contact.updateNote(
       {
         id: cmd.contactNoteId,
         contactId: contact.id,
@@ -135,7 +134,7 @@ export class ContactService implements IContactService {
     );
 
     await this.contactRepository.save(contact);
-    const updatedContactNote = contact.getNoteByClientId(clientId);
+    const updatedContactNote = contact.getNoteByClientGeneratedId(clientGeneratedId);
 
     return { contact, contactNote: updatedContactNote };
   }

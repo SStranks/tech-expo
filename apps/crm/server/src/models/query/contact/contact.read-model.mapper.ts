@@ -3,29 +3,24 @@ import type { ContactOverviewDTO } from './contact.read-model.dto.js';
 import type { ContactWithRelations } from './contacts.read-model.postgres.js';
 import type { ContactOverviewReadRow } from './contacts.read-model.types.js';
 
-import { asCompanyId } from '#Models/domain/company/company.mapper.js';
-import { asContactId } from '#Models/domain/contact/contact.mapper.js';
-import { asCountryId } from '#Models/domain/country/country.mapper.js';
-import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
-
 export function contactWithRelationsToOverviewRow(data: ContactWithRelations): ContactOverviewReadRow {
   return {
-    id: asContactId(data.contact.id),
+    id: data.contact.id,
     firstName: data.contact.firstName,
     lastName: data.contact.lastName,
     email: data.contact.email,
     jobTitle: data.contact.jobTitle,
     stage: data.contact.stage,
     company: {
-      id: asCompanyId(data.company.id),
+      id: data.company.id,
       name: data.company.name,
       size: data.company.size,
       totalRevenue: data.company.totalRevenue,
       industry: data.company.industry,
       businessType: data.company.businessType,
-      countryId: asCountryId(data.company.countryId),
+      countryId: data.company.countryId,
       website: data.company.website,
-      salesOwner: asUserProfileId(data.company.salesOwner),
+      salesOwner: data.company.salesOwner,
     },
   };
 }

@@ -7,21 +7,20 @@ import type { CalendarCategoryDTO } from './category.dto.js';
 import type { PersistedCalendarCategory } from './category.js';
 import type { CalendarCategoryClientGeneratedId, CalendarCategoryId } from './category.types.js';
 
-import { asCalendarId } from '../calendar.mapper.js';
 import { CalendarCategory } from './category.js';
 
 export function asCalendarCategoryId(id: UUID): CalendarCategoryId {
   return id as CalendarCategoryId;
 }
 
-export function asCalendarCategoryClientId(id: UUID): CalendarCategoryClientGeneratedId {
+export function asCalendarCategoryClientGeneratedId(id: UUID): CalendarCategoryClientGeneratedId {
   return id as CalendarCategoryClientGeneratedId;
 }
 
 export function calendarCategoryRowToDomain(row: CalendarCategoriesTableSelect): PersistedCalendarCategory {
   return CalendarCategory.rehydrate({
-    id: asCalendarCategoryId(row.id),
-    calendarId: asCalendarId(row.calendarId),
+    id: row.id,
+    calendarId: row.calendarId,
     title: row.title,
     createdAt: row.createdAt,
   });

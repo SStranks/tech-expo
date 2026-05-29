@@ -2,7 +2,7 @@ import type { CountryId } from '#Models/domain/country/country.types.js';
 import type { TimeZoneId } from '#Models/domain/timezone/timezone.types.js';
 
 import type { UserId } from '../user.types.js';
-import type { CompanyRoles, UserProfileClientId, UserProfileId } from './profile.types.js';
+import type { CompanyRoles, UserProfileClientGeneratedId, UserProfileId } from './profile.types.js';
 
 import { randomUUID } from 'node:crypto';
 
@@ -14,7 +14,7 @@ type UserProfileProps = {
   lastName: string;
   updatedAt: Date;
   userId: UserId;
-  clientId?: UserProfileClientId;
+  clientGeneratedId?: UserProfileClientGeneratedId;
   image?: string;
   mobile?: string;
   telephone?: string;
@@ -40,11 +40,14 @@ class UserProfileState {
 }
 
 export abstract class UserProfile {
-  private readonly _props: UserProfileProps & { clientId: UserProfileClientId };
+  private readonly _props: UserProfileProps & { clientGeneratedId: UserProfileClientGeneratedId };
   protected _internal: UserProfileState;
 
   constructor(props: UserProfileProps) {
-    this._props = { ...props, clientId: props.clientId || (randomUUID() as UserProfileClientId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId || (randomUUID() as UserProfileClientGeneratedId),
+    };
     this._internal = new UserProfileState();
   }
 
@@ -109,8 +112,8 @@ export abstract class UserProfile {
     return this._props.updatedAt;
   }
 
-  get clientId(): UserProfileClientId {
-    return this._props.clientId;
+  get clientGeneratedId(): UserProfileClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion getters
 

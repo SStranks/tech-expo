@@ -11,6 +11,6 @@ export type KanbanTaskCommentClientGeneratedId = UUID & {
 };
 
 export type KanbanTaskChecklistItemId = UUID & { readonly __kanbanTaskChecklistItemId: 'KanbanTaskChecklistItemId' };
-export type KanbanTaskChecklistItemClientId = UUID & {
+export type KanbanTaskChecklistItemClientGeneratedId = UUID & {
   readonly __kanbanTaskChecklistItemClientGeneratedId: 'KanbanTaskChecklistItemClientGeneratedId';
 };

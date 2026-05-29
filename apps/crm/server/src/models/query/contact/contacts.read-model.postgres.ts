@@ -20,11 +20,7 @@ import { postgresDB, postgresDBCall } from '#Config/dbPostgres.js';
 import CompaniesTable from '#Config/schema/companies/Companies.js';
 import ContactsTable from '#Config/schema/contacts/Contacts.js';
 import { SortDirection } from '#Graphql/generated/graphql.gen.js';
-import { asCompanyId } from '#Models/domain/company/company.mapper.js';
-import { asContactId } from '#Models/domain/contact/contact.mapper.js';
-import { asContactNoteId, contactNoteRowToDomain } from '#Models/domain/contact/note/note.mapper.js';
-import { asTimeZoneId } from '#Models/domain/timezone/timezone.mapper.js';
-import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
+import { contactNoteRowToDomain } from '#Models/domain/contact/note/note.mapper.js';
 
 import { contactWithRelationsToOverviewRow } from './contact.read-model.mapper.js';
 
@@ -73,15 +69,15 @@ export class PostgresContactReadModel implements ContactReadModel {
       });
 
       return contacts.map((c) => ({
-        id: asContactId(c.id),
+        id: c.id,
         firstName: c.firstName,
         lastName: c.lastName,
         email: c.email,
         phone: c.phone,
-        companyId: asCompanyId(c.companyId),
+        companyId: c.companyId,
         jobTitle: c.jobTitle,
         stage: c.stage,
-        timezoneId: c.timezoneId ? asTimeZoneId(c.timezoneId) : null,
+        timezoneId: c.timezoneId ?? null,
         image: c.image,
       }));
     });
@@ -104,11 +100,11 @@ export class PostgresContactReadModel implements ContactReadModel {
       });
 
       return contactNotes.map((cN) => ({
-        id: asContactNoteId(cN.id),
+        id: cN.id,
         note: cN.note,
-        contactId: asContactId(cN.contactId),
+        contactId: cN.contactId,
         createdAt: cN.createdAt,
-        createdByUserProfileId: asUserProfileId(cN.createdByUserProfileId),
+        createdByUserProfileId: cN.createdByUserProfileId,
       }));
     });
   }

@@ -4,8 +4,7 @@ import z from 'zod';
 
 import { dbInconsistencyError, invalidInputError } from '#Graphql/errors.js';
 import pinoLogger from '#Lib/pinoLogger.js';
-import { asCompanyId } from '#Models/domain/company/company.mapper.js';
-import { asContactId, contactDomainToContactDTO } from '#Models/domain/contact/contact.mapper.js';
+import { contactDomainToContactDTO } from '#Models/domain/contact/contact.mapper.js';
 import {
   mutationCreateContactNoteSchema,
   mutationCreateContactSchema,
@@ -17,9 +16,7 @@ import {
   queryContactSchema,
 } from '#Models/domain/contact/contact.schemas.js';
 import { contactNoteDomainToContactNoteDTO } from '#Models/domain/contact/note/note.mapper.js';
-import { asTimeZoneId } from '#Models/domain/timezone/timezone.mapper.js';
-import { asUserProfileId, userProfileDomainToAvatarDTO } from '#Models/domain/user/profile/profile.mapper.js';
-import { asUserId } from '#Models/domain/user/user.mapper.js';
+import { userProfileDomainToAvatarDTO } from '#Models/domain/user/profile/profile.mapper.js';
 import { contactOverviewRowToContactOverviewDTO } from '#Models/query/contact/contact.read-model.mapper.js';
 import { stableId } from '#Utils/stableId.js';
 
@@ -124,9 +121,9 @@ const contactResolver: Resolvers = {
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const userProfile = await services.UserProfile.findUserProfileByUserId(asUserId(auth.client_id));
+      const userProfile = await services.UserProfile.findUserProfileByUserId(auth.client_id);
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role, userProfile: asUserProfileId(userProfile.id) };
+      const context = { user: auth.client_id, role: auth.role, userProfile: userProfile.id };
       const { contact, contactNote } = await services.Contact.addContactNote(command, context);
 
       return {
@@ -146,9 +143,9 @@ const contactResolver: Resolvers = {
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const userProfile = await services.UserProfile.findUserProfileByUserId(asUserId(auth.client_id));
+      const userProfile = await services.UserProfile.findUserProfileByUserId(auth.client_id);
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role, userProfile: asUserProfileId(userProfile.id) };
+      const context = { user: auth.client_id, role: auth.role, userProfile: userProfile.id };
       const { contact, contactNote } = await services.Contact.updateContactNote(command, context);
 
       return {
@@ -168,9 +165,9 @@ const contactResolver: Resolvers = {
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const userProfile = await services.UserProfile.findUserProfileByUserId(asUserId(auth.client_id));
+      const userProfile = await services.UserProfile.findUserProfileByUserId(auth.client_id);
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role, userProfile: asUserProfileId(userProfile.id) };
+      const context = { user: auth.client_id, role: auth.role, userProfile: userProfile.id };
       const contactNoteIdReturn = await services.Contact.removeContactNote(command, context);
 
       return contactNoteIdReturn;
@@ -179,7 +176,7 @@ const contactResolver: Resolvers = {
 
   ContactDetailed: {
     company: async (contact, _, { loaders }) => {
-      const result = await loaders.Company.load(asCompanyId(contact.companyId));
+      const result = await loaders.Company.load(contact.companyId);
 
       if (!result) {
         const errorMessage = `[GraphQL] DB integrity issue: Contact ${contact.id} has invalid company ID ${contact.companyId}`;
@@ -193,7 +190,7 @@ const contactResolver: Resolvers = {
 
     timezone: async (contact, _, { loaders }) => {
       if (!contact.timezoneId) return null;
-      const result = await loaders.Timezone.load(asTimeZoneId(contact.timezoneId));
+      const result = await loaders.Timezone.load(contact.timezoneId);
 
       if (!result) {
         const errorMessage = `[GraphQL] DB integrity issue: Contact ${contact.id} has invalid timezone ID ${contact.timezoneId}`;
@@ -206,7 +203,7 @@ const contactResolver: Resolvers = {
     },
 
     notes: async (contact, _, { loaders, services }) => {
-      const notes = await services.Contact.findNotesForContactById(asContactId(contact.id));
+      const notes = await services.Contact.findNotesForContactById(contact.id);
       const userIds = notes.map((n) => n.createdByUserProfileId);
       const userProfiles = await loaders.UserProfile.loadMany(userIds);
       return notes

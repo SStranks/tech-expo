@@ -1,6 +1,4 @@
 /* eslint-disable perfectionist/sort-objects */
-import type { UUID } from '@apps/crm-shared';
-
 import type { CompaniesTableSelect } from '#Config/schema/companies/Companies.js';
 import type { CompaniesNotesTableSelect } from '#Config/schema/companies/CompanyNotes.js';
 import type { ContactsTableSelect } from '#Config/schema/contacts/Contacts.js';
@@ -11,11 +9,10 @@ import type { NewCompany, PersistedCompany } from './company.js';
 import type { CompanyRepository } from './company.repository.js';
 import type { CompanyId } from './company.types.js';
 
+import { createMockUUID } from '@apps/crm-shared/utils';
+
 import PostgresError from '#Utils/errors/PostgresError.js';
 
-import { randomUUID } from 'node:crypto';
-
-import { asUserProfileId } from '../user/profile/profile.mapper.js';
 import { asCompanyId, companyRowToDomain } from './company.mapper.js';
 import { CompanyNote, type PersistedCompanyNote } from './note/note.js';
 import { asCompanyNoteId } from './note/note.mapper.js';
@@ -77,7 +74,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
   }
 
   private insert(company: NewCompany): Promise<PersistedCompany> {
-    const id = asCompanyId(randomUUID() as UUID);
+    const id = asCompanyId(createMockUUID());
 
     if (this.companiesMap.has(id)) {
       throw new PostgresError({
@@ -88,7 +85,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
 
     const row: CompaniesTableSelect = {
       id,
-      clientTemporaryId: company.clientId,
+      clientTemporaryId: company.clientGeneratedId,
       name: company.name,
       size: company.size,
       totalRevenue: company.totalRevenue,
@@ -137,10 +134,10 @@ export class InMemoryCompanyRepository implements CompanyRepository {
     const existingNotes = this.companiesNotesMap.get(company.id) ?? [];
 
     if (addedNotes.size > 0) {
-      for (const [clientId, note] of addedNotes) {
+      for (const [clientGeneratedId, note] of addedNotes) {
         const persistedNote = {
-          id: asCompanyNoteId(randomUUID() as UUID),
-          clientTemporaryId: clientId,
+          id: asCompanyNoteId(createMockUUID()),
+          clientTemporaryId: clientGeneratedId,
           companyId: company.id,
           note: note.content,
           createdByUserProfileId: note.createdByUserProfileId,
@@ -151,12 +148,12 @@ export class InMemoryCompanyRepository implements CompanyRepository {
 
         persistedCompanyNotes.push(
           CompanyNote.rehydrate({
-            id: asCompanyNoteId(persistedNote.id),
+            id: persistedNote.id,
             companyId: company.id,
             content: persistedNote.note,
             createdAt: persistedNote.createdAt,
-            createdByUserProfileId: asUserProfileId(persistedNote.createdByUserProfileId),
-            clientId: note.clientId,
+            createdByUserProfileId: persistedNote.createdByUserProfileId,
+            clientGeneratedId: note.clientGeneratedId,
           })
         );
       }

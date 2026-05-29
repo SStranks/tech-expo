@@ -15,7 +15,7 @@ type PipelineDealProps = {
   stageId: PipelineStageId;
   title: string;
   value: string;
-  clientId?: PipelineDealClientGeneratedId;
+  clientGeneratedId?: PipelineDealClientGeneratedId;
 };
 
 export type PipelineDealCreateProps = PipelineDealProps;
@@ -37,11 +37,14 @@ class PipelineDealState {
 }
 
 export abstract class PipelineDeal {
-  private readonly _props: PipelineDealProps & { clientId: PipelineDealClientGeneratedId };
+  private readonly _props: PipelineDealProps & { clientGeneratedId: PipelineDealClientGeneratedId };
   protected _internal: PipelineDealState;
 
   constructor(props: PipelineDealProps, newPipelineDeal?: NewPipelineDealImpl) {
-    this._props = { ...props, clientId: props.clientId || (randomUUID() as PipelineDealClientGeneratedId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId || (randomUUID() as PipelineDealClientGeneratedId),
+    };
     this._internal = newPipelineDeal?._internal ?? new PipelineDealState();
   }
 
@@ -99,8 +102,8 @@ export abstract class PipelineDeal {
     return this._props.dealContact;
   }
 
-  get clientId(): PipelineDealClientGeneratedId {
-    return this._props.clientId;
+  get clientGeneratedId(): PipelineDealClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion actions/getters
 

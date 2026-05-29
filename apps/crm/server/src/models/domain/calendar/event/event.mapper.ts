@@ -10,7 +10,7 @@ export function asCalendarEventId(id: UUID): CalendarEventId {
   return id as CalendarEventId;
 }
 
-export function asCalendarEventClientId(id: UUID): CalendarEventClientGeneratedId {
+export function asCalendarEventClientGeneratedId(id: UUID): CalendarEventClientGeneratedId {
   return id as CalendarEventClientGeneratedId;
 }
 

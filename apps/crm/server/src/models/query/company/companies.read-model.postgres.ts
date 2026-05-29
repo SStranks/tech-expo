@@ -22,9 +22,7 @@ import CompaniesTable from '#Config/schema/companies/Companies.js';
 import ContactsTable from '#Config/schema/contacts/Contacts.js';
 import PipelineDealsTable from '#Config/schema/pipeline/Deals.js';
 import UserProfileTable from '#Config/schema/user/UserProfile.js';
-import { asCompanyId } from '#Models/domain/company/company.mapper.js';
-import { asCompanyNoteId, companyNoteRowToDomain } from '#Models/domain/company/note/note.mapper.js';
-import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
+import { companyNoteRowToDomain } from '#Models/domain/company/note/note.mapper.js';
 
 import { companyRowToReadRow, companyWithRelationsToOverviewRow } from './companies.read-model.mapper.js';
 
@@ -85,11 +83,11 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
       });
 
       return companyNotes.map((cN) => ({
-        id: asCompanyNoteId(cN.id),
+        id: cN.id,
         note: cN.note,
-        companyId: asCompanyId(cN.companyId),
+        companyId: cN.companyId,
         createdAt: cN.createdAt,
-        createdByUserProfileId: asUserProfileId(cN.createdByUserProfileId),
+        createdByUserProfileId: cN.createdByUserProfileId,
       }));
     });
   }

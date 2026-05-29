@@ -15,9 +15,8 @@ import CompaniesNotesTable from '#Config/schema/companies/CompanyNotes.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
 
 import { Company } from './company.js';
-import { asCompanyId, companyRowToDomain } from './company.mapper.js';
+import { companyRowToDomain } from './company.mapper.js';
 import { CompanyNote } from './note/note.js';
-import { asCompanyNoteId } from './note/note.mapper.js';
 
 export class PostgresCompanyRepository implements CompanyRepository {
   constructor() {}
@@ -60,7 +59,7 @@ export class PostgresCompanyRepository implements CompanyRepository {
       if (rows.length > 1)
         throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Invariant violation: multiple companies deleted' });
 
-      return asCompanyId(rows[0].id);
+      return rows[0].id;
     });
   }
 
@@ -83,7 +82,7 @@ export class PostgresCompanyRepository implements CompanyRepository {
       if (rows.length === 0 || rows[0] === undefined)
         throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Failed to create Company' });
 
-      return Company.promote(company, { id: asCompanyId(rows[0].id), createdAt: rows[0].createdAt });
+      return Company.promote(company, { id: rows[0].id, createdAt: rows[0].createdAt });
     });
   }
 
@@ -104,7 +103,7 @@ export class PostgresCompanyRepository implements CompanyRepository {
             (n): CompaniesNotesTableInsert => ({
               companyId: n.companyId,
               createdByUserProfileId: n.createdByUserProfileId,
-              clientTemporaryId: n.clientId,
+              clientTemporaryId: n.clientGeneratedId,
               note: n.content,
             })
           )
@@ -129,7 +128,7 @@ export class PostgresCompanyRepository implements CompanyRepository {
         }
 
         return CompanyNote.promote(note, {
-          id: asCompanyNoteId(row.id),
+          id: row.id,
           createdAt: row.createdAt,
         });
       });

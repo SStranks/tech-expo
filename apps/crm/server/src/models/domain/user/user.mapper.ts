@@ -31,7 +31,7 @@ export function userProfileReadRowToUserProfileDTO(row: UserProfileReadRow): Use
 
 export function userRowToDomain(row: UserTableSelect): PersistedUser {
   return User.rehydrate({
-    id: asUserId(row.id),
+    id: row.id,
     accountActive: row.accountActive,
     accountCreatedAt: row.accountCreatedAt,
     accountFrozen: row.accountFrozen,

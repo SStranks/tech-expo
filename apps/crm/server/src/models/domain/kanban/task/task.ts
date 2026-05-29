@@ -13,7 +13,7 @@ type KanbanTaskProps = {
   orderKey: string;
   stageId: KanbanStageId;
   title: string;
-  clientId?: KanbanTaskClientGeneratedId;
+  clientGeneratedId?: KanbanTaskClientGeneratedId;
 };
 
 export type KanbanTaskCreateProps = KanbanTaskProps;
@@ -35,11 +35,14 @@ class KanbanTaskState {
 }
 
 export abstract class KanbanTask {
-  private readonly _props: KanbanTaskProps & { clientId: KanbanTaskClientGeneratedId };
+  private readonly _props: KanbanTaskProps & { clientGeneratedId: KanbanTaskClientGeneratedId };
   protected _internal: KanbanTaskState;
 
   constructor(props: KanbanTaskProps, newTask?: NewKanbanTaskImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as KanbanTaskClientGeneratedId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId ?? (randomUUID() as KanbanTaskClientGeneratedId),
+    };
     this._internal = newTask?._internal ?? new KanbanTaskState();
   }
 
@@ -97,8 +100,8 @@ export abstract class KanbanTask {
     return this._props.assignedUser;
   }
 
-  get clientId(): KanbanTaskClientGeneratedId {
-    return this._props.clientId;
+  get clientGeneratedId(): KanbanTaskClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
 
   // --------------------------

@@ -14,8 +14,6 @@ import {
   queryCalendarEventSchema,
   queryCalendarInitialDataSchema,
 } from '#Models/domain/calendar/calendar.schemas.js';
-import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
-import { asUserId } from '#Models/domain/user/user.mapper.js';
 import { userProfileReadRowToAvatarDTO } from '#Models/query/user/users.read-model.mapper.js';
 import { stableId } from '#Utils/stableId.js';
 
@@ -36,7 +34,7 @@ const calendarResolver: Resolvers = {
 
       const { calendarId, companyId, month, year } = data;
       const command = { calendarId, companyId, month, year };
-      const context = { user: asUserId(auth.client_id), role: auth.role };
+      const context = { user: auth.client_id, role: auth.role };
 
       const { categories, events } = await services.Calendar.getCalendarInitialData(command, context);
       return {
@@ -55,7 +53,7 @@ const calendarResolver: Resolvers = {
 
       const { companyId, month, year } = data;
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role };
+      const context = { user: auth.client_id, role: auth.role };
 
       const events = await services.Calendar.findCalendarEventsByDate(command, context);
 
@@ -74,7 +72,7 @@ const calendarResolver: Resolvers = {
 
       const { calendarId, companyId } = data;
       const command = { calendarId, companyId };
-      const context = { user: asUserId(auth.client_id), role: auth.role };
+      const context = { user: auth.client_id, role: auth.role };
 
       const calendarCategories = await services.Calendar.findCalendarCategoriesByCompanyId(command, context);
       return {
@@ -92,7 +90,7 @@ const calendarResolver: Resolvers = {
 
       const { calendarEventId, calendarId } = data;
       const command = { calendarEventId, calendarId };
-      const context = { user: asUserId(auth.client_id), role: auth.role };
+      const context = { user: auth.client_id, role: auth.role };
       const { calendarEvent, participants } = await services.Calendar.getCalendarEventById(command, context);
 
       return {
@@ -116,9 +114,9 @@ const calendarResolver: Resolvers = {
         ...rest,
         eventStartAt: startTime,
         eventEndAt: endTime,
-        participants: data.participants.map((id) => asUserProfileId(id)),
+        participants: data.participants.map((id) => id),
       };
-      const context = { user: asUserId(auth.client_id), role: auth.role };
+      const context = { user: auth.client_id, role: auth.role };
 
       const { calendarEvent, participants } = await services.Calendar.addCalendarEvent(command, context);
       return {
@@ -136,7 +134,7 @@ const calendarResolver: Resolvers = {
       }
 
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role };
+      const context = { user: auth.client_id, role: auth.role };
 
       const { calendarEvent, participants } = await services.Calendar.updateCalendarEvent(command, context);
       return {
@@ -154,7 +152,7 @@ const calendarResolver: Resolvers = {
       }
 
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role };
+      const context = { user: auth.client_id, role: auth.role };
 
       const calendarEventIdReturn = await services.Calendar.removeCalendarEvent(command, context);
       return calendarEventIdReturn;
@@ -168,7 +166,7 @@ const calendarResolver: Resolvers = {
       }
 
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role };
+      const context = { user: auth.client_id, role: auth.role };
 
       const calendarCategory = await services.Calendar.addCalendarCategory(command, context);
       return {
@@ -186,8 +184,8 @@ const calendarResolver: Resolvers = {
 
       const { calendarId, calendarCategoryId } = data;
       const command = { calendarId, calendarCategoryId };
-      const userProfile = await services.UserProfile.findUserProfileByUserId(asUserId(auth.client_id));
-      const context = { user: asUserId(auth.client_id), role: auth.role, userProfile: asUserProfileId(userProfile.id) };
+      const userProfile = await services.UserProfile.findUserProfileByUserId(auth.client_id);
+      const context = { user: auth.client_id, role: auth.role, userProfile: userProfile.id };
 
       const calendarCategoryIdReturn = await services.Calendar.removeCalendarCategory(command, context);
       return calendarCategoryIdReturn;

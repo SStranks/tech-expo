@@ -4,7 +4,7 @@ import z from 'zod';
 
 import { invalidInputError } from '#Graphql/errors.js';
 import { quoteNoteDomainToQuoteNoteDTO } from '#Models/domain/quote/note/note.mapper.js';
-import { asQuoteId, quoteDomainToQuoteDTO } from '#Models/domain/quote/quote.mapper.js';
+import { quoteDomainToQuoteDTO } from '#Models/domain/quote/quote.mapper.js';
 import {
   mutationCreateQuoteNoteSchema,
   mutationCreateQuoteSchema,
@@ -19,8 +19,6 @@ import {
   queryQuoteSchema,
 } from '#Models/domain/quote/quote.schemas.js';
 import { quoteServiceDomainToQuoteServiceDTO } from '#Models/domain/quote/service/service.mapper.js';
-import { asUserProfileId } from '#Models/domain/user/profile/profile.mapper.js';
-import { asUserId } from '#Models/domain/user/user.mapper.js';
 import {
   quoteNoteReadRowToQuoteNoteDTO,
   quoteOverviewRowToQuoteOverviewDTO,
@@ -122,9 +120,9 @@ const quoteResolver: Resolvers = {
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const userProfile = await services.UserProfile.findUserProfileByUserId(asUserId(auth.client_id));
+      const userProfile = await services.UserProfile.findUserProfileByUserId(auth.client_id);
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role, userProfile: asUserProfileId(userProfile.id) };
+      const context = { user: auth.client_id, role: auth.role, userProfile: userProfile.id };
       const { quote, quoteService } = await services.Quote.addQuoteService(command, context);
 
       return {
@@ -140,9 +138,9 @@ const quoteResolver: Resolvers = {
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const userProfile = await services.UserProfile.findUserProfileByUserId(asUserId(auth.client_id));
+      const userProfile = await services.UserProfile.findUserProfileByUserId(auth.client_id);
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role, userProfile: asUserProfileId(userProfile.id) };
+      const context = { user: auth.client_id, role: auth.role, userProfile: userProfile.id };
       const { quote, quoteService } = await services.Quote.updateQuoteService(command, context);
 
       return {
@@ -158,9 +156,9 @@ const quoteResolver: Resolvers = {
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const userProfile = await services.UserProfile.findUserProfileByUserId(asUserId(auth.client_id));
+      const userProfile = await services.UserProfile.findUserProfileByUserId(auth.client_id);
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role, userProfile: asUserProfileId(userProfile.id) };
+      const context = { user: auth.client_id, role: auth.role, userProfile: userProfile.id };
       const quoteServiceIdReturn = await services.Quote.removeQuoteService(command, context);
 
       return quoteServiceIdReturn;
@@ -172,9 +170,9 @@ const quoteResolver: Resolvers = {
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const userProfile = await services.UserProfile.findUserProfileByUserId(asUserId(auth.client_id));
+      const userProfile = await services.UserProfile.findUserProfileByUserId(auth.client_id);
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role, userProfile: asUserProfileId(userProfile.id) };
+      const context = { user: auth.client_id, role: auth.role, userProfile: userProfile.id };
       const { quote, quoteNote } = await services.Quote.addQuoteNote(command, context);
 
       return {
@@ -190,9 +188,9 @@ const quoteResolver: Resolvers = {
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const userProfile = await services.UserProfile.findUserProfileByUserId(asUserId(auth.client_id));
+      const userProfile = await services.UserProfile.findUserProfileByUserId(auth.client_id);
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role, userProfile: asUserProfileId(userProfile.id) };
+      const context = { user: auth.client_id, role: auth.role, userProfile: userProfile.id };
       const { quote, quoteNote } = await services.Quote.updateQuoteNote(command, context);
 
       return {
@@ -208,9 +206,9 @@ const quoteResolver: Resolvers = {
         throw invalidInputError('Invalid inputs', fieldErrors, formErrors);
       }
 
-      const userProfile = await services.UserProfile.findUserProfileByUserId(asUserId(auth.client_id));
+      const userProfile = await services.UserProfile.findUserProfileByUserId(auth.client_id);
       const command = { ...data };
-      const context = { user: asUserId(auth.client_id), role: auth.role, userProfile: asUserProfileId(userProfile.id) };
+      const context = { user: auth.client_id, role: auth.role, userProfile: userProfile.id };
       const quoteNoteIdReturn = await services.Quote.removeQuoteNote(command, context);
 
       return quoteNoteIdReturn;
@@ -219,12 +217,12 @@ const quoteResolver: Resolvers = {
 
   QuoteDetailed: {
     services: async (quote, _, { services }) => {
-      const quoteServices = await services.Quote.findQuoteServicesByQuoteId(asQuoteId(quote.id));
+      const quoteServices = await services.Quote.findQuoteServicesByQuoteId(quote.id);
       return quoteServices.map((service) => quoteServiceReadRowToQuoteServiceDTO(service));
     },
 
     note: async (quote, _, { services }) => {
-      const note = await services.Quote.findQuoteNoteByQuoteId(asQuoteId(quote.id));
+      const note = await services.Quote.findQuoteNoteByQuoteId(quote.id);
       return note ? quoteNoteReadRowToQuoteNoteDTO(note) : null;
     },
   },

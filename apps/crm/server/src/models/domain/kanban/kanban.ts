@@ -19,7 +19,7 @@ import { KanbanTask } from './task/task.js';
 
 type KanbanProps = {
   companyId: CompanyId;
-  clientId?: KanbanClientGeneratedId;
+  clientGeneratedId?: KanbanClientGeneratedId;
 };
 
 type KanbanCreateProps = KanbanProps;
@@ -37,12 +37,12 @@ export interface PersistedKanban extends Kanban {
 
 class KanbanState {
   taskById: Map<KanbanTaskId, PersistedKanbanTask> = new Map();
-  taskByClientId: Map<KanbanTaskClientGeneratedId, KanbanTaskId> = new Map();
+  taskByClientGeneratedId: Map<KanbanTaskClientGeneratedId, KanbanTaskId> = new Map();
   addedTask: Map<KanbanTaskClientGeneratedId, NewKanbanTask> = new Map();
   updatedTask: Map<KanbanTaskId, PersistedKanbanTask> = new Map();
   removedTaskIds: Set<KanbanTaskId> = new Set();
   stageById: Map<KanbanStageId, PersistedKanbanStage> = new Map();
-  stageByClientId: Map<KanbanStageClientGeneratedId, KanbanStageId> = new Map();
+  stageByClientGeneratedId: Map<KanbanStageClientGeneratedId, KanbanStageId> = new Map();
   addedStage: Map<KanbanStageClientGeneratedId, NewKanbanStage> = new Map();
   updatedStage: Map<KanbanStageId, PersistedKanbanStage> = new Map();
   removedStageIds: Set<KanbanStageId> = new Set();
@@ -50,11 +50,11 @@ class KanbanState {
 }
 
 export abstract class Kanban {
-  private readonly _props: KanbanProps & { clientId: KanbanClientGeneratedId };
+  private readonly _props: KanbanProps & { clientGeneratedId: KanbanClientGeneratedId };
   protected _internal: KanbanState;
 
   constructor(props: KanbanProps, newKanban?: NewKanbanImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as KanbanClientGeneratedId) };
+    this._props = { ...props, clientGeneratedId: props.clientGeneratedId ?? (randomUUID() as KanbanClientGeneratedId) };
     this._internal = newKanban?._internal ?? new KanbanState();
   }
 
@@ -85,8 +85,8 @@ export abstract class Kanban {
     return this._props.companyId;
   }
 
-  get clientId(): KanbanClientGeneratedId {
-    return this._props.clientId;
+  get clientGeneratedId(): KanbanClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion getters
 
@@ -143,7 +143,7 @@ export abstract class Kanban {
   commitStages(newStages: PersistedKanbanStage[]) {
     for (const stage of newStages) {
       this._internal.stageById.set(stage.id, stage);
-      this._internal.stageByClientId.set(stage.clientId, stage.id);
+      this._internal.stageByClientGeneratedId.set(stage.clientGeneratedId, stage.id);
       stage.commit();
     }
 
@@ -155,7 +155,7 @@ export abstract class Kanban {
   commitTask(newTasks: PersistedKanbanTask[]) {
     for (const task of newTasks) {
       this._internal.taskById.set(task.id, task);
-      this._internal.taskByClientId.set(task.clientId, task.id);
+      this._internal.taskByClientGeneratedId.set(task.clientGeneratedId, task.id);
       task.commit();
     }
 
@@ -177,7 +177,7 @@ export abstract class Kanban {
   // #region actions/task
   addKanbanTask(props: KanbanTaskCreateProps): NewKanbanTask {
     const kanbanTask = KanbanTask.create(props);
-    this._internal.addedTask.set(kanbanTask.clientId, kanbanTask);
+    this._internal.addedTask.set(kanbanTask.clientGeneratedId, kanbanTask);
     return kanbanTask;
   }
 
@@ -196,15 +196,15 @@ export abstract class Kanban {
 
     this._internal.removedTaskIds.add(id);
     this._internal.taskById.delete(id);
-    this._internal.taskByClientId.delete(kanbanTask.clientId);
+    this._internal.taskByClientGeneratedId.delete(kanbanTask.clientGeneratedId);
   }
 
-  findKanbanTaskByClientId(clientId: KanbanTaskClientGeneratedId) {
-    return this._internal.taskByClientId.get(clientId);
+  findKanbanTaskByClientGeneratedId(clientGeneratedId: KanbanTaskClientGeneratedId) {
+    return this._internal.taskByClientGeneratedId.get(clientGeneratedId);
   }
 
-  getKanbanTaskByClientId(clientId: KanbanTaskClientGeneratedId) {
-    const kanbanTaskUUID = this.findKanbanTaskByClientId(clientId);
+  getKanbanTaskByClientGeneratedId(clientGeneratedId: KanbanTaskClientGeneratedId) {
+    const kanbanTaskUUID = this.findKanbanTaskByClientGeneratedId(clientGeneratedId);
     if (!kanbanTaskUUID) throw new DomainError({ message: 'Kanban-task not found' });
     const kanbanTask = this._internal.taskById.get(kanbanTaskUUID);
     if (!kanbanTask) throw new DomainError({ message: 'Kanban-task not found' });
@@ -218,7 +218,7 @@ export abstract class Kanban {
   // #region actions/stage
   addKanbanStage(props: KanbanStageCreateProps): NewKanbanStage {
     const kanbanStage = KanbanStage.create(props);
-    this._internal.addedStage.set(kanbanStage.clientId, kanbanStage);
+    this._internal.addedStage.set(kanbanStage.clientGeneratedId, kanbanStage);
     return kanbanStage;
   }
 
@@ -237,15 +237,15 @@ export abstract class Kanban {
 
     this._internal.removedStageIds.add(id);
     this._internal.stageById.delete(id);
-    this._internal.stageByClientId.delete(kanbanStage.clientId);
+    this._internal.stageByClientGeneratedId.delete(kanbanStage.clientGeneratedId);
   }
 
-  findKanbanStageByClientId(clientId: KanbanStageClientGeneratedId) {
-    return this._internal.stageByClientId.get(clientId);
+  findKanbanStageByClientGeneratedId(clientGeneratedId: KanbanStageClientGeneratedId) {
+    return this._internal.stageByClientGeneratedId.get(clientGeneratedId);
   }
 
-  getKanbanStageByClientId(clientId: KanbanStageClientGeneratedId) {
-    const kanbanStageUUID = this.findKanbanStageByClientId(clientId);
+  getKanbanStageByClientGeneratedId(clientGeneratedId: KanbanStageClientGeneratedId) {
+    const kanbanStageUUID = this.findKanbanStageByClientGeneratedId(clientGeneratedId);
     if (!kanbanStageUUID) throw new DomainError({ message: 'Kanban-stage not found' });
     const kanbanStage = this._internal.stageById.get(kanbanStageUUID);
     if (!kanbanStage) throw new DomainError({ message: 'Kanban-stage not found' });

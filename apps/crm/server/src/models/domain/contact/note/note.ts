@@ -9,7 +9,7 @@ type ContactNoteProps = {
   contactId: ContactId;
   content: string;
   createdByUserProfileId: UserProfileId;
-  clientId?: ContactNoteClientGeneratedId;
+  clientGeneratedId?: ContactNoteClientGeneratedId;
 };
 
 export type ContactNoteCreateProps = ContactNoteProps;
@@ -31,11 +31,14 @@ class ContactNoteState {
 }
 
 export abstract class ContactNote {
-  private readonly _props: ContactNoteProps & { clientId: ContactNoteClientGeneratedId };
+  private readonly _props: ContactNoteProps & { clientGeneratedId: ContactNoteClientGeneratedId };
   protected _internal: ContactNoteState;
 
   protected constructor(props: ContactNoteProps, newNote?: NewContactNoteImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as ContactNoteClientGeneratedId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId ?? (randomUUID() as ContactNoteClientGeneratedId),
+    };
     this._internal = newNote?._internal ?? new ContactNoteState();
   }
 
@@ -74,8 +77,8 @@ export abstract class ContactNote {
     return this._props.contactId;
   }
 
-  get clientId(): ContactNoteClientGeneratedId {
-    return this._props.clientId;
+  get clientGeneratedId(): ContactNoteClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion getters
 

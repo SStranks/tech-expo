@@ -15,8 +15,6 @@ import { zParseDomain } from '#Utils/zod/zParse.js';
 
 import { randomUUID } from 'node:crypto';
 
-import { asCompanyId } from '../company/company.mapper.js';
-import { asTimeZoneId } from '../timezone/timezone.mapper.js';
 import { contactShape } from './contact.schemas.js';
 import { ContactNote } from './note/note.js';
 
@@ -30,7 +28,7 @@ type ContactProps = {
   phone: string;
   stage: ContactStage;
   timezoneId: TimeZoneId | null;
-  clientId?: ContactClientGeneratedId;
+  clientGeneratedId?: ContactClientGeneratedId;
 };
 
 type ContactCreateProps = ContactProps;
@@ -48,7 +46,7 @@ export interface PersistedContact extends Contact {
 
 class ContactState {
   noteById: Map<ContactNoteId, PersistedContactNote> = new Map();
-  noteByClientId: Map<ContactNoteClientGeneratedId, ContactNoteId> = new Map();
+  noteByClientGeneratedId: Map<ContactNoteClientGeneratedId, ContactNoteId> = new Map();
   addedNotes: Map<ContactNoteClientGeneratedId, NewContactNote> = new Map();
   removedNoteIds: Set<ContactNoteId> = new Set();
   updatedNotes: Map<ContactNoteId, PersistedContactNote> = new Map();
@@ -56,11 +54,14 @@ class ContactState {
 }
 
 export abstract class Contact {
-  private readonly _props: ContactProps & { clientId: ContactClientGeneratedId };
+  private readonly _props: ContactProps & { clientGeneratedId: ContactClientGeneratedId };
   protected _internal: ContactState;
 
   constructor(props: ContactProps, newContact?: NewContactImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as ContactClientGeneratedId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId ?? (randomUUID() as ContactClientGeneratedId),
+    };
     this._internal = newContact?._internal ?? new ContactState();
   }
 
@@ -123,8 +124,8 @@ export abstract class Contact {
     return this._props.image;
   }
 
-  get clientId(): ContactClientGeneratedId {
-    return this._props.clientId;
+  get clientGeneratedId(): ContactClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion getters
 
@@ -173,7 +174,7 @@ export abstract class Contact {
   commitNotes(newNotes: PersistedContactNote[]) {
     for (const note of newNotes) {
       this._internal.noteById.set(note.id, note);
-      this._internal.noteByClientId.set(note.clientId, note.id);
+      this._internal.noteByClientGeneratedId.set(note.clientGeneratedId, note.id);
     }
 
     this._internal.addedNotes.clear();
@@ -235,7 +236,7 @@ export abstract class Contact {
     const parsedCompanyId = zParseDomain(contactShape.companyId, companyId);
     if (this._props.companyId === parsedCompanyId) return;
 
-    this._props.companyId = asCompanyId(parsedCompanyId);
+    this._props.companyId = parsedCompanyId;
     this._internal.dirtyFields.add('companyId');
   }
 
@@ -260,7 +261,7 @@ export abstract class Contact {
     const parsedTimeZone = zParseDomain(contactShape.timezoneId, newTimeZone);
     if (!parsedTimeZone || this._props.timezoneId === parsedTimeZone) return;
 
-    this._props.timezoneId = asTimeZoneId(parsedTimeZone);
+    this._props.timezoneId = parsedTimeZone;
     this._internal.dirtyFields.add('timezoneId');
   }
 
@@ -280,7 +281,7 @@ export abstract class Contact {
 
   addNote(props: ContactNoteCreateProps): NewContactNote {
     const note = ContactNote.create(props);
-    this._internal.addedNotes.set(note.clientId, note);
+    this._internal.addedNotes.set(note.clientGeneratedId, note);
     return note;
   }
 
@@ -303,15 +304,15 @@ export abstract class Contact {
 
     this._internal.removedNoteIds.add(id);
     this._internal.noteById.delete(id);
-    this._internal.noteByClientId.delete(note.clientId);
+    this._internal.noteByClientGeneratedId.delete(note.clientGeneratedId);
   }
 
-  findNoteByClientId(clientId: ContactNoteClientGeneratedId) {
-    return this._internal.noteByClientId.get(clientId);
+  findNoteByClientGeneratedId(clientGeneratedId: ContactNoteClientGeneratedId) {
+    return this._internal.noteByClientGeneratedId.get(clientGeneratedId);
   }
 
-  getNoteByClientId(clientId: ContactNoteClientGeneratedId) {
-    const contactNoteUUID = this.findNoteByClientId(clientId);
+  getNoteByClientGeneratedId(clientGeneratedId: ContactNoteClientGeneratedId) {
+    const contactNoteUUID = this.findNoteByClientGeneratedId(clientGeneratedId);
     if (!contactNoteUUID) throw new DomainError({ message: 'Contact-note not found' });
     const contactNote = this._internal.noteById.get(contactNoteUUID);
     if (!contactNote) throw new DomainError({ message: 'Contact-note not found' });

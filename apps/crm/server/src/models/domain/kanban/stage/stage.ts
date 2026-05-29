@@ -6,7 +6,7 @@ import { randomUUID } from 'node:crypto';
 type KanbanStageProps = {
   kanbanId: KanbanId;
   title: string;
-  clientId?: KanbanStageClientGeneratedId;
+  clientGeneratedId?: KanbanStageClientGeneratedId;
 };
 
 export type KanbanStageCreateProps = KanbanStageProps;
@@ -28,11 +28,14 @@ class KanbanStageState {
 }
 
 export abstract class KanbanStage {
-  private readonly _props: KanbanStageProps & { clientId: KanbanStageClientGeneratedId };
+  private readonly _props: KanbanStageProps & { clientGeneratedId: KanbanStageClientGeneratedId };
   protected _internal: KanbanStageState;
 
   constructor(props: KanbanStageProps, newKanbanStage?: NewKanbanStageImpl) {
-    this._props = { ...props, clientId: props.clientId ?? (randomUUID() as KanbanStageClientGeneratedId) };
+    this._props = {
+      ...props,
+      clientGeneratedId: props.clientGeneratedId ?? (randomUUID() as KanbanStageClientGeneratedId),
+    };
     this._internal = newKanbanStage?._internal ?? new KanbanStageState();
   }
 
@@ -70,8 +73,8 @@ export abstract class KanbanStage {
     return this._props.kanbanId;
   }
 
-  get clientId(): KanbanStageClientGeneratedId {
-    return this._props.clientId;
+  get clientGeneratedId(): KanbanStageClientGeneratedId {
+    return this._props.clientGeneratedId;
   }
   // #endregion actions/getters
 

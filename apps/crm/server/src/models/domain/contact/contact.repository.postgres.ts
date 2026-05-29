@@ -13,9 +13,8 @@ import ContactsNotesTable from '#Config/schema/contacts/ContactsNotes.js';
 import PostgresError from '#Utils/errors/PostgresError.js';
 
 import { Contact, type NewContact, type PersistedContact } from './contact.js';
-import { asContactId, contactRowToDomain } from './contact.mapper.js';
+import { contactRowToDomain } from './contact.mapper.js';
 import { ContactNote, type PersistedContactNote } from './note/note.js';
-import { asContactNoteId } from './note/note.mapper.js';
 
 export class PostgresContactRepository implements ContactRepository {
   constructor() {}
@@ -59,7 +58,7 @@ export class PostgresContactRepository implements ContactRepository {
       if (row.length > 1)
         throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Invariant violation: multiple companies deleted' });
 
-      return asContactId(row[0].id);
+      return row[0].id;
     });
   }
 
@@ -83,7 +82,7 @@ export class PostgresContactRepository implements ContactRepository {
       if (rows.length === 0 || rows[0] === undefined)
         throw new PostgresError({ kind: 'INTERNAL_ERROR', message: 'Failed to create Contact' });
 
-      return Contact.promote(contact, { id: asContactId(rows[0].id), createdAt: rows[0].createdAt });
+      return Contact.promote(contact, { id: rows[0].id, createdAt: rows[0].createdAt });
     });
   }
 
@@ -104,7 +103,7 @@ export class PostgresContactRepository implements ContactRepository {
             (n): ContactsNotesTableInsert => ({
               contactId: n.contactId,
               createdByUserProfileId: n.createdByUserProfileId,
-              clientTemporaryId: n.clientId,
+              clientTemporaryId: n.clientGeneratedId,
               note: n.content,
             })
           )
@@ -129,7 +128,7 @@ export class PostgresContactRepository implements ContactRepository {
         }
 
         return ContactNote.promote(note, {
-          id: asContactNoteId(row.id),
+          id: row.id,
           createdAt: row.createdAt,
         });
       });

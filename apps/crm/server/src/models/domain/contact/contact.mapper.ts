@@ -9,8 +9,6 @@ import type { ContactDTO } from './contact.dto.js';
 import type { PersistedContact } from './contact.js';
 import type { ContactId } from './contact.types.js';
 
-import { asCompanyId } from '../company/company.mapper.js';
-import { asTimeZoneId } from '../timezone/timezone.mapper.js';
 import { Contact } from './contact.js';
 
 export function asContactId(id: UUID): ContactId {
@@ -34,15 +32,15 @@ export function contactReadRowToContactDTO(contact: ContactReadRow): ContactDTO 
 
 export function contactRowToDomain(row: ContactsTableSelect): PersistedContact {
   return Contact.rehydrate({
-    id: asContactId(row.id),
+    id: row.id,
     firstName: row.firstName,
     lastName: row.lastName,
     email: row.email,
     phone: row.phone,
-    companyId: asCompanyId(row.companyId),
+    companyId: row.companyId,
     jobTitle: row.jobTitle,
     stage: row.stage,
-    timezoneId: row.timezoneId ? asTimeZoneId(row.timezoneId) : null,
+    timezoneId: row.timezoneId ?? null,
     image: row.image,
     createdAt: row.createdAt,
   });
