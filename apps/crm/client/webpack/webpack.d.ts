@@ -26,15 +26,15 @@ declare module 'webpack-stats-plugin' {
 
     interface Options {
       /**
-       * output file name
-       * @default 'stats.json'
-       */
-      filename?: string | undefined;
-      /**
        * fields of stats obj to keep
        * @default ['assetsByChunkName']
        */
       fields?: null | string[] | undefined;
+      /**
+       * output file name
+       * @default 'stats.json'
+       */
+      filename?: string | undefined;
       /**
        * stats config object or string preset
        * @default {}

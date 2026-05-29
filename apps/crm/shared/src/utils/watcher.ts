@@ -6,7 +6,7 @@ import { tailPath } from './paths.js';
 import { writeSchema } from './writeSchema.js';
 
 type LogCases = 'initialize' | 'success' | 'error' | 'watching' | 'shutdown';
-const log = (key: LogCases, { error, signal }: { signal?: string; error?: Error } = {}) => {
+const log = (key: LogCases, { error, signal }: { error?: Error; signal?: string } = {}) => {
   switch (key) {
     case 'initialize': {
       return console.log(`  ${logSymbols.info} [@apps/crm-shared: watcher.ts] initializaing watcher...`);

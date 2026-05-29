@@ -1,6 +1,6 @@
 export type Styles = {
-  'Storybook-ThemeToggle': string;
   container: string;
+  'Storybook-ThemeToggle': string;
   widgets: string;
   widgets__widget: string;
 };

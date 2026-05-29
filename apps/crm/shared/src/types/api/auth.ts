@@ -6,18 +6,18 @@ export const USER_ROLES = ['ROOT', 'ADMIN', 'MODERATOR', 'USER'] as const;
 
 export interface AuthTokenPayload extends JwtPayload {
   client_id: UUID;
-  role: UserRoles;
-  jti: UUID;
-  iat: number;
   exp: number;
+  iat: number;
+  jti: UUID;
+  role: UserRoles;
 }
 
 export interface RefreshTokenPayload extends JwtPayload {
-  client_id: UUID;
-  jti: UUID;
-  iat: number;
-  exp: number;
   acc: number;
+  client_id: UUID;
+  exp: number;
+  iat: number;
+  jti: UUID;
 }
 
 export interface UserRoleDTO {

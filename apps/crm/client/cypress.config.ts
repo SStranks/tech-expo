@@ -9,12 +9,12 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 export default defineConfig({
   component: {
-    indexHtmlFile: path.resolve(__dirname, './cypress/support/componentIndex.html'),
     devServer: {
       bundler: 'webpack',
       framework: 'react',
       webpackConfig: WebpackCypressConfig,
     },
+    indexHtmlFile: path.resolve(__dirname, './cypress/support/componentIndex.html'),
   },
 
   e2e: {

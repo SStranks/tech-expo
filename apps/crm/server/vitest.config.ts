@@ -30,14 +30,11 @@ export default defineConfig(({ mode }) => {
       },
     },
     test: {
-      env: loadEnv(`${mode}.server`, process.cwd(), ''),
-      environment: 'node',
-      globals: true,
-      include: ['src/**/*.{test,spec}.?(c|m)[jt]s'],
-      setupFiles: ['./vitest.setup.ts'],
       coverage: {
         include: ['src/**.{js,ts}'],
       },
+      env: loadEnv(`${mode}.server`, process.cwd(), ''),
+      environment: 'node',
       exclude: [
         '**/node_modules/**',
         '**/dist/**',
@@ -48,6 +45,9 @@ export default defineConfig(({ mode }) => {
         '**/.{idea,git,cache,output,temp}/**',
         '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*',
       ],
+      globals: true,
+      include: ['src/**/*.{test,spec}.?(c|m)[jt]s'],
+      setupFiles: ['./vitest.setup.ts'],
     },
   };
 });

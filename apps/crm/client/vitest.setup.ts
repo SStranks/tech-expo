@@ -5,7 +5,6 @@ import { vi } from 'vitest';
 window.scrollTo = vi.fn();
 
 Object.defineProperty(globalThis, 'matchMedia', {
-  writable: true,
   value: vi.fn().mockImplementation((query: string) => ({
     addEventListener: vi.fn(),
     addListener: vi.fn(), // Deprecated
@@ -16,6 +15,7 @@ Object.defineProperty(globalThis, 'matchMedia', {
     removeEventListener: vi.fn(),
     removeListener: vi.fn(), // Deprecated
   })),
+  writable: true,
 });
 
 const localStorageMock = (function () {

@@ -16,17 +16,17 @@ export interface WebpackStatsFilteredAsset {
 }
 
 export interface WebpackStatsFilteredChunk {
-  entry: boolean;
   id: number | string;
+  entry: boolean;
   initial: boolean;
   files?: Array<string>;
   names?: Array<string>;
 }
 
 export interface WebpackStatsFilteredModule {
+  chunks: Array<string | number>;
   name: string;
   size?: number;
-  chunks: Array<string | number>;
 }
 
 export interface WebpackStatsFilteredConcatenatedModule {
@@ -39,10 +39,10 @@ export interface WebpackStatsFilteredRootModule extends WebpackStatsFilteredModu
 }
 
 export interface WebpackStatsFiltered {
-  builtAt?: number;
-  hash?: string;
   assets?: Array<WebpackStatsFilteredAsset>;
+  builtAt?: number;
   chunks?: Array<WebpackStatsFilteredChunk>;
+  hash?: string;
   modules?: Array<WebpackStatsFilteredRootModule>;
 }
 

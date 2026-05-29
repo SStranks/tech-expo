@@ -6,8 +6,8 @@ export type UUID = string & { readonly __uuid: 'UUID' };
 export type ApiResponse<T> = ApiResponseSuccessData<T> | ApiResponseError;
 
 export interface ApiResponseSuccess {
-  status: 'success';
   message: string;
+  status: 'success';
 }
 export interface ApiResponseSuccessData<T> extends ApiResponseSuccess {
   data: T;

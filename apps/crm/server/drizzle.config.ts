@@ -8,12 +8,12 @@ initializeDockerSecrets();
 const { POSTGRES_URL } = secrets;
 
 export default defineConfig({
+  dbCredentials: {
+    url: POSTGRES_URL,
+  },
   dialect: 'postgresql',
   out: './src/config/migrations',
   schema: './src/config/schema/*',
   strict: true,
   verbose: true,
-  dbCredentials: {
-    url: POSTGRES_URL,
-  },
 });

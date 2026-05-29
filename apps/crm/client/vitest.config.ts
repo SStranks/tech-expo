@@ -24,14 +24,11 @@ export default defineConfig(({ mode }) => {
       tanstackRouter({ generatedRouteTree: './src/routeTree.gen.ts', routesDirectory: './src/routes' }),
     ],
     test: {
-      env: loadEnv(`${mode}.client`, process.cwd(), ''),
-      environment: 'jsdom',
-      globals: true,
-      include: ['src/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
-      setupFiles: ['./vitest.setup.ts'],
       coverage: {
         include: ['src/**.{js,jsx,ts,tsx}'],
       },
+      env: loadEnv(`${mode}.client`, process.cwd(), ''),
+      environment: 'jsdom',
       exclude: [
         '**/node_modules/**',
         '**/dist/**',
@@ -46,6 +43,8 @@ export default defineConfig(({ mode }) => {
         '**/.{idea,git,cache,output,temp}/**',
         '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*',
       ],
+      globals: true,
+      include: ['src/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
       projects: [
         {
           extends: true,
@@ -72,6 +71,7 @@ export default defineConfig(({ mode }) => {
           },
         },
       ],
+      setupFiles: ['./vitest.setup.ts'],
     },
   };
 });

@@ -6,8 +6,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 export interface GenerateSchemaOptions {
-  typeDefsDir: string;
   outputFile: string;
+  typeDefsDir: string;
 }
 
 export function writeSchema({ outputFile, typeDefsDir }: GenerateSchemaOptions): void {
