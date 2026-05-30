@@ -7,7 +7,7 @@ import { MoonIcon, SunIcon } from '@storybook/icons';
 import styles from './ThemeToggle.module.scss';
 
 type Props = {
-  themeBg: { light: string; dark: string };
+  themeBg: { dark: string; light: string };
   updateGlobals: (newGlobals: Args) => void;
   context?: StoryContext;
 };

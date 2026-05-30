@@ -70,8 +70,8 @@ const filterWebpackStats = (source, options = {}) => {
         return aggConcatenatedModules;
       }, []);
       agg.push({
-        name: moduleStats.name,
         chunks: moduleChunks,
+        name: moduleStats.name,
         size: moduleStats.size,
         ...(concatenatedModules && { modules: concatenatedModules }),
       });

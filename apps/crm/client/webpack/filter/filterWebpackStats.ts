@@ -133,8 +133,8 @@ const filterWebpackStats = (source: StatsCompilation, options: BundleStatsOption
       }, [] as Array<WebpackStatsFilteredConcatenatedModule>);
 
       agg.push({
-        name: moduleStats.name,
         chunks: moduleChunks,
+        name: moduleStats.name,
         size: moduleStats.size,
         ...(concatenatedModules && { modules: concatenatedModules }),
       });

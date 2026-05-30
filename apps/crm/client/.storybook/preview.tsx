@@ -13,12 +13,11 @@ const { storybook_background_dark, storybook_background_light } = SCSS_Exports;
 
 const preview = {
   decorators: [ThemeToggleDecorator, withTanStackRouter],
-  initialGlobals: { theme: 'light', themeBg: { dark: storybook_background_dark, light: storybook_background_light } },
   globalTypes: {
     theme: {
-      name: 'Theme',
       defaultValue: 'light',
       description: 'Global theme for components',
+      name: 'Theme',
       toolbar: {
         dynamicTitle: true,
         icon: 'circlehollow',
@@ -29,15 +28,16 @@ const preview = {
       },
     },
     themeBg: {
-      name: 'Theme Background',
-      description: 'Global background color for ThemeToggle',
-      items: [{ title: 'light' }, { title: 'dark' }],
       defaultValue: {
         dark: storybook_background_dark,
         light: storybook_background_light,
       },
+      description: 'Global background color for ThemeToggle',
+      items: [{ title: 'light' }, { title: 'dark' }],
+      name: 'Theme Background',
     },
   },
+  initialGlobals: { theme: 'light', themeBg: { dark: storybook_background_dark, light: storybook_background_light } },
   parameters: {
     ally: {
       config: {},

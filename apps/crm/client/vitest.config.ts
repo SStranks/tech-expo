@@ -61,13 +61,13 @@ export default defineConfig(({ mode }) => {
             viteReactPlugin(),
           ],
           test: {
-            name: 'storybook',
             browser: {
               enabled: true,
               headless: true,
               instances: [{ browser: 'chromium' }],
               provider: playwright({}),
             },
+            name: 'storybook',
           },
         },
       ],
