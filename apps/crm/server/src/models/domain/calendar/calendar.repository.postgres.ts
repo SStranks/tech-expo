@@ -101,18 +101,18 @@ export class PostgresCalendarRepository implements CalendarRepository {
             (c): CalendarCategoriesTableInsert => ({
               title: c.title,
               calendarId: c.calendarId,
-              clientTemporaryId: c.clientGeneratedId,
+              clientGeneratedId: c.clientGeneratedId,
             })
           )
         )
         .returning();
 
       persistedCategories = rows.map((row) => {
-        const tempId = row.clientTemporaryId;
+        const tempId = row.clientGeneratedId;
         if (!tempId) {
           throw new PostgresError({
             kind: 'INTERNAL_ERROR',
-            message: 'Inserted category missing clientTemporaryId',
+            message: 'Inserted category missing clientGeneratedId',
           });
         }
 
@@ -164,18 +164,18 @@ export class PostgresCalendarRepository implements CalendarRepository {
               color: e.color,
               eventStartAt: e.eventStartAt,
               eventEndAt: e.eventEndAt,
-              clientTemporaryId: e.clientGeneratedId,
+              clientGeneratedId: e.clientGeneratedId,
             })
           )
         )
         .returning();
 
       persistedEvents = rows.map((row) => {
-        const tempId = row.clientTemporaryId;
+        const tempId = row.clientGeneratedId;
         if (!tempId) {
           throw new PostgresError({
             kind: 'INTERNAL_ERROR',
-            message: 'Inserted event missing clientTemporaryId',
+            message: 'Inserted event missing clientGeneratedId',
           });
         }
 

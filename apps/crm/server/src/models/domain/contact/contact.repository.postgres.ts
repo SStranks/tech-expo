@@ -103,7 +103,7 @@ export class PostgresContactRepository implements ContactRepository {
             (n): ContactsNotesTableInsert => ({
               contactId: n.contactId,
               createdByUserProfileId: n.createdByUserProfileId,
-              clientTemporaryId: n.clientGeneratedId,
+              clientGeneratedId: n.clientGeneratedId,
               note: n.content,
             })
           )
@@ -111,11 +111,11 @@ export class PostgresContactRepository implements ContactRepository {
         .returning();
 
       persistedNotes = rows.map((row) => {
-        const tempId = row.clientTemporaryId;
+        const tempId = row.clientGeneratedId;
         if (!tempId) {
           throw new PostgresError({
             kind: 'INTERNAL_ERROR',
-            message: 'Inserted contact-note missing clientTemporaryId',
+            message: 'Inserted contact-note missing clientGeneratedId',
           });
         }
 
