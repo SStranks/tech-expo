@@ -19,7 +19,7 @@ interface Props<T extends FieldValues> extends InputHTMLAttributes<HTMLInputElem
 function Input<T extends FieldValues>(props: Props<T>): React.JSX.Element {
   const { id, name, rules, type, ...rest } = props;
   const { control, formState, getFieldState, register, trigger } = useFormContext<T>();
-  const { defaultValues } = useFormState<T>({ name, control });
+  const { defaultValues } = useFormState<T>({ control, name });
   const { error } = getFieldState(name, formState);
 
   const rawDefaultValue = defaultValues?.[name];

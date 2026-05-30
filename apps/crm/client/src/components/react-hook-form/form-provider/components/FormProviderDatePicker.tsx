@@ -17,7 +17,7 @@ type Props<T extends FieldValues> = {
 
 function FormProviderDatePicker<T extends FieldValues>({ label, name, rules = {} }: Props<T>): React.JSX.Element {
   const { control } = useFormContext<T>();
-  const { defaultValues } = useFormState<T>({ name, control });
+  const { defaultValues } = useFormState<T>({ control, name });
   const id = useId();
 
   const rawDefaultValue = defaultValues?.[name];
@@ -35,7 +35,7 @@ function FormProviderDatePicker<T extends FieldValues>({ label, name, rules = {}
             ReactAriaComponent={InputDatePicker}
             value={value}
             onChange={onChange}
-            {...{ id, name, 'aria-label': id, isInvalid, onBlur }}
+            {...{ id, 'aria-label': id, isInvalid, name, onBlur }}
           />
         </InputUx>
       )}

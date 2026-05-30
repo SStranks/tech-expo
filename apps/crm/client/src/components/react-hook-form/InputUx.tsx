@@ -20,7 +20,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 function InputUx(props: PropsWithChildren<Props>): React.JSX.Element {
   const { children, disabled, id, label, name, rules, ...rest } = props;
   const { control, formState, getFieldState } = useFormContext();
-  const { isSubmitted } = useFormState({ name, control });
+  const { isSubmitted } = useFormState({ control, name });
   const { error, invalid, isDirty } = getFieldState(name, formState);
 
   const isInputRequired = rules?.required && !isDirty && isSubmitted;

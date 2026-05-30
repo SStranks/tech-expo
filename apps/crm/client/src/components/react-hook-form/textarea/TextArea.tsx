@@ -22,7 +22,7 @@ interface Props<T extends FieldValues> extends InputHTMLAttributes<HTMLTextAreaE
 function TextArea<T extends FieldValues>(props: Props<T>): React.JSX.Element {
   const { id, name, rules, ...rest } = props;
   const { control, register, trigger } = useFormContext<T>();
-  const { defaultValues, errors } = useFormState<T>({ name, control });
+  const { defaultValues, errors } = useFormState<T>({ control, name });
 
   const rawDefaultValue = defaultValues?.[name];
   const defaultValue = typeof rawDefaultValue === 'string' ? rawDefaultValue : '';

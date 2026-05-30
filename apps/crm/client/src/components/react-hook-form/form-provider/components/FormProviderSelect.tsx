@@ -25,7 +25,7 @@ function FormProviderSelect<T extends object, R extends FieldValues>({
   ...rest
 }: SelectProps<T> & Props<R>): React.JSX.Element {
   const { control } = useFormContext<R>();
-  const { defaultValues } = useFormState<R>({ name, control });
+  const { defaultValues } = useFormState<R>({ control, name });
   const id = useId();
 
   const rawDefaultValue = defaultValues?.[name];
@@ -42,7 +42,7 @@ function FormProviderSelect<T extends object, R extends FieldValues>({
             ReactAriaComponent={InputSelect}
             value={value}
             onChange={onChange}
-            {...{ id, name, 'aria-label': label, isInvalid, items, onBlur, ...rest }}
+            {...{ id, 'aria-label': label, isInvalid, items, name, onBlur, ...rest }}
           />
         </InputUx>
       )}

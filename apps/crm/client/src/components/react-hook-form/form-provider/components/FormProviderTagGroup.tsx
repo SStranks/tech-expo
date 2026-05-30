@@ -17,7 +17,7 @@ type Props<T extends FieldValues> = {
 
 function FormProviderTagGroup<T extends FieldValues>({ label, name, rules }: Props<T>): React.JSX.Element {
   const { control, trigger } = useFormContext<T>();
-  const { defaultValues } = useFormState<T>({ name, control });
+  const { defaultValues } = useFormState<T>({ control, name });
   const id = useId();
 
   const rawDefaultValue = defaultValues?.[name];
@@ -44,7 +44,7 @@ function FormProviderTagGroup<T extends FieldValues>({ label, name, rules }: Pro
             ReactAriaComponent={InputTagGroup}
             value={value}
             onChange={onChange}
-            {...{ id, name, defaultValue, isInvalid, label, onBlur, trigger }}
+            {...{ id, defaultValue, isInvalid, label, name, onBlur, trigger }}
           />
         </InputUx>
       )}

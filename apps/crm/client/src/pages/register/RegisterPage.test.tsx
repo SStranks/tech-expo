@@ -41,7 +41,7 @@ describe('Initialization', () => {
       providers: { withRouter: true, withServices: true },
     });
 
-    const headerH1 = await screen.findByRole('heading', { name: /register account/i, level: 1 });
+    const headerH1 = await screen.findByRole('heading', { level: 1, name: /register account/i });
     const formElement = screen.getByRole('form', { name: /register account/i });
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const passwordStrengthInput = await screen.findByLabelText(/password/i);

@@ -15,7 +15,7 @@ type Props<T extends FieldValues> = {
 };
 function FormProviderTextArea<T extends FieldValues>({ label, name, rules = {} }: Props<T>): React.JSX.Element {
   const { control } = useFormContext<T>();
-  const { defaultValues } = useFormState<T>({ name, control });
+  const { defaultValues } = useFormState<T>({ control, name });
   const id = useId();
 
   const rawDefaultValue = defaultValues?.[name];

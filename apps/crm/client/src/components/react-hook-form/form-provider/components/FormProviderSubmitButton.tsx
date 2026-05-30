@@ -10,7 +10,7 @@ interface Props extends InputHTMLAttributes<HTMLButtonElement> {
 
 function FormProviderSubmitButton({ name, ...rest }: Props): React.JSX.Element {
   const { control } = useFormContext();
-  const { isSubmitting } = useFormState({ name, control });
+  const { isSubmitting } = useFormState({ control, name });
 
   // TODO: OnClick needs to trigger submit
   return <ButtonSave {...rest} name={name} onClick={() => null} disabled={isSubmitting} />;

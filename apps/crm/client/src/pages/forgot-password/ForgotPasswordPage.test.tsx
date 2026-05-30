@@ -29,7 +29,7 @@ describe('Initialization', () => {
       providers: { withRouter: true, withServices: true },
     });
 
-    const headerH1 = await screen.findByRole('heading', { name: /password reset/i, level: 1 });
+    const headerH1 = await screen.findByRole('heading', { level: 1, name: /password reset/i });
     const formElement = screen.getByRole('form', { name: /password reset/i });
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const resetPasswordButton = screen.getByRole('button', { name: /email reset instructions/i });

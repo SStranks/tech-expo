@@ -25,7 +25,7 @@ function FormProviderCombo<T extends object, R extends FieldValues>({
   ...rest
 }: ComboBoxProps<T> & Props<R>): React.JSX.Element {
   const { control } = useFormContext<R>();
-  const { defaultValues } = useFormState<R>({ name, control });
+  const { defaultValues } = useFormState<R>({ control, name });
   const id = useId();
 
   const rawDefaultValue = defaultValues?.[name];
@@ -42,7 +42,7 @@ function FormProviderCombo<T extends object, R extends FieldValues>({
             ReactAriaComponent={InputCombo}
             value={value}
             onChange={onChange}
-            {...{ id, name, defaultValue, isInvalid, items, label, onBlur, ...rest }}
+            {...{ id, defaultValue, isInvalid, items, label, name, onBlur, ...rest }}
           />
         </InputUx>
       )}

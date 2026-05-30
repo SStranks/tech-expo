@@ -24,7 +24,7 @@ function FormProviderComboTag<T extends object, R extends FieldValues>({
   rules = {},
 }: ComboBoxProps<T> & Props<R>): React.JSX.Element {
   const { control, trigger } = useFormContext<R>();
-  const { defaultValues } = useFormState<R>({ name, control });
+  const { defaultValues } = useFormState<R>({ control, name });
   const id = useId();
 
   const rawDefaultValue = defaultValues?.[name];
@@ -41,7 +41,7 @@ function FormProviderComboTag<T extends object, R extends FieldValues>({
             ReactAriaComponent={InputComboTag}
             value={value}
             onChange={onChange}
-            {...{ id, name, defaultValue, isInvalid, label, listItems, onBlur, trigger }}
+            {...{ id, defaultValue, isInvalid, label, listItems, name, onBlur, trigger }}
           />
         </InputUx>
       )}

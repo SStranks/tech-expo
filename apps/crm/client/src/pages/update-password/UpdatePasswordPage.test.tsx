@@ -39,7 +39,7 @@ describe('Initialization', () => {
       providers: { withRouter: true, withServices: true },
     });
 
-    const headerH1 = await screen.findByRole('heading', { name: /set new password/i, level: 1 });
+    const headerH1 = await screen.findByRole('heading', { level: 1, name: /set new password/i });
     const formElement = screen.getByRole('form', { name: /set new password/i });
     const passwordStrengthInput = await screen.findByLabelText(/^password$/i);
     const passwordConfirmInput = await screen.findByLabelText(/^confirm password$/i);

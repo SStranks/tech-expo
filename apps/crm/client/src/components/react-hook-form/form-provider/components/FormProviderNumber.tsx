@@ -17,7 +17,7 @@ type Props<T extends FieldValues> = {
 
 function FormProviderNumber<T extends FieldValues>({ label, name, rules = {}, ...rest }: Props<T>): React.JSX.Element {
   const { control } = useFormContext<T>();
-  const { defaultValues } = useFormState<T>({ name, control });
+  const { defaultValues } = useFormState<T>({ control, name });
   const id = useId();
 
   const rawDefaultValue = defaultValues?.[name];
@@ -35,7 +35,7 @@ function FormProviderNumber<T extends FieldValues>({ label, name, rules = {}, ..
             ReactAriaComponent={InputNumber}
             value={value}
             onChange={onChange}
-            {...{ id, name, 'aria-label': label, isInvalid, onBlur, ...rest }}
+            {...{ id, 'aria-label': label, isInvalid, name, onBlur, ...rest }}
           />
         </InputUx>
       )}

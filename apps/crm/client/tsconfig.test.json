@@ -1,6 +1,13 @@
 {
   "extends": "./tsconfig.base.json",
-  "include": ["e2e/**/*", "src/tests/*", "src/**/*.test.*", "src/**/*.spec.*", "src/routeTree.gen.ts", "global.d.ts"],
+  "include": [
+    "e2e/**/*",
+    "src/tests/**/*",
+    "src/**/*.test.*",
+    "src/**/*.spec.*",
+    "src/routeTree.gen.ts",
+    "global.d.ts"
+  ],
   "exclude": ["node_modules", "src/**/private*"],
   "references": [{ "path": "./tsconfig.src.json" }],
   "compilerOptions": {

@@ -44,7 +44,7 @@ function InputPasswordStrength<T extends FieldValues>(props: Props<T>): React.JS
   const { control } = useFormContext<T>();
   const [passwordReveal, setPasswordReveal] = useState<boolean>(reveal);
   const [informationPanel, setInformationPanel] = useState<boolean>(false);
-  const passwordValue = useWatch({ name, control });
+  const passwordValue = useWatch({ control, name });
   const passwordScore = usePasswordStrength(passwordValue);
   const passwordId = useId();
 
