@@ -20,7 +20,7 @@ export type KanbanTasksTableSelect = InferSelectModel<typeof KanbanTasksTable>;
 export type KanbanTasksTableUpdate = Partial<Omit<KanbanTasksTableInsert, 'id'>>;
 export const KanbanTasksTable = pgTable('kanban_tasks', {
   id: uuid('id').primaryKey().defaultRandom().$type<KanbanTaskId>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<KanbanTaskClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().$type<KanbanTaskClientGeneratedId>(),
   orderKey: varchar({ length: 255 }).notNull(),
   title: varchar('title', { length: 255 }).notNull(),
   completed: boolean('completed').default(false),
@@ -58,7 +58,7 @@ export const insertKanbanTasksSchema = createInsertSchema(KanbanTasksTable)
   .transform((v) => ({
     ...v,
     assignedUserProfileId: v.assignedUserProfileId as UserProfileId,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as KanbanTaskClientGeneratedId,
     stageId: v.stageId as KanbanStageId,
   }));
 
@@ -66,7 +66,7 @@ export const selectKanbanTasksSchema = createSelectSchema(KanbanTasksTable).tran
   ...v,
   id: v.id as KanbanTaskId,
   assignedUserProfileId: v.assignedUserProfileId as UserProfileId,
-  clientTemporaryId: v.clientTemporaryId as KanbanTaskClientGeneratedId,
+  clientGeneratedId: v.clientGeneratedId as KanbanTaskClientGeneratedId,
   stageId: v.stageId as KanbanStageId,
 }));
 
@@ -77,7 +77,7 @@ export const updateKanbanTasksSchema = createInsertSchema(KanbanTasksTable)
     ...v,
     id: v.id as KanbanTaskId,
     assignedUserProfileId: v.assignedUserProfileId as UserProfileId,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as KanbanTaskClientGeneratedId,
     stageId: v.stageId as KanbanStageId,
   }));
 

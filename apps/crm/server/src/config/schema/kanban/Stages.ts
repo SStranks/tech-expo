@@ -16,7 +16,7 @@ export type KanbanStagesTableSelect = InferSelectModel<typeof KanbanStagesTable>
 export type KanbanStagesTableUpdate = Partial<Omit<KanbanStagesTableInsert, 'id'>>;
 export const KanbanStagesTable = pgTable('kanban_stages', {
   id: uuid('id').primaryKey().defaultRandom().$type<KanbanStageId>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<KanbanStageClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().$type<KanbanStageClientGeneratedId>(),
   title: varchar('title', { length: 255 }).notNull(),
   kanbanId: uuid('kanban_id')
     .references(() => KanbanTable.id, { onDelete: 'cascade' })
@@ -40,14 +40,14 @@ export const insertKanbanStagesSchema = createInsertSchema(KanbanStagesTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as KanbanStageClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as KanbanStageClientGeneratedId,
     kanbanId: v.kanbanId as KanbanId,
   }));
 
 export const selectKanbanStagesSchema = createSelectSchema(KanbanStagesTable).transform((v) => ({
   ...v,
   id: v.id as KanbanStageId,
-  clientTemporaryId: v.clientTemporaryId as KanbanStageClientGeneratedId,
+  clientGeneratedId: v.clientGeneratedId as KanbanStageClientGeneratedId,
   kanbanId: v.kanbanId as KanbanId,
 }));
 
@@ -57,7 +57,7 @@ export const updateKanbanStagesSchema = createInsertSchema(KanbanStagesTable)
   .transform((v) => ({
     ...v,
     id: v.id as KanbanStageId,
-    clientTemporaryId: v.clientTemporaryId as KanbanStageClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as KanbanStageClientGeneratedId,
     kanbanId: v.kanbanId as KanbanId,
   }));
 

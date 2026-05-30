@@ -30,7 +30,7 @@ export type CompaniesTableSelect = InferSelectModel<typeof CompaniesTable>;
 export type CompaniesTableUpdate = Partial<Omit<CompaniesTableInsert, 'id'>>;
 export const CompaniesTable = pgTable('companies', {
   id: uuid('id').primaryKey().defaultRandom().$type<CompanyId>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<CompanyClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().$type<CompanyClientGeneratedId>(),
   name: varchar('company_name', { length: 255 }).notNull().unique(),
   size: CompanySizeEnum('company_size').notNull(),
   totalRevenue: numeric('total_revenue', { precision: 14, scale: 2 }),
@@ -73,14 +73,14 @@ export const insertCompaniesSchema = createInsertSchema(CompaniesTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as CompanyClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as CompanyClientGeneratedId,
     countryId: v.countryId as CountryId,
   }));
 
 export const selectCompaniesSchema = createSelectSchema(CompaniesTable).transform((v) => ({
   ...v,
   id: v.id as CompanyId,
-  clientTemporaryId: v.clientTemporaryId as CompanyClientGeneratedId,
+  clientGeneratedId: v.clientGeneratedId as CompanyClientGeneratedId,
   countryId: v.countryId as CountryId,
 }));
 
@@ -90,7 +90,7 @@ export const updateCompaniesSchema = createSelectSchema(CompaniesTable)
   .transform((v) => ({
     ...v,
     id: v.id as CompanyId,
-    clientTemporaryId: v.clientTemporaryId as CompanyClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as CompanyClientGeneratedId,
     countryId: v.countryId as CountryId,
   }));
 
@@ -108,7 +108,7 @@ export const updateCompaniesCommandSchema = createInsertSchema(CompaniesTable)
   .transform((v) => ({
     ...v,
     id: v.id as CompanyId,
-    clientTemporaryId: v.clientTemporaryId as CompanyClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as CompanyClientGeneratedId,
     countryId: v.countryId as CountryId,
   }));
 

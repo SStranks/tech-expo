@@ -18,7 +18,7 @@ export type CompaniesNotesTableSelect = InferSelectModel<typeof CompaniesNotesTa
 export type CompaniesNotesTableUpdate = Partial<Omit<CompaniesNotesTableInsert, 'id'>>;
 export const CompaniesNotesTable = pgTable('companies_notes', {
   id: uuid('id').primaryKey().defaultRandom().$type<CompanyNoteId>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<CompanyNoteClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().$type<CompanyNoteClientGeneratedId>(),
   note: text('note_text').notNull(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'cascade' })
@@ -50,7 +50,7 @@ export const insertCompaniesNotesSchema = createInsertSchema(CompaniesNotesTable
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as CompanyNoteClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as CompanyNoteClientGeneratedId,
     companyId: v.companyId as CompanyId,
     createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
   }));
@@ -58,7 +58,7 @@ export const insertCompaniesNotesSchema = createInsertSchema(CompaniesNotesTable
 export const selectCompaniesNotesSchema = createSelectSchema(CompaniesNotesTable).transform((v) => ({
   ...v,
   id: v.id as CompanyNoteId,
-  clientTemporaryId: v.clientTemporaryId as CompanyNoteClientGeneratedId,
+  clientGeneratedId: v.clientGeneratedId as CompanyNoteClientGeneratedId,
   companyId: v.companyId as CompanyId,
   createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
 }));
@@ -69,7 +69,7 @@ export const updateCompaniesNotesSchema = createInsertSchema(CompaniesNotesTable
   .transform((v) => ({
     ...v,
     id: v.id as CompanyNoteId,
-    clientTemporaryId: v.clientTemporaryId as CompanyNoteClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as CompanyNoteClientGeneratedId,
     companyId: v.companyId as CompanyId,
     createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
   }));

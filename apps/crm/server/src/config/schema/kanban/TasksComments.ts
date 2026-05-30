@@ -21,7 +21,7 @@ export type KanbanTaskCommentsTableSelect = InferSelectModel<typeof KanbanTaskCo
 export type KanbanTaskCommentsTableUpdate = Partial<Omit<KanbanTaskCommentsTableInsert, 'id'>>;
 export const KanbanTaskCommentsTable = pgTable('kanban_task_comments', {
   id: uuid('id').primaryKey().defaultRandom().$type<KanbanTaskCommentId>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<KanbanTaskCommentClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().$type<KanbanTaskCommentClientGeneratedId>(),
   taskId: uuid('task_id')
     .references(() => KanbanTasksTable.id, { onDelete: 'cascade' })
     .notNull()
@@ -53,7 +53,7 @@ export const insertKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskComme
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as KanbanTaskCommentClientGeneratedId,
     createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
     taskId: v.taskId as KanbanTaskId,
   }));
@@ -61,7 +61,7 @@ export const insertKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskComme
 export const selectKanbanTaskCommentsSchema = createSelectSchema(KanbanTaskCommentsTable).transform((v) => ({
   ...v,
   id: v.id as KanbanTaskCommentId,
-  clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentClientGeneratedId,
+  clientGeneratedId: v.clientGeneratedId as KanbanTaskCommentClientGeneratedId,
   createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
   taskId: v.taskId as KanbanTaskId,
 }));
@@ -72,7 +72,7 @@ export const updateKanbanTaskCommentsSchema = createInsertSchema(KanbanTaskComme
   .transform((v) => ({
     ...v,
     id: v.id as KanbanTaskCommentId,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskCommentClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as KanbanTaskCommentClientGeneratedId,
     createdByUserProfileId: v.createdByUserProfileId as UserProfileId,
     taskId: v.taskId as KanbanTaskId,
   }));

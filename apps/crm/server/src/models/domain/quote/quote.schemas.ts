@@ -158,6 +158,7 @@ export const mutationRemoveQuoteServiceShape = {
 export const mutationRemoveQuoteServiceSchema = z.object(mutationRemoveQuoteServiceShape);
 
 export const mutationCreateQuoteNoteShape = {
+  clientGeneratedId: quoteNoteShape.clientGeneratedId.optional(),
   content: quoteNoteShape.content,
   quoteId: quoteNoteShape.quoteId,
 } satisfies ZodShapeFrom<CreateQuoteNoteInput>;

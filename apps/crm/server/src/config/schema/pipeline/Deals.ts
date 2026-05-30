@@ -22,7 +22,7 @@ export type PipelineDealsTableSelect = InferSelectModel<typeof PipelineDealsTabl
 export type PipelineDealsTableUpdate = Partial<Omit<PipelineDealsTableInsert, 'id'>>;
 export const PipelineDealsTable = pgTable('pipeline_deals', {
   id: uuid('id').primaryKey().defaultRandom().$type<PipelineDealId>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<PipelineDealClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().$type<PipelineDealClientGeneratedId>(),
   orderKey: varchar({ length: 255 }).notNull(),
   title: varchar('title', { length: 255 }).notNull(),
   companyId: uuid('company_name')
@@ -72,7 +72,7 @@ export const insertPipelineDealsSchema = createInsertSchema(PipelineDealsTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as PipelineDealClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as PipelineDealClientGeneratedId,
     companyId: v.companyId as CompanyId,
     dealContactId: v.dealContactId as ContactId,
     dealOwnerUserProfileId: v.dealOwnerUserProfileId as UserProfileId,
@@ -82,7 +82,7 @@ export const insertPipelineDealsSchema = createInsertSchema(PipelineDealsTable)
 export const selectPipelineDealsSchema = createSelectSchema(PipelineDealsTable).transform((v) => ({
   ...v,
   id: v.id as PipelineDealId,
-  clientTemporaryId: v.clientTemporaryId as PipelineDealClientGeneratedId,
+  clientGeneratedId: v.clientGeneratedId as PipelineDealClientGeneratedId,
   companyId: v.companyId as CompanyId,
   dealContactId: v.dealContactId as ContactId,
   dealOwnerUserProfileId: v.dealOwnerUserProfileId as UserProfileId,
@@ -95,7 +95,7 @@ export const updatePipelineDealsSchema = createInsertSchema(PipelineDealsTable)
   .transform((v) => ({
     ...v,
     id: v.id as PipelineDealId,
-    clientTemporaryId: v.clientTemporaryId as PipelineDealClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as PipelineDealClientGeneratedId,
     companyId: v.companyId as CompanyId,
     dealContactId: v.dealContactId as ContactId,
     dealOwnerUserProfileId: v.dealOwnerUserProfileId as UserProfileId,

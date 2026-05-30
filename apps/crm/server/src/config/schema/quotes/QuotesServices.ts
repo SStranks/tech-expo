@@ -16,7 +16,7 @@ export type QuoteServicesTableSelect = InferSelectModel<typeof QuoteServicesTabl
 export type QuoteServicesTableUpdate = Partial<Omit<QuoteServicesTableInsert, 'id'>>;
 export const QuoteServicesTable = pgTable('quotes_services', {
   id: uuid('id').primaryKey().defaultRandom().$type<QuoteServiceId>(),
-  clientGeneratedId: uuid('client_temp_id').unique().notNull().$type<QuoteServiceClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().notNull().$type<QuoteServiceClientGeneratedId>(),
   title: varchar('title', { length: 255 }).notNull(),
   price: numeric('price', { precision: 14, scale: 2 }).default('0.00').notNull(),
   quantity: integer('quantity').default(0).notNull(),

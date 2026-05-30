@@ -19,7 +19,7 @@ export type KanbanTaskChecklistItemTableSelect = InferSelectModel<typeof KanbanT
 export type KanbanTaskChecklistItemTableUpdate = Partial<Omit<KanbanTaskChecklistItemTableInsert, 'id'>>;
 export const KanbanTaskChecklistItemTable = pgTable('kanban_task_checklist', {
   id: uuid('id').primaryKey().defaultRandom().$type<KanbanTaskChecklistItemId>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<KanbanTaskChecklistItemClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().$type<KanbanTaskChecklistItemClientGeneratedId>(),
   title: varchar('title', { length: 255 }).notNull(),
   completed: boolean('completed').default(false).notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -44,14 +44,14 @@ export const insertKanbanTaskChecklistItemSchema = createInsertSchema(KanbanTask
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistItemClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as KanbanTaskChecklistItemClientGeneratedId,
     taskId: v.taskId as KanbanTaskId,
   }));
 
 export const selectKanbanTaskChecklistItemSchema = createSelectSchema(KanbanTaskChecklistItemTable).transform((v) => ({
   ...v,
   id: v.id as KanbanTaskChecklistItemId,
-  clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistItemClientGeneratedId,
+  clientGeneratedId: v.clientGeneratedId as KanbanTaskChecklistItemClientGeneratedId,
   taskId: v.taskId as KanbanTaskId,
 }));
 
@@ -61,7 +61,7 @@ export const updateKanbanTaskChecklistItemSchema = createInsertSchema(KanbanTask
   .transform((v) => ({
     ...v,
     id: v.id as KanbanTaskChecklistItemId,
-    clientTemporaryId: v.clientTemporaryId as KanbanTaskChecklistItemClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as KanbanTaskChecklistItemClientGeneratedId,
     taskId: v.taskId as KanbanTaskId,
   }));
 

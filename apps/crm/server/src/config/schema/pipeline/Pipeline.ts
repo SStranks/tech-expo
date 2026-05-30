@@ -18,7 +18,7 @@ export type PipelineTableSelect = InferSelectModel<typeof PipelineTable>;
 export type PipelineTableUpdate = Partial<Omit<PipelineTableInsert, 'id'>>;
 export const PipelineTable = pgTable('pipeline', {
   id: uuid('id').primaryKey().defaultRandom().$type<PipelineId>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<PipelineClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().$type<PipelineClientGeneratedId>(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'cascade' })
     .notNull()
@@ -43,14 +43,14 @@ export const insertPipelineSchema = createInsertSchema(PipelineTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as PipelineClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as PipelineClientGeneratedId,
     companyId: v.companyId as CompanyId,
   }));
 
 export const selectPipelineSchema = createSelectSchema(PipelineTable).transform((v) => ({
   ...v,
   id: v.id as PipelineId,
-  clientTemporaryId: v.clientTemporaryId as PipelineClientGeneratedId,
+  clientGeneratedId: v.clientGeneratedId as PipelineClientGeneratedId,
   companyId: v.companyId as CompanyId,
 }));
 
@@ -60,7 +60,7 @@ export const updatePipelineSchema = createInsertSchema(PipelineTable)
   .transform((v) => ({
     ...v,
     id: v.id as PipelineId,
-    clientTemporaryId: v.clientTemporaryId as PipelineClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as PipelineClientGeneratedId,
     companyId: v.companyId as CompanyId,
   }));
 

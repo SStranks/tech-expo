@@ -23,7 +23,7 @@ export type CalendarEventsTableSelect = InferSelectModel<typeof CalendarEventsTa
 export type CalendarEventsTableUpdate = Partial<Omit<CalendarEventsTableInsert, 'id'>>;
 export const CalendarEventsTable = pgTable('calendar_events', {
   id: uuid('id').primaryKey().defaultRandom().$type<CalendarEventId>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<CalendarEventClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().$type<CalendarEventClientGeneratedId>(),
   title: varchar('title', { length: 255 }).notNull(),
   calendarId: uuid('calendar_id')
     .references(() => CalendarTable.id, { onDelete: 'cascade' })
@@ -62,7 +62,7 @@ export const insertCalendarEventsSchema = createInsertSchema(CalendarEventsTable
     ...v,
     calendarId: v.calendarId as CalendarId,
     categoryId: v.categoryId as CalendarCategoryId,
-    clientTemporaryId: v.clientTemporaryId as CalendarEventClientGeneratedId | null,
+    clientGeneratedId: v.clientGeneratedId as CalendarEventClientGeneratedId | null,
   }));
 
 export const selectCalendarEventsSchema = createSelectSchema(CalendarEventsTable).transform((v) => ({
@@ -70,7 +70,7 @@ export const selectCalendarEventsSchema = createSelectSchema(CalendarEventsTable
   id: v.id as CalendarEventId,
   calendarId: v.calendarId as CalendarId,
   categoryId: v.categoryId as CalendarCategoryId,
-  clientTemporaryId: v.clientTemporaryId as CalendarEventClientGeneratedId | null,
+  clientGeneratedId: v.clientGeneratedId as CalendarEventClientGeneratedId | null,
 }));
 
 export const updateCalendarEventsSchema = createInsertSchema(CalendarEventsTable)
@@ -81,7 +81,7 @@ export const updateCalendarEventsSchema = createInsertSchema(CalendarEventsTable
     id: v.id as CalendarEventId,
     calendarId: v.calendarId as CalendarId,
     categoryId: v.categoryId as CalendarCategoryId,
-    clientTemporaryId: v.clientTemporaryId as CalendarEventClientGeneratedId | null,
+    clientGeneratedId: v.clientGeneratedId as CalendarEventClientGeneratedId | null,
   }));
 
 export type InsertCalendarEventsSchema = z.infer<typeof insertCalendarEventsSchema>;

@@ -17,8 +17,8 @@ import type { ZodShapeFrom, ZodShapeFromSchema } from '#Types/zod.js';
 
 import type { CompanyId } from '../company/company.types.js';
 import type { TimeZoneId } from '../timezone/timezone.types.js';
-import type { ContactId } from './contact.types.js';
-import type { ContactNoteId } from './note/note.types.js';
+import type { ContactClientGeneratedId, ContactId } from './contact.types.js';
+import type { ContactNoteClientGeneratedId, ContactNoteId } from './note/note.types.js';
 
 import { z } from 'zod';
 
@@ -29,6 +29,7 @@ import { CONTACT_STAGE } from './contact.types.js';
 
 export const contactShape = {
   id: z.uuid(zErrorMessages.UUID).transform((v) => v as ContactId),
+  clientGeneratedId: z.uuid(zErrorMessages.UUID).transform((v) => v as ContactClientGeneratedId),
   companyId: z.uuid(zErrorMessages.UUID).transform((v) => v as CompanyId),
   email: z.email(zErrorMessages.FORMAT('Email')),
   firstName: z.string().trim().min(1, zErrorMessages.EMPTY('First name')),
@@ -49,6 +50,7 @@ export const contactShape = {
 
 export const contactNoteShape = {
   id: z.uuid(zErrorMessages.UUID).transform((v) => v as ContactNoteId),
+  clientGeneratedId: z.uuid(zErrorMessages.UUID).transform((v) => v as ContactNoteClientGeneratedId),
   note: z.string().trim().min(1, zErrorMessages.EMPTY('Note')),
 } satisfies Partial<{ [K in keyof ContactsNotesTableSelect]: z.ZodTypeAny }>;
 
@@ -92,6 +94,7 @@ const queryContactOverviewShape = {
 export const queryContactOverviewSchema = z.object(queryContactOverviewShape);
 
 const mutationCreateContactShape = {
+  clientGeneratedId: contactShape.clientGeneratedId.optional(),
   companyId: contactShape.companyId,
   email: contactShape.email,
   firstName: contactShape.firstName,
@@ -124,6 +127,7 @@ export const mutationRemoveContactShape = {
 export const mutationRemoveContactSchema = z.object(mutationRemoveContactShape);
 
 export const mutationCreateContactNoteShape = {
+  clientGeneratedId: contactShape.clientGeneratedId.optional(),
   contactId: contactShape.id,
   note: contactNoteShape.note,
 } satisfies ZodShapeFrom<CreateContactNoteInput>;

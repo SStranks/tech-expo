@@ -23,7 +23,7 @@ export const CalendarCategoriesTable = pgTable(
   'calendar_event_categories',
   {
     id: uuid('id').primaryKey().defaultRandom().$type<CalendarCategoryId>(),
-    clientTemporaryId: uuid('client_temp_id').unique().$type<CalendarCategoryClientGeneratedId>(),
+    clientGeneratedId: uuid('client_generated_id').unique().$type<CalendarCategoryClientGeneratedId>(),
     title: varchar('title', { length: 255 }).notNull(),
     calendarId: uuid('calendar_id')
       .references(() => CalendarTable.id, { onDelete: 'cascade' })
@@ -52,14 +52,14 @@ export const insertCalendarCategoriesSchema = createInsertSchema(CalendarCategor
   .transform((v) => ({
     ...v,
     calendarId: v.calendarId as CalendarId,
-    clientTemporaryId: v.clientTemporaryId as CalendarCategoryClientGeneratedId | null,
+    clientGeneratedId: v.clientGeneratedId as CalendarCategoryClientGeneratedId | null,
   }));
 
 export const selectCalendarCategoriesSchema = createSelectSchema(CalendarCategoriesTable).transform((v) => ({
   ...v,
   id: v.id as CalendarCategoryId,
   calendarId: v.calendarId as CalendarId,
-  clientTemporaryId: v.clientTemporaryId as CalendarCategoryClientGeneratedId | null,
+  clientGeneratedId: v.clientGeneratedId as CalendarCategoryClientGeneratedId | null,
 }));
 
 export const updateCalendarCategoriesSchema = createInsertSchema(CalendarCategoriesTable)
@@ -68,7 +68,7 @@ export const updateCalendarCategoriesSchema = createInsertSchema(CalendarCategor
   .transform((v) => ({
     ...v,
     calendarId: v.calendarId as CalendarId,
-    clientTemporaryId: v.clientTemporaryId as CalendarCategoryClientGeneratedId | null,
+    clientGeneratedId: v.clientGeneratedId as CalendarCategoryClientGeneratedId | null,
   }));
 
 export type InsertCalendarCategoriesSchema = z.infer<typeof insertCalendarCategoriesSchema>;

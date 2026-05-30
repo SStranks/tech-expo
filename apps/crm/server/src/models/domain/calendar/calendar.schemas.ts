@@ -17,8 +17,8 @@ import type { ZodShapeFrom, ZodShapeFromSchema } from '#Types/zod.js';
 import type { CompanyId } from '../company/company.types.js';
 import type { UserProfileId } from '../user/profile/profile.types.js';
 import type { CalendarId } from './calendar.types.js';
-import type { CalendarCategoryId } from './category/category.types.js';
-import type { CalendarEventId } from './event/event.types.js';
+import type { CalendarCategoryClientGeneratedId, CalendarCategoryId } from './category/category.types.js';
+import type { CalendarEventClientGeneratedId, CalendarEventId } from './event/event.types.js';
 
 import z from 'zod';
 
@@ -33,6 +33,7 @@ export const calendarEventShape = {
   id: z.uuid(zErrorMessages.UUID).transform((v) => v as CalendarEventId),
   calendarId: z.uuid(zErrorMessages.UUID).transform((v) => v as CalendarId),
   categoryId: z.uuid(zErrorMessages.UUID).transform((v) => v as CalendarCategoryId),
+  clientGeneratedId: z.uuid(zErrorMessages.UUID).transform((v) => v as CalendarEventClientGeneratedId),
   color: z.string().regex(/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i, zErrorMessages.FORMAT('Hexidecimal colour')),
   description: z.string().trim().min(1, zErrorMessages.EMPTY('Description')),
   eventEndAt: z.iso.datetime(zErrorMessages.DATETIME('EventEndAt')).transform((v) => new Date(v)),
@@ -43,6 +44,7 @@ export const calendarEventShape = {
 export const calendarCategoryShape = {
   id: z.uuid(zErrorMessages.UUID).transform((v) => v as CalendarCategoryId),
   calendarId: z.uuid(zErrorMessages.UUID).transform((v) => v as CalendarId),
+  clientGeneratedId: z.uuid(zErrorMessages.UUID).transform((v) => v as CalendarCategoryClientGeneratedId),
   title: z.string().trim().min(1, zErrorMessages.EMPTY('Title')),
 } satisfies ZodShapeFromSchema<CalendarCategoriesTableSelect>;
 
@@ -77,6 +79,7 @@ export const queryCalendarEventSchema = z.object(queryCalendarEventShape);
 export const mutationCreateEventShape = {
   calendarId: calendarEventShape.calendarId,
   categoryId: calendarEventShape.categoryId,
+  clientGeneratedId: calendarEventShape.clientGeneratedId.optional(),
   color: calendarEventShape.color.nullish(),
   description: calendarEventShape.description,
   endTime: calendarEventShape.eventEndAt,
@@ -107,6 +110,7 @@ export const mutationRemoveEventSchema = z.object(mutationRemoveEventShape);
 
 export const mutationCreateCategoryShape = {
   calendarId: calendarShape.id,
+  clientGeneratedId: calendarCategoryShape.clientGeneratedId.optional(),
   title: calendarCategoryShape.title,
 } satisfies ZodShapeFrom<CreateCategoryInput>;
 export const mutationCreateCategorySchema = z.object(mutationCreateCategoryShape);

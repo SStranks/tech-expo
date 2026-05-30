@@ -26,7 +26,7 @@ export type ContactsTableSelect = InferSelectModel<typeof ContactsTable>;
 export type ContactsTableUpdate = Partial<Omit<ContactsTableInsert, 'id'>>;
 export const ContactsTable = pgTable('contacts', {
   id: uuid('id').primaryKey().defaultRandom().$type<ContactId>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<ContactClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().$type<ContactClientGeneratedId>(),
   firstName: varchar('first_name', { length: 255 }).notNull(),
   lastName: varchar('last_name', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull(),
@@ -66,7 +66,7 @@ export const insertContactsSchema = createInsertSchema(ContactsTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as ContactClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as ContactClientGeneratedId,
     companyId: v.companyId as CompanyId,
     timezoneId: v.timezoneId as TimeZoneId,
   }));
@@ -74,7 +74,7 @@ export const insertContactsSchema = createInsertSchema(ContactsTable)
 export const selectContactsSchema = createSelectSchema(ContactsTable).transform((v) => ({
   ...v,
   id: v.id as ContactId,
-  clientTemporaryId: v.clientTemporaryId as ContactClientGeneratedId,
+  clientGeneratedId: v.clientGeneratedId as ContactClientGeneratedId,
   companyId: v.companyId as CompanyId,
   timezoneId: v.timezoneId as TimeZoneId,
 }));
@@ -85,7 +85,7 @@ export const updateContactsSchema = createInsertSchema(ContactsTable)
   .transform((v) => ({
     ...v,
     id: v.id as ContactId,
-    clientTemporaryId: v.clientTemporaryId as ContactClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as ContactClientGeneratedId,
     companyId: v.companyId as CompanyId,
     timezoneId: v.timezoneId as TimeZoneId,
   }));

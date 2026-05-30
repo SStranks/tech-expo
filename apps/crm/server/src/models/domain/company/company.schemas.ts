@@ -17,18 +17,20 @@ import type { ZodShapeFrom, ZodShapeFromSchema } from '#Types/zod.js';
 import type { ContactId } from '../contact/contact.types.js';
 import type { CountryId } from '../country/country.types.js';
 import type { UserProfileId } from '../user/profile/profile.types.js';
-import type { CompanyNoteId } from './note/note.types.js';
+import type { CompanyClientGeneratedId, CompanyId } from './company.types.js';
+import type { CompanyNoteClientGeneratedId, CompanyNoteId } from './note/note.types.js';
 
 import z from 'zod';
 
 import { zErrorMessages } from '#Utils/zod/zSchemaErrorMapper.js';
 
-import { BUSINESS_TYPE, COMPANY_SIZE, type CompanyId } from './company.types.js';
+import { BUSINESS_TYPE, COMPANY_SIZE } from './company.types.js';
 
 export const companyShape = {
   id: z.uuid(zErrorMessages.UUID).transform((v) => v as CompanyId),
   name: z.string().trim().min(1, zErrorMessages.EMPTY('Company name')),
   businessType: z.enum(BUSINESS_TYPE, zErrorMessages.ENUM('Business-type')),
+  clientGeneratedId: z.uuid(zErrorMessages.UUID).transform((v) => v as CompanyClientGeneratedId),
   countryId: z.uuid(zErrorMessages.UUID).transform((v) => v as CountryId),
   industry: z.string().trim().min(1, zErrorMessages.EMPTY('Industry')),
   salesOwner: z.uuid(zErrorMessages.UUID).transform((v) => v as UserProfileId),
@@ -39,6 +41,7 @@ export const companyShape = {
 
 export const companyNoteShape = {
   id: z.uuid(zErrorMessages.UUID).transform((v) => v as CompanyNoteId),
+  clientGeneratedId: z.uuid(zErrorMessages.UUID).transform((v) => v as CompanyNoteClientGeneratedId),
   companyId: z.uuid(zErrorMessages.UUID).transform((v) => v as CompanyId),
   createdByUserProfileId: z.uuid(zErrorMessages.UUID).transform((v) => v as UserProfileId),
   note: z.string().trim().min(1, zErrorMessages.EMPTY('Note')),
@@ -70,6 +73,7 @@ export const queryCompanyOverviewSchema = z.object(queryCompanyOverviewShape);
 const mutationCreateCompanyShape = {
   name: companyShape.name,
   businessType: companyShape.businessType,
+  clientGeneratedId: companyShape.clientGeneratedId.optional(),
   countryId: companyShape.countryId,
   industry: companyShape.industry,
   salesOwner: companyShape.salesOwner,
@@ -97,6 +101,7 @@ const mutationRemoveCompanyShape = {
 export const mutationRemoveCompanySchema = z.object(mutationRemoveCompanyShape);
 
 const mutationCreateCompanyNoteShape = {
+  clientGeneratedId: companyShape.clientGeneratedId.optional(),
   companyId: companyShape.id,
   note: companyNoteShape.note,
 } satisfies ZodShapeFrom<CreateCompanyNoteInput>;

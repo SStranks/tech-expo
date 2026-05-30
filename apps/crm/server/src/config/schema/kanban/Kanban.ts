@@ -18,7 +18,7 @@ export type KanbanTableSelect = InferSelectModel<typeof KanbanTable>;
 export type KanbanTableUpdate = Partial<Omit<KanbanTableInsert, 'id'>>;
 export const KanbanTable = pgTable('kanban', {
   id: uuid('id').primaryKey().defaultRandom().$type<KanbanId>(),
-  clientTemporaryId: uuid('client_temp_id').unique().$type<KanbanClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().$type<KanbanClientGeneratedId>(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'cascade' })
     .notNull()
@@ -43,14 +43,14 @@ export const insertKanbanSchema = createInsertSchema(KanbanTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientTemporaryId: v.clientTemporaryId as KanbanClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as KanbanClientGeneratedId,
     companyId: v.companyId as CompanyId,
   }));
 
 export const selectKanbanSchema = createSelectSchema(KanbanTable).transform((v) => ({
   ...v,
   id: v.id as KanbanId,
-  clientTemporaryId: v.clientTemporaryId as KanbanClientGeneratedId,
+  clientGeneratedId: v.clientGeneratedId as KanbanClientGeneratedId,
   companyId: v.companyId as CompanyId,
 }));
 
@@ -60,7 +60,7 @@ export const updateKanbanSchema = createInsertSchema(KanbanTable)
   .transform((v) => ({
     ...v,
     id: v.id as KanbanId,
-    clientTemporaryId: v.clientTemporaryId as KanbanClientGeneratedId,
+    clientGeneratedId: v.clientGeneratedId as KanbanClientGeneratedId,
     companyId: v.companyId as CompanyId,
   }));
 
