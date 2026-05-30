@@ -115,10 +115,10 @@ export const EslintConfigGlobal = {
         },
       },
       {
-        // Default/Fallback Configuration
+        type: 'alphabetical',
         groups: ['top', ['member', 'multiline-member'], 'unknown', ['method', 'multiline-method'], 'bottom'],
         customGroups: [
-          { groupName: 'top', elementNamePattern: '^(?:id|name)$' },
+          { groupName: 'top', elementNamePattern: '^id$' },
           {
             groupName: 'bottom',
             elementNamePattern: '.+_metadata$',
@@ -126,6 +126,12 @@ export const EslintConfigGlobal = {
         ],
         useConfigurationIf: {
           objectType: 'non-destructured',
+        },
+      },
+      {
+        type: 'unsorted',
+        useConfigurationIf: {
+          objectType: 'destructured',
         },
       },
     ],

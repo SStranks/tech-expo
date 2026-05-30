@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { UUID } from '@apps/crm-shared';
 
 import type { CalendarCategoriesTableSelect } from '#Config/schema/calendar/Categories.js';
@@ -21,8 +20,8 @@ export function calendarCategoryRowToDomain(row: CalendarCategoriesTableSelect):
   return CalendarCategory.rehydrate({
     id: row.id,
     calendarId: row.calendarId,
-    title: row.title,
     createdAt: row.createdAt,
+    title: row.title,
   });
 }
 
@@ -31,8 +30,9 @@ export function calendarCategoryDomainToCalendarCategoryDTO(
 ): CalendarCategoryDTO {
   return {
     id: calendarCategory.id,
-    title: calendarCategory.title,
     calendarId: calendarCategory.calendarId,
+    clientGeneratedId: calendarCategory.clientGeneratedId,
     createdAt: calendarCategory.createdAt,
+    title: calendarCategory.title,
   };
 }

@@ -20,7 +20,7 @@ export type KanbanTasksTableSelect = InferSelectModel<typeof KanbanTasksTable>;
 export type KanbanTasksTableUpdate = Partial<Omit<KanbanTasksTableInsert, 'id'>>;
 export const KanbanTasksTable = pgTable('kanban_tasks', {
   id: uuid('id').primaryKey().defaultRandom().$type<KanbanTaskId>(),
-  clientGeneratedId: uuid('client_generated_id').unique().$type<KanbanTaskClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().notNull().$type<KanbanTaskClientGeneratedId>(),
   orderKey: varchar({ length: 255 }).notNull(),
   title: varchar('title', { length: 255 }).notNull(),
   completed: boolean('completed').default(false),

@@ -10,21 +10,21 @@ const prometheusRegister = new Registry();
 collectDefaultMetrics({ prefix: PREFIX, register: prometheusRegister });
 
 const httpRequestDurationSeconds = new prometheusClient.Histogram({
-  name: `${PREFIX}http_request_duration_seconds`,
   buckets: [0.001, 0.002, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2, 5],
   help: 'Duration of HTTP requests in ms',
   labelNames: ['method', 'route', 'code'],
+  name: `${PREFIX}http_request_duration_seconds`,
 });
 
 const httpRequestCounter = new prometheusClient.Counter({
-  name: `${PREFIX}http_request_count`,
   help: 'Count of HTTP requests made to my app',
   labelNames: ['method', 'route', 'statusCode'],
+  name: `${PREFIX}http_request_count`,
 });
 
 const upGauge = new prometheusClient.Gauge({
-  name: `${PREFIX}up`,
   help: '1 if the service is healthy, 0 otherwise',
+  name: `${PREFIX}up`,
 });
 upGauge.set(1);
 

@@ -67,15 +67,16 @@ export class PostgresContactRepository implements ContactRepository {
       const rows = await tx
         .insert(ContactsTable)
         .values({
-          firstName: contact.firstName,
-          lastName: contact.lastName,
-          email: contact.email,
-          phone: contact.phone,
+          clientGeneratedId: contact.clientGeneratedId,
           companyId: contact.companyId,
+          email: contact.email,
+          firstName: contact.firstName,
+          image: contact.image,
           jobTitle: contact.jobTitle,
+          lastName: contact.lastName,
+          phone: contact.phone,
           stage: contact.stage,
           timezoneId: contact.timezoneId,
-          image: contact.image,
         })
         .returning();
 
@@ -139,8 +140,8 @@ export class PostgresContactRepository implements ContactRepository {
     }
 
     if (updatedNotes.size > 0) {
-      for (const [UUID, note] of updatedNotes) {
-        await tx.update(ContactsNotesTable).set(note.pullDirtyFields()).where(eq(ContactsNotesTable.id, UUID));
+      for (const [id, note] of updatedNotes) {
+        await tx.update(ContactsNotesTable).set(note.pullDirtyFields()).where(eq(ContactsNotesTable.id, id));
       }
     }
 

@@ -16,6 +16,7 @@ export function asCompanyNoteId(id: UUID): CompanyNoteId {
 export function companyNoteReadRowToCompanyNoteDTO(companyNote: CompanyNoteReadRow): CompanyNoteDTO {
   return {
     id: companyNote.id,
+    clientGeneratedId: companyNote.clientGeneratedId,
     note: companyNote.note,
     createdByUserProfileId: companyNote.createdByUserProfileId,
     createdAt: companyNote.createdAt,
@@ -25,6 +26,7 @@ export function companyNoteReadRowToCompanyNoteDTO(companyNote: CompanyNoteReadR
 export function companyNoteDomainToCompanyNoteDTO(companyNote: PersistedCompanyNote): CompanyNoteDTO {
   return {
     id: companyNote.id,
+    clientGeneratedId: companyNote.clientGeneratedId,
     note: companyNote.content,
     createdAt: companyNote.createdAt,
     createdByUserProfileId: companyNote.createdByUserProfileId,

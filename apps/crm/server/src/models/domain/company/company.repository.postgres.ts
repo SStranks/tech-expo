@@ -68,14 +68,15 @@ export class PostgresCompanyRepository implements CompanyRepository {
       const rows = await tx
         .insert(CompaniesTable)
         .values({
+          businessType: company.businessType,
+          clientGeneratedId: company.clientGeneratedId,
+          countryId: company.countryId,
+          industry: company.industry,
           name: company.name,
+          salesOwner: company.salesOwner,
           size: company.size,
           totalRevenue: company.totalRevenue,
-          industry: company.industry,
-          businessType: company.businessType,
-          countryId: company.countryId,
           website: company.website?.toString() ?? null,
-          salesOwner: company.salesOwner,
         })
         .returning();
 
@@ -139,8 +140,8 @@ export class PostgresCompanyRepository implements CompanyRepository {
     }
 
     if (updatedNotes.size > 0) {
-      for (const [UUID, note] of updatedNotes) {
-        await tx.update(CompaniesNotesTable).set(note.pullDirtyFields()).where(eq(CompaniesNotesTable.id, UUID));
+      for (const [id, note] of updatedNotes) {
+        await tx.update(CompaniesNotesTable).set(note.pullDirtyFields()).where(eq(CompaniesNotesTable.id, id));
       }
     }
 

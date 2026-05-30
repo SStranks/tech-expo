@@ -18,6 +18,7 @@ export function asContactId(id: UUID): ContactId {
 export function contactReadRowToContactDTO(contact: ContactReadRow): ContactDTO {
   return {
     id: contact.id,
+    clientGeneratedId: contact.clientGeneratedId,
     firstName: contact.firstName,
     lastName: contact.lastName,
     email: contact.email,
@@ -49,6 +50,7 @@ export function contactRowToDomain(row: ContactsTableSelect): PersistedContact {
 export function contactDomainToContactDTO(contact: PersistedContact): ContactDTO {
   return {
     id: contact.id,
+    clientGeneratedId: contact.clientGeneratedId,
     firstName: contact.firstName,
     lastName: contact.lastName,
     email: contact.email,

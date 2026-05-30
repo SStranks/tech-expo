@@ -1,9 +1,11 @@
 /* eslint-disable perfectionist/sort-objects */
 /* eslint-disable security/detect-object-injection */
 import type { ContactsNotesTableInsert } from '#Config/schema/contacts/ContactsNotes.js';
+import type { ContactNoteClientGeneratedId } from '#Models/domain/contact/note/note.types.js';
 
 import type { SeedContactNotesContact, SeedContactNotesUsers } from '../ContactsNotes.ts';
 
+import { createMockUUID } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 
 import ContactsNotes from '#Data/ContactsNotes.json';
@@ -60,6 +62,7 @@ export function generateContactNotes(
     if (users[i] === undefined) throw new Error(`generateContactNotes: users[${i}] undefined`);
 
     const contactNote: ContactsNotesTableInsert = {
+      clientGeneratedId: createMockUUID() as ContactNoteClientGeneratedId,
       contactId: contact.id,
       createdAt: commentsCreatedAt[i],
       createdByUserProfileId: users[i].id,

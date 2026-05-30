@@ -70,6 +70,7 @@ export class PostgresContactReadModel implements ContactReadModel {
 
       return contacts.map((c) => ({
         id: c.id,
+        clientGeneratedId: c.clientGeneratedId,
         firstName: c.firstName,
         lastName: c.lastName,
         email: c.email,
@@ -101,6 +102,7 @@ export class PostgresContactReadModel implements ContactReadModel {
 
       return contactNotes.map((cN) => ({
         id: cN.id,
+        clientGeneratedId: cN.clientGeneratedId,
         note: cN.note,
         contactId: cN.contactId,
         createdAt: cN.createdAt,

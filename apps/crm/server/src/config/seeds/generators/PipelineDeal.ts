@@ -1,8 +1,10 @@
 import type { PipelineDealsTableInsert } from '#Config/schema/pipeline/Deals.ts';
+import type { PipelineDealClientGeneratedId } from '#Models/domain/pipeline/deal/deal.types.js';
 import type { PipelineStageId } from '#Models/domain/pipeline/stage/stage.types.js';
 
 import type { SeedPipelineCompanies, SeedPipelineUsers } from '../Pipeline.js';
 
+import { createMockUUID } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 
 import PipelineDealsTitles from '#Data/PipelineDeals.json';
@@ -19,8 +21,10 @@ export function generatePipelineDeal(
   const { contacts, id: companyId } = faker.helpers.arrayElement(companies);
   const { id: dealContactId } = faker.helpers.arrayElement(contacts);
   const orderKey = ''; // TODO: Needs to be lexicographically generated
+  const clientGeneratedId = createMockUUID() as PipelineDealClientGeneratedId;
 
   return {
+    clientGeneratedId,
     companyId,
     dealContactId,
     dealOwnerUserProfileId,

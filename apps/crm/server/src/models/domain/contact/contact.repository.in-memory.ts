@@ -73,7 +73,7 @@ export class InMemoryContactRepository implements ContactRepository {
 
     const row: ContactsTableSelect = {
       id,
-      clientTemporaryId: contact.clientGeneratedId,
+      clientGeneratedId: contact.clientGeneratedId,
       firstName: contact.firstName,
       lastName: contact.lastName,
       email: contact.email,
@@ -128,7 +128,7 @@ export class InMemoryContactRepository implements ContactRepository {
       for (const [clientGeneratedId, note] of addedNotes) {
         const persistedNote = {
           id: asContactNoteId(createMockUUID()),
-          clientTemporaryId: clientGeneratedId,
+          clientGeneratedId: clientGeneratedId,
           contactId: contact.id,
           note: note.content,
           createdByUserProfileId: note.createdByUserProfileId,

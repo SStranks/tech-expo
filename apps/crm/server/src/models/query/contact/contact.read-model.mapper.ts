@@ -13,6 +13,7 @@ export function contactWithRelationsToOverviewRow(data: ContactWithRelations): C
     stage: data.contact.stage,
     company: {
       id: data.company.id,
+      clientGeneratedId: data.company.clientGeneratedId,
       name: data.company.name,
       size: data.company.size,
       totalRevenue: data.company.totalRevenue,

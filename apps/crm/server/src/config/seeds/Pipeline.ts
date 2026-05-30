@@ -2,7 +2,10 @@ import type { PostgresClient } from '#Config/dbPostgres.js';
 import type { PipelineDealsTableInsert } from '#Config/schema/pipeline/Deals.ts';
 import type { PipelineTableInsert } from '#Config/schema/pipeline/Pipeline.ts';
 import type { PipelineStagesTableInsert } from '#Config/schema/pipeline/Stages.ts';
+import type { PipelineClientGeneratedId } from '#Models/domain/pipeline/pipeline.types.js';
+import type { PipelineStageClientGeneratedId } from '#Models/domain/pipeline/stage/stage.types.js';
 
+import { createMockUUID } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 import { eq } from 'drizzle-orm';
 
@@ -43,7 +46,10 @@ export default async function seedPipeline(db: PostgresClient) {
   // ---------------- PIPELINE TABLE --------------- //
   const pipelineInsertionData: PipelineTableInsert[] = [];
   // eslint-disable-next-line unicorn/no-immediate-mutation
-  pipelineInsertionData.push({ companyId: primaryCompany.id });
+  pipelineInsertionData.push({
+    clientGeneratedId: createMockUUID() as PipelineClientGeneratedId,
+    companyId: primaryCompany.id,
+  });
 
   const pipelineTableReturnData = await db
     .insert(PipelineTable)
@@ -58,7 +64,11 @@ export default async function seedPipeline(db: PostgresClient) {
   const pipelineStagesInsertionData: PipelineStagesTableInsert[] = [];
 
   PIPELINE_DEAL_STAGES.forEach((title) => {
-    pipelineStagesInsertionData.push({ pipelineId: PRIMARY_COMPANY_PIPELINE_ID, title });
+    pipelineStagesInsertionData.push({
+      clientGeneratedId: createMockUUID() as PipelineStageClientGeneratedId,
+      pipelineId: PRIMARY_COMPANY_PIPELINE_ID,
+      title,
+    });
   });
 
   const stagesReturnData = await db

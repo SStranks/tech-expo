@@ -18,7 +18,7 @@ export type PipelineTableSelect = InferSelectModel<typeof PipelineTable>;
 export type PipelineTableUpdate = Partial<Omit<PipelineTableInsert, 'id'>>;
 export const PipelineTable = pgTable('pipeline', {
   id: uuid('id').primaryKey().defaultRandom().$type<PipelineId>(),
-  clientGeneratedId: uuid('client_generated_id').unique().$type<PipelineClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().notNull().$type<PipelineClientGeneratedId>(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'cascade' })
     .notNull()

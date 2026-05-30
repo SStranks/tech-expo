@@ -16,7 +16,7 @@ export type PipelineStagesTableSelect = InferSelectModel<typeof PipelineStagesTa
 export type PipelineStagesTableUpdate = Partial<Omit<PipelineStagesTableInsert, 'id'>>;
 export const PipelineStagesTable = pgTable('pipeline_stages', {
   id: uuid('id').primaryKey().defaultRandom().$type<PipelineStageId>(),
-  clientGeneratedId: uuid('client_generated_id').unique().$type<PipelineStageClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().notNull().$type<PipelineStageClientGeneratedId>(),
   title: varchar('title', { length: 255 }).notNull(),
   isPermanent: boolean().default(false),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),

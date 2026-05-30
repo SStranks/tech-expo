@@ -18,7 +18,7 @@ const getAllUsers = async (db: PostgresClient) => {
 
 export default async function seedCompaniesNotes(db: PostgresClient) {
   const allCompanies = await db.query.CompaniesTable.findMany({
-    columns: { id: true, name: true, industry: true },
+    columns: { id: true, industry: true, name: true },
     where: (companies, { ne }) => ne(companies.name, COMPANY_NAME),
   });
   if (allCompanies.length === 0) throw new Error('Users table returned no entries');

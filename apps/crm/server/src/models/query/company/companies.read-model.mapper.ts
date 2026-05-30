@@ -131,6 +131,7 @@ export function companyQuoteSummaryRowToCompanyQuoteSummaryDTO(
 export function companyRowToReadRow(row: CompaniesTableSelect): CompanyReadRow {
   return {
     id: row.id,
+    clientGeneratedId: row.clientGeneratedId,
     name: row.name,
     size: row.size,
     totalRevenue: row.totalRevenue,

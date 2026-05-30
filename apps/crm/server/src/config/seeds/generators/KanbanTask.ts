@@ -2,10 +2,16 @@ import type { KanbanTaskChecklistItemTableInsert } from '#Config/schema/kanban/C
 import type { KanbanTasksTableInsert } from '#Config/schema/kanban/Tasks.ts';
 import type { KanbanTaskCommentsTableInsert } from '#Config/schema/kanban/TasksComments.ts';
 import type { KanbanStageId } from '#Models/domain/kanban/stage/stage.types.js';
-import type { KanbanTaskId } from '#Models/domain/kanban/task/task.types.js';
+import type {
+  KanbanTaskChecklistItemClientGeneratedId,
+  KanbanTaskClientGeneratedId,
+  KanbanTaskCommentClientGeneratedId,
+  KanbanTaskId,
+} from '#Models/domain/kanban/task/task.types.js';
 
 import type { SeedKanbanUsers } from '../Kanban.js';
 
+import { createMockUUID } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 
 import KanbanTasks from '#Data/KanbanTasks.json';
@@ -24,6 +30,7 @@ export function generateKanbanTask(
 
   return {
     assignedUserProfileId,
+    clientGeneratedId: createMockUUID() as KanbanTaskClientGeneratedId,
     completed,
     description,
     dueDate,
@@ -39,7 +46,12 @@ export function generateKanbanTaskChecklist(taskId: KanbanTaskId, title: string)
   if (!task) throw new Error(`Incongruency in JSON and SQL return data; task title`);
 
   task.checklist.forEach(({ completed, title }) => {
-    checklistItems.push({ completed, taskId, title });
+    checklistItems.push({
+      clientGeneratedId: createMockUUID() as KanbanTaskChecklistItemClientGeneratedId,
+      completed,
+      taskId,
+      title,
+    });
   });
 
   return checklistItems;
@@ -52,7 +64,12 @@ export function generateKanbanTaskComments(users: SeedKanbanUsers, taskId: Kanba
 
   task.comments.forEach((comment) => {
     const createdByUserProfileId = faker.helpers.arrayElement(users).id;
-    comments.push({ comment, createdByUserProfileId, taskId });
+    comments.push({
+      clientGeneratedId: createMockUUID() as KanbanTaskCommentClientGeneratedId,
+      comment,
+      createdByUserProfileId,
+      taskId,
+    });
   });
 
   return comments;

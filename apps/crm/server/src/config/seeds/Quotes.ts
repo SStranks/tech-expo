@@ -15,7 +15,7 @@ const { COMPANY_NAME, COMPANY_QUOTES_MAX, COMPANY_QUOTES_MIN } = seedSettings;
 
 const getCompanies = async (db: PostgresClient) => {
   return db.query.CompaniesTable.findMany({
-    columns: { id: true, name: true, countryId: true, website: true },
+    columns: { id: true, countryId: true, name: true, website: true },
     with: { contacts: { columns: { id: true, firstName: true, lastName: true } } },
     where: (CompaniesTable, { ne }) => ne(CompaniesTable.name, COMPANY_NAME),
   });

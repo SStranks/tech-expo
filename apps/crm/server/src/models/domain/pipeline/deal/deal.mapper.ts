@@ -5,6 +5,7 @@ import type { PipelineDealDTO } from '../pipeline.dto.js';
 
 export const pipelineDealReadRowToPipelineDealDTO = (pipelineDeal: PipelineDealReadRow): PipelineDealDTO => ({
   id: pipelineDeal.id,
+  clientGeneratedId: pipelineDeal.clientGeneratedId,
   orderKey: pipelineDeal.orderKey,
   title: pipelineDeal.title,
   companyId: pipelineDeal.companyId,

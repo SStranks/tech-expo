@@ -84,6 +84,7 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
 
       return companyNotes.map((cN) => ({
         id: cN.id,
+        clientGeneratedId: cN.clientGeneratedId,
         note: cN.note,
         companyId: cN.companyId,
         createdAt: cN.createdAt,

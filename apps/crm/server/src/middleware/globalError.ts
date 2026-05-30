@@ -52,7 +52,7 @@ const prodErrorResponse = (error: NormalizedError, res: Response<ApiError>) => {
     const { cause, errors, logging, message, name, stack } = error;
 
     if (logging) {
-      pinoLogger.app.error({ name, cause, errors, stack }, 'Operational Error');
+      pinoLogger.app.error({ cause, errors, name, stack }, 'Operational Error');
     }
 
     return res.status(httpCode).json({ errors, message });

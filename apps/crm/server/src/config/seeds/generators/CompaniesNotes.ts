@@ -1,8 +1,10 @@
 /* eslint-disable security/detect-object-injection */
 import type { CompaniesNotesTableInsert } from '#Config/schema/companies/CompanyNotes.ts';
+import type { CompanyNoteClientGeneratedId } from '#Models/domain/company/note/note.types.js';
 
 import type { CompaniesQueryCompaniesNotes, SeedCompaniesNotesAllUsers } from '../CompaniesNotes.js';
 
+import { createMockUUID } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 
 import CompaniesNotes from '#Data/CompaniesNotes.json';
@@ -34,6 +36,7 @@ export function generateCompaniesNotes(company: CompaniesQueryCompaniesNotes, al
     if (userIds[i] === undefined) throw new Error(`generateCompaniesNotes: userIds[${i}] undefined`);
 
     const companyNote: CompaniesNotesTableInsert = {
+      clientGeneratedId: createMockUUID() as CompanyNoteClientGeneratedId,
       companyId: company.id,
       createdAt: commentsCreatedAt[i],
       createdByUserProfileId: userIds[i].id,

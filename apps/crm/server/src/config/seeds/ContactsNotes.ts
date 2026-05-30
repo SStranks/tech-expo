@@ -13,7 +13,7 @@ const getAllContacts = async (db: PostgresClient) => {
     columns: { id: true, firstName: true, lastName: true, stage: true },
     with: {
       company: {
-        columns: { name: true, industry: true },
+        columns: { industry: true, name: true },
       },
     },
   });

@@ -16,6 +16,7 @@ export function asContactNoteId(id: UUID): ContactNoteId {
 export function contactNoteReadRowToContactNoteDTO(contactNote: ContactNoteReadRow): ContactNoteDTO {
   return {
     id: contactNote.id,
+    clientGeneratedId: contactNote.clientGeneratedId,
     note: contactNote.note,
     createdByUserProfileId: contactNote.createdByUserProfileId,
     createdAt: contactNote.createdAt,
@@ -25,6 +26,7 @@ export function contactNoteReadRowToContactNoteDTO(contactNote: ContactNoteReadR
 export function contactNoteDomainToContactNoteDTO(contactNote: PersistedContactNote): ContactNoteDTO {
   return {
     id: contactNote.id,
+    clientGeneratedId: contactNote.clientGeneratedId,
     note: contactNote.content,
     createdAt: contactNote.createdAt,
     createdByUserProfileId: contactNote.createdByUserProfileId,

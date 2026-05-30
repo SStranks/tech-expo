@@ -6,7 +6,11 @@ import type {
 } from '#Config/schema/calendar/Categories.ts';
 import type { CalendarEventsTableInsert, CalendarEventsTableSelect } from '#Config/schema/calendar/Events.ts';
 import type { CalendarEventsParticipantsTableInsert } from '#Config/schema/calendar/EventsParticipants.ts';
+import type { CalendarClientGeneratedId } from '#Models/domain/calendar/calendar.types.js';
+import type { CalendarCategoryClientGeneratedId } from '#Models/domain/calendar/category/category.types.js';
+import type { CalendarEventClientGeneratedId } from '#Models/domain/calendar/event/event.types.js';
 
+import { createMockUUID } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 import { eq } from 'drizzle-orm';
 
@@ -37,7 +41,10 @@ export default async function seedCalendar(db: PostgresClient) {
   // ------------ CALENDAR TABLE ----------- //
   const calendarInsertionData: CalendarTableInsert[] = [];
   // eslint-disable-next-line unicorn/no-immediate-mutation
-  calendarInsertionData.push({ companyId: primaryCompany.id });
+  calendarInsertionData.push({
+    clientGeneratedId: createMockUUID() as CalendarClientGeneratedId,
+    companyId: primaryCompany.id,
+  });
 
   const calendarReturnData = await db
     .insert(CalendarTable)
@@ -57,7 +64,11 @@ export default async function seedCalendar(db: PostgresClient) {
     min: CALENDAR_EVENTS_MIN,
   });
   calendarCategories.forEach((category) => {
-    calendarCategoriesInsertionData.push({ calendarId: PRIMARY_COMPANY_CALENDAR_ID, title: category });
+    calendarCategoriesInsertionData.push({
+      calendarId: PRIMARY_COMPANY_CALENDAR_ID,
+      clientGeneratedId: createMockUUID() as CalendarCategoryClientGeneratedId,
+      title: category,
+    });
   });
 
   const calendarCategoriesReturnData: CalendarCategoriesTableSelect[] = await db
@@ -75,6 +86,7 @@ export default async function seedCalendar(db: PostgresClient) {
       calendarEventsInsertionData.push({
         calendarId,
         categoryId,
+        clientGeneratedId: createMockUUID() as CalendarEventClientGeneratedId,
         description: event.description,
         eventEndAt: new Date(event.end_timestamp),
         eventStartAt: new Date(event.start_timestamp),

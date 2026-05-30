@@ -74,6 +74,7 @@ export class PostgresCalendarRepository implements CalendarRepository {
     const rows = await tx
       .insert(CalendarTable)
       .values({
+        clientGeneratedId: calendar.clientGeneratedId,
         companyId: calendar.companyId,
       })
       .returning();
@@ -136,11 +137,11 @@ export class PostgresCalendarRepository implements CalendarRepository {
     }
 
     if (updatedCategory.size > 0) {
-      for (const [UUID, category] of updatedCategory) {
+      for (const [id, category] of updatedCategory) {
         await tx
           .update(CalendarCategoriesTable)
           .set(category.pullDirtyFields())
-          .where(eq(CalendarCategoriesTable.id, UUID));
+          .where(eq(CalendarCategoriesTable.id, id));
       }
     }
 
@@ -199,8 +200,8 @@ export class PostgresCalendarRepository implements CalendarRepository {
     }
 
     if (updatedEvent.size > 0) {
-      for (const [UUID, event] of updatedEvent) {
-        await tx.update(CalendarEventsTable).set(event.pullDirtyFields()).where(eq(CalendarEventsTable.id, UUID));
+      for (const [id, event] of updatedEvent) {
+        await tx.update(CalendarEventsTable).set(event.pullDirtyFields()).where(eq(CalendarEventsTable.id, id));
       }
     }
 

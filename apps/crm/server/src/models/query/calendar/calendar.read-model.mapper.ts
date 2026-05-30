@@ -7,6 +7,7 @@ export function calendarCategoryRowToReadRow(row: CalendarCategoriesTableSelect)
   return {
     id: row.id,
     calendarId: row.calendarId,
+    clientGeneratedId: row.clientGeneratedId,
     createdAt: row.createdAt,
     title: row.title,
   };
@@ -17,6 +18,7 @@ export function calendarEventRowToReadRow(row: CalendarEventsTableSelect): Calen
     id: row.id,
     calendarId: row.calendarId,
     categoryId: row.categoryId,
+    clientGeneratedId: row.clientGeneratedId,
     color: row.color ?? null,
     createdAt: row.createdAt,
     description: row.description,

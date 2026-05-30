@@ -1,6 +1,6 @@
 import type { ContactSortableField, SortDirection } from '#Graphql/generated/graphql.gen.js';
 import type { CompanyId } from '#Models/domain/company/company.types.js';
-import type { ContactId, ContactStage } from '#Models/domain/contact/contact.types.js';
+import type { ContactClientGeneratedId, ContactId, ContactStage } from '#Models/domain/contact/contact.types.js';
 import type { ContactNoteClientGeneratedId, ContactNoteId } from '#Models/domain/contact/note/note.types.js';
 import type { TimeZoneId } from '#Models/domain/timezone/timezone.types.js';
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
@@ -10,6 +10,7 @@ import type { CompanyReadRow } from '../company/companies.read-model.types.js';
 
 export type ContactReadRow = {
   id: ContactId;
+  clientGeneratedId: ContactClientGeneratedId;
   companyId: CompanyId;
   email: string;
   firstName: string;
@@ -33,11 +34,11 @@ export type ContactOverviewReadRow = {
 
 export type ContactNoteReadRow = {
   id: ContactNoteId;
+  clientGeneratedId: ContactNoteClientGeneratedId;
   contactId: ContactId;
   createdAt: Date;
   createdByUserProfileId: UserProfileId;
   note: string;
-  clientTemporaryId?: ContactNoteClientGeneratedId;
 };
 
 export type ContactQuery = {

@@ -22,7 +22,7 @@ export type PipelineDealsTableSelect = InferSelectModel<typeof PipelineDealsTabl
 export type PipelineDealsTableUpdate = Partial<Omit<PipelineDealsTableInsert, 'id'>>;
 export const PipelineDealsTable = pgTable('pipeline_deals', {
   id: uuid('id').primaryKey().defaultRandom().$type<PipelineDealId>(),
-  clientGeneratedId: uuid('client_generated_id').unique().$type<PipelineDealClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().notNull().$type<PipelineDealClientGeneratedId>(),
   orderKey: varchar({ length: 255 }).notNull(),
   title: varchar('title', { length: 255 }).notNull(),
   companyId: uuid('company_name')

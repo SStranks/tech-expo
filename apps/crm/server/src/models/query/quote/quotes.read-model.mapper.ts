@@ -44,8 +44,8 @@ export function quoteOverviewRowToQuoteOverviewDTO(row: QuoteOverviewReadRow): Q
     id: row.id,
     company: {
       id: row.company.id,
-      name: row.company.name,
       logo: row.company.logo ?? '',
+      name: row.company.name,
     },
     createdAt: row.createdAt,
     preparedBy: {

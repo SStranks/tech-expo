@@ -4,8 +4,10 @@ import type { KanbanTableInsert } from '#Config/schema/kanban/Kanban.ts';
 import type { KanbanStagesTableInsert } from '#Config/schema/kanban/Stages.ts';
 import type { KanbanTasksTableInsert } from '#Config/schema/kanban/Tasks.ts';
 import type { KanbanTaskCommentsTableInsert } from '#Config/schema/kanban/TasksComments.js';
+import type { KanbanClientGeneratedId } from '#Models/domain/kanban/kanban.types.js';
+import type { KanbanStageClientGeneratedId } from '#Models/domain/kanban/stage/stage.types.js';
 
-import { generateOrderKeyBetween } from '@apps/crm-shared/utils';
+import { createMockUUID, generateOrderKeyBetween } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 import { eq } from 'drizzle-orm';
 
@@ -48,7 +50,10 @@ export default async function seedKanban(db: PostgresClient) {
   // ---------------- KANBAN TABLE --------------- //
   const kanbanInsertionData: KanbanTableInsert[] = [];
   // eslint-disable-next-line unicorn/no-immediate-mutation
-  kanbanInsertionData.push({ companyId: primaryCompany.id });
+  kanbanInsertionData.push({
+    clientGeneratedId: createMockUUID() as KanbanClientGeneratedId,
+    companyId: primaryCompany.id,
+  });
 
   const kanbanTableReturnData = await db
     .insert(KanbanTable)
@@ -63,7 +68,11 @@ export default async function seedKanban(db: PostgresClient) {
   const stagesInsertionData: KanbanStagesTableInsert[] = [];
 
   KANBAN_TASKS_STAGES.forEach((title) => {
-    stagesInsertionData.push({ kanbanId: PRIMARY_COMPANY_KANBAN_ID, title });
+    stagesInsertionData.push({
+      clientGeneratedId: createMockUUID() as KanbanStageClientGeneratedId,
+      kanbanId: PRIMARY_COMPANY_KANBAN_ID,
+      title,
+    });
   });
 
   const stagesReturnData = await db

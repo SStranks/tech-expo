@@ -18,7 +18,7 @@ export type ContactsNotesTableSelect = InferSelectModel<typeof ContactsNotesTabl
 export type ContactsNotesTableUpdate = Partial<Omit<ContactsNotesTableInsert, 'id'>>;
 export const ContactsNotesTable = pgTable('contacts_notes', {
   id: uuid('id').primaryKey().defaultRandom().$type<ContactNoteId>(),
-  clientGeneratedId: uuid('client_generated_id').unique().$type<ContactNoteClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().notNull().$type<ContactNoteClientGeneratedId>(),
   note: text('note_text').notNull(),
   contactId: uuid('contact_id')
     .references(() => ContactsTable.id, { onDelete: 'cascade' })

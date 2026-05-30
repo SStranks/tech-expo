@@ -149,8 +149,8 @@ export class PostgresQuoteRepository implements QuoteRepository {
     }
 
     if (updatedNotes.size > 0) {
-      for (const [UUID, note] of updatedNotes) {
-        await tx.update(QuotesNotesTable).set(note.pullDirtyFields()).where(eq(QuotesNotesTable.id, UUID));
+      for (const [id, note] of updatedNotes) {
+        await tx.update(QuotesNotesTable).set(note.pullDirtyFields()).where(eq(QuotesNotesTable.id, id));
       }
     }
 

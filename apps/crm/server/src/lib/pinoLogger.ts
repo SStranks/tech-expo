@@ -41,8 +41,8 @@ const serverLoggerTargets: pino.TransportTargetOptions[] = [
 if (NODE_ENV === 'development') serverLoggerTargets.push(pinoPrettyTransport);
 
 const serverLogger: Logger = pino({
-  name: `Pino-${NODE_ENV}-ServerLogger`,
   level: PINO_LOG_LEVEL || (NODE_ENV === 'development' ? 'trace' : 'info'),
+  name: `Pino-${NODE_ENV}-ServerLogger`,
   timestamp: pino.stdTimeFunctions.isoTime,
   transport: { targets: serverLoggerTargets },
 });
@@ -57,8 +57,8 @@ const securityLoggerTargets: pino.TransportTargetOptions[] = [
 if (NODE_ENV === 'development') securityLoggerTargets.push(pinoPrettyTransport);
 
 const securityLogger: Logger = pino({
-  name: `Pino-${NODE_ENV}-securityLogger`,
   level: PINO_LOG_LEVEL || (NODE_ENV === 'development' ? 'trace' : 'info'),
+  name: `Pino-${NODE_ENV}-securityLogger`,
   timestamp: pino.stdTimeFunctions.isoTime,
   transport: { targets: securityLoggerTargets },
 });
@@ -73,16 +73,16 @@ const appLoggerTargets: pino.TransportTargetOptions[] = [
 if (NODE_ENV === 'development') appLoggerTargets.push(pinoPrettyTransport);
 
 const appLogger: Logger = pino({
-  name: `Pino-${NODE_ENV}-appLogger`,
   level: PINO_LOG_LEVEL || (NODE_ENV === 'development' ? 'trace' : 'info'),
+  name: `Pino-${NODE_ENV}-appLogger`,
   timestamp: pino.stdTimeFunctions.isoTime,
   transport: { targets: appLoggerTargets },
 });
 
 const crashLogger = pino(
   {
-    name: `Pino-${NODE_ENV}-crashLogger`,
     level: 'fatal',
+    name: `Pino-${NODE_ENV}-crashLogger`,
     timestamp: pino.stdTimeFunctions.isoTime,
   },
   pino.destination(1)

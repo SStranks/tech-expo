@@ -18,7 +18,7 @@ export type CompaniesNotesTableSelect = InferSelectModel<typeof CompaniesNotesTa
 export type CompaniesNotesTableUpdate = Partial<Omit<CompaniesNotesTableInsert, 'id'>>;
 export const CompaniesNotesTable = pgTable('companies_notes', {
   id: uuid('id').primaryKey().defaultRandom().$type<CompanyNoteId>(),
-  clientGeneratedId: uuid('client_generated_id').unique().$type<CompanyNoteClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().notNull().$type<CompanyNoteClientGeneratedId>(),
   note: text('note_text').notNull(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'cascade' })

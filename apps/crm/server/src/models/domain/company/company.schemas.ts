@@ -28,11 +28,11 @@ import { BUSINESS_TYPE, COMPANY_SIZE } from './company.types.js';
 
 export const companyShape = {
   id: z.uuid(zErrorMessages.UUID).transform((v) => v as CompanyId),
-  name: z.string().trim().min(1, zErrorMessages.EMPTY('Company name')),
   businessType: z.enum(BUSINESS_TYPE, zErrorMessages.ENUM('Business-type')),
   clientGeneratedId: z.uuid(zErrorMessages.UUID).transform((v) => v as CompanyClientGeneratedId),
   countryId: z.uuid(zErrorMessages.UUID).transform((v) => v as CountryId),
   industry: z.string().trim().min(1, zErrorMessages.EMPTY('Industry')),
+  name: z.string().trim().min(1, zErrorMessages.EMPTY('Company name')),
   salesOwner: z.uuid(zErrorMessages.UUID).transform((v) => v as UserProfileId),
   size: z.enum(COMPANY_SIZE, zErrorMessages.ENUM('Company-size')),
   totalRevenue: z.string().trim().min(1, zErrorMessages.EMPTY('Total-Revenue')),
@@ -71,11 +71,11 @@ const queryCompanyOverviewShape = {
 export const queryCompanyOverviewSchema = z.object(queryCompanyOverviewShape);
 
 const mutationCreateCompanyShape = {
-  name: companyShape.name,
   businessType: companyShape.businessType,
   clientGeneratedId: companyShape.clientGeneratedId.optional(),
   countryId: companyShape.countryId,
   industry: companyShape.industry,
+  name: companyShape.name,
   salesOwner: companyShape.salesOwner,
   size: companyShape.size,
   totalRevenue: companyShape.totalRevenue,
@@ -85,10 +85,10 @@ export const mutationCreateCompanySchema = z.object(mutationCreateCompanyShape);
 
 const mutationUpdateCompanyShape = {
   id: companyShape.id,
-  name: companyShape.name.optional(),
   businessType: companyShape.businessType.optional(),
   countryId: companyShape.countryId.optional(),
   industry: companyShape.industry.optional(),
+  name: companyShape.name.optional(),
   size: companyShape.size.optional(),
   totalRevenue: companyShape.totalRevenue.optional(),
   website: companyShape.website.nullish(),

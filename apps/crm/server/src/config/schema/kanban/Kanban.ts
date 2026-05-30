@@ -18,7 +18,7 @@ export type KanbanTableSelect = InferSelectModel<typeof KanbanTable>;
 export type KanbanTableUpdate = Partial<Omit<KanbanTableInsert, 'id'>>;
 export const KanbanTable = pgTable('kanban', {
   id: uuid('id').primaryKey().defaultRandom().$type<KanbanId>(),
-  clientGeneratedId: uuid('client_generated_id').unique().$type<KanbanClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().notNull().$type<KanbanClientGeneratedId>(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'cascade' })
     .notNull()

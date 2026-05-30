@@ -13,8 +13,8 @@ import { EMAIL_TEMPLATE_VERIFICATION } from './templates/VerificationEmailTempla
 const { NODEMAILER_DEV_EMAIL, NODEMAILER_PASSWORD, NODEMAILER_USERNAME } = secrets;
 const { NODE_ENV, NODEMAILER_HOST, NODEMAILER_PORT, NODEMAILER_SECURE } = env();
 
-const senderDev = { name: 'CRM Server: Development', address: 'admin@techexpo-crm.org' };
-const senderProd = { name: 'CRM Server: Production', address: 'admin@techexpo-crm.org' };
+const senderDev = { address: 'admin@techexpo-crm.org', name: 'CRM Server: Development' };
+const senderProd = { address: 'admin@techexpo-crm.org', name: 'CRM Server: Production' };
 
 const SMTPDefaultConfig: SMTPTransport.Options = {
   auth: {

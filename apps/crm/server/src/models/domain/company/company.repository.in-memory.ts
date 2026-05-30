@@ -85,7 +85,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
 
     const row: CompaniesTableSelect = {
       id,
-      clientTemporaryId: company.clientGeneratedId,
+      clientGeneratedId: company.clientGeneratedId,
       name: company.name,
       size: company.size,
       totalRevenue: company.totalRevenue,
@@ -137,7 +137,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
       for (const [clientGeneratedId, note] of addedNotes) {
         const persistedNote = {
           id: asCompanyNoteId(createMockUUID()),
-          clientTemporaryId: clientGeneratedId,
+          clientGeneratedId: clientGeneratedId,
           companyId: company.id,
           note: note.content,
           createdByUserProfileId: note.createdByUserProfileId,

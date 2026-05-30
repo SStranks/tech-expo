@@ -18,7 +18,7 @@ export type CalendarTableSelect = InferSelectModel<typeof CalendarTable>;
 export type CalendarTableUpdate = Partial<Omit<CalendarTableSelect, 'id'>>;
 export const CalendarTable = pgTable('calendar', {
   id: uuid('id').primaryKey().defaultRandom().$type<CalendarId>(),
-  clientGeneratedId: uuid('client_generated_id').unique().$type<CalendarClientGeneratedId>(),
+  clientGeneratedId: uuid('client_generated_id').unique().notNull().$type<CalendarClientGeneratedId>(),
   companyId: uuid('company_id')
     .references(() => CompaniesTable.id, { onDelete: 'cascade' })
     .notNull()
@@ -44,14 +44,14 @@ export const insertCalendarSchema = createInsertSchema(CalendarTable)
   .omit({ id: true })
   .transform((v) => ({
     ...v,
-    clientGeneratedId: v.clientGeneratedId ?? null,
+    clientGeneratedId: v.clientGeneratedId as CalendarClientGeneratedId,
     companyId: v.companyId as CompanyId,
   }));
 
 export const selectCalendarSchema = createSelectSchema(CalendarTable).transform((v) => ({
   ...v,
   id: v.id as CalendarId,
-  clientGeneratedId: v.clientGeneratedId as CalendarClientGeneratedId | null,
+  clientGeneratedId: v.clientGeneratedId as CalendarClientGeneratedId,
   companyId: v.companyId as CompanyId,
 }));
 
@@ -61,7 +61,7 @@ export const updateCalendarSchema = createInsertSchema(CalendarTable)
   .transform((v) => ({
     ...v,
     id: v.id as CalendarId,
-    clientGeneratedId: v.clientGeneratedId as CalendarClientGeneratedId | null,
+    clientGeneratedId: v.clientGeneratedId as CalendarClientGeneratedId,
     companyId: v.companyId as CompanyId,
   }));
 

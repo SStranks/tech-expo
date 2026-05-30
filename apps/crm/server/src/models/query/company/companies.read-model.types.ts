@@ -1,4 +1,9 @@
-import type { BusinessType, CompanyId, CompanySize } from '#Models/domain/company/company.types.js';
+import type {
+  BusinessType,
+  CompanyClientGeneratedId,
+  CompanyId,
+  CompanySize,
+} from '#Models/domain/company/company.types.js';
 import type { CompanyNoteClientGeneratedId, CompanyNoteId } from '#Models/domain/company/note/note.types.js';
 import type { ContactId } from '#Models/domain/contact/contact.types.js';
 import type { CountryId } from '#Models/domain/country/country.types.js';
@@ -12,6 +17,7 @@ import type { QuoteReadRow } from '../quote/quotes.read-model.types.js';
 export type CompanyReadRow = {
   id: CompanyId;
   businessType: BusinessType;
+  clientGeneratedId: CompanyClientGeneratedId;
   countryId: CountryId;
   industry: string;
   name: string;
@@ -31,11 +37,11 @@ export type CompanyOverviewReadRow = {
 
 export type CompanyNoteReadRow = {
   id: CompanyNoteId;
+  clientGeneratedId: CompanyNoteClientGeneratedId;
   companyId: CompanyId;
   createdAt: Date;
   createdByUserProfileId: UserProfileId;
   note: string;
-  clientTemporaryId?: CompanyNoteClientGeneratedId;
 };
 
 export type CompanyQuery = {

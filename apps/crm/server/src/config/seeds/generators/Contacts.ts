@@ -1,7 +1,9 @@
 import type { ContactsTableInsert } from '#Config/schema/contacts/Contacts.ts';
+import type { ContactClientGeneratedId } from '#Models/domain/contact/contact.types.js';
 
 import type { SeedContactCompanies } from '../Contacts.js';
 
+import { createMockUUID } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 
 import DigitalIndustryJson from '#Data/DigitalIndustry.json';
@@ -21,6 +23,7 @@ export function generateContact(company: SeedContactCompanies): ContactsTableIns
     throw new Error(`Data mismatch; check JSON structure and companies seeding; industry: ${industry}`);
 
   return {
+    clientGeneratedId: createMockUUID() as ContactClientGeneratedId,
     companyId: company.id,
     email: faker.internet.email({ firstName, lastName, provider }),
     firstName,
