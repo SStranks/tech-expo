@@ -5,6 +5,6 @@
 type TimeZone {
   id: UUID!
   alpha2Code: String!
-  gmtOffset: String!
   country: Country!
+  gmtOffset: String!
 }

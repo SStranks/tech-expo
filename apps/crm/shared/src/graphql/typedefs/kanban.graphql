@@ -9,18 +9,18 @@ type Query {
 }
 
 type Mutation {
-  createKanbanStage(input: CreateKanbanStageInput!): KanbanStage!
-  updateKanbanStage(input: UpdateKanbanStageInput!): KanbanStage!
-  removeKanbanStage(input: RemoveKanbanStageInput!): UUID!
-  createKanbanTask(input: CreateKanbanTaskInput!): KanbanTask!
-  updateKanbanTask(input: UpdateKanbanTaskInput!): KanbanTask!
-  removeKanbanTask(input: RemoveKanbanTaskInput!): UUID!
-  createKanbanTaskChecklistItem(input: CreateKanbanTaskChecklistItemInput!): KanbanTaskChecklistItem!
-  updateKanbanTaskChecklistItem(input: UpdateKanbanTaskChecklistItemInput!): KanbanTaskChecklistItem!
-  removeKanbanTaskChecklistItem(input: RemoveKanbanTaskChecklistItemInput!): UUID!
   createKanbanCommentTask(input: CreateKanbanTaskCommentInput!): KanbanTaskComment!
-  updateKanbanCommentTask(input: UpdateKanbanTaskCommentInput!): KanbanTaskComment!
+  createKanbanStage(input: CreateKanbanStageInput!): KanbanStage!
+  createKanbanTask(input: CreateKanbanTaskInput!): KanbanTask!
+  createKanbanTaskChecklistItem(input: CreateKanbanTaskChecklistItemInput!): KanbanTaskChecklistItem!
   removeKanbanCommentTask(input: RemoveKanbanTaskCommentInput!): UUID!
+  removeKanbanStage(input: RemoveKanbanStageInput!): UUID!
+  removeKanbanTask(input: RemoveKanbanTaskInput!): UUID!
+  removeKanbanTaskChecklistItem(input: RemoveKanbanTaskChecklistItemInput!): UUID!
+  updateKanbanCommentTask(input: UpdateKanbanTaskCommentInput!): KanbanTaskComment!
+  updateKanbanStage(input: UpdateKanbanStageInput!): KanbanStage!
+  updateKanbanTask(input: UpdateKanbanTaskInput!): KanbanTask!
+  updateKanbanTaskChecklistItem(input: UpdateKanbanTaskChecklistItemInput!): KanbanTaskChecklistItem!
 }
 type KanbanInitialData {
   id: ID!
@@ -31,30 +31,30 @@ type KanbanInitialData {
 
 type KanbanTask {
   id: UUID!
-  orderKey: String!
-  title: String!
+  assignedUser: [UserProfile]!
+  checklistItems: [KanbanTaskChecklistItem]!
+  comments: [KanbanTaskComment]!
   completed: Boolean!
-  stage: KanbanStage!
   description: String
   dueDate: DateTime
-  assignedUser: [UserProfile]!
-  comments: [KanbanTaskComment]!
-  checklistItems: [KanbanTaskChecklistItem]!
+  orderKey: String!
+  stage: KanbanStage!
+  title: String!
 }
 
 type KanbanTaskChecklistItem {
   id: UUID!
+  completed: Boolean!
   task: KanbanTask!
   title: String!
-  completed: Boolean!
 }
 
 type KanbanTaskComment {
   id: UUID!
-  task: KanbanTask!
+  comment: String!
   createdAt: DateTime!
   createdBy: UserProfile!
-  comment: String!
+  task: KanbanTask!
 }
 
 type KanbanStage {
@@ -75,6 +75,7 @@ input KanbanTaskInput {
 }
 
 input CreateKanbanStageInput {
+  clientGeneratedId: UUID
   title: String!
 }
 
@@ -88,18 +89,19 @@ input RemoveKanbanStageInput {
 }
 
 input CreateKanbanTaskInput {
+  clientGeneratedId: UUID
   title: String!
 }
 
 input UpdateKanbanTaskInput {
   id: UUID!
-  serial: String
-  title: String
+  assignedUser: [UUID]
   completed: Boolean
-  stage: UUID
   description: String
   dueDate: DateTime
-  assignedUser: [UUID]
+  serial: String
+  stage: UUID
+  title: String
   # checklistItems: [KanbanTaskChecklistItem]
 }
 
@@ -108,15 +110,16 @@ input RemoveKanbanTaskInput {
 }
 
 input CreateKanbanTaskChecklistItemInput {
+  clientGeneratedId: UUID
+  completed: Boolean!
   task: UUID!
   title: String!
-  completed: Boolean!
 }
 
 input UpdateKanbanTaskChecklistItemInput {
   id: UUID!
-  title: String
   completed: Boolean
+  title: String
 }
 
 input RemoveKanbanTaskChecklistItemInput {
@@ -124,9 +127,10 @@ input RemoveKanbanTaskChecklistItemInput {
 }
 
 input CreateKanbanTaskCommentInput {
-  task: UUID!
-  createdBy: UUID!
+  clientGeneratedId: UUID
   comment: String!
+  createdBy: UUID!
+  task: UUID!
 }
 
 input UpdateKanbanTaskCommentInput {

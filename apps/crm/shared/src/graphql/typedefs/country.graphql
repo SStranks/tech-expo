@@ -4,9 +4,9 @@
 
 type Country {
   id: UUID!
-  numCode: Int!
   alpha2Code: String!
   alpha3Code: String!
-  shortName: String!
   nationality: String!
+  numCode: Int!
+  shortName: String!
 }

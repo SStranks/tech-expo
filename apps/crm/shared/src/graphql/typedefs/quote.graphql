@@ -9,14 +9,14 @@ type Query {
 
 type Mutation {
   createQuote(input: CreateQuoteInput!): Quote!
-  updateQuote(input: UpdateQuoteInput!): Quote!
-  removeQuote(input: RemoveQuoteInput!): UUID!
-  createQuoteService(input: CreateQuoteServiceInput!): QuoteServicePayload!
-  updateQuoteService(input: UpdateQuoteServiceInput!): QuoteServicePayload!
-  removeQuoteService(input: RemoveQuoteServiceInput!): UUID!
   createQuoteNote(input: CreateQuoteNoteInput!): QuoteNotePayload!
-  updateQuoteNote(input: UpdateQuoteNoteInput!): QuoteNotePayload!
+  createQuoteService(input: CreateQuoteServiceInput!): QuoteServicePayload!
+  removeQuote(input: RemoveQuoteInput!): UUID!
   removeQuoteNote(input: RemoveQuoteNoteInput!): UUID!
+  removeQuoteService(input: RemoveQuoteServiceInput!): UUID!
+  updateQuote(input: UpdateQuoteInput!): Quote!
+  updateQuoteNote(input: UpdateQuoteNoteInput!): QuoteNotePayload!
+  updateQuoteService(input: UpdateQuoteServiceInput!): QuoteServicePayload!
 }
 
 type QuoteServicePayload {
@@ -33,41 +33,41 @@ type QuoteNotePayload {
 
 type Quote {
   id: UUID!
-  title: String!
   company: Company!
-  totalAmount: Money!
+  dueAt: DateTime
+  issuedAt: DateTime
+  preparedBy: UserProfile!
+  preparedFor: Contact!
   salesTax: Float!
   stage: QuoteStage!
-  preparedFor: Contact!
-  preparedBy: UserProfile!
-  issuedAt: DateTime
-  dueAt: DateTime
+  title: String!
+  totalAmount: Money!
 }
 
 type QuoteDetailed {
   id: UUID!
-  title: String!
   company: Company!
-  totalAmount: Money!
-  salesTax: Float!
-  stage: QuoteStage!
-  preparedFor: Contact!
-  preparedBy: UserProfile!
-  issuedAt: DateTime
   dueAt: DateTime
-  services: [QuoteService!]!
+  issuedAt: DateTime
   note: QuoteNote
+  preparedBy: UserProfile!
+  preparedFor: Contact!
+  salesTax: Float!
+  services: [QuoteService!]!
+  stage: QuoteStage!
+  title: String!
+  totalAmount: Money!
 }
 
 type QuoteOverview {
   id: UUID!
-  title: String!
   company: CompanyAvatar!
-  totalAmount: Money!
-  stage: QuoteStage!
-  preparedFor: ContactAvatar!
-  preparedBy: UserProfileAvatar!
   createdAt: DateTime!
+  preparedBy: UserProfileAvatar!
+  preparedFor: ContactAvatar!
+  stage: QuoteStage!
+  title: String!
+  totalAmount: Money!
 }
 
 type QuotesOverviewPaginated {
@@ -78,10 +78,10 @@ type QuotesOverviewPaginated {
 
 type QuoteService {
   id: UUID!
-  title: String!
+  discount: Float!
   price: Money!
   quantity: Int!
-  discount: Float!
+  title: String!
   totalAmount: Money!
 }
 
@@ -96,20 +96,20 @@ input QuoteInput {
 
 input QuotesOverviewInput {
   filters: QuotesOverviewFiltersInput
-  sort: [QuotesOverviewSort]!
   pagination: QuotesOverviewPaginationInput
+  sort: [QuotesOverviewSort]!
 }
 
 input QuotesOverviewFiltersInput {
-  searchQuoteTitle: String
   searchCompanyById: UUID
-  searchStage: QuoteStage
   searchPreparedByUserProfileId: UUID
+  searchQuoteTitle: String
+  searchStage: QuoteStage
 }
 
 input QuotesOverviewSort {
-  field: QuoteSortableField!
   direction: SortDirection
+  field: QuoteSortableField!
 }
 
 input QuotesOverviewPaginationInput {
@@ -118,19 +118,19 @@ input QuotesOverviewPaginationInput {
 
 input CreateQuoteInput {
   clientGeneratedId: UUID
-  title: String!
   companyId: UUID!
-  preparedForContactId: UUID!
   preparedByUserProfileId: UUID!
+  preparedForContactId: UUID!
+  title: String!
 }
 
 input UpdateQuoteInput {
   id: UUID!
-  title: String
   companyId: UUID
-  preparedForContactId: UUID
   preparedByUserProfileId: UUID
+  preparedForContactId: UUID
   stage: QuoteStage
+  title: String
 }
 
 input RemoveQuoteInput {
@@ -138,14 +138,15 @@ input RemoveQuoteInput {
 }
 
 input CreateQuoteNoteInput {
-  quoteId: UUID!
+  clientGeneratedId: UUID
   content: String!
+  quoteId: UUID!
 }
 
 input UpdateQuoteNoteInput {
+  content: String
   quoteId: UUID!
   quoteNoteId: UUID!
-  content: String
 }
 
 input RemoveQuoteNoteInput {
@@ -155,21 +156,21 @@ input RemoveQuoteNoteInput {
 
 input CreateQuoteServiceInput {
   clientGeneratedId: UUID
-  quoteId: UUID!
-  title: String!
+  discount: Float!
   price: MoneyInput!
   quantity: Int!
-  discount: Float!
+  quoteId: UUID!
+  title: String!
   totalAmount: MoneyInput!
 }
 
 input UpdateQuoteServiceInput {
+  discount: Float
+  price: MoneyInput
+  quantity: Int
   quoteId: UUID!
   quoteServiceId: UUID!
   title: String
-  price: MoneyInput
-  quantity: Int
-  discount: Float
   totalAmount: MoneyInput
 }
 

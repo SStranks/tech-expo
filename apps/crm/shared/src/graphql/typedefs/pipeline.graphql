@@ -3,36 +3,36 @@
 # lint-disable types-have-descriptions, fields-have-descriptions
 
 type Query {
+  pipelineDeal(input: PipelineDealInput!): PipelineDeal!
   pipelineInitial(input: PipelineInitialInput!): PipelineInitialData!
   pipelineStage(input: PipelineStageInput!): PipelineStage!
-  pipelineDeal(input: PipelineDealInput!): PipelineDeal!
 }
 
 type Mutation {
-  createPipelineStage(input: CreatePipelineStageInput!): PipelineStage!
-  updatePipelineStage(input: UpdatePipelineStageInput!): PipelineStage!
-  removePipelineStage(input: RemovePipelineStageInput!): UUID!
   createPipelineDeal(input: CreatePipelineDealInput!): PipelineDeal!
-  updatePipelineDeal(input: UpdatePipelineDealInput!): PipelineDeal!
+  createPipelineStage(input: CreatePipelineStageInput!): PipelineStage!
   removePipelineDeal(input: RemovePipelineDealInput!): UUID!
+  removePipelineStage(input: RemovePipelineStageInput!): UUID!
+  updatePipelineDeal(input: UpdatePipelineDealInput!): PipelineDeal!
+  updatePipelineStage(input: UpdatePipelineStageInput!): PipelineStage!
 }
 
 type PipelineInitialData {
   id: ID!
-  stages: [PipelineStage!]!
   deals: [PipelineDeal!]!
+  stages: [PipelineStage!]!
 }
 
 type PipelineDeal {
   id: UUID!
-  orderKey: String!
-  title: String!
   company: Company!
-  stage: PipelineStage!
-  value: Money!
-  dealOwner: UserProfile!
-  dealContact: Contact!
   createdAt: DateTime!
+  dealContact: Contact!
+  dealOwner: UserProfile!
+  orderKey: String!
+  stage: PipelineStage!
+  title: String!
+  value: Money!
 }
 
 type PipelineStage {
@@ -53,6 +53,7 @@ input PipelineDealInput {
 }
 
 input CreatePipelineStageInput {
+  clientGeneratedId: UUID
   title: String!
 }
 
@@ -66,24 +67,25 @@ input RemovePipelineStageInput {
 }
 
 input CreatePipelineDealInput {
-  orderKey: String!
-  title: String!
+  clientGeneratedId: UUID
   company: UUID!
-  stage: UUID!
-  value: MoneyInput!
-  dealOwner: UUID!
   dealContact: UUID!
+  dealOwner: UUID!
+  orderKey: String!
+  stage: UUID!
+  title: String!
+  value: MoneyInput!
 }
 
 input UpdatePipelineDealInput {
   id: UUID!
-  orderKey: String
-  title: String
   company: UUID
-  stage: UUID
-  value: MoneyInput
-  dealOwner: UUID
   dealContact: UUID
+  dealOwner: UUID
+  orderKey: String
+  stage: UUID
+  title: String
+  value: MoneyInput
 }
 
 input RemovePipelineDealInput {

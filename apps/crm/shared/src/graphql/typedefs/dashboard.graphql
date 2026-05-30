@@ -8,17 +8,17 @@ type Query {
 
 type DashboardSummary {
   id: UUID!
+  companyLocations: [CompanyLocation!]!
   totalCompanies: Int!
   totalContacts: Int!
   totalDeals: Int!
   totalQuotes: Int!
-  companyLocations: [CompanyLocation!]!
 }
 type CompanyLocation {
   id: UUID!
-  name: String!
   latitude: Float!
   longitude: Float!
+  name: String!
 }
 
 input DashboardSummaryInput {

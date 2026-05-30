@@ -13,6 +13,13 @@ const EslintConfigGraphQL = {
     client: { ...PluginGraphQL.configs['flat/operations-recommended'].rules },
     server: {
       ...PluginGraphQL.configs['flat/schema-recommended'].rules,
+      '@graphql-eslint/alphabetize': [
+        'error',
+        {
+          fields: ['ObjectTypeDefinition', 'InterfaceTypeDefinition', 'InputObjectTypeDefinition'],
+          groups: ['...', 'id', '*', '{'],
+        },
+      ],
       '@graphql-eslint/strict-id-in-types': ['error', { acceptedIdTypes: ['ID', 'UUID'] }],
       '@graphql-eslint/require-description': [
         'error',

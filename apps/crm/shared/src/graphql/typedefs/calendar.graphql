@@ -3,18 +3,18 @@
 # lint-disable types-have-descriptions, fields-have-descriptions
 
 type Query {
-  calendarInitialData(input: CalendarIntitialDataInput!): CalendarInitialPayload
   calendarByMonth(input: CalendarByMonthInput!): CalendarByMonthPayload
   calendarCategories(input: CalendarCategoriesInput!): CalendarCategoriesPayload
   calendarEvent(input: CalendarEventInput!): CalendarEventPayload
+  calendarInitialData(input: CalendarIntitialDataInput!): CalendarInitialPayload
 }
 
 type Mutation {
-  createEvent(input: CreateEventInput!): CalendarEventPayload!
-  updateEvent(input: UpdateEventInput!): CalendarEventPayload!
-  removeEvent(input: RemoveEventInput!): UUID!
   createCategory(input: CreateCategoryInput!): CalendarCategoryPayload!
+  createEvent(input: CreateEventInput!): CalendarEventPayload!
   removeCategory(input: RemoveCategoryInput!): UUID!
+  removeEvent(input: RemoveEventInput!): UUID!
+  updateEvent(input: UpdateEventInput!): CalendarEventPayload!
 }
 
 type CalendarByMonthPayload {
@@ -45,13 +45,13 @@ type CalendarCategory {
 
 type CalendarEvent {
   id: UUID!
-  title: String!
-  description: String
-  color: HexColorCode
-  startTime: DateTime!
-  endTime: DateTime!
   category: CalendarCategory
+  color: HexColorCode
+  description: String
+  endTime: DateTime!
   participants: [UserProfileAvatar!]!
+  startTime: DateTime!
+  title: String!
 }
 
 type CalendarEventPayload {
@@ -80,44 +80,46 @@ input CalendarCategoriesInput {
 }
 
 input CalendarEventInput {
-  calendarId: UUID!
   calendarEventId: UUID!
+  calendarId: UUID!
 }
 
 input CreateEventInput {
   calendarId: UUID!
   categoryId: UUID!
-  title: String!
-  description: String!
+  clientGeneratedId: UUID
   color: HexColorCode!
-  startTime: DateTime!
+  description: String!
   endTime: DateTime!
   participants: [UUID!]!
+  startTime: DateTime!
+  title: String!
 }
 
 input UpdateEventInput {
   id: UUID!
   calendarId: UUID!
-  title: String
-  description: String
-  color: HexColorCode
-  startTime: DateTime
-  endTime: DateTime
   categoryId: UUID
+  color: HexColorCode
+  description: String
+  endTime: DateTime
   participants: [UUID!]
+  startTime: DateTime
+  title: String
 }
 
 input RemoveEventInput {
-  calendarId: UUID!
   calendarEventId: UUID!
+  calendarId: UUID!
 }
 
 input CreateCategoryInput {
   calendarId: UUID!
+  clientGeneratedId: UUID
   title: String!
 }
 
 input RemoveCategoryInput {
-  calendarId: UUID!
   calendarCategoryId: UUID!
+  calendarId: UUID!
 }

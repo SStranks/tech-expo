@@ -9,60 +9,60 @@ type Query {
 
 type Mutation {
   createContact(input: CreateContactInput!): Contact!
-  updateContact(input: UpdateContactInput!): Contact!
-  removeContact(input: RemoveContactInput!): UUID!
   createContactNote(input: CreateContactNoteInput!): ContactNotePayload!
-  updateContactNote(input: UpdateContactNoteInput!): ContactNotePayload!
+  removeContact(input: RemoveContactInput!): UUID!
   removeContactNote(input: RemoveContactNoteInput!): UUID!
+  updateContact(input: UpdateContactInput!): Contact!
+  updateContactNote(input: UpdateContactNoteInput!): ContactNotePayload!
 }
 
 type Contact {
   id: UUID!
-  firstName: String!
-  lastName: String!
-  email: EmailAddress!
-  phone: String!
   company: Company!
+  email: EmailAddress!
+  firstName: String!
   jobTitle: String!
+  lastName: String!
+  phone: String!
   stage: ContactStage!
   timezone: TimeZone
 }
 
 type ContactDetailed {
   id: UUID!
-  firstName: String!
-  lastName: String!
-  email: EmailAddress!
-  phone: String!
   company: Company!
+  email: EmailAddress!
+  firstName: String!
   jobTitle: String!
+  lastName: String!
+  notes: [ContactNote!]!
+  phone: String!
   stage: ContactStage!
   timezone: TimeZone
-  notes: [ContactNote!]!
 }
 
 type ContactOverview {
   id: UUID!
-  firstName: String!
-  lastName: String!
-  email: EmailAddress!
   company: Company!
+  email: EmailAddress!
+  firstName: String!
   jobTitle: String!
+  lastName: String!
   stage: ContactStage!
 }
 
 type ContactNote {
   id: UUID!
-  note: String!
   createdAt: DateTime!
   createdBy: UserProfileAvatar!
+  note: String!
 }
 
 type ContactAvatar {
   id: UUID!
   firstName: String!
-  lastName: String!
   image: String
+  lastName: String!
 }
 
 type ContactsOverviewPaginated {
@@ -83,16 +83,16 @@ input ContactInput {
 
 input ContactsOverviewInput {
   filters: ContactsOverviewFiltersInput
-  sort: ContactsOverviewSortInput
   pagination: PaginationInput
+  sort: ContactsOverviewSortInput
 }
 
 input ContactsOverviewFiltersInput {
-  searchContactName: String
+  companyId: UUID
   searchContactEmail: String
   searchContactJobTitle: String
+  searchContactName: String
   searchContactStage: ContactStage
-  companyId: UUID
 }
 
 input ContactsOverviewSortInput {
@@ -100,33 +100,34 @@ input ContactsOverviewSortInput {
 }
 
 input ContactOverviewSort {
-  field: ContactSortableField!
   direction: SortDirection
+  field: ContactSortableField!
 }
 
 input CreateContactInput {
-  firstName: String!
-  lastName: String!
-  email: EmailAddress!
-  phone: String!
+  clientGeneratedId: UUID
   companyId: UUID!
+  email: EmailAddress!
+  firstName: String!
+  image: String
   jobTitle: String!
+  lastName: String!
+  phone: String!
   stage: ContactStage!
   timezone: UUID
-  image: String
 }
 
 input UpdateContactInput {
   id: UUID!
-  firstName: String
-  lastName: String
-  email: EmailAddress
-  phone: String
   companyId: UUID
+  email: EmailAddress
+  firstName: String
+  image: String
   jobTitle: String
+  lastName: String
+  phone: String
   stage: ContactStage
   timezone: UUID
-  image: String
 }
 
 input RemoveContactInput {
@@ -134,6 +135,7 @@ input RemoveContactInput {
 }
 
 input CreateContactNoteInput {
+  clientGeneratedId: UUID
   contactId: UUID!
   note: String!
 }

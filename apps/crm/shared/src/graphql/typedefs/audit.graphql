@@ -9,12 +9,12 @@ type Query {
 
 type Audit {
   id: UUID!
-  entityId: UUID!
-  entityAction: AuditAction!
   changedAt: DateTime!
   changedBy: UserProfile!
-  originalValues: JSON
+  entityAction: AuditAction!
+  entityId: UUID!
   newValues: JSON
+  originalValues: JSON
 }
 
 type AuditOverviewPaginated {
@@ -25,10 +25,10 @@ type AuditOverviewPaginated {
 
 type AuditOverview {
   id: UUID!
-  user: UserProfile!
   action: AuditAction!
-  entityId: UUID!
   changedAt: DateTime!
+  entityId: UUID!
+  user: UserProfile!
 }
 
 input AuditInput {
@@ -37,14 +37,14 @@ input AuditInput {
 
 input AuditOverviewInput {
   filters: AuditOverviewFiltersInput
-  sort: AuditOverviewSortInput
   pagination: PaginationInput
+  sort: AuditOverviewSortInput
 }
 
 input AuditOverviewFiltersInput {
-  searchUser: String
-  searchAction: AuditAction
   dateAndTime: String
+  searchAction: AuditAction
+  searchUser: String
 }
 
 input AuditOverviewSortInput {
@@ -52,8 +52,8 @@ input AuditOverviewSortInput {
 }
 
 input AuditOverviewSort {
-  field: AuditSortableField!
   direction: SortDirection
+  field: AuditSortableField!
 }
 
 enum AuditAction {

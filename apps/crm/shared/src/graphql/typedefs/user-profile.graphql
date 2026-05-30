@@ -9,29 +9,29 @@ type Query {
 
 type Mutation {
   createUserProfile(input: CreateUserProfileInput!): UserProfile!
-  updateUserProfile(input: UpdateUserProfileInput!): UserProfile!
   removeUserProfile(input: RemoveUserProfileInput!): UUID!
+  updateUserProfile(input: UpdateUserProfileInput!): UserProfile!
 }
 
 type UserProfile {
   id: UUID!
-  firstName: String!
-  lastName: String!
+  company: Company!
+  companyRole: CompanyRole!
+  country: Country!
   email: EmailAddress!
+  firstName: String!
+  image: String
+  lastName: String!
   mobile: String
   telephone: String
   timezone: TimeZone!
-  country: Country!
-  company: Company!
-  companyRole: CompanyRole!
-  image: String
 }
 
 type UserProfileAvatar {
   id: UUID!
   firstName: String!
-  lastName: String!
   image: String
+  lastName: String!
 }
 
 type UserProfilesOverviewPaginated {
@@ -48,36 +48,37 @@ input UserProfilesOverviewInput {
 }
 
 input UserProfilesOverviewFilters {
-  searchUserProfileName: String
-  searchUserProfileJobTitle: String
   searchUserProfileCompanyRole: CompanyRole
+  searchUserProfileJobTitle: String
+  searchUserProfileName: String
 }
 
 input CreateUserProfileInput {
-  firstName: String!
-  lastName: String!
+  clientGeneratedId: UUID
+  company: UUID!
+  companyRole: CompanyRole!
+  country: UUID!
   email: EmailAddress!
+  firstName: String!
+  image: String!
+  lastName: String!
   mobile: String!
   telephone: String!
   timezone: UUID!
-  country: UUID!
-  company: UUID!
-  companyRole: CompanyRole!
-  image: String!
 }
 
 input UpdateUserProfileInput {
   id: UUID!
-  firstName: String
-  lastName: String
+  company: UUID
+  companyRole: CompanyRole
+  country: UUID
   email: EmailAddress
+  firstName: String
+  image: String
+  lastName: String
   mobile: String
   telephone: String
   timezone: UUID
-  country: UUID
-  company: UUID
-  companyRole: CompanyRole
-  image: String
 }
 
 input RemoveUserProfileInput {
