@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { CompaniesTableSelect } from '#Config/schema/companies/Companies.js';
 import type { CompaniesNotesTableSelect } from '#Config/schema/companies/CompanyNotes.js';
 import type { ContactsTableSelect } from '#Config/schema/contacts/Contacts.js';
@@ -85,16 +84,16 @@ export class InMemoryCompanyRepository implements CompanyRepository {
 
     const row: CompaniesTableSelect = {
       id,
+      businessType: company.businessType,
       clientGeneratedId: company.clientGeneratedId,
+      countryId: company.countryId,
+      createdAt: new Date(),
+      industry: company.industry,
       name: company.name,
+      salesOwner: company.salesOwner,
       size: company.size,
       totalRevenue: company.totalRevenue,
-      industry: company.industry,
-      businessType: company.businessType,
-      countryId: company.countryId,
       website: company.website?.toString() ?? null,
-      createdAt: new Date(),
-      salesOwner: company.salesOwner,
     };
 
     this.companiesMap.set(id, row);
@@ -115,12 +114,12 @@ export class InMemoryCompanyRepository implements CompanyRepository {
     if (company.hasDirtyFields()) {
       const updatedCompany: CompaniesTableSelect = {
         ...existingCompany,
+        businessType: company.businessType,
+        countryId: company.countryId,
+        industry: company.industry,
         name: company.name,
         size: company.size,
         totalRevenue: company.totalRevenue,
-        industry: company.industry,
-        businessType: company.businessType,
-        countryId: company.countryId,
         website: company.website?.toString() ?? null,
       };
 
@@ -139,9 +138,9 @@ export class InMemoryCompanyRepository implements CompanyRepository {
           id: asCompanyNoteId(createMockUUID()),
           clientGeneratedId: clientGeneratedId,
           companyId: company.id,
-          note: note.content,
-          createdByUserProfileId: note.createdByUserProfileId,
           createdAt: new Date(),
+          createdByUserProfileId: note.createdByUserProfileId,
+          note: note.content,
         } satisfies CompanyNoteReadRow;
 
         existingNotes.push(persistedNote);
@@ -149,11 +148,11 @@ export class InMemoryCompanyRepository implements CompanyRepository {
         persistedCompanyNotes.push(
           CompanyNote.rehydrate({
             id: persistedNote.id,
+            clientGeneratedId: note.clientGeneratedId,
             companyId: company.id,
             content: persistedNote.note,
             createdAt: persistedNote.createdAt,
             createdByUserProfileId: persistedNote.createdByUserProfileId,
-            clientGeneratedId: note.clientGeneratedId,
           })
         );
       }

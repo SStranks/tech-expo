@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import AppError from './AppError.js';
 
 export default class ForbiddenError extends AppError {
@@ -6,11 +5,11 @@ export default class ForbiddenError extends AppError {
 
   constructor(params: { context?: Record<string, unknown>; logging?: boolean; message?: string }) {
     super({
-      message: params.message ?? 'Access Denied',
       code: 'FORBIDDEN',
-      httpStatus: 403,
       context: params.context,
+      httpStatus: 403,
       logging: params.logging ?? false,
+      message: params.message ?? 'Access Denied',
     });
 
     Object.setPrototypeOf(this, ForbiddenError.prototype);

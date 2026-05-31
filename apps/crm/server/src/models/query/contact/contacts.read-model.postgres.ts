@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { CompaniesTableSelect } from '#Config/schema/companies/Companies.js';
 import type { ContactsTableSelect } from '#Config/schema/contacts/Contacts.js';
 import type { ContactId } from '#Models/domain/contact/contact.types.js';
@@ -71,15 +70,15 @@ export class PostgresContactReadModel implements ContactReadModel {
       return contacts.map((c) => ({
         id: c.id,
         clientGeneratedId: c.clientGeneratedId,
-        firstName: c.firstName,
-        lastName: c.lastName,
-        email: c.email,
-        phone: c.phone,
         companyId: c.companyId,
+        email: c.email,
+        firstName: c.firstName,
+        image: c.image,
         jobTitle: c.jobTitle,
+        lastName: c.lastName,
+        phone: c.phone,
         stage: c.stage,
         timezoneId: c.timezoneId ?? null,
-        image: c.image,
       }));
     });
   }
@@ -103,10 +102,10 @@ export class PostgresContactReadModel implements ContactReadModel {
       return contactNotes.map((cN) => ({
         id: cN.id,
         clientGeneratedId: cN.clientGeneratedId,
-        note: cN.note,
         contactId: cN.contactId,
         createdAt: cN.createdAt,
         createdByUserProfileId: cN.createdByUserProfileId,
+        note: cN.note,
       }));
     });
   }
@@ -115,8 +114,8 @@ export class PostgresContactReadModel implements ContactReadModel {
     return postgresDBCall(async () => {
       let sqlQuery = postgresDB
         .select({
-          contact: ContactsTable,
           company: CompaniesTable,
+          contact: ContactsTable,
           totalCount: sql<number>`COUNT(*) OVER()`,
         })
         .from(ContactsTable)
@@ -176,7 +175,7 @@ export class PostgresContactReadModel implements ContactReadModel {
       const contacts = await sqlQuery;
 
       return {
-        items: contacts.map(({ contact, company }) => contactWithRelationsToOverviewRow({ contact, company })),
+        items: contacts.map(({ contact, company }) => contactWithRelationsToOverviewRow({ company, contact })),
         totalCount: contacts[0]?.totalCount ?? 0,
       };
     });

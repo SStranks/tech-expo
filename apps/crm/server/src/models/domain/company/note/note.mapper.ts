@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { UUID } from '@apps/crm-shared';
 
 import type { CompaniesNotesTableSelect } from '#Config/schema/companies/CompanyNotes.js';
@@ -17,9 +16,9 @@ export function companyNoteReadRowToCompanyNoteDTO(companyNote: CompanyNoteReadR
   return {
     id: companyNote.id,
     clientGeneratedId: companyNote.clientGeneratedId,
-    note: companyNote.note,
-    createdByUserProfileId: companyNote.createdByUserProfileId,
     createdAt: companyNote.createdAt,
+    createdByUserProfileId: companyNote.createdByUserProfileId,
+    note: companyNote.note,
   };
 }
 
@@ -27,17 +26,17 @@ export function companyNoteDomainToCompanyNoteDTO(companyNote: PersistedCompanyN
   return {
     id: companyNote.id,
     clientGeneratedId: companyNote.clientGeneratedId,
-    note: companyNote.content,
     createdAt: companyNote.createdAt,
     createdByUserProfileId: companyNote.createdByUserProfileId,
+    note: companyNote.content,
   };
 }
 
 export function companyNoteRowToDomain(row: CompaniesNotesTableSelect): PersistedCompanyNote {
   return CompanyNote.rehydrate({
     id: row.id,
-    content: row.note,
     companyId: row.companyId,
+    content: row.note,
     createdAt: row.createdAt,
     createdByUserProfileId: row.createdByUserProfileId,
   });

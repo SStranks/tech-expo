@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import AppError from './AppError.js';
 
 type ConstructorParams = {
@@ -12,11 +11,11 @@ export default class UnauthorizedError extends AppError {
 
   constructor({ message = 'Authentication Required', context, logging }: ConstructorParams) {
     super({
-      message,
       code: 'UNAUTHENTICATED',
-      httpStatus: 401,
       context,
+      httpStatus: 401,
       logging: logging ?? false,
+      message,
     });
 
     Object.setPrototypeOf(this, UnauthorizedError.prototype);

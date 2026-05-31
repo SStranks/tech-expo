@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { PersistedUserProfile } from '#Models/domain/user/profile/profile.js';
 import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js';
 import type { UserId } from '#Models/domain/user/user.types.js';
@@ -20,18 +19,18 @@ export class PostgresUserReadModel implements UserReadModel {
 
       return userProfiles.map((uP) => ({
         id: uP.id,
-        userId: uP.userId,
-        firstName: uP.firstName,
-        lastName: uP.lastName,
+        companyRole: uP.companyRole,
+        countryId: uP.countryId,
+        createdAt: uP.createdAt,
         email: uP.email,
+        firstName: uP.firstName,
+        image: uP.image,
+        lastName: uP.lastName,
         mobile: uP.mobile,
         telephone: uP.telephone,
         timezoneId: uP.timezoneId,
-        countryId: uP.countryId,
-        companyRole: uP.companyRole,
-        image: uP.image,
-        createdAt: uP.createdAt,
         updatedAt: uP.updatedAt,
+        userId: uP.userId,
       }));
     });
   }

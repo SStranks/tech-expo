@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { CompaniesTableSelect } from '#Config/schema/companies/Companies.js';
 import type { ContactsTableSelect } from '#Config/schema/contacts/Contacts.js';
 import type { UserProfileTableSelect } from '#Config/schema/user/UserProfile.js';
@@ -85,10 +84,10 @@ export class PostgresCompanyReadModel implements CompanyReadModel {
       return companyNotes.map((cN) => ({
         id: cN.id,
         clientGeneratedId: cN.clientGeneratedId,
-        note: cN.note,
         companyId: cN.companyId,
         createdAt: cN.createdAt,
         createdByUserProfileId: cN.createdByUserProfileId,
+        note: cN.note,
       }));
     });
   }

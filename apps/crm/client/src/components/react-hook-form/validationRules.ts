@@ -1,16 +1,15 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { RegisterOptions } from 'react-hook-form';
 
 export const VALIDATION_MESSAGES = {
-  GENERIC_TEXT_RULES: {
-    required: 'Please enter a valid string',
-    minLength: 'Please enter a valid string',
-  },
+  EMAIL_RULES: { pattern: 'Entered value does not match email format', required: 'Please enter a valid email' },
   GENERIC_NUMBER_RULES: {
     required: 'Please enter a valid number',
     validate: { isNumber: 'Please enter a valid number' },
   },
-  EMAIL_RULES: { required: 'Please enter a valid email', pattern: 'Entered value does not match email format' },
+  GENERIC_TEXT_RULES: {
+    minLength: 'Please enter a valid string',
+    required: 'Please enter a valid string',
+  },
   PASSWORD_RULES: { required: 'Please enter a valid password' },
   PASSWORD_STRENGTH_RULES: {
     required: 'Please enter strong password',
@@ -28,20 +27,20 @@ export type ValidationRules = Pick<
 >;
 
 export const GENERIC_TEXT_RULES = {
-  required: {
-    value: true,
-    message: VALIDATION_MESSAGES.GENERIC_TEXT_RULES.required,
-  },
   minLength: {
-    value: 1,
     message: VALIDATION_MESSAGES.GENERIC_TEXT_RULES.minLength,
+    value: 1,
+  },
+  required: {
+    message: VALIDATION_MESSAGES.GENERIC_TEXT_RULES.required,
+    value: true,
   },
 } satisfies ValidationRules;
 
 export const GENERIC_NUMBER_RULES = {
   required: {
-    value: true,
     message: VALIDATION_MESSAGES.GENERIC_NUMBER_RULES.required,
+    value: true,
   },
   validate: {
     isNumber: (v: number) => !Number.isNaN(v) || VALIDATION_MESSAGES.GENERIC_NUMBER_RULES.validate.isNumber,
@@ -49,26 +48,26 @@ export const GENERIC_NUMBER_RULES = {
 } satisfies ValidationRules;
 
 export const EMAIL_RULES = {
-  required: {
-    value: true,
-    message: VALIDATION_MESSAGES.EMAIL_RULES.required,
-  },
   pattern: {
-    value: /\S[^\s@]*@\S+\.\S+/,
     message: VALIDATION_MESSAGES.EMAIL_RULES.pattern,
+    value: /\S[^\s@]*@\S+\.\S+/,
+  },
+  required: {
+    message: VALIDATION_MESSAGES.EMAIL_RULES.required,
+    value: true,
   },
 } satisfies ValidationRules;
 
 export const PASSWORD_RULES = {
   required: {
-    value: true,
     message: VALIDATION_MESSAGES.PASSWORD_RULES.required,
+    value: true,
   },
 } satisfies ValidationRules;
 
 export const PASSWORDCONFIRM_RULES = {
   required: {
-    value: true,
     message: VALIDATION_MESSAGES.PASSWORDCONFIRM_RULES.required,
+    value: true,
   },
 } satisfies ValidationRules;

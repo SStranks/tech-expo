@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { PostgresTransaction } from '#Config/dbPostgres.js';
 import type { CompaniesNotesTableInsert } from '#Config/schema/companies/CompanyNotes.js';
 
@@ -102,9 +101,9 @@ export class PostgresCompanyRepository implements CompanyRepository {
         .values(
           [...addedNotes.values()].map(
             (n): CompaniesNotesTableInsert => ({
+              clientGeneratedId: n.clientGeneratedId,
               companyId: n.companyId,
               createdByUserProfileId: n.createdByUserProfileId,
-              clientGeneratedId: n.clientGeneratedId,
               note: n.content,
             })
           )

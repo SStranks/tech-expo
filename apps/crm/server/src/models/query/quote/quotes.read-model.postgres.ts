@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { QuoteId } from '#Models/domain/quote/quote.types.js';
 import type { QuoteServiceId } from '#Models/domain/quote/service/service.types.js';
 
@@ -36,16 +35,16 @@ export class PostgresQuoteReadModel implements QuoteReadModel {
       return rows.map((row) => ({
         id: row.id,
         clientGeneratedId: row.clientGeneratedId,
-        title: row.title,
         companyId: row.companyId,
-        totalAmount: row.totalAmount,
+        createdAt: row.createdAt,
+        dueAt: row.dueAt,
+        issuedAt: row.issuedAt,
+        preparedByUserProfileId: row.preparedByUserProfileId,
+        preparedForContactId: row.preparedForContactId,
         salesTax: row.salesTax,
         stage: row.stage,
-        preparedForContactId: row.preparedForContactId,
-        preparedByUserProfileId: row.preparedByUserProfileId,
-        issuedAt: row.issuedAt,
-        dueAt: row.dueAt,
-        createdAt: row.createdAt,
+        title: row.title,
+        totalAmount: row.totalAmount,
       }));
     });
   }

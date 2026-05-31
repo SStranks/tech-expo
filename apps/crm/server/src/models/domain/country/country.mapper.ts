@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { UUID } from '@apps/crm-shared';
 
 import type { CountriesTableSelect } from '#Config/schema/Countries.js';
@@ -39,10 +38,10 @@ export function countryDomainToCountryDTO(country: PersistedCountry): CountryDTO
 export function countryRowToDomain(row: CountriesTableSelect): PersistedCountry {
   return Country.rehydrate({
     id: row.id,
-    numCode: row.numCode,
     alpha2Code: row.alpha2Code,
     alpha3Code: row.alpha3Code,
-    shortName: row.shortName,
     nationality: row.nationality,
+    numCode: row.numCode,
+    shortName: row.shortName,
   });
 }

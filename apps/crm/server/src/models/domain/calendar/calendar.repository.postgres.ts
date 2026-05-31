@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { PostgresTransaction } from '#Config/dbPostgres.js';
 import type { CalendarCategoriesTableInsert } from '#Config/schema/calendar/Categories.js';
 import type { CalendarEventsTableInsert } from '#Config/schema/calendar/Events.js';
@@ -100,9 +99,9 @@ export class PostgresCalendarRepository implements CalendarRepository {
         .values(
           [...addedCategory.values()].map(
             (c): CalendarCategoriesTableInsert => ({
-              title: c.title,
               calendarId: c.calendarId,
               clientGeneratedId: c.clientGeneratedId,
+              title: c.title,
             })
           )
         )
@@ -158,14 +157,14 @@ export class PostgresCalendarRepository implements CalendarRepository {
         .values(
           [...addedEvent.values()].map(
             (e): CalendarEventsTableInsert => ({
-              title: e.title,
               calendarId: e.calendarId,
               categoryId: e.categoryId,
-              description: e.description,
-              color: e.color,
-              eventStartAt: e.eventStartAt,
-              eventEndAt: e.eventEndAt,
               clientGeneratedId: e.clientGeneratedId,
+              color: e.color,
+              description: e.description,
+              eventEndAt: e.eventEndAt,
+              eventStartAt: e.eventStartAt,
+              title: e.title,
             })
           )
         )

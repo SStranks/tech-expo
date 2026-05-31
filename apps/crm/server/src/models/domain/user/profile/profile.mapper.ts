@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { UUID } from '@apps/crm-shared';
 
 import type { UserProfileTableSelect } from '#Config/schema/user/UserProfile.js';
@@ -17,15 +16,15 @@ export function asUserProfileId(id: UUID): UserProfileId {
 export function userProfileDomainToUserProfileDTO(userProfile: PersistedUserProfile): UserProfileDTO {
   return {
     id: userProfile.id,
-    firstName: userProfile.firstName,
-    lastName: userProfile.lastName,
+    companyRole: userProfile.companyRole,
+    countryId: userProfile.countryId,
     email: userProfile.email,
+    firstName: userProfile.firstName,
+    image: userProfile.image ?? null,
+    lastName: userProfile.lastName,
     mobile: userProfile.mobile ?? null,
     telephone: userProfile.telephone ?? null,
     timezoneId: userProfile.timezoneId ?? null,
-    countryId: userProfile.countryId,
-    companyRole: userProfile.companyRole,
-    image: userProfile.image ?? null,
     updatedAt: userProfile.updatedAt,
   };
 }
@@ -33,18 +32,18 @@ export function userProfileDomainToUserProfileDTO(userProfile: PersistedUserProf
 export function userProfileRowToDomain(row: UserProfileTableSelect): PersistedUserProfile {
   return UserProfile.rehydrate({
     id: row.id,
-    firstName: row.firstName,
-    lastName: row.lastName,
+    companyRole: row.companyRole,
+    countryId: row.countryId,
+    createdAt: row.createdAt,
     email: row.email,
+    firstName: row.firstName,
+    image: row.image ?? undefined,
+    lastName: row.lastName,
     mobile: row.mobile ?? undefined,
     telephone: row.telephone ?? undefined,
     timezoneId: row.timezoneId ?? undefined,
-    countryId: row.countryId,
-    userId: row.userId,
-    companyRole: row.companyRole,
-    image: row.image ?? undefined,
     updatedAt: row.updatedAt,
-    createdAt: row.createdAt,
+    userId: row.userId,
   });
 }
 
@@ -52,7 +51,7 @@ export function userProfileDomainToAvatarDTO(userProfile: PersistedUserProfile):
   return {
     id: userProfile.id,
     firstName: userProfile.firstName,
-    lastName: userProfile.lastName,
     image: userProfile.image,
+    lastName: userProfile.lastName,
   };
 }

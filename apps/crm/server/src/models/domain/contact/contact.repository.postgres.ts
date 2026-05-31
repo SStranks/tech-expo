@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { PostgresTransaction } from '#Config/dbPostgres.js';
 import type { ContactsNotesTableInsert } from '#Config/schema/contacts/ContactsNotes.js';
 
@@ -102,9 +101,9 @@ export class PostgresContactRepository implements ContactRepository {
         .values(
           [...addedNotes.values()].map(
             (n): ContactsNotesTableInsert => ({
+              clientGeneratedId: n.clientGeneratedId,
               contactId: n.contactId,
               createdByUserProfileId: n.createdByUserProfileId,
-              clientGeneratedId: n.clientGeneratedId,
               note: n.content,
             })
           )

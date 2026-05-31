@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { KanbanStage, KanbanTask } from '@Data/MockScrumboardKanban';
 import type { PipelineDeal, PipelineStage } from '@Data/MockScrumboardPipeline';
 
@@ -35,19 +34,19 @@ export function isKanbanTaskDropData(data: Record<string | symbol, unknown>): da
 
 export function createPipelineDealDropData(deal: PipelineDeal, dealIndex: number): PragmaticDnDPipelineDeal {
   return {
-    [SYMBOL_PIPELINE_DEAL]: true,
-    type: PRAGMATICDND_PIPELINE_DEAL_TYPE,
     deal,
     dealIndex,
+    [SYMBOL_PIPELINE_DEAL]: true,
+    type: PRAGMATICDND_PIPELINE_DEAL_TYPE,
   };
 }
 
 export function createKanbanTaskDropData(task: KanbanTask, taskIndex: number): PragmaticDndKanbanTask {
   return {
     [SYMBOL_KANBAN_TASK]: true,
-    type: PRAGMATICDND_KANBAN_TASK_TYPE,
     task,
     taskIndex,
+    type: PRAGMATICDND_KANBAN_TASK_TYPE,
   };
 }
 
@@ -64,10 +63,10 @@ export function createPipelineStageTargetData(
   dealIds: PipelineDeal['id'][]
 ): PragmaticDndPipelineStage {
   return {
+    dealIds,
+    stage,
     [SYMBOL_PIPELINE_STAGE]: true,
     type: PRAGMATICDND_PIPELINE_STAGE_TYPE,
-    stage,
-    dealIds,
   };
 }
 
@@ -77,9 +76,9 @@ export function isKanbanStageTargetData(data: Record<string | symbol, unknown>):
 
 export function createKanbanStageTargetData(stage: KanbanStage, taskIds: KanbanTask['id'][]): PragmaticDndKanbanStage {
   return {
-    [SYMBOL_KANBAN_STAGE]: true,
-    type: PRAGMATICDND_KANBAN_STAGE_TYPE,
     stage,
+    [SYMBOL_KANBAN_STAGE]: true,
     taskIds,
+    type: PRAGMATICDND_KANBAN_STAGE_TYPE,
   };
 }

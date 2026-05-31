@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { UUID } from '@apps/crm-shared';
 
 import type { ContactsNotesTableSelect } from '#Config/schema/contacts/ContactsNotes.js';
@@ -17,9 +16,9 @@ export function contactNoteReadRowToContactNoteDTO(contactNote: ContactNoteReadR
   return {
     id: contactNote.id,
     clientGeneratedId: contactNote.clientGeneratedId,
-    note: contactNote.note,
-    createdByUserProfileId: contactNote.createdByUserProfileId,
     createdAt: contactNote.createdAt,
+    createdByUserProfileId: contactNote.createdByUserProfileId,
+    note: contactNote.note,
   };
 }
 
@@ -27,17 +26,17 @@ export function contactNoteDomainToContactNoteDTO(contactNote: PersistedContactN
   return {
     id: contactNote.id,
     clientGeneratedId: contactNote.clientGeneratedId,
-    note: contactNote.content,
     createdAt: contactNote.createdAt,
     createdByUserProfileId: contactNote.createdByUserProfileId,
+    note: contactNote.content,
   };
 }
 
 export function contactNoteRowToDomain(row: ContactsNotesTableSelect): PersistedContactNote {
   return ContactNote.rehydrate({
     id: row.id,
-    content: row.note,
     contactId: row.contactId,
+    content: row.note,
     createdAt: row.createdAt,
     createdByUserProfileId: row.createdByUserProfileId,
   });

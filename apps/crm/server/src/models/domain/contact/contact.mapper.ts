@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { UUID } from '@apps/crm-shared';
 
 import type { ContactsTableSelect } from '#Config/schema/contacts/Contacts.js';
@@ -19,31 +18,31 @@ export function contactReadRowToContactDTO(contact: ContactReadRow): ContactDTO 
   return {
     id: contact.id,
     clientGeneratedId: contact.clientGeneratedId,
-    firstName: contact.firstName,
-    lastName: contact.lastName,
-    email: contact.email,
-    phone: contact.phone,
     companyId: contact.companyId,
+    email: contact.email,
+    firstName: contact.firstName,
+    image: contact.image,
     jobTitle: contact.jobTitle,
+    lastName: contact.lastName,
+    phone: contact.phone,
     stage: contact.stage,
     timezoneId: contact.timezoneId,
-    image: contact.image,
   };
 }
 
 export function contactRowToDomain(row: ContactsTableSelect): PersistedContact {
   return Contact.rehydrate({
     id: row.id,
-    firstName: row.firstName,
-    lastName: row.lastName,
-    email: row.email,
-    phone: row.phone,
     companyId: row.companyId,
+    createdAt: row.createdAt,
+    email: row.email,
+    firstName: row.firstName,
+    image: row.image,
     jobTitle: row.jobTitle,
+    lastName: row.lastName,
+    phone: row.phone,
     stage: row.stage,
     timezoneId: row.timezoneId ?? null,
-    image: row.image,
-    createdAt: row.createdAt,
   });
 }
 
@@ -51,15 +50,15 @@ export function contactDomainToContactDTO(contact: PersistedContact): ContactDTO
   return {
     id: contact.id,
     clientGeneratedId: contact.clientGeneratedId,
-    firstName: contact.firstName,
-    lastName: contact.lastName,
-    email: contact.email,
-    phone: contact.phone,
     companyId: contact.companyId,
+    email: contact.email,
+    firstName: contact.firstName,
+    image: contact.image ?? null,
     jobTitle: contact.jobTitle,
+    lastName: contact.lastName,
+    phone: contact.phone,
     stage: contact.stage,
     timezoneId: contact.timezoneId ?? null,
-    image: contact.image ?? null,
   };
 }
 
@@ -67,7 +66,7 @@ export function contactReadRowToCompanyAvatarContact(contact: ContactReadRow): C
   return {
     id: contact.id,
     firstName: contact.firstName,
-    lastName: contact.lastName,
     image: contact.image,
+    lastName: contact.lastName,
   };
 }

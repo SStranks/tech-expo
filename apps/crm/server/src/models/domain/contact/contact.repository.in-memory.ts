@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { ContactsTableSelect } from '#Config/schema/contacts/Contacts.js';
 import type { ContactsNotesTableSelect } from '#Config/schema/contacts/ContactsNotes.js';
 import type { ContactNoteReadRow } from '#Models/query/contact/contacts.read-model.types.js';
@@ -74,16 +73,16 @@ export class InMemoryContactRepository implements ContactRepository {
     const row: ContactsTableSelect = {
       id,
       clientGeneratedId: contact.clientGeneratedId,
-      firstName: contact.firstName,
-      lastName: contact.lastName,
-      email: contact.email,
-      phone: contact.phone,
       companyId: contact.companyId,
+      createdAt: new Date(),
+      email: contact.email,
+      firstName: contact.firstName,
+      image: contact.image ?? null,
       jobTitle: contact.jobTitle,
+      lastName: contact.lastName,
+      phone: contact.phone,
       stage: contact.stage,
       timezoneId: contact.timezoneId ?? null,
-      image: contact.image ?? null,
-      createdAt: new Date(),
     };
 
     this.contactsMap.set(id, row);
@@ -104,15 +103,15 @@ export class InMemoryContactRepository implements ContactRepository {
     if (contact.hasDirtyFields()) {
       const updatedContact: ContactsTableSelect = {
         ...existingContact,
-        firstName: contact.firstName,
-        lastName: contact.lastName,
-        email: contact.email,
-        phone: contact.phone,
         companyId: contact.companyId,
+        email: contact.email,
+        firstName: contact.firstName,
+        image: contact.image ?? null,
         jobTitle: contact.jobTitle,
+        lastName: contact.lastName,
+        phone: contact.phone,
         stage: contact.stage,
         timezoneId: contact.timezoneId ?? null,
-        image: contact.image ?? null,
       };
 
       this.contactsMap.set(contact.id, updatedContact);
@@ -130,9 +129,9 @@ export class InMemoryContactRepository implements ContactRepository {
           id: asContactNoteId(createMockUUID()),
           clientGeneratedId: clientGeneratedId,
           contactId: contact.id,
-          note: note.content,
-          createdByUserProfileId: note.createdByUserProfileId,
           createdAt: new Date(),
+          createdByUserProfileId: note.createdByUserProfileId,
+          note: note.content,
         } satisfies ContactNoteReadRow;
 
         existingNotes.push(persistedNote);
@@ -140,11 +139,11 @@ export class InMemoryContactRepository implements ContactRepository {
         persistedContactNotes.push(
           ContactNote.rehydrate({
             id: persistedNote.id,
+            clientGeneratedId: note.clientGeneratedId,
             contactId: contact.id,
             content: persistedNote.note,
             createdAt: persistedNote.createdAt,
             createdByUserProfileId: persistedNote.createdByUserProfileId,
-            clientGeneratedId: note.clientGeneratedId,
           })
         );
       }

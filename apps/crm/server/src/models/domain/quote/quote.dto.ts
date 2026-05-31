@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { QuotesTableSelect } from '#Config/schema/quotes/Quotes.js';
 
 import type { CompanyId } from '../company/company.types.js';
@@ -24,14 +23,14 @@ export type QuoteDTO = {
 export const toQuoteDTO = (quote: QuotesTableSelect): QuoteDTO => ({
   id: quote.id,
   clientGeneratedId: quote.clientGeneratedId,
-  title: quote.title,
   companyId: quote.companyId,
-  totalAmount: quote.totalAmount,
+  createdAt: quote.createdAt,
+  dueAt: quote.dueAt,
+  issuedAt: quote.issuedAt,
+  preparedByUserProfileId: quote.preparedByUserProfileId,
+  preparedForContactId: quote.preparedForContactId,
   salesTax: quote.salesTax,
   stage: quote.stage,
-  preparedForContactId: quote.preparedForContactId,
-  preparedByUserProfileId: quote.preparedByUserProfileId,
-  issuedAt: quote.issuedAt,
-  dueAt: quote.dueAt,
-  createdAt: quote.createdAt,
+  title: quote.title,
+  totalAmount: quote.totalAmount,
 });

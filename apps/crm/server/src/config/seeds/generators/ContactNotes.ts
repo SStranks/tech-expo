@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 /* eslint-disable security/detect-object-injection */
 import type { ContactsNotesTableInsert } from '#Config/schema/contacts/ContactsNotes.js';
 import type { ContactNoteClientGeneratedId } from '#Models/domain/contact/note/note.types.js';
@@ -14,6 +13,7 @@ import { generateCommentDates, replaceCommentPlaceholders } from './utils.js';
 
 const { chain_notes: CHAIN_NOTES, non_chain_notes: NON_CHAIN_NOTES } = ContactsNotes;
 
+/* eslint-disable perfectionist/sort-objects */
 // For the current 'contact stage' (key), appropriate previous 'contact stage' (value)
 const CHAIN_NOTES_MAP = {
   NEW: 'new',
@@ -26,6 +26,7 @@ const CHAIN_NOTES_MAP = {
   WON: 'negotiation',
   CHURNED: 'lost',
 } as const;
+/* eslint-enable perfectionist/sort-objects */
 
 // Take chain-notes from previous stage and push on a non-chain-note from current stage.
 export function generateContactNotes(

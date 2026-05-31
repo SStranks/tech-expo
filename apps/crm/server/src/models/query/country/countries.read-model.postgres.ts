@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type { CountryId } from '#Models/domain/country/country.types.js';
 
 import type { CountryReadModel } from './countries.read-model.js';
@@ -17,11 +16,11 @@ export class PostgresCountryReadModel implements CountryReadModel {
 
       return countries.map((c) => ({
         id: c.id,
-        numCode: c.numCode,
         alpha2Code: c.alpha2Code,
         alpha3Code: c.alpha3Code,
-        shortName: c.shortName,
         nationality: c.nationality,
+        numCode: c.numCode,
+        shortName: c.shortName,
       }));
     });
   }
