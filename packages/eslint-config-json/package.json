@@ -8,7 +8,7 @@
   "type": "module",
   "main": "config.js",
   "devDependencies": {
-    "eslint-plugin-jsonc": "^3.1.1",
+    "eslint-plugin-jsonc": "^3.2.0",
     "jsonc-eslint-parser": "^3.1.0"
   }
 }
