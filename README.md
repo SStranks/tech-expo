@@ -233,7 +233,7 @@ It includes core CRM capabilities like customer management, secure authenticatio
 <summary>Development Environment</summary>
 <br>
 
-[![VSCode](https://github.com/SStranks/MyFirstRepository/blob/master/Icons/vscode-custom-badgeIO.svg)](https://code.visualstudio.com)
+[![VSCode](https://sstranks.github.io/tech-expo/assets/vscode_custom_badgeIO.svg)](https://code.visualstudio.com)
 [![Debian](https://img.shields.io/badge/Debian%20Trixie%20x86/64-a81d33?style=for-the-badge&logo=debian&logoColor=white)](https://www.debian.org/)
 [![WSL2](https://img.shields.io/badge/WSL2-000000?style=for-the-badge&logo=linux&logoColor=ffcc33)](https://learn.microsoft.com/en-us/windows/wsl/install)
 [![W10 Terminal](https://img.shields.io/badge/W10%20Terminal-4D4D4D?style=for-the-badge&logo=gnometerminal)](https://learn.microsoft.com/en-us/windows/terminal/install)
@@ -474,6 +474,6 @@ A special thanks to the following platforms, communities and services that suppo
 ![Stack Exchange](https://img.shields.io/badge/StackExchange-%23ffffff.svg?style=for-the-badge&logo=StackExchange&logoColor=black)
 ![freeCodeCamp](https://img.shields.io/badge/Freecodecamp-%23123.svg?&style=for-the-badge&logo=freecodecamp&logoColor=green)
 ![Udemy](https://img.shields.io/badge/Udemy-A435F0?style=for-the-badge&logo=Udemy&logoColor=white)
-![OpenAI](https://img.shields.io/badge/chatGPT-74aa9c?style=for-the-badge&logo=openai&logoColor=white)
+![OpenAI](https://sstranks.github.io/tech-expo/assets/gpt_custom_badgeIO.svg)
 
 <!-- markdown-link-check-enable -->
