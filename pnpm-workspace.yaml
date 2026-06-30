@@ -1,17 +1,15 @@
 packages:
-  - apps/**
   - packages/**
 
 injectWorkspacePackages: true
 
+minimumReleaseAge: 7200
+
+minimumReleaseAgeExclude:
+  - '@types/*'
+  - '@secretlint/*'
+  - secretlint
+
 onlyBuiltDependencies:
-  - argon2
-  - core-js
-  - cypress
-  - esbuild
-  - msw
-  - sharp
-  - unrs-resolver
-  - '@apollo/protobufjs'
-  - bcrypt
   - secp256k1
+  - unrs-resolver

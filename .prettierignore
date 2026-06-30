@@ -11,6 +11,3 @@
 **/*.gen.*
 **/graphql/generated/
 pnpm-lock.yaml
-
-
-
