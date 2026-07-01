@@ -1,0 +1,44 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Webpack Dev",
+      "url": "http://localhost:3000",
+      "sourceMaps": true,
+      "trace": true,
+      "skipFiles": ["${workspaceRoot}/<node_internals>/**", "${workspaceRoot}/node_modules/**"]
+    },
+    {
+      "name": "Node.js",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "restart": true,
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
+    },
+    {
+      "name": "Docker Node.js - CRM App",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "address": "localhost",
+      "restart": true,
+      "localRoot": "${workspaceFolder}/apps/crm/server",
+      "remoteRoot": "/app/server",
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
+    },
+    {
+      "name": "Docker Node.js - CRM App - Drizzle",
+      "type": "node",
+      "request": "attach",
+      "port": 9230,
+      "address": "localhost",
+      "restart": true,
+      "localRoot": "${workspaceFolder}/apps/crm/server",
+      "remoteRoot": "/app/server",
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
+    }
+  ]
+}

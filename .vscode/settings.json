@@ -1,0 +1,19 @@
+{
+  "eslint.useFlatConfig": true,
+  "eslint.debug": true,
+  "eslint.workingDirectories": [{ "directory": "." }],
+  "graphql-config.load.filepath": "graphql.config.ts",
+  "stylelint.packageManager": "pnpm",
+  "svg.preview.background": "transparent",
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+  "files.readonlyInclude": {
+    "**/routeTree.gen.ts": true
+  },
+  "files.watcherExclude": {
+    "**/routeTree.gen.ts": true
+  },
+  "search.exclude": {
+    "**/routeTree.gen.ts": true
+  }
+}
