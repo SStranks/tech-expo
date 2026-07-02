@@ -1,0 +1,15 @@
+basic_auth_users:
+  user: encrypted-password
+
+tls_server_config:
+  cert_file: .crt
+  key_file: .key
+  client_auth_type: RequireAndVerifyClientCert
+  client_ca_file: .crt
+  client_allowed_sans:
+    - example
+
+http_server_config:
+  http2: true
+  headers:
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
