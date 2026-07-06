@@ -82,6 +82,14 @@ export default defineConfig([
     settings: { ...EslintConfigTypescript.settings },
   },
   {
+    name: 'React Configuration',
+    files: ['**/*.[jt]sx'],
+    languageOptions: { ...EslintConfigReact.languageOptions },
+    plugins: { ...EslintConfigReact.plugins },
+    rules: { ...EslintConfigReact.rules },
+    settings: { ...EslintConfigReact.settings },
+  },
+  {
     name: 'HTML Configuration',
     files: ['**/*.html'],
     ignores: ['**/*EmailTemplate.html'],
@@ -126,7 +134,9 @@ export default defineConfig([
     plugins: { ...EslintConfigNode.plugins },
     rules: { ...EslintConfigNode.rules },
   },
+  // ====================================
   // ============= PACKAGES =============
+  // ====================================
   {
     name: '@packages',
     files: ['./*.[jt]s', 'packages/**/*.[jt]s'],
@@ -137,23 +147,19 @@ export default defineConfig([
       },
     },
   },
-  // ============= APPS =============
+  // ====================================
+  // =============== APPS ===============
+  // ====================================
   {
-    name: '@apps/crm/client: React + TypeScript',
-    files: ['apps/crm/client/src/**/*.[jt]s?(x)', 'apps/crm/client/webpack/**/*.[jt]s?(x)', 'apps/crm/client/*.ts'],
-    ignores: ['apps/crm/client/src/**/?(*.)+(spec|test).[jt]s?(x)'],
+    name: '@apps/crm/client',
+    files: ['apps/crm/client/src/**/*', 'apps/crm/client/webpack/**/*', 'apps/crm/client/*'],
+    ignores: ['apps/crm/client/src/**/?(*.)+(spec|test).*'],
     processor: EslintConfigGraphQL.processor,
     languageOptions: {
-      ...EslintConfigReact.languageOptions,
       parserOptions: {
         projectService: true,
         tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/client'),
       },
-    },
-    plugins: { ...EslintConfigReact.plugins },
-    rules: { ...EslintConfigReact.rules },
-    settings: {
-      ...EslintConfigReact.settings,
     },
   },
   {
@@ -167,9 +173,8 @@ export default defineConfig([
   },
   {
     name: '@apps/crm/client: Storybook',
-    files: ['apps/crm/client/src/stories/**/*.stories.[jt]s?(x)', 'apps/crm/client/.storybook/**/*.[jt]s?(x)'],
+    files: ['apps/crm/client/src/stories/**/*.stories.*', 'apps/crm/client/.storybook/**/*'],
     languageOptions: {
-      ...EslintConfigReact.languageOptions,
       parserOptions: {
         projectService: true,
         tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/client'),
@@ -183,23 +188,19 @@ export default defineConfig([
   },
   {
     name: '@apps/crm/client: Testing; Vitest + RTL',
-    files: ['apps/crm/client/src/**/?(*.)+(spec|test).[jt]s?(x)'],
+    files: ['apps/crm/client/src/**/?(*.)+(spec|test).*)'],
     languageOptions: {
-      ...EslintConfigReact.languageOptions,
       parserOptions: {
         projectService: true,
         tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/client'),
       },
     },
-    plugins: { ...EslintConfigReact.plugins, ...EslintConfigReactVitest.plugins },
-    rules: { ...EslintConfigReact.rules, ...EslintConfigReactVitest.rules },
-    settings: {
-      ...EslintConfigReact.settings,
-    },
+    plugins: { ...EslintConfigReactVitest.plugins },
+    rules: { ...EslintConfigReactVitest.rules },
   },
   {
     name: '@apps/crm/client: Testing; Playwright',
-    files: ['apps/crm/client/e2e/**/?(*.)+(spec|test).[jt]s?(x)'],
+    files: ['apps/crm/client/e2e/**/?(*.)+(spec|test).*'],
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -211,7 +212,7 @@ export default defineConfig([
   },
   {
     name: '@apps/crm/client: Testing; Cypress',
-    files: ['apps/crm/client/cypress/**/*.[jt]s?(x)'],
+    files: ['apps/crm/client/cypress/**/*'],
     languageOptions: {
       ...EslintConfigCypress.languageOptions,
       parserOptions: {
@@ -227,7 +228,7 @@ export default defineConfig([
   },
   {
     name: '@apps/crm/server: NodeJS Express + Testing (Node)',
-    files: ['apps/crm/server/src/**/*.[jt]s', 'apps/crm/server/*.[jt]s'],
+    files: ['apps/crm/server/src/**/*', 'apps/crm/server/*'],
     languageOptions: {
       ...EslintConfigNode.languageOptions,
       ...EslintConfigExpress.languageOptions,
@@ -267,14 +268,13 @@ export default defineConfig([
   },
   {
     name: '@apps/crm/shared: NodeJS',
-    files: ['apps/crm/shared/src/**/*.[jt]s'],
+    files: ['apps/crm/shared/src/**/*'],
     languageOptions: {
       parserOptions: {
         projectService: true,
         tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/shared'),
       },
     },
-    settings: {},
   },
   ConfigPrettier,
 ]);
