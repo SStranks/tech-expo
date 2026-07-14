@@ -97,13 +97,11 @@ export class PostgresCalendarRepository implements CalendarRepository {
       const rows = await tx
         .insert(CalendarCategoriesTable)
         .values(
-          [...addedCategory.values()].map(
-            (c): CalendarCategoriesTableInsert => ({
-              calendarId: c.calendarId,
-              clientGeneratedId: c.clientGeneratedId,
-              title: c.title,
-            })
-          )
+          [...addedCategory.values()].map((c): CalendarCategoriesTableInsert => ({
+            calendarId: c.calendarId,
+            clientGeneratedId: c.clientGeneratedId,
+            title: c.title,
+          }))
         )
         .returning();
 
@@ -155,18 +153,16 @@ export class PostgresCalendarRepository implements CalendarRepository {
       const rows = await tx
         .insert(CalendarEventsTable)
         .values(
-          [...addedEvent.values()].map(
-            (e): CalendarEventsTableInsert => ({
-              calendarId: e.calendarId,
-              categoryId: e.categoryId,
-              clientGeneratedId: e.clientGeneratedId,
-              color: e.color,
-              description: e.description,
-              eventEndAt: e.eventEndAt,
-              eventStartAt: e.eventStartAt,
-              title: e.title,
-            })
-          )
+          [...addedEvent.values()].map((e): CalendarEventsTableInsert => ({
+            calendarId: e.calendarId,
+            categoryId: e.categoryId,
+            clientGeneratedId: e.clientGeneratedId,
+            color: e.color,
+            description: e.description,
+            eventEndAt: e.eventEndAt,
+            eventStartAt: e.eventStartAt,
+            title: e.title,
+          }))
         )
         .returning();
 

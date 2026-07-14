@@ -99,14 +99,12 @@ export class PostgresContactRepository implements ContactRepository {
       const rows = await tx
         .insert(ContactsNotesTable)
         .values(
-          [...addedNotes.values()].map(
-            (n): ContactsNotesTableInsert => ({
-              clientGeneratedId: n.clientGeneratedId,
-              contactId: n.contactId,
-              createdByUserProfileId: n.createdByUserProfileId,
-              note: n.content,
-            })
-          )
+          [...addedNotes.values()].map((n): ContactsNotesTableInsert => ({
+            clientGeneratedId: n.clientGeneratedId,
+            contactId: n.contactId,
+            createdByUserProfileId: n.createdByUserProfileId,
+            note: n.content,
+          }))
         )
         .returning();
 

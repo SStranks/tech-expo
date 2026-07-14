@@ -2,33 +2,6 @@
 # Configuration file for MegaLinter
 # See all available variables at https://megalinter.io/configuration/ and in linters documentation
 ---
-PRE_COMMANDS:
-  - command: |
-      echo "=== DEBUGGING MEGALINTER CONTAINER CONFIG RESOLUTION ==="
-      node -e "
-        const path = 'apps/crm/server/src/models/domain/calendar/calendar.repository.postgres.ts';
-        console.log('Container Working Directory:', process.cwd());
-
-        // 1. Check if the container can find your prettier module
-        try {
-          const prettier = require('prettier');
-          console.log('Prettier module located successfully.');
-
-          // 2. See what config file the container resolves for this path
-          prettier.resolveConfigFile(path).then(cfgPath => {
-            console.log('Prettier Config Path found by container:', cfgPath);
-          });
-
-          // 3. Print the active parsed configuration rules
-          prettier.resolveConfig(path).then(config => {
-            console.log('Resolved Prettier Configuration values inside container:', JSON.stringify(config, null, 2));
-          });
-        } catch (err) {
-          console.error('Error finding or resolving Prettier config inside container:', err.message);
-        }
-      "
-    cwd: workspace
-
 # APPLY_FIXES: all
 ENABLE:
   - ACTION

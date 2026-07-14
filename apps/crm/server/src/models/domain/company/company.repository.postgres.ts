@@ -99,14 +99,12 @@ export class PostgresCompanyRepository implements CompanyRepository {
       const rows = await tx
         .insert(CompaniesNotesTable)
         .values(
-          [...addedNotes.values()].map(
-            (n): CompaniesNotesTableInsert => ({
-              clientGeneratedId: n.clientGeneratedId,
-              companyId: n.companyId,
-              createdByUserProfileId: n.createdByUserProfileId,
-              note: n.content,
-            })
-          )
+          [...addedNotes.values()].map((n): CompaniesNotesTableInsert => ({
+            clientGeneratedId: n.clientGeneratedId,
+            companyId: n.companyId,
+            createdByUserProfileId: n.createdByUserProfileId,
+            note: n.content,
+          }))
         )
         .returning();
 

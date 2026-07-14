@@ -110,13 +110,11 @@ export class PostgresQuoteRepository implements QuoteRepository {
       const rows = await tx
         .insert(QuotesNotesTable)
         .values(
-          [...addedNotes.values()].map(
-            (n): QuotesNotesTableInsert => ({
-              clientGeneratedId: n.clientGeneratedId,
-              content: n.content,
-              quoteId: n.quoteId,
-            })
-          )
+          [...addedNotes.values()].map((n): QuotesNotesTableInsert => ({
+            clientGeneratedId: n.clientGeneratedId,
+            content: n.content,
+            quoteId: n.quoteId,
+          }))
         )
         .returning();
 
