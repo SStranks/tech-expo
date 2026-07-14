@@ -174,6 +174,7 @@ export default defineConfig([
       'apps/crm/client/src/**/*',
       'apps/crm/client/webpack/**/*',
       'apps/crm/client/.storybook/**/*',
+      'apps/crm/client/cypress/**/*',
       'apps/crm/client/*',
     ],
     ignores: ['apps/crm/client/src/**/?(*.)+(spec|test).*'],
