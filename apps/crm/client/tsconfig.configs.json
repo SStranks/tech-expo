@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.base.json",
-  "include": ["vitest.config.ts", "vitest.setup.ts", "cypress.config.ts", "codegen.ts"],
+  "include": ["vitest.config.ts", "vitest.setup.ts", "cypress.config.ts", "codegen.ts", "playwright.config.ts"],
   "exclude": [],
   "references": [{ "path": "./cypress/tsconfig.json" }],
   "compilerOptions": { "composite": true, "noEmit": false, "allowImportingTsExtensions": false, "types": ["node"] }
