@@ -90,6 +90,24 @@ export default defineConfig([
     settings: { ...EslintConfigReact.settings },
   },
   {
+    name: 'Storybook Configuration',
+    files: ['**/*.stories.*', '**/.storybook/**/*.{js,jsx,mjs,ts,tsx}'],
+    plugins: { ...EslintConfigStorybook.plugins },
+    rules: { ...EslintConfigStorybook.rules },
+    settings: {
+      ...EslintConfigStorybook.settings,
+    },
+  },
+  {
+    name: 'Cypress Configuration',
+    files: ['**/cypress/**/*', '**/cypress/**/*'],
+    plugins: { ...EslintConfigCypress.plugins },
+    rules: { ...EslintConfigCypress.rules },
+    settings: {
+      ...EslintConfigCypress.settings,
+    },
+  },
+  {
     name: 'HTML Configuration',
     files: ['**/*.html'],
     ignores: ['**/*EmailTemplate.html'],
@@ -152,7 +170,12 @@ export default defineConfig([
   // ====================================
   {
     name: '@apps/crm/client',
-    files: ['apps/crm/client/src/**/*', 'apps/crm/client/webpack/**/*', 'apps/crm/client/*'],
+    files: [
+      'apps/crm/client/src/**/*',
+      'apps/crm/client/webpack/**/*',
+      'apps/crm/client/.storybook/**/*',
+      'apps/crm/client/*',
+    ],
     ignores: ['apps/crm/client/src/**/?(*.)+(spec|test).*'],
     processor: EslintConfigGraphQL.processor,
     languageOptions: {
@@ -170,21 +193,6 @@ export default defineConfig([
     },
     plugins: { ...EslintConfigGraphQL.plugins },
     rules: { ...EslintConfigGraphQL.rules.client },
-  },
-  {
-    name: '@apps/crm/client: Storybook',
-    files: ['apps/crm/client/src/stories/**/*.stories.*', 'apps/crm/client/.storybook/**/*'],
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/client'),
-      },
-    },
-    plugins: { ...EslintConfigStorybook.plugins },
-    rules: { ...EslintConfigStorybook.rules },
-    settings: {
-      ...EslintConfigStorybook.settings,
-    },
   },
   {
     name: '@apps/crm/client: Testing; Vitest + RTL',
@@ -209,22 +217,6 @@ export default defineConfig([
     },
     plugins: { ...EslintConfigPlaywright.plugins },
     rules: { ...EslintConfigPlaywright.rules },
-  },
-  {
-    name: '@apps/crm/client: Testing; Cypress',
-    files: ['apps/crm/client/cypress/**/*'],
-    languageOptions: {
-      ...EslintConfigCypress.languageOptions,
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/client'),
-      },
-    },
-    plugins: { ...EslintConfigCypress.plugins },
-    rules: { ...EslintConfigCypress.rules },
-    settings: {
-      ...EslintConfigCypress.settings,
-    },
   },
   {
     name: '@apps/crm/server: NodeJS Express + Testing (Node)',

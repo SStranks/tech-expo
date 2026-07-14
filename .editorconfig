@@ -22,7 +22,7 @@ max_line_length = unset
 [*.{css,scss,sass}]
 indent_size = 2
 
-[*.html]
+[*.{html,ejs}]
 indent_size = 2
 max_line_length = unset
 trim_trailing_whitespace = true
@@ -37,7 +37,7 @@ indent_size = 2
 max_line_length = unset
 indent_style = space
 
-[*.{conf,conf.template}]
+[*.{conf,conf.template,.map}]
 max_line_length = unset
 
 [*.svg]

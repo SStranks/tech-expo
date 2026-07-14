@@ -124,9 +124,9 @@
   "devDependencies": {
     "@apps/crm-shared": "workspace:*",
     "@faker-js/faker": "^10.3.0",
-    "@graphql-codegen/cli": "^7.1.2",
-    "@graphql-codegen/typescript": "^6.0.0",
-    "@graphql-codegen/typescript-resolvers": "^6.0.0",
+    "@graphql-codegen/cli": "^7.2.0",
+    "@graphql-codegen/typescript": "^6.1.0",
+    "@graphql-codegen/typescript-resolvers": "^6.1.0",
     "@jest/globals": "^30.2.0",
     "@parcel/watcher": "^2.5.4",
     "@types/bcrypt": "^6.0.0",

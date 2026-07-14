@@ -12,5 +12,6 @@
     "strictNullChecks": true
   },
   "include": ["*.ts", "packages"],
-  "exclude": ["node_modules", "apps", "logs"]
+  "exclude": ["node_modules", "apps", "logs"],
+  "references": [{ "path": "./apps/crm/client" }, { "path": "./apps/crm/server" }, { "path": "./apps/crm/shared" }]
 }

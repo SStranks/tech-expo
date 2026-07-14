@@ -1,16 +1,1 @@
-{
-  // https://www.npmjs.com/package/@tsconfig/node18
-  "compilerOptions": {
-    "declaration": true,
-    "sourceMap": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "moduleResolution": "node16",
-    "module": "node16",
-    "target": "ES2022",
-    "types": [],
-    "strict": true
-  },
-  "include": ["./src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "./**/private.*"]
-}
+{ "compilerOptions": { "composite": true }, "files": [], "references": [{ "path": "./tsconfig.src.json" }] }

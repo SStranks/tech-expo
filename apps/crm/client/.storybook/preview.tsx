@@ -1,5 +1,5 @@
 /* eslint-disable storybook/story-exports */
-import type { Preview } from '@storybook/react-webpack5';
+import type { Preview } from '@storybook/react-vite';
 
 import { withTanStackRouter } from 'storybook-addon-tanstack-router';
 

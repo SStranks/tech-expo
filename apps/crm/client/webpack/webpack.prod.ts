@@ -13,7 +13,7 @@ import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-import { DefinePlugin } from 'webpack';
+import webpack from 'webpack';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { merge } from 'webpack-merge';
 import { StatsWriterPlugin } from 'webpack-stats-plugin';
@@ -48,14 +48,18 @@ const ProdConfig = (_env: WebpackEnv) => {
           use: [
             {
               loader: 'babel-loader',
+              options: {
+                rootMode: 'upward',
+                configFile: path.resolve(__dirname, '../.babelrc.json'),
+              },
             },
             {
               loader: 'ts-loader',
               options: {
                 onlyCompileBundledFiles: true,
+                transpileOnly: true,
                 compilerOptions: {
-                  configFile: path.resolve(__dirname, '../tsconfig.src.json'),
-                  transpileOnly: true,
+                  configFile: path.resolve(__dirname, '../tsconfig.json'),
                   noEmit: false,
                 },
               },
@@ -188,7 +192,7 @@ const ProdConfig = (_env: WebpackEnv) => {
         new TerserPlugin({
           terserOptions: {
             compress: {
-              drop_console: ['log', 'info'],
+              drop_console: ['log', 'info', 'debug'],
             },
           },
         }),
@@ -299,7 +303,7 @@ const ProdConfig = (_env: WebpackEnv) => {
           { from: path.resolve(__dirname, '../public/sitemap.xml'), noErrorOnMissing: true },
         ],
       }),
-      new DefinePlugin(envKeys),
+      new webpack.DefinePlugin(envKeys),
       new WebpackManifestPlugin({}),
       new StatsWriterPlugin({
         filename: 'stats/build-stats.json',

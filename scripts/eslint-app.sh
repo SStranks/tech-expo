@@ -38,7 +38,7 @@ if [[ "${OUTPUT_MODE}" == "--html" ]]; then
   OUTPUT_FILE="${REPORT_DIR}/${TARGET_DIR_PATH}/${TIMESTAMP}.html"
   echo "[SCRIPT: eslint-app] Running ESLint with HTML report"
   echo "[SCRIPT: eslint-app] Output: ${OUTPUT_FILE}"
-  eslint --format html --output-file "${OUTPUT_FILE}" "${FULL_PATH}"
+  eslint --format html --output-file "${OUTPUT_FILE}" "${FULL_PATH}" || true
   SUMMARY=$(awk '/<div id="overview"/,/<\/div>/' "${OUTPUT_FILE}" | sed -e 's/<[^>]*>//g' | xargs)
   echo "[SCRIPT: eslint-app] ${SUMMARY}"
 else
