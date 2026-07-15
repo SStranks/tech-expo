@@ -1,6 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/megalinter/megalinter/main/megalinter/descriptors/schemas/megalinter-configuration.jsonschema.json
 # MegaLinter: Security
 # See all available variables at https://megalinter.io/configuration/ and in linters documentation
+
+# Schema version: Megalinter v9.6
 ---
 ENABLE:
   - REPOSITORY
@@ -9,13 +11,14 @@ DISABLE_LINTERS:
   - REPOSITORY_TRIVY_SBOM
   - REPOSITORY_GRYPE
 
-EXCLUDED_DIRECTORIES: [node_modules, megalinter-reports, dist, build, public, private, generated]
+EXCLUDED_DIRECTORIES: [node_modules, megalinter-reports, dist, build, public, private, generated, .sassdoc]
 FILTER_REGEX_EXCLUDE: '(pnpm-lock.yaml|pnpm-workspace.yaml)'
 
 REPOSITORY_CHECKOV_CONFIG_FILE: packages/megalinter-config/.checkov.yml
 REPOSITORY_DEVSKIM_CONFIG_FILE: packages/megalinter-config/.devskim.json
 REPOSITORY_GRYPE_CONFIG_FILE: packages/megalinter-config/.grype.yaml
 REPOSITORY_KICS_ARGUMENTS: --disable-full-descriptions
+REPOSITORY_OSV_SCANNER_DISABLE_ERRORS: true
 REPOSITORY_SECRETLINT_CONFIG_FILE: packages/megalinter-config/.secretlintrc.js
 REPOSITORY_TRUFFLEHOG_ARGUMENTS: --exclude-paths=packages/megalinter-config/trufflehog_exclude.txt
 

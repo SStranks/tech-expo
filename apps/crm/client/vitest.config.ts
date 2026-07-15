@@ -72,6 +72,9 @@ export default defineConfig(({ mode }) => {
         },
       ],
       setupFiles: ['./vitest.setup.ts'],
+      resolveSnapshotPath: (testPath, _snapshotExtension) => {
+        return testPath.replace(/src/, '__snapshots__');
+      },
     },
   };
 });

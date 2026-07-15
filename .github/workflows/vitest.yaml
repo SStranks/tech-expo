@@ -1,7 +1,8 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 ---
 name: Vitest
-permissions: read-all
+permissions:
+  contents: read
 
 on: # yamllint disable-line rule:truthy
   pull_request:
@@ -33,17 +34,19 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
 
       - name: Setup PNPM
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
         with:
           run_install: false
 
-      - name: Setup Node
-        uses: actions/setup-node@v6
+      - name: Setup Node 22.18.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 22
+          node-version: 22.18.0
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
@@ -73,18 +76,20 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.60.0-noble
 
     steps:
-      - name: checkout
-        uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
 
-      - name: setup PNPM
-        uses: pnpm/action-setup@v5
+      - name: Setup PNPM
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
         with:
           run_install: false
 
-      - name: setup Node
-        uses: actions/setup-node@v6
+      - name: Setup Node 22.18.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 22
+          node-version: 22.18.0
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
@@ -113,7 +118,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
 
       - name: Recreate .env.test.server
         run: |
@@ -121,14 +128,14 @@ jobs:
           chmod 600 apps/crm/server/.env.test.server
 
       - name: Setup PNPM
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
         with:
           run_install: false
 
-      - name: Setup Node
-        uses: actions/setup-node@v6
+      - name: Setup Node 22.18.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 22
+          node-version: 22.18.0
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 

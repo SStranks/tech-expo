@@ -1,7 +1,8 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 ---
 name: Lint
-permissions: read-all
+permissions:
+  contents: read
 
 on: # yamllint disable-line rule:truthy
   push:
@@ -22,15 +23,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
 
       - name: Setup PNPM
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
         with:
           run_install: false
 
-      - name: Setup Node v22
-        uses: actions/setup-node@v6
+      - name: Setup Node 22.18.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 22.18.0
           cache: pnpm
@@ -45,15 +48,15 @@ jobs:
       - name: Generate graphql codegen files
         run: pnpm --filter @apps/crm-client --filter @apps/crm-server codegen
 
-      - name: MegaLinter
-        uses: oxsecurity/megalinter/flavors/javascript@v9.1.0
+      - name: MegaLinter v9.6
+        uses: oxsecurity/megalinter/flavors/javascript@ef3e84b8b836d76db562d0f3ed7da61e8fd538bc # v9.6.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EXTENDS: ./.github/configs/mega-linter.yaml
 
       - name: Megalinter Artifacts
         if: success() || failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: MegaLinter reports
           path: |

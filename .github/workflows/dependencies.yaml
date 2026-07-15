@@ -1,7 +1,8 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 ---
 name: Dependencies
-permissions: read-all
+permissions:
+  contents: read
 # Checks the entire repository for outdated packages (latest) and prints output to .txt
 
 on: # yamllint disable-line rule:truthy
@@ -21,20 +22,20 @@ jobs:
 
     steps:
       # checkout project code to runner workspace sub-directory
-      - name: checkout code
-        uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           path: ${{ github.workspace }}/tech-expo
 
-      - name: pnpm setup
-        uses: pnpm/action-setup@v6
+      - name: Setup PNPM
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
         with:
           package_json_file: tech-expo/package.json
           run_install: false
           standalone: true
 
-      - name: use node.js v24
-        uses: actions/setup-node@v6
+      - name: Setup Node 24
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: pnpm
@@ -46,7 +47,7 @@ jobs:
 
       # reference github action in another public repo
       - name: checkout code - github action - pnpm-outdated
-        uses: actions/checkout@v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           repository: SStranks/pnpm-outdated
           path: ${{ github.workspace }}/pnpm-outdated

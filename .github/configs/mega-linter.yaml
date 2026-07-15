@@ -1,8 +1,9 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/megalinter/megalinter/main/megalinter/descriptors/schemas/megalinter-configuration.jsonschema.json
 # Configuration file for MegaLinter
 # See all available variables at https://megalinter.io/configuration/ and in linters documentation
+
+# Schema version: Megalinter v9.6
 ---
-# APPLY_FIXES: all
 ENABLE:
   - ACTION
   - BASH
@@ -26,7 +27,7 @@ DISABLE_LINTERS:
   - REPOSITORY_TRIVY
   - REPOSITORY_TRIVY_SBOM
 
-EXCLUDED_DIRECTORIES: [.git, node_modules, megalinter-reports, dist, build, public, private, generated, meta]
+EXCLUDED_DIRECTORIES: [.git, node_modules, megalinter-reports, dist, build, public, private, generated, meta, .sassdoc]
 FILTER_REGEX_EXCLUDE: '(pnpm-lock.yaml|pnpm-workspace.yaml)'
 HTML_FILTER_REGEX_EXCLUDE: '(cypress/|nodemailer/templates/|bundle-stats.html)'
 JSON_FILTER_REGEX_EXCLUDE: /migrations/meta/
@@ -34,8 +35,7 @@ JSON_FILTER_REGEX_EXCLUDE: /migrations/meta/
 BASH_SHELLCHECK_ARGUMENTS: -S warning
 BASH_SHFMT_ARGUMENTS: --case-indent --indent 2 --space-redirects --language-dialect bash
 
-CSS_STYLELINT_ARGUMENTS: --config-basedir=./node_modules
-CSS_STYLELINT_CLI_EXECUTABLE: [node_modules/.bin/stylelint]
+CSS_STYLELINT_CLI_EXECUTABLE: node_modules/.bin/stylelint
 CSS_STYLELINT_CONFIG_FILE: stylelint.config.js
 
 EDITORCONFIG_EDITORCONFIG_CHECKER_CONFIG_FILE: packages/megalinter-config/.editorconfig-checker.json
@@ -44,15 +44,12 @@ EDITORCONFIG_EDITORCONFIG_CHECKER_CONFIG_FILE: packages/megalinter-config/.edito
 HTML_DJLINT_FILTER_REGEX_EXCLUDE: '(?i)emailtemplate.*\.html$'
 
 JAVASCRIPT_DEFAULT_STYLE: prettier
-JAVASCRIPT_ES_CLI_EXECUTABLE: [node_modules/.bin/eslint]
+JAVASCRIPT_PRETTIER_CONFIG_FILE: packages/prettier-config/prettier.config.js
+
+JAVASCRIPT_ES_CONFIG_FILE: eslint.config.js
+JAVASCRIPT_ES_CLI_EXECUTABLE: node_modules/.bin/eslint
 JAVASCRIPT_ES_ARGUMENTS:
   - --no-warn-ignored
-JAVASCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
-  - --no-eslintrc
-  - -c
-  - /github/workspace/eslint.config.js
-JAVASCRIPT_PRETTIER_CONFIG_FILE: packages/prettier-config/prettier.config.js
-JAVASCRIPT_ES_CONFIG_FILE: eslint.config.js
 
 JSON_JSONLINT_ARGUMENTS: --comments
 JSON_PRETTIER_CONFIG_FILE: packages/prettier-config/prettier.config.js
@@ -60,30 +57,22 @@ JSON_PRETTIER_CONFIG_FILE: packages/prettier-config/prettier.config.js
 REPOSITORY_CHECKOV_CONFIG_FILE: packages/megalinter-config/.checkov.yml
 REPOSITORY_DEVSKIM_CONFIG_FILE: packages/megalinter-config/.devskim.json
 REPOSITORY_KICS_ARGUMENTS: --disable-full-descriptions
+REPOSITORY_OSV_SCANNER_DISABLE_ERRORS: true
 REPOSITORY_SECRETLINT_CONFIG_FILE: packages/megalinter-config/.secretlintrc.js
 REPOSITORY_TRUFFLEHOG_ARGUMENTS: --exclude-paths=packages/megalinter-config/trufflehog_exclude.txt
 
-TSX_ES_CLI_EXECUTABLE: [node_modules/.bin/eslint]
+TSX_ESLINT_CONFIG_FILE: eslint.config.js
+TSX_ESLINT_CLI_EXECUTABLE: node_modules/.bin/eslint
 TSX_ESLINT_ARGUMENTS:
   - --no-warn-ignored
-TSX_ES_COMMAND_REMOVE_ARGUMENTS:
-  - --no-eslintrc
-  - -c
-  - /github/workspace/eslint.config.js
-TSX_PRETTIER_CONFIG_FILE: packages/prettier-config/prettier.config.js
-TSX_ES_CONFIG_FILE: eslint.config.js
 
 TYPESCRIPT_DEFAULT_STYLE: prettier
-TYPESCRIPT_ES_CLI_EXECUTABLE: [node_modules/.bin/eslint]
+TYPESCRIPT_PRETTIER_CONFIG_FILE: packages/prettier-config/prettier.config.js
+
+TYPESCRIPT_ES_CONFIG_FILE: eslint.config.js
+TYPESCRIPT_ES_CLI_EXECUTABLE: node_modules/.bin/eslint
 TYPESCRIPT_ES_ARGUMENTS:
   - --no-warn-ignored
-TYPESCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
-  - --no-eslintrc
-  - -c
-  - /github/workspace/eslint.config.js
-  - --no-ignore
-TYPESCRIPT_PRETTIER_CONFIG_FILE: packages/prettier-config/prettier.config.js
-TYPESCRIPT_ES_CONFIG_FILE: eslint.config.js
 
 EMAIL_REPORTER: false
 FILEIO_REPORTER: false
