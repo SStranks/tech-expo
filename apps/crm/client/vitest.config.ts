@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [
-      viteTsconfigPathsPlugin(),
+      viteTsconfigPathsPlugin({ root: path.resolve(__dirname) }),
       viteReactPlugin(),
       tanstackRouter({ generatedRouteTree: './src/routeTree.gen.ts', routesDirectory: './src/routes' }),
     ],

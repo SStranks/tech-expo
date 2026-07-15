@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  forbidOnly: !!process.env.CI,
+  forbidOnly: !!process.env['CI'],
   fullyParallel: true,
   outputDir: './logs/playwright/test-results',
   projects: [
@@ -12,22 +12,22 @@ export default defineConfig({
       },
     },
   ],
-  reporter: process.env.CI
+  reporter: process.env['CI']
     ? [['github'], ['html', { open: 'never' }]]
     : [['list'], ['html', { open: 'on-failure', outputFolder: './logs/playwright/report' }]],
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env['CI'] ? 2 : 0,
   testDir: './e2e',
   use: {
-    baseURL: process.env.WEBPACK_CI_PUBLIC_URL || process.env.WEBPACK_DEV_PUBLIC_URL,
+    baseURL: process.env['WEBPACK_CI_PUBLIC_URL'] || process.env['WEBPACK_DEV_PUBLIC_URL'],
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
     video: 'off',
   },
   webServer: {
     command: 'webpack serve --disable-interpret --config ./webpack/webpack.dev.ts',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env['CI'],
     timeout: 120 * 1000,
-    url: process.env.WEBPACK_CI_PUBLIC_URL || process.env.WEBPACK_DEV_PUBLIC_URL,
+    url: process.env['WEBPACK_CI_PUBLIC_URL'] || process.env['WEBPACK_DEV_PUBLIC_URL'],
   },
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env['CI'] ? 1 : undefined,
 });
