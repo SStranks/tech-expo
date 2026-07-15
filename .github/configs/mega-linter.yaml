@@ -32,6 +32,9 @@ FILTER_REGEX_EXCLUDE: '(pnpm-lock.yaml|pnpm-workspace.yaml)'
 HTML_FILTER_REGEX_EXCLUDE: '(cypress/|nodemailer/templates/|bundle-stats.html)'
 JSON_FILTER_REGEX_EXCLUDE: /migrations/meta/
 
+ACTION_ZIZMOR_UNSECURED_ENV_VARIABLES:
+  - GITHUB_TOKEN
+
 BASH_SHELLCHECK_ARGUMENTS: -S warning
 BASH_SHFMT_ARGUMENTS: --case-indent --indent 2 --space-redirects --language-dialect bash
 
@@ -50,6 +53,8 @@ JAVASCRIPT_ES_CONFIG_FILE: eslint.config.js
 JAVASCRIPT_ES_CLI_EXECUTABLE: node_modules/.bin/eslint
 JAVASCRIPT_ES_ARGUMENTS:
   - --no-warn-ignored
+JAVASCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
+  - --no-ignore
 
 JSON_JSONLINT_ARGUMENTS: --comments
 JSON_PRETTIER_CONFIG_FILE: packages/prettier-config/prettier.config.js
@@ -65,6 +70,8 @@ TSX_ESLINT_CONFIG_FILE: eslint.config.js
 TSX_ESLINT_CLI_EXECUTABLE: node_modules/.bin/eslint
 TSX_ESLINT_ARGUMENTS:
   - --no-warn-ignored
+TSX_ESLINT_COMMAND_REMOVE_ARGUMENTS:
+  - --no-ignore
 
 TYPESCRIPT_DEFAULT_STYLE: prettier
 TYPESCRIPT_PRETTIER_CONFIG_FILE: packages/prettier-config/prettier.config.js
@@ -73,6 +80,8 @@ TYPESCRIPT_ES_CONFIG_FILE: eslint.config.js
 TYPESCRIPT_ES_CLI_EXECUTABLE: node_modules/.bin/eslint
 TYPESCRIPT_ES_ARGUMENTS:
   - --no-warn-ignored
+TYPESCRIPT_ES_COMMAND_REMOVE_ARGUMENTS:
+  - --no-ignore
 
 EMAIL_REPORTER: false
 FILEIO_REPORTER: false
