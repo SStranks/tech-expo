@@ -178,7 +178,6 @@ export default defineConfig([
       'apps/crm/client/*',
     ],
     ignores: ['apps/crm/client/src/**/?(*.)+(spec|test).*'],
-    // processor: EslintConfigGraphQL.processor,
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -187,10 +186,20 @@ export default defineConfig([
     },
   },
   {
-    name: '@apps/crm/client: GraphQL',
-    files: ['apps/crm/client/src/**/*.graphql'],
+    name: '@apps/crm/client: GraphQL: Processor',
+    files: ['apps/crm/client/src/graphql/*.[jt]s?(x)'],
+    processor: EslintConfigGraphQL.processor,
+  },
+  {
+    name: '@apps/crm/client: GraphQL: Consumer',
+    files: ['apps/crm/client/src/graphql/*.{gql,graphql}'],
     languageOptions: {
       ...EslintConfigGraphQL.languageOptions,
+      parserOptions: {
+        graphqlConfig: {
+          schema: 'apps/crm/client/src/graphql/generated/schema.graphql',
+        },
+      },
     },
     plugins: { ...EslintConfigGraphQL.plugins },
     rules: { ...EslintConfigGraphQL.rules.client },
