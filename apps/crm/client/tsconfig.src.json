@@ -8,7 +8,8 @@
     "src/**/private/*",
     "src/**/*.test.*",
     "src/**/*.spec.*",
-    "src/tests/*"
+    "src/tests/**/*",
+    "routeTree.gen.ts"
   ],
   "compilerOptions": {
     "composite": true,

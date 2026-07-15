@@ -177,8 +177,8 @@ export default defineConfig([
       'apps/crm/client/cypress/**/*',
       'apps/crm/client/*',
     ],
-    ignores: ['apps/crm/client/src/**/?(*.)+(spec|test).*'],
-    processor: EslintConfigGraphQL.processor,
+    ignores: ['apps/crm/client/src/**/?(*.)+(spec|test).*', 'apps/crm/client/src/tests/**/*'],
+    // processor: EslintConfigGraphQL.processor,
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -197,7 +197,7 @@ export default defineConfig([
   },
   {
     name: '@apps/crm/client: Testing; Vitest + RTL',
-    files: ['apps/crm/client/src/**/?(*.)+(spec|test).*)'],
+    files: ['apps/crm/client/src/**/?(*.)+(spec|test).*', 'apps/crm/client/src/tests/**/*'],
     languageOptions: {
       parserOptions: {
         projectService: true,

@@ -115,7 +115,7 @@ export async function renderWithAllProviders(
     return wrapped;
   };
 
-  const result = render(testComponent, { wrapper: AllProviders, ...renderOptions });
+  const view = render(testComponent, { wrapper: AllProviders, ...renderOptions });
 
-  return { ...result, serviceHttp, store, testRouter };
+  return { ...view, serviceHttp, store, testRouter };
 }
