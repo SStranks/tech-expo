@@ -1,4 +1,5 @@
 /* eslint-disable perfectionist/sort-objects */
+import EslintConfigBrowser from '@packages/eslint-config-browser';
 import EslintConfigCypress from '@packages/eslint-config-cypress';
 import EslintConfigExpress from '@packages/eslint-config-express';
 import { ConfigPrettier, EslintConfigGlobal } from '@packages/eslint-config-global';
@@ -179,11 +180,14 @@ export default defineConfig([
     ],
     ignores: ['apps/crm/client/src/**/?(*.)+(spec|test).*'],
     languageOptions: {
+      ...EslintConfigBrowser.languageOptions,
       parserOptions: {
         projectService: true,
         tsconfigRootDir: path.join(import.meta.dirname, 'apps/crm/client'),
       },
     },
+    plugins: { ...EslintConfigBrowser.plugins },
+    rules: { ...EslintConfigBrowser.rules },
   },
   {
     name: '@apps/crm/client: GraphQL: Processor',
