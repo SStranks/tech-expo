@@ -48,8 +48,8 @@ services:
     image: techexpo-crm/express-api:latest
     restart: unless-stopped
     env_file:
-      - ../server/.env.prod.server
-      - ./.env.prod.docker
+      - ${ENV_DIR}/.env.prod.server
+      - ${ENV_DIR}/.env.prod.docker
     volumes:
       - tmpfs-certs:/etc/expressjs/certs:ro
     healthcheck:
@@ -77,7 +77,7 @@ services:
     image: techexpo-crm/nginx-react:latest
     restart: unless-stopped
     env_file:
-      - ../client/.env.prod.client
+      - ${ENV_DIR}/.env.prod.client
     expose:
       - '443'
     volumes:

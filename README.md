@@ -336,7 +336,11 @@ Explore the components of the mongo architecture through this interactive schema
 
 The application is designed to run in a Docker Swarm environment. For local use, a production-like setup is provided via [`docker-compose.prod.yml`](./apps/crm/docker/docker-compose.prod.yml), which does not require Docker Swarm.
 
+`IMPORTANT` The application was developed in a linux environment; scripts and tooling are linux/macOS compatible, Windows users require manual intervention in toolchain.
+
 For prerequisite certification files and detailed instructions, see the [`Docker README.md`](./apps/crm/docker/README.md).
+
+For environment variable setup and configuration, see [Environment Variables Setup](./apps/crm/ENV.md)
 
 <!-- TODO: Make quickstart: generate all required files in script -->
 
@@ -372,25 +376,25 @@ cd tech-expo/apps/crm/docker
 
 ###### PNPM
 
-- Version: 10.26.0 as defined in [`package.json`](./package.json#packagemanager)
+- Version: 11.1.3 as defined in [`package.json`](./package.json)
 - Install via:
 
 ```bash
-curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=<10.26.0> sh -
+curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=<11.1.3> sh -
 ```
 
 - For further information and alternative installation options: [PNPM](https://pnpm.io/installation)
 
 ###### Node
 
-- Version: 22 as defined in [`package.json`](./package.json#engines_node)
+- Version: >=22.18 as defined in [`package.json`](./package.json)
 - Recommended: Use NVM to manage multiple Node versions
 - Installation: [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) and
   [Node](https://nodejs.org/en/download)
 
 ###### Oxsecurity/Megalinter
 
-- Version: 9
+- Version: 9.6
 - Warning: Large image (11Gb)
 - Used for pre-commit linting and security scans
 - Installation: `docker pull oxsecurity/megalinter:v9`

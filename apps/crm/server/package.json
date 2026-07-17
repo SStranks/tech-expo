@@ -19,7 +19,7 @@
       "src",
       "dist"
     ],
-    "exec": "dotenvx run -f ./.env.dev.server -- node --inspect=0.0.0.0:9229 --import tsx --inspect --no-lazy ./src/main.ts",
+    "exec": "dotenvx run -f \"${ENV_DIR}/.env.dev.server\" -- node --inspect=0.0.0.0:9229 --import tsx --inspect --no-lazy ./src/main.ts",
     "ext": "ts, js"
   },
   "scripts": {
@@ -32,9 +32,9 @@
     "build": "pnpm run clean && node ./esbuild.mjs",
     "build:sourcemap": "pnpm run clean && tsc -b tsconfig.src.json --sourceMap true && tsc-alias -p tsconfig.src.json",
     "start": "nodemon . | pino-pretty",
-    "start:dist": "nodemon --exec 'dotenvx run -f ./.env.dev.server -- node .'",
+    "start:dist": "nodemon --exec 'dotenvx run -f \"${ENV_DIR}/.env.dev.server\" -- node .'",
     "prod": "NODE_ENV=production node .",
-    "prod:dist": "dotenvx run -f ./.env.prod.server -- node .",
+    "prod:dist": "dotenvx run -f \"${ENV_DIR}/.env.prod.server\" -- node .",
     "docker:build": "docker image build -f Dockerfile.prod -t $npm_package_config_dockerImageRepo:$npm_package_version .",
     "docker:postbuild": "docker image tag $npm_package_config_dockerImageRepo:$npm_package_version $npm_package_config_dockerImageRepo:latest",
     "docker:run": "docker run --name $npm_package_config_dockerImageName -d -p $npm_package_config_dockerImagePort:$npm_package_config_dockerInternalContainerPort $npm_package_config_dockerImageRepo",

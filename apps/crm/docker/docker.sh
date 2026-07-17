@@ -16,26 +16,28 @@ set -euo pipefail
 
 # Directory variables
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SECRETS_FILE_0="$SCRIPT_DIR/.secret.yaml"
-SECRETS_FILE_1="$SCRIPT_DIR/.secret.redisExporter.json"
-SECRETS_FILE_2="$SCRIPT_DIR/.secret.mongoExporter.txt"
 SECRETS_RAM_DIR="/run/user/$(id -u)/secrets"
-ENV_FILE="$SCRIPT_DIR/.env.dev.docker"
+
+# direnv provided envs
+ENV_FILE="${ENV_DIR}/.env.dev.docker"
+SECRETS_FILE_0="${SECRETS_DIR}/docker/.secret.yaml"
+SECRETS_FILE_1="${SECRETS_DIR}/docker/.secret.redisExporter.json"
+SECRETS_FILE_2="${SECRETS_DIR}/docker/.secret.mongoExporter.txt"
 
 # If SECRET_PATH exists in the env file, replace it. Otherwise, append it.
-if grep -q '^SECRET_PATH=' "$ENV_FILE"; then
-  sed -i "s|^SECRET_PATH=.*|SECRET_PATH=$SECRETS_RAM_DIR|" "$ENV_FILE"
+if grep -q '^SECRET_PATH=' "${ENV_FILE}"; then
+  sed -i "s|^SECRET_PATH=.*|SECRET_PATH=$SECRETS_RAM_DIR|" "${ENV_FILE}"
 else
-  printf "\n\n# Docker Secret Path \nSECRET_PATH=%s\n" "$SECRETS_RAM_DIR" >> "$ENV_FILE"
+  printf "\n\n# Docker Secret Path \nSECRET_PATH=%s\n" "$SECRETS_RAM_DIR" >> "${ENV_FILE}"
 fi
 
 # Mount secrets folder to RAM
-mkdir -p "$SECRETS_RAM_DIR"
+mkdir -p "${SECRETS_RAM_DIR}"
 
 # Cleanup function for secret files
 cleanup() {
   echo "Cleaning up secret files..."
-  find "$SECRETS_RAM_DIR" -type f -name '.secret.*.txt' -delete
+  find "${SECRETS_RAM_DIR}" -type f -name '.secret.*.txt' -delete
 
   # For secure deletion invoke shred; still not guaranteed in case of SSDs; causes wear
   # find "$SECRETS_RAM_DIR" -type f -name '.secret.*.txt' -exec shred -u {} +
@@ -44,8 +46,8 @@ trap cleanup EXIT
 
 # Decrypt secrets json; output each value in own .txt with key as filename
 # YAML Version
-sops exec-file "$SECRETS_FILE_0" 'bash -c "
-  SECRETS_RAM_DIR=\"'"$SECRETS_RAM_DIR"'\"
+sops exec-file "${SECRETS_FILE_0}" 'bash -c "
+  SECRETS_RAM_DIR=\"'"${SECRETS_RAM_DIR}"'\"
 
   while IFS= read -r line; do
     # Remove comments and empty lines
@@ -60,10 +62,10 @@ sops exec-file "$SECRETS_FILE_0" 'bash -c "
 "'
 
 # Redit-exporter requires JSON of URIs
-sops exec-file "$SECRETS_FILE_1" "cat {} > $SECRETS_RAM_DIR/.secret.redis_uri.json"
+sops exec-file "${SECRETS_FILE_1}" "cat {} > ${SECRETS_RAM_DIR}/.secret.redis_uri.json"
 
 # Mongo-exporter requires ENV file URI
-sops exec-file "$SECRETS_FILE_2" "cat {} > $SECRETS_RAM_DIR/.secret.mongo_uri.txt"
+sops exec-file "${SECRETS_FILE_2}" "cat {} > ${SECRETS_RAM_DIR}/.secret.mongo_uri.txt"
 
 
 # JSON Version
@@ -88,6 +90,6 @@ docker volume create techexpo-postgres
 
 # Run Docker compose outside of SOPS context
 # Running inside interferes with docket rootless and breaks
-docker compose -f "$SCRIPT_DIR/docker-compose.override.yml" \
-  --env-file "$SCRIPT_DIR/.env.dev.docker" \
+docker compose -f "${SCRIPT_DIR}/docker-compose.override.yml" \
+  --env-file "${ENV_DIR}/.env.dev.docker" \
   --profile "*" up

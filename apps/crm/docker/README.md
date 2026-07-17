@@ -79,7 +79,7 @@ The port is defined by the `NGINX_METRICS_LOCAL_PORT_TLS` environment variable
 ###### .env.dev.docker
 
 ```ini
-# ./.env.dev.docker
+# .env.dev.docker
 
 NODE_ENV=development
 
@@ -185,7 +185,7 @@ METRICS_EXPORTER_CERTS_VOLUME=tmpfs-certs:/certs:ro
 ###### .env.prod.docker
 
 ```ini
-# ./env.prod
+# .env.prod.docker
 
 NODE_ENV=production
 
@@ -284,7 +284,7 @@ PINO_LOG_LEVEL=error
 - `!` Store encrypted - [`./docker.sh`](./docker.sh) requires secrets to be encrypted
 
 ```yml
-# ./.secret.yaml
+# .secret.yaml
 
 # Node Express
 jwt_auth_secret: xxxx

@@ -97,8 +97,8 @@ services:
         max_attempts: 5
         window: 120s
     env_file:
-      - ../server/.env.prod.server
-      - ./.env.prod.docker
+      - ${ENV_DIR}/.env.prod.server
+      - ${ENV_DIR}/.env.prod.docker
     volumes: []
     entrypoint: [/usr/local/bin/node-express-init.sh]
     healthcheck:
@@ -175,7 +175,7 @@ services:
         max_attempts: 3
         window: 60s
     env_file:
-      - ../client/.env.prod.client
+      - ${ENV_DIR}/.env.prod.client
     ports: []
     expose:
       - '443'

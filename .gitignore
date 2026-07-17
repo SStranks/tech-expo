@@ -17,6 +17,7 @@
 !**/certs/**/README.md
 
 # Env files - Decrypted
+**/.envrc
 **/*.env
 **/.env.*
 # Env files - Encrypted
