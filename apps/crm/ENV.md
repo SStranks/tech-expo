@@ -76,3 +76,44 @@ Please refer to the `README.md` for each respective service layer for details on
 - [`README`](/apps/crm/client/README.md#required-files) - Client
 - [`README`](/apps/crm/server/README.md#required-files) - Server
 - [`README`](/apps/crm/docker/README.md#required-files) - Docker
+
+## CI/CD Encrypted .env file
+
+For Github workflows [`Vitest`](/.github/workflows/vitest.yaml) and [`Playwright`](/.github/workflows/playwright.yaml), an encrypted .env file is committed to the repository that is then decrypted during the online runner process.
+
+[Encrypted CI/CD .env](/apps/crm/client/.env.ci.client.enc)
+
+The `dotenvx` package can be used to securely encrypt env files, and is used by the github runner to decrypt them during the CI/CD pipeline process.
+
+```bash
+# apps/crm/client
+pnpm exec dotenvx encrypt -f ./.env.ci.client
+
+# Generates:
+./.env.ci.client.enc        # encrypted env file
+./.env.keys                 # private key file for decryption
+```
+
+The encrypted file can remain in the repository, but the `.env.keys` is sensitive information and should be stored external to the repository. To decrypt an `.env.enc` file locally, use the following command:
+
+```bash
+# apps/crm/client
+pnpm exec dotenvx decrypt -f ./.env.ci.client.enc -fk "{SECRETS_DIR}/secrets/client/.env.keys"
+```
+
+To have a github workflow decrypt the encrypted `.env.ci.client.enc` file, the matching private key from the `.env.keys` file is placed into the online github repository under:
+
+```console
+Settings > Secrets and Variables > Actions > Secrets > Repository Secrets
+```
+
+The private key is then injected into the runner process via the workflow file. For example, in [vitest.yaml](/.github/workflows/vitest.yaml):
+
+```yml
+- name: run Storybook tests
+        run: pnpm --filter @apps/crm-client exec dotenvx run -f ./.env.ci.client.enc -- vitest run --mode test --config ./vitest.config.ts --project=storybook
+        env:
+          DOTENV_PRIVATE_KEY_CI_CLIENT: ${{ secrets.DOTENV_PRIVATE_KEY_CI_CLIENT }}
+```
+
+For more information please refer to the dotenvx documentation [`github-actions`](https://dotenvx.com/docs/cis/github-actions)

@@ -9,7 +9,7 @@
 
 ## Required files
 
-Commands should be run from the current directory.
+Commands should be run from the `certs/dev/mongo` of the private credentials folder.
 
 ### For development:
 

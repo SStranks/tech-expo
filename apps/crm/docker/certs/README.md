@@ -24,17 +24,15 @@ Self-signed root certification is used internally, inside the docker network, fo
 
 For production, in the non-public internal docker network, the certificate authority is split into two authority levels: root, and the intermediary. Each docker service shall have its own intermediary, signed by the root certificate. Client certification for all services will be signed by a single client intermediary.
 
-For development, the server and client certification is stored in a flat certification folder within each respective docker service e.g. [`certs/dev/mongo`](./dev/mongo/)
+For development, each respective docker service has a flat certification folder that stores the server and client certification.
 
 For production, the certification and folder structure is determined by the openssl library; the root certificate authority key and certificate reside in the top-level `certs` folder, and all other files in a child `prod` folder. See the [Production File Structure](#directory-structure) for more details.
 
 ## Current Directory
 
-The [`certs`](../certs/) folder is associated with the [`tmpfs-certs`](../docker-compose.override.yml#L264) docker container, as evidenced by the [`certs-init.sh`](certs-init.sh) initialization script. It also serves as the data folder for the certificate authority files.
-
 ### certs-init.sh
 
-This script acts on all the certification files passed in via docker volumes from [`certs/dev`](../certs/dev/); certification files are placed into a top-level `/certs` folder in the [`tmpfs-certs`](../docker-compose.override.yml#L264) docker container.
+This script acts on all the certification files passed in via docker volumes from the established private sibling folder of the project - see [Required Files](#required-files) - which holdis all env, secrets, certificates, etc; certification files are placed into a top-level `/certs` folder in the [`tmpfs-certs`](../docker-compose.override.yml#L264) docker container.
 
 - For each service a copy the development root-ca.crt is created under the intermediary name e.g. postgres-ca.crt
 - Sets the UID:GID ownership for the service key files; must match the container USER process e.g. Postgres requires 999:999
@@ -42,7 +40,33 @@ This script acts on all the certification files passed in via docker volumes fro
 
 ## Required files
 
+All the requried files are sensitive information and should be stored outside the project repository and backed up. Please refer to [Environment Variables Setup](./apps/crm/ENV.md) for guidance on configuring dynamic loading of environments variables.
+
 ### For development:
+
+#### Directory Structure
+
+```console
+tech-expo/                  # main project repository
+├─ package.json/
+└─ ...more files
+tech-expo_private/          # non-git, private local folder
+│  certs/
+│  ├─ prod/
+│  ├─ dev/
+│  │  ├─ expressjs/
+│  │  │  ├─ README.md
+│  │  │  ├─ expressjs-mongo.crt
+│  │  │  ├─ expressjs-mongo.csr
+│  │  │  ├─ expressjs-mongo.key
+│  │  │  ├─ ...more certificates
+│  │  ├─ grafana/
+│  │  └─ ...more services
+```
+
+##### Note
+
+The current folder contains a mirror of this directory structure; each service folder contains a `README.md` file for guidance on creating the required certification for that service.
 
 #### Certificate Authority
 
@@ -98,38 +122,48 @@ Each service requires server certification, and if connecting to another TLS ena
 
 The `openssl` library is used to generate and coordinate all production certification.
 
-**`!`** **All commands should be run from the** [`root certification folder`](../certs/)
+**`!`** **All commands should be run from the** root certification folder of the private sibling folder of the project repository.
 
 Each docker service has it's own intermediate certificate authority, used to sign server certification. Client certification, for all services, is signed by a single client intermediate certificate authority.
 
 #### Security
 
-- All files should be excluded from [`.gitignore`](../../../../.gitignore) and [`.dockerignore`](../../../../.dockerignore)
+- All files should be excluded from [`.gitignore`](/.gitignore) and [`.dockerignore`](/.dockerignore)
 - Permissions: `chmod 600` on private keys, `chmod 700` on private/ dirs.
 - Backups: Store root and intermediates securely outside of Docker (e.g. encrypted vault, offline).
 - Environment: Certificates mounted via Docker secrets - not baked into docker images.
 
 #### Directory Structure
 
-Directory and file structure is determined and coordinated using the `openssl` library when generating certification. Each sub-folder within the production `prod` folder contains the same structure; the directory tree below demonstrates the layout - see [`certs/prod/root`](../certs/prod/root/) for live example. Each docker service is represented as a sub-folder, containing server certification. Client certification, for all services, is consolidated in the client sub-folder.
+Directory and file structure is determined and coordinated using the `openssl` library when generating certification. Each sub-folder within the production `prod` folder contains the same structure; the directory tree below demonstrates the layout. Each docker service is represented as a sub-folder, containing server certification. Client certification, for all services, is consolidated in the client sub-folder.
 
 ```console
-apps/crm/docker/certs/
-├─ prod/
-│  ├─ root/
-│  │  ├─ certs/
-│  │  ├─ cnf/
-│  │  ├─ crl/
-│  │  ├─ csr/
-│  │  ├─ newcerts/
-│  │  ├─ private/
-│  │  ├─ index.txt
-│  │  └─ serial
-│  ├─ client/
-│  ├─ grafana/
-│  ├─ prometheus/
-│  └─ ...more services
+tech-expo/                  # main project repository
+├─ package.json/
+└─ ...more files
+tech-expo_private/          # non-git, private local folder
+├─ certs/
+│  ├─ dev/
+│  ├─ prod/
+│  │  ├─ root/
+│  │  │  ├─ certs/
+│  │  │  ├─ cnf/
+│  │  │  ├─ crl/
+│  │  │  ├─ csr/
+│  │  │  ├─ newcerts/
+│  │  │  ├─ private/
+│  │  │  ├─ index.txt
+│  │  │  └─ serial
+│  │  ├─ client/
+│  │  ├─ grafana/
+│  │  │  └─ README.md
+│  │  ├─ prometheus/
+│  │  └─ ...more services
 ```
+
+##### Note
+
+The current folder contains a mirror of this directory structure; each service folder contains a `README.md` file for guidance on creating the required certification for that service.
 
 #### Root Certificate Authority
 
