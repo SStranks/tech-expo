@@ -3,7 +3,7 @@
 services:
   nginx:
     container_name: ${NGINX_PUBLIC_CONTAINER:?error}
-    image: nginx:1.29-alpine
+    image: nginx:1.31-alpine
     restart: unless-stopped
     depends_on:
       node-api:
@@ -97,7 +97,7 @@ services:
       start_interval: 5s
 
   mongo:
-    image: mongo:8.0.10
+    image: mongo:8.3.4
     command: [mongod, --auth, --quiet, --config, /etc/mongod.conf]
     restart: unless-stopped
     ports: []
@@ -141,7 +141,7 @@ services:
     user: postgres
 
   redis:
-    image: redis:8.6-alpine
+    image: redis:8.8-alpine
     restart: unless-stopped
     ports: []
     volumes:
@@ -162,7 +162,7 @@ services:
     entrypoint: [/usr/local/bin/redis-init.sh]
 
   grafana:
-    image: grafana/grafana:13.0.1
+    image: grafana/grafana:13.1.0
     restart: unless-stopped
     environment:
       GF_LOG_LEVEL: error

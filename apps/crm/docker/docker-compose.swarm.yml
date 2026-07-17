@@ -5,7 +5,7 @@ version: '3.7'
 
 services:
   nginx:
-    image: nginx:1.29-alpine
+    image: nginx:1.31-alpine
     deploy:
       restart_policy:
         condition: any
@@ -207,7 +207,7 @@ services:
         gid: '101'
 
   mongo:
-    image: mongo:8.0.10
+    image: mongo:8.3.4
     command: [mongod, --auth, --quiet, --config, /etc/mongod.conf]
     deploy:
       restart_policy:
@@ -287,7 +287,7 @@ services:
       - postgres_database
 
   redis:
-    image: redis:8.6-alpine
+    image: redis:8.8-alpine
     deploy:
       restart_policy:
         condition: any

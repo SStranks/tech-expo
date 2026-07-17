@@ -3,7 +3,7 @@
 services:
   nginx-metrics:
     container_name: ${NGINX_METRICS_CONTAINER:?error}
-    image: nginx:1.29-alpine
+    image: nginx:1.31-alpine
     restart: on-failure:3
     environment:
       NGINX_METRICS_DOCKER_PORT_HTTP: ${NGINX_METRICS_DOCKER_PORT_HTTP:?error}
@@ -68,7 +68,7 @@ services:
 
   grafana:
     container_name: ${GRAFANA_CONTAINER:?error}
-    image: grafana/grafana:13.0.1
+    image: grafana/grafana:13.1.0
     restart: on-failure:3
     depends_on:
       certs:
@@ -116,7 +116,7 @@ services:
 
   cadvisor:
     container_name: ${CADVISOR_CONTAINER:?error}
-    image: gcr.io/cadvisor/cadvisor:v0.52.0
+    image: ghcr.io/google/cadvisor:0.60.5
     restart: on-failure:3
     depends_on:
       express-api:
@@ -148,7 +148,7 @@ services:
 
   postgres-exporter:
     container_name: ${POSTGRES_EXPORTER_CONTAINER:?error}
-    image: prometheuscommunity/postgres-exporter:v0.17.1
+    image: prometheuscommunity/postgres-exporter:v0.20.1
     restart: unless-stopped
     depends_on:
       postgres:
@@ -175,7 +175,7 @@ services:
 
   mongo-exporter:
     container_name: ${MONGO_EXPORTER_CONTAINER:?error}
-    image: percona/mongodb_exporter:0.49.0
+    image: percona/mongodb_exporter:0.51.0
     command:
       - --no-discovering-mode
       - --collector.dbstats
@@ -202,7 +202,7 @@ services:
 
   redis-exporter:
     container_name: ${REDIS_EXPORTER_CONTAINER:?error}
-    image: oliver006/redis_exporter:v1.74.0
+    image: oliver006/redis_exporter:v1.87.0
     restart: unless-stopped
     depends_on:
       redis:

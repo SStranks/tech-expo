@@ -39,7 +39,7 @@ services:
     user: node
 
   mongo:
-    image: mongo:8.0.10
+    image: mongo:8.3.4
     command: [mongod, --auth, --quiet, --config, /etc/mongod.conf]
     profiles: [dev, mongo]
     restart: on-failure:3
@@ -173,7 +173,7 @@ services:
       - demo_acc_generic_non_user_password
 
   redis:
-    image: redis:8.6-alpine
+    image: redis:8.8-alpine
     profiles: [dev, redis]
     restart: on-failure:3
     volumes:
@@ -195,7 +195,7 @@ services:
 
   redisinsight:
     container_name: ${REDISINSIGHT_CONTAINER:?error}
-    image: redis/redisinsight:3.2.0
+    image: redis/redisinsight:3.6.0
     profiles: [dev, redis]
     restart: on-failure:3
     environment:
@@ -231,7 +231,7 @@ services:
 
   mailpit:
     container_name: ${MAILPIT_CONTAINER:?error}
-    image: axllent/mailpit:v1.27
+    image: axllent/mailpit:v1.30
     profiles: [dev]
     restart: on-failure:3
     depends_on:
