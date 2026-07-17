@@ -266,7 +266,7 @@ services:
     restart: no
     volumes:
       - tmpfs-certs:/certs:rw
-      - ./certs/dev:/src:ro
+      - ${CERTS_DIR}/dev:/src:ro
       - ./certs/certs-init.sh:/usr/local/bin/certs-init.sh:ro
     entrypoint: [/usr/local/bin/certs-init.sh]
     healthcheck:

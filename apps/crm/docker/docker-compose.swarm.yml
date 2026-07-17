@@ -502,19 +502,19 @@ configs:
   expressjs_init.sh:
     file: ./nodejs/node-express-init.sh
   expressjs_expressjs-ca:
-    file: ./certs/prod/expressjs/expressjs-ca.crt
+    file: ${CERTS_DIR}/prod/expressjs/expressjs-ca.crt
   expressjs_expressjs-mongo:
-    file: ./certs/prod/expressjs/expressjs-mongo.crt
+    file: ${CERTS_DIR}/prod/expressjs/expressjs-mongo.crt
   expressjs_expressjs-postgres:
-    file: ./certs/prod/expressjs/expressjs-postgres.crt
+    file: ${CERTS_DIR}/prod/expressjs/expressjs-postgres.crt
   expressjs_expressjs-redis:
-    file: ./certs/prod/expressjs/expressjs-redis.crt
+    file: ${CERTS_DIR}/prod/expressjs/expressjs-redis.crt
   grafana_grafana-ca.crt:
-    file: ./certs/prod/grafana/certs/grafana-ca.crt
+    file: ${CERTS_DIR}/prod/grafana/certs/grafana-ca.crt
   grafana_grafana.crt:
-    file: ./certs/prod/grafana/certs/grafana.crt
+    file: ${CERTS_DIR}/prod/grafana/certs/grafana.crt
   grafana_grafana-prometheus.crt:
-    file: ./certs/prod/grafana/certs/grafana-prometheus.crt
+    file: ${CERTS_DIR}/prod/grafana/certs/grafana-prometheus.crt
   grafana_ini:
     file: ./grafana/grafana.ini
   grafana_init.sh:
@@ -534,19 +534,19 @@ configs:
   nginx_public_default.conf:
     file: ./nginx/templates/default.conf.template
   nginx_public_nginx-ca.crt:
-    file: ./certs/prod/nginx/certs/nginx-ca.crt
+    file: ${CERTS_DIR}/prod/nginx/certs/nginx-ca.crt
   nginx_public_nginx-client.crt:
-    file: ./certs/prod/nginx/certs/nginx-client.crt
+    file: ${CERTS_DIR}/prod/nginx/certs/nginx-client.crt
   nginx_public_nginx.crt:
-    file: ./certs/prod/nginx/certs/nginx.crt
+    file: ${CERTS_DIR}/prod/nginx/certs/nginx.crt
   nginx_metrics_default.conf:
     file: ./nginx-metrics/templates/default.conf.template
   nginx_metrics_nginxmetrics-ca.crt:
-    file: ./certs/prod/nginxmetrics/certs/nginxmetrics-ca.crt
+    file: ${CERTS_DIR}/prod/nginxmetrics/certs/nginxmetrics-ca.crt
   nginx_metrics_nginxmetrics-client.crt:
-    file: ./certs/prod/nginxmetrics/certs/nginxmetrics-client.crt
+    file: ${CERTS_DIR}/prod/nginxmetrics/certs/nginxmetrics-client.crt
   nginx_metrics_nginxmetrics.crt:
-    file: ./certs/prod/nginxmetrics/certs/nginxmetrics.crt
+    file: ${CERTS_DIR}/prod/nginxmetrics/certs/nginxmetrics.crt
   nginx_react_default.conf:
     file: ./nginx-react/templates/default.conf.template
   nginx_react_nginx.conf:
@@ -554,19 +554,19 @@ configs:
   nginx_react_security.conf:
     file: ./nginx-react/templates/security-headers.conf.template
   nginx_react_nginxreact-ca.crt:
-    file: ./certs/prod/nginxreact/certs/nginxreact-ca.crt
+    file: ${CERTS_DIR}/prod/nginxreact/certs/nginxreact-ca.crt
   nginx_react_nginxreact.crt:
-    file: ./certs/prod/nginxreact/certs/nginxreact.crt
+    file: ${CERTS_DIR}/prod/nginxreact/certs/nginxreact.crt
   prometheus_conf:
     file: ./prometheus/prometheus.config.prod.yml
   prometheus_healthcheck.sh:
     file: ./prometheus/prometheus-healthcheck.sh
   prometheus_prometheus-ca.crt:
-    file: ./certs/prod/prometheus/certs/prometheus-ca.crt
+    file: ${CERTS_DIR}/prod/prometheus/certs/prometheus-ca.crt
   prometheus_prometheus.crt:
-    file: ./certs/prod/prometheus/certs/prometheus.crt
+    file: ${CERTS_DIR}/prod/prometheus/certs/prometheus.crt
   prometheus_prometheus-expressjs.crt:
-    file: ./certs/prod/prometheus/certs/prometheus-expressjs.crt
+    file: ${CERTS_DIR}/prod/prometheus/certs/prometheus-expressjs.crt
   mongo_mongod.conf:
     file: ./mongo/mongod.conf
   mongo_init.sh:
@@ -574,9 +574,9 @@ configs:
   mongo_healthcheck.sh:
     file: ./mongo/mongo-healthcheck.sh
   mongo_mongo-ca.crt:
-    file: ./certs/prod/mongo/certs/mongo-ca.crt
+    file: ${CERTS_DIR}/prod/mongo/certs/mongo-ca.crt
   mongo-exporter_prometheus-ca.crt:
-    file: ./certs/prod/prometheus/certs/prometheus-ca.crt
+    file: ${CERTS_DIR}/prod/prometheus/certs/prometheus-ca.crt
   postgres_init:
     file: ./postgres/initdb/postgres-init.sh
   postgres_healthcheck:
@@ -586,25 +586,25 @@ configs:
   redis_healthcheck:
     file: ./redis/redis-healthcheck.sh
   redis_redis-healthcheck.crt:
-    file: ./certs/prod/redis/certs/redis_redis-healthcheck.crt
+    file: ${CERTS_DIR}/prod/redis/certs/redis_redis-healthcheck.crt
   redis-exporter_prometheus-ca.crt:
-    file: ./certs/prod/prometheus/certs/prometheus-ca.crt
+    file: ${CERTS_DIR}/prod/prometheus/certs/prometheus-ca.crt
   redis-exporter_prometheus-redisexporter.crt:
-    file: ./certs/prod/prometheus/certs/prometheus-redisexporter.crt
+    file: ${CERTS_DIR}/prod/prometheus/certs/prometheus-redisexporter.crt
 
 secrets:
   expressjs_expressjs-ca:
-    file: ./certs/prod/expressjs/expressjs-ca.key
+    file: ${CERTS_DIR}/prod/expressjs/expressjs-ca.key
   expressjs_expressjs-mongo:
-    file: ./certs/prod/expressjs/expressjs-mongo.key
+    file: ${CERTS_DIR}/prod/expressjs/expressjs-mongo.key
   expressjs_expressjs-postgres:
-    file: ./certs/prod/expressjs/expressjs-postgres.key
+    file: ${CERTS_DIR}/prod/expressjs/expressjs-postgres.key
   expressjs_expressjs-redis:
-    file: ./certs/prod/expressjs/expressjs-redis.key
+    file: ${CERTS_DIR}/prod/expressjs/expressjs-redis.key
   grafana_grafana.key:
-    file: ./certs/prod/grafana/certs/grafana.key
+    file: ${CERTS_DIR}/prod/grafana/certs/grafana.key
   grafana_grafana-prometheus.key:
-    file: ./certs/prod/grafana/certs/grafana-prometheus.key
+    file: ${CERTS_DIR}/prod/grafana/certs/grafana-prometheus.key
   grafana_admin_username:
     file: ${SECRET_PATH}/.secret.grafana_admin_username.txt
   grafana_admin_password:
@@ -618,19 +618,19 @@ secrets:
   grafana_user1_password:
     file: ${SECRET_PATH}/.secret.grafana_user1_password.txt
   nginx_public_nginx.key:
-    file: ./certs/prod/nginx/certs/nginx.key
+    file: ${CERTS_DIR}/prod/nginx/certs/nginx.key
   nginx_public_nginx-client.key:
-    file: ./certs/prod/nginx/certs/nginx-client.key
+    file: ${CERTS_DIR}/prod/nginx/certs/nginx-client.key
   nginx_metrics_nginxmetrics.key:
-    file: ./certs/prod/nginxmetrics/certs/nginxmetrics.key
+    file: ${CERTS_DIR}/prod/nginxmetrics/certs/nginxmetrics.key
   nginx_metrics_nginxmetrics-client.key:
-    file: ./certs/prod/nginxmetrics/certs/nginxmetrics-client.key
+    file: ${CERTS_DIR}/prod/nginxmetrics/certs/nginxmetrics-client.key
   nginx_react_nginxreact.key:
-    file: ./certs/prod/nginxreact/certs/nginxreact.key
+    file: ${CERTS_DIR}/prod/nginxreact/certs/nginxreact.key
   mongo_mongo-healthcheck.pem:
-    file: ./certs/prod/mongo/certs/mongo-healthcheck.pem
+    file: ${CERTS_DIR}/prod/mongo/certs/mongo-healthcheck.pem
   mongo-exporter_prometheus-mongoexporter.pem:
-    file: ./certs/prod/prometheus/certs/prometheus-mongoexporter.pem
+    file: ${CERTS_DIR}/prod/prometheus/certs/prometheus-mongoexporter.pem
   postgres_exporter_uri:
     file: ${SECRET_PATH}/.secret.postgres_exporter_uri.txt
   prometheus_auth:
@@ -640,17 +640,17 @@ secrets:
   prometheus_password:
     file: ${SECRET_PATH}/.secret.prometheus_password.txt
   prometheus_prometheus-ca.key:
-    file: ./certs/prod/prometheus/prometheus-ca.key
+    file: ${CERTS_DIR}/prod/prometheus/prometheus-ca.key
   prometheus_prometheus.key:
-    file: ./certs/prod/prometheus/prometheus.key
+    file: ${CERTS_DIR}/prod/prometheus/prometheus.key
   prometheus_prometheus-expressjs.key:
-    file: ./certs/prod/prometheus/prometheus-expressjs.key
+    file: ${CERTS_DIR}/prod/prometheus/prometheus-expressjs.key
   redis_uri:
     file: ${SECRET_PATH}/.secret.redis_uri.json
   redis_redis-healthcheck.key:
-    file: ./certs/prod/redis/certs/redis_redis-healthcheck.key
+    file: ${CERTS_DIR}/prod/redis/certs/redis_redis-healthcheck.key
   redis-exporter_prometheus-redisexporter.key:
-    file: ./certs/prod/prometheus/certs/prometheus-redisexporter.key
+    file: ${CERTS_DIR}/prod/prometheus/certs/prometheus-redisexporter.key
 
 networks:
   techexpo-crm-backend:
