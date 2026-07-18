@@ -7,7 +7,8 @@
 
 ## Required files
 
-Commands should be run from the `certs/dev/redisinsight` of the private credentials folder.
+> [!IMPORTANT]
+> . Commands should be run from the `certs/dev/redisinsight` of the private credentials folder.
 
 ### For development:
 

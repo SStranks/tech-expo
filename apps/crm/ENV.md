@@ -2,8 +2,12 @@
 
 ## Preamble
 
-- `.env` files should not be used to store secrets or sensitive information.
-- They should not be committed to online repositories unencrypted; the safest policy is avoid committing at all and use alternatives e.g. [Github Actions Secrets and Variables](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets#creating-secrets-for-a-repository)
+> [!CAUTION]
+>
+> - `.env` files should not be used to store secrets or sensitive information.
+> - `.env` files should not be committed to online repositories unencrypted.
+
+The safest policy is avoid committing at all and use alternatives e.g. [Github Actions Secrets and Variables](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets#creating-secrets-for-a-repository)
 
 Using `.gitignore` to exclude `.env` files is a typical convention but not recommended. The purpose of Git is to track files within a repository, and therefore all files intentionally excluded from its scope are subject to potential data loss. Git retains authority over a repository folder and untracked files are vulnerable to `git clean` commands invoked intentionally or by third-parties.
 
@@ -49,7 +53,8 @@ export SECRETS_DIR="${TECH_EXPO_PRIVATE}/secrets"
 export CERTS_DIR="${TECH_EXPO_PRIVATE}/certs"
 ```
 
-The command `direnv allow` must be invoked in the directory of the `.envrc` file to safely allow the extension to process the environment variables.
+> [!IMPORTANT]
+> The command `direnv allow` must be invoked in the directory of the `.envrc` file to safely allow the extension to process the environment variables.
 
 ##### Usage
 
@@ -94,7 +99,10 @@ pnpm exec dotenvx encrypt -f ./.env.ci.client
 ./.env.keys                 # private key file for decryption
 ```
 
-The encrypted file can remain in the repository, but the `.env.keys` is sensitive information and should be stored external to the repository. To decrypt an `.env.enc` file locally, use the following command:
+> [!CAUTION]
+> The encrypted file can remain in the repository, but the `.env.keys` is sensitive information and should be stored external to the repository.
+
+To decrypt an `.env.enc` file locally, use the following command:
 
 ```bash
 # apps/crm/client

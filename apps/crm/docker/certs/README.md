@@ -40,7 +40,8 @@ This script acts on all the certification files passed in via docker volumes fro
 
 ## Required files
 
-All the requried files are sensitive information and should be stored outside the project repository and backed up. Please refer to [Environment Variables Setup](./apps/crm/ENV.md) for guidance on configuring dynamic loading of environments variables.
+> [!CAUTION]
+> All the requried files are sensitive information and should be stored outside the project repository and backed up. Please refer to [Environment Variables Setup](./apps/crm/ENV.md) for guidance on configuring dynamic loading of environments variables.
 
 ### For development:
 
@@ -80,7 +81,8 @@ openssl genrsa -aes256 -out root-ca.key 4096
 
 ###### root-ca.crt
 
-⚠️ This certificate should be added to your browser of choice to establish trust and ensure that connections to the application are recognized as secure. If you don’t add it, you may still connect by bypassing the browser’s security warning, but the connection will be flagged as untrusted.
+> [!IMPORTANT]
+> This certificate should be added to your browser of choice to establish trust and ensure that connections to the application are recognized as secure. If you don’t add it, you may still connect by bypassing the browser’s security warning, but the connection will be flagged as untrusted.
 
 `Chrome / Edge` Settings > Privacy & Security > Security > Manage Certificates > Import
 
@@ -122,16 +124,19 @@ Each service requires server certification, and if connecting to another TLS ena
 
 The `openssl` library is used to generate and coordinate all production certification.
 
-**`!`** **All commands should be run from the** root certification folder of the private sibling folder of the project repository.
+> [!IMPORTANT]
+> All commands should be run from the root certification folder of the private sibling folder of the project repository.
 
 Each docker service has it's own intermediate certificate authority, used to sign server certification. Client certification, for all services, is signed by a single client intermediate certificate authority.
 
 #### Security
 
-- All files should be excluded from [`.gitignore`](/.gitignore) and [`.dockerignore`](/.dockerignore)
-- Permissions: `chmod 600` on private keys, `chmod 700` on private/ dirs.
-- Backups: Store root and intermediates securely outside of Docker (e.g. encrypted vault, offline).
-- Environment: Certificates mounted via Docker secrets - not baked into docker images.
+> [!CAUTION]
+>
+> - Permissions: `chmod 600` on private keys, `chmod 700` on private/ dirs.
+> - Backups: Store root and intermediate certification securely outside of Docker e.g. encrypted vault.
+> - Environment: Certificates should bemounted via Docker secrets and not through Dockerfiles.
+> - All files should be excluded from [`.gitignore`](/.gitignore) and [`.dockerignore`](/.dockerignore) regardless.
 
 #### Directory Structure
 
@@ -243,7 +248,8 @@ openssl req -new -x509 -days 3650 -sha256 \
   -out prod/root/certs/root-ca.crt
 ```
 
-Key requires passphrase for security. See [`.secret.certs.yml`](#secretcertsyml). Key file and associated passphrase should be stored offline in physically secure location.
+> [!CAUTION]
+> Key requires passphrase for security. See [`.secret.certs.yml`](#secretcertsyml). Key file and associated passphrase should be stored offline in physically secure location.
 
 ###### Root Certification Verification
 
@@ -484,7 +490,8 @@ openssl x509 -in prod/client/certs/grafana-prometheus.crt -noout -text
 
 #### Revoking Certification
 
-Certificates can be revoked if erroneously created or for security purposes - certificates should not be manually deleted to ensure openssl log consistency.
+> [!IMPORTANT]
+> Certificates can be revoked if erroneously created or for security purposes - certificates should not be manually deleted to ensure openssl log consistency.
 
 Certificates can only be revoked by a higher authority. The following example shows the intermediate CA authority revoking a server certificate.
 
@@ -493,6 +500,9 @@ openssl ca -config prod/nginxreact/cnf/openssl.cnf -revoke prod/nginxreact/certs
 ```
 
 #### .secret.certs.yml
+
+> [!CAUTION]
+> Encrypt the file in-place using SOPS for secure storage; files should ideally be stored offline in physically secure location. Passphrases should be at least 30 characters; [Password Strength Checker](https://www.passwordmonster.com/)
 
 Should contain:
 
@@ -507,5 +517,3 @@ Should contain:
 - `postgres-ca-passphrase:<strong password>`
 - `prometheus-ca-passphrase:<strong password>`
 - `redis-ca-passphrase:<strong password>`
-
-Encrypt the file in-place using SOPS for secure storage; files should ideally be stored offline in physically secure location. Passphrases should be at least 30 characters; [Password Strength Checker](https://www.passwordmonster.com/)

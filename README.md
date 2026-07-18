@@ -334,13 +334,14 @@ Explore the components of the mongo architecture through this interactive schema
 
 ### Production Emulation
 
+> [!IMPORTANT]
+> The application was developed in a linux environment; scripts and tooling are linux/macOS compatible only
+
 The application is designed to run in a Docker Swarm environment. For local use, a production-like setup is provided via [`docker-compose.prod.yml`](./apps/crm/docker/docker-compose.prod.yml), which does not require Docker Swarm.
 
-`IMPORTANT` The application was developed in a linux environment; scripts and tooling are linux/macOS compatible, Windows users require manual intervention in toolchain.
+For prerequisite certification files and detailed instructions, refer to [`Docker README.md`](./apps/crm/docker/README.md)
 
-For prerequisite certification files and detailed instructions, see the [`Docker README.md`](./apps/crm/docker/README.md).
-
-For environment variable setup and configuration, see [Environment Variables Setup](./apps/crm/ENV.md)
+For environment variable setup and configuration, refer to [Environment Variables Setup](./apps/crm/ENV.md)
 
 <!-- TODO: Make quickstart: generate all required files in script -->
 

@@ -6,7 +6,8 @@
 
 ## Required files
 
-Commands should be run from the `certs/dev/mailpit` of the private credentials folder.
+> [!IMPORTANT]
+> Commands should be run from the `certs/dev/mailpit` of the private credentials folder.
 
 ### For development:
 

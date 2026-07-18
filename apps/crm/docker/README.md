@@ -33,9 +33,10 @@ This script is used to initialize the Docker services; generating all the requir
 
 The script is run from the current working directory `./docker.sh`
 
-- `!` Docker will fail if secrets are not decrypted prior to issuing commands
-- Secrets are retained in memory only; under current user at `/run/user/<USER>/secrets`
-- Docker commands may be commented out depending on requirements
+> [!IMPORTANT]
+>
+> - Docker will fail if secrets are not decrypted prior to issuing commands
+> - Secrets are retained in memory only; under current user at `/run/user/<USER>/secrets`
 
 ### docker-compose
 
@@ -73,8 +74,10 @@ The port is defined by the `NGINX_METRICS_LOCAL_PORT_TLS` environment variable
 
 ## Required files
 
-- `.env` Local ports to be determined by user - check for alignment with nginx services 'listen' if applicable
-- `.secret` Files require [`Mozilla SOPS`](https://github.com/getsops/sops) for in-place encryption and decryption
+> [!IMPORTANT]
+>
+> - `.env` Local ports to be determined by user - check for alignment with nginx services 'listen' if applicable
+> - `.secret` Files require [`Mozilla SOPS`](https://github.com/getsops/sops) for in-place encryption and decryption
 
 ###### .env.dev.docker
 
@@ -279,9 +282,11 @@ PINO_LOG_LEVEL=error
 
 ###### .secret.yaml
 
-- Manually interpolate relevant `docker-secret` and `ENV VARIABLE`
-- Credential strength recommended 30+ characters
-- `!` Store encrypted - [`./docker.sh`](./docker.sh) requires secrets to be encrypted
+> [!CAUTION]
+>
+> - Credential strength recommended 30+ characters. Refer to [Password Strength Checker](https://www.passwordmonster.com/)
+> - File must be stored encrypted; [`./docker.sh`](./docker.sh) requires secrets to be encrypted
+> - File should ideally be stored outside of repository in non-git folder; refer to [Environment Variables Setup](./apps/crm/ENV.md)
 
 ```yml
 # .secret.yaml
@@ -342,8 +347,9 @@ demo_acc_generic_non_user_password: xxxx
 
 ###### .secret.mongoExporter.txt
 
-- Manually interpolate relevant `docker-secret` and `ENV VARIABLE`
-- `!` Store encrypted - [`./docker.sh`](./docker.sh) requires secrets to be encrypted
+> [!CAUTION]
+>
+> - `!` Store encrypted - [`./docker.sh`](./docker.sh) requires secrets to be encrypted
 
 ```ini
 MONGODB_URI=mongodb://${mongo_user_metrics}:${mongo_password_metrics}@${MONGO_CONTAINER}:${MONGO_DOCKER_PORT}/admin?tls=true&tlsCertificateKeyFile=/etc/prometheus/certs/prometheus-mongoexporter.pem&tlsCAFile=/etc/prometheus/certs/prometheus-ca.crt
@@ -351,8 +357,9 @@ MONGODB_URI=mongodb://${mongo_user_metrics}:${mongo_password_metrics}@${MONGO_CO
 
 ###### .secret.redisExporter.json
 
-- Manually interpolate relevant `docker-secret` and `ENV VARIABLE`
-- `!` Store encrypted - [`./docker.sh`](./docker.sh) requires secrets to be encrypted
+> [!CAUTION]
+>
+> - `!` Store encrypted - [`./docker.sh`](./docker.sh) requires secrets to be encrypted
 
 ```ini
 {
@@ -363,9 +370,12 @@ MONGODB_URI=mongodb://${mongo_user_metrics}:${mongo_password_metrics}@${MONGO_CO
 
 ## Debugging
 
-- Ensure mapped ports are specified in [`docker-compose.override`](./docker-compose.override.yml) express-api service.
-- Ensure mapped ports are specified in [`package.json`](../server/package.json) nodemon and scripts `--inspect`.
-- Add the following objects to your 'configurations' array in the VSCode `launch.json`:
+> [!IMPORTANT]
+>
+> - Ensure mapped ports are specified in [`docker-compose.override`](./docker-compose.override.yml) express-api service.
+> - Ensure mapped ports are specified in [`package.json`](../server/package.json) nodemon and scripts `--inspect`.
+
+Add the following objects to your 'configurations' array in the VSCode `launch.json`:
 
 ```json
 {
