@@ -21,9 +21,12 @@ This directory contains the Docker configuration for running and managing the Te
 
 Each service has a dedicated sub-folder that contains initialization scripts and configuration files.
 
-The [`/certs`](./certs/) sub-folder contains the TLS certification configuration for all applicable services and serves as a repository in production for generated certification via `OpenSSL`. See certification [`README`](./certs/README.md) for details.
-
 These files are intended for developers setting up the application environment locally, and for OPS deployment in production.
+
+The [`/certs`](./certs/) sub-folder contains the TLS certification configuration for all applicable services and serves as a repository in production for generated certification via `OpenSSL`.
+
+> [!IMPORTANT]
+> See certification [`README`](./certs/README.md) for details.
 
 ## Current Directory
 
@@ -348,8 +351,7 @@ demo_acc_generic_non_user_password: xxxx
 ###### .secret.mongoExporter.txt
 
 > [!CAUTION]
->
-> - `!` Store encrypted - [`./docker.sh`](./docker.sh) requires secrets to be encrypted
+> Store encrypted - [`./docker.sh`](./docker.sh) requires secrets to be encrypted
 
 ```ini
 MONGODB_URI=mongodb://${mongo_user_metrics}:${mongo_password_metrics}@${MONGO_CONTAINER}:${MONGO_DOCKER_PORT}/admin?tls=true&tlsCertificateKeyFile=/etc/prometheus/certs/prometheus-mongoexporter.pem&tlsCAFile=/etc/prometheus/certs/prometheus-ca.crt
@@ -358,8 +360,7 @@ MONGODB_URI=mongodb://${mongo_user_metrics}:${mongo_password_metrics}@${MONGO_CO
 ###### .secret.redisExporter.json
 
 > [!CAUTION]
->
-> - `!` Store encrypted - [`./docker.sh`](./docker.sh) requires secrets to be encrypted
+> Store encrypted - [`./docker.sh`](./docker.sh) requires secrets to be encrypted
 
 ```ini
 {

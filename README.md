@@ -339,9 +339,11 @@ Explore the components of the mongo architecture through this interactive schema
 
 The application is designed to run in a Docker Swarm environment. For local use, a production-like setup is provided via [`docker-compose.prod.yml`](./apps/crm/docker/docker-compose.prod.yml), which does not require Docker Swarm.
 
-For prerequisite certification files and detailed instructions, refer to [`Docker README.md`](./apps/crm/docker/README.md)
-
-For environment variable setup and configuration, refer to [Environment Variables Setup](./apps/crm/ENV.md)
+> [!TIP]
+>
+> - For docker configuration, refer to [`Docker README.md`](./apps/crm/docker/README.md)
+> - For TLS certification configuration, refer to [`Certs README.md`](./apps/crm/docker/certs/README.md)
+> - For env and secrets configuration, refer to [Environment Variables Setup](./apps/crm/ENV.md)
 
 <!-- TODO: Make quickstart: generate all required files in script -->
 
