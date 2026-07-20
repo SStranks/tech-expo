@@ -3,6 +3,8 @@
   "extends": ["config:recommended", "docker:pinDigests"],
   "enabledManagers": ["docker-compose", "github-actions", "nvm"],
   "dependencyDashboard": true,
+  "prConcurrentLimit": 20,
+  "prHourlyLimit": 0,
   "packageRules": [
     {
       "groupName": "Docker image updates",
@@ -21,6 +23,13 @@
       "matchPackageNames": ["node"],
       "matchDepNames": ["node"],
       "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "description": "Disable Node major updates",
+      "matchPackageNames": ["node"],
+      "matchDepNames": ["node"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     }
   ]
 }
