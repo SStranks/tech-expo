@@ -3,7 +3,7 @@
 services:
   nginx:
     container_name: ${NGINX_PUBLIC_CONTAINER:?error}
-    image: nginx:1.31-alpine
+    image: nginx:1.31.3-alpine3.24@sha256:4a73073bd557c65b759505da037898b61f1be6cbcc3c2c3aeac22d2a470c1752
     restart: unless-stopped
     depends_on:
       node-api:
@@ -97,7 +97,7 @@ services:
       start_interval: 5s
 
   mongo:
-    image: mongo:8.3.4
+    image: mongo:8.3.4@sha256:309d760ba3f7962e14d54ac6123c7fe72ed2d465196b4d0eaf8abcea7dd39450
     command: [mongod, --auth, --quiet, --config, /etc/mongod.conf]
     restart: unless-stopped
     ports: []
@@ -119,7 +119,7 @@ services:
       start_period: 30s
 
   postgres:
-    image: postgres:18.3
+    image: postgres:18.3@sha256:7e32e9833a6fb1c92c32552794cb6ed569d51b445a54907d35fc112ef39684db
     restart: unless-stopped
     shm_size: 128mb
     ports: []
@@ -141,7 +141,7 @@ services:
     user: postgres
 
   redis:
-    image: redis:8.8-alpine
+    image: redis:8.8.0-alpine3.23@sha256:9d317178eceac8454a2284a9e6df2466b93c745529947f0cd42a0fa9609d7005
     restart: unless-stopped
     ports: []
     volumes:
@@ -162,7 +162,7 @@ services:
     entrypoint: [/usr/local/bin/redis-init.sh]
 
   grafana:
-    image: grafana/grafana:13.1.0
+    image: grafana/grafana:13.1.0@sha256:121a7a9ece6dc10b969f1f96eed64b4f07dfac0d0b8abc070f7cb83bbde86f63
     restart: unless-stopped
     environment:
       GF_LOG_LEVEL: error
@@ -180,7 +180,7 @@ services:
       start_interval: 2s
 
   prometheus:
-    image: prom/prometheus:v3.5.0
+    image: prom/prometheus:v3.5.5@sha256:332c2f43e7e389d74d3893b55bb02fbbd684208e681eeb604641d5d769c0fe2a
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.config.file=/etc/prometheus/auth.yml
@@ -201,7 +201,7 @@ services:
 
   certs:
     container_name: ${CERTS_CONTAINER:?error}
-    image: node:22-alpine3.22
+    image: node:22.22.0-alpine3.22@sha256:7aa86fa052f6e4b101557ccb56717cb4311be1334381f526fe013418fe157384
     restart: no
     volumes:
       - tmpfs-certs:/certs:rw

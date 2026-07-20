@@ -2,7 +2,7 @@
 ---
 services:
   express-api:
-    image: node:22-alpine3.22
+    image: node:22.22.0-alpine3.22@sha256:7aa86fa052f6e4b101557ccb56717cb4311be1334381f526fe013418fe157384
     command: [sh, -c, 'npx nodemon . | npx pino-pretty']
     profiles: [dev, express-api]
     restart: on-failure:3
@@ -39,7 +39,7 @@ services:
     user: node
 
   mongo:
-    image: mongo:8.3.4
+    image: mongo:8.3.4@sha256:309d760ba3f7962e14d54ac6123c7fe72ed2d465196b4d0eaf8abcea7dd39450
     command: [mongod, --auth, --quiet, --config, /etc/mongod.conf]
     profiles: [dev, mongo]
     restart: on-failure:3
@@ -115,7 +115,7 @@ services:
       - mongoexpress_sessionsecret
 
   postgres:
-    image: postgres:18.3
+    image: postgres:18.3@sha256:7e32e9833a6fb1c92c32552794cb6ed569d51b445a54907d35fc112ef39684db
     profiles: [dev, postgres, postgres-seeder]
     shm_size: 128mb
     restart: on-failure:3
@@ -140,7 +140,7 @@ services:
 
   postgres-seeder:
     container_name: ${POSTGRES_SEEDER_CONTAINER:?error}
-    image: node:22-alpine3.22
+    image: node:22.22.0-alpine3.22@sha256:7aa86fa052f6e4b101557ccb56717cb4311be1334381f526fe013418fe157384
     profiles: [postgres-seeder]
     working_dir: /app/server
     depends_on:
@@ -173,7 +173,7 @@ services:
       - demo_acc_generic_non_user_password
 
   redis:
-    image: redis:8.8-alpine
+    image: redis:8.8.0-alpine3.23@sha256:9d317178eceac8454a2284a9e6df2466b93c745529947f0cd42a0fa9609d7005
     profiles: [dev, redis]
     restart: on-failure:3
     volumes:
@@ -195,7 +195,7 @@ services:
 
   redisinsight:
     container_name: ${REDISINSIGHT_CONTAINER:?error}
-    image: redis/redisinsight:3.6.0
+    image: redis/redisinsight:3.6.0@sha256:aa21bbd198455b4ad964f76782db951155aa0d712321f599972d1525f031f0e6
     profiles: [dev, redis]
     restart: on-failure:3
     environment:
@@ -231,7 +231,7 @@ services:
 
   mailpit:
     container_name: ${MAILPIT_CONTAINER:?error}
-    image: axllent/mailpit:v1.30
+    image: axllent/mailpit:v1.30.5@sha256:b868afa176bfd6cce2323ea316cd99ccad77915e51e595748f6d786700ecf109
     profiles: [dev]
     restart: on-failure:3
     depends_on:
@@ -262,7 +262,7 @@ services:
 
   certs:
     container_name: ${CERTS_CONTAINER:?error}
-    image: node:22-alpine3.22
+    image: node:22.22.0-alpine3.22@sha256:7aa86fa052f6e4b101557ccb56717cb4311be1334381f526fe013418fe157384
     restart: no
     volumes:
       - tmpfs-certs:/certs:rw
@@ -279,7 +279,7 @@ services:
 
   nginx-react:
     # Use 'npm start' from ./client to init webpack-dev-server
-    image: alpine:3.22
+    image: alpine:3.23.5@sha256:fd791d74b68913cbb027c6546007b3f0d3bc45125f797758156952bc2d6daf40
     profiles: [unused]
 
 volumes:

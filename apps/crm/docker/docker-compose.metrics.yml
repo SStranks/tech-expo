@@ -3,7 +3,7 @@
 services:
   nginx-metrics:
     container_name: ${NGINX_METRICS_CONTAINER:?error}
-    image: nginx:1.31-alpine
+    image: nginx:1.31.3-alpine3.24@sha256:4a73073bd557c65b759505da037898b61f1be6cbcc3c2c3aeac22d2a470c1752
     restart: on-failure:3
     environment:
       NGINX_METRICS_DOCKER_PORT_HTTP: ${NGINX_METRICS_DOCKER_PORT_HTTP:?error}
@@ -32,7 +32,7 @@ services:
 
   prometheus:
     container_name: ${PROMETHEUS_CONTAINER:?error}
-    image: prom/prometheus:v3.5.0
+    image: prom/prometheus:v3.5.5@sha256:332c2f43e7e389d74d3893b55bb02fbbd684208e681eeb604641d5d769c0fe2a
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.config.file=/etc/prometheus/auth.yml
@@ -68,7 +68,7 @@ services:
 
   grafana:
     container_name: ${GRAFANA_CONTAINER:?error}
-    image: grafana/grafana:13.1.0
+    image: grafana/grafana:13.1.0@sha256:121a7a9ece6dc10b969f1f96eed64b4f07dfac0d0b8abc070f7cb83bbde86f63
     restart: on-failure:3
     depends_on:
       certs:
@@ -116,7 +116,7 @@ services:
 
   cadvisor:
     container_name: ${CADVISOR_CONTAINER:?error}
-    image: ghcr.io/google/cadvisor:0.60.5
+    image: ghcr.io/google/cadvisor:0.60.5@sha256:763aecf1c32c2be8a1a75f9abfc2fc461005c9dbbaa39cb356b354aac1296dbe
     restart: on-failure:3
     depends_on:
       express-api:
@@ -148,7 +148,7 @@ services:
 
   postgres-exporter:
     container_name: ${POSTGRES_EXPORTER_CONTAINER:?error}
-    image: prometheuscommunity/postgres-exporter:v0.20.1
+    image: prometheuscommunity/postgres-exporter:v0.20.1@sha256:ac5ec343104fae0e2d84a27bb8d69b38430a11910c5382cad85d478d2bab713e
     restart: unless-stopped
     depends_on:
       postgres:
@@ -175,7 +175,7 @@ services:
 
   mongo-exporter:
     container_name: ${MONGO_EXPORTER_CONTAINER:?error}
-    image: percona/mongodb_exporter:0.51.0
+    image: percona/mongodb_exporter:0.51.0@sha256:852b90b9f38ab489762b8a8b8c074ce852272c2495d725b922bdb5bc7d659e16
     command:
       - --no-discovering-mode
       - --collector.dbstats
@@ -202,7 +202,7 @@ services:
 
   redis-exporter:
     container_name: ${REDIS_EXPORTER_CONTAINER:?error}
-    image: oliver006/redis_exporter:v1.87.0
+    image: oliver006/redis_exporter:v1.87.0@sha256:9ca6f929a8abc518d78158757922444f1cf807661a2238f44b28c3cd08a1b652
     restart: unless-stopped
     depends_on:
       redis:
