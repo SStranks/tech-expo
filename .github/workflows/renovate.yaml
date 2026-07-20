@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+---
+name: Renovate
+permissions:
+  contents: write
+  pull-requests: write
+
+on: # yamllint disable-line rule:truthy
+  schedule:
+    # minute (0-59) - hour (0-23) - date (1-31) - month (1-12 or JAN-DEC) - day (0-6 or SUN-SAT)
+    - cron: '0 09 * * SUN'
+  workflow_dispatch: {}
+
+jobs:
+  dependencies:
+    name: dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - name: Renovate
+        uses: renovatebot/github-action@v46.1.20
+        with:
+          configurationFile: renovate.json
+          token: ${{ secrets.RENOVATE_TOKEN }}
