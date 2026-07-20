@@ -9,7 +9,12 @@ on: # yamllint disable-line rule:truthy
   schedule:
     # minute (0-59) - hour (0-23) - date (1-31) - month (1-12 or JAN-DEC) - day (0-6 or SUN-SAT)
     - cron: '0 09 * * SUN'
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: Enable debug logging
+        type: boolean
+        default: false
 
 jobs:
   dependencies:
@@ -29,3 +34,4 @@ jobs:
         env:
           RENOVATE_PLATFORM: github
           RENOVATE_REPOSITORIES: ${{ github.repository }}
+          LOG_LEVEL: ${{ github.event.inputs.debug == 'true' && 'debug' || 'info' }}
