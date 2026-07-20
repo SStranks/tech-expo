@@ -1,14 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-
   "extends": ["config:recommended", "docker:pinDigests"],
-
   "enabledManagers": ["docker-compose", "github-actions"],
-
   "packageRules": [
     {
       "groupName": "Docker image updates",
-      "matchManagers": ["docker-compose"]
+      "matchManagers": ["docker-compose"],
+      "minimumReleaseAge": "5 days"
     },
 
     {
