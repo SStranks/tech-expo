@@ -7,7 +7,7 @@
     {
       "groupName": "Docker image updates",
       "matchManagers": ["docker-compose"],
-      "excludePackageNames": ["node"],
+      "matchPackageNames": ["!node"],
       "minimumReleaseAge": "5 days"
     },
 
