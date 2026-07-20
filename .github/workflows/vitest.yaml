@@ -46,7 +46,7 @@ jobs:
       - name: Setup Node 22.18.0
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 22.18.0
+          node-version: 22.23.1
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
@@ -73,7 +73,7 @@ jobs:
 
     container:
       # NOTE: playwright image version must match package.json playwright pkg
-      image: mcr.microsoft.com/playwright:v1.60.0-noble
+      image: mcr.microsoft.com/playwright:v1.61.1-noble@sha256:5b8f294aff9041b7191c34a4bab3ac270157a28774d4b0660e9743297b697e48
 
     steps:
       - name: Checkout code
@@ -89,7 +89,7 @@ jobs:
       - name: Setup Node 22.18.0
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 22.18.0
+          node-version: 22.23.1
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
@@ -135,7 +135,7 @@ jobs:
       - name: Setup Node 22.18.0
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 22.18.0
+          node-version: 22.23.1
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
