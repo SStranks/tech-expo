@@ -180,7 +180,7 @@ services:
       start_interval: 2s
 
   prometheus:
-    image: prom/prometheus:v3.5.5@sha256:332c2f43e7e389d74d3893b55bb02fbbd684208e681eeb604641d5d769c0fe2a
+    image: prom/prometheus:v3.13.1@sha256:3c42b892cf723fa54d2f262c37a0e1f80aa8c8ddb1da7b9b0df9455a35a7f893
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.config.file=/etc/prometheus/auth.yml
@@ -201,7 +201,7 @@ services:
 
   certs:
     container_name: ${CERTS_CONTAINER:?error}
-    image: node:22.22.0-alpine3.22@sha256:7aa86fa052f6e4b101557ccb56717cb4311be1334381f526fe013418fe157384
+    image: node:22.22.3-alpine3.22@sha256:cd7807368cf24826297cbad5dca1a44972ccfd770647db52a8c7589eb4599ac8
     restart: no
     volumes:
       - tmpfs-certs:/certs:rw
