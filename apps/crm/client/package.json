@@ -99,7 +99,7 @@
     "@packages/prettier-config": "workspace:*",
     "@packages/typescript-config": "workspace:*",
     "@parcel/watcher": "^2.5.4",
-    "@playwright/test": "^1.60.0",
+    "@playwright/test": "1.61.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.2",
     "@redux-devtools/extension": "^4.0.0",
     "@storybook/addon-a11y": "^10.5.0",
