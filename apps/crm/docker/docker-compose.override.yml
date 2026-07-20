@@ -2,7 +2,7 @@
 ---
 services:
   express-api:
-    image: node:22.22.0-alpine3.22@sha256:7aa86fa052f6e4b101557ccb56717cb4311be1334381f526fe013418fe157384
+    image: node:24.16.0-alpine3.22@sha256:191c9f0080fcbbc6547a85dc0ff7988072214a355aabdc1d2ec55a7dae5eea8a
     command: [sh, -c, 'npx nodemon . | npx pino-pretty']
     profiles: [dev, express-api]
     restart: on-failure:3
@@ -140,7 +140,7 @@ services:
 
   postgres-seeder:
     container_name: ${POSTGRES_SEEDER_CONTAINER:?error}
-    image: node:22.22.0-alpine3.22@sha256:7aa86fa052f6e4b101557ccb56717cb4311be1334381f526fe013418fe157384
+    image: node:24.16.0-alpine3.22@sha256:191c9f0080fcbbc6547a85dc0ff7988072214a355aabdc1d2ec55a7dae5eea8a
     profiles: [postgres-seeder]
     working_dir: /app/server
     depends_on:
@@ -262,7 +262,7 @@ services:
 
   certs:
     container_name: ${CERTS_CONTAINER:?error}
-    image: node:22.22.0-alpine3.22@sha256:7aa86fa052f6e4b101557ccb56717cb4311be1334381f526fe013418fe157384
+    image: node:24.16.0-alpine3.22@sha256:191c9f0080fcbbc6547a85dc0ff7988072214a355aabdc1d2ec55a7dae5eea8a
     restart: no
     volumes:
       - tmpfs-certs:/certs:rw
