@@ -51,6 +51,9 @@ export TECH_EXPO_PRIVATE="/projects/private/tech-expo"
 export ENV_DIR="${TECH_EXPO_PRIVATE}/env"
 export SECRETS_DIR="${TECH_EXPO_PRIVATE}/secrets"
 export CERTS_DIR="${TECH_EXPO_PRIVATE}/certs"
+
+TECHEXPO_ROOT_ABSOLUTE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export TECHEXPO_ROOT_ABSOLUTE
 ```
 
 > [!IMPORTANT]

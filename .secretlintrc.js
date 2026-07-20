@@ -47,7 +47,6 @@ export const rules = [
     },
   },
   { id: '@secretlint/secretlint-rule-privatekey' },
-  { id: '@secretlint/secretlint-rule-secp256k1-privatekey' },
   { id: '@secretlint/secretlint-rule-sendgrid' },
   { id: '@secretlint/secretlint-rule-shopify' },
   { id: '@secretlint/secretlint-rule-slack' },
