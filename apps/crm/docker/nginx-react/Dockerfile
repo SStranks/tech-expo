@@ -30,7 +30,7 @@ RUN pnpm --filter "@apps/crm-client" build
 FROM alpine:3.24@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b AS nginx-builder
 
 ARG NGINX_VERSION=1.29.0
-ARG NGINX_IMAGE=nginx:1.29.0-alpine
+ARG NGINX_IMAGE=nginx:1.29.0-alpine@sha256:d67ea0d64d518b1bb04acde3b00f722ac3e9764b3209a9b0a98924ba35e4b779
 
 RUN apk add --no-cache \
   build-base \
