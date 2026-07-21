@@ -2,7 +2,7 @@
 # renovate: datasource=docker depName=nginx
 ARG NGINX_VERSION=1.29.0
 ARG NGINX_REACT_EXPOSE_PORT=4443
-FROM node:22.18.0-alpine3.22@sha256:1b2479dd35a99687d6638f5976fd235e26c5b37e8122f786fcd5fe231d63de5b AS base
+FROM node:22.22.3-alpine3.22@sha256:cd7807368cf24826297cbad5dca1a44972ccfd770647db52a8c7589eb4599ac8 AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -12,7 +12,7 @@ RUN corepack enable && corepack prepare pnpm@$PNPM_VERSION --activate
 # Prerequisites for: Sharp (webpack)
 RUN apk add --no-cache vips-dev build-base python3
 
-FROM node:22.18.0-alpine3.22@sha256:1b2479dd35a99687d6638f5976fd235e26c5b37e8122f786fcd5fe231d63de5b AS react-builder
+FROM node:22.22.3-alpine3.22@sha256:cd7807368cf24826297cbad5dca1a44972ccfd770647db52a8c7589eb4599ac8 AS react-builder
 
 WORKDIR /client
 
