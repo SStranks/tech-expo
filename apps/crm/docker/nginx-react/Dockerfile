@@ -1,7 +1,7 @@
 # https://aaronjbecker.com/posts/build-your-own-nginx-brotli-docker-container/
 ARG NGINX_VERSION=1.29.0
 ARG NGINX_REACT_EXPOSE_PORT=4443
-FROM node:22-alpine3.22 AS base
+FROM node:22.18.0-alpine3.22 AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -11,7 +11,7 @@ RUN corepack enable && corepack prepare pnpm@$PNPM_VERSION --activate
 # Prerequisites for: Sharp (webpack)
 RUN apk add --no-cache vips-dev build-base python3
 
-FROM node:22-alpine3.22 AS react-builder
+FROM node:22.18.0-alpine3.22 AS react-builder
 
 WORKDIR /client
 
@@ -51,7 +51,7 @@ WORKDIR /app/nginx
 RUN ./configure --with-compat --add-dynamic-module=../ngx_brotli \
   && make modules
 
-FROM nginx:1.31.0-alpine
+FROM nginx:${NGINX_VERSION}-alpine
 
 # install the brotli runtime libraries
 RUN apk add --no-cache brotli-libs

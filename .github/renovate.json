@@ -3,8 +3,6 @@
   "extends": ["config:recommended", "docker:pinDigests"],
   "enabledManagers": ["docker-compose", "github-actions", "nvm", "npm"],
   "dependencyDashboard": true,
-  "prConcurrentLimit": 20,
-  "prHourlyLimit": 0,
   "packageRules": [
     {
       "matchManagers": ["npm"],
@@ -16,24 +14,29 @@
       "enabled": true
     },
     {
-      "groupName": "Docker image updates",
+      "groupName": "Docker-compose images",
       "matchManagers": ["docker-compose"],
       "matchPackageNames": ["!node"],
       "minimumReleaseAge": "5 days"
     },
-
     {
-      "groupName": "GitHub Actions updates",
+      "groupName": "Dockerfile images",
+      "matchManagers": ["dockerfile"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "minimumReleaseAge": "5 days"
+    },
+    {
+      "groupName": "GitHub Actions",
       "matchManagers": ["github-actions"],
       "matchPackageNames": ["!mcr.microsoft.com/playwright"]
     },
     {
-      "groupName": "Playwright updates",
+      "groupName": "Playwright",
       "matchPackageNames": ["@playwright/test", "mcr.microsoft.com/playwright"]
     },
     {
-      "groupName": "Node.js version updates",
-      "matchManagers": ["nvm", "github-actions", "docker-compose"],
+      "groupName": "Node.js version",
+      "matchManagers": ["nvm", "github-actions", "docker-compose", "dockerfile"],
       "matchPackageNames": ["node"],
       "matchDepNames": ["node"],
       "matchUpdateTypes": ["minor", "patch"]
