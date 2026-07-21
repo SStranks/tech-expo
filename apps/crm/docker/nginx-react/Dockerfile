@@ -29,6 +29,7 @@ RUN pnpm --filter "@apps/crm-client" build
 
 FROM alpine:3.24@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b AS nginx-builder
 
+# renovate: datasource=docker depName=nginx
 ARG NGINX_VERSION=1.29.0
 ARG NGINX_IMAGE=nginx:1.29.0-alpine
 
