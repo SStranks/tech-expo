@@ -1,4 +1,7 @@
 # https://aaronjbecker.com/posts/build-your-own-nginx-brotli-docker-container/
+# renovate: datasource=docker depName=nginx
+ARG NGINX_VERSION=1.29.0
+ARG NGINX_IMAGE=nginx:1.29.0-alpine
 ARG NGINX_REACT_EXPOSE_PORT=4443
 FROM node:22.22.3-alpine3.22@sha256:cd7807368cf24826297cbad5dca1a44972ccfd770647db52a8c7589eb4599ac8 AS base
 
@@ -29,8 +32,7 @@ RUN pnpm --filter "@apps/crm-client" build
 
 FROM alpine:3.24@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b AS nginx-builder
 
-# renovate: datasource=docker depName=nginx
-ARG NGINX_VERSION=1.29.0
+ARG NGINX_VERSION
 
 RUN apk add --no-cache \
   build-base \
@@ -51,7 +53,7 @@ WORKDIR /app/nginx
 RUN ./configure --with-compat --add-dynamic-module=../ngx_brotli \
   && make modules
 
-FROM nginx:${NGINX_VERSION}-alpine
+FROM ${NGINX_IMAGE}
 
 # install the brotli runtime libraries
 RUN apk add --no-cache brotli-libs
