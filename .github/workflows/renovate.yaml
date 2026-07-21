@@ -29,4 +29,4 @@ jobs:
         env:
           RENOVATE_PLATFORM: github
           RENOVATE_REPOSITORIES: ${{ github.repository }}
-          LOG_LEVEL: ${{ vars.RENOVATE_DEBUG == true && 'debug' || 'info' }}
+          LOG_LEVEL: ${{ vars.RENOVATE_DEBUG == 'true' && 'debug' || 'info' }}
