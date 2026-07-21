@@ -1,4 +1,5 @@
 # https://aaronjbecker.com/posts/build-your-own-nginx-brotli-docker-container/
+# renovate: datasource=docker depName=nginx
 ARG NGINX_VERSION=1.29.0
 ARG NGINX_REACT_EXPOSE_PORT=4443
 FROM node:22.18.0-alpine3.22@sha256:1b2479dd35a99687d6638f5976fd235e26c5b37e8122f786fcd5fe231d63de5b AS base

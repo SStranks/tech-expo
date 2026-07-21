@@ -37,6 +37,7 @@
     {
       "groupName": "Node.js version",
       "matchManagers": ["nvm", "github-actions", "docker-compose", "dockerfile"],
+      "matchPackageNames": ["node", "actions/node-versions"],
       "matchDepNames": ["node", "actions/node-versions"],
       "matchUpdateTypes": ["minor", "patch"]
     },
