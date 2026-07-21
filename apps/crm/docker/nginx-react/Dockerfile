@@ -1,7 +1,7 @@
 # https://aaronjbecker.com/posts/build-your-own-nginx-brotli-docker-container/
 ARG NGINX_VERSION=1.29.0
 ARG NGINX_REACT_EXPOSE_PORT=4443
-FROM node:22.18.0-alpine3.22 AS base
+FROM node:22.18.0-alpine3.22@sha256:1b2479dd35a99687d6638f5976fd235e26c5b37e8122f786fcd5fe231d63de5b AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -11,7 +11,7 @@ RUN corepack enable && corepack prepare pnpm@$PNPM_VERSION --activate
 # Prerequisites for: Sharp (webpack)
 RUN apk add --no-cache vips-dev build-base python3
 
-FROM node:22.18.0-alpine3.22 AS react-builder
+FROM node:22.18.0-alpine3.22@sha256:1b2479dd35a99687d6638f5976fd235e26c5b37e8122f786fcd5fe231d63de5b AS react-builder
 
 WORKDIR /client
 
@@ -28,7 +28,7 @@ RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store pnpm install
 COPY . .
 RUN pnpm --filter "@apps/crm-client" build
 
-FROM alpine:3.22 AS nginx-builder
+FROM alpine:3.22@sha256:14358309a308569c32bdc37e2e0e9694be33a9d99e68afb0f5ff33cc1f695dce AS nginx-builder
 
 ARG NGINX_VERSION
 
