@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", "docker:pinDigests"],
-  "enabledManagers": ["docker-compose", "github-actions", "nvm", "npm"],
+  "enabledManagers": ["docker-compose", "dockerfile", "github-actions", "nvm", "npm"],
   "dependencyDashboard": true,
   "packageRules": [
     {
@@ -37,14 +37,13 @@
     {
       "groupName": "Node.js version",
       "matchManagers": ["nvm", "github-actions", "docker-compose", "dockerfile"],
-      "matchPackageNames": ["node"],
-      "matchDepNames": ["node"],
+      "matchDepNames": ["node", "actions/node-versions"],
       "matchUpdateTypes": ["minor", "patch"]
     },
     {
       "description": "Disable Node major updates",
-      "matchPackageNames": ["node"],
-      "matchDepNames": ["node"],
+      "matchPackageNames": ["node", "actions/node-versions"],
+      "matchDepNames": ["node", "actions/node-versions"],
       "matchUpdateTypes": ["major"],
       "enabled": false
     }
