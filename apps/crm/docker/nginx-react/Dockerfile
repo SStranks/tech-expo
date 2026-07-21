@@ -31,7 +31,6 @@ FROM alpine:3.24@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec4
 
 # renovate: datasource=docker depName=nginx
 ARG NGINX_VERSION=1.29.0
-ARG NGINX_IMAGE=nginx:1.31.2-alpine@sha256:54f2a904c251d5a34adf545a72d32515a15e08418dae0266e23be2e18c66fefa
 
 RUN apk add --no-cache \
   build-base \
@@ -52,7 +51,7 @@ WORKDIR /app/nginx
 RUN ./configure --with-compat --add-dynamic-module=../ngx_brotli \
   && make modules
 
-FROM ${NGINX_IMAGE}
+FROM nginx:${NGINX_VERSION}-alpine
 
 # install the brotli runtime libraries
 RUN apk add --no-cache brotli-libs
