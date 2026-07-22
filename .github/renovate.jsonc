@@ -4,6 +4,8 @@
   "enabledManagers": ["docker-compose", "dockerfile", "github-actions", "nvm", "npm", "custom.regex"],
   "postUpdateOptions": ["pnpmDedupe"],
   "addLabels": ["dependencies", "renovate"],
+  "prConcurrentLimit": 2,
+  "branchConcurrentLimit": 2,
   "lockFileMaintenance": {
     "enabled": true
   },
@@ -186,13 +188,6 @@
       "matchManagers": ["dockerfile"],
       "matchUpdateTypes": ["minor", "patch"],
       "addLabels": ["dockerfile"]
-    },
-    {
-      "groupName": "GitHub Actions",
-      "matchManagers": ["github-actions"],
-      "matchPackageNames": ["!mcr.microsoft.com/playwright"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "addLabels": ["github-actions"]
     },
     {
       "groupName": "GitHub Actions",
