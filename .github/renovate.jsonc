@@ -10,6 +10,15 @@
   "dependencyDashboard": true,
   "packageRules": [
     // ====================================
+    // ============= RULES ================
+    // ====================================
+
+    {
+      "matchManagers": ["npm", "dockerfile", "docker-compose"],
+      "minimumReleaseAge": "5 days"
+    },
+
+    // ====================================
     // ============ GENERAL ===============
     // ====================================
 
@@ -120,8 +129,8 @@
     {
       "groupName": "React",
       "matchManagers": ["npm"],
-      "matchPackageNames": [],
-      "addLabels": ["react", "react-*", "@pmmmwh/react-refresh-webpack-plugin"]
+      "matchPackageNames": ["react", "react-*", "@pmmmwh/react-refresh-webpack-plugin"],
+      "addLabels": ["react"]
     },
     {
       "groupName": "Storybook",
@@ -170,14 +179,12 @@
       "groupName": "Docker-compose images",
       "matchManagers": ["docker-compose"],
       "matchPackageNames": ["!node"],
-      "minimumReleaseAge": "5 days",
       "addLabels": ["docker-compose"]
     },
     {
       "groupName": "Dockerfile images",
       "matchManagers": ["dockerfile"],
       "matchUpdateTypes": ["minor", "patch"],
-      "minimumReleaseAge": "5 days",
       "addLabels": ["dockerfile"]
     },
     {
