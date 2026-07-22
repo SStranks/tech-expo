@@ -6,8 +6,11 @@
   "addLabels": ["dependencies", "renovate"],
   "prConcurrentLimit": 5,
   "branchConcurrentLimit": 5,
+  "rebaseWhen": "behind-base-branch",
   "lockFileMaintenance": {
-    "enabled": true
+    "enabled": false
+    // enable schedule once renovate is settled
+    // "schedule": ["after 9pm on sunday"]
   },
   "dependencyDashboard": true,
   "packageRules": [
@@ -17,7 +20,8 @@
 
     {
       "matchManagers": ["npm", "dockerfile", "docker-compose"],
-      "minimumReleaseAge": "5 days"
+      "minimumReleaseAge": "5 days",
+      "minimumReleaseAgeBehaviour": "timestamp-required"
     },
 
     // ====================================
