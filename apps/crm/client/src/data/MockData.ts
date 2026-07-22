@@ -4025,7 +4025,7 @@ export const tableDataSettingsCompanyInfo: TableSettingsCompanyInfo[] = [
     address: '1234 Sly Street, Suspiciousbury, New Anon Town, USA 12345',
     phone: '+123 456 789 01 23',
     email: 'someSlyGuy@gmail.com',
-    website: 'http://liandri.org',
+    website: 'https://liandri.org',
   },
 ];
 

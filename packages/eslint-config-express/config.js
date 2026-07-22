@@ -4,12 +4,12 @@ import globals from 'globals';
 
 const EslintConfigExpress = {
   languageOptions: {
-    ecmaVersion: 2021,
+    ecmaVersion: 'latest',
     globals: {
       ...globals.es2021,
     },
     parserOptions: {
-      ecmaVersion: 2021,
+      ecmaVersion: 'latest',
     },
     sourceType: 'module',
   },
