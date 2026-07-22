@@ -30,7 +30,7 @@ jobs:
           RENOVATE_PLATFORM: github
           RENOVATE_REPOSITORIES: ${{ github.repository }}
           LOG_LEVEL: info
-          RENOVATE_LOG_FILE: renovate.debug.log
+          RENOVATE_LOG_FILE: /github/workspace/renovate-debug.log
           RENOVATE_LOG_FILE_LEVEL: debug
 
       - name: Renovate Artifacts
