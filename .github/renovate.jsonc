@@ -1,5 +1,236 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["customManagers:dockerfileVersions"],
-  "enabledManagers": ["custom.regex"]
+  "extends": ["config:recommended", "docker:pinDigests", "customManagers:dockerfileVersions"],
+  "enabledManagers": ["docker-compose", "dockerfile", "github-actions", "nvm", "npm", "custom.regex"],
+  "postUpdateOptions": ["pnpmDedupe"],
+  "addLabels": ["dependencies", "renovate"],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "dependencyDashboard": true,
+  "packageRules": [
+    // ====================================
+    // ============ GENERAL ===============
+    // ====================================
+
+    {
+      "groupName": "Commitlint",
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["@commitlint/**"],
+      "addLabels": ["general"]
+    },
+    {
+      "groupName": "Secretlint",
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["secretlint", "@secretlint/**"],
+      "addLabels": ["general"]
+    },
+    {
+      "groupName": "Stylelint",
+      "matchManagers": ["npm"],
+      "matchPackageNames": [
+        "stylelint",
+        "@stylistic/**",
+        "stylelint-config-prettier-scss",
+        "stylelint-config-standard",
+        "stylelint-config-standard-scss"
+      ],
+      "addLabels": ["general"]
+    },
+
+    // ====================================
+    // ============ WORKSPACES ============
+    // ====================================
+
+    {
+      "groupName": "Root Package",
+      "matchManagers": ["npm"],
+      "matchFileNames": ["package.json"],
+      "separateMultipleMajor": true,
+      "addLabels": ["workspace"]
+    },
+    {
+      "groupName": "@packages",
+      "matchManagers": ["npm"],
+      "matchFileNames": ["packages/**/package.json"],
+      "separateMultipleMajor": true,
+      "addLabels": ["workspace"]
+    },
+    {
+      "groupName": "CRM Client",
+      "matchManagers": ["npm"],
+      "matchFileNames": ["apps/crm/client/package.json"],
+      "separateMultipleMajor": true,
+      "addLabels": ["workspace"]
+    },
+    {
+      "groupName": "CRM Server",
+      "matchManagers": ["npm"],
+      "matchFileNames": ["apps/crm/server/package.json"],
+      "separateMultipleMajor": true,
+      "addLabels": ["workspace"]
+    },
+    {
+      "groupName": "CRM Shared",
+      "matchManagers": ["npm"],
+      "matchFileNames": ["apps/crm/shared/package.json"],
+      "separateMultipleMajor": true,
+      "addLabels": ["workspace"]
+    },
+
+    // ====================================
+    // ============ ECOSYSTEMS ============
+    // ====================================
+
+    {
+      "groupName": "GraphQL",
+      "matchManagers": ["npm"],
+      "matchPackageNames": [
+        "graphql",
+        "graphql-config",
+        "graphql-scalars",
+        "graphql-ws",
+        "@graphql-tools/**",
+        "@graphql-codegen/**",
+        "@graphql-typed-document-node/**",
+        "@0no-co/graphqlsp",
+        "@escape.tech/graphql-armor"
+      ],
+      "addLabels": ["graphql"]
+    },
+    {
+      "groupName": "Linting",
+      "matchManagers": ["npm"],
+      "matchPackageNames": [
+        "eslint",
+        "typescript-eslint",
+        "prettier",
+        "@eslint/**",
+        "eslint-config-*",
+        "eslint-plugin-*",
+        "@html-eslint/**",
+        "jsonc-eslint-*",
+        "@tanstack/eslint-plugin-*",
+        "@vitest/eslint-*",
+        "eslint-import-resolver-typescript",
+        "yaml-eslint-*"
+      ],
+      "addLabels": ["linting"]
+    },
+    {
+      "groupName": "React",
+      "matchManagers": ["npm"],
+      "matchPackageNames": [],
+      "addLabels": ["react", "react-*", "@pmmmwh/react-refresh-webpack-plugin"]
+    },
+    {
+      "groupName": "Storybook",
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["storybook", "@storybook/**", "@chromatic-com/storybook", "storybook-addon-*"],
+      "addLabels": ["storybook"]
+    },
+    {
+      "groupName": "Build Tooling",
+      "matchManagers": ["npm"],
+      "matchPackageNames": [
+        "webpack",
+        "webpack-*",
+        "webpack-merge",
+        "webpack-cli",
+        "webpack-dev-server",
+        "@babel/**",
+        "@bundle-stats/plugin-webpack-filter",
+        "autoprefixer",
+        "babel-loader",
+        "compression-webpack-plugin",
+        "copy-webpack-plugin",
+        "css-loader",
+        "css-minimizer-webpack-plugin",
+        "eslint-webpack-plugin",
+        "fork-ts-checker-webpack-plugin",
+        "html-loader",
+        "html-webpack-plugin",
+        "image-minimizer-webpack-plugin",
+        "mini-css-extract-plugin",
+        "postcss-loader",
+        "postcss",
+        "sass-loader",
+        "speed-measure-webpack-plugin",
+        "style-loader",
+        "swc-loader",
+        "terser-webpack-plugin",
+        "ts-loader",
+        "webpack-bundle-analyzer",
+        "webpack-manifest-plugin",
+        "webpack-stats-plugin"
+      ],
+      "addLabels": ["tooling"]
+    },
+    {
+      "groupName": "Docker-compose images",
+      "matchManagers": ["docker-compose"],
+      "matchPackageNames": ["!node"],
+      "minimumReleaseAge": "5 days",
+      "addLabels": ["docker-compose"]
+    },
+    {
+      "groupName": "Dockerfile images",
+      "matchManagers": ["dockerfile"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "minimumReleaseAge": "5 days",
+      "addLabels": ["dockerfile"]
+    },
+    {
+      "groupName": "GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["!mcr.microsoft.com/playwright"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "addLabels": ["github-actions"]
+    },
+    {
+      "groupName": "GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["!mcr.microsoft.com/playwright"],
+      "separateMultipleMajor": true,
+      "addLabels": ["github-actions"]
+    },
+    {
+      "groupName": "Playwright",
+      "matchPackageNames": ["@playwright/test", "mcr.microsoft.com/playwright"],
+      "addLabels": ["playwright"]
+    },
+    {
+      "groupName": "Node.js version",
+      "matchManagers": ["nvm", "github-actions", "docker-compose", "dockerfile"],
+      "matchPackageNames": ["node", "actions/node-versions"],
+      "matchDepNames": ["node", "actions/node-versions"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "addLabels": ["nodejs"]
+    },
+
+    // ====================================
+    // ============= OVERRIDES ============
+    // ====================================
+
+    {
+      "groupName": "@types",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": ["@types/**"],
+      "addLabels": ["overrides"]
+    },
+    {
+      "groupName": "globals",
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["globals"],
+      "addLabels": ["overrides"]
+    },
+    {
+      "description": "Disable Node major updates",
+      "matchPackageNames": ["node", "actions/node-versions"],
+      "matchDepNames": ["node", "actions/node-versions"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    }
+  ]
 }

@@ -29,11 +29,8 @@ mkdir -p "${LOG_PATH}"
 docker run --rm \
   -v "${TECHEXPO_ROOT_ABSOLUTE}":/usr/src/app \
   -w /usr/src/app \
+  -e RENOVATE_CONFIG_FILE=/usr/src/app/.github/renovate.jsonc \
   -e RENOVATE_TOKEN="$TOKEN" \
-  -e RENOVATE_PLATFORM=github \
-  -e RENOVATE_REQUIRE_CONFIG=optional \
-  -e RENOVATE_CONFIG_FILE=./.github/renovate.json \
-  -e RENOVATE_REPOSITORIES="[\"SStranks/tech-expo\"]" \
   -e RENOVATE_HOST_RULES="[{
     \"hostType\": \"github\",
     \"matchHost\": \"https://api.github.com\",
@@ -42,4 +39,5 @@ docker run --rm \
   -e LOG_LEVEL="$LOG_LEVEL" \
   renovate/renovate:43 \
   --dry-run=full \
+  --platform=local \
   > "${LOG_PATH}/${LOG_FILE}" 2>&1
