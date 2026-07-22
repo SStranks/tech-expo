@@ -54,7 +54,7 @@ WORKDIR /app/nginx
 RUN ./configure --with-compat --add-dynamic-module=../ngx_brotli \
   && make modules
 
-FROM nginx:1.29.0-alpine@sha256:d67ea0d64d518b1bb04acde3b00f722ac3e9764b3209a9b0a98924ba35e4b779
+FROM nginx:1.31.2-alpine@sha256:54f2a904c251d5a34adf545a72d32515a15e08418dae0266e23be2e18c66fefa
 
 # install the brotli runtime libraries
 RUN apk add --no-cache brotli-libs
