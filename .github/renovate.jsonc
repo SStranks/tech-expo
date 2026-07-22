@@ -4,8 +4,8 @@
   "enabledManagers": ["docker-compose", "dockerfile", "github-actions", "nvm", "npm", "custom.regex"],
   "postUpdateOptions": ["pnpmDedupe"],
   "addLabels": ["dependencies", "renovate"],
-  "prConcurrentLimit": 2,
-  "branchConcurrentLimit": 2,
+  "prConcurrentLimit": 5,
+  "branchConcurrentLimit": 5,
   "lockFileMaintenance": {
     "enabled": true
   },
