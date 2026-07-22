@@ -29,14 +29,4 @@ jobs:
         env:
           RENOVATE_PLATFORM: github
           RENOVATE_REPOSITORIES: ${{ github.repository }}
-          LOG_LEVEL: info
-          RENOVATE_LOG_FILE: /github/workspace/renovate-debug.log
-          RENOVATE_LOG_FILE_LEVEL: debug
-
-      - name: Renovate Artifacts
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: Renovate report
-          path: renovate.debug.log
-          retention-days: 1
+          LOG_LEVEL: ${{ vars.RENOVATE_DEBUG == 'true' && 'debug' || 'info' }}
