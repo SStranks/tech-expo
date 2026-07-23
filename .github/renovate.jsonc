@@ -219,6 +219,11 @@
     // ====================================
 
     {
+      // TODO: Remove when; typescript 7.1 / typescript-eslint supports v7
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7"
+    },
+    {
       // TODO: Remove when; eslint-plugin-{import,react,jsxa11y} support eslint v10
       "matchPackageNames": ["eslint", "@eslint/js"],
       "allowedVersions": "<10"
