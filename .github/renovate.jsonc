@@ -252,6 +252,13 @@
       "matchDepNames": ["node", "actions/node-versions"],
       "matchUpdateTypes": ["major"],
       "enabled": false
+    },
+    {
+      // NOTE: Prevents sha256 being added to _VERSION regex matches
+      "matchManagers": ["custom.regex"],
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["digest"],
+      "enabled": false
     }
   ]
 }
