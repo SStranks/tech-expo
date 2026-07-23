@@ -219,6 +219,16 @@
     // ====================================
 
     {
+      // TODO: Remove when; eslint-plugin-{import,react,jsxa11y} support eslint v10
+      "matchPackageNames": ["eslint", "@eslint/js"],
+      "allowedVersions": "<10"
+    },
+    {
+      // TODO: Remove when; eslint-plugin-{import,react,jsxa11y} support eslint v10
+      "matchPackageNames": ["eslint-plugin-unicorn"],
+      "allowedVersions": "<65"
+    },
+    {
       "groupName": "@types",
       "matchManagers": ["npm"],
       "matchUpdateTypes": ["minor", "patch"],
