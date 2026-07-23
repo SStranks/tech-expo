@@ -6,7 +6,7 @@ import globals from 'globals';
 
 const EslintConfigJavascript = {
   languageOptions: {
-    ecmaVersion: 2021,
+    ecmaVersion: 'latest',
     globals: {
       ...globals.es2021,
     },

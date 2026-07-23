@@ -10,13 +10,13 @@ export { default as TSEslint } from 'typescript-eslint';
 
 const EslintConfigTypescript = {
   languageOptions: {
-    ecmaVersion: 2021,
+    ecmaVersion: 'latest',
     sourceType: 'module',
     globals: {
       ...globals.es2021,
     },
     parserOptions: {
-      ecmaVersion: 2021,
+      ecmaVersion: 'latest',
     },
   },
   plugins: {

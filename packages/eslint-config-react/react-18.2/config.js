@@ -6,7 +6,7 @@ import globals from 'globals';
 
 const EslintConfigReact = {
   languageOptions: {
-    ecmaVersion: 2021,
+    ecmaVersion: 'latest',
     globals: {
       ...globals.browser,
       ...globals.es2021,
@@ -15,7 +15,7 @@ const EslintConfigReact = {
       ecmaFeatures: {
         jsx: true,
       },
-      ecmaVersion: 2021,
+      ecmaVersion: 'latest',
     },
     sourceType: 'module',
   },

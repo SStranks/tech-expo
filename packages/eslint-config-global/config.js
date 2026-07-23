@@ -171,6 +171,7 @@ export const EslintConfigGlobal = {
           'types.ts',
           '.test.ts',
           String.raw`use\w*.tsx`,
+          '__mocks__',
         ],
       },
     ],
