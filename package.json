@@ -76,6 +76,6 @@
     "secretlint": "^13.0.2",
     "serve": "^14.2.5",
     "stylelint": "^17.14.0",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.0"
   }
 }
