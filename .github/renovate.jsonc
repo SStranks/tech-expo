@@ -236,7 +236,7 @@
     {
       "groupName": "@types",
       "matchManagers": ["npm"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": ["major", "minor"],
       "matchPackageNames": ["@types/**"],
       "addLabels": ["overrides"]
     },
@@ -247,8 +247,14 @@
       "addLabels": ["overrides"]
     },
     {
+      "description": "Disable npm patch updates",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["patch"],
+      "enabled": false
+    },
+    {
       "description": "Disable Node major updates",
-      "matchPackageNames": ["node", "actions/node-versions"],
+      "matchPackageNames": ["node", "actions/node-versions", "@types/node"],
       "matchDepNames": ["node", "actions/node-versions"],
       "matchUpdateTypes": ["major"],
       "enabled": false
