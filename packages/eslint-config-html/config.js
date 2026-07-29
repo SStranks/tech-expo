@@ -11,8 +11,10 @@ const EslintConfigHTML = {
   },
   rules: {
     ...PluginHTML.configs['flat/recommended'].rules,
+    '@html-eslint/attrs-newline': 'off',
     '@html-eslint/indent': ['error', 2],
-    'prettier/prettier': 'off',
+    '@html-eslint/no-extra-spacing-tags': ['error', { enforceBeforeSelfClose: true }],
+    '@html-eslint/require-closing-tags': ['error', { selfClosing: 'always' }],
   },
 };
 
