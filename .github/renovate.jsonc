@@ -265,6 +265,13 @@
       "matchManagers": ["custom.regex"],
       "matchDatasources": ["docker"],
       "pinDigests": false
+    },
+    {
+      "description": "Enable GraphQL ESLint patch for ESLint 10 compatibility",
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["@graphql-eslint/eslint-plugin"],
+      "matchUpdateTypes": ["patch"],
+      "enabled": true
     }
   ]
 }
