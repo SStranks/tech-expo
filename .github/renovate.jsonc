@@ -128,7 +128,8 @@
         "@tanstack/eslint-plugin-*",
         "@vitest/eslint-*",
         "eslint-import-resolver-typescript",
-        "yaml-eslint-*"
+        "yaml-eslint-*",
+        "@graphql-eslint/eslint-plugin"
       ],
       "addLabels": ["linting"]
     },
