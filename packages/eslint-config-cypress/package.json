@@ -9,6 +9,6 @@
   "main": "config.js",
   "types": "index.d.ts",
   "devDependencies": {
-    "eslint-plugin-cypress": "^6.3.1"
+    "eslint-plugin-cypress": "^7.0.0"
   }
 }
