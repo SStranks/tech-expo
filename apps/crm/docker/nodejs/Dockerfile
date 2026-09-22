@@ -56,7 +56,7 @@ COPY --chown=node:node --from=dependencies /server/deploy/package.json /server/p
 ARG EXPRESS_EXPOSE_PORT
 ENV EXPRESS_EXPOSE_PORT=${EXPRESS_EXPOSE_PORT}
 
-USER node
+USER 1000
 EXPOSE ${EXPRESS_EXPOSE_PORT}
 CMD ["node", "."]
 
