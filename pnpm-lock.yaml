@@ -289,8 +289,8 @@ importers:
         specifier: ^4.2.0
         version: 4.3.0(graphql-ws@6.2.0(graphql@17.0.2)(ws@8.21.1))(graphql@17.0.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rxjs@7.8.2)
       '@atlaskit/pragmatic-drag-and-drop':
-        specifier: ^2.0.0
-        version: 2.0.1
+        specifier: ^3.0.0
+        version: 3.1.0
       '@atlaskit/pragmatic-drag-and-drop-hitbox':
         specifier: ^2.0.0
         version: 2.2.2
@@ -1458,9 +1458,6 @@ packages:
 
   '@atlaskit/pragmatic-drag-and-drop-hitbox@2.2.2':
     resolution: {integrity: sha512-2Or4BWVX9ZlgsCCvgbmGEwjv2134vZARL5SezP8Dsrh3ayPYThU55Ug4dBzDAqiIJE2q8aPn+zO8YYoATa4wuA==}
-
-  '@atlaskit/pragmatic-drag-and-drop@2.0.1':
-    resolution: {integrity: sha512-5iSbCveKuWYh0HijDxfSsYKD2VE0UPObI9jO1pqq+RBk9LzaoOYeKyW0Fobv/6db8HAPcyT3vhRy8bmk5TMcMw==}
 
   '@atlaskit/pragmatic-drag-and-drop@3.1.0':
     resolution: {integrity: sha512-VU+2Oh6OgvC6D1xiX3lfm1gZJsaSPD+ZKjAHodOQ9IO6RfOvAyReLlK5ut9gIUpPmbD8d09wlCs7y4A6/I8c5Q==}
@@ -14552,12 +14549,6 @@ snapshots:
     dependencies:
       '@atlaskit/pragmatic-drag-and-drop': 3.1.0
       '@babel/runtime': 7.29.7
-
-  '@atlaskit/pragmatic-drag-and-drop@2.0.1':
-    dependencies:
-      '@babel/runtime': 7.29.7
-      bind-event-listener: 3.0.0
-      raf-schd: 4.0.3
 
   '@atlaskit/pragmatic-drag-and-drop@3.1.0':
     dependencies:
