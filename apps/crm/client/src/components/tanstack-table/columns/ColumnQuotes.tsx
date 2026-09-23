@@ -1,5 +1,7 @@
 import type { TableDataQuotes } from '@Data/MockData';
 
+import type { TableQuotesFeatures } from '../tables/quotes/TableQuotes';
+
 import { createColumnHelper } from '@tanstack/react-table';
 
 import RowActionsControl from '../controls/actions-row/RowActionsControl';
@@ -7,9 +9,9 @@ import CompanySingle from '../elements/CompanySingle';
 import QuoteParticipants from '../elements/QuoteParticipants';
 import QuoteStage from '../elements/QuoteStage';
 
-const columnHelper = createColumnHelper<TableDataQuotes>();
+const columnHelper = createColumnHelper<TableQuotesFeatures, TableDataQuotes>();
 
-const columnQuotesDef = [
+const columnQuotesDef = columnHelper.columns([
   columnHelper.accessor('title', {
     cell: (info) => info.getValue(),
     header: () => <span>Title</span>,
@@ -53,6 +55,6 @@ const columnQuotesDef = [
     ),
     header: () => <span>Actions</span>,
   }),
-];
+]);
 
 export default columnQuotesDef;

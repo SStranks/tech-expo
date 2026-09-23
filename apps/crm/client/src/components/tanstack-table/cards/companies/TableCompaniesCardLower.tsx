@@ -1,4 +1,4 @@
-import type { CoreRow } from '@tanstack/react-table';
+import type { Row, TableFeatures } from '@tanstack/react-table';
 
 import type { TableDataCompanies } from '@Data/MockData';
 
@@ -12,11 +12,11 @@ import styles from './TableCompaniesCardLower.module.scss';
 // TODO:  Make image dynamic; currently not part of mock data.
 const USER_IMAGE = userImage;
 
-type Props = {
-  rowOriginal: CoreRow<TableDataCompanies>['original'];
+type Props<TFeatures extends TableFeatures> = {
+  rowOriginal: Row<TFeatures, TableDataCompanies>['original'];
 };
 
-function TableCompaniesCardLower(props: Props): React.JSX.Element {
+function TableCompaniesCardLower<TFeatures extends TableFeatures>(props: Props<TFeatures>): React.JSX.Element {
   const { rowOriginal } = props;
 
   /*

@@ -1,5 +1,7 @@
 import type { TableDataCompanies } from '@Data/MockData';
 
+import type { TableCompaniesFeatures } from '../tables/companies/TableCompanies';
+
 import { createColumnHelper } from '@tanstack/react-table';
 
 import RowActionsControl from '../controls/actions-row/RowActionsControl';
@@ -7,9 +9,9 @@ import CompanySingle from '../elements/CompanySingle';
 import RelatedContacts from '../elements/RelatedContacts';
 import UserSingle from '../elements/UserSingle';
 
-const columnHelper = createColumnHelper<TableDataCompanies>();
+const columnHelper = createColumnHelper<TableCompaniesFeatures, TableDataCompanies>();
 
-const columnCompaniesDef = [
+const columnCompaniesDef = columnHelper.columns([
   columnHelper.accessor('companyTitle', {
     id: 'Company',
     cell: (info) => <CompanySingle companyName={info.getValue()} />,
@@ -43,6 +45,6 @@ const columnCompaniesDef = [
     ),
     header: ({ column }) => <span>{column.id}</span>,
   }),
-];
+]);
 
 export default columnCompaniesDef;

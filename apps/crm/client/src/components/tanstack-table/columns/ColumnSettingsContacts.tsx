@@ -1,12 +1,14 @@
 import type { TableSettingsContacts } from '@Data/MockData';
 
+import type { TableSettingsContactsFeatures } from '../tables/settings/TableSettingsContacts';
+
 import { createColumnHelper } from '@tanstack/react-table';
 
 import SettingsRole from '../elements/SettingsRole';
 
-const columnHelper = createColumnHelper<TableSettingsContacts>();
+const columnHelper = createColumnHelper<TableSettingsContactsFeatures, TableSettingsContacts>();
 
-const columnSettingsContactsDef = [
+const columnSettingsContactsDef = columnHelper.columns([
   columnHelper.accessor('name', {
     id: 'Name',
     cell: (info) => info.getValue(),
@@ -22,6 +24,6 @@ const columnSettingsContactsDef = [
     cell: (info) => <SettingsRole userRole={info.getValue()} />,
     header: ({ column }) => <span>{column.id}</span>,
   }),
-];
+]);
 
 export default columnSettingsContactsDef;

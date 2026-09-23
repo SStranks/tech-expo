@@ -1,13 +1,15 @@
 import type { TableAuditLog } from '@Data/MockData';
 
+import type { TableAuditLogFeatures } from '../tables/audit-log/TableAuditLog';
+
 import { createColumnHelper } from '@tanstack/react-table';
 
 import AuditAction from '../elements/AuditAction';
 import AuditDetails from '../elements/AuditDetails';
 
-const columnHelper = createColumnHelper<TableAuditLog>();
+const columnHelper = createColumnHelper<TableAuditLogFeatures, TableAuditLog>();
 
-const columnAuditLogDef = [
+const columnAuditLogDef = columnHelper.columns([
   columnHelper.accessor('user', {
     id: 'User',
     cell: (info) => info.getValue(),
@@ -43,6 +45,6 @@ const columnAuditLogDef = [
     cell: (info) => info.getValue(),
     header: ({ column }) => <span>{column.id}</span>,
   }),
-];
+]);
 
 export default columnAuditLogDef;

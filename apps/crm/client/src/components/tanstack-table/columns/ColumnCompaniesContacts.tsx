@@ -1,14 +1,16 @@
 import type { TableDataContacts } from '@Data/MockData';
 
+import type { TableCompaniesContactsFeatures } from '../tables/companies/TableCompaniesContacts';
+
 import { createColumnHelper } from '@tanstack/react-table';
 
 import RowActionsControl from '../controls/actions-row/RowActionsControl';
 import ContactStatus from '../elements/ContactStatus';
 import UserSingle from '../elements/UserSingle';
 
-const columnHelper = createColumnHelper<TableDataContacts>();
+const columnHelper = createColumnHelper<TableCompaniesContactsFeatures, TableDataContacts>();
 
-const columnCompaniesContactsDef = [
+const columnCompaniesContactsDef = columnHelper.columns([
   columnHelper.accessor('name', {
     id: 'Name',
     enableSorting: false,
@@ -38,6 +40,6 @@ const columnCompaniesContactsDef = [
     ),
     header: ({ column }) => <span>{column.id}</span>,
   }),
-];
+]);
 
 export default columnCompaniesContactsDef;

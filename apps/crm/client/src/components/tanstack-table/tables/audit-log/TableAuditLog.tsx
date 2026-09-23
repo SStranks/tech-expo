@@ -2,7 +2,14 @@ import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 
 import type { TableAuditLog as TTableAuditLog } from '@Data/MockData';
 
-import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table';
+import {
+  columnFilteringFeature,
+  createFilteredRowModel,
+  createSortedRowModel,
+  rowPaginationFeature,
+  rowSortingFeature,
+  tableFeatures,
+} from '@tanstack/react-table';
 import { useState } from 'react';
 
 import ColumnAuditLog from '@Components/tanstack-table/columns/ColumnAuditLog';
@@ -11,6 +18,15 @@ import TableDefaultView from '@Components/tanstack-table/views/TableDefaultView'
 import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableAuditLog.module.scss';
+
+const features = tableFeatures({
+  columnFilteringFeature,
+  filteredRowModel: createFilteredRowModel(),
+  paginatedRowModel: createFilteredRowModel(),
+  rowPaginationFeature,
+  rowSortingFeature,
+  sortedRowModel: createSortedRowModel(),
+});
 
 type Props = {
   tableData: TTableAuditLog[];
@@ -26,10 +42,7 @@ function TableAuditLog(props: Props): React.JSX.Element {
   const table = useReactTable({
     columns: ColumnAuditLog,
     data,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
+    features,
     meta: { tableName: 'audit' },
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
@@ -60,4 +73,5 @@ function TableAuditLog(props: Props): React.JSX.Element {
   );
 }
 
+export type TableAuditLogFeatures = typeof features;
 export default TableAuditLog;

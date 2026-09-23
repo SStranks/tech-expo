@@ -1,6 +1,6 @@
-import type { RowData, TableOptions } from '@tanstack/react-table';
+import type { RowData, TableFeatures, TableOptions } from '@tanstack/react-table';
 
-import { useReactTable as TanstackReactTable } from '@tanstack/react-table';
+import { useTable as TanstackReactTable } from '@tanstack/react-table';
 
 /*
   NOTE:
@@ -10,6 +10,8 @@ import { useReactTable as TanstackReactTable } from '@tanstack/react-table';
   https://github.com/facebook/react/issues/33057
   "Compilation Skipped: Use of incompatible library" warning message
 */
-export function useReactTable<TData extends RowData>(options: TableOptions<TData>) {
+export function useReactTable<TData extends RowData, TFeatures extends TableFeatures>(
+  options: TableOptions<TFeatures, TData>
+) {
   return TanstackReactTable(options);
 }

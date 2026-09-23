@@ -1,6 +1,11 @@
 import type { TableDataContacts } from '@Data/MockData';
 
-import { getCoreRowModel } from '@tanstack/react-table';
+import {
+  columnFilteringFeature,
+  globalFilteringFeature,
+  rowSortingFeature,
+  tableFeatures,
+} from '@tanstack/react-table';
 import { useState } from 'react';
 
 import ColumnContactsDelete from '@Components/tanstack-table/columns/ColumnContactsDelete';
@@ -8,6 +13,8 @@ import TableModalView from '@Components/tanstack-table/views/TableModalView';
 import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableContacts.module.scss';
+
+const features = tableFeatures({ columnFilteringFeature, globalFilteringFeature, rowSortingFeature });
 
 type Props = {
   tableData: TableDataContacts[];
@@ -22,7 +29,7 @@ function TableContactsDelete(props: Props): React.JSX.Element {
     data,
     enableFilters: false,
     enableSorting: false,
-    getCoreRowModel: getCoreRowModel(),
+    features,
   });
 
   return (
@@ -32,4 +39,5 @@ function TableContactsDelete(props: Props): React.JSX.Element {
   );
 }
 
+export type TableContactsDeleteFeatures = typeof features;
 export default TableContactsDelete;

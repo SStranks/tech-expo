@@ -1,6 +1,6 @@
 import type { TableDataQuotes } from '@Data/MockData';
 
-import { getCoreRowModel } from '@tanstack/react-table';
+import { columnFilteringFeature, rowSortingFeature, tableFeatures } from '@tanstack/react-table';
 import { useState } from 'react';
 
 import ColumnQuotesDelete from '@Components/tanstack-table/columns/ColumnQuotesDelete';
@@ -8,6 +8,8 @@ import TableModalView from '@Components/tanstack-table/views/TableModalView';
 import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableQuotes.module.scss';
+
+const features = tableFeatures({ columnFilteringFeature, rowSortingFeature });
 
 type Props = {
   tableData: TableDataQuotes[];
@@ -22,7 +24,7 @@ function TableQuotesDelete(props: Props): React.JSX.Element {
     data,
     enableFilters: false,
     enableSorting: false,
-    getCoreRowModel: getCoreRowModel(),
+    features,
   });
 
   return (
@@ -32,4 +34,5 @@ function TableQuotesDelete(props: Props): React.JSX.Element {
   );
 }
 
+export type TableQuotesDeleteFeatures = typeof features;
 export default TableQuotesDelete;

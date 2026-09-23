@@ -1,4 +1,4 @@
-import type { CoreRow } from '@tanstack/react-table';
+import type { Row, TableFeatures } from '@tanstack/react-table';
 
 import type { TableDataCompanies } from '@Data/MockData';
 
@@ -11,11 +11,11 @@ import IconMenuDots from '@Components/svg/IconMenuDots';
 
 import styles from './TableCompaniesOptionBtn.module.scss';
 
-type Props = {
-  rowOriginal: CoreRow<TableDataCompanies>['original'];
+type Props<TFeatures extends TableFeatures> = {
+  rowOriginal: Row<TFeatures, TableDataCompanies>['original'];
 };
 
-function TableCompaniesOptionBtn(props: Props): React.JSX.Element {
+function TableCompaniesOptionBtn<TFeatures extends TableFeatures>(props: Props<TFeatures>): React.JSX.Element {
   const { rowOriginal } = props;
   const navigate = useNavigate();
 
