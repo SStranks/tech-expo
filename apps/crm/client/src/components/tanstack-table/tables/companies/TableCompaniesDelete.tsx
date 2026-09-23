@@ -1,6 +1,11 @@
 import type { TableDataCompanies } from '@Data/MockData';
 
-import { getCoreRowModel } from '@tanstack/react-table';
+import {
+  columnFilteringFeature,
+  globalFilteringFeature,
+  rowSortingFeature,
+  tableFeatures,
+} from '@tanstack/react-table';
 import { useState } from 'react';
 
 import ColumnCompaniesDelete from '@Components/tanstack-table/columns/ColumnCompaniesDelete';
@@ -8,6 +13,8 @@ import TableModalView from '@Components/tanstack-table/views/TableModalView';
 import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableCompanies.module.scss';
+
+const features = tableFeatures({ columnFilteringFeature, globalFilteringFeature, rowSortingFeature });
 
 type Props = {
   tableData: TableDataCompanies[];
@@ -22,7 +29,7 @@ function TableCompanies(props: Props): React.JSX.Element {
     data,
     enableFilters: false,
     enableSorting: false,
-    getCoreRowModel: getCoreRowModel(),
+    features,
   });
 
   return (
@@ -32,4 +39,5 @@ function TableCompanies(props: Props): React.JSX.Element {
   );
 }
 
+export type TableCompaiesDeleteFeatures = typeof features;
 export default TableCompanies;

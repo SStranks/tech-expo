@@ -1,4 +1,4 @@
-import type { CoreRow } from '@tanstack/react-table';
+import type { Row, TableFeatures } from '@tanstack/react-table';
 
 import type { TableDataContacts } from '@Data/MockData';
 
@@ -8,11 +8,11 @@ import TableContactsOptionBtn from './TableContactsOptionBtn';
 
 import styles from './TableContactsCardUpper.module.scss';
 
-type Props = {
-  rowOriginal: CoreRow<TableDataContacts>['original'];
+type Props<TFeatures extends TableFeatures> = {
+  rowOriginal: Row<TFeatures, TableDataContacts>['original'];
 };
 
-function TableContactsCardUpper(props: Props): React.JSX.Element {
+function TableContactsCardUpper<TFeatures extends TableFeatures>(props: Props<TFeatures>): React.JSX.Element {
   const { rowOriginal } = props;
 
   return (

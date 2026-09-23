@@ -1,13 +1,15 @@
 import type { TableDataContacts } from '@Data/MockData';
 
+import type { TableContactsDeleteFeatures } from '../tables/contacts/TableContactsDelete';
+
 import { createColumnHelper } from '@tanstack/react-table';
 
 import ContactStatus from '../elements/ContactStatus';
 import UserSingle from '../elements/UserSingle';
 
-const columnHelper = createColumnHelper<TableDataContacts>();
+const columnHelper = createColumnHelper<TableContactsDeleteFeatures, TableDataContacts>();
 
-const columnContactsDeleteDef = [
+const columnContactsDeleteDef = columnHelper.columns([
   columnHelper.accessor('name', {
     cell: (info) => <UserSingle userName={info.getValue()} />,
     header: () => <span>Name</span>,
@@ -19,6 +21,6 @@ const columnContactsDeleteDef = [
     cell: (info) => <ContactStatus status={info.getValue()} />,
     header: () => <span>Status</span>,
   }),
-];
+]);
 
 export default columnContactsDeleteDef;
