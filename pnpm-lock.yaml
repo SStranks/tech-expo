@@ -677,8 +677,8 @@ importers:
         specifier: ^10.0.27
         version: 10.1.1(graphql@17.0.2)
       '@graphql-tools/utils':
-        specifier: ^11.2.0
-        version: 11.2.2(graphql@17.0.2)
+        specifier: ^12.0.0
+        version: 12.0.1(graphql@17.0.2)
       argon2:
         specifier: ^0.45.0
         version: 0.45.1
