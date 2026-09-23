@@ -2,13 +2,28 @@ import type { ColumnFiltersState } from '@tanstack/react-table';
 
 import type { TableSettingsContacts as TTableSettingsContacts } from '@Data/MockData';
 
-import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel } from '@tanstack/react-table';
+import {
+  columnFilteringFeature,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  rowPaginationFeature,
+  rowSortingFeature,
+  tableFeatures,
+} from '@tanstack/react-table';
 import { useState } from 'react';
 
 import ColumnSettingsContacts from '@Components/tanstack-table/columns/ColumnSettingsContacts';
 import TableControlsFooter from '@Components/tanstack-table/controls/ui/TableControlsFooter';
 import TableDefaultView from '@Components/tanstack-table/views/TableDefaultView';
 import { useReactTable } from '@Lib/tanstack';
+
+const features = tableFeatures({
+  columnFilteringFeature,
+  filteredRowModel: createFilteredRowModel(),
+  paginatedRowModel: createPaginatedRowModel(),
+  rowPaginationFeature,
+  rowSortingFeature,
+});
 
 import styles from './TableSettingsContacts.module.scss';
 
@@ -27,9 +42,7 @@ function TableSettingsContacts(props: Props): React.JSX.Element {
     columns: ColumnSettingsContacts,
     data,
     enableSorting: false,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    features,
     meta: { tableName: 'settings-contacts' },
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
@@ -58,4 +71,5 @@ function TableSettingsContacts(props: Props): React.JSX.Element {
   );
 }
 
+export type TableSettingsContactsFeatures = typeof features;
 export default TableSettingsContacts;

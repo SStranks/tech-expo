@@ -1,5 +1,7 @@
 import type { TableDataQuotes } from '@Data/MockData';
 
+import type { TableCompaniesQuotesFeatures } from '../tables/companies/TableCompaniesQuotes';
+
 import { createColumnHelper } from '@tanstack/react-table';
 
 import RowActionsControl from '../controls/actions-row/RowActionsControl';
@@ -7,9 +9,9 @@ import QuoteParticipants from '../elements/QuoteParticipants';
 import QuoteStage from '../elements/QuoteStage';
 import UserSingle from '../elements/UserSingle';
 
-const columnHelper = createColumnHelper<TableDataQuotes>();
+const columnHelper = createColumnHelper<TableCompaniesQuotesFeatures, TableDataQuotes>();
 
-const columnCompaniesQuotesDef = [
+const columnCompaniesQuotesDef = columnHelper.columns([
   columnHelper.accessor('title', {
     id: 'Quote Title',
     enableSorting: false,
@@ -47,6 +49,6 @@ const columnCompaniesQuotesDef = [
     ),
     header: ({ column }) => <span>{column.id}</span>,
   }),
-];
+]);
 
 export default columnCompaniesQuotesDef;

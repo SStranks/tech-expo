@@ -1,14 +1,16 @@
 import type { TableDataContacts } from '@Data/MockData';
 
+import type { TableContactsFeatures } from '../tables/contacts/TableContacts';
+
 import { createColumnHelper } from '@tanstack/react-table';
 
 import RowActionsControl from '../controls/actions-row/RowActionsControl';
 import ContactStatus from '../elements/ContactStatus';
 import UserSingle from '../elements/UserSingle';
 
-const columnHelper = createColumnHelper<TableDataContacts>();
+const columnHelper = createColumnHelper<TableContactsFeatures, TableDataContacts>();
 
-const columnContactsDef = [
+const columnContactsDef = columnHelper.columns([
   columnHelper.accessor('name', {
     cell: (info) => <UserSingle userName={info.getValue()} />,
     header: () => <span>Name</span>,
@@ -33,6 +35,6 @@ const columnContactsDef = [
     ),
     header: () => <span>Actions</span>,
   }),
-];
+]);
 
 export default columnContactsDef;

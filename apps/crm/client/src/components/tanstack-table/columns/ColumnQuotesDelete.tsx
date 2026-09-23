@@ -1,13 +1,15 @@
 import type { TableDataQuotes } from '@Data/MockData';
 
+import type { TableQuotesDeleteFeatures } from '../tables/quotes/TableQuotesDelete';
+
 import { createColumnHelper } from '@tanstack/react-table';
 
 import CompanySingle from '../elements/CompanySingle';
 import QuoteStage from '../elements/QuoteStage';
 
-const columnHelper = createColumnHelper<TableDataQuotes>();
+const columnHelper = createColumnHelper<TableQuotesDeleteFeatures, TableDataQuotes>();
 
-const columnQuotesDeleteDef = [
+const columnQuotesDeleteDef = columnHelper.columns([
   columnHelper.accessor('title', {
     cell: (info) => info.getValue(),
     header: () => <span>Title</span>,
@@ -24,6 +26,6 @@ const columnQuotesDeleteDef = [
     cell: (info) => <QuoteStage stage={info.getValue()} />,
     header: () => <span>Stage</span>,
   }),
-];
+]);
 
 export default columnQuotesDeleteDef;

@@ -2,12 +2,29 @@ import type { ColumnFiltersState } from '@tanstack/react-table';
 
 import type { TableDataContacts } from '@Data/MockData';
 
-import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel } from '@tanstack/react-table';
+import {
+  columnFilteringFeature,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
+  rowPaginationFeature,
+  rowSortingFeature,
+  tableFeatures,
+} from '@tanstack/react-table';
 import { useState } from 'react';
 
 import ColumnCompaniesContacts from '@Components/tanstack-table/columns/ColumnCompaniesContacts';
 import TableListEmbeddedView from '@Components/tanstack-table/views/TableListEmbeddedView';
 import { useReactTable } from '@Lib/tanstack';
+
+const features = tableFeatures({
+  columnFilteringFeature,
+  filteredRowModel: createFilteredRowModel(),
+  paginatedRowModel: createPaginatedRowModel(),
+  rowPaginationFeature,
+  rowSortingFeature,
+  sortedRowModel: createSortedRowModel(),
+});
 
 type Props = {
   tableData: TableDataContacts[];
@@ -22,9 +39,7 @@ function TableCompaniesContacts(props: Props): React.JSX.Element {
   const table = useReactTable({
     columns: ColumnCompaniesContacts,
     data,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    features,
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
     state: {
@@ -46,4 +61,5 @@ function TableCompaniesContacts(props: Props): React.JSX.Element {
   );
 }
 
+export type TableCompaniesContactsFeatures = typeof features;
 export default TableCompaniesContacts;

@@ -3,7 +3,16 @@ import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 import type { TableDataQuotes } from '@Data/MockData';
 
 import { useNavigate } from '@tanstack/react-router';
-import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table';
+import {
+  columnFilteringFeature,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
+  globalFilteringFeature,
+  rowPaginationFeature,
+  rowSortingFeature,
+  tableFeatures,
+} from '@tanstack/react-table';
 import { useState } from 'react';
 
 import ColumnQuotes from '@Components/tanstack-table/columns/ColumnQuotes';
@@ -13,6 +22,16 @@ import TableListView from '@Components/tanstack-table/views/TableListView';
 import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableQuotes.module.scss';
+
+const features = tableFeatures({
+  columnFilteringFeature,
+  filteredRowModel: createFilteredRowModel(),
+  globalFilteringFeature,
+  paginatedRowModel: createPaginatedRowModel(),
+  rowPaginationFeature,
+  rowSortingFeature,
+  sortedRowModel: createSortedRowModel(),
+});
 
 type Props = {
   tableData: TableDataQuotes[];
@@ -30,10 +49,7 @@ function TableQuotes(props: Props): React.JSX.Element {
   const table = useReactTable({
     columns: ColumnQuotes,
     data,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
+    features,
     meta: { tableName: 'quotes' },
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
@@ -76,4 +92,5 @@ function TableQuotes(props: Props): React.JSX.Element {
   );
 }
 
+export type TableQuotesFeatures = typeof features;
 export default TableQuotes;

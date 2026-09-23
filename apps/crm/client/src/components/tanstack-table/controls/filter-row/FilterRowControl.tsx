@@ -1,5 +1,10 @@
-import type { Column, RowData } from '@tanstack/react-table';
+import type { Column, RowData, TableFeatures } from '@tanstack/react-table';
 
+import {
+  column_getFilterValue,
+  column_getIsFiltered,
+  column_setFilterValue,
+} from '@tanstack/react-table/static-functions';
 import { useId, useState } from 'react';
 import { Button, DialogTrigger, Input, Popover, SearchField } from 'react-aria-components';
 
@@ -7,16 +12,18 @@ import IconFilter from '@Components/svg/IconFilter';
 
 import styles from './FilterRowControl.module.scss';
 
-type Props<T extends RowData> = {
-  column: Column<T, unknown>;
+type Props<TFeatures extends TableFeatures, TData extends RowData> = {
+  column: Column<TFeatures, TData, unknown>;
   fieldName: string;
 };
 
-function FilterRowControl<T extends RowData>(props: Props<T>): React.JSX.Element {
+function FilterRowControl<TFeatures extends TableFeatures, TData extends RowData>(
+  props: Props<TFeatures, TData>
+): React.JSX.Element {
   const { column, fieldName } = props;
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
-  const [filterActive, setFilterActive] = useState<boolean>(column.getIsFiltered);
-  const [inputValue, setInputValue] = useState<string>((column.getFilterValue() ?? '') as string);
+  const [filterActive, setFilterActive] = useState<boolean>(column_getIsFiltered(column));
+  const [inputValue, setInputValue] = useState<string>((column_getFilterValue(column) ?? '') as string);
   const componentId = useId();
 
   const popoverTriggerBtnHandler = () => {
@@ -26,11 +33,11 @@ function FilterRowControl<T extends RowData>(props: Props<T>): React.JSX.Element
   const onFormSubmit = (e: string) => {
     setInputValue(e);
     setFilterActive(inputValue !== '');
-    column.setFilterValue(inputValue);
+    column_setFilterValue(column, inputValue);
   };
 
   const clearFilterBtnHandler = () => {
-    column.setFilterValue('');
+    column_setFilterValue(column, '');
     setInputValue('');
     setFilterActive(false);
     setPopoverOpen(false);

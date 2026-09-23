@@ -3,7 +3,16 @@ import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 import type { TableDataContacts } from '@Data/MockData';
 
 import { useNavigate } from '@tanstack/react-router';
-import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table';
+import {
+  columnFilteringFeature,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
+  globalFilteringFeature,
+  rowPaginationFeature,
+  rowSortingFeature,
+  tableFeatures,
+} from '@tanstack/react-table';
 import { useState } from 'react';
 
 import TableContactsCardLower from '@Components/tanstack-table/cards/contacts/TableContactsCardLower';
@@ -17,6 +26,16 @@ import TableListView from '@Components/tanstack-table/views/TableListView';
 import { useReactTable } from '@Lib/tanstack';
 
 import styles from './TableContacts.module.scss';
+
+const features = tableFeatures({
+  columnFilteringFeature,
+  filteredRowModel: createFilteredRowModel(),
+  globalFilteringFeature,
+  paginatedRowModel: createPaginatedRowModel(),
+  rowPaginationFeature,
+  rowSortingFeature,
+  sortedRowModel: createSortedRowModel(),
+});
 
 type Props = {
   tableData: TableDataContacts[];
@@ -35,10 +54,7 @@ function TableContacts(props: Props): React.JSX.Element {
   const table = useReactTable({
     columns: ColumnContacts,
     data,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
+    features,
     meta: { tableName: 'contacts' },
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
@@ -96,4 +112,5 @@ function TableContacts(props: Props): React.JSX.Element {
   );
 }
 
+export type TableContactsFeatures = typeof features;
 export default TableContacts;

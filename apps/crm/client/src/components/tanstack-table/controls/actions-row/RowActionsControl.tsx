@@ -1,5 +1,5 @@
 import type { LinkProps } from '@tanstack/react-router';
-import type { CoreRow } from '@tanstack/react-table';
+import type { Row, TableFeatures } from '@tanstack/react-table';
 import type { PropsWithChildren } from 'react';
 
 import type { TableDataCompanies, TableDataContacts, TableDataQuotes } from '@Data/MockData';
@@ -16,8 +16,8 @@ import styles from './RowActionsControl.module.scss';
 
 type TableDataAllUnion = TableDataContacts | TableDataCompanies | TableDataQuotes;
 
-type UpdateControl = {
-  rowOriginal: CoreRow<TableDataAllUnion>['original'];
+type UpdateControl<TFeatures extends TableFeatures> = {
+  rowOriginal: Row<TFeatures, TableDataAllUnion>['original'];
 };
 
 type CallControl = {
@@ -28,8 +28,8 @@ type EmailControl = {
   email: string;
 };
 
-type DeleteControl = {
-  rowOriginal: CoreRow<TableDataAllUnion>['original'];
+type DeleteControl<TFeatures extends TableFeatures> = {
+  rowOriginal: Row<TFeatures, TableDataAllUnion>['original'];
 };
 
 function RowActionsControl({ children }: PropsWithChildren): React.JSX.Element {

@@ -1,4 +1,13 @@
-import { flexRender, type Table } from '@tanstack/react-table';
+import type { RowData, Table, TableFeatures } from '@tanstack/react-table';
+
+import { flexRender } from '@tanstack/react-table';
+import {
+  column_getCanFilter,
+  column_getCanSort,
+  column_getIsSorted,
+  column_getToggleSortingHandler,
+  row_getVisibleCells,
+} from '@tanstack/react-table/static-functions';
 
 import FilterRowControl from '../controls/filter-row/FilterRowControl';
 import SortRowControl from '../controls/sort-row/SortRowControl';
@@ -6,14 +15,16 @@ import { useTableDragScroll } from '../hooks/useTableDragScroll';
 
 import styles from './TableListView.module.scss';
 
-interface Props<T> {
-  table: Table<T>;
+interface Props<TFeatures extends TableFeatures, TData extends RowData> {
+  table: Table<TFeatures, TData>;
 }
 
 /*
  * NOTE: <tr />; prevents rows from expanding to fill table when total rows height is less than the table height
  */
-function TableListView<T>(props: Props<T>): React.JSX.Element {
+function TableListView<TFeatures extends TableFeatures, TData extends RowData>(
+  props: Props<TFeatures, TData>
+): React.JSX.Element {
   const { table } = props;
   const { containerRef, handleMouseDown } = useTableDragScroll<HTMLDivElement>();
 
@@ -30,13 +41,13 @@ function TableListView<T>(props: Props<T>): React.JSX.Element {
                     {flexRender(header.column.columnDef.header, header.getContext())}
                     {header.id !== 'Actions' && (
                       <div className={styles.th__container__controls}>
-                        {header.column.getCanFilter() && (
+                        {column_getCanFilter(header.column) && (
                           <FilterRowControl column={header.column} fieldName={header.getContext().header.id} />
                         )}
-                        {header.column.getCanSort() && (
+                        {column_getCanSort(header.column) && (
                           <SortRowControl
-                            sortDirection={header.column.getIsSorted()}
-                            sortOnClick={header.column.getToggleSortingHandler()}
+                            sortDirection={column_getIsSorted(header.column)}
+                            sortOnClick={column_getToggleSortingHandler(header.column)}
                           />
                         )}
                       </div>
@@ -50,7 +61,7 @@ function TableListView<T>(props: Props<T>): React.JSX.Element {
         <tbody className={styles.tbody}>
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id} className={styles.tbody__tr} data-table-row-id={row.id}>
-              {row.getVisibleCells().map((cell) => (
+              {row_getVisibleCells(row).map((cell) => (
                 <td key={cell.id} className={styles.td}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>

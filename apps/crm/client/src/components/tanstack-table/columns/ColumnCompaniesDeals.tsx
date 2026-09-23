@@ -1,13 +1,15 @@
 import type { TableDataDeals } from '@Data/MockData';
 
+import type { TableCompaniesDealsFeatures } from '../tables/companies/TableCompaniesDeals';
+
 import { createColumnHelper } from '@tanstack/react-table';
 
 import RowActionsControl from '../controls/actions-row/RowActionsControl';
 import DealParticipants from '../elements/DealParticipants';
 
-const columnHelper = createColumnHelper<TableDataDeals>();
+const columnHelper = createColumnHelper<TableCompaniesDealsFeatures, TableDataDeals>();
 
-const columnCompaniesDealssDef = [
+const columnCompaniesDealssDef = columnHelper.columns([
   columnHelper.accessor('title', {
     id: 'Title',
     enableSorting: false,
@@ -44,6 +46,6 @@ const columnCompaniesDealssDef = [
     ),
     header: ({ column }) => <span>{column.id}</span>,
   }),
-];
+]);
 
 export default columnCompaniesDealssDef;
