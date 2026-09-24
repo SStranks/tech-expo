@@ -35,10 +35,10 @@ jobs:
         with:
           node-version: 22.23.1
           cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock*.yaml
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --merge-git-branch-lockfiles
 
       - name: Build @crm-shared types
         run: pnpm --filter @apps/crm-shared build
@@ -46,7 +46,7 @@ jobs:
       - name: Generate graphql codegen files
         run: pnpm --filter @apps/crm-client --filter @apps/crm-server codegen
 
-      - name: MegaLinter v9.6
+      - name: MegaLinter
         uses: oxsecurity/megalinter/flavors/javascript@9949bad031045f366be2467e00e8371a7328a2e2 # v10.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
