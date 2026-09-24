@@ -37,6 +37,36 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock*.yaml
 
+      - name: Diagnose PNPM lockfiles
+        run: |
+          echo "=== Git ==="
+          git status --short
+          git rev-parse HEAD
+          git log -1 --oneline
+
+          echo "=== Lockfiles ==="
+          ls -la pnpm-lock*.yaml
+          echo "--- tracked lockfiles ---"
+          git ls-files '*pnpm-lock*'
+
+          echo "=== PNPM ==="
+          pnpm --version
+
+          echo "=== Workspace config ==="
+          sed -n '1,40p' pnpm-workspace.yaml
+
+          echo "=== packageManager ==="
+          grep packageManager package.json
+
+          echo "=== Main lockfile ==="
+          sed -n '1,20p' pnpm-lock.yaml
+
+          echo "=== Branch lockfile ==="
+          sed -n '1,20p' 'pnpm-lock.refactor!tanstack-table-v9-cleanup.yaml'
+
+      - name: Install dependencies
+        run: pnpm install --merge-git-branch-lockfiles
+
       - name: Install dependencies
         run: pnpm install --merge-git-branch-lockfiles
 
