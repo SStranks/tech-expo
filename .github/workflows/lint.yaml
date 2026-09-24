@@ -64,6 +64,17 @@ jobs:
           echo "=== Branch lockfile ==="
           sed -n '1,20p' 'pnpm-lock.refactor!tanstack-table-v9-cleanup.yaml'
 
+      - name: Diagnose PNPM config
+        run: |
+          echo "=== PNPM ==="
+          pnpm --version
+          echo "=== PNPM config ==="
+          pnpm config get overrides
+          pnpm config get gitBranchLockfile
+          pnpm config get mergeGitBranchLockfilesBranchPattern
+          echo "=== PNPM env ==="
+          env | grep -E '^(PNPM|NPM|COREPACK)_' | sort || true
+
       - name: Install dependencies
         run: pnpm install --merge-git-branch-lockfiles --no-frozen-lockfile
 
