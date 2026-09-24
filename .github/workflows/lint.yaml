@@ -65,10 +65,7 @@ jobs:
           sed -n '1,20p' 'pnpm-lock.refactor!tanstack-table-v9-cleanup.yaml'
 
       - name: Install dependencies
-        run: pnpm install --merge-git-branch-lockfiles
-
-      - name: Install dependencies
-        run: pnpm install --merge-git-branch-lockfiles
+        run: pnpm install --merge-git-branch-lockfiles --no-frozen-lockfile
 
       - name: Build @crm-shared types
         run: pnpm --filter @apps/crm-shared build
