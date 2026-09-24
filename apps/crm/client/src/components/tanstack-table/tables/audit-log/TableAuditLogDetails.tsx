@@ -1,7 +1,6 @@
 import type { TableAuditLogDetails as TTableAuditLogDetails } from '@Data/MockData';
 
 import { columnFilteringFeature, rowSortingFeature, tableFeatures } from '@tanstack/react-table';
-import { useState } from 'react';
 
 import ColumnAuditLogDetails from '@Components/tanstack-table/columns/ColumnAuditLogDetails';
 import TableModalView from '@Components/tanstack-table/views/TableModalView';
@@ -17,11 +16,10 @@ type Props = {
 
 function TableAuditLogDetails(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<TTableAuditLogDetails[]>(tableData);
 
   const table = useReactTable({
     columns: ColumnAuditLogDetails,
-    data,
+    data: tableData,
     enableFilters: false,
     enableSorting: false,
     features,

@@ -3,6 +3,7 @@ import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 import type { TableDataQuotes } from '@Data/MockData';
 
 import { useNavigate } from '@tanstack/react-router';
+import { useCreateAtom, useSelector } from '@tanstack/react-store';
 import {
   columnFilteringFeature,
   createFilteredRowModel,
@@ -13,7 +14,6 @@ import {
   rowSortingFeature,
   tableFeatures,
 } from '@tanstack/react-table';
-import { useState } from 'react';
 
 import ColumnQuotes from '@Components/tanstack-table/columns/ColumnQuotes';
 import TableControlsFooter from '@Components/tanstack-table/controls/ui/TableControlsFooter';
@@ -39,28 +39,25 @@ type Props = {
 
 function TableQuotes(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<TableDataQuotes[]>(tableData);
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
-  const [globalFilter, setGlobalFilter] = useState<string>('');
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const navigate = useNavigate();
 
+  const sortingAtom = useCreateAtom<SortingState>([]);
+  const paginationAtom = useCreateAtom({ pageIndex: 0, pageSize: 10 });
+  const globalFilterAtom = useCreateAtom<string>('');
+  const columnFiltersAtom = useCreateAtom<ColumnFiltersState>([]);
+  const pagination = useSelector(paginationAtom);
+
   const table = useReactTable({
+    atoms: {
+      columnFilters: columnFiltersAtom,
+      globalFilter: globalFilterAtom,
+      pagination: paginationAtom,
+      sorting: sortingAtom,
+    },
     columns: ColumnQuotes,
-    data,
+    data: tableData,
     features,
     meta: { tableName: 'quotes' },
-    onColumnFiltersChange: setColumnFilters,
-    onGlobalFilterChange: setGlobalFilter,
-    onPaginationChange: setPagination,
-    onSortingChange: setSorting,
-    state: {
-      columnFilters,
-      globalFilter,
-      pagination,
-      sorting,
-    },
     getRowId: (originalRow) => originalRow.id,
   });
 
@@ -74,8 +71,10 @@ function TableQuotes(props: Props): React.JSX.Element {
   return (
     <div className={styles.container}>
       <TableControlsHeader
+        columnFiltersAtom={columnFiltersAtom}
         createEntryBtn={{ displayText: 'Create Quote', onClick: createQuote }}
-        globalFilter={{ globalFilter, setGlobalFilter, tableName }}
+        globalFilterAtom={globalFilterAtom}
+        tableName={tableName}
       />
       <TableListView table={table} />
       <div className={styles.tableControlsFooter}>

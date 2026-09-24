@@ -1,3 +1,4 @@
+import type { Atom } from '@tanstack/react-store';
 import type { ColumnFiltersState } from '@tanstack/react-table';
 
 import ListGridToggle from '@Components/buttons/list-grid-toggle/ListGridToggle';
@@ -8,26 +9,21 @@ import GlobalFilterControl from '../global-filter/GlobalFilterControl';
 import styles from './TableControlsHeader.module.scss';
 
 type Props = {
+  columnFiltersAtom: Atom<ColumnFiltersState>;
   createEntryBtn: {
     displayText: string;
     onClick: () => void;
   };
-  globalFilter: {
-    globalFilter: string;
-    setGlobalFilter: React.Dispatch<React.SetStateAction<string>>;
-    tableName: string | undefined;
-  };
-  listGridToggle?: {
-    columnFilters: ColumnFiltersState;
-    resetColumnFilters: (defaultState?: boolean) => void;
-    setColumnFilters: React.Dispatch<React.SetStateAction<ColumnFiltersState>>;
+  globalFilterAtom: Atom<string>;
+  tableName: string | undefined;
+  tableView?: {
     setTableView: React.Dispatch<React.SetStateAction<'list' | 'grid'>>;
     tableView: 'list' | 'grid';
   };
 };
 
 function TableControlsHeader(props: Props): React.JSX.Element {
-  const { createEntryBtn, globalFilter, listGridToggle } = props;
+  const { createEntryBtn, columnFiltersAtom, globalFilterAtom, tableName, tableView } = props;
 
   return (
     <div className={styles.header}>
@@ -37,18 +33,15 @@ function TableControlsHeader(props: Props): React.JSX.Element {
       </button>
       <div className={styles.header__controls}>
         <GlobalFilterControl
-          globalFilter={globalFilter.globalFilter}
-          setGlobalFilter={globalFilter.setGlobalFilter}
+          globalFilterAtom={globalFilterAtom}
           debounceDelay={250}
-          label={`Search ${globalFilter.tableName || 'table'}`}
+          label={`Search ${tableName || 'table'}`}
         />
-        {listGridToggle && (
+        {tableView && (
           <ListGridToggle
-            tableView={listGridToggle.tableView}
-            setTableView={listGridToggle.setTableView}
-            columnFilters={listGridToggle.columnFilters}
-            setColumnFilters={listGridToggle.setColumnFilters}
-            resetColumnFilters={listGridToggle.resetColumnFilters}
+            columnFiltersAtom={columnFiltersAtom}
+            tableView={tableView.tableView}
+            setTableView={tableView.setTableView}
           />
         )}
       </div>
