@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 
-import prometheusClient from 'prom-client';
+import prometheusClient from '@prometheus-io/client';
 
 const PREFIX = 'express_';
 
