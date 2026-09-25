@@ -1,7 +1,8 @@
-import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
+import type { ColumnFiltersState, PaginationState, SortingState } from '@tanstack/react-table';
 
 import type { TableAuditLog as TTableAuditLog } from '@Data/MockData';
 
+import { useCreateAtom, useSelector } from '@tanstack/react-store';
 import {
   columnFilteringFeature,
   createFilteredRowModel,
@@ -10,7 +11,6 @@ import {
   rowSortingFeature,
   tableFeatures,
 } from '@tanstack/react-table';
-import { useState } from 'react';
 
 import ColumnAuditLog from '@Components/tanstack-table/columns/ColumnAuditLog';
 import TableControlsFooter from '@Components/tanstack-table/controls/ui/TableControlsFooter';
@@ -34,24 +34,22 @@ type Props = {
 
 function TableAuditLog(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<TTableAuditLog[]>(tableData);
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+  const sortingAtom = useCreateAtom<SortingState>([]);
+  const columnFiltersAtom = useCreateAtom<ColumnFiltersState>([]);
+  const paginationAtom = useCreateAtom<PaginationState>({ pageIndex: 0, pageSize: 10 });
+  const pagination = useSelector(paginationAtom);
 
   const table = useReactTable({
+    atoms: {
+      columnFilters: columnFiltersAtom,
+      pagination: paginationAtom,
+      sorting: sortingAtom,
+    },
     columns: ColumnAuditLog,
-    data,
+    data: tableData,
     features,
     meta: { tableName: 'audit' },
-    onColumnFiltersChange: setColumnFilters,
-    onPaginationChange: setPagination,
-    onSortingChange: setSorting,
-    state: {
-      columnFilters,
-      pagination,
-      sorting,
-    },
   });
 
   const { getPageCount, getRowCount, setPageIndex, setPageSize } = table;

@@ -38,7 +38,7 @@ jobs:
           cache-dependency-path: pnpm-lock*.yaml
 
       - name: Install dependencies
-        run: pnpm install --merge-git-branch-lockfiles
+        run: pnpm install --merge-git-branch-lockfiles --no-frozen-lockfile
 
       - name: Build @crm-shared types
         run: pnpm --filter @apps/crm-shared build

@@ -3,6 +3,7 @@ import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 import type { TableDataContacts } from '@Data/MockData';
 
 import { useNavigate } from '@tanstack/react-router';
+import { useCreateAtom, useSelector } from '@tanstack/react-store';
 import {
   columnFilteringFeature,
   createFilteredRowModel,
@@ -43,33 +44,30 @@ type Props = {
 
 function TableContacts(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<TableDataContacts[]>(tableData);
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
-  const [globalFilter, setGlobalFilter] = useState<string>('');
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [tableView, setTableView] = useState<'list' | 'grid'>('list');
   const navigate = useNavigate();
 
+  const sortingAtom = useCreateAtom<SortingState>([]);
+  const paginationAtom = useCreateAtom({ pageIndex: 0, pageSize: 10 });
+  const globalFilterAtom = useCreateAtom<string>('');
+  const columnFiltersAtom = useCreateAtom<ColumnFiltersState>([]);
+  const pagination = useSelector(paginationAtom);
+
   const table = useReactTable({
+    atoms: {
+      columnFilters: columnFiltersAtom,
+      globalFilter: globalFilterAtom,
+      pagination: paginationAtom,
+      sorting: sortingAtom,
+    },
     columns: ColumnContacts,
-    data,
+    data: tableData,
     features,
     meta: { tableName: 'contacts' },
-    onColumnFiltersChange: setColumnFilters,
-    onGlobalFilterChange: setGlobalFilter,
-    onPaginationChange: setPagination,
-    onSortingChange: setSorting,
-    state: {
-      columnFilters,
-      globalFilter,
-      pagination,
-      sorting,
-    },
     getRowId: (originalRow) => originalRow.id,
   });
 
-  const { getPageCount, getRowCount, options, resetColumnFilters, setPageIndex, setPageSize } = table;
+  const { getPageCount, getRowCount, options, setPageIndex, setPageSize } = table;
   const tableName = options.meta?.tableName;
 
   const createContact = () => {
@@ -92,9 +90,11 @@ function TableContacts(props: Props): React.JSX.Element {
   return (
     <div className={styles.container}>
       <TableControlsHeader
+        columnFiltersAtom={columnFiltersAtom}
         createEntryBtn={{ displayText: 'Create Contact', onClick: createContact }}
-        globalFilter={{ globalFilter, setGlobalFilter, tableName }}
-        listGridToggle={{ columnFilters, resetColumnFilters, setColumnFilters, setTableView, tableView }}
+        globalFilterAtom={globalFilterAtom}
+        tableView={{ setTableView, tableView }}
+        tableName={tableName}
       />
       {tableView === 'list' && <TableListView table={table} />}
       {tableView === 'grid' && <TableGridView tableCards={tableCards} />}

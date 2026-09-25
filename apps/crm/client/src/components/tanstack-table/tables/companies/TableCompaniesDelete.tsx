@@ -6,7 +6,6 @@ import {
   rowSortingFeature,
   tableFeatures,
 } from '@tanstack/react-table';
-import { useState } from 'react';
 
 import ColumnCompaniesDelete from '@Components/tanstack-table/columns/ColumnCompaniesDelete';
 import TableModalView from '@Components/tanstack-table/views/TableModalView';
@@ -22,11 +21,10 @@ type Props = {
 
 function TableCompanies(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<TableDataCompanies[]>(tableData);
 
   const table = useReactTable({
     columns: ColumnCompaniesDelete,
-    data,
+    data: tableData,
     enableFilters: false,
     enableSorting: false,
     features,

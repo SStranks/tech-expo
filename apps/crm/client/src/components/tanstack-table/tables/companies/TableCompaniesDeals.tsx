@@ -2,6 +2,7 @@ import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 
 import type { TableDataDeals } from '@Data/MockData';
 
+import { useCreateAtom, useSelector } from '@tanstack/react-store';
 import {
   columnFilteringFeature,
   createFilteredRowModel,
@@ -11,7 +12,6 @@ import {
   rowSortingFeature,
   tableFeatures,
 } from '@tanstack/react-table';
-import { useState } from 'react';
 
 import ColumnCompaniesDeals from '@Components/tanstack-table/columns/ColumnCompaniesDeals';
 import TableListEmbeddedView from '@Components/tanstack-table/views/TableListEmbeddedView';
@@ -32,23 +32,17 @@ type Props = {
 
 function TableCompaniesDeals(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<TableDataDeals[]>(tableData);
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+  const sortingAtom = useCreateAtom<SortingState>([]);
+  const paginationAtom = useCreateAtom({ pageIndex: 0, pageSize: 5 });
+  const columnFiltersAtom = useCreateAtom<ColumnFiltersState>([]);
+  const pagination = useSelector(paginationAtom);
 
   const table = useReactTable({
+    atoms: { columnFilters: columnFiltersAtom, pagination: paginationAtom, sorting: sortingAtom },
     columns: ColumnCompaniesDeals,
-    data,
+    data: tableData,
     features,
-    onColumnFiltersChange: setColumnFilters,
-    onPaginationChange: setPagination,
-    onSortingChange: setSorting,
-    state: {
-      columnFilters,
-      pagination,
-      sorting,
-    },
     getRowId: (originalRow) => originalRow.id,
   });
 

@@ -6,7 +6,6 @@ import {
   rowSortingFeature,
   tableFeatures,
 } from '@tanstack/react-table';
-import { useState } from 'react';
 
 import ColumnContactsDelete from '@Components/tanstack-table/columns/ColumnContactsDelete';
 import TableModalView from '@Components/tanstack-table/views/TableModalView';
@@ -22,11 +21,10 @@ type Props = {
 
 function TableContactsDelete(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<TableDataContacts[]>(tableData);
 
   const table = useReactTable({
     columns: ColumnContactsDelete,
-    data,
+    data: tableData,
     enableFilters: false,
     enableSorting: false,
     features,

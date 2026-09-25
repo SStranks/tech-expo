@@ -1,7 +1,8 @@
-import type { ColumnFiltersState } from '@tanstack/react-table';
+import type { ColumnFiltersState, PaginationState } from '@tanstack/react-table';
 
 import type { TableDataQuotes } from '@Data/MockData';
 
+import { useCreateAtom, useSelector } from '@tanstack/react-store';
 import {
   columnFilteringFeature,
   createFilteredRowModel,
@@ -12,7 +13,6 @@ import {
   rowSortingFeature,
   tableFeatures,
 } from '@tanstack/react-table';
-import { useState } from 'react';
 
 import ColumnCompaniesQuotes from '@Components/tanstack-table/columns/ColumnCompaniesQuotes';
 import TableListEmbeddedView from '@Components/tanstack-table/views/TableListEmbeddedView';
@@ -34,20 +34,19 @@ type Props = {
 
 function TableCompaniesQuotes(props: Props): React.JSX.Element {
   const { tableData } = props;
-  const [data] = useState<TableDataQuotes[]>(tableData);
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+  const paginationAtom = useCreateAtom<PaginationState>({ pageIndex: 0, pageSize: 5 });
+  const columnFiltersAtom = useCreateAtom<ColumnFiltersState>([]);
+  const pagination = useSelector(paginationAtom);
 
   const table = useReactTable({
-    columns: ColumnCompaniesQuotes,
-    data,
-    features,
-    onColumnFiltersChange: setColumnFilters,
-    onPaginationChange: setPagination,
-    state: {
-      columnFilters,
-      pagination,
+    atoms: {
+      columnFilters: columnFiltersAtom,
+      pagination: paginationAtom,
     },
+    columns: ColumnCompaniesQuotes,
+    data: tableData,
+    features,
     getRowId: (originalRow) => originalRow.id,
   });
 

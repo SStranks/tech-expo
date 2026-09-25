@@ -1,3 +1,5 @@
+import type { Atom } from '@tanstack/react-store';
+
 import { useEffect, useState } from 'react';
 import { Button, Input, Label, SearchField } from 'react-aria-components';
 
@@ -7,25 +9,24 @@ import IconSearch from '@Components/svg/IconSearch';
 import styles from './GlobalFilterControl.module.scss';
 
 type Props = {
-  globalFilter: string;
+  globalFilterAtom: Atom<string>;
   label: string;
-  setGlobalFilter: React.Dispatch<React.SetStateAction<string>>;
   debounceDelay?: number;
 };
 
 function GlobalFilterControl(props: Props): React.JSX.Element {
-  const { debounceDelay = 250, globalFilter, label, setGlobalFilter } = props;
-  const [debouncedValue, setDebouncedValue] = useState(globalFilter);
+  const { debounceDelay = 250, globalFilterAtom, label } = props;
+  const [debouncedValue, setDebouncedValue] = useState(globalFilterAtom.get());
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      setGlobalFilter(debouncedValue);
+      globalFilterAtom.set(debouncedValue);
     }, debounceDelay);
 
     return () => {
       clearTimeout(handler);
     };
-  }, [debouncedValue, debounceDelay, setGlobalFilter]);
+  }, [debouncedValue, debounceDelay, globalFilterAtom]);
 
   return (
     <SearchField value={debouncedValue} onChange={(e) => setDebouncedValue(e)} className={styles.searchField}>

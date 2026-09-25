@@ -1,5 +1,7 @@
-import type { ColumnFiltersState, Updater } from '@tanstack/react-table';
+import type { Atom } from '@tanstack/react-store';
+import type { ColumnFiltersState } from '@tanstack/react-table';
 
+import { useSelector } from '@tanstack/react-store';
 import { useState } from 'react';
 import { Label, Radio, RadioGroup } from 'react-aria-components';
 
@@ -9,25 +11,24 @@ import IconListDownArrow from '@Components/svg/IconListDownArrow';
 import styles from './ListGridToggle.module.scss';
 
 type Props = {
-  columnFilters: ColumnFiltersState;
-  resetColumnFilters: (defaultState?: boolean) => void;
-  setColumnFilters: (updater: Updater<ColumnFiltersState>) => void;
+  columnFiltersAtom: Atom<ColumnFiltersState>;
   setTableView: React.Dispatch<React.SetStateAction<'list' | 'grid'>>;
   tableView: 'list' | 'grid';
 };
 
 function ListGridToggle(props: Props): React.JSX.Element {
-  const { columnFilters, resetColumnFilters, setColumnFilters, setTableView, tableView } = props;
+  const { columnFiltersAtom, setTableView, tableView } = props;
+  const columnFilters = useSelector(columnFiltersAtom);
   const [columnFiltersInternal, setColumnFiltersInternal] = useState<ColumnFiltersState>(columnFilters);
 
   const onChangeHandler = (val: string) => {
     if (val === 'list') {
-      setColumnFilters(columnFiltersInternal);
+      columnFiltersAtom.set(columnFiltersInternal);
       setTableView('list');
     }
     if (val === 'grid') {
       setColumnFiltersInternal(columnFilters);
-      resetColumnFilters();
+      columnFiltersAtom.set([]);
       setTableView('grid');
     }
   };
