@@ -13,6 +13,22 @@
     // "schedule": ["after 9pm on sunday"]
   },
   "dependencyDashboard": true,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^README\\.md$/"],
+      "matchStrings": [
+        "(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*<!-- renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) -->"
+      ]
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^scripts\\/.*\\.sh$/"],
+      "matchStrings": ["ghcr\\.io/oxsecurity/megalinter:v(?<currentValue>\\d+\\.\\d+\\.\\d+)"],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "ghcr.io/oxsecurity/megalinter"
+    }
+  ],
   "packageRules": [
     // ====================================
     // ============= RULES ================
@@ -63,6 +79,12 @@
       "matchFileNames": ["package.json"],
       "separateMultipleMajor": true,
       "addLabels": ["workspace"]
+    },
+    {
+      "description": "Group README pnpm version with root package",
+      "matchManagers": ["custom.regex"],
+      "matchPackageNames": ["pnpm"],
+      "groupName": "Root Package"
     },
     {
       "groupName": "@packages",

@@ -47,7 +47,7 @@ I built this project to simulate how modern businesses manage and present custom
 
 It includes core CRM capabilities like customer management, secure authentication, real-time dashboard, while demonstrating modern DevOps and observability practices such as TLS certification, encrypted credential protocol, pre-commit scans, and more.
 
-🎥 [Watch Project Overview Video [30s]]()
+🎥 [Watch Project Overview Video [30s]](<>)
 
 ## Features
 
@@ -380,28 +380,29 @@ cd tech-expo/apps/crm/docker
 
 ###### PNPM
 
-- Version: 11.1.3 as defined in [`package.json`](./package.json)
+- Version: 12.5.1 <!-- renovate: datasource=npm depName=pnpm --> as defined in [`package.json`](./package.json)
 - Install via:
 
 ```bash
-curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=<11.1.3> sh -
+curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=<12.5.1> sh -
+# renovate: datasource=npm depName=pnpm
 ```
 
 - For further information and alternative installation options: [PNPM](https://pnpm.io/installation)
 
 ###### Node
 
-- Version: >=22.18 as defined in [`package.json`](./package.json)
+- Version: 22.18.0 <!-- renovate: datasource=node-version depName=node --> as defined in [`package.json`](./package.json)
 - Recommended: Use NVM to manage multiple Node versions
 - Installation: [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) and
   [Node](https://nodejs.org/en/download)
 
 ###### Oxsecurity/Megalinter
 
-- Version: 9.6
+- Version: 9.6.0 <!-- renovate: datasource=docker depName=ghcr.io/oxsecurity/megalinter -->
 - Warning: Large image (11Gb)
 - Used for pre-commit linting and security scans
-- Installation: `docker pull oxsecurity/megalinter:v9`
+- Installation: `docker pull oxsecurity/megalinter:v9.6.0`
 
 ###### Debugging
 
