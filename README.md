@@ -380,7 +380,7 @@ cd tech-expo/apps/crm/docker
 
 ###### PNPM
 
-- Version: 12.5.1 <!-- renovate: datasource=npm depName=pnpm --> as defined in [`package.json`](./package.json)
+- Version: 12.6.0 <!-- renovate: datasource=npm depName=pnpm --> as defined in [`package.json`](./package.json)
 - Install via:
 
 ```bash
