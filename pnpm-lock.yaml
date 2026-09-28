@@ -414,7 +414,7 @@ importers:
         version: 5.3.1(storybook@10.6.0(@types/react@19.3.0)(prettier@3.9.6)(react@19.3.0))
       '@dotenvx/dotenvx':
         specifier: ^2.6.0
-        version: 2.28.0
+        version: 2.30.0
       '@graphql-codegen/cli':
         specifier: ^7.2.0
         version: 7.4.1(@parcel/watcher@2.6.0)(@types/node@25.9.5)(graphql@17.0.2)(supports-color@8.1.1)(typescript@6.0.3)
@@ -666,7 +666,7 @@ importers:
         version: 1.1.2(@apollo/server@5.5.1(graphql@17.0.2)(supports-color@5.5.0))(express@5.2.1(supports-color@5.5.0))
       '@dotenvx/dotenvx':
         specifier: ^2.6.0
-        version: 2.28.0
+        version: 2.30.0
       '@escape.tech/graphql-armor':
         specifier: ^3.2.0
         version: 3.2.0(@apollo/server@5.5.1(graphql@17.0.2)(supports-color@5.5.0))(@envelop/core@5.5.1)(@escape.tech/graphql-armor-types@0.7.0)
@@ -895,7 +895,7 @@ importers:
         version: 13.1.3
       supertest:
         specifier: ^7.2.2
-        version: 7.2.2(supports-color@5.5.0)
+        version: 7.3.0(supports-color@5.5.0)
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.15.43(@swc/helpers@0.5.23))(@types/node@25.9.5)(typescript@6.0.3)
@@ -2439,12 +2439,12 @@ packages:
     resolution: {integrity: sha512-Xc3VhU02wqZ1HvHRJUwL09HkZSTvidqY5Ya0NXBSYOxAp+Ln9dcJr9fySI+CkONzP3PekQo9WdzCv0PGER/mOA==}
     engines: {node: '>=14.17.0'}
 
-  '@dotenvx/dotenvx@2.28.0':
-    resolution: {integrity: sha512-NBG5qBkNp5ZYlPsTzB5Zjk5y7dstE94MrlrWpJex22YtGOgcFb41WQ8PzLtjiEBlf98TOO4nr1n/PsEXAFYo9g==}
+  '@dotenvx/dotenvx@2.30.0':
+    resolution: {integrity: sha512-+Rk8UhaD3WIREKJBPmH9HHUvKO+ggb4tJhzAoXiZNBjQv6nAiJmI953MQ6sC7msHjAvhRIFlyZT7Oe6bQPslAA==}
     hasBin: true
 
-  '@dotenvx/primitives@3.0.2':
-    resolution: {integrity: sha512-qhddO125donMnxDZRK7Wvw1Oyd5744wJD5j7a8U5254IKwpnAxcpFcjwiUHhmIfGYnAuGBoCRIK5Rlm3bd6y7Q==}
+  '@dotenvx/primitives@3.0.3':
+    resolution: {integrity: sha512-KodBtwW8IgXhDiic04+cMvMKGjGLLew3jJq2JUGmh7c0M7u+twSylCkygkixzDvIvXrugKcCUQLkvDhgK7RN2g==}
 
   '@dotenvx/tooling@1.0.3':
     resolution: {integrity: sha512-Gd6qQol/ICb4MPRWpiIH56y+pR9AVB7kPBkbhrLSGLtAiF4Qgy+k651/f2pze0Xbm3H5XewbPfIm4y9K+ic30Q==}
@@ -13174,8 +13174,8 @@ packages:
     resolution: {integrity: sha512-uV+TFRZdXsqXTL2pRvujROjdZQ4RAlBUS5BTh9IGm+jTqQntYThciG/qu57Gs69yjnVUSqdxF9YLmSnpupBW9A==}
     engines: {node: '>=14.0.0'}
 
-  supertest@7.2.2:
-    resolution: {integrity: sha512-oK8WG9diS3DlhdUkcFn4tkNIiIbBx9lI2ClF8K+b2/m8Eyv47LSawxUzZQSNKUrVb2KsqeTDCcjAAVPYaSLVTA==}
+  supertest@7.3.0:
+    resolution: {integrity: sha512-UwwmWq3xLhyU96c521wYNaBg7IqX78Wpj4FKs6Katp6vdklX42zU5ESvX3KeZRLFyO44RwFp4yvxYMNZzCcX9g==}
     engines: {node: '>=14.18.0'}
 
   supports-color@10.2.2:
@@ -16087,16 +16087,16 @@ snapshots:
 
   '@discoveryjs/json-ext@1.1.0': {}
 
-  '@dotenvx/dotenvx@2.28.0':
+  '@dotenvx/dotenvx@2.30.0':
     dependencies:
-      '@dotenvx/primitives': 3.0.2
+      '@dotenvx/primitives': 3.0.3
       '@dotenvx/tooling': 1.0.3
       global-agent: 3.0.0
       node-forge: 1.4.0
       undici: 6.28.1
       yocto-spinner: 1.2.2
 
-  '@dotenvx/primitives@3.0.2': {}
+  '@dotenvx/primitives@3.0.3': {}
 
   '@dotenvx/tooling@1.0.3': {}
 
@@ -29221,7 +29221,7 @@ snapshots:
 
   superstruct@2.0.2: {}
 
-  supertest@7.2.2(supports-color@5.5.0):
+  supertest@7.3.0(supports-color@5.5.0):
     dependencies:
       cookie-signature: 1.2.2
       methods: 1.1.2
