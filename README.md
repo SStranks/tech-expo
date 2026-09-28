@@ -399,7 +399,7 @@ curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=<12.5.1> sh -
 
 ###### Oxsecurity/Megalinter
 
-- Version: 9.6.0 <!-- renovate: datasource=docker depName=ghcr.io/oxsecurity/megalinter -->
+- Version: 10.1.0 <!-- renovate: datasource=docker depName=ghcr.io/oxsecurity/megalinter -->
 - Warning: Large image (11Gb)
 - Used for pre-commit linting and security scans
 - Installation: `docker pull oxsecurity/megalinter:v9.6.0`
