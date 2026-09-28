@@ -392,7 +392,7 @@ curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=<12.5.1> sh -
 
 ###### Node
 
-- Version: 22.18.0 <!-- renovate: datasource=node-version depName=node --> as defined in [`package.json`](./package.json)
+- Version: 22.23.3 <!-- renovate: datasource=node-version depName=node --> as defined in [`package.json`](./package.json)
 - Recommended: Use NVM to manage multiple Node versions
 - Installation: [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) and
   [Node](https://nodejs.org/en/download)
