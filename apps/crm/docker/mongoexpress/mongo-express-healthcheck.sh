@@ -7,7 +7,9 @@ set -euo pipefail
 # Usage: test: ['CMD', '/bin/bash', '/usr/local/bin/mongo-express-healthcheck.sh']
 # -----------------------------------------------------------------------------
 
-PORT="${MONGOEXPRESS_DOCKER_PORT}"
-URL="http://127.0.0.1:${PORT}/status"
+: "${MONGOEXPRESS_DOCKER_PORT:?MONGOEXPRESS_DOCKER_PORT variable is required}"
 
-wget --quiet --spider --tries=1 "$URL"
+port="${MONGOEXPRESS_DOCKER_PORT}"
+url="http://127.0.0.1:${port}/status"
+
+wget --quiet --spider --tries=1 "$url"

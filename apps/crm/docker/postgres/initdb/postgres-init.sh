@@ -8,102 +8,102 @@ set -euo pipefail
 # Usage: entrypoint: ['/usr/local/bin/postgres-init.sh']
 # -----------------------------------------------------------------------------
 
-DB="$(cat /run/secrets/postgres_database)"
-USER_SUPER="$(cat /run/secrets/postgres_user_super)"
-USER_SERVICE="$(cat /run/secrets/postgres_user_service)"
-USER_MIGRATOR="$(cat /run/secrets/postgres_user_migrator)"
-USER_METRICS="$(cat /run/secrets/postgres_user_metrics)"
-PASSWORD_SERVICE="$(cat /run/secrets/postgres_password_service)"
-PASSWORD_MIGRATOR="$(cat /run/secrets/postgres_password_migrator)"
-PASSWORD_METRICS="$(cat /run/secrets/postgres_password_metrics)"
+db="$(cat /run/secrets/postgres_database)"
+user_super="$(cat /run/secrets/postgres_user_super)"
+user_service="$(cat /run/secrets/postgres_user_service)"
+user_migrator="$(cat /run/secrets/postgres_user_migrator)"
+user_metrics="$(cat /run/secrets/postgres_user_metrics)"
+password_service="$(cat /run/secrets/postgres_password_service)"
+password_migrator="$(cat /run/secrets/postgres_password_migrator)"
+password_metrics="$(cat /run/secrets/postgres_password_metrics)"
 
-: "${DB:?postgres_database is empty}"
-: "${USER_SUPER:?postgres_user_super is empty}"
-: "${USER_SERVICE:?postgres_user_service is empty}"
-: "${USER_MIGRATOR:?postgres_user_migrator is empty}"
-: "${USER_METRICS:?postgres_user_metrics is empty}"
-: "${PASSWORD_SERVICE:?postgres_password_service is empty}"
-: "${PASSWORD_MIGRATOR:?postgres_password_migrator is empty}"
-: "${PASSWORD_METRICS:?postgres_password_metrics is empty}"
+: "${db:?postgres_database is empty}"
+: "${user_super:?postgres_user_super is empty}"
+: "${user_service:?postgres_user_service is empty}"
+: "${user_migrator:?postgres_user_migrator is empty}"
+: "${user_metrics:?postgres_user_metrics is empty}"
+: "${password_service:?postgres_password_service is empty}"
+: "${password_migrator:?postgres_password_migrator is empty}"
+: "${password_metrics:?postgres_password_metrics is empty}"
 
-SCHEMA_METRICS="metrics"
+schema_metrics="metrics"
 
 echo "*** Postgres Initialization: Start ***"
 
 # Wait for initial database creation to complete
 echo "*** Postgres Initialization: Check existence of database - prevent race condition ***"
-until psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" -c '\q' 2> /dev/null; do
-  echo "Waiting for database \"$DB\" to be created..."
+until psql -v ON_ERROR_STOP=1 --username="$user_super" --dbname="$db" -c '\q' 2> /dev/null; do
+  echo "Waiting for database \"$db\" to be created..."
   sleep 1
 done
 
 ### --------------- Create database users  --------------- ###
 
 echo "*** Postgres Initialization: Create service user ***"
-psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" <<- EOSQL
-  CREATE USER $USER_SERVICE WITH PASSWORD '$PASSWORD_SERVICE';
+psql -v ON_ERROR_STOP=1 --username="$user_super" --dbname="$db" <<- EOSQL
+  CREATE USER $user_service WITH PASSWORD '$password_service';
 EOSQL
 
 echo "*** Postgres Initialization: Create migrator user ***"
-psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" <<- EOSQL
-  CREATE USER $USER_MIGRATOR WITH PASSWORD '$PASSWORD_MIGRATOR';
+psql -v ON_ERROR_STOP=1 --username="$user_super" --dbname="$db" <<- EOSQL
+  CREATE USER $user_migrator WITH PASSWORD '$password_migrator';
 EOSQL
 
 echo "*** Postgres Initialization: Create metrics user ***"
-psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" <<- EOSQL
-  CREATE USER $USER_METRICS WITH PASSWORD '$PASSWORD_METRICS';
+psql -v ON_ERROR_STOP=1 --username="$user_super" --dbname="$db" <<- EOSQL
+  CREATE USER $user_metrics WITH PASSWORD '$password_metrics';
 EOSQL
 
 ### ------------------ Create schemas  ------------------- ###
 
 echo "*** Postgres Initialization: Create drizzle schema ***"
-psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" <<- EOSQL
-  CREATE SCHEMA IF NOT EXISTS drizzle AUTHORIZATION $USER_MIGRATOR;
+psql -v ON_ERROR_STOP=1 --username="$user_super" --dbname="$db" <<- EOSQL
+  CREATE SCHEMA IF NOT EXISTS drizzle AUTHORIZATION $user_migrator;
 EOSQL
 
 echo "*** Postgres Initialization: Create metrics schema ***"
-psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" <<- EOSQL
-  CREATE SCHEMA IF NOT EXISTS $SCHEMA_METRICS AUTHORIZATION $USER_METRICS;
+psql -v ON_ERROR_STOP=1 --username="$user_super" --dbname="$db" <<- EOSQL
+  CREATE SCHEMA IF NOT EXISTS $schema_metrics AUTHORIZATION $user_metrics;
 EOSQL
 
 ### --------------- Create user permissions  --------------- ###
 
 echo "*** Postgres Initialization: Amend service user permissions ***"
-psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" <<- EOSQL
-  GRANT CONNECT ON DATABASE "$DB" TO $USER_SERVICE;
-  GRANT USAGE ON SCHEMA public TO $USER_SERVICE;
-  GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO $USER_SERVICE;
-  GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO $USER_SERVICE;
-  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $USER_SERVICE;
-  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO $USER_SERVICE;
+psql -v ON_ERROR_STOP=1 --username="$user_super" --dbname="$db" <<- EOSQL
+  GRANT CONNECT ON DATABASE "$db" TO $user_service;
+  GRANT USAGE ON SCHEMA public TO $user_service;
+  GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO $user_service;
+  GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO $user_service;
+  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $user_service;
+  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO $user_service;
 EOSQL
 
 echo "*** Postgres Initialization: Amend migrator user permissions ***"
-psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" <<- EOSQL
-  GRANT ALL PRIVILEGES ON DATABASE "$DB" TO $USER_MIGRATOR;
-  GRANT USAGE, CREATE ON SCHEMA drizzle TO $USER_MIGRATOR;
-  GRANT USAGE, CREATE ON SCHEMA public TO $USER_MIGRATOR;
-  GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO $USER_MIGRATOR;
-  GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO $USER_MIGRATOR;
-  GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO $USER_MIGRATOR;
-  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON FUNCTIONS TO $USER_MIGRATOR;
-  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO $USER_MIGRATOR;
-  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO $USER_MIGRATOR;
+psql -v ON_ERROR_STOP=1 --username="$user_super" --dbname="$db" <<- EOSQL
+  GRANT ALL PRIVILEGES ON DATABASE "$db" TO $user_migrator;
+  GRANT USAGE, CREATE ON SCHEMA drizzle TO $user_migrator;
+  GRANT USAGE, CREATE ON SCHEMA public TO $user_migrator;
+  GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO $user_migrator;
+  GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO $user_migrator;
+  GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO $user_migrator;
+  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON FUNCTIONS TO $user_migrator;
+  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO $user_migrator;
+  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO $user_migrator;
 EOSQL
 
 echo "*** Postgres Initialization: Amend metrics user permissions ***"
-psql -v ON_ERROR_STOP=1 --username="$USER_SUPER" --dbname="$DB" <<- EOSQL
-  GRANT CONNECT ON DATABASE postgres TO $USER_METRICS;
-  GRANT $USER_METRICS TO $USER_SUPER;
-  GRANT pg_monitor to $USER_METRICS;
-  ALTER USER $USER_METRICS SET SEARCH_PATH TO $SCHEMA_METRICS,pg_catalog;
+psql -v ON_ERROR_STOP=1 --username="$user_super" --dbname="$db" <<- EOSQL
+  GRANT CONNECT ON DATABASE postgres TO $user_metrics;
+  GRANT $user_metrics TO $user_super;
+  GRANT pg_monitor to $user_metrics;
+  ALTER USER $user_metrics SET SEARCH_PATH TO $schema_metrics,pg_catalog;
 EOSQL
 
-echo "*** Postgres Initialization: Allow future privileges for $USER_SERVICE ***"
-psql -v ON_ERROR_STOP=1 --username="$USER_MIGRATOR" --dbname="$DB" <<- EOSQL
-  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO $USER_SERVICE;
-  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $USER_SERVICE;
-  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON SEQUENCES TO $USER_SERVICE;
+echo "*** Postgres Initialization: Allow future privileges for $user_service ***"
+psql -v ON_ERROR_STOP=1 --username="$user_migrator" --dbname="$db" <<- EOSQL
+  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO $user_service;
+  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $user_service;
+  ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON SEQUENCES TO $user_service;
 EOSQL
 
 ### ----------------- System Configuration  ---------------- ###

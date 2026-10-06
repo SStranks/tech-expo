@@ -11,38 +11,38 @@ set -euo pipefail
 #   pnpm -w eslint:app apps/crm/server --html   # HTML report output
 # -----------------------------------------------------------------------------
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && readonly SCRIPT_DIR
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && readonly script_dir
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/dir-paths.sh"
+source "${script_dir}/dir-paths.sh"
 check_dirpath_vars || exit 1
 
-readonly TARGET_DIR_PATH="$1"
-readonly OUTPUT_MODE="${2:-console}"
-readonly FULL_PATH="${ROOT_DIR_PATH}/${TARGET_DIR_PATH}"
-TIMESTAMP="$(date +%Y%m%d-%H%M%S)" && readonly TIMESTAMP
+readonly target_dir_path="$1"
+readonly output_mode="${2:-console}"
+readonly full_path="${ROOT_DIR_PATH}/${target_dir_path}"
+timestamp="$(date +%Y%m%d-%H%M%S)" && readonly timestamp
 
 
-if [[ -z "${TARGET_DIR_PATH}" ]]; then
+if [[ -z "${target_dir_path}" ]]; then
   echo "[SCRIPT: eslint-app] Usage: eslint-app.sh <relative-path-to-app>"
   exit 1
 fi
 
-if [[ ! -e "${FULL_PATH}" ]]; then
-  echo "[SCRIPT: eslint-app] Error: Path '${FULL_PATH}' does not exist"
+if [[ ! -e "${full_path}" ]]; then
+  echo "[SCRIPT: eslint-app] Error: Path '${full_path}' does not exist"
   exit 1
 fi
 
-if [[ "${OUTPUT_MODE}" == "--html" ]]; then
-  REPORT_DIR="${LOGS_DIR_PATH}/eslint"
-  mkdir -p "${REPORT_DIR}"
-  OUTPUT_FILE="${REPORT_DIR}/${TARGET_DIR_PATH}/${TIMESTAMP}.html"
+if [[ "${output_mode}" == "--html" ]]; then
+  report_dir="${LOGS_DIR_PATH}/eslint"
+  mkdir -p "${report_dir}"
+  output_file="${report_dir}/${target_dir_path}/${timestamp}.html"
   echo "[SCRIPT: eslint-app] Running ESLint with HTML report"
-  echo "[SCRIPT: eslint-app] Output: ${OUTPUT_FILE}"
-  eslint --format html --output-file "${OUTPUT_FILE}" "${FULL_PATH}" || true
-  SUMMARY=$(awk '/<div id="overview"/,/<\/div>/' "${OUTPUT_FILE}" | sed -e 's/<[^>]*>//g' | xargs)
-  echo "[SCRIPT: eslint-app] ${SUMMARY}"
+  echo "[SCRIPT: eslint-app] Output: ${output_file}"
+  eslint --format html --output-file "${output_file}" "${full_path}" || true
+  summary=$(awk '/<div id="overview"/,/<\/div>/' "${output_file}" | sed -e 's/<[^>]*>//g' | xargs)
+  echo "[SCRIPT: eslint-app] ${summary}"
 else
   echo "[SCRIPT: eslint-app] Running ESLint with console output"
-  echo "${FULL_PATH}"
-  eslint "${FULL_PATH}"
+  echo "${full_path}"
+  eslint "${full_path}"
 fi

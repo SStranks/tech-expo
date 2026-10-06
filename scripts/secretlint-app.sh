@@ -9,28 +9,28 @@ set -euo pipefail
 # Example: pnpm -w secretlint:app apps/crm/server
 # -----------------------------------------------------------------------------
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && readonly SCRIPT_DIR
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && readonly script_dir
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/dir-paths.sh"
+source "${script_dir}/dir-paths.sh"
 check_dirpath_vars || exit 1
 
-readonly TARGET_DIR_PATH="$1"
-readonly FULL_PATH="${ROOT_DIR_PATH}/${TARGET_DIR_PATH}"
-TIMESTAMP="$(date +%Y%m%d-%H%M%S)" && readonly TIMESTAMP
-readonly OUTPUT_FILE="${LOGS_DIR_PATH}/secretlint/log.${TIMESTAMP}.txt"
+readonly target_dir_path="$1"
+readonly full_path="${ROOT_DIR_PATH}/${target_dir_path}"
+timestamp="$(date +%Y%m%d-%H%M%S)" && readonly timestamp
+readonly output_file="${LOGS_DIR_PATH}/secretlint/log.${timestamp}.txt"
 
-if [[ -z "${TARGET_DIR_PATH}" ]]; then
+if [[ -z "${target_dir_path}" ]]; then
   echo "[SCRIPT: secretlint-app] Usage: secretlint.sh <relative-path-to-app>"
   exit 1
 fi
 
-if [[ ! -e "${FULL_PATH}" ]]; then
-  echo "[SCRIPT: secretlint-app] Error: Path '${FULL_PATH}' does not exist"
+if [[ ! -e "${full_path}" ]]; then
+  echo "[SCRIPT: secretlint-app] Error: Path '${full_path}' does not exist"
   exit 1
 fi
 
 echo "[SCRIPT: secretlint-app] Running Secretlint with stylish report"
-echo "[SCRIPT: secretlint-app] Output: ${OUTPUT_FILE}"
+echo "[SCRIPT: secretlint-app] Output: ${output_file}"
 
 secretlint --secretlintignore "${ROOT_DIR_PATH}/.gitignore" \
-  --format=stylish --no-color --output="${OUTPUT_FILE}" "${FULL_PATH}"
+  --format=stylish --no-color --output="${output_file}" "${full_path}"

@@ -7,7 +7,9 @@ set -eu
 # Usage: test: ['CMD', '/bin/sh', '/usr/local/bin/scripts/redisinsight-healthcheck.sh']
 # -----------------------------------------------------------------------------
 
-PORT="${REDISINSIGHT_DOCKER_PORT}"
-URL="https://127.0.0.1:${PORT}/api/health"
+: "${REDISINSIGHT_DOCKER_PORT:?REDISINSIGHT_DOCKER_PORT variable is required}"
 
-wget --quiet --spider --tries=1 --no-check-certificate "$URL"
+port="${REDISINSIGHT_DOCKER_PORT}"
+url="https://127.0.0.1:${port}/api/health"
+
+wget --quiet --spider --tries=1 --no-check-certificate "$url"

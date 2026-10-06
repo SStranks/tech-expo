@@ -7,7 +7,10 @@ set -eu
 # Usage: test: ['CMD', '/bin/sh', '/usr/local/bin/node-express-healthcheck.sh']
 # -----------------------------------------------------------------------------
 
-HOST="${EXPRESS_CONTAINER}"
-PORT="${EXPRESS_DOCKER_PORT}"
+: "${EXPRESS_CONTAINER:?EXPRESS_CONTAINER variable is required}"
+: "${EXPRESS_DOCKER_PORT:?EXPRESS_DOCKER_PORT variable is required}"
 
-wget --spider -q "http://${HOST}:${PORT}/health"
+host="${EXPRESS_CONTAINER}"
+port="${EXPRESS_DOCKER_PORT}"
+
+wget --spider -q "http://${host}:${port}/health"

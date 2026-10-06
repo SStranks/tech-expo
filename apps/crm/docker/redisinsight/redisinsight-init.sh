@@ -7,6 +7,9 @@ set -eu
 # Usage: entrypoint: ['/usr/local/bin/redisinsight-init.sh']
 # -----------------------------------------------------------------------------
 
+: "${REDIS_CONTAINER:?REDIS_CONTAINER variable is required}"
+: "${REDIS_DOCKER_PORT:?REDIS_DOCKER_PORT variable is required}"
+
 RI_REDIS_HOST0="${REDIS_CONTAINER}"
 RI_REDIS_PORT0="${REDIS_DOCKER_PORT}"
 RI_REDIS_USERNAME0="$(cat /run/secrets/redis_username)"

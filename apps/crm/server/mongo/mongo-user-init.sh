@@ -8,6 +8,12 @@
 #              mongo instance.
 # -----------------------------------------------------------------------------
 
+: "${MONGO_INITDB_ROOT_USERNAME:?MONGO_INITDB_ROOT_USERNAME variable is required}"
+: "${MONGO_INITDB_ROOT_PASSWORD:?MONGO_INITDB_ROOT_PASSWORD variable is required}"
+: "${MONGO_USER:?MONGO_USER variable is required}"
+: "${MONGO_PASSWORD:?MONGO_PASSWORD variable is required}"
+: "${MONGO_DATABASE:?MONGO_USER DATABASEiable is required}"
+
 echo "*** Preparing MongoDB User Configuration ***"
 sleep 3
 echo "*** Initializing MongoDB User Configuration ***"

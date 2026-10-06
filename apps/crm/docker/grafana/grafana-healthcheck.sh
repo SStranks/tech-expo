@@ -7,7 +7,10 @@ set -eu
 # Usage: test: ['CMD', '/bin/sh', '/usr/local/bin/grafana-healthcheck.sh']
 # -----------------------------------------------------------------------------
 
-PORT="${NGINX_METRICS_DOCKER_PORT_HTTP}"
-HOST="${NGINX_METRICS_CONTAINER}"
+: "${NGINX_METRICS_DOCKER_PORT_HTTP:?NGINX_METRICS_DOCKER_PORT_HTTP variable is required}"
+: "${NGINX_METRICS_CONTAINER:?NGINX_METRICS_CONTAINER variable is required}"
 
-wget --spider -q "http://${HOST}:${PORT}/grafana/healthcheck"
+port="${NGINX_METRICS_DOCKER_PORT_HTTP}"
+host="${NGINX_METRICS_CONTAINER}"
+
+wget --spider -q "http://${host}:${port}/grafana/healthcheck"

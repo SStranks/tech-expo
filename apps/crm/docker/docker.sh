@@ -11,43 +11,46 @@ set -euo pipefail
 # Example: ./docker.sh
 # -----------------------------------------------------------------------------
 
+: "${ENV_DIR:?ENV_DIR must be set by direnv process}"
+: "${SECRETS_DIR:?SECRETS_DIR must be set by direnv process}"
+
 # TODO: Need to make prod version of script; target .env.prod.docker file
 # NODE_ENV="${1:-dev}"
 
 # Directory variables
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SECRETS_RAM_DIR="/run/user/$(id -u)/secrets"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+secrets_ram_dir="/run/user/$(id -u)/secrets"
 
 # direnv provided envs
-ENV_FILE="${ENV_DIR}/.env.dev.docker"
-SECRETS_FILE_0="${SECRETS_DIR}/docker/.secret.yaml"
-SECRETS_FILE_1="${SECRETS_DIR}/docker/.secret.redisExporter.json"
-SECRETS_FILE_2="${SECRETS_DIR}/docker/.secret.mongoExporter.txt"
+env_file="${ENV_DIR}/.env.dev.docker"
+secrets_file_0="${SECRETS_DIR}/docker/.secret.yaml"
+secrets_file_1="${SECRETS_DIR}/docker/.secret.redisExporter.json"
+secrets_file_2="${SECRETS_DIR}/docker/.secret.mongoExporter.txt"
 
 # If SECRET_PATH exists in the env file, replace it. Otherwise, append it.
-if grep -q '^SECRET_PATH=' "${ENV_FILE}"; then
-  sed -i "s|^SECRET_PATH=.*|SECRET_PATH=$SECRETS_RAM_DIR|" "${ENV_FILE}"
+if grep -q '^SECRET_PATH=' "${env_file}"; then
+  sed -i "s|^SECRET_PATH=.*|SECRET_PATH=$secrets_ram_dir|" "${env_file}"
 else
-  printf "\n\n# Docker Secret Path \nSECRET_PATH=%s\n" "$SECRETS_RAM_DIR" >> "${ENV_FILE}"
+  printf "\n\n# Docker Secret Path \nSECRET_PATH=%s\n" "$secrets_ram_dir" >> "${env_file}"
 fi
 
 # Mount secrets folder to RAM
-mkdir -p "${SECRETS_RAM_DIR}"
+mkdir -p "${secrets_ram_dir}"
 
 # Cleanup function for secret files
 cleanup() {
   echo "Cleaning up secret files..."
-  find "${SECRETS_RAM_DIR}" -type f -name '.secret.*.txt' -delete
+  find "${secrets_ram_dir}" -type f -name '.secret.*.txt' -delete
 
   # For secure deletion invoke shred; still not guaranteed in case of SSDs; causes wear
-  # find "$SECRETS_RAM_DIR" -type f -name '.secret.*.txt' -exec shred -u {} +
+  # find "$secrets_ram_dir" -type f -name '.secret.*.txt' -exec shred -u {} +
 }
 trap cleanup EXIT
 
 # Decrypt secrets json; output each value in own .txt with key as filename
 # YAML Version
-sops exec-file "${SECRETS_FILE_0}" 'bash -c "
-  SECRETS_RAM_DIR=\"'"${SECRETS_RAM_DIR}"'\"
+sops exec-file "${secrets_file_0}" 'bash -c "
+  SECRETS_RAM_DIR=\"'"${secrets_ram_dir}"'\"
 
   while IFS= read -r line; do
     # Remove comments and empty lines
@@ -57,20 +60,20 @@ sops exec-file "${SECRETS_FILE_0}" 'bash -c "
     key=\$(echo \"\${line%%:*}\" | xargs)
     val=\$(echo \"\${line#*:}\" | xargs)
 
-    echo -n \"\$val\" > \"\$SECRETS_RAM_DIR/.secret.\${key}.txt\"
+    echo -n \"\$val\" > \"\$secrets_ram_dir/.secret.\${key}.txt\"
   done < \"{}\"
 "'
 
 # Redit-exporter requires JSON of URIs
-sops exec-file "${SECRETS_FILE_1}" "cat {} > ${SECRETS_RAM_DIR}/.secret.redis_uri.json"
+sops exec-file "${secrets_file_1}" "cat {} > ${secrets_ram_dir}/.secret.redis_uri.json"
 
 # Mongo-exporter requires ENV file URI
-sops exec-file "${SECRETS_FILE_2}" "cat {} > ${SECRETS_RAM_DIR}/.secret.mongo_uri.txt"
+sops exec-file "${secrets_file_2}" "cat {} > ${secrets_ram_dir}/.secret.mongo_uri.txt"
 
 
 # JSON Version
 # sops exec-file "$SECRETS_FILE" 'bash -c "
-#   SECRETS_DIR=\"'"$SECRETS_RAM_DIR"'\"
+#   SECRETS_DIR=\"'"$secrets_ram_dir"'\"
 
 #   while IFS= read -r line; do
 #     clean_line=\$(echo \"\$line\" | sed -e '\''s/[\",]//g'\'')
@@ -79,7 +82,7 @@ sops exec-file "${SECRETS_FILE_2}" "cat {} > ${SECRETS_RAM_DIR}/.secret.mongo_ur
 #     key=\$(echo \"\${clean_line%%:*}\" | xargs)
 #     val=\$(echo \"\${clean_line#*:}\" | xargs)
 
-#     echo -n \"\$val\" > \"\$SECRETS_RAM_DIR/.secret.\${key}.txt\"
+#     echo -n \"\$val\" > \"\$secrets_ram_dir/.secret.\${key}.txt\"
 #   done < <(grep -v '\''^{\|^}'\'' \"{}\" | tr \",\" \"\n\")
 # "'
 
@@ -90,6 +93,6 @@ docker volume create techexpo-postgres
 
 # Run Docker compose outside of SOPS context
 # Running inside interferes with docket rootless and breaks
-docker compose -f "${SCRIPT_DIR}/docker-compose.override.yml" \
+docker compose -f "${script_dir}/docker-compose.override.yml" \
   --env-file "${ENV_DIR}/.env.dev.docker" \
   --profile "*" up

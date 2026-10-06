@@ -11,8 +11,8 @@ set -eu
 # Example: entrypoint: ['/usr/local/bin/certs-init.sh']
 # -----------------------------------------------------------------------------
 
-DEST_DIR="/certs"
-mkdir -p /tmp/certs "$DEST_DIR"
+dest_dir="/certs"
+mkdir -p /tmp/certs "$dest_dir"
 
 # Function: get_file_extension FILE
 #
@@ -87,11 +87,11 @@ process_cert_files() {
 
     if [ "$_ext" = "crt" ]; then
       chmod 444 "$file"
-      mv "$file" "$DEST_DIR"
+      mv "$file" "$dest_dir"
     else
       chown "$_uid":"$_gid" "$file"
       chmod 400 "$file"
-      mv "$file" "$DEST_DIR"
+      mv "$file" "$dest_dir"
     fi
   done
 }

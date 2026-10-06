@@ -9,16 +9,16 @@ set -euo pipefail
 # Example: pnpm -w megalint:security
 # -----------------------------------------------------------------------------
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && readonly SCRIPT_DIR
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && readonly script_dir
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/dir-paths.sh"
+source "${script_dir}/dir-paths.sh"
 check_dirpath_vars || exit 1
 
-TIMESTAMP="$(date +%Y%m%d-%H%M%S)" && readonly TIMESTAMP
+timestamp="$(date +%Y%m%d-%H%M%S)" && readonly timestamp
 
 
 docker run --rm \
   -e MEGALINTER_CONFIG=".mega-linter.security.yaml" \
-  -e REPORT_OUTPUT_FOLDER="/tmp/lint/logs/megalinter/security/${TIMESTAMP}" \
+  -e REPORT_OUTPUT_FOLDER="/tmp/lint/logs/megalinter/security/${timestamp}" \
   -v "${ROOT_DIR_PATH}":/tmp/lint \
   ghcr.io/oxsecurity/megalinter:v10.1.0
