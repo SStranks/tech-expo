@@ -32,7 +32,7 @@ services:
 
   prometheus:
     container_name: ${PROMETHEUS_CONTAINER:?error}
-    image: prom/prometheus:v3.14.0@sha256:5ce7540c3c00ef4ab0c9d2c995c6a5b9c421f44b4a115d97a2c7af3b1c21cbb0
+    image: prom/prometheus:v3.15.0@sha256:efd719c99d83b060d9daefdcf00360461adf279f45ef5391f8d111892118753e
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.config.file=/etc/prometheus/auth.yml
@@ -202,7 +202,7 @@ services:
 
   redis-exporter:
     container_name: ${REDIS_EXPORTER_CONTAINER:?error}
-    image: oliver006/redis_exporter:v1.91.1@sha256:c67a432dba6b4ae30f471e3c77cf14a289133bbeeb89abb0bb03e6092efb2836
+    image: oliver006/redis_exporter:v1.93.0@sha256:6ca518a72f30f7f576ef92963de1b91d3c3f5fd3aeac949f878bfda183587820
     restart: unless-stopped
     depends_on:
       redis:
