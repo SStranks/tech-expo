@@ -7,23 +7,26 @@ set -euo pipefail
 # Usage: test: ['CMD', '/bin/bash', '/usr/local/bin/mongo-healthcheck.sh']
 # -----------------------------------------------------------------------------
 
-HOST="${MONGO_CONTAINER}:${MONGO_DOCKER_PORT}"
-DB="$(cat /run/secrets/mongo_database)"
-USER_ROOT="$(cat /run/secrets/mongo_user_root)"
-PASSWORD_ROOT="$(cat /run/secrets/mongo_password_root)"
-TLS_CERT="/etc/mongo/certs/mongo-healthcheck.pem"
-TLS_CA="/etc/mongo/certs/mongo-ca.crt"
+: "${MONGO_CONTAINER:?MONGO_CONTAINER variable is required}"
+: "${MONGO_DOCKER_PORT:?MONGO_DOCKER_PORT variable is required}"
 
-: "${DB:?mongo_database is empty}"
-: "${USER_ROOT:?mongo_user_root is empty}"
-: "${PASSWORD_ROOT:?mongo_password_root is empty}"
+host="${MONGO_CONTAINER}:${MONGO_DOCKER_PORT}"
+db="$(cat /run/secrets/mongo_database)"
+user_root="$(cat /run/secrets/mongo_user_root)"
+password_root="$(cat /run/secrets/mongo_password_root)"
+tls_cert="/etc/mongo/certs/mongo-healthcheck.pem"
+tls_ca="/etc/mongo/certs/mongo-ca.crt"
 
-mongosh "$HOST/$DB" \
-  --username "$USER_ROOT" \
-  --password "$PASSWORD_ROOT" \
+: "${db:?mongo_database is empty}"
+: "${user_root:?mongo_user_root is empty}"
+: "${password_root:?mongo_password_root is empty}"
+
+mongosh "$host/$db" \
+  --username "$user_root" \
+  --password "$password_root" \
   --authenticationDatabase admin \
   --tls \
-  --tlsCertificateKeyFile "$TLS_CERT" \
-  --tlsCAFile "$TLS_CA" \
+  --tlsCertificateKeyFile "$tls_cert" \
+  --tlsCAFile "$tls_ca" \
   --quiet \
   --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null

@@ -20,8 +20,10 @@ export SCRIPTS_DIR_PATH
 
 check_dirpath_vars() {
   local required_vars=(ROOT_DIR_PATH LOGS_DIR_PATH SCRIPTS_DIR_PATH)
+  local var
+
   for var in "${required_vars[@]}"; do
-    if [ -z "${!var}" ]; then
+    if [[ -z "${!var}" ]]; then
       echo "[SCRIPT: dir-paths] Error: $var is not set"
       return 1
     fi

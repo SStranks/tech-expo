@@ -9,6 +9,12 @@
 # Usage: as part of a docker compose file; command: ["./mongo-replset-init.sh"]
 # -----------------------------------------------------------------------------
 
+: "${MONGO_USER:?MONGO_USER variable is required}"
+: "${MONGO_PASSWORD:?MONGO_PASSWORD variable is required}"
+: "${MONGO_HOST:?MONGO_HOST variable is required}"
+: "${MONGO_REPLSET:?MONGO_REPLSET variable is required}"
+: "${MONGO_REPLSET_NODE1:?MONGO_REPLSET_NODE1 variable is required}"
+
 echo "*** Preparing MongoDB Configuration - Sleep 10 Seconds ***"
 sleep 10
 echo "*** Initializing MongoDB Configuration ***"

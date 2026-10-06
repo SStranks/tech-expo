@@ -8,9 +8,9 @@ set -eu
 # -----------------------------------------------------------------------------
 
 
-PASSWORD="$(cat /run/secrets/redis_password)"
+password="$(cat /run/secrets/redis_password)"
 
-: "${PASSWORD:?redis_password is empty}"
+: "${password:?redis_password is empty}"
 
 if redis-cli --no-auth-warning --raw \
   --tls \
@@ -18,7 +18,7 @@ if redis-cli --no-auth-warning --raw \
   --cert /etc/redis/certs/redis-healthcheck.crt \
   --key /etc/redis/certs/redis-healthcheck.key \
   -h 127.0.0.1 -p 6379 \
-  -a "$PASSWORD" ping | grep -q PONG; then
+  -a "$password" ping | grep -q PONG; then
   echo "Redis command succeeded"
   exit 0
 else

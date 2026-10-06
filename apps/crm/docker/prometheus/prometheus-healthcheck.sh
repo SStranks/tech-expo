@@ -7,14 +7,17 @@ set -eu
 # Usage: test: ['CMD', '/bin/sh', '/usr/local/bin/scripts/prometheus-healthcheck.sh']
 # -----------------------------------------------------------------------------
 
-PORT="${NGINX_METRICS_DOCKER_PORT_HTTP}"
-HOST="${NGINX_METRICS_CONTAINER}"
-USER="$(cat /run/secrets/prometheus_username)"
-PASSWORD="$(cat /run/secrets/prometheus_password)"
+: "${NGINX_METRICS_DOCKER_PORT_HTTP:?NGINX_METRICS_DOCKER_PORT_HTTP variable is required}"
+: "${NGINX_METRICS_CONTAINER:?NGINX_METRICS_CONTAINER variable is required}"
 
-: "${USER:?prometheus_user is empty}"
-: "${PASSWORD:?prometheus_password is empty}"
+port="${NGINX_METRICS_DOCKER_PORT_HTTP}"
+host="${NGINX_METRICS_CONTAINER}"
+user="$(cat /run/secrets/prometheus_username)"
+password="$(cat /run/secrets/prometheus_password)"
 
-AUTH=$(printf '%s:%s' "$USER" "$PASSWORD" | base64)
+: "${user:?prometheus_user is empty}"
+: "${password:?prometheus_password is empty}"
 
-wget --spider -q --header="Authorization: Basic $AUTH" "http://${HOST}:${PORT}/prometheus/healthcheck"
+AUTH=$(printf '%s:%s' "$user" "$password" | base64)
+
+wget --spider -q --header="Authorization: Basic $AUTH" "http://${host}:${port}/prometheus/healthcheck"

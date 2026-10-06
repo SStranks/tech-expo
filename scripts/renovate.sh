@@ -10,34 +10,34 @@ set -euo pipefail
 # Example:  ./renovate.sh
 # -----------------------------------------------------------------------------
 
-: "${TECHEXPO_ROOT_ABSOLUTE:? TECHEXPO_ROOT_ABSOLUTE environment variable is required.}"
-: "${SECRETS_DIR:? SECRETS_DIR environment variable is required.}"
+: "${TECHEXPO_ROOT_ABSOLUTE:?TECHEXPO_ROOT_ABSOLUTE environment variable is required.}"
+: "${SECRETS_DIR:?SECRETS_DIR environment variable is required.}"
 
-TOKEN=$(cat "${SECRETS_DIR}"/.github/renovate_local.key)
-: "${TOKEN:?Error: renovate_local.key is missing or empty.}"
+token=$(cat "${SECRETS_DIR}"/.github/renovate_local.key)
+: "${token:?Error: renovate_local.key is missing or empty.}"
 
 
-CURRENT_DATE=$(date +%Y-%m-%d) && readonly CURRENT_DATE
-TIMESTAMP="$(date +%H%M%S)" && readonly TIMESTAMP
-LOG_PATH="${TECHEXPO_ROOT_ABSOLUTE}/logs/renovate/${CURRENT_DATE}"
-LOG_FILE="debug.${TIMESTAMP}.log"
+current_date=$(date +%Y-%m-%d) && readonly current_date
+timestamp="$(date +%H%M%S)" && readonly timestamp
+log_path="${TECHEXPO_ROOT_ABSOLUTE}/logs/renovate/${current_date}"
+log_file="debug.${timestamp}.log"
 
-LOG_LEVEL="debug"
+log_level="debug"
 
-mkdir -p "${LOG_PATH}"
+mkdir -p "${log_path}"
 
 docker run --rm \
   -v "${TECHEXPO_ROOT_ABSOLUTE}":/usr/src/app \
   -w /usr/src/app \
   -e RENOVATE_CONFIG_FILE=/usr/src/app/.github/renovate.jsonc \
-  -e RENOVATE_TOKEN="$TOKEN" \
+  -e RENOVATE_token="$token" \
   -e RENOVATE_HOST_RULES="[{
     \"hostType\": \"github\",
     \"matchHost\": \"https://api.github.com\",
-    \"token\": \"$TOKEN\"
+    \"token\": \"$token\"
   }]" \
-  -e LOG_LEVEL="$LOG_LEVEL" \
+  -e LOG_LEVEL="$log_level" \
   renovate/renovate:43 \
   --dry-run=full \
   --platform=local \
-  > "${LOG_PATH}/${LOG_FILE}" 2>&1
+  > "${log_path}/${log_file}" 2>&1
