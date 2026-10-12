@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@apollo/client": "^4.2.0",
-    "@atlaskit/pragmatic-drag-and-drop": "^3.0.0",
+    "@atlaskit/pragmatic-drag-and-drop": "^4.0.0",
     "@atlaskit/pragmatic-drag-and-drop-hitbox": "^2.0.0",
     "@internationalized/date": "^3.11.0",
     "@reduxjs/toolkit": "^2.12.0",
@@ -78,7 +78,7 @@
     "react-redux": "^9.3.0",
     "react-transition-group": "^4.4.5",
     "rehype-sanitize": "^6.0.0",
-    "rollbar": "^3.0.0",
+    "rollbar": "^4.0.0",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
