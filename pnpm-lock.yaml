@@ -289,8 +289,8 @@ importers:
         specifier: ^4.2.0
         version: 4.3.0(graphql-ws@6.2.0(graphql@17.0.2)(ws@8.21.1))(graphql@17.0.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rxjs@7.8.2)
       '@atlaskit/pragmatic-drag-and-drop':
-        specifier: ^3.0.0
-        version: 3.1.0
+        specifier: ^4.0.0
+        version: 4.0.0
       '@atlaskit/pragmatic-drag-and-drop-hitbox':
         specifier: ^2.0.0
         version: 2.2.2
@@ -302,7 +302,7 @@ importers:
         version: 2.12.0(react-redux@9.3.0(@types/react@19.3.0)(react@19.3.0)(redux@5.0.1))(react@19.3.0)
       '@rollbar/react':
         specifier: ^1.0.0
-        version: 1.0.0(prop-types@15.8.1)(react@19.3.0)(rollbar@3.1.0)
+        version: 1.0.0(prop-types@15.8.1)(react@19.3.0)(rollbar@4.0.0)
       '@schedule-x/calendar':
         specifier: ^4.6.0
         version: 4.8.0(@preact/signals@2.9.0(preact@10.29.1))(preact@10.29.1)(temporal-polyfill@0.3.0)
@@ -373,8 +373,8 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0
       rollbar:
-        specifier: ^3.0.0
-        version: 3.1.0
+        specifier: ^4.0.0
+        version: 4.0.0
       rxjs:
         specifier: ^7.8.2
         version: 7.8.2
@@ -1472,6 +1472,9 @@ packages:
 
   '@atlaskit/pragmatic-drag-and-drop@3.1.0':
     resolution: {integrity: sha512-VU+2Oh6OgvC6D1xiX3lfm1gZJsaSPD+ZKjAHodOQ9IO6RfOvAyReLlK5ut9gIUpPmbD8d09wlCs7y4A6/I8c5Q==}
+
+  '@atlaskit/pragmatic-drag-and-drop@4.0.0':
+    resolution: {integrity: sha512-pyDo2B5NiaExoKGmgeXKGNUL4aR4UzzSZm8QWWjYTEyBLVqSqKyKUwtVxMw2YEkakagOGFONUdHM32LAH2nPug==}
 
   '@azu/format-text@1.0.2':
     resolution: {integrity: sha512-Swi4N7Edy1Eqq82GxgEECXSSLyn6GOb5htRFPzBDdUkECGXtlf12ynO5oJSpWKPwCaUssOu7NfhDcCWpIC6Ywg==}
@@ -12268,6 +12271,9 @@ packages:
   rollbar@3.1.0:
     resolution: {integrity: sha512-YELG0MDRzOLnV5sa2vL/IiGEgNoK5JAivKlpjcJewEIqgmiVlEAPFQUNNB3fsK1PZy6VdHpsUd+Xp4qEuAylfQ==}
 
+  rollbar@4.0.0:
+    resolution: {integrity: sha512-DcJ11PTnwuk63ZlcF48TqvfVZVz4k44qdEhhhQEckCd6uvxgnRbbzougvFYpSynIUiisOAVkqshxSlzcxxFBUQ==}
+
   rolldown@1.1.5:
     resolution: {integrity: sha512-t9z29cJjXf/vxQ8dyhCSpt6H6aSwHTk8cT5I3iy6SMXuFpk5mB6PL6XfC8PCwrPTx93udwKUm9HRteAlTGBLiA==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -14684,6 +14690,12 @@ snapshots:
       '@babel/runtime': 7.29.7
 
   '@atlaskit/pragmatic-drag-and-drop@3.1.0':
+    dependencies:
+      '@babel/runtime': 7.29.7
+      bind-event-listener: 3.0.0
+      raf-schd: 4.0.3
+
+  '@atlaskit/pragmatic-drag-and-drop@4.0.0':
     dependencies:
       '@babel/runtime': 7.29.7
       bind-event-listener: 3.0.0
@@ -18786,11 +18798,11 @@ snapshots:
 
   '@repeaterjs/repeater@3.1.0': {}
 
-  '@rollbar/react@1.0.0(prop-types@15.8.1)(react@19.3.0)(rollbar@3.1.0)':
+  '@rollbar/react@1.0.0(prop-types@15.8.1)(react@19.3.0)(rollbar@4.0.0)':
     dependencies:
       prop-types: 15.8.1
       react: 19.3.0
-      rollbar: 3.1.0
+      rollbar: 4.0.0
       tiny-invariant: 1.3.3
 
   '@rolldown/binding-android-arm-eabi@1.2.9':
@@ -28087,6 +28099,16 @@ snapshots:
       sprintf-js: 1.1.3
 
   rollbar@3.1.0:
+    dependencies:
+      '@rrweb/record': 2.0.0-alpha.20
+      async: 3.2.6
+      error-stack-parser-es: 1.0.5
+      json-stringify-safe: 5.0.1
+      lru-cache: 2.2.4
+      request-ip: 3.3.0
+      source-map: 0.5.7
+
+  rollbar@4.0.0:
     dependencies:
       '@rrweb/record': 2.0.0-alpha.20
       async: 3.2.6
