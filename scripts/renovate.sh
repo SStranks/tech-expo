@@ -37,7 +37,7 @@ docker run --rm \
     \"token\": \"$token\"
   }]" \
   -e LOG_LEVEL="$log_level" \
-  renovate/renovate:43 \
+  renovate/renovate:44 \
   --dry-run=full \
   --platform=local \
   > "${log_path}/${log_file}" 2>&1
