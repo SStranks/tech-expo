@@ -7,7 +7,7 @@ _Tech-Expo is a full-stack CRM application built as a modular monolith, showcasi
 ![RepoSize Badge](https://img.shields.io/github/repo-size/SStranks/tech-expo)
 ![Last Commit Badge](https://img.shields.io/github/last-commit/SStranks/tech-expo)
 
-[![CodeQL Badge](https://github.com/SStranks/tech-expo/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/SStranks/tech-expo/actions/workflows/github-code-scanning/codeql)
+[![CodeQL Advanced](https://github.com/SStranks/tech-expo/actions/workflows/codeql.yml/badge.svg)](https://github.com/SStranks/tech-expo/actions/workflows/codeql.yml)
 [![MegaLint Badge](https://github.com/SStranks/tech-expo/actions/workflows/lint.yaml/badge.svg)](https://github.com/SStranks/tech-expo/actions/workflows/lint.yaml)
 [![Vitest Badge](https://github.com/SStranks/tech-expo/actions/workflows/vitest.yaml/badge.svg)](https://github.com/SStranks/tech-expo/actions/workflows/vitest.yaml)
 [![Cypress Badge](https://github.com/SStranks/tech-expo/actions/workflows/cypress.yaml/badge.svg)](https://github.com/SStranks/tech-expo/actions/workflows/cypress.yaml)
