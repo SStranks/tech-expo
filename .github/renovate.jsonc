@@ -18,7 +18,8 @@
       "customType": "regex",
       "managerFilePatterns": ["/^README\\.md$/"],
       "matchStrings": [
-        "(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*<!-- renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) -->"
+        "(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*<!-- renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) -->",
+        "<!-- renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) -->\\s*```bash\\s*curl[^\\n]*PNPM_VERSION=(?<currentValue>\\d+\\.\\d+\\.\\d+)"
       ]
     },
     {
@@ -230,7 +231,7 @@
     },
     {
       "groupName": "Node.js version",
-      "matchManagers": ["nvm", "github-actions", "docker-compose", "dockerfile", "custom.regex"],
+      "matchManagers": ["npm", "nvm", "github-actions", "docker-compose", "dockerfile", "custom.regex"],
       "matchPackageNames": ["node", "actions/node-versions"],
       "matchDepNames": ["node", "actions/node-versions"],
       "matchUpdateTypes": ["minor", "patch"],

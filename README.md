@@ -384,8 +384,8 @@ cd tech-expo/apps/crm/docker
 - Install via:
 
 ```bash
-curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=<12.5.1> sh -
 # renovate: datasource=npm depName=pnpm
+curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=12.5.1 sh -
 ```
 
 - For further information and alternative installation options: [PNPM](https://pnpm.io/installation)
@@ -402,7 +402,7 @@ curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=<12.5.1> sh -
 - Version: 10.1.0 <!-- renovate: datasource=docker depName=ghcr.io/oxsecurity/megalinter -->
 - Warning: Large image (11Gb)
 - Used for pre-commit linting and security scans
-- Installation: `docker pull oxsecurity/megalinter:v9.6.0`
+- Installation: `docker pull ghcr.io/oxsecurity/megalinter:v10.1.0` <!-- renovate: datasource=docker depName=ghcr.io/oxsecurity/megalinter -->
 
 ###### Debugging
 
