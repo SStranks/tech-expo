@@ -22,6 +22,8 @@ services:
       - techexpo-crm-metrics
     security_opt:
       - no-new-privileges
+    cap_drop:
+      - ALL
     healthcheck:
       test: [CMD-SHELL, 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/health']
       interval: 30s
@@ -46,6 +48,10 @@ services:
       NGINX_METRICS_DOCKER_PORT_HTTP: ${NGINX_METRICS_DOCKER_PORT_HTTP:?error}
       PROMETHEUS_DOCKER_PORT: ${PROMETHEUS_DOCKER_PORT:?error}
       PROMETHEUS_CONTAINER: ${PROMETHEUS_CONTAINER:?error}
+    security_opt:
+      - no-new-privileges
+    cap_drop:
+      - ALL
     expose:
       - ${PROMETHEUS_DOCKER_PORT}
     volumes:
@@ -80,6 +86,10 @@ services:
       PROMETHEUS_DOCKER_PORT: ${PROMETHEUS_DOCKER_PORT}
       NGINX_METRICS_CONTAINER: ${NGINX_METRICS_CONTAINER:?error}
       NGINX_METRICS_DOCKER_PORT_HTTP: ${NGINX_METRICS_DOCKER_PORT_HTTP:?error}
+    security_opt:
+      - no-new-privileges
+    cap_drop:
+      - ALL
     ports:
       - '127.0.0.1:6666:3000'
     expose:
@@ -128,6 +138,10 @@ services:
         condition: service_healthy
       mongo:
         condition: service_healthy
+    security_opt:
+      - no-new-privileges
+    cap_drop:
+      - ALL
     ports:
       - 8080:8080
     volumes:
@@ -157,6 +171,11 @@ services:
       DATA_SOURCE_URI_FILE: /run/secrets/postgres_exporter_uri
       DATA_SOURCE_USER_FILE: /run/secrets/postgres_user_metrics
       DATA_SOURCE_PASS_FILE: /run/secrets/postgres_password_metrics
+    security_opt:
+      - no-new-privileges
+    cap_drop:
+      - ALL
+    read_only: true
     networks:
       - techexpo-crm-metrics
     volumes:
@@ -188,6 +207,11 @@ services:
         condition: service_healthy
     env_file:
       - ${SECRET_PATH}/.secret.mongo_uri.txt
+    security_opt:
+      - no-new-privileges
+    cap_drop:
+      - ALL
+    read_only: true
     networks:
       - techexpo-crm-metrics
     volumes:
@@ -213,6 +237,11 @@ services:
       REDIS_EXPORTER_TLS_CA_CERT_FILE: /etc/prometheus/certs/prometheus-ca.crt
       REDIS_EXPORTER_TLS_CLIENT_CERT_FILE: /etc/prometheus/certs/prometheus-redisexporter.crt
       REDIS_EXPORTER_TLS_CLIENT_KEY_FILE: /etc/prometheus/certs/prometheus-redisexporter.key
+    security_opt:
+      - no-new-privileges
+    cap_drop:
+      - ALL
+    read_only: true
     networks:
       - techexpo-crm-metrics
     volumes:

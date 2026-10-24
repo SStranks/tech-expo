@@ -14,6 +14,8 @@ services:
       NODEMAILER_HOST: ${MAILPIT_CONTAINER:?error}
     security_opt:
       - no-new-privileges
+    cap_drop:
+      - ALL
     networks:
       - techexpo-crm-backend
       - techexpo-crm-metrics
@@ -40,6 +42,8 @@ services:
     container_name: ${NGINX_REACT_CONTAINER:?error}
     security_opt:
       - no-new-privileges
+    cap_drop:
+      - ALL
     networks:
       - techexpo-crm-backend
 
@@ -52,6 +56,8 @@ services:
       MONGO_CONTAINER: ${MONGO_CONTAINER:?error}
     security_opt:
       - no-new-privileges
+    cap_drop:
+      - ALL
     networks:
       - techexpo-crm-backend
       - techexpo-crm-metrics
@@ -74,6 +80,8 @@ services:
       POSTGRES_DOCKER_PORT: ${POSTGRES_DOCKER_PORT:?error}
     security_opt:
       - no-new-privileges
+    cap_drop:
+      - ALL
     networks:
       - techexpo-crm-backend
       - techexpo-crm-metrics
@@ -93,6 +101,8 @@ services:
     container_name: ${REDIS_CONTAINER:?error}
     security_opt:
       - no-new-privileges
+    cap_drop:
+      - ALL
     networks:
       - techexpo-crm-backend
       - techexpo-crm-metrics
