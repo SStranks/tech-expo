@@ -24,10 +24,17 @@ services:
       - tmpfs-certs:/etc/nginx/certs:ro
       - ./nginx/templates:/etc/nginx/templates:ro
       - ./nginx/.htpasswd:/etc/nginx/.htpasswd:ro
+    tmpfs:
+      - /var/cache/nginx:size=100M,mode=1777
+      - /var/run:size=10M,mode=755
+      - /tmp:size=50M,mode=1777
     networks:
       - techexpo-crm-backend
     security_opt:
       - no-new-privileges
+    cap_drop:
+      - ALL
+    read_only: true
     healthcheck:
       test: [CMD-SHELL, 'wget --spider -q http://127.0.0.1:$NGINX_PUBLIC_DOCKER_PORT_HTTP/health']
       interval: 30s
@@ -50,15 +57,18 @@ services:
     env_file:
       - ${ENV_DIR}/.env.prod.server
       - ${ENV_DIR}/.env.prod.docker
+    read_only: true
     volumes:
       - tmpfs-certs:/etc/expressjs/certs:ro
+    tmpfs:
+      - /tmp:size=50M,mode=1777
     healthcheck:
       test:
         - CMD-SHELL
         - >
-          wget --ca-certificate=/certs/expressjs-ca.crt
-          --certificate=/certs/expressjs-healthcheck.crt
-          --private-key=/certs/expressjs-healthcheck.key
+          wget --ca-certificate=/etc/expressjs/certs/expressjs-ca.crt
+          --certificate=/etc/expressjs/certs/expressjs-healthcheck.crt
+          --private-key=/etc/expressjs/certs/expressjs-healthcheck.key
           --spider -q https://localhost:$EXPRESS_EXPOSE_PORT/health
       interval: 30s
       timeout: 30s
@@ -78,17 +88,22 @@ services:
     restart: unless-stopped
     env_file:
       - ${ENV_DIR}/.env.prod.client
+    read_only: true
     expose:
       - '443'
     volumes:
       - tmpfs-certs:/etc/nginx-react/certs:ro
+    tmpfs:
+      - /var/cache/nginx:size=100M,mode=1777
+      - /var/run:size=10M,mode=755
+      - /tmp:size=50M,mode=1777
     healthcheck:
       test:
         - CMD-SHELL
         - >
-          wget --ca-certificate=/certs/nginxreact-ca.crt
-          --certificate=/certs/nginxreact-healthcheck.crt
-          --private-key=/certs/nginxreact-healthcheck.key
+          wget --ca-certificate=/etc/nginx-react/certs/nginxreact-ca.crt
+          --certificate=/etc/nginx-react/certs/nginxreact-healthcheck.crt
+          --private-key=/etc/nginx-react/certs/nginxreact-healthcheck.key
           --spider -q https://localhost:$NGINX_REACT_EXPOSE_PORT/health
       interval: 30s
       timeout: 30s
@@ -101,12 +116,15 @@ services:
     command: [mongod, --auth, --quiet, --config, /etc/mongod.conf]
     restart: unless-stopped
     ports: []
+    read_only: true
     volumes:
       - tmpfs-certs:/etc/mongo/certs:ro
       - volume-mongo:/data/db
       - ./mongo/mongod.conf:/etc/mongod.conf:ro
       - ./mongo/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
       - ./mongo/mongo-healthcheck.sh:/usr/local/bin/mongo-healthcheck.sh:ro
+    tmpfs:
+      - /tmp
     depends_on:
       certs:
         condition: service_healthy
@@ -123,11 +141,15 @@ services:
     restart: unless-stopped
     shm_size: 128mb
     ports: []
+    read_only: true
     volumes:
       - tmpfs-certs:/etc/postgres/certs:ro
       - volume-postgres:/var/lib/postgresql/data
       - ./postgres/initdb:/docker-entrypoint-initdb.d:ro
       - ./postgres/scripts:/usr/local/bin/scripts:ro
+    tmpfs:
+      - /tmp
+      - /run/postgresql:uid=999,gid=999
     depends_on:
       certs:
         condition: service_healthy
@@ -144,11 +166,14 @@ services:
     image: redis:8.8.1-alpine3.23@sha256:8096655e437712b07503796fb64d81359256cfcff0ab29d95a7da72863786efb
     restart: unless-stopped
     ports: []
+    read_only: true
     volumes:
       - tmpfs-certs:/etc/redis/certs:ro
       - volume-redis:/data
       - ./redis/redis-healthcheck.sh:/usr/local/bin/redis-healthcheck.sh:ro
       - ./redis/redis-init.sh:/usr/local/bin/redis-init.sh:ro
+    tmpfs:
+      - /tmp
     depends_on:
       certs:
         condition: service_healthy
@@ -168,9 +193,13 @@ services:
       GF_LOG_LEVEL: error
     ports:
       - '127.0.0.1:${GRAFANA_LOCAL_PORT:?error}:${GRAFANA_DOCKER_PORT:?error}'
+    read_only: true
     volumes:
       - tmpfs-certs:/etc/grafana/certs:ro
       - volume-grafana:/var/lib/grafana
+    tmpfs:
+      - /tmp
+      - /var/log/grafana
     healthcheck:
       test: [CMD-SHELL, 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/grafana/healthcheck']
       interval: 30s
@@ -188,9 +217,12 @@ services:
     restart: unless-stopped
     ports:
       - '127.0.0.1:${PROMETHEUS_LOCAL_PORT:?error}:${PROMETHEUS_DOCKER_PORT:?error}'
+    read_only: true
     volumes:
       - tmpfs-certs:/etc/prometheus/certs:ro
       - volume-prometheus:/prometheus
+    tmpfs:
+      - /tmp
     healthcheck:
       test: [CMD-SHELL, 'wget --spider -q http://127.0.0.1:$NGINX_METRICS_DOCKER_PORT_HTTP/prometheus/healthcheck']
       interval: 30s
