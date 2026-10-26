@@ -1,19 +1,16 @@
 import type { Updater } from '@tanstack/react-table';
 import type { Key } from 'react-aria-components';
 
-import { useContext } from 'react';
-import { Button, Label, ListBox, ListBoxItem, Popover, Select, SelectStateContext } from 'react-aria-components';
+import { Button, Label, ListBox, ListBoxItem, Popover, Select, SelectValue } from 'react-aria-components';
 
 import IconListDownArrow from '@Components/svg/IconListDownArrow';
 
 import styles from './ButtonPaginatorRowLimit.module.scss';
 
 // NOTE:  Without manually using context; <SelectValue /> needs to sit inside <Button /> or <Label />
-function SelectValueWrapper(): React.JSX.Element {
-  const selectValue = useContext(SelectStateContext);
-  const value = selectValue?.selectedItem?.textValue;
-  return <span className={styles.selectValue}>{value}</span>;
-}
+// function SelectValueWrapper(): React.JSX.Element {
+//   return <SelectValue>{({ selectedText }) => <span className={styles.selectValue}>{selectedText}</span>}</SelectValue>;
+// }
 
 const PAGE_SIZES = [10, 20, 50, 100];
 
@@ -29,12 +26,12 @@ function ButtonPaginatorRowLimit(props: Props): React.JSX.Element {
   };
 
   return (
-    <Select onSelectionChange={onSelectionChange} defaultSelectedKey={PAGE_SIZES[0]} className={styles.select}>
+    <Select onChange={onSelectionChange} defaultValue={PAGE_SIZES[0]} className={styles.select}>
       <Label className="invisibleAccessible">Select number of rows visible</Label>
       <Button className={styles.button}>
         <IconListDownArrow svgClass={styles.button__svg} />
       </Button>
-      <SelectValueWrapper />
+      <SelectValue>{({ selectedText }) => <span className={styles.selectValue}>{selectedText}</span>}</SelectValue>
       <Popover className={styles.popover}>
         <ListBox>
           {PAGE_SIZES.map((number: number) => (

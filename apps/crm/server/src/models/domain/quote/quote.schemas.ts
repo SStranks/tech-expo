@@ -57,7 +57,7 @@ export const quoteNoteShape = {
   clientGeneratedId: z.uuid(zErrorMessages.UUID).transform((v) => v as QuoteNoteClientGeneratedId),
   content: z.string().trim().min(1, zErrorMessages.EMPTY('Content')),
   quoteId: z.uuid(zErrorMessages.UUID).transform((v) => v as QuoteId),
-} satisfies Partial<{ [K in keyof QuotesNotesTableSelect]: z.ZodTypeAny }>;
+} satisfies Partial<{ [K in keyof QuotesNotesTableSelect]: z.ZodType }>;
 
 export const quoteServiceShape = {
   id: z.uuid(zErrorMessages.UUID).transform((v) => v as QuoteServiceId),
@@ -68,7 +68,7 @@ export const quoteServiceShape = {
   quoteId: z.uuid(zErrorMessages.UUID).transform((v) => v as QuoteId),
   title: z.string().trim().min(1, zErrorMessages.EMPTY('Title')),
   totalAmount: moneyInputSchema,
-} satisfies Partial<{ [K in keyof QuoteServicesTableSelect]: z.ZodTypeAny }>;
+} satisfies Partial<{ [K in keyof QuoteServicesTableSelect]: z.ZodType }>;
 
 const queryQuoteShape = { id: quoteShape.id } satisfies ZodShapeFrom<QuoteInput>;
 export const queryQuoteSchema = z.object(queryQuoteShape);

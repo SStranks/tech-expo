@@ -70,8 +70,8 @@ function InputComboTag(props: Props): React.JSX.Element {
       defaultItems={listItems}
       inputValue={inputValue}
       onInputChange={setInputValue}
-      selectedKey={null}
-      onSelectionChange={onSelect}
+      value={null}
+      onChange={onSelect}
       aria-labelledby={id}
       className={styles.combo}
       {...rest}>

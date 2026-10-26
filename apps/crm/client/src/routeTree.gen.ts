@@ -9,62 +9,47 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as UpdatePasswordRouteImport } from './routes/update-password'
-import { Route as RegisterRouteImport } from './routes/register'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
-import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as SettingsIndexRouteImport } from './routes/settings/index'
-import { Route as ScrumboardIndexRouteImport } from './routes/scrumboard/index'
-import { Route as QuotesIndexRouteImport } from './routes/quotes/index'
-import { Route as PipelineIndexRouteImport } from './routes/pipeline/index'
-import { Route as KanbanIndexRouteImport } from './routes/kanban/index'
-import { Route as ContactsIndexRouteImport } from './routes/contacts/index'
-import { Route as CompaniesIndexRouteImport } from './routes/companies/index'
-import { Route as CalendarIndexRouteImport } from './routes/calendar/index'
-import { Route as AuditLogIndexRouteImport } from './routes/audit-log/index'
+import { Route as SplatRouteImport } from './routes/$'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as UpdatePasswordRouteImport } from './routes/update-password'
 import { Route as AdministrationIndexRouteImport } from './routes/administration/index'
-import { Route as QuotesCreateRouteImport } from './routes/quotes/create'
-import { Route as QuotesIdRouteImport } from './routes/quotes/$id'
-import { Route as ContactsCreateRouteImport } from './routes/contacts/create'
-import { Route as ContactsIdRouteImport } from './routes/contacts/$id'
-import { Route as CompaniesCreateRouteImport } from './routes/companies/create'
-import { Route as CompaniesIdRouteImport } from './routes/companies/$id'
+import { Route as AuditLogIndexRouteImport } from './routes/audit-log/index'
 import { Route as AuditLogDetailsRouteImport } from './routes/audit-log/details'
-import { Route as QuotesUpdateIdRouteImport } from './routes/quotes/update.$id'
-import { Route as QuotesDeleteIdRouteImport } from './routes/quotes/delete.$id'
-import { Route as PipelineStageCreateRouteImport } from './routes/pipeline/stage/create'
-import { Route as KanbanStageCreateRouteImport } from './routes/kanban/stage/create'
-import { Route as ContactsDeleteIdRouteImport } from './routes/contacts/delete.$id'
+import { Route as CalendarIndexRouteImport } from './routes/calendar/index'
+import { Route as CompaniesIndexRouteImport } from './routes/companies/index'
+import { Route as CompaniesIdRouteImport } from './routes/companies/$id'
+import { Route as CompaniesCreateRouteImport } from './routes/companies/create'
+import { Route as ContactsIndexRouteImport } from './routes/contacts/index'
+import { Route as ContactsIdRouteImport } from './routes/contacts/$id'
+import { Route as ContactsCreateRouteImport } from './routes/contacts/create'
+import { Route as KanbanIndexRouteImport } from './routes/kanban/index'
+import { Route as PipelineIndexRouteImport } from './routes/pipeline/index'
+import { Route as QuotesIndexRouteImport } from './routes/quotes/index'
+import { Route as QuotesIdRouteImport } from './routes/quotes/$id'
+import { Route as QuotesCreateRouteImport } from './routes/quotes/create'
+import { Route as ScrumboardIndexRouteImport } from './routes/scrumboard/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as CompaniesDeleteIdRouteImport } from './routes/companies/delete.$id'
-import { Route as PipelineStageUpdateStageIdRouteImport } from './routes/pipeline/stage/update.$stageId'
-import { Route as PipelineStageDeleteStageIdRouteImport } from './routes/pipeline/stage/delete.$stageId'
-import { Route as PipelineDealCreateStageIdRouteImport } from './routes/pipeline/deal/create.$stageId'
-import { Route as KanbanTaskUpdateTaskIdRouteImport } from './routes/kanban/task/update.$taskId'
+import { Route as ContactsDeleteIdRouteImport } from './routes/contacts/delete.$id'
+import { Route as KanbanStageCreateRouteImport } from './routes/kanban/stage/create'
+import { Route as PipelineStageCreateRouteImport } from './routes/pipeline/stage/create'
+import { Route as QuotesDeleteIdRouteImport } from './routes/quotes/delete.$id'
+import { Route as QuotesUpdateIdRouteImport } from './routes/quotes/update.$id'
 import { Route as KanbanTaskCreateStageIdRouteImport } from './routes/kanban/task/create.$stageId'
-import { Route as PipelineDealsDeleteStageIdDealIdRouteImport } from './routes/pipeline/deals/delete.$stageId.$dealId'
-import { Route as PipelineDealUpdateStageIdDealIdRouteImport } from './routes/pipeline/deal/update.$stageId.$dealId'
+import { Route as KanbanTaskUpdateTaskIdRouteImport } from './routes/kanban/task/update.$taskId'
+import { Route as PipelineDealCreateStageIdRouteImport } from './routes/pipeline/deal/create.$stageId'
+import { Route as PipelineStageDeleteStageIdRouteImport } from './routes/pipeline/stage/delete.$stageId'
+import { Route as PipelineStageUpdateStageIdRouteImport } from './routes/pipeline/stage/update.$stageId'
 import { Route as PipelineDealDeleteStageIdDealIdRouteImport } from './routes/pipeline/deal/delete.$stageId.$dealId'
+import { Route as PipelineDealUpdateStageIdDealIdRouteImport } from './routes/pipeline/deal/update.$stageId.$dealId'
+import { Route as PipelineDealsDeleteStageIdDealIdRouteImport } from './routes/pipeline/deals/delete.$stageId.$dealId'
 
-const UpdatePasswordRoute = UpdatePasswordRouteImport.update({
-  id: '/update-password',
-  path: '/update-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RegisterRoute = RegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
-  id: '/forgot-password',
-  path: '/forgot-password',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SplatRoute = SplatRouteImport.update({
@@ -72,54 +57,24 @@ const SplatRoute = SplatRouteImport.update({
   path: '/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsIndexRoute = SettingsIndexRouteImport.update({
-  id: '/settings/',
-  path: '/settings/',
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ScrumboardIndexRoute = ScrumboardIndexRouteImport.update({
-  id: '/scrumboard/',
-  path: '/scrumboard/',
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
-const QuotesIndexRoute = QuotesIndexRouteImport.update({
-  id: '/quotes/',
-  path: '/quotes/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PipelineIndexRoute = PipelineIndexRouteImport.update({
-  id: '/pipeline/',
-  path: '/pipeline/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KanbanIndexRoute = KanbanIndexRouteImport.update({
-  id: '/kanban/',
-  path: '/kanban/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactsIndexRoute = ContactsIndexRouteImport.update({
-  id: '/contacts/',
-  path: '/contacts/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CompaniesIndexRoute = CompaniesIndexRouteImport.update({
-  id: '/companies/',
-  path: '/companies/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CalendarIndexRoute = CalendarIndexRouteImport.update({
-  id: '/calendar/',
-  path: '/calendar/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuditLogIndexRoute = AuditLogIndexRouteImport.update({
-  id: '/audit-log/',
-  path: '/audit-log/',
+const UpdatePasswordRoute = UpdatePasswordRouteImport.update({
+  id: '/update-password',
+  path: '/update-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdministrationIndexRoute = AdministrationIndexRouteImport.update({
@@ -127,34 +82,9 @@ const AdministrationIndexRoute = AdministrationIndexRouteImport.update({
   path: '/administration/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const QuotesCreateRoute = QuotesCreateRouteImport.update({
-  id: '/quotes/create',
-  path: '/quotes/create',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const QuotesIdRoute = QuotesIdRouteImport.update({
-  id: '/quotes/$id',
-  path: '/quotes/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactsCreateRoute = ContactsCreateRouteImport.update({
-  id: '/contacts/create',
-  path: '/contacts/create',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactsIdRoute = ContactsIdRouteImport.update({
-  id: '/contacts/$id',
-  path: '/contacts/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CompaniesCreateRoute = CompaniesCreateRouteImport.update({
-  id: '/companies/create',
-  path: '/companies/create',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CompaniesIdRoute = CompaniesIdRouteImport.update({
-  id: '/companies/$id',
-  path: '/companies/$id',
+const AuditLogIndexRoute = AuditLogIndexRouteImport.update({
+  id: '/audit-log/',
+  path: '/audit-log/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuditLogDetailsRoute = AuditLogDetailsRouteImport.update({
@@ -162,29 +92,74 @@ const AuditLogDetailsRoute = AuditLogDetailsRouteImport.update({
   path: '/audit-log/details',
   getParentRoute: () => rootRouteImport,
 } as any)
-const QuotesUpdateIdRoute = QuotesUpdateIdRouteImport.update({
-  id: '/quotes/update/$id',
-  path: '/quotes/update/$id',
+const CalendarIndexRoute = CalendarIndexRouteImport.update({
+  id: '/calendar/',
+  path: '/calendar/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const QuotesDeleteIdRoute = QuotesDeleteIdRouteImport.update({
-  id: '/quotes/delete/$id',
-  path: '/quotes/delete/$id',
+const CompaniesIndexRoute = CompaniesIndexRouteImport.update({
+  id: '/companies/',
+  path: '/companies/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PipelineStageCreateRoute = PipelineStageCreateRouteImport.update({
-  id: '/pipeline/stage/create',
-  path: '/pipeline/stage/create',
+const CompaniesIdRoute = CompaniesIdRouteImport.update({
+  id: '/companies/$id',
+  path: '/companies/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const KanbanStageCreateRoute = KanbanStageCreateRouteImport.update({
-  id: '/kanban/stage/create',
-  path: '/kanban/stage/create',
+const CompaniesCreateRoute = CompaniesCreateRouteImport.update({
+  id: '/companies/create',
+  path: '/companies/create',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ContactsDeleteIdRoute = ContactsDeleteIdRouteImport.update({
-  id: '/contacts/delete/$id',
-  path: '/contacts/delete/$id',
+const ContactsIndexRoute = ContactsIndexRouteImport.update({
+  id: '/contacts/',
+  path: '/contacts/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactsIdRoute = ContactsIdRouteImport.update({
+  id: '/contacts/$id',
+  path: '/contacts/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactsCreateRoute = ContactsCreateRouteImport.update({
+  id: '/contacts/create',
+  path: '/contacts/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KanbanIndexRoute = KanbanIndexRouteImport.update({
+  id: '/kanban/',
+  path: '/kanban/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PipelineIndexRoute = PipelineIndexRouteImport.update({
+  id: '/pipeline/',
+  path: '/pipeline/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuotesIndexRoute = QuotesIndexRouteImport.update({
+  id: '/quotes/',
+  path: '/quotes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuotesIdRoute = QuotesIdRouteImport.update({
+  id: '/quotes/$id',
+  path: '/quotes/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuotesCreateRoute = QuotesCreateRouteImport.update({
+  id: '/quotes/create',
+  path: '/quotes/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScrumboardIndexRoute = ScrumboardIndexRouteImport.update({
+  id: '/scrumboard/',
+  path: '/scrumboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompaniesDeleteIdRoute = CompaniesDeleteIdRouteImport.update({
@@ -192,10 +167,45 @@ const CompaniesDeleteIdRoute = CompaniesDeleteIdRouteImport.update({
   path: '/companies/delete/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PipelineStageUpdateStageIdRoute =
-  PipelineStageUpdateStageIdRouteImport.update({
-    id: '/pipeline/stage/update/$stageId',
-    path: '/pipeline/stage/update/$stageId',
+const ContactsDeleteIdRoute = ContactsDeleteIdRouteImport.update({
+  id: '/contacts/delete/$id',
+  path: '/contacts/delete/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KanbanStageCreateRoute = KanbanStageCreateRouteImport.update({
+  id: '/kanban/stage/create',
+  path: '/kanban/stage/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PipelineStageCreateRoute = PipelineStageCreateRouteImport.update({
+  id: '/pipeline/stage/create',
+  path: '/pipeline/stage/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuotesDeleteIdRoute = QuotesDeleteIdRouteImport.update({
+  id: '/quotes/delete/$id',
+  path: '/quotes/delete/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuotesUpdateIdRoute = QuotesUpdateIdRouteImport.update({
+  id: '/quotes/update/$id',
+  path: '/quotes/update/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KanbanTaskCreateStageIdRoute = KanbanTaskCreateStageIdRouteImport.update({
+  id: '/kanban/task/create/$stageId',
+  path: '/kanban/task/create/$stageId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KanbanTaskUpdateTaskIdRoute = KanbanTaskUpdateTaskIdRouteImport.update({
+  id: '/kanban/task/update/$taskId',
+  path: '/kanban/task/update/$taskId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PipelineDealCreateStageIdRoute =
+  PipelineDealCreateStageIdRouteImport.update({
+    id: '/pipeline/deal/create/$stageId',
+    path: '/pipeline/deal/create/$stageId',
     getParentRoute: () => rootRouteImport,
   } as any)
 const PipelineStageDeleteStageIdRoute =
@@ -204,26 +214,16 @@ const PipelineStageDeleteStageIdRoute =
     path: '/pipeline/stage/delete/$stageId',
     getParentRoute: () => rootRouteImport,
   } as any)
-const PipelineDealCreateStageIdRoute =
-  PipelineDealCreateStageIdRouteImport.update({
-    id: '/pipeline/deal/create/$stageId',
-    path: '/pipeline/deal/create/$stageId',
+const PipelineStageUpdateStageIdRoute =
+  PipelineStageUpdateStageIdRouteImport.update({
+    id: '/pipeline/stage/update/$stageId',
+    path: '/pipeline/stage/update/$stageId',
     getParentRoute: () => rootRouteImport,
   } as any)
-const KanbanTaskUpdateTaskIdRoute = KanbanTaskUpdateTaskIdRouteImport.update({
-  id: '/kanban/task/update/$taskId',
-  path: '/kanban/task/update/$taskId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KanbanTaskCreateStageIdRoute = KanbanTaskCreateStageIdRouteImport.update({
-  id: '/kanban/task/create/$stageId',
-  path: '/kanban/task/create/$stageId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PipelineDealsDeleteStageIdDealIdRoute =
-  PipelineDealsDeleteStageIdDealIdRouteImport.update({
-    id: '/pipeline/deals/delete/$stageId/$dealId',
-    path: '/pipeline/deals/delete/$stageId/$dealId',
+const PipelineDealDeleteStageIdDealIdRoute =
+  PipelineDealDeleteStageIdDealIdRouteImport.update({
+    id: '/pipeline/deal/delete/$stageId/$dealId',
+    path: '/pipeline/deal/delete/$stageId/$dealId',
     getParentRoute: () => rootRouteImport,
   } as any)
 const PipelineDealUpdateStageIdDealIdRoute =
@@ -232,10 +232,10 @@ const PipelineDealUpdateStageIdDealIdRoute =
     path: '/pipeline/deal/update/$stageId/$dealId',
     getParentRoute: () => rootRouteImport,
   } as any)
-const PipelineDealDeleteStageIdDealIdRoute =
-  PipelineDealDeleteStageIdDealIdRouteImport.update({
-    id: '/pipeline/deal/delete/$stageId/$dealId',
-    path: '/pipeline/deal/delete/$stageId/$dealId',
+const PipelineDealsDeleteStageIdDealIdRoute =
+  PipelineDealsDeleteStageIdDealIdRouteImport.update({
+    id: '/pipeline/deals/delete/$stageId/$dealId',
+    path: '/pipeline/deals/delete/$stageId/$dealId',
     getParentRoute: () => rootRouteImport,
   } as any)
 
@@ -519,32 +519,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/update-password': {
-      id: '/update-password'
-      path: '/update-password'
-      fullPath: '/update-password'
-      preLoaderRoute: typeof UpdatePasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/register': {
-      id: '/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof RegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/forgot-password': {
-      id: '/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof ForgotPasswordRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$': {
@@ -554,74 +533,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings/': {
-      id: '/settings/'
-      path: '/settings'
-      fullPath: '/settings/'
-      preLoaderRoute: typeof SettingsIndexRouteImport
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/scrumboard/': {
-      id: '/scrumboard/'
-      path: '/scrumboard'
-      fullPath: '/scrumboard/'
-      preLoaderRoute: typeof ScrumboardIndexRouteImport
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/quotes/': {
-      id: '/quotes/'
-      path: '/quotes'
-      fullPath: '/quotes/'
-      preLoaderRoute: typeof QuotesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pipeline/': {
-      id: '/pipeline/'
-      path: '/pipeline'
-      fullPath: '/pipeline/'
-      preLoaderRoute: typeof PipelineIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/kanban/': {
-      id: '/kanban/'
-      path: '/kanban'
-      fullPath: '/kanban/'
-      preLoaderRoute: typeof KanbanIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contacts/': {
-      id: '/contacts/'
-      path: '/contacts'
-      fullPath: '/contacts/'
-      preLoaderRoute: typeof ContactsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/companies/': {
-      id: '/companies/'
-      path: '/companies'
-      fullPath: '/companies/'
-      preLoaderRoute: typeof CompaniesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/calendar/': {
-      id: '/calendar/'
-      path: '/calendar'
-      fullPath: '/calendar/'
-      preLoaderRoute: typeof CalendarIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/audit-log/': {
-      id: '/audit-log/'
-      path: '/audit-log'
-      fullPath: '/audit-log/'
-      preLoaderRoute: typeof AuditLogIndexRouteImport
+    '/update-password': {
+      id: '/update-password'
+      path: '/update-password'
+      fullPath: '/update-password'
+      preLoaderRoute: typeof UpdatePasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/administration/': {
@@ -631,46 +568,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdministrationIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/quotes/create': {
-      id: '/quotes/create'
-      path: '/quotes/create'
-      fullPath: '/quotes/create'
-      preLoaderRoute: typeof QuotesCreateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/quotes/$id': {
-      id: '/quotes/$id'
-      path: '/quotes/$id'
-      fullPath: '/quotes/$id'
-      preLoaderRoute: typeof QuotesIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contacts/create': {
-      id: '/contacts/create'
-      path: '/contacts/create'
-      fullPath: '/contacts/create'
-      preLoaderRoute: typeof ContactsCreateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contacts/$id': {
-      id: '/contacts/$id'
-      path: '/contacts/$id'
-      fullPath: '/contacts/$id'
-      preLoaderRoute: typeof ContactsIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/companies/create': {
-      id: '/companies/create'
-      path: '/companies/create'
-      fullPath: '/companies/create'
-      preLoaderRoute: typeof CompaniesCreateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/companies/$id': {
-      id: '/companies/$id'
-      path: '/companies/$id'
-      fullPath: '/companies/$id'
-      preLoaderRoute: typeof CompaniesIdRouteImport
+    '/audit-log/': {
+      id: '/audit-log/'
+      path: '/audit-log'
+      fullPath: '/audit-log/'
+      preLoaderRoute: typeof AuditLogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/audit-log/details': {
@@ -680,39 +582,102 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuditLogDetailsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/quotes/update/$id': {
-      id: '/quotes/update/$id'
-      path: '/quotes/update/$id'
-      fullPath: '/quotes/update/$id'
-      preLoaderRoute: typeof QuotesUpdateIdRouteImport
+    '/calendar/': {
+      id: '/calendar/'
+      path: '/calendar'
+      fullPath: '/calendar/'
+      preLoaderRoute: typeof CalendarIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/quotes/delete/$id': {
-      id: '/quotes/delete/$id'
-      path: '/quotes/delete/$id'
-      fullPath: '/quotes/delete/$id'
-      preLoaderRoute: typeof QuotesDeleteIdRouteImport
+    '/companies/': {
+      id: '/companies/'
+      path: '/companies'
+      fullPath: '/companies/'
+      preLoaderRoute: typeof CompaniesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pipeline/stage/create': {
-      id: '/pipeline/stage/create'
-      path: '/pipeline/stage/create'
-      fullPath: '/pipeline/stage/create'
-      preLoaderRoute: typeof PipelineStageCreateRouteImport
+    '/companies/$id': {
+      id: '/companies/$id'
+      path: '/companies/$id'
+      fullPath: '/companies/$id'
+      preLoaderRoute: typeof CompaniesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/kanban/stage/create': {
-      id: '/kanban/stage/create'
-      path: '/kanban/stage/create'
-      fullPath: '/kanban/stage/create'
-      preLoaderRoute: typeof KanbanStageCreateRouteImport
+    '/companies/create': {
+      id: '/companies/create'
+      path: '/companies/create'
+      fullPath: '/companies/create'
+      preLoaderRoute: typeof CompaniesCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/contacts/delete/$id': {
-      id: '/contacts/delete/$id'
-      path: '/contacts/delete/$id'
-      fullPath: '/contacts/delete/$id'
-      preLoaderRoute: typeof ContactsDeleteIdRouteImport
+    '/contacts/': {
+      id: '/contacts/'
+      path: '/contacts'
+      fullPath: '/contacts/'
+      preLoaderRoute: typeof ContactsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacts/$id': {
+      id: '/contacts/$id'
+      path: '/contacts/$id'
+      fullPath: '/contacts/$id'
+      preLoaderRoute: typeof ContactsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacts/create': {
+      id: '/contacts/create'
+      path: '/contacts/create'
+      fullPath: '/contacts/create'
+      preLoaderRoute: typeof ContactsCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kanban/': {
+      id: '/kanban/'
+      path: '/kanban'
+      fullPath: '/kanban/'
+      preLoaderRoute: typeof KanbanIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline/': {
+      id: '/pipeline/'
+      path: '/pipeline'
+      fullPath: '/pipeline/'
+      preLoaderRoute: typeof PipelineIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotes/': {
+      id: '/quotes/'
+      path: '/quotes'
+      fullPath: '/quotes/'
+      preLoaderRoute: typeof QuotesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotes/$id': {
+      id: '/quotes/$id'
+      path: '/quotes/$id'
+      fullPath: '/quotes/$id'
+      preLoaderRoute: typeof QuotesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotes/create': {
+      id: '/quotes/create'
+      path: '/quotes/create'
+      fullPath: '/quotes/create'
+      preLoaderRoute: typeof QuotesCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scrumboard/': {
+      id: '/scrumboard/'
+      path: '/scrumboard'
+      fullPath: '/scrumboard/'
+      preLoaderRoute: typeof ScrumboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/companies/delete/$id': {
@@ -722,32 +687,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompaniesDeleteIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pipeline/stage/update/$stageId': {
-      id: '/pipeline/stage/update/$stageId'
-      path: '/pipeline/stage/update/$stageId'
-      fullPath: '/pipeline/stage/update/$stageId'
-      preLoaderRoute: typeof PipelineStageUpdateStageIdRouteImport
+    '/contacts/delete/$id': {
+      id: '/contacts/delete/$id'
+      path: '/contacts/delete/$id'
+      fullPath: '/contacts/delete/$id'
+      preLoaderRoute: typeof ContactsDeleteIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pipeline/stage/delete/$stageId': {
-      id: '/pipeline/stage/delete/$stageId'
-      path: '/pipeline/stage/delete/$stageId'
-      fullPath: '/pipeline/stage/delete/$stageId'
-      preLoaderRoute: typeof PipelineStageDeleteStageIdRouteImport
+    '/kanban/stage/create': {
+      id: '/kanban/stage/create'
+      path: '/kanban/stage/create'
+      fullPath: '/kanban/stage/create'
+      preLoaderRoute: typeof KanbanStageCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pipeline/deal/create/$stageId': {
-      id: '/pipeline/deal/create/$stageId'
-      path: '/pipeline/deal/create/$stageId'
-      fullPath: '/pipeline/deal/create/$stageId'
-      preLoaderRoute: typeof PipelineDealCreateStageIdRouteImport
+    '/pipeline/stage/create': {
+      id: '/pipeline/stage/create'
+      path: '/pipeline/stage/create'
+      fullPath: '/pipeline/stage/create'
+      preLoaderRoute: typeof PipelineStageCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/kanban/task/update/$taskId': {
-      id: '/kanban/task/update/$taskId'
-      path: '/kanban/task/update/$taskId'
-      fullPath: '/kanban/task/update/$taskId'
-      preLoaderRoute: typeof KanbanTaskUpdateTaskIdRouteImport
+    '/quotes/delete/$id': {
+      id: '/quotes/delete/$id'
+      path: '/quotes/delete/$id'
+      fullPath: '/quotes/delete/$id'
+      preLoaderRoute: typeof QuotesDeleteIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotes/update/$id': {
+      id: '/quotes/update/$id'
+      path: '/quotes/update/$id'
+      fullPath: '/quotes/update/$id'
+      preLoaderRoute: typeof QuotesUpdateIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kanban/task/create/$stageId': {
@@ -757,11 +729,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KanbanTaskCreateStageIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pipeline/deals/delete/$stageId/$dealId': {
-      id: '/pipeline/deals/delete/$stageId/$dealId'
-      path: '/pipeline/deals/delete/$stageId/$dealId'
-      fullPath: '/pipeline/deals/delete/$stageId/$dealId'
-      preLoaderRoute: typeof PipelineDealsDeleteStageIdDealIdRouteImport
+    '/kanban/task/update/$taskId': {
+      id: '/kanban/task/update/$taskId'
+      path: '/kanban/task/update/$taskId'
+      fullPath: '/kanban/task/update/$taskId'
+      preLoaderRoute: typeof KanbanTaskUpdateTaskIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline/deal/create/$stageId': {
+      id: '/pipeline/deal/create/$stageId'
+      path: '/pipeline/deal/create/$stageId'
+      fullPath: '/pipeline/deal/create/$stageId'
+      preLoaderRoute: typeof PipelineDealCreateStageIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline/stage/delete/$stageId': {
+      id: '/pipeline/stage/delete/$stageId'
+      path: '/pipeline/stage/delete/$stageId'
+      fullPath: '/pipeline/stage/delete/$stageId'
+      preLoaderRoute: typeof PipelineStageDeleteStageIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline/stage/update/$stageId': {
+      id: '/pipeline/stage/update/$stageId'
+      path: '/pipeline/stage/update/$stageId'
+      fullPath: '/pipeline/stage/update/$stageId'
+      preLoaderRoute: typeof PipelineStageUpdateStageIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline/deal/delete/$stageId/$dealId': {
+      id: '/pipeline/deal/delete/$stageId/$dealId'
+      path: '/pipeline/deal/delete/$stageId/$dealId'
+      fullPath: '/pipeline/deal/delete/$stageId/$dealId'
+      preLoaderRoute: typeof PipelineDealDeleteStageIdDealIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pipeline/deal/update/$stageId/$dealId': {
@@ -771,11 +771,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PipelineDealUpdateStageIdDealIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pipeline/deal/delete/$stageId/$dealId': {
-      id: '/pipeline/deal/delete/$stageId/$dealId'
-      path: '/pipeline/deal/delete/$stageId/$dealId'
-      fullPath: '/pipeline/deal/delete/$stageId/$dealId'
-      preLoaderRoute: typeof PipelineDealDeleteStageIdDealIdRouteImport
+    '/pipeline/deals/delete/$stageId/$dealId': {
+      id: '/pipeline/deals/delete/$stageId/$dealId'
+      path: '/pipeline/deals/delete/$stageId/$dealId'
+      fullPath: '/pipeline/deals/delete/$stageId/$dealId'
+      preLoaderRoute: typeof PipelineDealsDeleteStageIdDealIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

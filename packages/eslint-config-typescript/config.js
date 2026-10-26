@@ -31,6 +31,7 @@ const EslintConfigTypescript = {
     '@stylistic/jsx-curly-brace-presence': ['error', { propElementValues: 'always' }],
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-use-before-define': 'error',
+    '@typescript-eslint/no-deprecated': 'error',
     '@typescript-eslint/consistent-type-exports': 'error',
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/no-unnecessary-condition': 'error',

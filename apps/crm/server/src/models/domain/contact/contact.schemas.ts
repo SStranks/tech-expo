@@ -52,7 +52,7 @@ export const contactNoteShape = {
   id: z.uuid(zErrorMessages.UUID).transform((v) => v as ContactNoteId),
   clientGeneratedId: z.uuid(zErrorMessages.UUID).transform((v) => v as ContactNoteClientGeneratedId),
   note: z.string().trim().min(1, zErrorMessages.EMPTY('Note')),
-} satisfies Partial<{ [K in keyof ContactsNotesTableSelect]: z.ZodTypeAny }>;
+} satisfies Partial<{ [K in keyof ContactsNotesTableSelect]: z.ZodType }>;
 
 const queryContactShape = { id: contactShape.id } satisfies ZodShapeFrom<ContactInput>;
 export const queryContactSchema = z.object(queryContactShape);

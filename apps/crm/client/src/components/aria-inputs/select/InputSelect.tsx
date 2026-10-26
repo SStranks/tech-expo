@@ -14,13 +14,7 @@ type Props = {
 
 function InputSelect({ ...props }: Props): React.JSX.Element {
   return (
-    <Select
-      onSelectionChange={props.onChange}
-      selectedKey={props.value}
-      placeholder=""
-      validationBehavior="aria"
-      className={styles.select}
-      {...props}>
+    <Select placeholder="" validationBehavior="aria" className={styles.select} {...props}>
       <Button className={styles.button}>
         <SelectValue className={styles.selectValue} />
         <span aria-hidden="true">

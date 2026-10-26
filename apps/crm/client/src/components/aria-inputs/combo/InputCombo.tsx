@@ -19,8 +19,8 @@ function InputCombo(props: Props): React.JSX.Element {
   return (
     <ComboBox
       defaultItems={items}
-      selectedKey={value}
-      onSelectionChange={onChange}
+      value={value}
+      onChange={onChange}
       validationBehavior="aria"
       aria-labelledby={id}
       className={styles.combo}
