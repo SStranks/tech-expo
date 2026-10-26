@@ -1,4 +1,4 @@
-import type { ZodError, ZodFlattenedError } from 'zod';
+import type { ZodError } from 'zod';
 
 import type { CustomErrorContent } from './CustomError.js';
 
@@ -37,7 +37,7 @@ export default class ZodValidationError extends CustomError {
   }
 
   get errors() {
-    const { fieldErrors, formErrors }: ZodFlattenedError<unknown> = z.flattenError(this._zod.error);
+    const { fieldErrors, formErrors }: z.core.$ZodFlattenedError<unknown> = z.flattenError(this._zod.error);
     const result: CustomErrorContent[] = [];
 
     for (const message of formErrors) {

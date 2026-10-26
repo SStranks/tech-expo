@@ -45,7 +45,7 @@ export const companyNoteShape = {
   companyId: z.uuid(zErrorMessages.UUID).transform((v) => v as CompanyId),
   createdByUserProfileId: z.uuid(zErrorMessages.UUID).transform((v) => v as UserProfileId),
   note: z.string().trim().min(1, zErrorMessages.EMPTY('Note')),
-} satisfies Partial<{ [K in keyof CompaniesNotesTableSelect]: z.ZodTypeAny }>;
+} satisfies Partial<{ [K in keyof CompaniesNotesTableSelect]: z.ZodType }>;
 
 const queryCompanyShape = { id: companyShape.id } satisfies ZodShapeFrom<CompanyInput>;
 export const queryCompanySchema = z.object(queryCompanyShape);

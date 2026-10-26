@@ -39,6 +39,7 @@ const serverLoggerTargets: pino.TransportTargetOptions[] = [
 ];
 
 if (NODE_ENV === 'development') serverLoggerTargets.push(pinoPrettyTransport);
+if (NODE_ENV === 'test') serverLoggerTargets.length = 0;
 
 const serverLogger: Logger = pino({
   level: PINO_LOG_LEVEL || (NODE_ENV === 'development' ? 'trace' : 'info'),
@@ -55,6 +56,7 @@ const securityLoggerTargets: pino.TransportTargetOptions[] = [
 ];
 
 if (NODE_ENV === 'development') securityLoggerTargets.push(pinoPrettyTransport);
+if (NODE_ENV === 'test') securityLoggerTargets.length = 0;
 
 const securityLogger: Logger = pino({
   level: PINO_LOG_LEVEL || (NODE_ENV === 'development' ? 'trace' : 'info'),
@@ -71,6 +73,7 @@ const appLoggerTargets: pino.TransportTargetOptions[] = [
 ];
 
 if (NODE_ENV === 'development') appLoggerTargets.push(pinoPrettyTransport);
+if (NODE_ENV === 'test') appLoggerTargets.length = 0;
 
 const appLogger: Logger = pino({
   level: PINO_LOG_LEVEL || (NODE_ENV === 'development' ? 'trace' : 'info'),
