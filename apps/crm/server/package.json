@@ -114,7 +114,7 @@
     "pino-mongodb": "^5.0.0",
     "postgres": "^3.4.7",
     "redis": "^6.1.0",
-    "rollbar": "^3.0.0",
+    "rollbar": "^4.0.0",
     "sharp": "^0.35.3",
     "slugify": "^1.6.6",
     "validator": "^13.15.22",
