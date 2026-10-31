@@ -419,7 +419,7 @@ For tool specific configuration refer to the respective readme sections:
 
 [`DBeaver`](./apps/crm/docker/README.md#dbeaver)
 
-[`Postman`](./apps/crm/server/README.md#postman)
+[`Postman`](./apps/crm/server/postman/README.md#postman)
 
 ## Live Demo
 
