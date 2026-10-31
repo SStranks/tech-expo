@@ -1,5 +1,13 @@
 #!/bin/sh
 
+committed_filenames=$(git diff --cached --name-only --diff-filter=ACMR)
+
+if printf '%s\n' "$committed_filenames" | grep -E '\.postman_environment\.json$' | grep -Evi 'example'; then
+    echo "[POSTMAN] ERROR: Non-example Postman environment detected"
+    echo "[POSTMAN] Only example environments may be committed"
+    exit 1
+fi
+
 echo "[HUSKY: PRE-COMMIT] Running Lint-Staged on staged files..."
 pnpm exec lint-staged
 echo "[HUSKY: PRE-COMMIT] Linting successful"
