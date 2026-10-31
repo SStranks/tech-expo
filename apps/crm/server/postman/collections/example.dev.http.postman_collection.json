@@ -1,0 +1,499 @@
+{
+  "info": {
+    "_postman_id": "4ce56eb5-a388-43dc-9e59-23386deb8a3a",
+    "name": "CRM Server - HTTP",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "20126264"
+  },
+  "item": [
+    {
+      "name": "Routes",
+      "item": [
+        {
+          "name": "UserRoute",
+          "item": [
+            {
+              "name": "Public",
+              "item": [
+                {
+                  "name": "Login",
+                  "item": [
+                    {
+                      "name": "Login - Root",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "type": "text/javascript",
+                            "exec": ["pm.environment.set(\"AUTH_TOKEN\", pm.response.json().authToken);\r\n"]
+                          }
+                        }
+                      ],
+                      "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"email\": \"{{rootEmail}}\",\r\n    \"password\": \"{{rootPassword}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{BASE_URL}}/api/users/login",
+                          "host": ["{{BASE_URL}}"],
+                          "path": ["api", "users", "login"]
+                        }
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "Login - Admin",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "type": "text/javascript",
+                            "exec": ["pm.environment.set(\"AUTH_TOKEN\", pm.response.json().authToken);"]
+                          }
+                        }
+                      ],
+                      "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"email\": \"{{adminEmail}}\",\r\n    \"password\": \"{{adminPassword}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{BASE_URL}}/api/users/login",
+                          "host": ["{{BASE_URL}}"],
+                          "path": ["api", "users", "login"]
+                        }
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "Login - Moderator",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "type": "text/javascript",
+                            "exec": ["pm.environment.set(\"AUTH_TOKEN\", pm.response.json().authToken);\r\n"]
+                          }
+                        }
+                      ],
+                      "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"email\": \"{{moderatorEmail}}\",\r\n    \"password\": \"{{moderatorPassword}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{BASE_URL}}/api/users/login",
+                          "host": ["{{BASE_URL}}"],
+                          "path": ["api", "users", "login"]
+                        }
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "Login - User",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "type": "text/javascript",
+                            "exec": ["pm.environment.set(\"AUTH_TOKEN\", pm.response.json().authToken);\r\n"]
+                          }
+                        }
+                      ],
+                      "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"email\": \"{{userEmail}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{BASE_URL}}/api/users/login",
+                          "host": ["{{BASE_URL}}"],
+                          "path": ["api", "users", "login"]
+                        }
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "Login - Demo User",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "type": "text/javascript",
+                            "exec": ["pm.environment.set(\"AUTH_TOKEN\", pm.response.json().authToken);\r\n"]
+                          }
+                        }
+                      ],
+                      "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"email\": \"{{demoEmail}}\",\r\n    \"password\": \"{{demoPassword}}\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{BASE_URL}}/api/users/login",
+                          "host": ["{{BASE_URL}}"],
+                          "path": ["api", "users", "login"]
+                        }
+                      },
+                      "response": []
+                    }
+                  ],
+                  "description": "Login with accounts of varying client permission"
+                },
+                {
+                  "name": "Signup",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"email\": \"{{userEmail}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{BASE_URL}}/api/users/signup",
+                      "host": ["{{BASE_URL}}"],
+                      "path": ["api", "users", "signup"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Signup Confirm",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"email\": \"{{userEmail}}\",\r\n    \"password\": \"{{userPassword}}\",\r\n    \"passwordConfirm\": \"{{userPassword}}\",\r\n    \"verificationCode\": \"{{verificationCode}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{BASE_URL}}/api/users/confirmSignup",
+                      "host": ["{{BASE_URL}}"],
+                      "path": ["api", "users", "confirmSignup"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Logout",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{BASE_URL}}/api/users/logout",
+                      "host": ["{{BASE_URL}}"],
+                      "path": ["api", "users", "logout"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Forgot Password",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"email\": \"{{userEmail}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{BASE_URL}}/api/users/forgotPassword",
+                      "host": ["{{BASE_URL}}"],
+                      "path": ["api", "users", "forgotPassword"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Reset Password",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": ["pm.environment.set(\"jwt-auth\", pm.response.json().authToken);"]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"password\": \"{{userNewPassword}}\",\r\n    \"passwordConfirm\": \"{{userNewPassword}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{BASE_URL}}/api/users/resetPassword/{{passwordResetToken}}",
+                      "host": ["{{BASE_URL}}"],
+                      "path": ["api", "users", "resetPassword", "{{passwordResetToken}}"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Generate Auth Token",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{BASE_URL}}/api/users/generateAuthToken",
+                      "host": ["{{BASE_URL}}"],
+                      "path": ["api", "users", "generateAuthToken"]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Protected",
+              "item": [
+                {
+                  "name": "Reject Unauthenticated Requests",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Rejected protected route request; 'Invalid JWT' message\", function () {\r\n    const jsonData = pm.response.json();\r\n    const error = jsonData.errors.filter((error) => error.message === \"Invalid JWT\")\r\n    pm.expect(error[0].message).to.eql(\"Invalid JWT\");\r\n});"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{AUTH_TOKEN}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{BASE_URL}}/api/users/activateRefreshToken",
+                      "host": ["{{BASE_URL}}"],
+                      "path": ["api", "users", "activateRefreshToken"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Update Password",
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"newPassword\": \"{{userNewPassword}}\",\r\n    \"newPasswordConfirm\": \"{{userNewPassword}}\",\r\n    \"oldPassword\": \"{{userPassword}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{BASE_URL}}/api/users/updatePassword",
+                      "host": ["{{BASE_URL}}"],
+                      "path": ["api", "users", "updatePassword"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Activate Refresh Token",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{BASE_URL}}/api/users/activateRefreshToken",
+                      "host": ["{{BASE_URL}}"],
+                      "path": ["api", "users", "activateRefreshToken"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Identify",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{BASE_URL}}/api/users/identify",
+                      "host": ["{{BASE_URL}}"],
+                      "path": ["api", "users", "identify"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Freeze Account",
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "url": {
+                      "raw": "{{BASE_URL}}/api/users/freezeAccount",
+                      "host": ["{{BASE_URL}}"],
+                      "path": ["api", "users", "freezeAccount"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Delete Account",
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{BASE_URL}}/api/users/deleteAccount",
+                      "host": ["{{BASE_URL}}"],
+                      "path": ["api", "users", "deleteAccount"]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Restricted",
+              "item": [
+                {
+                  "name": "Admin Route",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{BASE_URL}}/api/users/restricted",
+                      "host": ["{{BASE_URL}}"],
+                      "path": ["api", "users", "restricted"]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Favicon",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/favicon.ico",
+          "host": ["{{BASE_URL}}"],
+          "path": ["favicon.ico"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Healthcheck",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/health",
+          "host": ["{{BASE_URL}}"],
+          "path": ["health"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

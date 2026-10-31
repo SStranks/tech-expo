@@ -38,6 +38,10 @@ logs/
 # Drizzle 
 **/drizzle/migrations
 
+# Postman
+**/postman/environments/*.postman_environment.json
+!**/postman/environments/example.*.postman_environment.json
+
 # Testing
 **/coverage
 
