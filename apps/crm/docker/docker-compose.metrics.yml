@@ -34,7 +34,7 @@ services:
 
   prometheus:
     container_name: ${PROMETHEUS_CONTAINER:?error}
-    image: prom/prometheus:v3.14.0@sha256:5ce7540c3c00ef4ab0c9d2c995c6a5b9c421f44b4a115d97a2c7af3b1c21cbb0
+    image: prom/prometheus:v3.15.1@sha256:fa3302279710be2f21a8301ec17a8b4f2301fd829bd113839b3b6b02b6f191a2
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.config.file=/etc/prometheus/auth.yml
@@ -194,7 +194,7 @@ services:
 
   mongo-exporter:
     container_name: ${MONGO_EXPORTER_CONTAINER:?error}
-    image: percona/mongodb_exporter:0.53.0@sha256:0214e482b2cd4b1849f9f4dcef90d328a99ba3727dd1103e7da48b42060bcec1
+    image: percona/mongodb_exporter:0.54.0@sha256:934e9db87e85e0fa63654e73c3504845993a254e898783ca905e65a68848b5a4
     command:
       - --no-discovering-mode
       - --collector.dbstats
@@ -226,7 +226,7 @@ services:
 
   redis-exporter:
     container_name: ${REDIS_EXPORTER_CONTAINER:?error}
-    image: oliver006/redis_exporter:v1.91.1@sha256:c67a432dba6b4ae30f471e3c77cf14a289133bbeeb89abb0bb03e6092efb2836
+    image: oliver006/redis_exporter:v1.96.0@sha256:3d57b9eb142a62ffc600063606a41cd471cd53d81bed10be5b56b3a8918f2c26
     restart: unless-stopped
     depends_on:
       redis:
