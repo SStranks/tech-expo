@@ -1,6 +1,8 @@
 {
-  "title": "Contacts Notes; Users discussion about the contact",
-  "createdBy": "ChatGPT. DeepAI Text Generator.",
+  "_metadata": {
+    "title": "Contacts Notes; Users discussion about the contact",
+    "createdBy": "ChatGPT. DeepAI Text Generator."
+  },
   "non_chain_notes": {
     "Software Development": {
       "new": "We've just added {CONTACT_NAME} from {COMPANY_NAME} to our list. Their work in agile methodologies and full-stack development is impressive. It seems like they're fresh to the scene, but I think a detailed presentation on our expo's developer track would be helpful. I'd like to see them building future applications, or at the very least, demoing what they have.",

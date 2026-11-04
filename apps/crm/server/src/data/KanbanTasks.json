@@ -1,6 +1,5 @@
 {
-  "title": "Kanban Tasks; information for each task",
-  "createdBy": "ChatGPT. DeepAI Text Generator.",
+  "_metadata": { "title": "Kanban Tasks; information for each task", "createdBy": "ChatGPT. DeepAI Text Generator." },
   "stages": ["unassigned", "todo", "in progress", "in review", "done"],
   "tasks": [
     {

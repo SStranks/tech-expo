@@ -1,6 +1,8 @@
 {
-  "title": "Calendar event catergories and associated titles of events",
-  "createdBy": "ChatGPT. DeepAI Text Generator.",
+  "_metadata": {
+    "title": "Calendar event catergories and associated titles of events",
+    "createdBy": "ChatGPT. DeepAI Text Generator."
+  },
   "categories": [
     "Meeting",
     "Holiday",
