@@ -20,7 +20,10 @@ services:
       - techexpo-crm-backend
       - techexpo-crm-metrics
     secrets:
-      - demo_acc_generic_non_user_password
+      - demo_account_generic_non_user_password
+      - demo_account_user_password
+      - demo_account_moderator_password
+      - demo_account_admin_password
       - graphql_introspect_auth
       - jwt_auth_secret
       - jwt_refresh_secret
@@ -116,8 +119,14 @@ networks:
     driver: bridge
 
 secrets:
-  demo_acc_generic_non_user_password:
-    file: ${SECRET_PATH}/.secret.demo_acc_generic_non_user_password.txt
+  demo_account_generic_non_user_password:
+    file: ${SECRET_PATH}/.secret.demo_account_generic_non_user_password.txt
+  demo_account_user_password:
+    file: ${SECRET_PATH}/.secret.demo_account_user_password.txt
+  demo_account_moderator_password:
+    file: ${SECRET_PATH}/.secret.demo_account_moderator_password.txt
+  demo_account_admin_password:
+    file: ${SECRET_PATH}/.secret.demo_account_admin_password.txt
   graphql_introspect_auth:
     file: ${SECRET_PATH}/.secret.graphql_introspect_auth.txt
   jwt_auth_secret:

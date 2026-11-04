@@ -9,7 +9,7 @@ import UserTable from '#Config/schema/user/User.js';
 import UserProfileTable from '#Config/schema/user/UserProfile.js';
 import { seedSettings } from '#Config/seedSettings.js';
 
-import { generateDemoUsers, generateUsers } from './generators/Users.js';
+import { generateDemoUsers, generateGenericUsers } from './generators/Users.js';
 
 const { COMPANY_NAME } = seedSettings;
 
@@ -30,10 +30,10 @@ export default async function seedUsers(db: PostgresClient) {
   const userInsertionData: UserTableInsert[] = [];
   const demoUserInsertionData: UserTableInsert[] = [];
 
-  const generatedUsers = generateUsers();
-  const generatedDemoUsers = generateDemoUsers();
+  const generatedGenericUsers = await generateGenericUsers();
+  const generatedDemoUsers = await generateDemoUsers();
 
-  generatedUsers.forEach((user) => {
+  generatedGenericUsers.forEach((user) => {
     userInsertionData.push({
       id: user.userId,
       email: user.personalEmail,
@@ -58,7 +58,7 @@ export default async function seedUsers(db: PostgresClient) {
   const userProfileInsertionData: UserProfileTableInsert[] = [];
   const demoUserProfileInsertionData: UserProfileTableInsert[] = [];
 
-  generatedUsers.forEach((user) => {
+  generatedGenericUsers.forEach((user) => {
     userProfileInsertionData.push({
       companyRole: user.companyRole,
       countryId: primaryCompany.country.id,

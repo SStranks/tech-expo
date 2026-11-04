@@ -28,7 +28,7 @@ const {
   CALENDAR_EVENTS_MAX,
   CALENDAR_EVENTS_MIN,
   COMPANY_NAME,
-  USER_ENTRY_COUNT,
+  DEMO_ACCOUNT_GENERIC_NON_USER_COUNT,
 } = seedSettings;
 
 export default async function seedCalendar(db: PostgresClient) {
@@ -105,8 +105,10 @@ export default async function seedCalendar(db: PostgresClient) {
 
   // Get all users for the primary company
   const primaryCompanyUserIds = await db.query.UserProfileTable.findMany({ columns: { id: true } });
-  if (primaryCompanyUserIds.length === USER_ENTRY_COUNT)
-    throw new Error(`Mismatch in data: Returned length of primary company users != USER_ENTRY_COUNT`);
+  if (primaryCompanyUserIds.length === DEMO_ACCOUNT_GENERIC_NON_USER_COUNT)
+    throw new Error(
+      `Mismatch in data: Returned length of primary company users !=  DEMO_ACCOUNT_GENERIC_NON_USER_COUNT`
+    );
 
   // For each event; gather 2 - 6 random User ID's; create an entry per user per event
   calendarEventsReturnData.forEach((event) => {
