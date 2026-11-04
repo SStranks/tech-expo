@@ -6,8 +6,11 @@ import type { KanbanTasksTableInsert } from '#Config/schema/kanban/Tasks.ts';
 import type { KanbanTaskCommentsTableInsert } from '#Config/schema/kanban/TasksComments.js';
 import type { KanbanClientGeneratedId } from '#Models/domain/kanban/kanban.types.js';
 import type { KanbanStageClientGeneratedId } from '#Models/domain/kanban/stage/stage.types.js';
+import type { KanbanTaskClientGeneratedId } from '#Models/domain/kanban/task/task.types.js';
 
-import { createMockUUID, generateOrderKeyBetween } from '@apps/crm-shared/utils';
+import type { KanbanTaskTemplate } from './generators/KanbanTask.js';
+
+import { createMockUUID } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 import { eq } from 'drizzle-orm';
 
@@ -20,9 +23,9 @@ import KanbanTaskCommentsTable from '#Config/schema/kanban/TasksComments.js';
 import { seedSettings } from '#Config/seedSettings.js';
 
 import {
-  generateKanbanTask,
   generateKanbanTaskChecklist,
   generateKanbanTaskComments,
+  KanbanTaskGenerator,
 } from './generators/KanbanTask.js';
 
 export type SeedKanbanUsers = Awaited<ReturnType<typeof getAllUsers>>;
@@ -82,16 +85,18 @@ export default async function seedKanban(db: PostgresClient) {
 
   // ------------ KANBAN-TASKS TABLE ------------- //
   const tasksInsertionData: KanbanTasksTableInsert[] = [];
+  const tasksTemplates = new Map<KanbanTaskClientGeneratedId, KanbanTaskTemplate>();
   const allUsers = await getAllUsers(db);
 
   stagesReturnData.forEach(({ id: stageId, title }) => {
     const randNumOfTasks = faker.number.int({ max: KANBAN_STAGE_TASKS_MAX, min: KANBAN_STAGE_TASKS_MIN });
 
-    let lastOrderKey: string | null = null;
+    const taskGenerator = new KanbanTaskGenerator(stageId, title, allUsers);
+
     for (let i = 0; i < randNumOfTasks; i++) {
-      const orderKey = generateOrderKeyBetween(lastOrderKey, null);
-      tasksInsertionData.push(generateKanbanTask(orderKey, allUsers, stageId, title));
-      lastOrderKey = orderKey;
+      const { task, template } = taskGenerator.createTask();
+      tasksInsertionData.push(task);
+      tasksTemplates.set(task.clientGeneratedId, template);
     }
   });
 
@@ -100,8 +105,11 @@ export default async function seedKanban(db: PostgresClient) {
   // ------- KANBAN-TASKS-CHECKLIST TABLE -------- //
   const taskChecklistInsertionData: KanbanTaskChecklistItemTableInsert[] = [];
 
-  tasksReturnData.forEach(({ id, title }) => {
-    taskChecklistInsertionData.push(...generateKanbanTaskChecklist(id, title));
+  tasksReturnData.forEach(({ id, clientGeneratedId }) => {
+    const taskTemplate = tasksTemplates.get(clientGeneratedId);
+    if (!taskTemplate) throw new Error('Task Template was missing');
+
+    taskChecklistInsertionData.push(...generateKanbanTaskChecklist(id, taskTemplate));
   });
 
   await db.insert(KanbanTaskChecklistItemTable).values(taskChecklistInsertionData);
@@ -109,8 +117,11 @@ export default async function seedKanban(db: PostgresClient) {
   // ------- KANBAN-TASKS-COMMENTS TABLE --------- //
   const taskCommentsInsertionData: KanbanTaskCommentsTableInsert[] = [];
 
-  tasksReturnData.forEach(({ id, title }) => {
-    taskCommentsInsertionData.push(...generateKanbanTaskComments(allUsers, id, title));
+  tasksReturnData.forEach(({ id, clientGeneratedId }) => {
+    const taskTemplate = tasksTemplates.get(clientGeneratedId);
+    if (!taskTemplate) throw new Error('Task Template was missing');
+
+    taskCommentsInsertionData.push(...generateKanbanTaskComments(allUsers, id, taskTemplate));
   });
 
   await db.insert(KanbanTaskCommentsTable).values(taskCommentsInsertionData).returning();

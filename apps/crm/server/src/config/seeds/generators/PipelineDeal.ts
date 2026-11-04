@@ -4,33 +4,73 @@ import type { PipelineStageId } from '#Models/domain/pipeline/stage/stage.types.
 
 import type { SeedPipelineCompanies, SeedPipelineUsers } from '../Pipeline.js';
 
-import { createMockUUID } from '@apps/crm-shared/utils';
+import { createMockUUID, generateOrderKeyBetween } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 
-import PipelineDealsTitles from '#Data/PipelineDeals.json';
+import PipelineDealsJSON from '#Data/PipelineDeals.json';
 
-// TODO:  Possibility of duplicate task from faker.arrayElement calls; amend to ensure unique random value
-export function generatePipelineDeal(
-  companies: SeedPipelineCompanies,
-  users: SeedPipelineUsers,
-  stageId: PipelineStageId
-): PipelineDealsTableInsert {
-  const title = faker.helpers.arrayElement(PipelineDealsTitles.deal_title);
-  const dealOwnerUserProfileId = faker.helpers.arrayElement(users).id;
-  const value = faker.commerce.price({ dec: 2, max: 10_000, min: 100 });
-  const { contacts, id: companyId } = faker.helpers.arrayElement(companies);
-  const { id: dealContactId } = faker.helpers.arrayElement(contacts);
-  const orderKey = ''; // TODO: Needs to be lexicographically generated
-  const clientGeneratedId = createMockUUID() as PipelineDealClientGeneratedId;
+export type PipelineDealTemplate = (typeof PipelineDealsJSON.deal_title)[number];
 
-  return {
-    clientGeneratedId,
-    companyId,
-    dealContactId,
-    dealOwnerUserProfileId,
-    orderKey,
-    stageId,
-    title,
-    value,
-  };
+type SeedPipelineDealCompanyContacts = SeedPipelineCompanies[number]['contacts'];
+
+const pipelineDealsShuffled = PipelineDealsJSON.deal_title;
+
+export class PipelineDealGenerator {
+  private orderKey: string | null = null;
+
+  private readonly companies: SeedPipelineCompanies;
+  private readonly pipelineDeals: PipelineDealTemplate[];
+  private readonly stageId: PipelineStageId;
+  private readonly users: SeedPipelineUsers;
+
+  constructor(stageId: PipelineStageId, allUsers: SeedPipelineUsers, allCompanies: SeedPipelineCompanies) {
+    this.companies = allCompanies;
+    this.pipelineDeals = pipelineDealsShuffled;
+    this.stageId = stageId;
+    this.users = allUsers;
+  }
+
+  createPipelineDeal(): PipelineDealsTableInsert {
+    const dealTitle = this.pipelineDeals.pop();
+    if (dealTitle === undefined)
+      throw new Error(`Seed data of 'PipelineDeals.deal_title' has been completely consumed`);
+
+    const { contacts, id: companyId } = this.getCompany();
+
+    return {
+      clientGeneratedId: this.generateClientId(),
+      companyId,
+      dealContactId: this.getContactId(contacts),
+      dealOwnerUserProfileId: this.generateDealOwnerId(),
+      orderKey: this.generateOrderKey(),
+      stageId: this.stageId,
+      title: dealTitle,
+      value: this.generateDealValue(),
+    };
+  }
+
+  getCompany() {
+    return faker.helpers.arrayElement(this.companies);
+  }
+
+  getContactId(contacts: SeedPipelineDealCompanyContacts) {
+    return faker.helpers.arrayElement(contacts).id;
+  }
+
+  generateDealValue() {
+    return faker.commerce.price({ dec: 2, max: 10_000, min: 100 });
+  }
+
+  generateDealOwnerId() {
+    return faker.helpers.arrayElement(this.users).id;
+  }
+
+  generateClientId() {
+    return createMockUUID() as PipelineDealClientGeneratedId;
+  }
+
+  generateOrderKey(): string {
+    this.orderKey = generateOrderKeyBetween(this.orderKey, null);
+    return this.orderKey;
+  }
 }
