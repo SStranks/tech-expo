@@ -7,7 +7,7 @@ import type { UserProfileId } from '#Models/domain/user/profile/profile.types.js
 import type { UserId } from '#Models/domain/user/user.types.js';
 
 import { relations } from 'drizzle-orm';
-import { char, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { pgEnum, pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 
 import { COMPANY_ROLES } from '#Models/domain/user/profile/profile.types.js';
@@ -47,7 +47,7 @@ export const UserProfileTable = pgTable('user_profile', {
     .notNull()
     .$type<CountryId>(),
   companyRole: CompanyRolesEnum('company_role').notNull(),
-  image: char('profile_image', { length: 32 }), // MD5 hash of UUID (used as image name)
+  image: text('profile_image'),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
 });

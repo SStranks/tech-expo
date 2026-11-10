@@ -21,7 +21,6 @@ async function getPrimaryCompany(db: PostgresClient) {
   });
 }
 
-// TODO:  Make JSON file with UserProfile image addresses; URL should then be MD5 hashed here.
 export default async function seedUsers(db: PostgresClient) {
   const primaryCompany = await getPrimaryCompany(db);
   if (!primaryCompany) throw new Error(`Could not find primary company ${COMPANY_NAME}`);
@@ -64,6 +63,7 @@ export default async function seedUsers(db: PostgresClient) {
       countryId: primaryCompany.country.id,
       email: user.companyEmail,
       firstName: user.firstName,
+      image: user.image,
       lastName: user.lastName,
       mobile: user.mobile,
       telephone: user.telephone,
@@ -78,6 +78,7 @@ export default async function seedUsers(db: PostgresClient) {
       countryId: primaryCompany.country.id,
       email: user.companyEmail,
       firstName: user.firstName,
+      image: user.image,
       lastName: user.lastName,
       mobile: user.mobile,
       telephone: user.telephone,

@@ -10,14 +10,16 @@ import type {
 } from '#Models/domain/kanban/task/task.types.js';
 
 import type { SeedKanbanUsers } from '../Kanban.js';
+import type { KanbanTasksJSON } from '../types/types.js';
 
 import { createMockUUID, generateOrderKeyBetween } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 
-import KanbanTasksJSON from '#Data/KanbanTasks.json';
+import { importJSONSeed } from '../utils/import.js';
 
 export type KanbanTaskTemplate = (typeof KanbanTasksJSON.tasks)[number];
 
+const KanbanTasksJSON = importJSONSeed<KanbanTasksJSON>('KanbanTasks.json');
 const kanbanTasksShuffled = KanbanTasksJSON.tasks.toSorted(() => Math.random() - 0.5);
 
 export class KanbanTaskGenerator {

@@ -3,11 +3,14 @@ import type { PipelineDealClientGeneratedId } from '#Models/domain/pipeline/deal
 import type { PipelineStageId } from '#Models/domain/pipeline/stage/stage.types.js';
 
 import type { SeedPipelineCompanies, SeedPipelineUsers } from '../Pipeline.js';
+import type { PipelineDealsJSON } from '../types/types.js';
 
 import { createMockUUID, generateOrderKeyBetween } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 
-import PipelineDealsJSON from '#Data/PipelineDeals.json';
+import { importJSONSeed } from '../utils/import.js';
+
+const PipelineDealsJSON = importJSONSeed<PipelineDealsJSON>('PipelineDeals.json');
 
 export type PipelineDealTemplate = (typeof PipelineDealsJSON.deal_title)[number];
 

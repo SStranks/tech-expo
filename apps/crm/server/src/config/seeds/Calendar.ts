@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 import type { PostgresClient } from '#Config/dbPostgres.ts';
 import type { CalendarTableInsert } from '#Config/schema/calendar/Calendar.ts';
 import type {
@@ -10,6 +11,8 @@ import type { CalendarClientGeneratedId } from '#Models/domain/calendar/calendar
 import type { CalendarCategoryClientGeneratedId } from '#Models/domain/calendar/category/category.types.js';
 import type { CalendarEventClientGeneratedId } from '#Models/domain/calendar/event/event.types.js';
 
+import type { CalendarEventJSON } from './types/types.js';
+
 import { createMockUUID } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 import { eq } from 'drizzle-orm';
@@ -20,7 +23,10 @@ import CalendarEventsTable from '#Config/schema/calendar/Events.js';
 import CalendarEventsParticipantsTable from '#Config/schema/calendar/EventsParticipants.js';
 import CompaniesTable from '#Config/schema/companies/Companies.js';
 import { seedSettings } from '#Config/seedSettings.js';
-import CalendarEventsJSON from '#Data/CalendarEvents.json';
+
+import { importJSONSeed } from './utils/import.js';
+
+const CalendarEventsJSON = importJSONSeed<CalendarEventJSON>('CalendarEvents.json');
 
 const {
   CALENDAR_EVENT_PARTICIPANTS_MAX,
@@ -81,8 +87,8 @@ export default async function seedCalendar(db: PostgresClient) {
 
   // For each type of calendar event category; insert the 5 events listed in JSON data
   calendarCategoriesReturnData.forEach(({ calendarId, id: categoryId, title }) => {
-    const eventsOfCategory = CalendarEventsJSON.categoryTitles[title as keyof typeof CalendarEventsJSON.categoryTitles];
-    eventsOfCategory.forEach((event) => {
+    const eventsOfCategory = CalendarEventsJSON.categoryTitles[title];
+    eventsOfCategory?.forEach((event) => {
       calendarEventsInsertionData.push({
         calendarId,
         categoryId,

@@ -5,18 +5,19 @@ import type { CountryId } from '#Models/domain/country/country.types.js';
 
 import CountriesTable from '#Config/schema/Countries.js';
 import TimeZoneTable from '#Config/schema/TimeZones.js';
-import importCSVFile from '#Utils/importCsvFile.js';
 
 import path from 'node:path';
 import url from 'node:url';
 
+import { importCSVFile } from './utils/import.js';
+
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
-const COUNTRIES_CSV = path.resolve(__dirname, '../../data/Countries.csv');
-const TIMEZONE_CSV = path.resolve(__dirname, '../../data/Countries with UTC Offset.csv');
+const COUNTRIES_CSV_PATH = path.resolve(__dirname, '../../data/Countries.csv');
+const TIMEZONE_CSV_PATH = path.resolve(__dirname, '../../data/Countries_UTC_Offset.csv');
 
 export default async function seedCountries(db: PostgresClient) {
   // ----------- COUNTRIES TABLE ----------- //
-  const countriesInsertionData: CountriesTableInsert[] = importCSVFile<CountriesTableInsert>(COUNTRIES_CSV);
+  const countriesInsertionData = importCSVFile<CountriesTableInsert>(COUNTRIES_CSV_PATH);
 
   const countriesInsertReturnData = await db
     .insert(CountriesTable)
@@ -27,7 +28,7 @@ export default async function seedCountries(db: PostgresClient) {
   const timeZonesInsertionData: TimeZoneTableInsert[] = [];
 
   type TimeZonesCSV = Omit<TimeZoneTableInsert, 'id' | 'countryId'>;
-  const timeZonesCSVData = importCSVFile<TimeZonesCSV>(TIMEZONE_CSV);
+  const timeZonesCSVData = importCSVFile<TimeZonesCSV>(TIMEZONE_CSV_PATH);
 
   // Create dictionary of alpha-2 codes and country IDs
   const countriesDict = countriesInsertReturnData.reduce<{ [key: string]: CountryId }>((acc, cur) => {

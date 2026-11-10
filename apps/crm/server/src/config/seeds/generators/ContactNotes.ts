@@ -3,15 +3,16 @@ import type { ContactsNotesTableInsert } from '#Config/schema/contacts/ContactsN
 import type { ContactNoteClientGeneratedId } from '#Models/domain/contact/note/note.types.js';
 
 import type { SeedContactNotesContact, SeedContactNotesUsers } from '../ContactsNotes.ts';
+import type { ContactsNotesJSON } from '../types/types.js';
 
 import { createMockUUID } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 
-import ContactsNotes from '#Data/ContactsNotes.json';
-
+import { importJSONSeed } from '../utils/import.js';
 import { generateCommentDates, replaceCommentPlaceholders } from './utils.js';
 
-const { chain_notes: CHAIN_NOTES, non_chain_notes: NON_CHAIN_NOTES } = ContactsNotes;
+const ContactsNotesJSON = importJSONSeed<ContactsNotesJSON>('ContactsNotes.json');
+const { chain_notes: CHAIN_NOTES, non_chain_notes: NON_CHAIN_NOTES } = ContactsNotesJSON;
 
 /* eslint-disable perfectionist/sort-objects */
 // For the current 'contact stage' (key), appropriate previous 'contact stage' (value)
@@ -42,11 +43,16 @@ export function generateContactNotes(
   // Get appropriate previous 'contact stage' chain-notes
   const previousStage = CHAIN_NOTES_MAP[stage];
   const allChainNotesFromStage = CHAIN_NOTES[previousStage];
+
+  if (allChainNotesFromStage === undefined) throw new Error(`Incongruency. ${previousStage} not found in chain notes`);
   const randChainNotesArray = [...faker.helpers.arrayElement(allChainNotesFromStage)];
 
   // Push additional non-chain note from the appropriate industry for the current 'contact stage'
-  const finalComment =
-    NON_CHAIN_NOTES[industry as keyof typeof NON_CHAIN_NOTES][stage.toLowerCase() as Lowercase<typeof stage>];
+  if (NON_CHAIN_NOTES[industry] === undefined)
+    throw new Error(`Incongruency. ${industry} not found in non-chain notes`);
+
+  const stageLowerCase = stage.toLowerCase() as keyof (typeof NON_CHAIN_NOTES)[typeof industry];
+  const finalComment = NON_CHAIN_NOTES[industry][stageLowerCase];
   const totalComments = randChainNotesArray.push({ comment: finalComment });
 
   // Gather random users and randomize dates for the comments 'createdAt'
