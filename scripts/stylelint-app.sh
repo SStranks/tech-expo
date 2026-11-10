@@ -39,7 +39,7 @@ fi
 if [[ "$output_mode" == "--string" ]]; then
   report_dir="${LOGS_DIR_PATH}/stylelint"
   mkdir -p "${report_dir}"
-  output_file="${report_dir}/${target_dir_path}.${timestamp}.txt"
+  output_file="${report_dir}/${target_dir_path}.${timestamp}.log"
   echo "[SCRIPT: stylelint-app] Running Stylelint with TXT report"
   echo "[SCRIPT: stylelint-app] Output: ${output_file}"
   stylelint "${full_path}" --formatter string --output-file "${output_file}" 2>&1 | \
