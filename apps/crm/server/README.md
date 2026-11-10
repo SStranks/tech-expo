@@ -9,6 +9,9 @@
 
 NODE_ENV=development
 
+# Server
+SERVER_STORAGE_DIR=/app/storage
+
 # NodeJS Express
 JWT_AUTH_EXPIRES=0000m
 JWT_REFRESH_EXPIRES=0000d

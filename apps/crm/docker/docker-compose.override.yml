@@ -26,8 +26,9 @@ services:
       - tmpfs-certs:/etc/expressjs/certs:ro
       - ../shared:/app/shared:ro
       - ../server:/app/server:ro
-      - ../../../node_modules:/node_modules:ro
+      - ../server/storage:/app/storage
       - ../server/src/temp:/app/server/src/temp
+      - ../../../node_modules:/node_modules:ro
       - ./nodejs/node-express-healthcheck.sh:/usr/local/bin/node-express-healthcheck.sh:ro
     healthcheck:
       test: [CMD, /bin/sh, /usr/local/bin/node-express-healthcheck.sh]
@@ -156,6 +157,7 @@ services:
     volumes:
       - tmpfs-certs:/etc/expressjs/certs:ro
       - ../server:/app/server:ro
+      - ../server/storage:/app/storage
       - ../../../node_modules:/node_modules:ro
       - ./postgres/scripts/postgres-seeder-init.sh:/usr/local/bin/postgres-seeder-init.sh:ro
     networks:
