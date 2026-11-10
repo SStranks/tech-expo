@@ -9,7 +9,7 @@ import UserTable from '#Config/schema/user/User.js';
 import UserProfileTable from '#Config/schema/user/UserProfile.js';
 import { seedSettings } from '#Config/seedSettings.js';
 
-import { generateDemoUsers, generateUsers } from './generators/Users.js';
+import { generateDemoUsers, generateGenericUsers } from './generators/Users.js';
 
 const { COMPANY_NAME } = seedSettings;
 
@@ -21,7 +21,6 @@ async function getPrimaryCompany(db: PostgresClient) {
   });
 }
 
-// TODO:  Make JSON file with UserProfile image addresses; URL should then be MD5 hashed here.
 export default async function seedUsers(db: PostgresClient) {
   const primaryCompany = await getPrimaryCompany(db);
   if (!primaryCompany) throw new Error(`Could not find primary company ${COMPANY_NAME}`);
@@ -30,10 +29,10 @@ export default async function seedUsers(db: PostgresClient) {
   const userInsertionData: UserTableInsert[] = [];
   const demoUserInsertionData: UserTableInsert[] = [];
 
-  const generatedUsers = generateUsers();
-  const generatedDemoUsers = generateDemoUsers();
+  const generatedGenericUsers = await generateGenericUsers();
+  const generatedDemoUsers = await generateDemoUsers();
 
-  generatedUsers.forEach((user) => {
+  generatedGenericUsers.forEach((user) => {
     userInsertionData.push({
       id: user.userId,
       email: user.personalEmail,
@@ -58,12 +57,13 @@ export default async function seedUsers(db: PostgresClient) {
   const userProfileInsertionData: UserProfileTableInsert[] = [];
   const demoUserProfileInsertionData: UserProfileTableInsert[] = [];
 
-  generatedUsers.forEach((user) => {
+  generatedGenericUsers.forEach((user) => {
     userProfileInsertionData.push({
       companyRole: user.companyRole,
       countryId: primaryCompany.country.id,
       email: user.companyEmail,
       firstName: user.firstName,
+      image: user.image,
       lastName: user.lastName,
       mobile: user.mobile,
       telephone: user.telephone,
@@ -78,6 +78,7 @@ export default async function seedUsers(db: PostgresClient) {
       countryId: primaryCompany.country.id,
       email: user.companyEmail,
       firstName: user.firstName,
+      image: user.image,
       lastName: user.lastName,
       mobile: user.mobile,
       telephone: user.telephone,

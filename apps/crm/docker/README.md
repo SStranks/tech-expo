@@ -345,7 +345,10 @@ prometheus_password: xxxx
 grafana_user: xxxx
 grafana_password: xxxx
 # Demo Accounts
-demo_acc_generic_non_user_password: xxxx
+demo_account_generic_non_user_password: xxxx
+demo_account_user_password: xxxx
+demo_account_moderator_password: xxxx
+demo_account_admin_password: xxxx
 ```
 
 ###### .secret.mongoExporter.txt

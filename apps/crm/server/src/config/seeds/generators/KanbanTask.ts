@@ -1,5 +1,5 @@
 import type { KanbanTaskChecklistItemTableInsert } from '#Config/schema/kanban/ChecklistItems.ts';
-import type { KanbanTasksTableInsert } from '#Config/schema/kanban/Tasks.ts';
+import type { KanbanTasksTableInsert } from '#Config/schema/kanban/Tasks.js';
 import type { KanbanTaskCommentsTableInsert } from '#Config/schema/kanban/TasksComments.ts';
 import type { KanbanStageId } from '#Models/domain/kanban/stage/stage.types.js';
 import type {
@@ -10,42 +10,78 @@ import type {
 } from '#Models/domain/kanban/task/task.types.js';
 
 import type { SeedKanbanUsers } from '../Kanban.js';
+import type { KanbanTasksJSON } from '../types/types.js';
 
-import { createMockUUID } from '@apps/crm-shared/utils';
+import { createMockUUID, generateOrderKeyBetween } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 
-import KanbanTasks from '#Data/KanbanTasks.json';
+import { importJSONSeed } from '../utils/import.js';
 
-// TODO:  Possibility of duplicate task from faker.arrayElement calls; amend to ensure unique random value
-export function generateKanbanTask(
-  orderKey: string,
-  users: SeedKanbanUsers,
-  stageId: KanbanStageId,
-  stageTitle: string
-): KanbanTasksTableInsert {
-  const { description, title } = faker.helpers.arrayElement(KanbanTasks.tasks);
-  const assignedUserProfileId = faker.helpers.arrayElement(users).id;
-  const completed = stageTitle === 'done' ? true : false;
-  const dueDate = faker.date.soon({ days: 60 });
+export type KanbanTaskTemplate = (typeof KanbanTasksJSON.tasks)[number];
 
-  return {
-    assignedUserProfileId,
-    clientGeneratedId: createMockUUID() as KanbanTaskClientGeneratedId,
-    completed,
-    description,
-    dueDate,
-    orderKey,
-    stageId: stageId,
-    title,
-  };
+const KanbanTasksJSON = importJSONSeed<KanbanTasksJSON>('KanbanTasks.json');
+const kanbanTasksShuffled = KanbanTasksJSON.tasks.toSorted(() => Math.random() - 0.5);
+
+export class KanbanTaskGenerator {
+  private orderKey: string | null = null;
+
+  private readonly kanbanTasks: KanbanTaskTemplate[];
+  private readonly stageId: KanbanStageId;
+  private readonly stageTitle: string;
+  private readonly users: SeedKanbanUsers;
+
+  constructor(stageId: KanbanStageId, stageTitle: string, allUsers: SeedKanbanUsers) {
+    this.kanbanTasks = kanbanTasksShuffled;
+    this.stageId = stageId;
+    this.stageTitle = stageTitle;
+    this.users = allUsers;
+  }
+
+  createTask(): { task: KanbanTasksTableInsert; template: KanbanTaskTemplate } {
+    const taskTemplate = this.kanbanTasks.pop();
+    if (taskTemplate === undefined) throw new Error(`Seed data of 'KanbanTasks.tasks' has been completely consumed`);
+
+    return {
+      task: {
+        assignedUserProfileId: this.generateAssignedUserId(),
+        clientGeneratedId: this.generateClientId(),
+        completed: this.generateTaskCompleted(),
+        description: taskTemplate.description,
+        dueDate: this.generateDueDate(),
+        orderKey: this.generateOrderKey(),
+        stageId: this.stageId,
+        title: taskTemplate.title,
+      },
+      template: taskTemplate,
+    };
+  }
+
+  generateClientId() {
+    return createMockUUID() as KanbanTaskClientGeneratedId;
+  }
+
+  generateOrderKey(): string {
+    this.orderKey = generateOrderKeyBetween(this.orderKey, null);
+    return this.orderKey;
+  }
+
+  generateDueDate(): Date {
+    return faker.date.soon({ days: 60 });
+  }
+
+  generateTaskCompleted(): boolean {
+    return this.stageTitle === 'done';
+  }
+
+  generateAssignedUserId() {
+    return faker.helpers.arrayElement(this.users).id;
+  }
 }
 
-export function generateKanbanTaskChecklist(taskId: KanbanTaskId, title: string) {
+export function generateKanbanTaskChecklist(taskId: KanbanTaskId, taskTemplate: KanbanTaskTemplate) {
   const checklistItems: KanbanTaskChecklistItemTableInsert[] = [];
-  const task = KanbanTasks.tasks.find((task) => task.title === title);
-  if (!task) throw new Error(`Incongruency in JSON and SQL return data; task title`);
 
-  task.checklist.forEach(({ completed, title }) => {
+  taskTemplate.checklist.forEach(({ completed, title }) => {
     checklistItems.push({
       clientGeneratedId: createMockUUID() as KanbanTaskChecklistItemClientGeneratedId,
       completed,
@@ -57,12 +93,14 @@ export function generateKanbanTaskChecklist(taskId: KanbanTaskId, title: string)
   return checklistItems;
 }
 
-export function generateKanbanTaskComments(users: SeedKanbanUsers, taskId: KanbanTaskId, title: string) {
+export function generateKanbanTaskComments(
+  users: SeedKanbanUsers,
+  taskId: KanbanTaskId,
+  taskTemplate: KanbanTaskTemplate
+) {
   const comments: KanbanTaskCommentsTableInsert[] = [];
-  const task = KanbanTasks.tasks.find((task) => task.title === title);
-  if (!task) throw new Error(`Incongruency in JSON and SQL return data; task title`);
 
-  task.comments.forEach((comment) => {
+  taskTemplate.comments.forEach((comment) => {
     const createdByUserProfileId = faker.helpers.arrayElement(users).id;
     comments.push({
       clientGeneratedId: createMockUUID() as KanbanTaskCommentClientGeneratedId,

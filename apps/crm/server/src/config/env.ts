@@ -62,6 +62,7 @@ const envSchemaDevelopment = z.object({
   REDIS_HOST: z.string().min(1),
   ROLLBAR_ENABLED: z.string().min(1),
   ROLLBAR_POST_SERVER_ITEM: z.string().min(1),
+  SERVER_STORAGE_DIR: z.string().min(1),
 });
 
 const envSchemaTesting = z.object({
@@ -121,9 +122,15 @@ const nodeEnvironment = validateNodeEnvironment();
 const zodSchema = envSchemas[nodeEnvironment];
 
 let envCache: Env | null;
-const env = () => {
-  if (!envCache) envCache = Object.freeze(zodSchema.parse(process.env));
-  return envCache;
+
+type Environment = keyof typeof envSchemas;
+type EnvReturn<T extends Environment | undefined> = T extends Environment ? z.infer<(typeof envSchemas)[T]> : Env;
+
+const env = <T extends Environment | undefined = undefined>(environment?: T): EnvReturn<T> => {
+  if (environment && environment !== nodeEnvironment) throw new Error('[env.js] ERROR: environment mismatch');
+  if (!envCache) envCache = Object.freeze(zodSchema.parse(nodeEnvironment));
+
+  return envCache as EnvReturn<T>;
 };
 
 export { env, validateEnvironmentVariables };

@@ -15,7 +15,7 @@ import PipelineTable from '#Config/schema/pipeline/Pipeline.js';
 import PipelineStagesTable from '#Config/schema/pipeline/Stages.js';
 import { seedSettings } from '#Config/seedSettings.js';
 
-import { generatePipelineDeal } from './generators/PipelineDeal.js';
+import { PipelineDealGenerator } from './generators/PipelineDeal.js';
 export type SeedPipelineDealStages = typeof PIPELINE_DEAL_STAGES;
 export type SeedPipelineCompanies = Awaited<ReturnType<typeof getAllCompaniesWithContacts>>;
 export type SeedPipelineUsers = Awaited<ReturnType<typeof getAllUsers>>;
@@ -85,23 +85,14 @@ export default async function seedPipeline(db: PostgresClient) {
   stagesReturnData.forEach(({ id: stageId }) => {
     const randNumOfDeals = faker.number.int({ max: PIPELINE_STAGE_DEALS_MAX, min: PIPELINE_STAGE_DEALS_MIN });
 
+    const pipelineDealGenerator = new PipelineDealGenerator(stageId, allUsers, allCompanies);
+
     for (let i = 0; i < randNumOfDeals; i++) {
-      pipelineDealsInsertionData.push(generatePipelineDeal(allCompanies, allUsers, stageId));
+      pipelineDealsInsertionData.push(pipelineDealGenerator.createPipelineDeal());
     }
   });
 
   await db.insert(PipelineDealsTable).values(pipelineDealsInsertionData).returning();
-
-  // ------------- PIPELINE-DEALS-ORDER TABLE ------------ //
-  // NOTE: Depreciated; WIP on Lexicographical ordering on task/card itself
-  // const pipelineDealsOrderInsertionData: TPipelineDealsOrderTableInsert[] = [];
-
-  // stagesReturnData.forEach(({ id: columnId }) => {
-  //   const dealOrder = dealsReturnData.filter((deal) => deal.stage === columnId).map((deal) => deal.serial);
-  //   pipelineDealsOrderInsertionData.push({ columnId, dealOrder, pipelineId: PRIMARY_COMPANY_PIPELINE_ID });
-  // });
-
-  // await db.insert(PipelineDealsOrderTable).values(pipelineDealsOrderInsertionData);
 
   // --------- END OF SEEDING -------- //
   console.log('Seed Successful: Pipeline.ts');

@@ -2,18 +2,14 @@ import type { PostgresClient } from '#Config/dbPostgres.ts';
 import type { CompaniesTableInsert } from '#Config/schema/companies/Companies.ts';
 
 import CompaniesTable from '#Config/schema/companies/Companies.js';
-import importCSVFile from '#Utils/importCsvFile.js';
 
-import path from 'node:path';
-import url from 'node:url';
+import { importCSVFile } from './utils/import.js';
 
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
-const COMPANIES_CSV = path.resolve(__dirname, '../../data/TechCompanies_1.2.csv');
+const companiesCSVData = importCSVFile<CompaniesTableInsert>('TechCompanies_1.2.csv');
 
 export default async function seedCompanies(db: PostgresClient) {
   // ----------- COMPANIES TABLE ----------- //
   const companiesData: CompaniesTableInsert[] = [];
-  const companiesCSVData = importCSVFile<CompaniesTableInsert>(COMPANIES_CSV);
 
   const allCountries = await db.query.CountriesTable.findMany({ columns: { id: true, alpha2Code: true } });
   if (allCountries.length === 0) throw new Error('Countries table returned no entries');

@@ -3,15 +3,16 @@ import type { CompaniesNotesTableInsert } from '#Config/schema/companies/Company
 import type { CompanyNoteClientGeneratedId } from '#Models/domain/company/note/note.types.js';
 
 import type { CompaniesQueryCompaniesNotes, SeedCompaniesNotesAllUsers } from '../CompaniesNotes.js';
+import type { CompaniesNotesJSON } from '../types/types.js';
 
 import { createMockUUID } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 
-import CompaniesNotes from '#Data/CompaniesNotes.json';
-
+import { importJSONSeed } from '../utils/import.js';
 import { generateCommentDates, replaceCommentPlaceholders } from './utils.js';
 
-const { chain_notes: CHAIN_NOTES, non_chain_notes: NON_CHAIN_NOTES } = CompaniesNotes;
+const CompaniesNotesJSON = importJSONSeed<CompaniesNotesJSON>('CompaniesNotes.json');
+const { chain_notes: CHAIN_NOTES, non_chain_notes: NON_CHAIN_NOTES } = CompaniesNotesJSON;
 
 export function generateCompaniesNotes(company: CompaniesQueryCompaniesNotes, allUsers: SeedCompaniesNotesAllUsers[]) {
   const returnCompaniesNotes: CompaniesNotesTableInsert[] = [];
@@ -21,7 +22,11 @@ export function generateCompaniesNotes(company: CompaniesQueryCompaniesNotes, al
   const randChainNotesArray = [...faker.helpers.arrayElement(CHAIN_NOTES)];
 
   // Push an additional non-chain note from the specific industry of the company
-  const finalComment = faker.helpers.arrayElement(NON_CHAIN_NOTES[industry as keyof typeof NON_CHAIN_NOTES]);
+  const industryChainNotesArray = NON_CHAIN_NOTES[industry];
+  if (industryChainNotesArray === undefined)
+    throw new Error(`Incongruency. Industry '${industry}' not found in JSON data`);
+
+  const finalComment = faker.helpers.arrayElement(industryChainNotesArray);
   const totalComments = randChainNotesArray.push({ comment: finalComment });
 
   // Gather random users and randomize dates for the comments 'createdAt'

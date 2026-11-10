@@ -1,16 +1,20 @@
+/* eslint-disable security/detect-object-injection */
 import type { ContactsTableInsert } from '#Config/schema/contacts/Contacts.ts';
 import type { ContactClientGeneratedId } from '#Models/domain/contact/contact.types.js';
 
 import type { SeedContactCompanies } from '../Contacts.js';
+import type { DigitalIndustryJSON } from '../types/types.js';
 
 import { createMockUUID } from '@apps/crm-shared/utils';
 import { faker } from '@faker-js/faker';
 
-import DigitalIndustryJson from '#Data/DigitalIndustry.json';
 import { CONTACT_STAGE } from '#Models/domain/contact/contact.types.js';
 
-const { jobTitles } = DigitalIndustryJson;
-type JobTitles = typeof jobTitles;
+import { importJSONSeed } from '../utils/import.js';
+
+const DigitalIndustryJSON = importJSONSeed<DigitalIndustryJSON>('DigitalIndustry.json');
+
+const { jobTitles } = DigitalIndustryJSON;
 
 export function generateContact(company: SeedContactCompanies): ContactsTableInsert {
   const firstName = faker.person.firstName();
@@ -27,7 +31,7 @@ export function generateContact(company: SeedContactCompanies): ContactsTableIns
     companyId: company.id,
     email: faker.internet.email({ firstName, lastName, provider }),
     firstName,
-    jobTitle: faker.helpers.arrayElement(jobTitles[industry as keyof JobTitles]),
+    jobTitle: faker.helpers.arrayElement(jobTitles[industry]!),
     lastName,
     phone: faker.phone.number({ style: 'international' }),
     stage,

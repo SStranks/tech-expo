@@ -143,7 +143,10 @@ services:
         target: /etc/expressjs/certs/expressjs-redis.crt
         mode: '0444'
     secrets:
-      - demo_acc_generic_non_user_password
+      - demo_account_generic_non_user_password
+      - demo_account_user_password
+      - demo_account_moderator_password
+      - demo_account_admin_password
       - graphql_introspect_auth
       - jwt_auth_secret
       - jwt_refresh_secret
