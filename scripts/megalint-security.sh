@@ -21,4 +21,4 @@ docker run --rm \
   -e MEGALINTER_CONFIG=".mega-linter.security.yaml" \
   -e REPORT_OUTPUT_FOLDER="/tmp/lint/logs/megalinter/security/${timestamp}" \
   -v "${ROOT_DIR_PATH}":/tmp/lint \
-  ghcr.io/oxsecurity/megalinter:v10.1.0
+  ghcr.io/oxsecurity/megalinter:v10.2.0
