@@ -11,6 +11,7 @@
     "@stylistic/stylelint-config": "^6.0.0",
     "@stylistic/stylelint-plugin": "^6.0.0",
     "stylelint-config-prettier-scss": "^1.0.0",
+    "stylelint-config-recommended-scss": "^17.0.1",
     "stylelint-config-standard": "^41.0.0",
     "stylelint-config-standard-scss": "^17.0.0"
   }
