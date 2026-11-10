@@ -39,11 +39,19 @@ fi
 if [[ "$output_mode" == "--string" ]]; then
   report_dir="${LOGS_DIR_PATH}/stylelint"
   mkdir -p "${report_dir}"
-  output_file="${report_dir}/${target_dir_path}.${timestamp}.txt"
+  output_file="${report_dir}/${target_dir_path}.${timestamp}.log"
   echo "[SCRIPT: stylelint-app] Running Stylelint with TXT report"
   echo "[SCRIPT: stylelint-app] Output: ${output_file}"
-  stylelint "${full_path}" --formatter string --output-file "${output_file}" 2>&1 | \
-    echo "[SCRIPT: stylelint-app] $(grep -m1 -E 'problem' || echo "✔ 0 Problems (0 Errors, 0 warnings)")" || true
+
+  stylelint_out=$(stylelint "${full_path}" --formatter string --output-file "${output_file}" 2>&1) || true
+  if echo "$stylelint_out" | grep -qE 'problem|Error:'; then
+    echo "[SCRIPT: stylelint-app] $(echo "$stylelint_out" | grep -m1 -E 'problem|Error:')"
+  else
+    echo "[SCRIPT: stylelint-app] ✔ 0 Problems (0 Errors, 0 warnings)"
+  fi
+
+  # stylelint "${full_path}" --formatter string --output-file "${output_file}" 2>&1 | \
+    # echo "[SCRIPT: stylelint-app] $(grep -m1 -E 'problem' || echo "✔ 0 Problems (0 Errors, 0 warnings)")" || true
 else
   echo "[SCRIPT: stylelint-app] Running Stylelint with console output"
   stylelint "${full_path}"
