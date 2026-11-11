@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@graphql-tools/load-files": "^7.0.1",
-    "@graphql-tools/merge": "^9.2.0",
+    "@graphql-tools/merge": "^10.0.0",
     "@parcel/watcher": "^2.5.4",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.2.2",
