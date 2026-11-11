@@ -7,6 +7,7 @@ permissions:
 on: # yamllint disable-line rule:truthy
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - 'apps/crm/client/**/*.test.*'
       - 'apps/crm/client/**/*.spec.*'
@@ -25,6 +26,7 @@ on: # yamllint disable-line rule:truthy
 
 jobs:
   vitest-client-unit:
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
 
     permissions:
@@ -63,6 +65,7 @@ jobs:
         run: pnpm --filter @apps/crm-client vitest:unit
 
   vitest-client-storybook:
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     environment: testing
 
@@ -108,6 +111,7 @@ jobs:
           DOTENV_PRIVATE_KEY_CI_CLIENT: ${{ secrets.DOTENV_PRIVATE_KEY_CI_CLIENT }}
 
   vitest-server-unit:
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     environment: testing
 
