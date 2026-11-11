@@ -683,8 +683,8 @@ importers:
         specifier: ^11.0.0
         version: 11.0.8(graphql@17.1.0)
       '@graphql-tools/utils':
-        specifier: ^12.0.0
-        version: 12.1.0(graphql@17.1.0)
+        specifier: ^13.0.0
+        version: 13.2.1(graphql@17.1.0)
       '@prometheus-io/client':
         specifier: ^0.16.1
         version: 0.16.1
