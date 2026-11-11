@@ -7,6 +7,7 @@ permissions:
 on: # yamllint disable-line rule:truthy
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - 'apps/crm/client/cypress/**'
 
@@ -19,6 +20,7 @@ on: # yamllint disable-line rule:truthy
 
 jobs:
   cypress:
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     environment: testing
     env:
