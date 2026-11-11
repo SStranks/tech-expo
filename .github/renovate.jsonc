@@ -6,7 +6,7 @@
   "addLabels": ["dependencies", "renovate"],
   "prConcurrentLimit": 5,
   "branchConcurrentLimit": 5,
-  "rebaseWhen": "behind-base-branch",
+  "rebaseWhen": "conflicted",
   "lockFileMaintenance": {
     "enabled": false
     // enable schedule once renovate is settled
