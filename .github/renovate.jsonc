@@ -57,7 +57,8 @@
       "groupName": "Secretlint",
       "matchManagers": ["npm"],
       "matchPackageNames": ["secretlint", "@secretlint/**"],
-      "addLabels": ["general"]
+      "addLabels": ["general"],
+      "minimumReleaseAge": null
     },
     {
       "groupName": "Stylelint",
