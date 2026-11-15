@@ -8,12 +8,13 @@
   "branchConcurrentLimit": 5,
   "rebaseWhen": "behind-base-branch",
   "draftPR": true,
+  "minimumReleaseAgePackageManagerSync": true,
   "lockFileMaintenance": {
     "enabled": false
     // enable schedule once renovate is settled
     // "schedule": ["after 9pm on sunday"]
   },
-  "dependencyDashboard": true,
+  "dependencyDashboard": { "enabled": true },
   "customManagers": [
     {
       "customType": "regex",
