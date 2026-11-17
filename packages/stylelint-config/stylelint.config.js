@@ -1,18 +1,10 @@
 /* eslint-disable perfectionist/sort-objects */
 import { defineStylistic, defineStylisticOverride } from '@stylistic/stylelint-plugin';
 
-/* NOTE:
-stylelint-config-standard-scss: https://github.com/stylelint-scss/stylelint-config-standard-scss/issues/297
-package is using stylelint-config-standard ^40 which includes deprecated 'declaration-block-single-line-max-declarations'
-manually added: stylelint-config-recommended-scss
-manually added: './scss-rules.js' to extends array
-*/
-
 export default {
   extends: [
     'stylelint-config-standard',
-    // 'stylelint-config-standard-scss',
-    './scss-rules.js',
+    'stylelint-config-standard-scss',
     'stylelint-config-recommended-scss',
     '@stylistic/stylelint-config',
     'stylelint-config-prettier-scss',
