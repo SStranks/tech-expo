@@ -1249,14 +1249,14 @@ importers:
         specifier: ^13.0.0
         version: 13.1.0
       '@secretlint/secretlint-rule-no-dotenv':
-        specifier: ^13.0.0
-        version: 13.1.0
+        specifier: ^14.0.0
+        version: 14.0.1
       '@secretlint/secretlint-rule-no-homedir':
-        specifier: ^13.0.0
-        version: 13.1.0
+        specifier: ^14.0.0
+        version: 14.0.1
       '@secretlint/secretlint-rule-no-k8s-kind-secret':
-        specifier: ^13.0.0
-        version: 13.1.0
+        specifier: ^14.0.0
+        version: 14.0.1
       '@secretlint/secretlint-rule-notion':
         specifier: 13.1.0
         version: 13.1.0
@@ -4971,16 +4971,16 @@ packages:
     engines: {node: '>=22.0.0'}
     deprecated: Built into secretlint v14 and later. Remove this package; the rule id still works. https://github.com/secretlint/secretlint/blob/HEAD/docs/rules/linear.md
 
-  '@secretlint/secretlint-rule-no-dotenv@13.1.0':
-    resolution: {integrity: sha512-gbY+I9kLg6R3Esp9To9aB8c9L3ay0Mg/gxa9rjczlPmGdG2+7LI90dKvasu/6QNLJjM6PMSPYtD/6knbHec/Dw==}
+  '@secretlint/secretlint-rule-no-dotenv@14.0.1':
+    resolution: {integrity: sha512-ejI7UEis5V3taQNN581vt4FVUJfiJZ8FzjY/jrNCIXXfcapqOfp9D7/adgFf7HDrK1/KDGQ+TJg3uSHjeVryOQ==}
     engines: {node: '>=22.0.0'}
 
-  '@secretlint/secretlint-rule-no-homedir@13.1.0':
-    resolution: {integrity: sha512-nYfDN17J3QC7NnUCrNBorgV9lhCup9o0s4hZAJW2cFSVBDtQcgUNl/1AQq/R2oUZvXU6VzINt4omHwvkQAKOdQ==}
+  '@secretlint/secretlint-rule-no-homedir@14.0.1':
+    resolution: {integrity: sha512-rBS2c3E+Gpr1Zdt/Pw0SbXA3ElT12YPDEDoSudJn9Rc+WwQ/kP89jrcEtrFoRibT8SYK5JJ+DhrH1MmLNfPKmg==}
     engines: {node: '>=22.0.0'}
 
-  '@secretlint/secretlint-rule-no-k8s-kind-secret@13.1.0':
-    resolution: {integrity: sha512-NES+v2vhNqjt9OwKMMlLuWl4ifZVGYgBj466bklSu1A+FRafOKg86KFROwWTfj0Los+HZwdk5KYl+bSG4NjN9g==}
+  '@secretlint/secretlint-rule-no-k8s-kind-secret@14.0.1':
+    resolution: {integrity: sha512-KuIpfb+McDCb8tUBUX61IGgffZIznOxdY0U2/TLGsGTZ+/3DG71MPvZVNnbMJ6FxPcyuiVMMulQ5mhMBc0hIQQ==}
     engines: {node: '>=22.0.0'}
 
   '@secretlint/secretlint-rule-notion@13.1.0':
@@ -17902,19 +17902,19 @@ snapshots:
       '@secretlint/types': 13.1.0
       '@textlint/regexp-string-matcher': 2.0.3
 
-  '@secretlint/secretlint-rule-no-dotenv@13.1.0':
+  '@secretlint/secretlint-rule-no-dotenv@14.0.1':
     dependencies:
-      '@secretlint/types': 13.1.0
+      '@secretlint/types': 14.0.1
 
-  '@secretlint/secretlint-rule-no-homedir@13.1.0':
+  '@secretlint/secretlint-rule-no-homedir@14.0.1':
     dependencies:
-      '@secretlint/types': 13.1.0
+      '@secretlint/types': 14.0.1
       '@textlint/regexp-string-matcher': 2.0.3
       escape-string-regexp: 5.0.0
 
-  '@secretlint/secretlint-rule-no-k8s-kind-secret@13.1.0':
+  '@secretlint/secretlint-rule-no-k8s-kind-secret@14.0.1':
     dependencies:
-      '@secretlint/types': 13.1.0
+      '@secretlint/types': 14.0.1
       js-yaml: 4.3.2
 
   '@secretlint/secretlint-rule-notion@13.1.0':
