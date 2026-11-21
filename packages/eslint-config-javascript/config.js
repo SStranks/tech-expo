@@ -21,6 +21,7 @@ const EslintConfigJavascript = {
     ...PluginStylistic.configs.recommended.rules,
     ...RecommendedEslint.configs.recommended.rules,
     '@stylistic/jsx-curly-brace-presence': ['error', { propElementValues: 'always' }],
+    '@stylistic/list-style': ['error', { overrides: { CallExpression: 'off' } }],
     'import-x/no-unresolved': 'error',
   },
   settings: {

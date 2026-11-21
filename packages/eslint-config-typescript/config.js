@@ -29,6 +29,7 @@ const EslintConfigTypescript = {
     'no-use-before-define': 'off',
     'import-x/no-unresolved': 'error',
     '@stylistic/jsx-curly-brace-presence': ['error', { propElementValues: 'always' }],
+    '@stylistic/list-style': ['error', { overrides: { CallExpression: 'off' } }],
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-use-before-define': 'error',
     '@typescript-eslint/no-deprecated': 'error',
