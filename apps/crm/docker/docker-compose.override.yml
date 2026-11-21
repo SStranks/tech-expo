@@ -236,7 +236,7 @@ services:
 
   mailpit:
     container_name: ${MAILPIT_CONTAINER:?error}
-    image: axllent/mailpit:v1.31.1@sha256:98b916bd3c8d61f7633a52d3ea2f58d00620cb01ca57ab59edde68c347a95365
+    image: axllent/mailpit:v1.33.1@sha256:aef2aacc11f075ec0fb6874275ee4a421e688e11a96ebb296134d1735c7761ce
     profiles: [dev]
     restart: on-failure:3
     depends_on:
@@ -284,7 +284,7 @@ services:
 
   nginx-react:
     # Use 'npm start' from ./client to init webpack-dev-server
-    image: alpine:3.24.1@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b
+    image: alpine:3.24.4@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
     profiles: [unused]
 
 volumes:
